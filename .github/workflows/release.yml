@@ -30,25 +30,38 @@ jobs:
       - name: Set up Python
         run: uv python install 3.12
 
+      - name: Create venv
+        run: uv venv .venv
+
       - name: Install package + dev deps
-        run: uv pip install --system -e ".[dev]"
+        run: |
+          source .venv/bin/activate
+          uv pip install -e ".[dev]" build
 
       - name: ruff check
-        run: ruff check .
+        run: |
+          source .venv/bin/activate
+          ruff check .
 
       - name: mypy
-        run: mypy src
+        run: |
+          source .venv/bin/activate
+          mypy src
 
       - name: pytest
-        run: pytest -q
+        run: |
+          source .venv/bin/activate
+          pytest -q
         if: ${{ hashFiles('tests/**/*.py') != '' }}
 
       - name: Import smoke test
-        run: python -c "from repull import AuthenticatedClient, Client; print('repull import ok')"
+        run: |
+          source .venv/bin/activate
+          python -c "from repull import AuthenticatedClient, Client; print('repull import ok')"
 
       - name: Build sdist + wheel
         run: |
-          uv pip install --system build
+          source .venv/bin/activate
           python -m build
 
       - name: Publish to PyPI
