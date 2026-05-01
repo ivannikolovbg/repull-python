@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      # IMPORTANT: required for PyPI trusted publishing (OIDC).
+      # If you set up a trusted publisher at
+      # https://pypi.org/manage/account/publishing/ this works WITHOUT
+      # a token. If you'd rather use a classic API token, add the
+      # PYPI_API_TOKEN secret and uncomment the `with: password:` line below.
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install package + dev deps
+        run: uv pip install --system -e ".[dev]"
+
+      - name: ruff check
+        run: ruff check .
+
+      - name: mypy
+        run: mypy src
+
+      - name: pytest
+        run: pytest -q
+        if: ${{ hashFiles('tests/**/*.py') != '' }}
+
+      - name: Import smoke test
+        run: python -c "from repull import AuthenticatedClient, Client; print('repull import ok')"
+
+      - name: Build sdist + wheel
+        run: |
+          uv pip install --system build
+          python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # If using a classic API token instead of trusted publishing:
+        # with:
+        #   password: ${{ secrets.PYPI_API_TOKEN }}
