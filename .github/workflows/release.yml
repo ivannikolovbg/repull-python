@@ -22,8 +22,10 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
+        # NB: cache disabled here — this repo has no uv.lock, and the
+        # cache-dependency-glob default (**/uv.lock) errors on miss.
         with:
-          enable-cache: true
+          enable-cache: false
 
       - name: Set up Python
         run: uv python install 3.12
