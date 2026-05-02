@@ -1,6 +1,6 @@
 from enum import Enum
 
-class ReservationPlatform(str, Enum):
+class ReservationPlatformType2Type1(str, Enum):
     AIRBNB = "airbnb"
     BOOKING_COM = "booking.com"
     DIRECT = "direct"

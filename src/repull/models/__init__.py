@@ -69,6 +69,14 @@ from .create_connection_body_access_type import CreateConnectionBodyAccessType
 from .create_reservation_body import CreateReservationBody
 from .create_webhook_body import CreateWebhookBody
 from .cursor_pagination import CursorPagination
+from .custom_schema import CustomSchema
+from .custom_schema_create import CustomSchemaCreate
+from .custom_schema_create_response import CustomSchemaCreateResponse
+from .custom_schema_delete_response import CustomSchemaDeleteResponse
+from .custom_schema_list_response import CustomSchemaListResponse
+from .custom_schema_mappings import CustomSchemaMappings
+from .custom_schema_summary import CustomSchemaSummary
+from .custom_schema_update import CustomSchemaUpdate
 from .error import Error
 from .error_error import ErrorError
 from .get_health_response_200 import GetHealthResponse200
@@ -192,9 +200,12 @@ from .plumguide_listing_list_response import PlumguideListingListResponse
 from .property_ import Property
 from .property_list_response import PropertyListResponse
 from .reservation import Reservation
+from .reservation_guest_details import ReservationGuestDetails
 from .reservation_list_response import ReservationListResponse
 from .reservation_pagination import ReservationPagination
-from .reservation_platform import ReservationPlatform
+from .reservation_platform_type_1 import ReservationPlatformType1
+from .reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
+from .reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
 from .reservation_status import ReservationStatus
 from .review import Review
 from .review_category import ReviewCategory
@@ -302,6 +313,14 @@ __all__ = (
     "CreateReservationBody",
     "CreateWebhookBody",
     "CursorPagination",
+    "CustomSchema",
+    "CustomSchemaCreate",
+    "CustomSchemaCreateResponse",
+    "CustomSchemaDeleteResponse",
+    "CustomSchemaListResponse",
+    "CustomSchemaMappings",
+    "CustomSchemaSummary",
+    "CustomSchemaUpdate",
     "Error",
     "ErrorError",
     "GetHealthResponse200",
@@ -425,9 +444,12 @@ __all__ = (
     "Property",
     "PropertyListResponse",
     "Reservation",
+    "ReservationGuestDetails",
     "ReservationListResponse",
     "ReservationPagination",
-    "ReservationPlatform",
+    "ReservationPlatformType1",
+    "ReservationPlatformType2Type1",
+    "ReservationPlatformType3Type1",
     "ReservationStatus",
     "Review",
     "ReviewCategory",

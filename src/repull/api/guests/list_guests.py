@@ -22,9 +22,14 @@ def _get_kwargs(
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
     listing_id: int | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -51,6 +56,7 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -114,6 +120,7 @@ def sync_detailed(
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
     listing_id: int | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | GuestListResponse]:
     """ List guests
@@ -131,6 +138,7 @@ def sync_detailed(
         q (str | Unset):
         has_reservation (bool | Unset):
         listing_id (int | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,6 +155,7 @@ limit=limit,
 q=q,
 has_reservation=has_reservation,
 listing_id=listing_id,
+x_schema=x_schema,
 
     )
 
@@ -164,6 +173,7 @@ def sync(
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
     listing_id: int | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | GuestListResponse | None:
     """ List guests
@@ -181,6 +191,7 @@ def sync(
         q (str | Unset):
         has_reservation (bool | Unset):
         listing_id (int | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -198,6 +209,7 @@ limit=limit,
 q=q,
 has_reservation=has_reservation,
 listing_id=listing_id,
+x_schema=x_schema,
 
     ).parsed
 
@@ -209,6 +221,7 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
     listing_id: int | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | GuestListResponse]:
     """ List guests
@@ -226,6 +239,7 @@ async def asyncio_detailed(
         q (str | Unset):
         has_reservation (bool | Unset):
         listing_id (int | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -242,6 +256,7 @@ limit=limit,
 q=q,
 has_reservation=has_reservation,
 listing_id=listing_id,
+x_schema=x_schema,
 
     )
 
@@ -259,6 +274,7 @@ async def asyncio(
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
     listing_id: int | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | GuestListResponse | None:
     """ List guests
@@ -276,6 +292,7 @@ async def asyncio(
         q (str | Unset):
         has_reservation (bool | Unset):
         listing_id (int | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -293,5 +310,6 @@ limit=limit,
 q=q,
 has_reservation=has_reservation,
 listing_id=listing_id,
+x_schema=x_schema,
 
     )).parsed

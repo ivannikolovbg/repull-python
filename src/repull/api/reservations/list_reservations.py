@@ -29,9 +29,14 @@ def _get_kwargs(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -84,6 +89,7 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -128,6 +134,7 @@ def sync_detailed(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Any | ReservationListResponse]:
     """ List reservations
@@ -154,6 +161,7 @@ def sync_detailed(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -175,6 +183,7 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+x_schema=x_schema,
 
     )
 
@@ -197,6 +206,7 @@ def sync(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Any | ReservationListResponse | None:
     """ List reservations
@@ -223,6 +233,7 @@ def sync(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -245,6 +256,7 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+x_schema=x_schema,
 
     ).parsed
 
@@ -261,6 +273,7 @@ async def asyncio_detailed(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Any | ReservationListResponse]:
     """ List reservations
@@ -287,6 +300,7 @@ async def asyncio_detailed(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -308,6 +322,7 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+x_schema=x_schema,
 
     )
 
@@ -330,6 +345,7 @@ async def asyncio(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Any | ReservationListResponse | None:
     """ List reservations
@@ -356,6 +372,7 @@ async def asyncio(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -378,5 +395,6 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+x_schema=x_schema,
 
     )).parsed

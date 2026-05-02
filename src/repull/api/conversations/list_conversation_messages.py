@@ -22,9 +22,14 @@ def _get_kwargs(
     cursor: str | Unset = UNSET,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -51,6 +56,7 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -120,6 +126,7 @@ def sync_detailed(
     cursor: str | Unset = UNSET,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | MessageListResponse]:
     """ List messages in a conversation
@@ -134,6 +141,7 @@ def sync_detailed(
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -149,6 +157,7 @@ def sync_detailed(
 cursor=cursor,
 limit=limit,
 order=order,
+x_schema=x_schema,
 
     )
 
@@ -165,6 +174,7 @@ def sync(
     cursor: str | Unset = UNSET,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | MessageListResponse | None:
     """ List messages in a conversation
@@ -179,6 +189,7 @@ def sync(
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -195,6 +206,7 @@ client=client,
 cursor=cursor,
 limit=limit,
 order=order,
+x_schema=x_schema,
 
     ).parsed
 
@@ -205,6 +217,7 @@ async def asyncio_detailed(
     cursor: str | Unset = UNSET,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | MessageListResponse]:
     """ List messages in a conversation
@@ -219,6 +232,7 @@ async def asyncio_detailed(
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -234,6 +248,7 @@ async def asyncio_detailed(
 cursor=cursor,
 limit=limit,
 order=order,
+x_schema=x_schema,
 
     )
 
@@ -250,6 +265,7 @@ async def asyncio(
     cursor: str | Unset = UNSET,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | MessageListResponse | None:
     """ List messages in a conversation
@@ -264,6 +280,7 @@ async def asyncio(
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -280,5 +297,6 @@ client=client,
 cursor=cursor,
 limit=limit,
 order=order,
+x_schema=x_schema,
 
     )).parsed

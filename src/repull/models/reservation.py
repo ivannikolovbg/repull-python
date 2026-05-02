@@ -8,13 +8,17 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.reservation_platform import ReservationPlatform
+from ..models.reservation_platform_type_1 import ReservationPlatformType1
+from ..models.reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
+from ..models.reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
 from ..models.reservation_status import ReservationStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.reservation_guest_details import ReservationGuestDetails
 
 
 
@@ -26,41 +30,44 @@ T = TypeVar("T", bound="Reservation")
 
 @_attrs_define
 class Reservation:
-    """ A booking/reservation from a connected PMS
+    """ A booking/reservation from a connected PMS. Identical shape between list-row (`GET /v1/reservations`) and detail
+    (`GET /v1/reservations/{id}`) — SDK consumers can use the same type for both.
 
         Attributes:
-            id (int | Unset): Internal Repull reservation ID
-            confirmation_code (str | Unset): PMS confirmation code Example: HA-123456.
-            property_id (int | Unset): Property ID
-            platform (ReservationPlatform | Unset): Booking source Example: airbnb.
-            status (ReservationStatus | Unset):  Example: confirmed.
-            check_in (datetime.date | Unset):  Example: 2026-04-15.
-            check_out (datetime.date | Unset):  Example: 2026-04-20.
-            guest_first_name (str | Unset):  Example: John.
-            guest_last_name (str | Unset):  Example: Smith.
-            guest_email (str | Unset):
-            guest_phone (str | Unset):
-            guest_count (int | Unset):  Example: 4.
-            total_price (float | Unset):  Example: 1250.
-            currency (str | Unset):  Example: USD.
-            provider (str | Unset):  Example: guesty.
+            id (int): Internal Repull reservation ID
+            listing_id (int): Internal Repull listing ID this reservation is on.
+            guest_id (int): Internal Repull guest ID. Use `GET /v1/guests/{id}` for the full profile.
+            check_in (datetime.date):  Example: 2026-04-15.
+            check_out (datetime.date):  Example: 2026-04-20.
+            status (ReservationStatus):  Example: confirmed.
+            total_price (str): Decimal-as-string (precision 10, scale 2) to preserve precision across mixed-currency totals.
+                Example: 1250.00.
+            currency (str): ISO 4217 currency code. Example: USD.
+            confirmation_code (str): Channel-side confirmation code (Airbnb HMxxx, Booking.com numeric, etc.). Example:
+                HMXYZ123.
+            guest_details (ReservationGuestDetails): Raw guest details from the source channel (firstName, lastName, email,
+                phone, count, etc.). Shape varies by platform — use the dedicated guest endpoint for a normalized profile.
+            created_at (datetime.datetime): When the reservation row was created in Repull (not the booking-on-channel
+                timestamp).
+            platform (None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 |
+                Unset): Booking source. Lowercase. May be null on legacy rows. Example: airbnb.
+            guest_name (None | str | Unset): Pre-resolved display name (`firstName lastName`) extracted from `guestDetails`.
+                Null when no first name is available.
      """
 
-    id: int | Unset = UNSET
-    confirmation_code: str | Unset = UNSET
-    property_id: int | Unset = UNSET
-    platform: ReservationPlatform | Unset = UNSET
-    status: ReservationStatus | Unset = UNSET
-    check_in: datetime.date | Unset = UNSET
-    check_out: datetime.date | Unset = UNSET
-    guest_first_name: str | Unset = UNSET
-    guest_last_name: str | Unset = UNSET
-    guest_email: str | Unset = UNSET
-    guest_phone: str | Unset = UNSET
-    guest_count: int | Unset = UNSET
-    total_price: float | Unset = UNSET
-    currency: str | Unset = UNSET
-    provider: str | Unset = UNSET
+    id: int
+    listing_id: int
+    guest_id: int
+    check_in: datetime.date
+    check_out: datetime.date
+    status: ReservationStatus
+    total_price: str
+    currency: str
+    confirmation_code: str
+    guest_details: ReservationGuestDetails
+    created_at: datetime.datetime
+    platform: None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset = UNSET
+    guest_name: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -68,81 +75,67 @@ class Reservation:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.reservation_guest_details import ReservationGuestDetails
         id = self.id
 
-        confirmation_code = self.confirmation_code
+        listing_id = self.listing_id
 
-        property_id = self.property_id
+        guest_id = self.guest_id
 
-        platform: str | Unset = UNSET
-        if not isinstance(self.platform, Unset):
-            platform = self.platform.value
+        check_in = self.check_in.isoformat()
 
+        check_out = self.check_out.isoformat()
 
-        status: str | Unset = UNSET
-        if not isinstance(self.status, Unset):
-            status = self.status.value
-
-
-        check_in: str | Unset = UNSET
-        if not isinstance(self.check_in, Unset):
-            check_in = self.check_in.isoformat()
-
-        check_out: str | Unset = UNSET
-        if not isinstance(self.check_out, Unset):
-            check_out = self.check_out.isoformat()
-
-        guest_first_name = self.guest_first_name
-
-        guest_last_name = self.guest_last_name
-
-        guest_email = self.guest_email
-
-        guest_phone = self.guest_phone
-
-        guest_count = self.guest_count
+        status = self.status.value
 
         total_price = self.total_price
 
         currency = self.currency
 
-        provider = self.provider
+        confirmation_code = self.confirmation_code
+
+        guest_details = self.guest_details.to_dict()
+
+        created_at = self.created_at.isoformat()
+
+        platform: None | str | Unset
+        if isinstance(self.platform, Unset):
+            platform = UNSET
+        elif isinstance(self.platform, ReservationPlatformType1):
+            platform = self.platform.value
+        elif isinstance(self.platform, ReservationPlatformType2Type1):
+            platform = self.platform.value
+        elif isinstance(self.platform, ReservationPlatformType3Type1):
+            platform = self.platform.value
+        else:
+            platform = self.platform
+
+        guest_name: None | str | Unset
+        if isinstance(self.guest_name, Unset):
+            guest_name = UNSET
+        else:
+            guest_name = self.guest_name
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "id": id,
+            "listingId": listing_id,
+            "guestId": guest_id,
+            "checkIn": check_in,
+            "checkOut": check_out,
+            "status": status,
+            "totalPrice": total_price,
+            "currency": currency,
+            "confirmationCode": confirmation_code,
+            "guestDetails": guest_details,
+            "createdAt": created_at,
         })
-        if id is not UNSET:
-            field_dict["id"] = id
-        if confirmation_code is not UNSET:
-            field_dict["confirmationCode"] = confirmation_code
-        if property_id is not UNSET:
-            field_dict["propertyId"] = property_id
         if platform is not UNSET:
             field_dict["platform"] = platform
-        if status is not UNSET:
-            field_dict["status"] = status
-        if check_in is not UNSET:
-            field_dict["checkIn"] = check_in
-        if check_out is not UNSET:
-            field_dict["checkOut"] = check_out
-        if guest_first_name is not UNSET:
-            field_dict["guestFirstName"] = guest_first_name
-        if guest_last_name is not UNSET:
-            field_dict["guestLastName"] = guest_last_name
-        if guest_email is not UNSET:
-            field_dict["guestEmail"] = guest_email
-        if guest_phone is not UNSET:
-            field_dict["guestPhone"] = guest_phone
-        if guest_count is not UNSET:
-            field_dict["guestCount"] = guest_count
-        if total_price is not UNSET:
-            field_dict["totalPrice"] = total_price
-        if currency is not UNSET:
-            field_dict["currency"] = currency
-        if provider is not UNSET:
-            field_dict["provider"] = provider
+        if guest_name is not UNSET:
+            field_dict["guestName"] = guest_name
 
         return field_dict
 
@@ -150,85 +143,109 @@ class Reservation:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.reservation_guest_details import ReservationGuestDetails
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        confirmation_code = d.pop("confirmationCode", UNSET)
+        listing_id = d.pop("listingId")
 
-        property_id = d.pop("propertyId", UNSET)
+        guest_id = d.pop("guestId")
 
-        _platform = d.pop("platform", UNSET)
-        platform: ReservationPlatform | Unset
-        if isinstance(_platform,  Unset):
-            platform = UNSET
-        else:
-            platform = ReservationPlatform(_platform)
+        check_in = isoparse(d.pop("checkIn")).date()
 
 
 
 
-        _status = d.pop("status", UNSET)
-        status: ReservationStatus | Unset
-        if isinstance(_status,  Unset):
-            status = UNSET
-        else:
-            status = ReservationStatus(_status)
+        check_out = isoparse(d.pop("checkOut")).date()
 
 
 
 
-        _check_in = d.pop("checkIn", UNSET)
-        check_in: datetime.date | Unset
-        if isinstance(_check_in,  Unset):
-            check_in = UNSET
-        else:
-            check_in = isoparse(_check_in).date()
+        status = ReservationStatus(d.pop("status"))
 
 
 
 
-        _check_out = d.pop("checkOut", UNSET)
-        check_out: datetime.date | Unset
-        if isinstance(_check_out,  Unset):
-            check_out = UNSET
-        else:
-            check_out = isoparse(_check_out).date()
+        total_price = d.pop("totalPrice")
+
+        currency = d.pop("currency")
+
+        confirmation_code = d.pop("confirmationCode")
+
+        guest_details = ReservationGuestDetails.from_dict(d.pop("guestDetails"))
 
 
 
 
-        guest_first_name = d.pop("guestFirstName", UNSET)
+        created_at = isoparse(d.pop("createdAt"))
 
-        guest_last_name = d.pop("guestLastName", UNSET)
 
-        guest_email = d.pop("guestEmail", UNSET)
 
-        guest_phone = d.pop("guestPhone", UNSET)
 
-        guest_count = d.pop("guestCount", UNSET)
+        def _parse_platform(data: object) -> None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                platform_type_1 = ReservationPlatformType1(data)
 
-        total_price = d.pop("totalPrice", UNSET)
 
-        currency = d.pop("currency", UNSET)
 
-        provider = d.pop("provider", UNSET)
+                return platform_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                platform_type_2_type_1 = ReservationPlatformType2Type1(data)
+
+
+
+                return platform_type_2_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                platform_type_3_type_1 = ReservationPlatformType3Type1(data)
+
+
+
+                return platform_type_3_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset, data)
+
+        platform = _parse_platform(d.pop("platform", UNSET))
+
+
+        def _parse_guest_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        guest_name = _parse_guest_name(d.pop("guestName", UNSET))
+
 
         reservation = cls(
             id=id,
-            confirmation_code=confirmation_code,
-            property_id=property_id,
-            platform=platform,
-            status=status,
+            listing_id=listing_id,
+            guest_id=guest_id,
             check_in=check_in,
             check_out=check_out,
-            guest_first_name=guest_first_name,
-            guest_last_name=guest_last_name,
-            guest_email=guest_email,
-            guest_phone=guest_phone,
-            guest_count=guest_count,
+            status=status,
             total_price=total_price,
             currency=currency,
-            provider=provider,
+            confirmation_code=confirmation_code,
+            guest_details=guest_details,
+            created_at=created_at,
+            platform=platform,
+            guest_name=guest_name,
         )
 
 

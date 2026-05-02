@@ -10,15 +10,22 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.review_get_response import ReviewGetResponse
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
     id: int,
+    *,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -30,6 +37,7 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -89,6 +97,7 @@ def sync_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ReviewGetResponse]:
     """ Get review
@@ -99,6 +108,7 @@ def sync_detailed(
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -111,6 +121,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+x_schema=x_schema,
 
     )
 
@@ -124,6 +135,7 @@ def sync(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | ReviewGetResponse | None:
     """ Get review
@@ -134,6 +146,7 @@ def sync(
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,6 +160,7 @@ def sync(
     return sync_detailed(
         id=id,
 client=client,
+x_schema=x_schema,
 
     ).parsed
 
@@ -154,6 +168,7 @@ async def asyncio_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ReviewGetResponse]:
     """ Get review
@@ -164,6 +179,7 @@ async def asyncio_detailed(
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,6 +192,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+x_schema=x_schema,
 
     )
 
@@ -189,6 +206,7 @@ async def asyncio(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | ReviewGetResponse | None:
     """ Get review
@@ -199,6 +217,7 @@ async def asyncio(
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -212,5 +231,6 @@ async def asyncio(
     return (await asyncio_detailed(
         id=id,
 client=client,
+x_schema=x_schema,
 
     )).parsed

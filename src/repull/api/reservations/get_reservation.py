@@ -8,16 +8,24 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.reservation import Reservation
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
     id: int,
+    *,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -29,11 +37,12 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Reservation | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | Reservation | None:
     if response.status_code == 200:
         response_200 = Reservation.from_dict(response.json())
 
@@ -41,13 +50,41 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 401:
+        response_401 = Error.from_dict(response.json())
+
+
+
+        return response_401
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
+    if response.status_code == 500:
+        response_500 = Error.from_dict(response.json())
+
+
+
+        return response_500
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Reservation]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | Reservation]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -60,24 +97,32 @@ def sync_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Response[Reservation]:
+) -> Response[Error | Reservation]:
     """ Get reservation details
+
+     Returns the full record for a single reservation, scoped to the authenticated workspace. Response
+    shape is identical to a single row in `GET /v1/reservations` so SDK consumers can use the same type
+    for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
+    never differentiates the two so caller can't enumerate other workspaces' ids.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Reservation]
+        Response[Error | Reservation]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
+x_schema=x_schema,
 
     )
 
@@ -91,25 +136,33 @@ def sync(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Reservation | None:
+) -> Error | Reservation | None:
     """ Get reservation details
+
+     Returns the full record for a single reservation, scoped to the authenticated workspace. Response
+    shape is identical to a single row in `GET /v1/reservations` so SDK consumers can use the same type
+    for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
+    never differentiates the two so caller can't enumerate other workspaces' ids.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Reservation
+        Error | Reservation
      """
 
 
     return sync_detailed(
         id=id,
 client=client,
+x_schema=x_schema,
 
     ).parsed
 
@@ -117,24 +170,32 @@ async def asyncio_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Response[Reservation]:
+) -> Response[Error | Reservation]:
     """ Get reservation details
+
+     Returns the full record for a single reservation, scoped to the authenticated workspace. Response
+    shape is identical to a single row in `GET /v1/reservations` so SDK consumers can use the same type
+    for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
+    never differentiates the two so caller can't enumerate other workspaces' ids.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Reservation]
+        Response[Error | Reservation]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
+x_schema=x_schema,
 
     )
 
@@ -148,24 +209,32 @@ async def asyncio(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Reservation | None:
+) -> Error | Reservation | None:
     """ Get reservation details
+
+     Returns the full record for a single reservation, scoped to the authenticated workspace. Response
+    shape is identical to a single row in `GET /v1/reservations` so SDK consumers can use the same type
+    for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
+    never differentiates the two so caller can't enumerate other workspaces' ids.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Reservation
+        Error | Reservation
      """
 
 
     return (await asyncio_detailed(
         id=id,
 client=client,
+x_schema=x_schema,
 
     )).parsed

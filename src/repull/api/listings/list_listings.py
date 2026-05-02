@@ -23,9 +23,14 @@ def _get_kwargs(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -56,6 +61,7 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -105,6 +111,7 @@ def sync_detailed(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ListingListResponse]:
     """ List listings
@@ -119,6 +126,7 @@ def sync_detailed(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -135,6 +143,7 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+x_schema=x_schema,
 
     )
 
@@ -152,6 +161,7 @@ def sync(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | ListingListResponse | None:
     """ List listings
@@ -166,6 +176,7 @@ def sync(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -183,6 +194,7 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+x_schema=x_schema,
 
     ).parsed
 
@@ -194,6 +206,7 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ListingListResponse]:
     """ List listings
@@ -208,6 +221,7 @@ async def asyncio_detailed(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -224,6 +238,7 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+x_schema=x_schema,
 
     )
 
@@ -241,6 +256,7 @@ async def asyncio(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | ListingListResponse | None:
     """ List listings
@@ -255,6 +271,7 @@ async def asyncio(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -272,5 +289,6 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+x_schema=x_schema,
 
     )).parsed

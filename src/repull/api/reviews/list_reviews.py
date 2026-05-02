@@ -28,9 +28,14 @@ def _get_kwargs(
     rating_max: float | Unset = UNSET,
     status: ListReviewsStatus | Unset = UNSET,
     reviewer_role: ListReviewsReviewerRole | Unset = ListReviewsReviewerRole.GUEST,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -75,6 +80,7 @@ def _get_kwargs(
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -141,6 +147,7 @@ def sync_detailed(
     rating_max: float | Unset = UNSET,
     status: ListReviewsStatus | Unset = UNSET,
     reviewer_role: ListReviewsReviewerRole | Unset = ListReviewsReviewerRole.GUEST,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ReviewListResponse]:
     """ List reviews
@@ -162,6 +169,7 @@ def sync_detailed(
         rating_max (float | Unset):
         status (ListReviewsStatus | Unset):
         reviewer_role (ListReviewsReviewerRole | Unset):  Default: ListReviewsReviewerRole.GUEST.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -181,6 +189,7 @@ rating_min=rating_min,
 rating_max=rating_max,
 status=status,
 reviewer_role=reviewer_role,
+x_schema=x_schema,
 
     )
 
@@ -201,6 +210,7 @@ def sync(
     rating_max: float | Unset = UNSET,
     status: ListReviewsStatus | Unset = UNSET,
     reviewer_role: ListReviewsReviewerRole | Unset = ListReviewsReviewerRole.GUEST,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | ReviewListResponse | None:
     """ List reviews
@@ -222,6 +232,7 @@ def sync(
         rating_max (float | Unset):
         status (ListReviewsStatus | Unset):
         reviewer_role (ListReviewsReviewerRole | Unset):  Default: ListReviewsReviewerRole.GUEST.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -242,6 +253,7 @@ rating_min=rating_min,
 rating_max=rating_max,
 status=status,
 reviewer_role=reviewer_role,
+x_schema=x_schema,
 
     ).parsed
 
@@ -256,6 +268,7 @@ async def asyncio_detailed(
     rating_max: float | Unset = UNSET,
     status: ListReviewsStatus | Unset = UNSET,
     reviewer_role: ListReviewsReviewerRole | Unset = ListReviewsReviewerRole.GUEST,
+    x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ReviewListResponse]:
     """ List reviews
@@ -277,6 +290,7 @@ async def asyncio_detailed(
         rating_max (float | Unset):
         status (ListReviewsStatus | Unset):
         reviewer_role (ListReviewsReviewerRole | Unset):  Default: ListReviewsReviewerRole.GUEST.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -296,6 +310,7 @@ rating_min=rating_min,
 rating_max=rating_max,
 status=status,
 reviewer_role=reviewer_role,
+x_schema=x_schema,
 
     )
 
@@ -316,6 +331,7 @@ async def asyncio(
     rating_max: float | Unset = UNSET,
     status: ListReviewsStatus | Unset = UNSET,
     reviewer_role: ListReviewsReviewerRole | Unset = ListReviewsReviewerRole.GUEST,
+    x_schema: str | Unset = UNSET,
 
 ) -> Error | ReviewListResponse | None:
     """ List reviews
@@ -337,6 +353,7 @@ async def asyncio(
         rating_max (float | Unset):
         status (ListReviewsStatus | Unset):
         reviewer_role (ListReviewsReviewerRole | Unset):  Default: ListReviewsReviewerRole.GUEST.
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -357,5 +374,6 @@ rating_min=rating_min,
 rating_max=rating_max,
 status=status,
 reviewer_role=reviewer_role,
+x_schema=x_schema,
 
     )).parsed
