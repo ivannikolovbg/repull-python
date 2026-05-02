@@ -19,8 +19,10 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
+        # NB: cache disabled — this repo has no uv.lock, and the
+        # cache-dependency-glob default (**/uv.lock) errors on miss.
         with:
-          enable-cache: true
+          enable-cache: false
 
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}

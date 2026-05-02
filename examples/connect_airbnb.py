@@ -1,7 +1,7 @@
 """Mint a Repull Connect session for Airbnb and poll for the linked account.
 
 Flow:
-  1. Create a Connect session — Repull returns an `oauthUrl` you redirect the
+  1. Create a Connect session — Repull returns an `oauth_url` you redirect the
      property manager to.
   2. They land on `connect.repull.dev`, authorise Airbnb, and bounce back to
      your `redirect_url`.
@@ -10,15 +10,13 @@ Flow:
 Run with:
     REPULL_API_KEY=sk_live_... python examples/connect_airbnb.py
 """
+
 import asyncio
 import os
 
 from repull import AuthenticatedClient
-from repull.api.connect import get_v1_connect_provider, post_v1_connect_provider
-from repull.models.post_v1_connect_provider_body import PostV1ConnectProviderBody
-from repull.models.post_v1_connect_provider_body_access_type import (
-    PostV1ConnectProviderBodyAccessType,
-)
+from repull.api.connect import create_connect_session, get_connect_status
+from repull.models.create_connect_session_body import CreateConnectSessionBody
 
 
 async def main() -> None:
@@ -27,20 +25,18 @@ async def main() -> None:
         token=os.environ["REPULL_API_KEY"],
     )
 
-    body = PostV1ConnectProviderBody(
+    body = CreateConnectSessionBody(
         redirect_url="https://yourapp.example.com/airbnb/return",
-        access_type=PostV1ConnectProviderBodyAccessType.FULL_ACCESS,
+        allowed_providers=["airbnb"],
     )
 
     async with client as c:
-        session = await post_v1_connect_provider.asyncio(
-            provider="airbnb", client=c, body=body
-        )
+        session = await create_connect_session.asyncio(client=c, body=body)
         print("Send the property manager to:")
         print(f"  {session.oauth_url}")
         print(f"  session_id={session.session_id}  expires_at={session.expires_at}")
 
-        status = await get_v1_connect_provider.asyncio(provider="airbnb", client=c)
+        status = await get_connect_status.asyncio(provider="airbnb", client=c)
         print(f"Current Airbnb connection status: {status.status}")
 
 
