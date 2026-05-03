@@ -23,15 +23,15 @@ T = TypeVar("T", bound="BulkPricingItem")
 
 @_attrs_define
 class BulkPricingItem:
-    """ A single (listing_id, dates) pair in a bulk pricing request. The action in the parent request body applies to every
+    """ A single (listingId, dates) pair in a bulk pricing request. The action in the parent request body applies to every
     date in `dates` for this listing.
 
         Attributes:
-            listing_id (int):  Example: 4118.
+            listing_id (str):  Example: 4118.
             dates (list[datetime.date]):  Example: ['2026-05-14', '2026-05-15'].
      """
 
-    listing_id: int
+    listing_id: str
     dates: list[datetime.date]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -53,7 +53,7 @@ class BulkPricingItem:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "listing_id": listing_id,
+            "listingId": listing_id,
             "dates": dates,
         })
 
@@ -64,7 +64,7 @@ class BulkPricingItem:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        listing_id = d.pop("listing_id")
+        listing_id = d.pop("listingId")
 
         dates = []
         _dates = d.pop("dates")

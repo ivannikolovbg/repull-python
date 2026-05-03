@@ -58,6 +58,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Get Airbnb pricing
 
+     Read the current pricing config (base price, weekend uplift, length-of-stay discounts, smart-pricing
+    bounds) for an Airbnb listing.
+
     Args:
         id (str):
 
@@ -89,6 +92,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Get Airbnb pricing
+
+     Read the current pricing config (base price, weekend uplift, length-of-stay discounts, smart-pricing
+    bounds) for an Airbnb listing.
 
     Args:
         id (str):

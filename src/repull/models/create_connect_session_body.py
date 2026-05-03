@@ -67,7 +67,7 @@ class CreateConnectSessionBody:
         if state is not UNSET:
             field_dict["state"] = state
         if allowed_providers is not UNSET:
-            field_dict["allowed_providers"] = allowed_providers
+            field_dict["allowedProviders"] = allowed_providers
 
         return field_dict
 
@@ -103,7 +103,7 @@ class CreateConnectSessionBody:
                 pass
             return cast(list[str] | None | Unset, data)
 
-        allowed_providers = _parse_allowed_providers(d.pop("allowed_providers", UNSET))
+        allowed_providers = _parse_allowed_providers(d.pop("allowedProviders", UNSET))
 
 
         create_connect_session_body = cls(

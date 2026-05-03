@@ -139,9 +139,9 @@ class MarketEvent:
         if category is not UNSET:
             field_dict["category"] = category
         if start_date is not UNSET:
-            field_dict["start_date"] = start_date
+            field_dict["startDate"] = start_date
         if end_date is not UNSET:
-            field_dict["end_date"] = end_date
+            field_dict["endDate"] = end_date
         if lat is not UNSET:
             field_dict["lat"] = lat
         if lng is not UNSET:
@@ -149,11 +149,11 @@ class MarketEvent:
         if rank is not UNSET:
             field_dict["rank"] = rank
         if local_rank is not UNSET:
-            field_dict["local_rank"] = local_rank
+            field_dict["localRank"] = local_rank
         if attendance is not UNSET:
             field_dict["attendance"] = attendance
         if demand_impact is not UNSET:
-            field_dict["demand_impact"] = demand_impact
+            field_dict["demandImpact"] = demand_impact
         if labels is not UNSET:
             field_dict["labels"] = labels
 
@@ -178,7 +178,7 @@ class MarketEvent:
         category = _parse_category(d.pop("category", UNSET))
 
 
-        _start_date = d.pop("start_date", UNSET)
+        _start_date = d.pop("startDate", UNSET)
         start_date: datetime.date | Unset
         if isinstance(_start_date,  Unset):
             start_date = UNSET
@@ -205,7 +205,7 @@ class MarketEvent:
                 pass
             return cast(datetime.date | None | Unset, data)
 
-        end_date = _parse_end_date(d.pop("end_date", UNSET))
+        end_date = _parse_end_date(d.pop("endDate", UNSET))
 
 
         def _parse_lat(data: object) -> float | None | Unset:
@@ -245,7 +245,7 @@ class MarketEvent:
                 return data
             return cast(float | None | Unset, data)
 
-        local_rank = _parse_local_rank(d.pop("local_rank", UNSET))
+        local_rank = _parse_local_rank(d.pop("localRank", UNSET))
 
 
         def _parse_attendance(data: object) -> int | None | Unset:
@@ -265,7 +265,7 @@ class MarketEvent:
                 return data
             return cast(None | str | Unset, data)
 
-        demand_impact = _parse_demand_impact(d.pop("demand_impact", UNSET))
+        demand_impact = _parse_demand_impact(d.pop("demandImpact", UNSET))
 
 
         def _parse_labels(data: object) -> list[str] | None | Unset:

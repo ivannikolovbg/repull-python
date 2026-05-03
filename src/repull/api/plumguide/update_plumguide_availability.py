@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Push availability to Plumguide
 
+     Push per-day availability changes to Plumguide. Plumguide accepts only the next 24 months — dates
+    beyond that are silently ignored.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Push availability to Plumguide
+
+     Push per-day availability changes to Plumguide. Plumguide accepts only the next 24 months — dates
+    beyond that are silently ignored.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

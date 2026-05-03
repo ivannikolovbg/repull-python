@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.listing_pricing_strategy import ListingPricingStrategy
 from typing import cast
 
@@ -33,7 +34,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | ListingPricingStrategy | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | ListingPricingStrategy | None:
     if response.status_code == 200:
         response_200 = ListingPricingStrategy.from_dict(response.json())
 
@@ -42,7 +43,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 401:
-        response_401 = cast(Any, None)
+        response_401 = Error.from_dict(response.json())
+
+
+
         return response_401
 
     if client.raise_on_unexpected_status:
@@ -51,7 +55,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | ListingPricingStrategy]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | ListingPricingStrategy]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +69,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any | ListingPricingStrategy]:
+) -> Response[Error | ListingPricingStrategy]:
     """ Get pricing strategy
 
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
@@ -79,7 +83,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingPricingStrategy]
+        Response[Error | ListingPricingStrategy]
      """
 
 
@@ -99,7 +103,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Any | ListingPricingStrategy | None:
+) -> Error | ListingPricingStrategy | None:
     """ Get pricing strategy
 
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
@@ -113,7 +117,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingPricingStrategy
+        Error | ListingPricingStrategy
      """
 
 
@@ -128,7 +132,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any | ListingPricingStrategy]:
+) -> Response[Error | ListingPricingStrategy]:
     """ Get pricing strategy
 
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
@@ -142,7 +146,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingPricingStrategy]
+        Response[Error | ListingPricingStrategy]
      """
 
 
@@ -162,7 +166,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Any | ListingPricingStrategy | None:
+) -> Error | ListingPricingStrategy | None:
     """ Get pricing strategy
 
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
@@ -176,7 +180,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingPricingStrategy
+        Error | ListingPricingStrategy
      """
 
 

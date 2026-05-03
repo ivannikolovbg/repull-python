@@ -74,9 +74,9 @@ class GuestContact:
         if verified is not UNSET:
             field_dict["verified"] = verified
         if is_primary is not UNSET:
-            field_dict["is_primary"] = is_primary
+            field_dict["isPrimary"] = is_primary
         if last_used is not UNSET:
-            field_dict["last_used"] = last_used
+            field_dict["lastUsed"] = last_used
 
         return field_dict
 
@@ -91,7 +91,7 @@ class GuestContact:
 
         verified = d.pop("verified", UNSET)
 
-        is_primary = d.pop("is_primary", UNSET)
+        is_primary = d.pop("isPrimary", UNSET)
 
         def _parse_last_used(data: object) -> datetime.datetime | None | Unset:
             if data is None:
@@ -110,7 +110,7 @@ class GuestContact:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        last_used = _parse_last_used(d.pop("last_used", UNSET))
+        last_used = _parse_last_used(d.pop("lastUsed", UNSET))
 
 
         guest_contact = cls(

@@ -73,9 +73,9 @@ class GuestFlag:
         if note is not UNSET:
             field_dict["note"] = note
         if is_active is not UNSET:
-            field_dict["is_active"] = is_active
+            field_dict["isActive"] = is_active
         if created_at is not UNSET:
-            field_dict["created_at"] = created_at
+            field_dict["createdAt"] = created_at
 
         return field_dict
 
@@ -96,7 +96,7 @@ class GuestFlag:
         note = _parse_note(d.pop("note", UNSET))
 
 
-        is_active = d.pop("is_active", UNSET)
+        is_active = d.pop("isActive", UNSET)
 
         def _parse_created_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
@@ -115,7 +115,7 @@ class GuestFlag:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        created_at = _parse_created_at(d.pop("created_at", UNSET))
+        created_at = _parse_created_at(d.pop("createdAt", UNSET))
 
 
         guest_flag = cls(

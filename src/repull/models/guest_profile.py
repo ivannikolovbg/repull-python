@@ -33,7 +33,7 @@ class GuestProfile:
     notes, risk metadata, and a reservations-summary rollup.
 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             display_name (str | Unset):
             display_name_long (str | Unset):
             avatar_url (None | str | Unset):
@@ -56,7 +56,7 @@ class GuestProfile:
                 `future` is derived from `total - past - cancelled`.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     display_name: str | Unset = UNSET
     display_name_long: str | Unset = UNSET
     avatar_url: None | str | Unset = UNSET
@@ -228,7 +228,7 @@ class GuestProfile:
         if verification_level is not UNSET:
             field_dict["verificationLevel"] = verification_level
         if created_at is not UNSET:
-            field_dict["created_at"] = created_at
+            field_dict["createdAt"] = created_at
         if contacts is not UNSET:
             field_dict["contacts"] = contacts
         if flags is not UNSET:
@@ -236,7 +236,7 @@ class GuestProfile:
         if notes is not UNSET:
             field_dict["notes"] = notes
         if reservations_summary is not UNSET:
-            field_dict["reservations_summary"] = reservations_summary
+            field_dict["reservationsSummary"] = reservations_summary
 
         return field_dict
 
@@ -368,7 +368,7 @@ class GuestProfile:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        created_at = _parse_created_at(d.pop("created_at", UNSET))
+        created_at = _parse_created_at(d.pop("createdAt", UNSET))
 
 
         _contacts = d.pop("contacts", UNSET)
@@ -407,7 +407,7 @@ class GuestProfile:
                 notes.append(notes_item)
 
 
-        _reservations_summary = d.pop("reservations_summary", UNSET)
+        _reservations_summary = d.pop("reservationsSummary", UNSET)
         reservations_summary: GuestReservationsSummary | Unset
         if isinstance(_reservations_summary,  Unset):
             reservations_summary = UNSET

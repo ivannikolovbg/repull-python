@@ -29,7 +29,7 @@ class ListingCompsResponse:
     distance. May include a `warning` field when the source listing itself has no coordinates.
 
         Attributes:
-            listing_id (int | Unset):
+            listing_id (str | Unset):
             date_range (ListingCompsResponseDateRange | Unset):
             radius_km (float | Unset):
             total (int | Unset):
@@ -37,7 +37,7 @@ class ListingCompsResponse:
             warning (None | str | Unset): Present (and `data` empty) when the source listing has no coordinates.
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     date_range: ListingCompsResponseDateRange | Unset = UNSET
     radius_km: float | Unset = UNSET
     total: int | Unset = UNSET

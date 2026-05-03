@@ -28,7 +28,9 @@ class VrboListingListResponse:
     """ 
         Attributes:
             data (list[VrboListing] | Unset):
-            pagination (Pagination | Unset):
+            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
      """
 
     data: list[VrboListing] | Unset = UNSET

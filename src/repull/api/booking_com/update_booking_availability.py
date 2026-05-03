@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Update Booking.com rates/availability
 
+     Push availability + rate changes to Booking.com's OTA system. Accepts the standard OTA rate message
+    — see Booking's OTA docs for the field shape. Errors from upstream surface as `booking_error`.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Update Booking.com rates/availability
+
+     Push availability + rate changes to Booking.com's OTA system. Accepts the standard OTA rate message
+    — see Booking's OTA docs for the field shape. Errors from upstream surface as `booking_error`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

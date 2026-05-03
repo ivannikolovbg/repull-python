@@ -28,7 +28,9 @@ class ConnectionListResponse:
     """ 
         Attributes:
             data (list[Connection] | Unset):
-            pagination (Pagination | Unset):
+            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
      """
 
     data: list[Connection] | Unset = UNSET

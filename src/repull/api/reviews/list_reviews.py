@@ -51,7 +51,7 @@ def _get_kwargs(
 
     params["platform"] = json_platform
 
-    params["listing_id"] = listing_id
+    params["listingId"] = listing_id
 
     params["rating_min"] = rating_min
 
@@ -67,7 +67,7 @@ def _get_kwargs(
     if not isinstance(reviewer_role, Unset):
         json_reviewer_role = reviewer_role.value
 
-    params["reviewer_role"] = json_reviewer_role
+    params["reviewerRole"] = json_reviewer_role
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}

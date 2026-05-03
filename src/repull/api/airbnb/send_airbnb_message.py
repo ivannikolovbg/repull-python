@@ -58,6 +58,10 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Send Airbnb message
 
+     Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
+    contact info, no external URLs) — violating messages are rejected upstream and surface as
+    `airbnb_error`.
+
     Args:
         thread_id (str):
 
@@ -89,6 +93,10 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Send Airbnb message
+
+     Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
+    contact info, no external URLs) — violating messages are rejected upstream and surface as
+    `airbnb_error`.
 
     Args:
         thread_id (str):

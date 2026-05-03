@@ -59,6 +59,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Delete webhook subscription
 
+     Delete a webhook subscription. In-flight deliveries already on the queue are still attempted; new
+    events stop firing immediately.
+
     Args:
         id (UUID):
 
@@ -90,6 +93,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Delete webhook subscription
+
+     Delete a webhook subscription. In-flight deliveries already on the queue are still attempted; new
+    events stop firing immediately.
 
     Args:
         id (UUID):

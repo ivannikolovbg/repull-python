@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.listing_generate_content_request import ListingGenerateContentRequest
 from ...models.listing_generate_content_response import ListingGenerateContentResponse
 from ...types import UNSET, Unset
@@ -45,7 +46,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | ListingGenerateContentResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | ListingGenerateContentResponse | None:
     if response.status_code == 200:
         response_200 = ListingGenerateContentResponse.from_dict(response.json())
 
@@ -54,7 +55,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 404:
-        response_404 = cast(Any, None)
+        response_404 = Error.from_dict(response.json())
+
+
+
         return response_404
 
     if response.status_code == 502:
@@ -67,7 +71,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | ListingGenerateContentResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error | ListingGenerateContentResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,7 +86,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: ListingGenerateContentRequest | Unset = UNSET,
 
-) -> Response[Any | ListingGenerateContentResponse]:
+) -> Response[Any | Error | ListingGenerateContentResponse]:
     """ AI-generate listing content
 
      Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
@@ -98,7 +102,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingGenerateContentResponse]
+        Response[Any | Error | ListingGenerateContentResponse]
      """
 
 
@@ -120,7 +124,7 @@ def sync(
     client: AuthenticatedClient | Client,
     body: ListingGenerateContentRequest | Unset = UNSET,
 
-) -> Any | ListingGenerateContentResponse | None:
+) -> Any | Error | ListingGenerateContentResponse | None:
     """ AI-generate listing content
 
      Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
@@ -136,7 +140,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingGenerateContentResponse
+        Any | Error | ListingGenerateContentResponse
      """
 
 
@@ -153,7 +157,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: ListingGenerateContentRequest | Unset = UNSET,
 
-) -> Response[Any | ListingGenerateContentResponse]:
+) -> Response[Any | Error | ListingGenerateContentResponse]:
     """ AI-generate listing content
 
      Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
@@ -169,7 +173,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingGenerateContentResponse]
+        Response[Any | Error | ListingGenerateContentResponse]
      """
 
 
@@ -191,7 +195,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: ListingGenerateContentRequest | Unset = UNSET,
 
-) -> Any | ListingGenerateContentResponse | None:
+) -> Any | Error | ListingGenerateContentResponse | None:
     """ AI-generate listing content
 
      Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
@@ -207,7 +211,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingGenerateContentResponse
+        Any | Error | ListingGenerateContentResponse
      """
 
 

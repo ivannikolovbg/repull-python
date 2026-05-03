@@ -26,13 +26,13 @@ T = TypeVar("T", bound="ConversationMessageAttachment")
 class ConversationMessageAttachment:
     """ 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             image_url (str | Unset):
             content_type (str | Unset):  Example: image/jpeg.
             created_at (datetime.datetime | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     image_url: str | Unset = UNSET
     content_type: str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET

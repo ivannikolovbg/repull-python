@@ -7,7 +7,7 @@ import asyncio
 import os
 
 from repull import AuthenticatedClient
-from repull.api.reservations import get_v1_reservations
+from repull.api.reservations import list_reservations
 
 
 async def main() -> None:
@@ -16,7 +16,7 @@ async def main() -> None:
         token=os.environ["REPULL_API_KEY"],
     )
     async with client as c:
-        page = await get_v1_reservations.asyncio(client=c, limit=10)
+        page = await list_reservations.asyncio(client=c, limit=10)
 
     if page is None:
         print("No reservations returned (check your API key).")
@@ -29,14 +29,13 @@ async def main() -> None:
 
     print(f"{'id':10s}  {'check_in':12s} -> {'check_out':12s}  {'platform':14s} {'status'}")
     for r in rows:
-        # Spec currently types this list as Property; the runtime payload is a
-        # reservation envelope. Read fields off the parsed object first, fall
-        # back to the raw dict via additional_properties for everything else.
+        # Wire fields are camelCase; the SDK exposes them as snake_case Python
+        # attributes. Anything not in the canonical schema lives on
+        # additional_properties (raw camelCase keys).
         d = r.additional_properties
-        rid = getattr(r, "id", None) or d.get("id")
         print(
-            f"{str(rid):10s}  {d.get('checkIn', '?'):12s} -> {d.get('checkOut', '?'):12s}  "
-            f"{d.get('platform', '?'):14s} {d.get('status', '?')}"
+            f"{str(r.id):10s}  {str(r.check_in):12s} -> {str(r.check_out):12s}  "
+            f"{str(r.platform):14s} {d.get('status', '?')}"
         )
 
 

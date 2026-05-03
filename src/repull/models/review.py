@@ -33,14 +33,14 @@ class Review:
     from main vanio's unified `reviews` table after the per-channel backfill cron has run.
 
         Attributes:
-            id (int | Unset): Internal Repull review id — pass back to `/v1/reviews/{id}`.
+            id (str | Unset): Internal Repull review id — pass back to `/v1/reviews/{id}`.
             external_id (str | Unset): ID in the source channel (Airbnb review id, Booking review id, etc.).
             platform (ReviewPlatform | Unset):
-            listing_id (int | None | Unset): Internal Repull listing id the review is attached to.
-            reservation_id (int | None | Unset):
+            listing_id (None | str | Unset): Internal Repull listing id the review is attached to.
+            reservation_id (None | str | Unset):
             reservation_confirmation_code (None | str | Unset): Channel-side confirmation code for the reservation being
                 reviewed.
-            guest_id (int | None | Unset):
+            guest_id (None | str | Unset):
             guest_name (None | str | Unset):
             guest_avatar (None | str | Unset):
             reviewer_role (ReviewReviewerRole | Unset): Who wrote the review — `guest` (about the host/property) or `host`
@@ -61,13 +61,13 @@ class Review:
             language (None | str | Unset): Detected language (ISO 639-1) of the review body.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     external_id: str | Unset = UNSET
     platform: ReviewPlatform | Unset = UNSET
-    listing_id: int | None | Unset = UNSET
-    reservation_id: int | None | Unset = UNSET
+    listing_id: None | str | Unset = UNSET
+    reservation_id: None | str | Unset = UNSET
     reservation_confirmation_code: None | str | Unset = UNSET
-    guest_id: int | None | Unset = UNSET
+    guest_id: None | str | Unset = UNSET
     guest_name: None | str | Unset = UNSET
     guest_avatar: None | str | Unset = UNSET
     reviewer_role: ReviewReviewerRole | Unset = UNSET
@@ -100,13 +100,13 @@ class Review:
             platform = self.platform.value
 
 
-        listing_id: int | None | Unset
+        listing_id: None | str | Unset
         if isinstance(self.listing_id, Unset):
             listing_id = UNSET
         else:
             listing_id = self.listing_id
 
-        reservation_id: int | None | Unset
+        reservation_id: None | str | Unset
         if isinstance(self.reservation_id, Unset):
             reservation_id = UNSET
         else:
@@ -118,7 +118,7 @@ class Review:
         else:
             reservation_confirmation_code = self.reservation_confirmation_code
 
-        guest_id: int | None | Unset
+        guest_id: None | str | Unset
         if isinstance(self.guest_id, Unset):
             guest_id = UNSET
         else:
@@ -222,41 +222,41 @@ class Review:
         if id is not UNSET:
             field_dict["id"] = id
         if external_id is not UNSET:
-            field_dict["external_id"] = external_id
+            field_dict["externalId"] = external_id
         if platform is not UNSET:
             field_dict["platform"] = platform
         if listing_id is not UNSET:
-            field_dict["listing_id"] = listing_id
+            field_dict["listingId"] = listing_id
         if reservation_id is not UNSET:
-            field_dict["reservation_id"] = reservation_id
+            field_dict["reservationId"] = reservation_id
         if reservation_confirmation_code is not UNSET:
-            field_dict["reservation_confirmation_code"] = reservation_confirmation_code
+            field_dict["reservationConfirmationCode"] = reservation_confirmation_code
         if guest_id is not UNSET:
-            field_dict["guest_id"] = guest_id
+            field_dict["guestId"] = guest_id
         if guest_name is not UNSET:
-            field_dict["guest_name"] = guest_name
+            field_dict["guestName"] = guest_name
         if guest_avatar is not UNSET:
-            field_dict["guest_avatar"] = guest_avatar
+            field_dict["guestAvatar"] = guest_avatar
         if reviewer_role is not UNSET:
-            field_dict["reviewer_role"] = reviewer_role
+            field_dict["reviewerRole"] = reviewer_role
         if rating is not UNSET:
             field_dict["rating"] = rating
         if categories is not UNSET:
             field_dict["categories"] = categories
         if public_review is not UNSET:
-            field_dict["public_review"] = public_review
+            field_dict["publicReview"] = public_review
         if private_feedback is not UNSET:
-            field_dict["private_feedback"] = private_feedback
+            field_dict["privateFeedback"] = private_feedback
         if is_reviewee_recommended is not UNSET:
-            field_dict["is_reviewee_recommended"] = is_reviewee_recommended
+            field_dict["isRevieweeRecommended"] = is_reviewee_recommended
         if response is not UNSET:
             field_dict["response"] = response
         if submitted_at is not UNSET:
-            field_dict["submitted_at"] = submitted_at
+            field_dict["submittedAt"] = submitted_at
         if updated_at is not UNSET:
-            field_dict["updated_at"] = updated_at
+            field_dict["updatedAt"] = updated_at
         if expires_at is not UNSET:
-            field_dict["expires_at"] = expires_at
+            field_dict["expiresAt"] = expires_at
         if hidden is not UNSET:
             field_dict["hidden"] = hidden
         if language is not UNSET:
@@ -273,7 +273,7 @@ class Review:
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
-        external_id = d.pop("external_id", UNSET)
+        external_id = d.pop("externalId", UNSET)
 
         _platform = d.pop("platform", UNSET)
         platform: ReviewPlatform | Unset
@@ -285,24 +285,24 @@ class Review:
 
 
 
-        def _parse_listing_id(data: object) -> int | None | Unset:
+        def _parse_listing_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
-        listing_id = _parse_listing_id(d.pop("listing_id", UNSET))
+        listing_id = _parse_listing_id(d.pop("listingId", UNSET))
 
 
-        def _parse_reservation_id(data: object) -> int | None | Unset:
+        def _parse_reservation_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
-        reservation_id = _parse_reservation_id(d.pop("reservation_id", UNSET))
+        reservation_id = _parse_reservation_id(d.pop("reservationId", UNSET))
 
 
         def _parse_reservation_confirmation_code(data: object) -> None | str | Unset:
@@ -312,17 +312,17 @@ class Review:
                 return data
             return cast(None | str | Unset, data)
 
-        reservation_confirmation_code = _parse_reservation_confirmation_code(d.pop("reservation_confirmation_code", UNSET))
+        reservation_confirmation_code = _parse_reservation_confirmation_code(d.pop("reservationConfirmationCode", UNSET))
 
 
-        def _parse_guest_id(data: object) -> int | None | Unset:
+        def _parse_guest_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
-        guest_id = _parse_guest_id(d.pop("guest_id", UNSET))
+        guest_id = _parse_guest_id(d.pop("guestId", UNSET))
 
 
         def _parse_guest_name(data: object) -> None | str | Unset:
@@ -332,7 +332,7 @@ class Review:
                 return data
             return cast(None | str | Unset, data)
 
-        guest_name = _parse_guest_name(d.pop("guest_name", UNSET))
+        guest_name = _parse_guest_name(d.pop("guestName", UNSET))
 
 
         def _parse_guest_avatar(data: object) -> None | str | Unset:
@@ -342,10 +342,10 @@ class Review:
                 return data
             return cast(None | str | Unset, data)
 
-        guest_avatar = _parse_guest_avatar(d.pop("guest_avatar", UNSET))
+        guest_avatar = _parse_guest_avatar(d.pop("guestAvatar", UNSET))
 
 
-        _reviewer_role = d.pop("reviewer_role", UNSET)
+        _reviewer_role = d.pop("reviewerRole", UNSET)
         reviewer_role: ReviewReviewerRole | Unset
         if isinstance(_reviewer_role,  Unset):
             reviewer_role = UNSET
@@ -384,7 +384,7 @@ class Review:
                 return data
             return cast(None | str | Unset, data)
 
-        public_review = _parse_public_review(d.pop("public_review", UNSET))
+        public_review = _parse_public_review(d.pop("publicReview", UNSET))
 
 
         def _parse_private_feedback(data: object) -> None | str | Unset:
@@ -394,7 +394,7 @@ class Review:
                 return data
             return cast(None | str | Unset, data)
 
-        private_feedback = _parse_private_feedback(d.pop("private_feedback", UNSET))
+        private_feedback = _parse_private_feedback(d.pop("privateFeedback", UNSET))
 
 
         def _parse_is_reviewee_recommended(data: object) -> bool | None | Unset:
@@ -404,7 +404,7 @@ class Review:
                 return data
             return cast(bool | None | Unset, data)
 
-        is_reviewee_recommended = _parse_is_reviewee_recommended(d.pop("is_reviewee_recommended", UNSET))
+        is_reviewee_recommended = _parse_is_reviewee_recommended(d.pop("isRevieweeRecommended", UNSET))
 
 
         def _parse_response(data: object) -> None | ReviewResponse | Unset:
@@ -444,7 +444,7 @@ class Review:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        submitted_at = _parse_submitted_at(d.pop("submitted_at", UNSET))
+        submitted_at = _parse_submitted_at(d.pop("submittedAt", UNSET))
 
 
         def _parse_updated_at(data: object) -> datetime.datetime | None | Unset:
@@ -464,7 +464,7 @@ class Review:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        updated_at = _parse_updated_at(d.pop("updated_at", UNSET))
+        updated_at = _parse_updated_at(d.pop("updatedAt", UNSET))
 
 
         def _parse_expires_at(data: object) -> datetime.datetime | None | Unset:
@@ -484,7 +484,7 @@ class Review:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        expires_at = _parse_expires_at(d.pop("expires_at", UNSET))
+        expires_at = _parse_expires_at(d.pop("expiresAt", UNSET))
 
 
         hidden = d.pop("hidden", UNSET)

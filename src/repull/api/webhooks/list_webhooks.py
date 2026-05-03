@@ -62,6 +62,9 @@ def sync_detailed(
 ) -> Response[WebhookListResponse]:
     """ List webhook subscriptions
 
+     List every webhook subscription registered for this workspace. Each row includes the destination
+    URL, subscribed event types, and the most recent delivery summary.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -88,6 +91,9 @@ def sync(
 ) -> WebhookListResponse | None:
     """ List webhook subscriptions
 
+     List every webhook subscription registered for this workspace. Each row includes the destination
+    URL, subscribed event types, and the most recent delivery summary.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -108,6 +114,9 @@ async def asyncio_detailed(
 
 ) -> Response[WebhookListResponse]:
     """ List webhook subscriptions
+
+     List every webhook subscription registered for this workspace. Each row includes the destination
+    URL, subscribed event types, and the most recent delivery summary.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +143,9 @@ async def asyncio(
 
 ) -> WebhookListResponse | None:
     """ List webhook subscriptions
+
+     List every webhook subscription registered for this workspace. Each row includes the destination
+    URL, subscribed event types, and the most recent delivery summary.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

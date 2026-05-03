@@ -58,6 +58,10 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Disconnect provider
 
+     Disconnect a PMS or OTA from this workspace. Revokes the OAuth token (where applicable), purges
+    credentials, and stops all sync jobs. Resources synced from the provider remain queryable but become
+    read-only and stop receiving updates.
+
     Args:
         provider (str):
 
@@ -89,6 +93,10 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Disconnect provider
+
+     Disconnect a PMS or OTA from this workspace. Revokes the OAuth token (where applicable), purges
+    credentials, and stops all sync jobs. Resources synced from the provider remain queryable but become
+    read-only and stop receiving updates.
 
     Args:
         provider (str):

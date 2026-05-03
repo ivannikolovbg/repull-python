@@ -35,7 +35,7 @@ def _get_kwargs(
     json_start_date: str | Unset = UNSET
     if not isinstance(start_date, Unset):
         json_start_date = start_date.isoformat()
-    params["start_date"] = json_start_date
+    params["startDate"] = json_start_date
 
     params["number_of_days"] = number_of_days
 

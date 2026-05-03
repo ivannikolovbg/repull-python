@@ -58,6 +58,10 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Cancel reservation
 
+     Cancel an existing reservation. Cancellation rules vary by provider — Airbnb host-cancellations
+    carry penalties; Booking.com cancellations apply the per-rate-plan policy. Once 200 is returned, the
+    upstream PMS state is committed.
+
     Args:
         id (int):
 
@@ -89,6 +93,10 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Cancel reservation
+
+     Cancel an existing reservation. Cancellation rules vary by provider — Airbnb host-cancellations
+    carry penalties; Booking.com cancellations apply the per-rate-plan policy. Once 200 is returned, the
+    upstream PMS state is committed.
 
     Args:
         id (int):

@@ -26,12 +26,12 @@ class BookingRoomMapping:
     — this also removes the corresponding `listing_platform_links` row.
 
         Attributes:
-            room_id (int): Repull-side `listings_booking_rooms.id` from `listConnectBookingRooms`.
-            listing_id (int | None | Unset): Repull listing to bind to this room. `null` to unmap.
+            room_id (str): Repull-side `listings_booking_rooms.id` from `listConnectBookingRooms`.
+            listing_id (None | str | Unset): Repull listing to bind to this room. `null` to unmap.
      """
 
-    room_id: int
-    listing_id: int | None | Unset = UNSET
+    room_id: str
+    listing_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,7 +41,7 @@ class BookingRoomMapping:
     def to_dict(self) -> dict[str, Any]:
         room_id = self.room_id
 
-        listing_id: int | None | Unset
+        listing_id: None | str | Unset
         if isinstance(self.listing_id, Unset):
             listing_id = UNSET
         else:
@@ -65,12 +65,12 @@ class BookingRoomMapping:
         d = dict(src_dict)
         room_id = d.pop("roomId")
 
-        def _parse_listing_id(data: object) -> int | None | Unset:
+        def _parse_listing_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         listing_id = _parse_listing_id(d.pop("listingId", UNSET))
 

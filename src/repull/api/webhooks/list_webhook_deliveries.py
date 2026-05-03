@@ -89,12 +89,15 @@ def sync_detailed(
 ) -> Response[WebhookDeliveryListResponse]:
     """ List webhook deliveries
 
-     Paginated history of every delivery attempt for this subscription.
+     Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
+    base64 — do not parse it.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
-        cursor (str | Unset): ISO timestamp from `pagination.nextCursor`
+        cursor (str | Unset): Opaque cursor returned in the previous response's
+            `pagination.nextCursor`. Omit to fetch the first page.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:
@@ -131,12 +134,15 @@ def sync(
 ) -> WebhookDeliveryListResponse | None:
     """ List webhook deliveries
 
-     Paginated history of every delivery attempt for this subscription.
+     Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
+    base64 — do not parse it.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
-        cursor (str | Unset): ISO timestamp from `pagination.nextCursor`
+        cursor (str | Unset): Opaque cursor returned in the previous response's
+            `pagination.nextCursor`. Omit to fetch the first page.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:
@@ -168,12 +174,15 @@ async def asyncio_detailed(
 ) -> Response[WebhookDeliveryListResponse]:
     """ List webhook deliveries
 
-     Paginated history of every delivery attempt for this subscription.
+     Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
+    base64 — do not parse it.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
-        cursor (str | Unset): ISO timestamp from `pagination.nextCursor`
+        cursor (str | Unset): Opaque cursor returned in the previous response's
+            `pagination.nextCursor`. Omit to fetch the first page.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:
@@ -210,12 +219,15 @@ async def asyncio(
 ) -> WebhookDeliveryListResponse | None:
     """ List webhook deliveries
 
-     Paginated history of every delivery attempt for this subscription.
+     Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
+    base64 — do not parse it.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
-        cursor (str | Unset): ISO timestamp from `pagination.nextCursor`
+        cursor (str | Unset): Opaque cursor returned in the previous response's
+            `pagination.nextCursor`. Omit to fetch the first page.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:

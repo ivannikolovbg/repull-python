@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.market_detail_response import MarketDetailResponse
 from ...types import UNSET, Unset
 from typing import cast
@@ -43,7 +44,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | MarketDetailResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | MarketDetailResponse | None:
     if response.status_code == 200:
         response_200 = MarketDetailResponse.from_dict(response.json())
 
@@ -52,7 +53,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 401:
-        response_401 = cast(Any, None)
+        response_401 = Error.from_dict(response.json())
+
+
+
         return response_401
 
     if response.status_code == 502:
@@ -65,7 +69,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | MarketDetailResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error | MarketDetailResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -80,7 +84,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     comps_page: int | Unset = 1,
 
-) -> Response[Any | MarketDetailResponse]:
+) -> Response[Any | Error | MarketDetailResponse]:
     """ Deep-dive on a single market
 
      Detailed market view for one city — price distribution, bedroom mix, property types, upcoming
@@ -96,7 +100,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | MarketDetailResponse]
+        Response[Any | Error | MarketDetailResponse]
      """
 
 
@@ -118,7 +122,7 @@ def sync(
     client: AuthenticatedClient | Client,
     comps_page: int | Unset = 1,
 
-) -> Any | MarketDetailResponse | None:
+) -> Any | Error | MarketDetailResponse | None:
     """ Deep-dive on a single market
 
      Detailed market view for one city — price distribution, bedroom mix, property types, upcoming
@@ -134,7 +138,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | MarketDetailResponse
+        Any | Error | MarketDetailResponse
      """
 
 
@@ -151,7 +155,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     comps_page: int | Unset = 1,
 
-) -> Response[Any | MarketDetailResponse]:
+) -> Response[Any | Error | MarketDetailResponse]:
     """ Deep-dive on a single market
 
      Detailed market view for one city — price distribution, bedroom mix, property types, upcoming
@@ -167,7 +171,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | MarketDetailResponse]
+        Response[Any | Error | MarketDetailResponse]
      """
 
 
@@ -189,7 +193,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     comps_page: int | Unset = 1,
 
-) -> Any | MarketDetailResponse | None:
+) -> Any | Error | MarketDetailResponse | None:
     """ Deep-dive on a single market
 
      Detailed market view for one city — price distribution, bedroom mix, property types, upcoming
@@ -205,7 +209,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | MarketDetailResponse
+        Any | Error | MarketDetailResponse
      """
 
 

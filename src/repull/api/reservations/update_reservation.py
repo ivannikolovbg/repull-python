@@ -72,6 +72,10 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Update reservation
 
+     Patch reservation fields (dates, status, special requests). Only fields included in the body are
+    modified. Use the cancel endpoint for cancellations — DELETE handles cancellation but not partial
+    updates.
+
     Args:
         id (int):
         body (UpdateReservationBody | Unset):
@@ -106,6 +110,10 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Update reservation
+
+     Patch reservation fields (dates, status, special requests). Only fields included in the body are
+    modified. Use the cancel endpoint for cancellations — DELETE handles cancellation but not partial
+    updates.
 
     Args:
         id (int):

@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Bulk sync to Booking.com
 
+     Trigger a full bulk sync of properties + availability + rates to Booking.com. Runs async — returns
+    202 with a job id; poll `/v1/sync/jobs/{id}` for status.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Bulk sync to Booking.com
+
+     Trigger a full bulk sync of properties + availability + rates to Booking.com. Runs async — returns
+    202 with a job id; poll `/v1/sync/jobs/{id}` for status.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -101,17 +101,17 @@ class ListingPricingHistoryEntry:
         if date is not UNSET:
             field_dict["date"] = date
         if recommended_rate is not UNSET:
-            field_dict["recommended_rate"] = recommended_rate
+            field_dict["recommendedRate"] = recommended_rate
         if applied_rate is not UNSET:
-            field_dict["applied_rate"] = applied_rate
+            field_dict["appliedRate"] = applied_rate
         if status is not UNSET:
             field_dict["status"] = status
         if recommendation_factors is not UNSET:
-            field_dict["recommendation_factors"] = recommendation_factors
+            field_dict["recommendationFactors"] = recommendation_factors
         if applied_at is not UNSET:
-            field_dict["applied_at"] = applied_at
+            field_dict["appliedAt"] = applied_at
         if applied_by is not UNSET:
-            field_dict["applied_by"] = applied_by
+            field_dict["appliedBy"] = applied_by
 
         return field_dict
 
@@ -131,7 +131,7 @@ class ListingPricingHistoryEntry:
 
 
 
-        recommended_rate = d.pop("recommended_rate", UNSET)
+        recommended_rate = d.pop("recommendedRate", UNSET)
 
         def _parse_applied_rate(data: object) -> float | None | Unset:
             if data is None:
@@ -140,7 +140,7 @@ class ListingPricingHistoryEntry:
                 return data
             return cast(float | None | Unset, data)
 
-        applied_rate = _parse_applied_rate(d.pop("applied_rate", UNSET))
+        applied_rate = _parse_applied_rate(d.pop("appliedRate", UNSET))
 
 
         _status = d.pop("status", UNSET)
@@ -153,7 +153,7 @@ class ListingPricingHistoryEntry:
 
 
 
-        _recommendation_factors = d.pop("recommendation_factors", UNSET)
+        _recommendation_factors = d.pop("recommendationFactors", UNSET)
         recommendation_factors: ListingPricingHistoryEntryRecommendationFactors | Unset
         if isinstance(_recommendation_factors,  Unset):
             recommendation_factors = UNSET
@@ -180,7 +180,7 @@ class ListingPricingHistoryEntry:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        applied_at = _parse_applied_at(d.pop("applied_at", UNSET))
+        applied_at = _parse_applied_at(d.pop("appliedAt", UNSET))
 
 
         def _parse_applied_by(data: object) -> None | str | Unset:
@@ -190,7 +190,7 @@ class ListingPricingHistoryEntry:
                 return data
             return cast(None | str | Unset, data)
 
-        applied_by = _parse_applied_by(d.pop("applied_by", UNSET))
+        applied_by = _parse_applied_by(d.pop("appliedBy", UNSET))
 
 
         listing_pricing_history_entry = cls(

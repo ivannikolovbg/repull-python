@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Send Booking.com message
 
+     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
+    Airbnb.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Send Booking.com message
+
+     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
+    Airbnb.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

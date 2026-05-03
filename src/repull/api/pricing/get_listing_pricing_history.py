@@ -35,12 +35,12 @@ def _get_kwargs(
     json_start_date: str | Unset = UNSET
     if not isinstance(start_date, Unset):
         json_start_date = start_date.isoformat()
-    params["start_date"] = json_start_date
+    params["startDate"] = json_start_date
 
     json_end_date: str | Unset = UNSET
     if not isinstance(end_date, Unset):
         json_end_date = end_date.isoformat()
-    params["end_date"] = json_end_date
+    params["endDate"] = json_end_date
 
     params["limit"] = limit
 
@@ -132,7 +132,7 @@ def sync_detailed(
     """ Pricing recommendation audit trail
 
      Cursor-paginated audit trail of pricing recommendations vs applied prices for a listing across a
-    date window. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
+    date window. Use `pagination.nextCursor` from one response as the `cursor` query param of the next
     request.
 
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added
@@ -182,7 +182,7 @@ def sync(
     """ Pricing recommendation audit trail
 
      Cursor-paginated audit trail of pricing recommendations vs applied prices for a listing across a
-    date window. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
+    date window. Use `pagination.nextCursor` from one response as the `cursor` query param of the next
     request.
 
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added
@@ -227,7 +227,7 @@ async def asyncio_detailed(
     """ Pricing recommendation audit trail
 
      Cursor-paginated audit trail of pricing recommendations vs applied prices for a listing across a
-    date window. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
+    date window. Use `pagination.nextCursor` from one response as the `cursor` query param of the next
     request.
 
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added
@@ -277,7 +277,7 @@ async def asyncio(
     """ Pricing recommendation audit trail
 
      Cursor-paginated audit trail of pricing recommendations vs applied prices for a listing across a
-    date window. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
+    date window. Use `pagination.nextCursor` from one response as the `cursor` query param of the next
     request.
 
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added

@@ -58,6 +58,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ List Airbnb photos
 
+     List photos attached to an Airbnb listing in display order. Returns the public CDN URL plus Airbnb-
+    side metadata (id, caption, room).
+
     Args:
         id (str):
 
@@ -89,6 +92,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ List Airbnb photos
+
+     List photos attached to an Airbnb listing in display order. Returns the public CDN URL plus Airbnb-
+    side metadata (id, caption, room).
 
     Args:
         id (str):

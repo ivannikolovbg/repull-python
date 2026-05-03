@@ -133,8 +133,7 @@ def sync_detailed(
 
      Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
-    request.
+    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
@@ -184,8 +183,7 @@ def sync(
 
      Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
-    request.
+    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
@@ -230,8 +228,7 @@ async def asyncio_detailed(
 
      Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
-    request.
+    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
@@ -281,8 +278,7 @@ async def asyncio(
 
      Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.next_cursor` from one response as the `cursor` query param of the next
-    request.
+    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).

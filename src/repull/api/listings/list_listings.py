@@ -116,7 +116,7 @@ def sync_detailed(
 ) -> Response[Error | ListingListResponse]:
     """ List listings
 
-     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.next_cursor`
+     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
     from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
     (substring on name/street/city), `status`, `channel`.
 
@@ -166,7 +166,7 @@ def sync(
 ) -> Error | ListingListResponse | None:
     """ List listings
 
-     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.next_cursor`
+     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
     from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
     (substring on name/street/city), `status`, `channel`.
 
@@ -211,7 +211,7 @@ async def asyncio_detailed(
 ) -> Response[Error | ListingListResponse]:
     """ List listings
 
-     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.next_cursor`
+     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
     from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
     (substring on name/street/city), `status`, `channel`.
 
@@ -261,7 +261,7 @@ async def asyncio(
 ) -> Error | ListingListResponse | None:
     """ List listings
 
-     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.next_cursor`
+     Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
     from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
     (substring on name/street/city), `status`, `channel`.
 

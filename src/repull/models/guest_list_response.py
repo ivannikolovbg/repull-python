@@ -25,12 +25,13 @@ T = TypeVar("T", bound="GuestListResponse")
 
 @_attrs_define
 class GuestListResponse:
-    """ Cursor-paginated guest list. Pass `pagination.next_cursor` back as `?cursor=` to fetch the next page.
+    """ Cursor-paginated guest list. Pass `pagination.nextCursor` back as `?cursor=` to fetch the next page.
 
         Attributes:
             data (list[Guest] | Unset):
-            pagination (CursorPagination | Unset): Cursor-based pagination. Pass `next_cursor` back as `cursor` to fetch the
-                next page. When `has_more` is `false` you are done.
+            pagination (CursorPagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
      """
 
     data: list[Guest] | Unset = UNSET

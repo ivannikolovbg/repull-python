@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.markets_overview_response import MarketsOverviewResponse
 from typing import cast
 
@@ -32,7 +33,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | MarketsOverviewResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | MarketsOverviewResponse | None:
     if response.status_code == 200:
         response_200 = MarketsOverviewResponse.from_dict(response.json())
 
@@ -41,7 +42,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 401:
-        response_401 = cast(Any, None)
+        response_401 = Error.from_dict(response.json())
+
+
+
         return response_401
 
     if response.status_code == 502:
@@ -54,7 +58,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | MarketsOverviewResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error | MarketsOverviewResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -67,7 +71,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any | MarketsOverviewResponse]:
+) -> Response[Any | Error | MarketsOverviewResponse]:
     """ List markets the customer operates in
 
      Returns per-city KPIs across every market the authenticated customer has listings in (market share,
@@ -81,7 +85,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | MarketsOverviewResponse]
+        Response[Any | Error | MarketsOverviewResponse]
      """
 
 
@@ -99,7 +103,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Any | MarketsOverviewResponse | None:
+) -> Any | Error | MarketsOverviewResponse | None:
     """ List markets the customer operates in
 
      Returns per-city KPIs across every market the authenticated customer has listings in (market share,
@@ -113,7 +117,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | MarketsOverviewResponse
+        Any | Error | MarketsOverviewResponse
      """
 
 
@@ -126,7 +130,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any | MarketsOverviewResponse]:
+) -> Response[Any | Error | MarketsOverviewResponse]:
     """ List markets the customer operates in
 
      Returns per-city KPIs across every market the authenticated customer has listings in (market share,
@@ -140,7 +144,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | MarketsOverviewResponse]
+        Response[Any | Error | MarketsOverviewResponse]
      """
 
 
@@ -158,7 +162,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Any | MarketsOverviewResponse | None:
+) -> Any | Error | MarketsOverviewResponse | None:
     """ List markets the customer operates in
 
      Returns per-city KPIs across every market the authenticated customer has listings in (market share,
@@ -172,7 +176,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | MarketsOverviewResponse
+        Any | Error | MarketsOverviewResponse
      """
 
 

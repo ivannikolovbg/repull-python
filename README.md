@@ -1,6 +1,6 @@
 # Repull Python SDK
 
-> **Status:** v0.1.0-alpha — early preview. Not production-ready.
+> **Status:** v0.2.0 — beta. API surface stable; minor renames possible before 1.0.
 
 Typed Python client for [api.repull.dev](https://api.repull.dev) — the unified API for vacation-rental tech (50+ PMS platforms, Airbnb / Booking.com / VRBO / Plumguide channels, AI ops, white-label OAuth Connect).
 
@@ -29,7 +29,7 @@ import asyncio
 import os
 
 from repull import AuthenticatedClient
-from repull.api.reservations import get_v1_reservations
+from repull.api.reservations import list_reservations
 
 async def main():
     client = AuthenticatedClient(
@@ -37,7 +37,7 @@ async def main():
         token=os.environ["REPULL_API_KEY"],
     )
     async with client as c:
-        page = await get_v1_reservations.asyncio(client=c, limit=10)
+        page = await list_reservations.asyncio(client=c, limit=10)
 
     for r in page.data:
         print(r.id, r.check_in, r.check_out, r.platform)
@@ -45,7 +45,7 @@ async def main():
 asyncio.run(main())
 ```
 
-There is also a sync flavour for every endpoint — drop the `async with` and call `get_v1_reservations.sync(...)` instead.
+There is also a sync flavour for every endpoint — drop the `async with` and call `list_reservations.sync(...)` instead.
 
 ## Authentication
 
@@ -95,45 +95,36 @@ REPULL_API_KEY=sk_live_... python examples/quickstart.py
 Repull Connect lets you link a property manager's Airbnb / Booking.com account in a few lines:
 
 ```python
-from repull.api.connect import post_v1_connect_provider
-from repull.models.post_v1_connect_provider_body import PostV1ConnectProviderBody
-from repull.models.post_v1_connect_provider_body_access_type import (
-    PostV1ConnectProviderBodyAccessType,
-)
+from repull.api.connect import create_connect_session
+from repull.models.create_connect_session_body import CreateConnectSessionBody
 
-session = await post_v1_connect_provider.asyncio(
-    provider="airbnb",
+session = await create_connect_session.asyncio(
     client=c,
-    body=PostV1ConnectProviderBody(
+    body=CreateConnectSessionBody(
         redirect_url="https://yourapp.example.com/airbnb/return",
-        access_type=PostV1ConnectProviderBodyAccessType.FULL_ACCESS,
+        allowed_providers=["airbnb"],
     ),
 )
-# Send the user to session.oauth_url
+# Send the user to session.url
 ```
 
-After the user comes back, poll `get_v1_connect_provider.asyncio(provider="airbnb", client=c)` to confirm.
-
-## Known spec quirks
-
-Heads up — the v1 OpenAPI spec has a couple of rough edges that flow through to the typed client:
-
-- **List response envelopes are typed as `list[Property]`** for several endpoints (e.g. `/v1/reservations`, `/v1/guests`, `/v1/conversations`). The runtime payload is correct — those endpoints return reservations / guests / conversations — but the typed `data` field will be parsed as `Property` and most fields land in `additional_properties`. The quickstart example shows the workaround: read `id` off the parsed object, read everything else from `additional_properties` (the raw dict). We expect the spec to grow proper response schemas over the next few versions; once it does, regenerate (`./scripts/regen.sh`) and the types will tighten automatically.
-- **No `operationId`s in the spec**, so method names are derived from method+path (`get_v1_reservations`, `post_v1_connect_provider`, ...). Once the spec adds operationIds the names will become friendlier (`list_reservations`, `create_connect_session`).
-
-Neither affects what the API actually returns — only the static type names you'll see in your editor.
+After the user comes back, poll `get_connect_status.asyncio(provider="airbnb", client=c)` to confirm.
 
 ## Pagination
 
-List endpoints return a paginated envelope shaped like:
+Every list endpoint returns the same canonical envelope:
 
 ```python
-page = await get_v1_reservations.asyncio(client=c, limit=50, offset=0)
-page.data         # list[Reservation]
-page.pagination   # { total, limit, offset, has_more }
+page = await list_reservations.asyncio(client=c, limit=50)
+page.data                      # list[Reservation]
+page.pagination.next_cursor    # str | None — pass back as `cursor=`
+page.pagination.has_more       # bool — stop when False
+page.pagination.total          # int | UNSET — present when ?include_total=true
 ```
 
-Loop with `offset += limit` until `pagination.has_more` is `False`.
+Loop until `pagination.has_more` is `False`, threading `pagination.next_cursor`
+back as the next call's `cursor` arg. Cursors are opaque base64 — never parse
+or construct them by hand.
 
 ## Error handling
 

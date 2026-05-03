@@ -25,12 +25,12 @@ class BookingConnectListingOption:
     """ A Repull listing the customer can map a Booking room to. Mirrors the minimal shape needed for a select dropdown.
 
         Attributes:
-            id (int):
+            id (str):
             name (str):
             city (None | str | Unset):
      """
 
-    id: int
+    id: str
     name: str
     city: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

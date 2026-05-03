@@ -8,7 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
@@ -24,12 +23,16 @@ T = TypeVar("T", bound="Error")
 
 @_attrs_define
 class Error:
-    """ 
+    """ Standardized error envelope. Returned by EVERY 4xx/5xx response on this API. Required fields (`code`, `message`,
+    `fix`, `docs_url`, `request_id`) are designed for LLM-driven self-recovery — an AI agent should be able to fix the
+    underlying problem and retry without escalating to a human. Lead with `fix` and `docs_url` in your tooling; demote
+    `support` (rare) to a last resort.
+
         Attributes:
-            error (ErrorError | Unset):
+            error (ErrorError):
      """
 
-    error: ErrorError | Unset = UNSET
+    error: ErrorError
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,17 +41,14 @@ class Error:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.error_error import ErrorError
-        error: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.error, Unset):
-            error = self.error.to_dict()
+        error = self.error.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "error": error,
         })
-        if error is not UNSET:
-            field_dict["error"] = error
 
         return field_dict
 
@@ -58,12 +58,7 @@ class Error:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.error_error import ErrorError
         d = dict(src_dict)
-        _error = d.pop("error", UNSET)
-        error: ErrorError | Unset
-        if isinstance(_error,  Unset):
-            error = UNSET
-        else:
-            error = ErrorError.from_dict(_error)
+        error = ErrorError.from_dict(d.pop("error"))
 
 
 

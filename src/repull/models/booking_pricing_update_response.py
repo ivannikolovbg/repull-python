@@ -28,7 +28,7 @@ class BookingPricingUpdateResponse:
     """ 
         Attributes:
             hotel_id (str | Unset):
-            listing_id (int | Unset):
+            listing_id (str | Unset):
             pushed (int | Unset): Number of updates Booking.com accepted as `success`. Falls back to total update count when
                 Booking omits per-update status on full success.
             requested (int | Unset):
@@ -38,7 +38,7 @@ class BookingPricingUpdateResponse:
      """
 
     hotel_id: str | Unset = UNSET
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     pushed: int | Unset = UNSET
     requested: int | Unset = UNSET
     errors: list[BookingPricingUpdateResponseErrorsItem] | Unset = UNSET
@@ -79,9 +79,9 @@ class BookingPricingUpdateResponse:
         field_dict.update({
         })
         if hotel_id is not UNSET:
-            field_dict["hotel_id"] = hotel_id
+            field_dict["hotelId"] = hotel_id
         if listing_id is not UNSET:
-            field_dict["listing_id"] = listing_id
+            field_dict["listingId"] = listing_id
         if pushed is not UNSET:
             field_dict["pushed"] = pushed
         if requested is not UNSET:
@@ -100,9 +100,9 @@ class BookingPricingUpdateResponse:
         from ..models.booking_pricing_update_response_errors_item import BookingPricingUpdateResponseErrorsItem
         from ..models.booking_pricing_update_response_raw import BookingPricingUpdateResponseRaw
         d = dict(src_dict)
-        hotel_id = d.pop("hotel_id", UNSET)
+        hotel_id = d.pop("hotelId", UNSET)
 
-        listing_id = d.pop("listing_id", UNSET)
+        listing_id = d.pop("listingId", UNSET)
 
         pushed = d.pop("pushed", UNSET)
 

@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.list_reservations_status import ListReservationsStatus
 from ...models.reservation_list_response import ReservationListResponse
 from ...types import UNSET, Unset
@@ -21,7 +22,6 @@ def _get_kwargs(
     *,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    offset: int | Unset = UNSET,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -29,6 +29,7 @@ def _get_kwargs(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
@@ -46,8 +47,6 @@ def _get_kwargs(
 
     params["cursor"] = cursor
 
-    params["offset"] = offset
-
     params["platform"] = platform
 
     json_status: str | Unset = UNSET
@@ -56,7 +55,7 @@ def _get_kwargs(
 
     params["status"] = json_status
 
-    params["listing_id"] = listing_id
+    params["listingId"] = listing_id
 
     json_check_in_after: str | Unset = UNSET
     if not isinstance(check_in_after, Unset):
@@ -78,6 +77,8 @@ def _get_kwargs(
         json_check_in_to = check_in_to.isoformat()
     params["checkInTo"] = json_check_in_to
 
+    params["include_total"] = include_total
+
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -94,7 +95,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | ReservationListResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | ReservationListResponse | None:
     if response.status_code == 200:
         response_200 = ReservationListResponse.from_dict(response.json())
 
@@ -103,7 +104,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 422:
-        response_422 = cast(Any, None)
+        response_422 = Error.from_dict(response.json())
+
+
+
         return response_422
 
     if client.raise_on_unexpected_status:
@@ -112,7 +116,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | ReservationListResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | ReservationListResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -126,7 +130,6 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    offset: int | Unset = UNSET,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -134,26 +137,25 @@ def sync_detailed(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
-) -> Response[Any | ReservationListResponse]:
+) -> Response[Error | ReservationListResponse]:
     """ List reservations
 
      Cursor-paginated list of reservations across all connected PMS platforms. Filter by platform,
     status, listing, or check-in date range.
 
-    **Pagination:** Walk pages with `?cursor=` — pass `pagination.next_cursor` from one response back as
-    `?cursor=` on the next request. Stop when `pagination.has_more` is `false`. `limit` defaults to 50,
+    **Pagination:** Walk pages with `?cursor=` — pass `pagination.nextCursor` from one response back as
+    `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Deprecation:** The `?offset=` query param is supported for backward compatibility but is
-    deprecated and will be removed after the `Sunset` header date. Responses to offset requests carry a
-    `Deprecation: true` header. Migrate to `?cursor=`.
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        offset (int | Unset):
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -161,6 +163,7 @@ def sync_detailed(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -168,14 +171,13 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ReservationListResponse]
+        Response[Error | ReservationListResponse]
      """
 
 
     kwargs = _get_kwargs(
         limit=limit,
 cursor=cursor,
-offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,
@@ -183,6 +185,7 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+include_total=include_total,
 x_schema=x_schema,
 
     )
@@ -198,7 +201,6 @@ def sync(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    offset: int | Unset = UNSET,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -206,26 +208,25 @@ def sync(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
-) -> Any | ReservationListResponse | None:
+) -> Error | ReservationListResponse | None:
     """ List reservations
 
      Cursor-paginated list of reservations across all connected PMS platforms. Filter by platform,
     status, listing, or check-in date range.
 
-    **Pagination:** Walk pages with `?cursor=` — pass `pagination.next_cursor` from one response back as
-    `?cursor=` on the next request. Stop when `pagination.has_more` is `false`. `limit` defaults to 50,
+    **Pagination:** Walk pages with `?cursor=` — pass `pagination.nextCursor` from one response back as
+    `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Deprecation:** The `?offset=` query param is supported for backward compatibility but is
-    deprecated and will be removed after the `Sunset` header date. Responses to offset requests carry a
-    `Deprecation: true` header. Migrate to `?cursor=`.
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        offset (int | Unset):
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -233,6 +234,7 @@ def sync(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -240,7 +242,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ReservationListResponse
+        Error | ReservationListResponse
      """
 
 
@@ -248,7 +250,6 @@ def sync(
         client=client,
 limit=limit,
 cursor=cursor,
-offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,
@@ -256,6 +257,7 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+include_total=include_total,
 x_schema=x_schema,
 
     ).parsed
@@ -265,7 +267,6 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    offset: int | Unset = UNSET,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -273,26 +274,25 @@ async def asyncio_detailed(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
-) -> Response[Any | ReservationListResponse]:
+) -> Response[Error | ReservationListResponse]:
     """ List reservations
 
      Cursor-paginated list of reservations across all connected PMS platforms. Filter by platform,
     status, listing, or check-in date range.
 
-    **Pagination:** Walk pages with `?cursor=` — pass `pagination.next_cursor` from one response back as
-    `?cursor=` on the next request. Stop when `pagination.has_more` is `false`. `limit` defaults to 50,
+    **Pagination:** Walk pages with `?cursor=` — pass `pagination.nextCursor` from one response back as
+    `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Deprecation:** The `?offset=` query param is supported for backward compatibility but is
-    deprecated and will be removed after the `Sunset` header date. Responses to offset requests carry a
-    `Deprecation: true` header. Migrate to `?cursor=`.
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        offset (int | Unset):
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -300,6 +300,7 @@ async def asyncio_detailed(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -307,14 +308,13 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ReservationListResponse]
+        Response[Error | ReservationListResponse]
      """
 
 
     kwargs = _get_kwargs(
         limit=limit,
 cursor=cursor,
-offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,
@@ -322,6 +322,7 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+include_total=include_total,
 x_schema=x_schema,
 
     )
@@ -337,7 +338,6 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    offset: int | Unset = UNSET,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -345,26 +345,25 @@ async def asyncio(
     check_in_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
-) -> Any | ReservationListResponse | None:
+) -> Error | ReservationListResponse | None:
     """ List reservations
 
      Cursor-paginated list of reservations across all connected PMS platforms. Filter by platform,
     status, listing, or check-in date range.
 
-    **Pagination:** Walk pages with `?cursor=` — pass `pagination.next_cursor` from one response back as
-    `?cursor=` on the next request. Stop when `pagination.has_more` is `false`. `limit` defaults to 50,
+    **Pagination:** Walk pages with `?cursor=` — pass `pagination.nextCursor` from one response back as
+    `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Deprecation:** The `?offset=` query param is supported for backward compatibility but is
-    deprecated and will be removed after the `Sunset` header date. Responses to offset requests carry a
-    `Deprecation: true` header. Migrate to `?cursor=`.
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        offset (int | Unset):
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -372,6 +371,7 @@ async def asyncio(
         check_in_before (datetime.date | Unset):
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -379,7 +379,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ReservationListResponse
+        Error | ReservationListResponse
      """
 
 
@@ -387,7 +387,6 @@ async def asyncio(
         client=client,
 limit=limit,
 cursor=cursor,
-offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,
@@ -395,6 +394,7 @@ check_in_after=check_in_after,
 check_in_before=check_in_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+include_total=include_total,
 x_schema=x_schema,
 
     )).parsed

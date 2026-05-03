@@ -13,6 +13,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.custom_schema_summary import CustomSchemaSummary
+  from ..models.pagination import Pagination
 
 
 
@@ -28,9 +29,13 @@ class CustomSchemaListResponse:
 
         Attributes:
             data (list[CustomSchemaSummary] | Unset):
+            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
      """
 
     data: list[CustomSchemaSummary] | Unset = UNSET
+    pagination: Pagination | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -39,6 +44,7 @@ class CustomSchemaListResponse:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.custom_schema_summary import CustomSchemaSummary
+        from ..models.pagination import Pagination
         data: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.data, Unset):
             data = []
@@ -48,6 +54,10 @@ class CustomSchemaListResponse:
 
 
 
+        pagination: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.pagination, Unset):
+            pagination = self.pagination.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -55,6 +65,8 @@ class CustomSchemaListResponse:
         })
         if data is not UNSET:
             field_dict["data"] = data
+        if pagination is not UNSET:
+            field_dict["pagination"] = pagination
 
         return field_dict
 
@@ -63,6 +75,7 @@ class CustomSchemaListResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.custom_schema_summary import CustomSchemaSummary
+        from ..models.pagination import Pagination
         d = dict(src_dict)
         _data = d.pop("data", UNSET)
         data: list[CustomSchemaSummary] | Unset = UNSET
@@ -76,8 +89,19 @@ class CustomSchemaListResponse:
                 data.append(data_item)
 
 
+        _pagination = d.pop("pagination", UNSET)
+        pagination: Pagination | Unset
+        if isinstance(_pagination,  Unset):
+            pagination = UNSET
+        else:
+            pagination = Pagination.from_dict(_pagination)
+
+
+
+
         custom_schema_list_response = cls(
             data=data,
+            pagination=pagination,
         )
 
 

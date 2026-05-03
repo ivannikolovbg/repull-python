@@ -62,6 +62,10 @@ def sync_detailed(
 ) -> Response[AirbnbListingListResponse]:
     """ List Airbnb listings
 
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
+    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
+    force a fresh upstream pull.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -88,6 +92,10 @@ def sync(
 ) -> AirbnbListingListResponse | None:
     """ List Airbnb listings
 
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
+    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
+    force a fresh upstream pull.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -108,6 +116,10 @@ async def asyncio_detailed(
 
 ) -> Response[AirbnbListingListResponse]:
     """ List Airbnb listings
+
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
+    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
+    force a fresh upstream pull.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +146,10 @@ async def asyncio(
 
 ) -> AirbnbListingListResponse | None:
     """ List Airbnb listings
+
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
+    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
+    force a fresh upstream pull.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

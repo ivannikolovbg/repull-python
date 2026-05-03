@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Push pricing to Plumguide
 
+     Push pricing changes to Plumguide. Plumguide rounds all prices to whole units of the listing
+    currency — sub-unit precision is silently truncated.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Push pricing to Plumguide
+
+     Push pricing changes to Plumguide. Plumguide rounds all prices to whole units of the listing
+    currency — sub-unit precision is silently truncated.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

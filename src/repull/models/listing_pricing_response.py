@@ -29,14 +29,14 @@ T = TypeVar("T", bound="ListingPricingResponse")
 class ListingPricingResponse:
     """ 
         Attributes:
-            listing_id (int | Unset):
+            listing_id (str | Unset):
             date_range (ListingPricingResponseDateRange | Unset):
             recommendations (list[ListingPricingRecommendation] | Unset):
             listing (ListingPricingResponseListingType0 | None | Unset): AI-derived base-price context for the listing.
             comp_summary (ListingPricingResponseCompSummaryType0 | None | Unset): 5km comp aggregate (Atlas comp_listings).
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     date_range: ListingPricingResponseDateRange | Unset = UNSET
     recommendations: list[ListingPricingRecommendation] | Unset = UNSET
     listing: ListingPricingResponseListingType0 | None | Unset = UNSET

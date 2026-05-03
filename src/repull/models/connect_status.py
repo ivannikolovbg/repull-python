@@ -33,7 +33,7 @@ class ConnectStatus:
         Attributes:
             connected (bool | Unset):  Example: True.
             provider (str | Unset):  Example: airbnb.
-            id (int | Unset): Repull-side connection ID. Stable across token refreshes. Example: 3.
+            id (str | Unset): Repull-side connection ID. Stable across token refreshes. Example: 3.
             status (ConnectStatusStatus | Unset):  Example: active.
             external_account_id (None | str | Unset): Provider-side account ID (e.g. the Airbnb host ID). Example: 23998907.
             created_at (datetime.datetime | Unset):
@@ -43,7 +43,7 @@ class ConnectStatus:
 
     connected: bool | Unset = UNSET
     provider: str | Unset = UNSET
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     status: ConnectStatusStatus | Unset = UNSET
     external_account_id: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET

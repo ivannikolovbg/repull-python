@@ -26,7 +26,7 @@ T = TypeVar("T", bound="CreateReservationBody")
 class CreateReservationBody:
     """ 
         Attributes:
-            property_id (int):
+            property_id (str):
             check_in (datetime.date):
             check_out (datetime.date):
             guest_first_name (str):
@@ -38,7 +38,7 @@ class CreateReservationBody:
             currency (str | Unset):
      """
 
-    property_id: int
+    property_id: str
     check_in: datetime.date
     check_out: datetime.date
     guest_first_name: str

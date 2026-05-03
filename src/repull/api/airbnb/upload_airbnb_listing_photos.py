@@ -58,6 +58,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Upload photos to Airbnb
 
+     Upload one or more photos to an Airbnb listing. Accepts public image URLs (Airbnb fetches them) —
+    direct binary upload is not supported on this endpoint.
+
     Args:
         id (str):
 
@@ -89,6 +92,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Upload photos to Airbnb
+
+     Upload one or more photos to an Airbnb listing. Accepts public image URLs (Airbnb fetches them) —
+    direct binary upload is not supported on this endpoint.
 
     Args:
         id (str):

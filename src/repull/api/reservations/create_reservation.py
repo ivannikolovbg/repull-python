@@ -72,6 +72,10 @@ def sync_detailed(
 ) -> Response[Reservation]:
     """ Create a reservation
 
+     Create a reservation in the source PMS. Required fields depend on the connected provider (e.g.
+    Airbnb requires guest email; Booking.com requires hotel id). Validation errors return 422 with the
+    offending `field` populated.
+
     Args:
         body (CreateReservationBody):
 
@@ -103,6 +107,10 @@ def sync(
 ) -> Reservation | None:
     """ Create a reservation
 
+     Create a reservation in the source PMS. Required fields depend on the connected provider (e.g.
+    Airbnb requires guest email; Booking.com requires hotel id). Validation errors return 422 with the
+    offending `field` populated.
+
     Args:
         body (CreateReservationBody):
 
@@ -128,6 +136,10 @@ async def asyncio_detailed(
 
 ) -> Response[Reservation]:
     """ Create a reservation
+
+     Create a reservation in the source PMS. Required fields depend on the connected provider (e.g.
+    Airbnb requires guest email; Booking.com requires hotel id). Validation errors return 422 with the
+    offending `field` populated.
 
     Args:
         body (CreateReservationBody):
@@ -159,6 +171,10 @@ async def asyncio(
 
 ) -> Reservation | None:
     """ Create a reservation
+
+     Create a reservation in the source PMS. Required fields depend on the connected provider (e.g.
+    Airbnb requires guest email; Booking.com requires hotel id). Validation errors return 422 with the
+    offending `field` populated.
 
     Args:
         body (CreateReservationBody):

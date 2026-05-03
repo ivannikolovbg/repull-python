@@ -65,6 +65,9 @@ def sync_detailed(
 ) -> Response[WebhookSubscription]:
     """ Get webhook subscription
 
+     Fetch a single webhook subscription by id. Use the `deliveries` sub-resource to list recent
+    attempts, and `ping` to send a test event.
+
     Args:
         id (UUID):
 
@@ -96,6 +99,9 @@ def sync(
 ) -> WebhookSubscription | None:
     """ Get webhook subscription
 
+     Fetch a single webhook subscription by id. Use the `deliveries` sub-resource to list recent
+    attempts, and `ping` to send a test event.
+
     Args:
         id (UUID):
 
@@ -121,6 +127,9 @@ async def asyncio_detailed(
 
 ) -> Response[WebhookSubscription]:
     """ Get webhook subscription
+
+     Fetch a single webhook subscription by id. Use the `deliveries` sub-resource to list recent
+    attempts, and `ping` to send a test event.
 
     Args:
         id (UUID):
@@ -152,6 +161,9 @@ async def asyncio(
 
 ) -> WebhookSubscription | None:
     """ Get webhook subscription
+
+     Fetch a single webhook subscription by id. Use the `deliveries` sub-resource to list recent
+    attempts, and `ping` to send a test event.
 
     Args:
         id (UUID):

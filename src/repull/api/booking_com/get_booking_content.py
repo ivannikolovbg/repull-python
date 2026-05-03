@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Get Booking.com content
 
+     Fetch the current content (descriptions, amenities, photos) for a Booking.com property. Used to
+    round-trip edits through Repull.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Get Booking.com content
+
+     Fetch the current content (descriptions, amenities, photos) for a Booking.com property. Used to
+    round-trip edits through Repull.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

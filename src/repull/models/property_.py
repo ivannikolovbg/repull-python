@@ -24,7 +24,7 @@ class Property:
     """ A vacation rental property from a connected PMS
 
         Attributes:
-            id (int | Unset): Internal Repull property ID
+            id (str | Unset): Internal Repull property ID
             external_id (str | Unset): ID in the source PMS
             name (str | Unset): Property name Example: Oceanview Suite #3.
             address (str | Unset): Full address
@@ -40,7 +40,7 @@ class Property:
             provider (str | Unset): Source PMS Example: hostaway.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     external_id: str | Unset = UNSET
     name: str | Unset = UNSET
     address: str | Unset = UNSET

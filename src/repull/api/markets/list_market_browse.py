@@ -116,8 +116,12 @@ def sync_detailed(
      Cursor-paginated, search-filterable catalog of every Atlas-tracked market the customer could expand
     into. Backed by the precomputed `market_summaries` table (>=5 active comps per city). Supports fuzzy
     `q` substring search (trigram-indexed), `country` (ISO 3166-1 alpha-2) filter, and `sort`
-    (`listings_desc` | `name_asc`). Use the `next_cursor` from `pagination` to walk pages — the cursor
-    is an opaque base64 token; do not parse it.
+    (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
+    an opaque base64 token; do not parse it.
+
+    `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
+    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
+    same `pagination.total` field as on every other list endpoint.
 
     Args:
         q (str | Unset):
@@ -168,8 +172,12 @@ def sync(
      Cursor-paginated, search-filterable catalog of every Atlas-tracked market the customer could expand
     into. Backed by the precomputed `market_summaries` table (>=5 active comps per city). Supports fuzzy
     `q` substring search (trigram-indexed), `country` (ISO 3166-1 alpha-2) filter, and `sort`
-    (`listings_desc` | `name_asc`). Use the `next_cursor` from `pagination` to walk pages — the cursor
-    is an opaque base64 token; do not parse it.
+    (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
+    an opaque base64 token; do not parse it.
+
+    `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
+    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
+    same `pagination.total` field as on every other list endpoint.
 
     Args:
         q (str | Unset):
@@ -215,8 +223,12 @@ async def asyncio_detailed(
      Cursor-paginated, search-filterable catalog of every Atlas-tracked market the customer could expand
     into. Backed by the precomputed `market_summaries` table (>=5 active comps per city). Supports fuzzy
     `q` substring search (trigram-indexed), `country` (ISO 3166-1 alpha-2) filter, and `sort`
-    (`listings_desc` | `name_asc`). Use the `next_cursor` from `pagination` to walk pages — the cursor
-    is an opaque base64 token; do not parse it.
+    (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
+    an opaque base64 token; do not parse it.
+
+    `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
+    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
+    same `pagination.total` field as on every other list endpoint.
 
     Args:
         q (str | Unset):
@@ -267,8 +279,12 @@ async def asyncio(
      Cursor-paginated, search-filterable catalog of every Atlas-tracked market the customer could expand
     into. Backed by the precomputed `market_summaries` table (>=5 active comps per city). Supports fuzzy
     `q` substring search (trigram-indexed), `country` (ISO 3166-1 alpha-2) filter, and `sort`
-    (`listings_desc` | `name_asc`). Use the `next_cursor` from `pagination` to walk pages — the cursor
-    is an opaque base64 token; do not parse it.
+    (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
+    an opaque base64 token; do not parse it.
+
+    `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
+    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
+    same `pagination.total` field as on every other list endpoint.
 
     Args:
         q (str | Unset):

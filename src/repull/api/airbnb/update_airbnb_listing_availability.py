@@ -58,6 +58,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Update Airbnb availability
 
+     Push per-day availability + pricing overrides to Airbnb. Accepts a sparse map (date → fields) — only
+    included dates are updated.
+
     Args:
         id (str):
 
@@ -89,6 +92,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Update Airbnb availability
+
+     Push per-day availability + pricing overrides to Airbnb. Accepts a sparse map (date → fields) — only
+    included dates are updated.
 
     Args:
         id (str):

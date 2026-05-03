@@ -27,12 +27,12 @@ T = TypeVar("T", bound="ListingPublishResponse")
 class ListingPublishResponse:
     """ 
         Attributes:
-            listing_id (int | Unset):
+            listing_id (str | Unset):
             channel (ListingPublishResponseChannel | Unset):
             result (ListingPublishResponseResult | Unset): Channel-specific push result (sections pushed, errors, etc.)
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     channel: ListingPublishResponseChannel | Unset = UNSET
     result: ListingPublishResponseResult | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

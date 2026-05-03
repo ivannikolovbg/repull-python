@@ -29,7 +29,7 @@ T = TypeVar("T", bound="Connection")
 class Connection:
     """ 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             provider (str | Unset):  Example: hostaway.
             status (ConnectionStatus | Unset):  Example: active.
             external_account_id (None | str | Unset):
@@ -38,7 +38,7 @@ class Connection:
                 null for other providers.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     provider: str | Unset = UNSET
     status: ConnectionStatus | Unset = UNSET
     external_account_id: None | str | Unset = UNSET

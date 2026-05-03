@@ -9,7 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...models.review_get_response import ReviewGetResponse
+from ...models.review import Review
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -42,9 +42,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | ReviewGetResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | Review | None:
     if response.status_code == 200:
-        response_200 = ReviewGetResponse.from_dict(response.json())
+        response_200 = Review.from_dict(response.json())
 
 
 
@@ -84,7 +84,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | ReviewGetResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | Review]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -99,12 +99,12 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     x_schema: str | Unset = UNSET,
 
-) -> Response[Error | ReviewGetResponse]:
+) -> Response[Error | Review]:
     """ Get review
 
-     Returns one review (matching the list-endpoint `Review` shape) wrapped in `{ data: Review }`. Scoped
-    to the authenticated workspace via the listings join — reviews that don't belong to the workspace
-    return 404 (we don't differentiate to avoid leaking other customers' ids).
+     Returns one review (the bare `Review` object — NOT wrapped in `{ data: ... }`). Scoped to the
+    authenticated workspace via the listings join — reviews that don't belong to the workspace return
+    404 (we don't differentiate to avoid leaking other customers' ids).
 
     Args:
         id (int):
@@ -115,7 +115,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | ReviewGetResponse]
+        Response[Error | Review]
      """
 
 
@@ -137,12 +137,12 @@ def sync(
     client: AuthenticatedClient | Client,
     x_schema: str | Unset = UNSET,
 
-) -> Error | ReviewGetResponse | None:
+) -> Error | Review | None:
     """ Get review
 
-     Returns one review (matching the list-endpoint `Review` shape) wrapped in `{ data: Review }`. Scoped
-    to the authenticated workspace via the listings join — reviews that don't belong to the workspace
-    return 404 (we don't differentiate to avoid leaking other customers' ids).
+     Returns one review (the bare `Review` object — NOT wrapped in `{ data: ... }`). Scoped to the
+    authenticated workspace via the listings join — reviews that don't belong to the workspace return
+    404 (we don't differentiate to avoid leaking other customers' ids).
 
     Args:
         id (int):
@@ -153,7 +153,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | ReviewGetResponse
+        Error | Review
      """
 
 
@@ -170,12 +170,12 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     x_schema: str | Unset = UNSET,
 
-) -> Response[Error | ReviewGetResponse]:
+) -> Response[Error | Review]:
     """ Get review
 
-     Returns one review (matching the list-endpoint `Review` shape) wrapped in `{ data: Review }`. Scoped
-    to the authenticated workspace via the listings join — reviews that don't belong to the workspace
-    return 404 (we don't differentiate to avoid leaking other customers' ids).
+     Returns one review (the bare `Review` object — NOT wrapped in `{ data: ... }`). Scoped to the
+    authenticated workspace via the listings join — reviews that don't belong to the workspace return
+    404 (we don't differentiate to avoid leaking other customers' ids).
 
     Args:
         id (int):
@@ -186,7 +186,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | ReviewGetResponse]
+        Response[Error | Review]
      """
 
 
@@ -208,12 +208,12 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     x_schema: str | Unset = UNSET,
 
-) -> Error | ReviewGetResponse | None:
+) -> Error | Review | None:
     """ Get review
 
-     Returns one review (matching the list-endpoint `Review` shape) wrapped in `{ data: Review }`. Scoped
-    to the authenticated workspace via the listings join — reviews that don't belong to the workspace
-    return 404 (we don't differentiate to avoid leaking other customers' ids).
+     Returns one review (the bare `Review` object — NOT wrapped in `{ data: ... }`). Scoped to the
+    authenticated workspace via the listings join — reviews that don't belong to the workspace return
+    404 (we don't differentiate to avoid leaking other customers' ids).
 
     Args:
         id (int):
@@ -224,7 +224,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | ReviewGetResponse
+        Error | Review
      """
 
 

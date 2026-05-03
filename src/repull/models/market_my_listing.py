@@ -26,7 +26,7 @@ class MarketMyListing:
     """ Lightweight customer listing entry for map rendering.
 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             name (str | Unset):
             city (None | str | Unset):
             lat (float | Unset):
@@ -39,7 +39,7 @@ class MarketMyListing:
             type_ (MarketMyListingType | Unset):  Example: mine.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     name: str | Unset = UNSET
     city: None | str | Unset = UNSET
     lat: float | Unset = UNSET

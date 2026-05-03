@@ -58,6 +58,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Update Airbnb pricing
 
+     Push pricing changes to Airbnb. The full pricing object is replaced — to patch a single field, GET
+    first, mutate locally, then PUT the whole object.
+
     Args:
         id (str):
 
@@ -89,6 +92,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Update Airbnb pricing
+
+     Push pricing changes to Airbnb. The full pricing object is replaced — to patch a single field, GET
+    first, mutate locally, then PUT the whole object.
 
     Args:
         id (str):

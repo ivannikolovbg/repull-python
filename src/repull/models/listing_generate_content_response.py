@@ -26,12 +26,12 @@ T = TypeVar("T", bound="ListingGenerateContentResponse")
 class ListingGenerateContentResponse:
     """ 
         Attributes:
-            listing_id (int | Unset):
+            listing_id (str | Unset):
             persisted (bool | Unset):
             content (ListingContent | Unset):
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     persisted: bool | Unset = UNSET
     content: ListingContent | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

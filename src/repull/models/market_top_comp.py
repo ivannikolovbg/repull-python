@@ -24,7 +24,7 @@ T = TypeVar("T", bound="MarketTopComp")
 class MarketTopComp:
     """ 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             platform_listing_id (str | Unset):
             title (None | str | Unset):
             property_type (None | str | Unset):
@@ -40,7 +40,7 @@ class MarketTopComp:
             distance_km (float | None | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     platform_listing_id: str | Unset = UNSET
     title: None | str | Unset = UNSET
     property_type: None | str | Unset = UNSET
@@ -141,23 +141,23 @@ class MarketTopComp:
         if id is not UNSET:
             field_dict["id"] = id
         if platform_listing_id is not UNSET:
-            field_dict["platform_listing_id"] = platform_listing_id
+            field_dict["platformListingId"] = platform_listing_id
         if title is not UNSET:
             field_dict["title"] = title
         if property_type is not UNSET:
-            field_dict["property_type"] = property_type
+            field_dict["propertyType"] = property_type
         if bedrooms is not UNSET:
             field_dict["bedrooms"] = bedrooms
         if max_guests is not UNSET:
-            field_dict["max_guests"] = max_guests
+            field_dict["maxGuests"] = max_guests
         if rating is not UNSET:
             field_dict["rating"] = rating
         if review_count is not UNSET:
-            field_dict["review_count"] = review_count
+            field_dict["reviewCount"] = review_count
         if current_nightly_rate is not UNSET:
-            field_dict["current_nightly_rate"] = current_nightly_rate
+            field_dict["currentNightlyRate"] = current_nightly_rate
         if thumbnail_url is not UNSET:
-            field_dict["thumbnail_url"] = thumbnail_url
+            field_dict["thumbnailUrl"] = thumbnail_url
         if lat is not UNSET:
             field_dict["lat"] = lat
         if lng is not UNSET:
@@ -165,7 +165,7 @@ class MarketTopComp:
         if url is not UNSET:
             field_dict["url"] = url
         if distance_km is not UNSET:
-            field_dict["distance_km"] = distance_km
+            field_dict["distanceKm"] = distance_km
 
         return field_dict
 
@@ -176,7 +176,7 @@ class MarketTopComp:
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
-        platform_listing_id = d.pop("platform_listing_id", UNSET)
+        platform_listing_id = d.pop("platformListingId", UNSET)
 
         def _parse_title(data: object) -> None | str | Unset:
             if data is None:
@@ -195,7 +195,7 @@ class MarketTopComp:
                 return data
             return cast(None | str | Unset, data)
 
-        property_type = _parse_property_type(d.pop("property_type", UNSET))
+        property_type = _parse_property_type(d.pop("propertyType", UNSET))
 
 
         def _parse_bedrooms(data: object) -> int | None | Unset:
@@ -215,7 +215,7 @@ class MarketTopComp:
                 return data
             return cast(int | None | Unset, data)
 
-        max_guests = _parse_max_guests(d.pop("max_guests", UNSET))
+        max_guests = _parse_max_guests(d.pop("maxGuests", UNSET))
 
 
         def _parse_rating(data: object) -> float | None | Unset:
@@ -235,7 +235,7 @@ class MarketTopComp:
                 return data
             return cast(int | None | Unset, data)
 
-        review_count = _parse_review_count(d.pop("review_count", UNSET))
+        review_count = _parse_review_count(d.pop("reviewCount", UNSET))
 
 
         def _parse_current_nightly_rate(data: object) -> float | None | Unset:
@@ -245,7 +245,7 @@ class MarketTopComp:
                 return data
             return cast(float | None | Unset, data)
 
-        current_nightly_rate = _parse_current_nightly_rate(d.pop("current_nightly_rate", UNSET))
+        current_nightly_rate = _parse_current_nightly_rate(d.pop("currentNightlyRate", UNSET))
 
 
         def _parse_thumbnail_url(data: object) -> None | str | Unset:
@@ -255,7 +255,7 @@ class MarketTopComp:
                 return data
             return cast(None | str | Unset, data)
 
-        thumbnail_url = _parse_thumbnail_url(d.pop("thumbnail_url", UNSET))
+        thumbnail_url = _parse_thumbnail_url(d.pop("thumbnailUrl", UNSET))
 
 
         def _parse_lat(data: object) -> float | None | Unset:
@@ -287,7 +287,7 @@ class MarketTopComp:
                 return data
             return cast(float | None | Unset, data)
 
-        distance_km = _parse_distance_km(d.pop("distance_km", UNSET))
+        distance_km = _parse_distance_km(d.pop("distanceKm", UNSET))
 
 
         market_top_comp = cls(

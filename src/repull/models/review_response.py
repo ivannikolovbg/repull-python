@@ -58,7 +58,7 @@ class ReviewResponse:
         if body is not UNSET:
             field_dict["body"] = body
         if submitted_at is not UNSET:
-            field_dict["submitted_at"] = submitted_at
+            field_dict["submittedAt"] = submitted_at
 
         return field_dict
 
@@ -86,7 +86,7 @@ class ReviewResponse:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        submitted_at = _parse_submitted_at(d.pop("submitted_at", UNSET))
+        submitted_at = _parse_submitted_at(d.pop("submittedAt", UNSET))
 
 
         review_response = cls(

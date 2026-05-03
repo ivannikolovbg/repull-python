@@ -9,16 +9,23 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...models.property_ import Property
+from ...models.listing import Listing
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
     id: int,
+    *,
+    x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+    if not isinstance(x_schema, Unset):
+        headers["X-Schema"] = x_schema
+
+
 
     
 
@@ -26,21 +33,29 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/v1/properties/{id}".format(id=quote(str(id), safe=""),),
+        "url": "/v1/listings/{id}".format(id=quote(str(id), safe=""),),
     }
 
 
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | Property | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | Listing | None:
     if response.status_code == 200:
-        response_200 = Property.from_dict(response.json())
+        response_200 = Listing.from_dict(response.json())
 
 
 
         return response_200
+
+    if response.status_code == 401:
+        response_401 = Error.from_dict(response.json())
+
+
+
+        return response_401
 
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
@@ -49,13 +64,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | Property]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | Listing]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -68,27 +90,31 @@ def sync_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Response[Error | Property]:
-    """ Get property details
+) -> Response[Error | Listing]:
+    """ Get a listing
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
-    is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
+     Fetch a single listing by id. Returns the same shape as one element of the `GET /v1/listings`
+    response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
+    to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | Property]
+        Response[Error | Listing]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
+x_schema=x_schema,
 
     )
 
@@ -102,28 +128,32 @@ def sync(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Error | Property | None:
-    """ Get property details
+) -> Error | Listing | None:
+    """ Get a listing
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
-    is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
+     Fetch a single listing by id. Returns the same shape as one element of the `GET /v1/listings`
+    response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
+    to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | Property
+        Error | Listing
      """
 
 
     return sync_detailed(
         id=id,
 client=client,
+x_schema=x_schema,
 
     ).parsed
 
@@ -131,27 +161,31 @@ async def asyncio_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Response[Error | Property]:
-    """ Get property details
+) -> Response[Error | Listing]:
+    """ Get a listing
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
-    is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
+     Fetch a single listing by id. Returns the same shape as one element of the `GET /v1/listings`
+    response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
+    to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Error | Property]
+        Response[Error | Listing]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
+x_schema=x_schema,
 
     )
 
@@ -165,27 +199,31 @@ async def asyncio(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    x_schema: str | Unset = UNSET,
 
-) -> Error | Property | None:
-    """ Get property details
+) -> Error | Listing | None:
+    """ Get a listing
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
-    is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
+     Fetch a single listing by id. Returns the same shape as one element of the `GET /v1/listings`
+    response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
+    to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
     Args:
         id (int):
+        x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Error | Property
+        Error | Listing
      """
 
 
     return (await asyncio_detailed(
         id=id,
 client=client,
+x_schema=x_schema,
 
     )).parsed

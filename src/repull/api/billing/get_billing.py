@@ -54,7 +54,10 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Any]:
-    """ Get plan and usage
+    r""" Get plan and usage
+
+     Fetch the current plan, usage counters, and billing-cycle reset date for this workspace. Use this to
+    surface a \"you have used X / Y\" indicator in your dashboard.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -81,7 +84,10 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Any]:
-    """ Get plan and usage
+    r""" Get plan and usage
+
+     Fetch the current plan, usage counters, and billing-cycle reset date for this workspace. Use this to
+    surface a \"you have used X / Y\" indicator in your dashboard.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

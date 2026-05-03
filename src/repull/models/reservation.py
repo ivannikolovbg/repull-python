@@ -34,9 +34,9 @@ class Reservation:
     (`GET /v1/reservations/{id}`) — SDK consumers can use the same type for both.
 
         Attributes:
-            id (int): Internal Repull reservation ID
-            listing_id (int): Internal Repull listing ID this reservation is on.
-            guest_id (int): Internal Repull guest ID. Use `GET /v1/guests/{id}` for the full profile.
+            id (str): Internal Repull reservation ID
+            listing_id (str): Internal Repull listing ID this reservation is on.
+            guest_id (str): Internal Repull guest ID. Use `GET /v1/guests/{id}` for the full profile.
             check_in (datetime.date):  Example: 2026-04-15.
             check_out (datetime.date):  Example: 2026-04-20.
             status (ReservationStatus):  Example: confirmed.
@@ -55,9 +55,9 @@ class Reservation:
                 Null when no first name is available.
      """
 
-    id: int
-    listing_id: int
-    guest_id: int
+    id: str
+    listing_id: str
+    guest_id: str
     check_in: datetime.date
     check_out: datetime.date
     status: ReservationStatus

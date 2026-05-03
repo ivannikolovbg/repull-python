@@ -62,6 +62,9 @@ def sync_detailed(
 ) -> Response[AirbnbReviewListResponse]:
     """ List Airbnb reviews
 
+     List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
+    and reviews of the guest (where the host has not yet submitted theirs).
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -88,6 +91,9 @@ def sync(
 ) -> AirbnbReviewListResponse | None:
     """ List Airbnb reviews
 
+     List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
+    and reviews of the guest (where the host has not yet submitted theirs).
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -108,6 +114,9 @@ async def asyncio_detailed(
 
 ) -> Response[AirbnbReviewListResponse]:
     """ List Airbnb reviews
+
+     List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
+    and reviews of the guest (where the host has not yet submitted theirs).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +143,9 @@ async def asyncio(
 
 ) -> AirbnbReviewListResponse | None:
     """ List Airbnb reviews
+
+     List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
+    and reviews of the guest (where the host has not yet submitted theirs).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

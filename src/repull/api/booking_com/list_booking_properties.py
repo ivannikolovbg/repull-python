@@ -62,6 +62,9 @@ def sync_detailed(
 ) -> Response[BookingPropertyListResponse]:
     """ List Booking.com properties
 
+     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
+    the connected room types.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -88,6 +91,9 @@ def sync(
 ) -> BookingPropertyListResponse | None:
     """ List Booking.com properties
 
+     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
+    the connected room types.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -108,6 +114,9 @@ async def asyncio_detailed(
 
 ) -> Response[BookingPropertyListResponse]:
     """ List Booking.com properties
+
+     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
+    the connected room types.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +143,9 @@ async def asyncio(
 
 ) -> BookingPropertyListResponse | None:
     """ List Booking.com properties
+
+     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
+    the connected room types.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

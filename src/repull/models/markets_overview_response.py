@@ -17,6 +17,7 @@ if TYPE_CHECKING:
   from ..models.markets_overview_response_browse import MarketsOverviewResponseBrowse
   from ..models.markets_overview_response_subscriptions import MarketsOverviewResponseSubscriptions
   from ..models.markets_overview_response_totals import MarketsOverviewResponseTotals
+  from ..models.pagination import Pagination
 
 
 
@@ -28,9 +29,17 @@ T = TypeVar("T", bound="MarketsOverviewResponse")
 
 @_attrs_define
 class MarketsOverviewResponse:
-    """ 
+    """ Overview of every market the customer operates in, plus auxiliary discovery slices. Wraps the canonical `{ data,
+    pagination }` envelope around the per-city KPI list (`data`) so SDK consumers see the same shape they get from every
+    other list endpoint. Auxiliary fields (`totals`, `myListings`, `browse`, `freeMarket`, `subscriptions`, `tier`) are
+    returned as siblings because they are NOT paginated. The overview returns every market in one shot — `nextCursor` is
+    always `null` and `hasMore` is always `false`.
+
         Attributes:
-            markets (list[MarketSummary] | Unset):
+            data (list[MarketSummary] | Unset): Per-city KPIs for every market the customer operates in.
+            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
             totals (MarketsOverviewResponseTotals | Unset):
             my_listings (list[MarketMyListing] | Unset):
             free_market (None | str | Unset): City auto-assigned as the customer's free market (largest by listing count).
@@ -41,7 +50,8 @@ class MarketsOverviewResponse:
                 full paginated catalog.
      """
 
-    markets: list[MarketSummary] | Unset = UNSET
+    data: list[MarketSummary] | Unset = UNSET
+    pagination: Pagination | Unset = UNSET
     totals: MarketsOverviewResponseTotals | Unset = UNSET
     my_listings: list[MarketMyListing] | Unset = UNSET
     free_market: None | str | Unset = UNSET
@@ -60,14 +70,19 @@ class MarketsOverviewResponse:
         from ..models.markets_overview_response_browse import MarketsOverviewResponseBrowse
         from ..models.markets_overview_response_subscriptions import MarketsOverviewResponseSubscriptions
         from ..models.markets_overview_response_totals import MarketsOverviewResponseTotals
-        markets: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.markets, Unset):
-            markets = []
-            for markets_item_data in self.markets:
-                markets_item = markets_item_data.to_dict()
-                markets.append(markets_item)
+        from ..models.pagination import Pagination
+        data: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.data, Unset):
+            data = []
+            for data_item_data in self.data:
+                data_item = data_item_data.to_dict()
+                data.append(data_item)
 
 
+
+        pagination: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.pagination, Unset):
+            pagination = self.pagination.to_dict()
 
         totals: dict[str, Any] | Unset = UNSET
         if not isinstance(self.totals, Unset):
@@ -103,14 +118,16 @@ class MarketsOverviewResponse:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
-        if markets is not UNSET:
-            field_dict["markets"] = markets
+        if data is not UNSET:
+            field_dict["data"] = data
+        if pagination is not UNSET:
+            field_dict["pagination"] = pagination
         if totals is not UNSET:
             field_dict["totals"] = totals
         if my_listings is not UNSET:
             field_dict["myListings"] = my_listings
         if free_market is not UNSET:
-            field_dict["free_market"] = free_market
+            field_dict["freeMarket"] = free_market
         if subscriptions is not UNSET:
             field_dict["subscriptions"] = subscriptions
         if tier is not UNSET:
@@ -129,17 +146,28 @@ class MarketsOverviewResponse:
         from ..models.markets_overview_response_browse import MarketsOverviewResponseBrowse
         from ..models.markets_overview_response_subscriptions import MarketsOverviewResponseSubscriptions
         from ..models.markets_overview_response_totals import MarketsOverviewResponseTotals
+        from ..models.pagination import Pagination
         d = dict(src_dict)
-        _markets = d.pop("markets", UNSET)
-        markets: list[MarketSummary] | Unset = UNSET
-        if _markets is not UNSET:
-            markets = []
-            for markets_item_data in _markets:
-                markets_item = MarketSummary.from_dict(markets_item_data)
+        _data = d.pop("data", UNSET)
+        data: list[MarketSummary] | Unset = UNSET
+        if _data is not UNSET:
+            data = []
+            for data_item_data in _data:
+                data_item = MarketSummary.from_dict(data_item_data)
 
 
 
-                markets.append(markets_item)
+                data.append(data_item)
+
+
+        _pagination = d.pop("pagination", UNSET)
+        pagination: Pagination | Unset
+        if isinstance(_pagination,  Unset):
+            pagination = UNSET
+        else:
+            pagination = Pagination.from_dict(_pagination)
+
+
 
 
         _totals = d.pop("totals", UNSET)
@@ -171,7 +199,7 @@ class MarketsOverviewResponse:
                 return data
             return cast(None | str | Unset, data)
 
-        free_market = _parse_free_market(d.pop("free_market", UNSET))
+        free_market = _parse_free_market(d.pop("freeMarket", UNSET))
 
 
         _subscriptions = d.pop("subscriptions", UNSET)
@@ -197,7 +225,8 @@ class MarketsOverviewResponse:
 
 
         markets_overview_response = cls(
-            markets=markets,
+            data=data,
+            pagination=pagination,
             totals=totals,
             my_listings=my_listings,
             free_market=free_market,

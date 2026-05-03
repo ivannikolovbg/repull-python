@@ -74,7 +74,7 @@ class MarketBrowseEntry:
         if listings is not UNSET:
             field_dict["listings"] = listings
         if avg_adr is not UNSET:
-            field_dict["avg_adr"] = avg_adr
+            field_dict["avgAdr"] = avg_adr
         if currency is not UNSET:
             field_dict["currency"] = currency
         if subscribed is not UNSET:
@@ -100,7 +100,7 @@ class MarketBrowseEntry:
                 return data
             return cast(float | None | Unset, data)
 
-        avg_adr = _parse_avg_adr(d.pop("avg_adr", UNSET))
+        avg_adr = _parse_avg_adr(d.pop("avgAdr", UNSET))
 
 
         currency = d.pop("currency", UNSET)

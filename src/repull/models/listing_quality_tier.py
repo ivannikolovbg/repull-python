@@ -65,11 +65,11 @@ class ListingQualityTier:
         if tier is not UNSET:
             field_dict["tier"] = tier
         if share_pct is not UNSET:
-            field_dict["share_pct"] = share_pct
+            field_dict["sharePct"] = share_pct
         if avg_adr is not UNSET:
-            field_dict["avg_adr"] = avg_adr
+            field_dict["avgAdr"] = avg_adr
         if sample_size is not UNSET:
-            field_dict["sample_size"] = sample_size
+            field_dict["sampleSize"] = sample_size
 
         return field_dict
 
@@ -88,7 +88,7 @@ class ListingQualityTier:
 
 
 
-        share_pct = d.pop("share_pct", UNSET)
+        share_pct = d.pop("sharePct", UNSET)
 
         def _parse_avg_adr(data: object) -> float | None | Unset:
             if data is None:
@@ -97,10 +97,10 @@ class ListingQualityTier:
                 return data
             return cast(float | None | Unset, data)
 
-        avg_adr = _parse_avg_adr(d.pop("avg_adr", UNSET))
+        avg_adr = _parse_avg_adr(d.pop("avgAdr", UNSET))
 
 
-        sample_size = d.pop("sample_size", UNSET)
+        sample_size = d.pop("sampleSize", UNSET)
 
         listing_quality_tier = cls(
             tier=tier,

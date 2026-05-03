@@ -13,7 +13,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.market_browse_entry import MarketBrowseEntry
-  from ..models.market_browse_pagination import MarketBrowsePagination
+  from ..models.pagination import Pagination
 
 
 
@@ -28,11 +28,13 @@ class MarketBrowseResponse:
     """ 
         Attributes:
             data (list[MarketBrowseEntry] | Unset):
-            pagination (MarketBrowsePagination | Unset):
+            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
      """
 
     data: list[MarketBrowseEntry] | Unset = UNSET
-    pagination: MarketBrowsePagination | Unset = UNSET
+    pagination: Pagination | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,7 +43,7 @@ class MarketBrowseResponse:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.market_browse_entry import MarketBrowseEntry
-        from ..models.market_browse_pagination import MarketBrowsePagination
+        from ..models.pagination import Pagination
         data: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.data, Unset):
             data = []
@@ -72,7 +74,7 @@ class MarketBrowseResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.market_browse_entry import MarketBrowseEntry
-        from ..models.market_browse_pagination import MarketBrowsePagination
+        from ..models.pagination import Pagination
         d = dict(src_dict)
         _data = d.pop("data", UNSET)
         data: list[MarketBrowseEntry] | Unset = UNSET
@@ -87,11 +89,11 @@ class MarketBrowseResponse:
 
 
         _pagination = d.pop("pagination", UNSET)
-        pagination: MarketBrowsePagination | Unset
+        pagination: Pagination | Unset
         if isinstance(_pagination,  Unset):
             pagination = UNSET
         else:
-            pagination = MarketBrowsePagination.from_dict(_pagination)
+            pagination = Pagination.from_dict(_pagination)
 
 
 

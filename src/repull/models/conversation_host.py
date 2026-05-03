@@ -26,14 +26,14 @@ class ConversationHost:
     `airbnb_hosts`); null for other channels until per-channel host enrichment lands.
 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             airbnb_id (str | Unset): Airbnb-side host id.
             first_name (str | Unset):
             display_name (str | Unset):
             avatar_url (None | str | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     airbnb_id: str | Unset = UNSET
     first_name: str | Unset = UNSET
     display_name: str | Unset = UNSET

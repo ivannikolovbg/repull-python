@@ -43,7 +43,7 @@ def _get_kwargs(
 
     params["has_reservation"] = has_reservation
 
-    params["listing_id"] = listing_id
+    params["listingId"] = listing_id
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -126,7 +126,7 @@ def sync_detailed(
     """ List guests
 
      Cursor-paginated list of guests in the workspace. Walks `guests.id ASC` keyset for constant per-page
-    cost regardless of how many guests the customer has. Use `pagination.next_cursor` from one response
+    cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
@@ -179,7 +179,7 @@ def sync(
     """ List guests
 
      Cursor-paginated list of guests in the workspace. Walks `guests.id ASC` keyset for constant per-page
-    cost regardless of how many guests the customer has. Use `pagination.next_cursor` from one response
+    cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
@@ -227,7 +227,7 @@ async def asyncio_detailed(
     """ List guests
 
      Cursor-paginated list of guests in the workspace. Walks `guests.id ASC` keyset for constant per-page
-    cost regardless of how many guests the customer has. Use `pagination.next_cursor` from one response
+    cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
@@ -280,7 +280,7 @@ async def asyncio(
     """ List guests
 
      Cursor-paginated list of guests in the workspace. Walks `guests.id ASC` keyset for constant per-page
-    cost regardless of how many guests the customer has. Use `pagination.next_cursor` from one response
+    cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`

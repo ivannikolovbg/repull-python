@@ -12,8 +12,8 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.pagination import Pagination
   from ..models.reservation import Reservation
-  from ..models.reservation_pagination import ReservationPagination
 
 
 
@@ -25,23 +25,19 @@ T = TypeVar("T", bound="ReservationListResponse")
 
 @_attrs_define
 class ReservationListResponse:
-    """ Cursor-paginated reservation list. Pass `pagination.next_cursor` back as `?cursor=` to fetch the next page; stop
-    when `pagination.has_more` is `false`. The `total` field is the count of rows matching the current filter (across
-    all pages).
-
-    Legacy `?offset=` consumers continue to receive `pagination.limit` + `pagination.offset` during the deprecation
-    window. A `Deprecation: true` header (with a `Sunset` date) is set on responses that came in via `?offset=` —
-    migrate to `?cursor=`.
+    """ Cursor-paginated reservation list. Pass `pagination.nextCursor` back as `?cursor=` to fetch the next page; stop when
+    `pagination.hasMore` is `false`. The `total` field is the count of rows matching the current filter (across all
+    pages); pass `?include_total=false` to skip the COUNT(*) on very large workspaces.
 
         Attributes:
             data (list[Reservation] | Unset):
-            pagination (ReservationPagination | Unset): Hybrid pagination envelope for `/v1/reservations`. Always populates
-                `next_cursor` + `has_more` + `total`. When the request used the deprecated `?offset=` path, also populates
-                `limit` + `offset`.
+            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
      """
 
     data: list[Reservation] | Unset = UNSET
-    pagination: ReservationPagination | Unset = UNSET
+    pagination: Pagination | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -49,8 +45,8 @@ class ReservationListResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.pagination import Pagination
         from ..models.reservation import Reservation
-        from ..models.reservation_pagination import ReservationPagination
         data: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.data, Unset):
             data = []
@@ -80,8 +76,8 @@ class ReservationListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.pagination import Pagination
         from ..models.reservation import Reservation
-        from ..models.reservation_pagination import ReservationPagination
         d = dict(src_dict)
         _data = d.pop("data", UNSET)
         data: list[Reservation] | Unset = UNSET
@@ -96,11 +92,11 @@ class ReservationListResponse:
 
 
         _pagination = d.pop("pagination", UNSET)
-        pagination: ReservationPagination | Unset
+        pagination: Pagination | Unset
         if isinstance(_pagination,  Unset):
             pagination = UNSET
         else:
-            pagination = ReservationPagination.from_dict(_pagination)
+            pagination = Pagination.from_dict(_pagination)
 
 
 

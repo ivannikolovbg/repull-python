@@ -29,9 +29,9 @@ class ListingPricingStrategy:
     """ Strategy that constrains the Atlas pricing model for one listing.
 
         Attributes:
-            id (int | None | Unset):
-            listing_id (int | Unset):
-            customer_id (int | Unset):
+            id (None | str | Unset):
+            listing_id (str | Unset):
+            customer_id (str | Unset):
             mode (ListingPricingStrategyMode | Unset): `recommend` surfaces suggestions; `auto` applies them on the next
                 sync.
             min_price (float | None | Unset):
@@ -51,9 +51,9 @@ class ListingPricingStrategy:
             is_default (bool | Unset): true when no row exists yet and the response is server-side defaults.
      """
 
-    id: int | None | Unset = UNSET
-    listing_id: int | Unset = UNSET
-    customer_id: int | Unset = UNSET
+    id: None | str | Unset = UNSET
+    listing_id: str | Unset = UNSET
+    customer_id: str | Unset = UNSET
     mode: ListingPricingStrategyMode | Unset = UNSET
     min_price: float | None | Unset = UNSET
     max_price: float | None | Unset = UNSET
@@ -76,7 +76,7 @@ class ListingPricingStrategy:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_pricing_strategy_day_of_week_multipliers import ListingPricingStrategyDayOfWeekMultipliers
-        id: int | None | Unset
+        id: None | str | Unset
         if isinstance(self.id, Unset):
             id = UNSET
         else:
@@ -194,12 +194,12 @@ class ListingPricingStrategy:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_pricing_strategy_day_of_week_multipliers import ListingPricingStrategyDayOfWeekMultipliers
         d = dict(src_dict)
-        def _parse_id(data: object) -> int | None | Unset:
+        def _parse_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         id = _parse_id(d.pop("id", UNSET))
 

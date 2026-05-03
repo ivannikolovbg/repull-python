@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.listing_pricing_response import ListingPricingResponse
 from ...types import UNSET, Unset
 from dateutil.parser import isoparse
@@ -54,7 +55,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | ListingPricingResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | ListingPricingResponse | None:
     if response.status_code == 200:
         response_200 = ListingPricingResponse.from_dict(response.json())
 
@@ -63,11 +64,17 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 400:
-        response_400 = cast(Any, None)
+        response_400 = Error.from_dict(response.json())
+
+
+
         return response_400
 
     if response.status_code == 401:
-        response_401 = cast(Any, None)
+        response_401 = Error.from_dict(response.json())
+
+
+
         return response_401
 
     if response.status_code == 502:
@@ -80,7 +87,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | ListingPricingResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error | ListingPricingResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -96,7 +103,7 @@ def sync_detailed(
     start_date: datetime.date | Unset = UNSET,
     end_date: datetime.date | Unset = UNSET,
 
-) -> Response[Any | ListingPricingResponse]:
+) -> Response[Any | Error | ListingPricingResponse]:
     """ Get pricing recommendations
 
      Returns date-by-date pricing recommendations for a listing's upcoming calendar window, plus the
@@ -114,7 +121,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingPricingResponse]
+        Response[Any | Error | ListingPricingResponse]
      """
 
 
@@ -138,7 +145,7 @@ def sync(
     start_date: datetime.date | Unset = UNSET,
     end_date: datetime.date | Unset = UNSET,
 
-) -> Any | ListingPricingResponse | None:
+) -> Any | Error | ListingPricingResponse | None:
     """ Get pricing recommendations
 
      Returns date-by-date pricing recommendations for a listing's upcoming calendar window, plus the
@@ -156,7 +163,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingPricingResponse
+        Any | Error | ListingPricingResponse
      """
 
 
@@ -175,7 +182,7 @@ async def asyncio_detailed(
     start_date: datetime.date | Unset = UNSET,
     end_date: datetime.date | Unset = UNSET,
 
-) -> Response[Any | ListingPricingResponse]:
+) -> Response[Any | Error | ListingPricingResponse]:
     """ Get pricing recommendations
 
      Returns date-by-date pricing recommendations for a listing's upcoming calendar window, plus the
@@ -193,7 +200,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingPricingResponse]
+        Response[Any | Error | ListingPricingResponse]
      """
 
 
@@ -217,7 +224,7 @@ async def asyncio(
     start_date: datetime.date | Unset = UNSET,
     end_date: datetime.date | Unset = UNSET,
 
-) -> Any | ListingPricingResponse | None:
+) -> Any | Error | ListingPricingResponse | None:
     """ Get pricing recommendations
 
      Returns date-by-date pricing recommendations for a listing's upcoming calendar window, plus the
@@ -235,7 +242,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingPricingResponse
+        Any | Error | ListingPricingResponse
      """
 
 

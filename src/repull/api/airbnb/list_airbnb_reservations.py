@@ -62,6 +62,10 @@ def sync_detailed(
 ) -> Response[AirbnbReservationListResponse]:
     """ List Airbnb reservations
 
+     List reservations sourced directly from Airbnb. Use this when you need Airbnb-specific fields (guest
+    payout split, cancellation policy snapshot) that the unified `/v1/reservations` endpoint flattens
+    away.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -88,6 +92,10 @@ def sync(
 ) -> AirbnbReservationListResponse | None:
     """ List Airbnb reservations
 
+     List reservations sourced directly from Airbnb. Use this when you need Airbnb-specific fields (guest
+    payout split, cancellation policy snapshot) that the unified `/v1/reservations` endpoint flattens
+    away.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -108,6 +116,10 @@ async def asyncio_detailed(
 
 ) -> Response[AirbnbReservationListResponse]:
     """ List Airbnb reservations
+
+     List reservations sourced directly from Airbnb. Use this when you need Airbnb-specific fields (guest
+    payout split, cancellation policy snapshot) that the unified `/v1/reservations` endpoint flattens
+    away.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +146,10 @@ async def asyncio(
 
 ) -> AirbnbReservationListResponse | None:
     """ List Airbnb reservations
+
+     List reservations sourced directly from Airbnb. Use this when you need Airbnb-specific fields (guest
+    payout split, cancellation policy snapshot) that the unified `/v1/reservations` endpoint flattens
+    away.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -12,8 +12,8 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.pagination import Pagination
   from ..models.webhook_delivery import WebhookDelivery
-  from ..models.webhook_delivery_list_response_pagination import WebhookDeliveryListResponsePagination
 
 
 
@@ -28,11 +28,13 @@ class WebhookDeliveryListResponse:
     """ 
         Attributes:
             data (list[WebhookDelivery] | Unset):
-            pagination (WebhookDeliveryListResponsePagination | Unset):
+            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
+                construct it by hand.
      """
 
     data: list[WebhookDelivery] | Unset = UNSET
-    pagination: WebhookDeliveryListResponsePagination | Unset = UNSET
+    pagination: Pagination | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -40,8 +42,8 @@ class WebhookDeliveryListResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.pagination import Pagination
         from ..models.webhook_delivery import WebhookDelivery
-        from ..models.webhook_delivery_list_response_pagination import WebhookDeliveryListResponsePagination
         data: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.data, Unset):
             data = []
@@ -71,8 +73,8 @@ class WebhookDeliveryListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.pagination import Pagination
         from ..models.webhook_delivery import WebhookDelivery
-        from ..models.webhook_delivery_list_response_pagination import WebhookDeliveryListResponsePagination
         d = dict(src_dict)
         _data = d.pop("data", UNSET)
         data: list[WebhookDelivery] | Unset = UNSET
@@ -87,11 +89,11 @@ class WebhookDeliveryListResponse:
 
 
         _pagination = d.pop("pagination", UNSET)
-        pagination: WebhookDeliveryListResponsePagination | Unset
+        pagination: Pagination | Unset
         if isinstance(_pagination,  Unset):
             pagination = UNSET
         else:
-            pagination = WebhookDeliveryListResponsePagination.from_dict(_pagination)
+            pagination = Pagination.from_dict(_pagination)
 
 
 

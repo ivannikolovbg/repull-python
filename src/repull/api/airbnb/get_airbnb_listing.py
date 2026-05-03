@@ -64,6 +64,9 @@ def sync_detailed(
 ) -> Response[AirbnbListing]:
     """ Get Airbnb listing
 
+     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
+    Airbnb-side ids (numeric strings).
+
     Args:
         id (str):
 
@@ -95,6 +98,9 @@ def sync(
 ) -> AirbnbListing | None:
     """ Get Airbnb listing
 
+     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
+    Airbnb-side ids (numeric strings).
+
     Args:
         id (str):
 
@@ -120,6 +126,9 @@ async def asyncio_detailed(
 
 ) -> Response[AirbnbListing]:
     """ Get Airbnb listing
+
+     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
+    Airbnb-side ids (numeric strings).
 
     Args:
         id (str):
@@ -151,6 +160,9 @@ async def asyncio(
 
 ) -> AirbnbListing | None:
     """ Get Airbnb listing
+
+     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
+    Airbnb-side ids (numeric strings).
 
     Args:
         id (str):

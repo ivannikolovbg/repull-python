@@ -108,21 +108,21 @@ class ListingSegment:
         if name is not UNSET:
             field_dict["name"] = name
         if share_pct is not UNSET:
-            field_dict["share_pct"] = share_pct
+            field_dict["sharePct"] = share_pct
         if sample_size is not UNSET:
-            field_dict["sample_size"] = sample_size
+            field_dict["sampleSize"] = sample_size
         if avg_adr_in_segment is not UNSET:
-            field_dict["avg_adr_in_segment"] = avg_adr_in_segment
+            field_dict["avgAdrInSegment"] = avg_adr_in_segment
         if currency is not UNSET:
             field_dict["currency"] = currency
         if quality_tier is not UNSET:
-            field_dict["quality_tier"] = quality_tier
+            field_dict["qualityTier"] = quality_tier
         if design_style is not UNSET:
-            field_dict["design_style"] = design_style
+            field_dict["designStyle"] = design_style
         if bedrooms is not UNSET:
             field_dict["bedrooms"] = bedrooms
         if my_listing_match is not UNSET:
-            field_dict["my_listing_match"] = my_listing_match
+            field_dict["myListingMatch"] = my_listing_match
 
         return field_dict
 
@@ -133,9 +133,9 @@ class ListingSegment:
         d = dict(src_dict)
         name = d.pop("name", UNSET)
 
-        share_pct = d.pop("share_pct", UNSET)
+        share_pct = d.pop("sharePct", UNSET)
 
-        sample_size = d.pop("sample_size", UNSET)
+        sample_size = d.pop("sampleSize", UNSET)
 
         def _parse_avg_adr_in_segment(data: object) -> float | None | Unset:
             if data is None:
@@ -144,7 +144,7 @@ class ListingSegment:
                 return data
             return cast(float | None | Unset, data)
 
-        avg_adr_in_segment = _parse_avg_adr_in_segment(d.pop("avg_adr_in_segment", UNSET))
+        avg_adr_in_segment = _parse_avg_adr_in_segment(d.pop("avgAdrInSegment", UNSET))
 
 
         def _parse_currency(data: object) -> None | str | Unset:
@@ -194,7 +194,7 @@ class ListingSegment:
                 pass
             return cast(ListingSegmentQualityTierType1 | ListingSegmentQualityTierType2Type1 | ListingSegmentQualityTierType3Type1 | None | Unset, data)
 
-        quality_tier = _parse_quality_tier(d.pop("quality_tier", UNSET))
+        quality_tier = _parse_quality_tier(d.pop("qualityTier", UNSET))
 
 
         def _parse_design_style(data: object) -> None | str | Unset:
@@ -204,7 +204,7 @@ class ListingSegment:
                 return data
             return cast(None | str | Unset, data)
 
-        design_style = _parse_design_style(d.pop("design_style", UNSET))
+        design_style = _parse_design_style(d.pop("designStyle", UNSET))
 
 
         def _parse_bedrooms(data: object) -> int | None | Unset:
@@ -217,7 +217,7 @@ class ListingSegment:
         bedrooms = _parse_bedrooms(d.pop("bedrooms", UNSET))
 
 
-        my_listing_match = d.pop("my_listing_match", UNSET)
+        my_listing_match = d.pop("myListingMatch", UNSET)
 
         listing_segment = cls(
             name=name,

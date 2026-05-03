@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Update Booking.com content
 
+     Push content changes (descriptions, amenities, photos) to Booking.com. Booking enforces editorial
+    review on text fields — changes appear after their content moderation queue clears.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Update Booking.com content
+
+     Push content changes (descriptions, amenities, photos) to Booking.com. Booking enforces editorial
+    review on text fields — changes appear after their content moderation queue clears.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

@@ -64,6 +64,8 @@ def sync_detailed(
 ) -> Response[AirbnbReservation]:
     """ Get Airbnb reservation
 
+     Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
+
     Args:
         code (str):
 
@@ -95,6 +97,8 @@ def sync(
 ) -> AirbnbReservation | None:
     """ Get Airbnb reservation
 
+     Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
+
     Args:
         code (str):
 
@@ -120,6 +124,8 @@ async def asyncio_detailed(
 
 ) -> Response[AirbnbReservation]:
     """ Get Airbnb reservation
+
+     Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
 
     Args:
         code (str):
@@ -151,6 +157,8 @@ async def asyncio(
 
 ) -> AirbnbReservation | None:
     """ Get Airbnb reservation
+
+     Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
 
     Args:
         code (str):

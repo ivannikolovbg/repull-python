@@ -26,20 +26,20 @@ class BookingConnectRoom:
     `mapConnectBookingRooms`.
 
         Attributes:
-            room_id (int): Repull-side `listings_booking_rooms.id`. Pass this back in the mapping submission.
+            room_id (str): Repull-side `listings_booking_rooms.id`. Pass this back in the mapping submission.
             room_name (str):  Example: Deluxe King.
             number_of_rooms (int): Number of inventory units of this room type at the hotel.
             max_guests (int | None | Unset):
-            current_listing_id (int | None | Unset): Currently mapped Repull listing ID, or null if not yet mapped.
-            room_booking_id (int | None | Unset): Booking.com-side room ID (used internally for `listing_platform_links`).
+            current_listing_id (None | str | Unset): Currently mapped Repull listing ID, or null if not yet mapped.
+            room_booking_id (None | str | Unset): Booking.com-side room ID (used internally for `listing_platform_links`).
      """
 
-    room_id: int
+    room_id: str
     room_name: str
     number_of_rooms: int
     max_guests: int | None | Unset = UNSET
-    current_listing_id: int | None | Unset = UNSET
-    room_booking_id: int | None | Unset = UNSET
+    current_listing_id: None | str | Unset = UNSET
+    room_booking_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -59,13 +59,13 @@ class BookingConnectRoom:
         else:
             max_guests = self.max_guests
 
-        current_listing_id: int | None | Unset
+        current_listing_id: None | str | Unset
         if isinstance(self.current_listing_id, Unset):
             current_listing_id = UNSET
         else:
             current_listing_id = self.current_listing_id
 
-        room_booking_id: int | None | Unset
+        room_booking_id: None | str | Unset
         if isinstance(self.room_booking_id, Unset):
             room_booking_id = UNSET
         else:
@@ -109,22 +109,22 @@ class BookingConnectRoom:
         max_guests = _parse_max_guests(d.pop("maxGuests", UNSET))
 
 
-        def _parse_current_listing_id(data: object) -> int | None | Unset:
+        def _parse_current_listing_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         current_listing_id = _parse_current_listing_id(d.pop("currentListingId", UNSET))
 
 
-        def _parse_room_booking_id(data: object) -> int | None | Unset:
+        def _parse_room_booking_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         room_booking_id = _parse_room_booking_id(d.pop("roomBookingId", UNSET))
 

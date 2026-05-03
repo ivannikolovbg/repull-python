@@ -23,10 +23,10 @@ T = TypeVar("T", bound="ListingCreateResponse")
 class ListingCreateResponse:
     """ 
         Attributes:
-            id (int | Unset): New listing ID — use for follow-up generate-content / publish calls
+            id (str | Unset): New listing ID — use for follow-up generate-content / publish calls
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 

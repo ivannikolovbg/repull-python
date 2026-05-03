@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.market_calendar_response import MarketCalendarResponse
 from ...types import UNSET, Unset
 from dateutil.parser import isoparse
@@ -57,7 +58,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | MarketCalendarResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | MarketCalendarResponse | None:
     if response.status_code == 200:
         response_200 = MarketCalendarResponse.from_dict(response.json())
 
@@ -66,7 +67,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 401:
-        response_401 = cast(Any, None)
+        response_401 = Error.from_dict(response.json())
+
+
+
         return response_401
 
     if response.status_code == 502:
@@ -79,7 +83,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | MarketCalendarResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error | MarketCalendarResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -96,7 +100,7 @@ def sync_detailed(
     end_date: datetime.date | Unset = UNSET,
     listing_id: int | Unset = UNSET,
 
-) -> Response[Any | MarketCalendarResponse]:
+) -> Response[Any | Error | MarketCalendarResponse]:
     """ Calendar-level market view
 
      Date-by-date market view for a city — market avg / min / max nightly rate, occupancy %, Wheelhouse
@@ -114,7 +118,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | MarketCalendarResponse]
+        Response[Any | Error | MarketCalendarResponse]
      """
 
 
@@ -140,7 +144,7 @@ def sync(
     end_date: datetime.date | Unset = UNSET,
     listing_id: int | Unset = UNSET,
 
-) -> Any | MarketCalendarResponse | None:
+) -> Any | Error | MarketCalendarResponse | None:
     """ Calendar-level market view
 
      Date-by-date market view for a city — market avg / min / max nightly rate, occupancy %, Wheelhouse
@@ -158,7 +162,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | MarketCalendarResponse
+        Any | Error | MarketCalendarResponse
      """
 
 
@@ -179,7 +183,7 @@ async def asyncio_detailed(
     end_date: datetime.date | Unset = UNSET,
     listing_id: int | Unset = UNSET,
 
-) -> Response[Any | MarketCalendarResponse]:
+) -> Response[Any | Error | MarketCalendarResponse]:
     """ Calendar-level market view
 
      Date-by-date market view for a city — market avg / min / max nightly rate, occupancy %, Wheelhouse
@@ -197,7 +201,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | MarketCalendarResponse]
+        Response[Any | Error | MarketCalendarResponse]
      """
 
 
@@ -223,7 +227,7 @@ async def asyncio(
     end_date: datetime.date | Unset = UNSET,
     listing_id: int | Unset = UNSET,
 
-) -> Any | MarketCalendarResponse | None:
+) -> Any | Error | MarketCalendarResponse | None:
     """ Calendar-level market view
 
      Date-by-date market view for a city — market avg / min / max nightly rate, occupancy %, Wheelhouse
@@ -241,7 +245,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | MarketCalendarResponse
+        Any | Error | MarketCalendarResponse
      """
 
 

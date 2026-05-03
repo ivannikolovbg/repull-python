@@ -31,7 +31,7 @@ class Listing:
     """ A vacation rental listing in your Repull workspace.
 
         Attributes:
-            id (int | Unset): Repull listing id
+            id (str | Unset): Repull listing id
             name (str | Unset):  Example: I - Stafford Apartment.
             address (ListingAddress | Unset):
             thumbnail_url (None | str | Unset):
@@ -41,7 +41,7 @@ class Listing:
             updated_at (datetime.datetime | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     name: str | Unset = UNSET
     address: ListingAddress | Unset = UNSET
     thumbnail_url: None | str | Unset = UNSET

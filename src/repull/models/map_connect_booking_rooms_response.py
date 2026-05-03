@@ -25,13 +25,13 @@ class MapConnectBookingRoomsResponse:
             success (bool):  Example: True.
             mapped (int): Number of rooms processed (mapped + unmapped).
             session_id (str):
-            connection_id (int):
+            connection_id (str):
      """
 
     success: bool
     mapped: int
     session_id: str
-    connection_id: int
+    connection_id: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 

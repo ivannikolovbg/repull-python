@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.listing_publish_response import ListingPublishResponse
 from typing import cast
 
@@ -33,7 +34,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | ListingPublishResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | ListingPublishResponse | None:
     if response.status_code == 200:
         response_200 = ListingPublishResponse.from_dict(response.json())
 
@@ -42,7 +43,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_200
 
     if response.status_code == 400:
-        response_400 = cast(Any, None)
+        response_400 = Error.from_dict(response.json())
+
+
+
         return response_400
 
     if client.raise_on_unexpected_status:
@@ -51,7 +55,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | ListingPublishResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | ListingPublishResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +69,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any | ListingPublishResponse]:
+) -> Response[Error | ListingPublishResponse]:
     """ Publish a listing to Booking.com
 
      Push a Repull listing to Booking.com. The listing must already be mapped to a Booking property +
@@ -79,7 +83,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingPublishResponse]
+        Response[Error | ListingPublishResponse]
      """
 
 
@@ -99,7 +103,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Any | ListingPublishResponse | None:
+) -> Error | ListingPublishResponse | None:
     """ Publish a listing to Booking.com
 
      Push a Repull listing to Booking.com. The listing must already be mapped to a Booking property +
@@ -113,7 +117,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingPublishResponse
+        Error | ListingPublishResponse
      """
 
 
@@ -128,7 +132,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any | ListingPublishResponse]:
+) -> Response[Error | ListingPublishResponse]:
     """ Publish a listing to Booking.com
 
      Push a Repull listing to Booking.com. The listing must already be mapped to a Booking property +
@@ -142,7 +146,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | ListingPublishResponse]
+        Response[Error | ListingPublishResponse]
      """
 
 
@@ -162,7 +166,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Any | ListingPublishResponse | None:
+) -> Error | ListingPublishResponse | None:
     """ Publish a listing to Booking.com
 
      Push a Repull listing to Booking.com. The listing must already be mapped to a Booking property +
@@ -176,7 +180,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | ListingPublishResponse
+        Error | ListingPublishResponse
      """
 
 

@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
+from ...models.list_properties_status import ListPropertiesStatus
 from ...models.property_list_response import PropertyListResponse
 from ...types import UNSET, Unset
 from typing import cast
@@ -17,9 +18,10 @@ from typing import cast
 
 def _get_kwargs(
     *,
-    limit: int | Unset = 25,
-    offset: int | Unset = 0,
-    provider: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = UNSET,
+    include_total: bool | Unset = True,
 
 ) -> dict[str, Any]:
     
@@ -30,9 +32,15 @@ def _get_kwargs(
 
     params["limit"] = limit
 
-    params["offset"] = offset
+    params["cursor"] = cursor
 
-    params["provider"] = provider
+    json_status: str | Unset = UNSET
+    if not isinstance(status, Unset):
+        json_status = status.value
+
+    params["status"] = json_status
+
+    params["include_total"] = include_total
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -64,6 +72,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -82,20 +97,26 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
-    limit: int | Unset = 25,
-    offset: int | Unset = 0,
-    provider: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = UNSET,
+    include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
     """ List properties
 
-     Returns all properties across connected PMS platforms. Supports pagination and filtering by
-    provider.
+     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
+    base64 — do not parse it.
+
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
-        limit (int | Unset):  Default: 25.
-        offset (int | Unset):  Default: 0.
-        provider (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
+        status (ListPropertiesStatus | Unset):
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -108,8 +129,9 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         limit=limit,
-offset=offset,
-provider=provider,
+cursor=cursor,
+status=status,
+include_total=include_total,
 
     )
 
@@ -122,20 +144,26 @@ provider=provider,
 def sync(
     *,
     client: AuthenticatedClient | Client,
-    limit: int | Unset = 25,
-    offset: int | Unset = 0,
-    provider: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = UNSET,
+    include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
     """ List properties
 
-     Returns all properties across connected PMS platforms. Supports pagination and filtering by
-    provider.
+     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
+    base64 — do not parse it.
+
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
-        limit (int | Unset):  Default: 25.
-        offset (int | Unset):  Default: 0.
-        provider (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
+        status (ListPropertiesStatus | Unset):
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -149,28 +177,35 @@ def sync(
     return sync_detailed(
         client=client,
 limit=limit,
-offset=offset,
-provider=provider,
+cursor=cursor,
+status=status,
+include_total=include_total,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
-    limit: int | Unset = 25,
-    offset: int | Unset = 0,
-    provider: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = UNSET,
+    include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
     """ List properties
 
-     Returns all properties across connected PMS platforms. Supports pagination and filtering by
-    provider.
+     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
+    base64 — do not parse it.
+
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
-        limit (int | Unset):  Default: 25.
-        offset (int | Unset):  Default: 0.
-        provider (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
+        status (ListPropertiesStatus | Unset):
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -183,8 +218,9 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         limit=limit,
-offset=offset,
-provider=provider,
+cursor=cursor,
+status=status,
+include_total=include_total,
 
     )
 
@@ -197,20 +233,26 @@ provider=provider,
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
-    limit: int | Unset = 25,
-    offset: int | Unset = 0,
-    provider: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = UNSET,
+    include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
     """ List properties
 
-     Returns all properties across connected PMS platforms. Supports pagination and filtering by
-    provider.
+     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+    `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
+    base64 — do not parse it.
+
+    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
+    `did_you_mean: 'cursor'` hint.
 
     Args:
-        limit (int | Unset):  Default: 25.
-        offset (int | Unset):  Default: 0.
-        provider (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
+        status (ListPropertiesStatus | Unset):
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -224,7 +266,8 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 limit=limit,
-offset=offset,
-provider=provider,
+cursor=cursor,
+status=status,
+include_total=include_total,
 
     )).parsed

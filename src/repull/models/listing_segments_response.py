@@ -35,7 +35,7 @@ class ListingSegmentsResponse:
     scored, returns `totalCompsAnalyzed: 0` plus a `low_dna_coverage` recommendation rather than fabricated data.
 
         Attributes:
-            listing_id (int | Unset):
+            listing_id (str | Unset):
             level (ListingSegmentsResponseLevel | Unset):
             scope (ListingSegmentsResponseScope | Unset): When `level=comp_set` carries `radiusKm`; when `level=market`
                 carries `city`. May be empty when neither could be resolved.
@@ -49,7 +49,7 @@ class ListingSegmentsResponse:
             recommendations (list[ListingSegmentRecommendation] | Unset):
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     level: ListingSegmentsResponseLevel | Unset = UNSET
     scope: ListingSegmentsResponseScope | Unset = UNSET
     my_segment: None | str | Unset = UNSET

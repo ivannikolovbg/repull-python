@@ -76,7 +76,7 @@ class MarketsOverviewResponseBrowse:
         if categories is not UNSET:
             field_dict["categories"] = categories
         if total_available is not UNSET:
-            field_dict["total_available"] = total_available
+            field_dict["totalAvailable"] = total_available
 
         return field_dict
 
@@ -111,7 +111,7 @@ class MarketsOverviewResponseBrowse:
                 categories.append(categories_item)
 
 
-        total_available = d.pop("total_available", UNSET)
+        total_available = d.pop("totalAvailable", UNSET)
 
         markets_overview_response_browse = cls(
             featured=featured,

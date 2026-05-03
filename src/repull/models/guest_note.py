@@ -26,14 +26,14 @@ T = TypeVar("T", bound="GuestNote")
 class GuestNote:
     """ 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             body (None | str | Unset):
             category (None | str | Unset):
             created_at (datetime.datetime | None | Unset):
             created_by (None | str | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     body: None | str | Unset = UNSET
     category: None | str | Unset = UNSET
     created_at: datetime.datetime | None | Unset = UNSET
@@ -85,9 +85,9 @@ class GuestNote:
         if category is not UNSET:
             field_dict["category"] = category
         if created_at is not UNSET:
-            field_dict["created_at"] = created_at
+            field_dict["createdAt"] = created_at
         if created_by is not UNSET:
-            field_dict["created_by"] = created_by
+            field_dict["createdBy"] = created_by
 
         return field_dict
 
@@ -135,7 +135,7 @@ class GuestNote:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        created_at = _parse_created_at(d.pop("created_at", UNSET))
+        created_at = _parse_created_at(d.pop("createdAt", UNSET))
 
 
         def _parse_created_by(data: object) -> None | str | Unset:
@@ -145,7 +145,7 @@ class GuestNote:
                 return data
             return cast(None | str | Unset, data)
 
-        created_by = _parse_created_by(d.pop("created_by", UNSET))
+        created_by = _parse_created_by(d.pop("createdBy", UNSET))
 
 
         guest_note = cls(

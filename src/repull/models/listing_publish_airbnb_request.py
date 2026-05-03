@@ -25,12 +25,12 @@ class ListingPublishAirbnbRequest:
     under that host).
 
         Attributes:
-            airbnb_connection_id (int | Unset): Existing Airbnb connection row id
+            airbnb_connection_id (str | Unset): Existing Airbnb connection row id
             host_id (str | Unset): Airbnb host id (required for first-time creates)
             force (bool | Unset): Re-push every section, ignoring dirty-fields tracking Default: False.
      """
 
-    airbnb_connection_id: int | Unset = UNSET
+    airbnb_connection_id: str | Unset = UNSET
     host_id: str | Unset = UNSET
     force: bool | Unset = False
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

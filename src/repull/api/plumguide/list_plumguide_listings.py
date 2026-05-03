@@ -62,6 +62,9 @@ def sync_detailed(
 ) -> Response[PlumguideListingListResponse]:
     """ List Plumguide listings
 
+     List Plumguide listings this workspace has access to. Plumguide is approval-based — listings appear
+    once Plumguide has accepted them.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -88,6 +91,9 @@ def sync(
 ) -> PlumguideListingListResponse | None:
     """ List Plumguide listings
 
+     List Plumguide listings this workspace has access to. Plumguide is approval-based — listings appear
+    once Plumguide has accepted them.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -108,6 +114,9 @@ async def asyncio_detailed(
 
 ) -> Response[PlumguideListingListResponse]:
     """ List Plumguide listings
+
+     List Plumguide listings this workspace has access to. Plumguide is approval-based — listings appear
+    once Plumguide has accepted them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +143,9 @@ async def asyncio(
 
 ) -> PlumguideListingListResponse | None:
     """ List Plumguide listings
+
+     List Plumguide listings this workspace has access to. Plumguide is approval-based — listings appear
+    once Plumguide has accepted them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

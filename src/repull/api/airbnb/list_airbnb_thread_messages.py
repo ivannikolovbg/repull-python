@@ -64,6 +64,9 @@ def sync_detailed(
 ) -> Response[MessageListResponse]:
     """ Get Airbnb messages
 
+     Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
+    `?cursor=` until `pagination.hasMore` is `false`.
+
     Args:
         thread_id (str):
 
@@ -95,6 +98,9 @@ def sync(
 ) -> MessageListResponse | None:
     """ Get Airbnb messages
 
+     Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
+    `?cursor=` until `pagination.hasMore` is `false`.
+
     Args:
         thread_id (str):
 
@@ -120,6 +126,9 @@ async def asyncio_detailed(
 
 ) -> Response[MessageListResponse]:
     """ Get Airbnb messages
+
+     Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
+    `?cursor=` until `pagination.hasMore` is `false`.
 
     Args:
         thread_id (str):
@@ -151,6 +160,9 @@ async def asyncio(
 
 ) -> MessageListResponse | None:
     """ Get Airbnb messages
+
+     Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
+    `?cursor=` until `pagination.hasMore` is `false`.
 
     Args:
         thread_id (str):

@@ -28,13 +28,13 @@ class ConversationGuest:
     `reservations.guest_id`. Up to 50 contacts are returned.
 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             display_name (str | Unset):
             avatar_url (None | str | Unset):
             contacts (list[ConversationGuestContact] | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     display_name: str | Unset = UNSET
     avatar_url: None | str | Unset = UNSET
     contacts: list[ConversationGuestContact] | Unset = UNSET

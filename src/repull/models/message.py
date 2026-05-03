@@ -31,7 +31,7 @@ class Message:
     normalized to `inbound` (from the guest) / `outbound` (from the host or an automation).
 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             external_message_id (None | str | Unset): ID assigned by the source channel (Airbnb message id, Booking message
                 id, etc.). Stable across syncs.
             direction (MessageDirection | Unset):
@@ -51,7 +51,7 @@ class Message:
             read_at (datetime.datetime | None | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     external_message_id: None | str | Unset = UNSET
     direction: MessageDirection | Unset = UNSET
     sender_type: None | str | Unset = UNSET
@@ -152,33 +152,33 @@ class Message:
         if id is not UNSET:
             field_dict["id"] = id
         if external_message_id is not UNSET:
-            field_dict["external_message_id"] = external_message_id
+            field_dict["externalMessageId"] = external_message_id
         if direction is not UNSET:
             field_dict["direction"] = direction
         if sender_type is not UNSET:
-            field_dict["sender_type"] = sender_type
+            field_dict["senderType"] = sender_type
         if sender_name is not UNSET:
-            field_dict["sender_name"] = sender_name
+            field_dict["senderName"] = sender_name
         if sender_avatar is not UNSET:
-            field_dict["sender_avatar"] = sender_avatar
+            field_dict["senderAvatar"] = sender_avatar
         if channel is not UNSET:
             field_dict["channel"] = channel
         if body is not UNSET:
             field_dict["body"] = body
         if translated_body is not UNSET:
-            field_dict["translated_body"] = translated_body
+            field_dict["translatedBody"] = translated_body
         if attachments is not UNSET:
             field_dict["attachments"] = attachments
         if is_automated is not UNSET:
-            field_dict["is_automated"] = is_automated
+            field_dict["isAutomated"] = is_automated
         if ai_generated is not UNSET:
-            field_dict["ai_generated"] = ai_generated
+            field_dict["aiGenerated"] = ai_generated
         if sent_at is not UNSET:
-            field_dict["sent_at"] = sent_at
+            field_dict["sentAt"] = sent_at
         if delivered_at is not UNSET:
-            field_dict["delivered_at"] = delivered_at
+            field_dict["deliveredAt"] = delivered_at
         if read_at is not UNSET:
-            field_dict["read_at"] = read_at
+            field_dict["readAt"] = read_at
 
         return field_dict
 
@@ -197,7 +197,7 @@ class Message:
                 return data
             return cast(None | str | Unset, data)
 
-        external_message_id = _parse_external_message_id(d.pop("external_message_id", UNSET))
+        external_message_id = _parse_external_message_id(d.pop("externalMessageId", UNSET))
 
 
         _direction = d.pop("direction", UNSET)
@@ -217,10 +217,10 @@ class Message:
                 return data
             return cast(None | str | Unset, data)
 
-        sender_type = _parse_sender_type(d.pop("sender_type", UNSET))
+        sender_type = _parse_sender_type(d.pop("senderType", UNSET))
 
 
-        sender_name = d.pop("sender_name", UNSET)
+        sender_name = d.pop("senderName", UNSET)
 
         def _parse_sender_avatar(data: object) -> None | str | Unset:
             if data is None:
@@ -229,7 +229,7 @@ class Message:
                 return data
             return cast(None | str | Unset, data)
 
-        sender_avatar = _parse_sender_avatar(d.pop("sender_avatar", UNSET))
+        sender_avatar = _parse_sender_avatar(d.pop("senderAvatar", UNSET))
 
 
         def _parse_channel(data: object) -> None | str | Unset:
@@ -251,7 +251,7 @@ class Message:
                 return data
             return cast(None | str | Unset, data)
 
-        translated_body = _parse_translated_body(d.pop("translated_body", UNSET))
+        translated_body = _parse_translated_body(d.pop("translatedBody", UNSET))
 
 
         _attachments = d.pop("attachments", UNSET)
@@ -266,11 +266,11 @@ class Message:
                 attachments.append(attachments_item)
 
 
-        is_automated = d.pop("is_automated", UNSET)
+        is_automated = d.pop("isAutomated", UNSET)
 
-        ai_generated = d.pop("ai_generated", UNSET)
+        ai_generated = d.pop("aiGenerated", UNSET)
 
-        _sent_at = d.pop("sent_at", UNSET)
+        _sent_at = d.pop("sentAt", UNSET)
         sent_at: datetime.datetime | Unset
         if isinstance(_sent_at,  Unset):
             sent_at = UNSET
@@ -280,7 +280,7 @@ class Message:
 
 
 
-        _delivered_at = d.pop("delivered_at", UNSET)
+        _delivered_at = d.pop("deliveredAt", UNSET)
         delivered_at: datetime.datetime | Unset
         if isinstance(_delivered_at,  Unset):
             delivered_at = UNSET
@@ -307,7 +307,7 @@ class Message:
                 pass
             return cast(datetime.datetime | None | Unset, data)
 
-        read_at = _parse_read_at(d.pop("read_at", UNSET))
+        read_at = _parse_read_at(d.pop("readAt", UNSET))
 
 
         message = cls(

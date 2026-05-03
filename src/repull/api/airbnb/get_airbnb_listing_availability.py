@@ -58,6 +58,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Get Airbnb availability
 
+     Read the per-day availability calendar for an Airbnb listing. Returns one row per day including
+    price overrides, min-stay, and blocked status.
+
     Args:
         id (str):
 
@@ -89,6 +92,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Get Airbnb availability
+
+     Read the per-day availability calendar for an Airbnb listing. Returns one row per day including
+    price overrides, min-stay, and blocked status.
 
     Args:
         id (str):

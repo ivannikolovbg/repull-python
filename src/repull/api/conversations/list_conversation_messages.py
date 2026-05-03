@@ -132,8 +132,8 @@ def sync_detailed(
     """ List messages in a conversation
 
      Cursor-paginated messages within one thread. Defaults to newest-first (`?order=desc`); pass
-    `?order=asc` for chronological replay. Use `pagination.next_cursor` from one response as the
-    `cursor` query param of the next request.
+    `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
+    query param of the next request.
 
     Args:
         id (int):
@@ -180,8 +180,8 @@ def sync(
     """ List messages in a conversation
 
      Cursor-paginated messages within one thread. Defaults to newest-first (`?order=desc`); pass
-    `?order=asc` for chronological replay. Use `pagination.next_cursor` from one response as the
-    `cursor` query param of the next request.
+    `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
+    query param of the next request.
 
     Args:
         id (int):
@@ -223,8 +223,8 @@ async def asyncio_detailed(
     """ List messages in a conversation
 
      Cursor-paginated messages within one thread. Defaults to newest-first (`?order=desc`); pass
-    `?order=asc` for chronological replay. Use `pagination.next_cursor` from one response as the
-    `cursor` query param of the next request.
+    `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
+    query param of the next request.
 
     Args:
         id (int):
@@ -271,8 +271,8 @@ async def asyncio(
     """ List messages in a conversation
 
      Cursor-paginated messages within one thread. Defaults to newest-first (`?order=desc`); pass
-    `?order=asc` for chronological replay. Use `pagination.next_cursor` from one response as the
-    `cursor` query param of the next request.
+    `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
+    query param of the next request.
 
     Args:
         id (int):

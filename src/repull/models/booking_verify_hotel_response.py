@@ -28,7 +28,7 @@ class BookingVerifyHotelResponse:
         Attributes:
             valid (bool):  Example: True.
             session_id (str):
-            connection_id (int): Repull-side `pms_connections.id` for the linked Booking account.
+            connection_id (str): Repull-side `pms_connections.id` for the linked Booking account.
             hotel_id (str):
             hotel_name (None | str | Unset):
             hotel_type (None | str | Unset): Booking.com hotel/property type code (e.g. `apartment`, `hotel`).
@@ -38,7 +38,7 @@ class BookingVerifyHotelResponse:
 
     valid: bool
     session_id: str
-    connection_id: int
+    connection_id: str
     hotel_id: str
     hotel_name: None | str | Unset = UNSET
     hotel_type: None | str | Unset = UNSET

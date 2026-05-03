@@ -28,7 +28,7 @@ class Guest:
     aggregates so list UIs can render without a per-row round-trip.
 
         Attributes:
-            id (int | Unset):
+            id (str | Unset):
             display_name (str | Unset): Short display name (first name). Example: Jane.
             display_name_long (str | Unset): Long display name (first + last). Falls back to displayName when last name is
                 missing. Example: Jane Doe.
@@ -45,7 +45,7 @@ class Guest:
             created_at (datetime.datetime | Unset):
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     display_name: str | Unset = UNSET
     display_name_long: str | Unset = UNSET
     avatar_url: None | str | Unset = UNSET
@@ -155,7 +155,7 @@ class Guest:
         if first_stayed_at is not UNSET:
             field_dict["firstStayedAt"] = first_stayed_at
         if created_at is not UNSET:
-            field_dict["created_at"] = created_at
+            field_dict["createdAt"] = created_at
 
         return field_dict
 
@@ -264,7 +264,7 @@ class Guest:
         first_stayed_at = _parse_first_stayed_at(d.pop("firstStayedAt", UNSET))
 
 
-        _created_at = d.pop("created_at", UNSET)
+        _created_at = d.pop("createdAt", UNSET)
         created_at: datetime.datetime | Unset
         if isinstance(_created_at,  Unset):
             created_at = UNSET

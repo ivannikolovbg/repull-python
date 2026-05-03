@@ -28,13 +28,13 @@ class BulkPricingFailure:
     """ Per-item failure entry. Per-item failures DO NOT fail the whole batch — partial-success is the norm at this scale.
 
         Attributes:
-            listing_id (int | Unset):
+            listing_id (str | Unset):
             dates (list[datetime.date] | Unset):
             error_code (BulkPricingFailureErrorCode | Unset):  Example: not_owned.
             error (str | Unset):
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     dates: list[datetime.date] | Unset = UNSET
     error_code: BulkPricingFailureErrorCode | Unset = UNSET
     error: str | Unset = UNSET
@@ -69,11 +69,11 @@ class BulkPricingFailure:
         field_dict.update({
         })
         if listing_id is not UNSET:
-            field_dict["listing_id"] = listing_id
+            field_dict["listingId"] = listing_id
         if dates is not UNSET:
             field_dict["dates"] = dates
         if error_code is not UNSET:
-            field_dict["error_code"] = error_code
+            field_dict["errorCode"] = error_code
         if error is not UNSET:
             field_dict["error"] = error
 
@@ -84,7 +84,7 @@ class BulkPricingFailure:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        listing_id = d.pop("listing_id", UNSET)
+        listing_id = d.pop("listingId", UNSET)
 
         _dates = d.pop("dates", UNSET)
         dates: list[datetime.date] | Unset = UNSET
@@ -98,7 +98,7 @@ class BulkPricingFailure:
                 dates.append(dates_item)
 
 
-        _error_code = d.pop("error_code", UNSET)
+        _error_code = d.pop("errorCode", UNSET)
         error_code: BulkPricingFailureErrorCode | Unset
         if isinstance(_error_code,  Unset):
             error_code = UNSET

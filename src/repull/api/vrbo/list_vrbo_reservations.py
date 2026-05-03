@@ -62,6 +62,9 @@ def sync_detailed(
 ) -> Response[VrboReservationListResponse]:
     """ List VRBO reservations
 
+     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
+    Airbnb / Booking.com.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -88,6 +91,9 @@ def sync(
 ) -> VrboReservationListResponse | None:
     """ List VRBO reservations
 
+     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
+    Airbnb / Booking.com.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -108,6 +114,9 @@ async def asyncio_detailed(
 
 ) -> Response[VrboReservationListResponse]:
     """ List VRBO reservations
+
+     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
+    Airbnb / Booking.com.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,6 +143,9 @@ async def asyncio(
 
 ) -> VrboReservationListResponse | None:
     """ List VRBO reservations
+
+     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
+    Airbnb / Booking.com.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

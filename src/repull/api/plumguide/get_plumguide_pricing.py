@@ -56,6 +56,8 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Get Plumguide pricing
 
+     Read the current pricing for a Plumguide listing (base price, currency, weekend uplift).
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +84,8 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Get Plumguide pricing
+
+     Read the current pricing for a Plumguide listing (base price, currency, weekend uplift).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

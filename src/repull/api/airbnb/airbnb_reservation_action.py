@@ -58,6 +58,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Accept/decline/cancel Airbnb reservation
 
+     Apply a state action to an Airbnb reservation — `accept` / `decline` (for inquiries and reservation
+    requests), `cancel` (host cancellation, carries penalties), `pre-approve` (for inquiries).
+
     Args:
         code (str):
 
@@ -89,6 +92,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Accept/decline/cancel Airbnb reservation
+
+     Apply a state action to an Airbnb reservation — `accept` / `decline` (for inquiries and reservation
+    requests), `cancel` (host cancellation, carries penalties), `pre-approve` (for inquiries).
 
     Args:
         code (str):

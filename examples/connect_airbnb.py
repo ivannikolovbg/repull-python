@@ -1,7 +1,7 @@
 """Mint a Repull Connect session for Airbnb and poll for the linked account.
 
 Flow:
-  1. Create a Connect session — Repull returns an `oauth_url` you redirect the
+  1. Create a Connect session — Repull returns a hosted `url` you redirect the
      property manager to.
   2. They land on `connect.repull.dev`, authorise Airbnb, and bounce back to
      your `redirect_url`.
@@ -33,7 +33,7 @@ async def main() -> None:
     async with client as c:
         session = await create_connect_session.asyncio(client=c, body=body)
         print("Send the property manager to:")
-        print(f"  {session.oauth_url}")
+        print(f"  {session.url}")
         print(f"  session_id={session.session_id}  expires_at={session.expires_at}")
 
         status = await get_connect_status.asyncio(provider="airbnb", client=c)

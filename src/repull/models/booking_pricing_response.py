@@ -22,15 +22,15 @@ T = TypeVar("T", bound="BookingPricingResponse")
 @_attrs_define
 class BookingPricingResponse:
     """ Returned by `GET /v1/channels/booking/listings/{id}/pricing`. Mirrors Booking's `getRoomRateAvailability` response
-    with `hotel_id` and `listing_id` echoed back for SDK consumers.
+    with `hotelId` and `listingId` echoed back for SDK consumers.
 
         Attributes:
             hotel_id (str | Unset):
-            listing_id (int | Unset):
+            listing_id (str | Unset):
      """
 
     hotel_id: str | Unset = UNSET
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -48,9 +48,9 @@ class BookingPricingResponse:
         field_dict.update({
         })
         if hotel_id is not UNSET:
-            field_dict["hotel_id"] = hotel_id
+            field_dict["hotelId"] = hotel_id
         if listing_id is not UNSET:
-            field_dict["listing_id"] = listing_id
+            field_dict["listingId"] = listing_id
 
         return field_dict
 
@@ -59,9 +59,9 @@ class BookingPricingResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        hotel_id = d.pop("hotel_id", UNSET)
+        hotel_id = d.pop("hotelId", UNSET)
 
-        listing_id = d.pop("listing_id", UNSET)
+        listing_id = d.pop("listingId", UNSET)
 
         booking_pricing_response = cls(
             hotel_id=hotel_id,

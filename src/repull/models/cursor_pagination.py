@@ -22,17 +22,21 @@ T = TypeVar("T", bound="CursorPagination")
 
 @_attrs_define
 class CursorPagination:
-    """ Cursor-based pagination. Pass `next_cursor` back as `cursor` to fetch the next page. When `has_more` is `false` you
-    are done.
+    """ Canonical cursor-based pagination envelope. Pass `nextCursor` back as `?cursor=` to fetch the next page; stop when
+    `hasMore` is `false`. The cursor is opaque base64 — do not parse or construct it by hand.
 
         Attributes:
-            next_cursor (None | str | Unset): Opaque base64-encoded cursor — pass back as `?cursor=<value>`. `null` when
-                there are no more pages.
-            has_more (bool | Unset):
+            next_cursor (None | str): Opaque base64 cursor — pass back as `?cursor=<value>`. `null` when there are no more
+                pages.
+            has_more (bool):
+            total (int | Unset): Total rows matching the current filter (across all pages). Present when
+                `?include_total=true` (the default on most endpoints). Omit `?include_total=false` to skip the COUNT(*) on very
+                large workspaces.
      """
 
-    next_cursor: None | str | Unset = UNSET
-    has_more: bool | Unset = UNSET
+    next_cursor: None | str
+    has_more: bool
+    total: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -40,23 +44,22 @@ class CursorPagination:
 
 
     def to_dict(self) -> dict[str, Any]:
-        next_cursor: None | str | Unset
-        if isinstance(self.next_cursor, Unset):
-            next_cursor = UNSET
-        else:
-            next_cursor = self.next_cursor
+        next_cursor: None | str
+        next_cursor = self.next_cursor
 
         has_more = self.has_more
+
+        total = self.total
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "nextCursor": next_cursor,
+            "hasMore": has_more,
         })
-        if next_cursor is not UNSET:
-            field_dict["next_cursor"] = next_cursor
-        if has_more is not UNSET:
-            field_dict["has_more"] = has_more
+        if total is not UNSET:
+            field_dict["total"] = total
 
         return field_dict
 
@@ -65,21 +68,22 @@ class CursorPagination:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        def _parse_next_cursor(data: object) -> None | str | Unset:
+        def _parse_next_cursor(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        next_cursor = _parse_next_cursor(d.pop("next_cursor", UNSET))
+        next_cursor = _parse_next_cursor(d.pop("nextCursor"))
 
 
-        has_more = d.pop("has_more", UNSET)
+        has_more = d.pop("hasMore")
+
+        total = d.pop("total", UNSET)
 
         cursor_pagination = cls(
             next_cursor=next_cursor,
             has_more=has_more,
+            total=total,
         )
 
 

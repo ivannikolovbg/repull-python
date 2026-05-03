@@ -29,7 +29,7 @@ class ListingComp:
     requested calendar window.
 
         Attributes:
-            comp_id (int | Unset):
+            comp_id (str | Unset):
             listing_name (None | str | Unset):
             distance_km (float | None | Unset): Haversine distance from the source listing in km, rounded to 3 decimals.
             bedrooms (int | None | Unset):
@@ -46,7 +46,7 @@ class ListingComp:
             external_url (None | str | Unset): Link to the listing on its source platform when one is available.
      """
 
-    comp_id: int | Unset = UNSET
+    comp_id: str | Unset = UNSET
     listing_name: None | str | Unset = UNSET
     distance_km: float | None | Unset = UNSET
     bedrooms: int | None | Unset = UNSET
@@ -149,21 +149,21 @@ class ListingComp:
         field_dict.update({
         })
         if comp_id is not UNSET:
-            field_dict["comp_id"] = comp_id
+            field_dict["compId"] = comp_id
         if listing_name is not UNSET:
-            field_dict["listing_name"] = listing_name
+            field_dict["listingName"] = listing_name
         if distance_km is not UNSET:
-            field_dict["distance_km"] = distance_km
+            field_dict["distanceKm"] = distance_km
         if bedrooms is not UNSET:
             field_dict["bedrooms"] = bedrooms
         if max_guests is not UNSET:
-            field_dict["max_guests"] = max_guests
+            field_dict["maxGuests"] = max_guests
         if ratings is not UNSET:
             field_dict["ratings"] = ratings
         if currency is not UNSET:
             field_dict["currency"] = currency
         if current_nightly_rate is not UNSET:
-            field_dict["current_nightly_rate"] = current_nightly_rate
+            field_dict["currentNightlyRate"] = current_nightly_rate
         if nightly is not UNSET:
             field_dict["nightly"] = nightly
         if lat is not UNSET:
@@ -173,7 +173,7 @@ class ListingComp:
         if platform is not UNSET:
             field_dict["platform"] = platform
         if external_url is not UNSET:
-            field_dict["external_url"] = external_url
+            field_dict["externalUrl"] = external_url
 
         return field_dict
 
@@ -184,7 +184,7 @@ class ListingComp:
         from ..models.listing_comp_nightly import ListingCompNightly
         from ..models.listing_comp_ratings import ListingCompRatings
         d = dict(src_dict)
-        comp_id = d.pop("comp_id", UNSET)
+        comp_id = d.pop("compId", UNSET)
 
         def _parse_listing_name(data: object) -> None | str | Unset:
             if data is None:
@@ -193,7 +193,7 @@ class ListingComp:
                 return data
             return cast(None | str | Unset, data)
 
-        listing_name = _parse_listing_name(d.pop("listing_name", UNSET))
+        listing_name = _parse_listing_name(d.pop("listingName", UNSET))
 
 
         def _parse_distance_km(data: object) -> float | None | Unset:
@@ -203,7 +203,7 @@ class ListingComp:
                 return data
             return cast(float | None | Unset, data)
 
-        distance_km = _parse_distance_km(d.pop("distance_km", UNSET))
+        distance_km = _parse_distance_km(d.pop("distanceKm", UNSET))
 
 
         def _parse_bedrooms(data: object) -> int | None | Unset:
@@ -223,7 +223,7 @@ class ListingComp:
                 return data
             return cast(int | None | Unset, data)
 
-        max_guests = _parse_max_guests(d.pop("max_guests", UNSET))
+        max_guests = _parse_max_guests(d.pop("maxGuests", UNSET))
 
 
         _ratings = d.pop("ratings", UNSET)
@@ -253,7 +253,7 @@ class ListingComp:
                 return data
             return cast(float | None | Unset, data)
 
-        current_nightly_rate = _parse_current_nightly_rate(d.pop("current_nightly_rate", UNSET))
+        current_nightly_rate = _parse_current_nightly_rate(d.pop("currentNightlyRate", UNSET))
 
 
         _nightly = d.pop("nightly", UNSET)
@@ -305,7 +305,7 @@ class ListingComp:
                 return data
             return cast(None | str | Unset, data)
 
-        external_url = _parse_external_url(d.pop("external_url", UNSET))
+        external_url = _parse_external_url(d.pop("externalUrl", UNSET))
 
 
         listing_comp = cls(

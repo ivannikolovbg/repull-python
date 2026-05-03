@@ -9,29 +9,30 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
-from typing import cast
-
-if TYPE_CHECKING:
-  from ..models.review import Review
 
 
 
 
 
-T = TypeVar("T", bound="ReviewGetResponse")
+
+T = TypeVar("T", bound="ErrorErrorSupport")
 
 
 
 @_attrs_define
-class ReviewGetResponse:
-    """ 
+class ErrorErrorSupport:
+    """ LAST-RESORT contact handle. Only set on errors that genuinely cannot be self-fixed (billing dispute, account-state
+    corruption, OAuth partner intervention). Never fall back to support before trying `fix` and `docs_url`.
+
         Attributes:
-            data (Review | Unset): A guest or host review unified across channels. Returned by `GET /v1/reviews` and `GET
-                /v1/reviews/{id}`. Populated from main vanio's unified `reviews` table after the per-channel backfill cron has
-                run.
+            email (str | Unset):
+            url (str | Unset):
+            reference (str | Unset): Internal reference to quote when contacting support.
      """
 
-    data: Review | Unset = UNSET
+    email: str | Unset = UNSET
+    url: str | Unset = UNSET
+    reference: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -39,18 +40,23 @@ class ReviewGetResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.review import Review
-        data: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+        email = self.email
+
+        url = self.url
+
+        reference = self.reference
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
-        if data is not UNSET:
-            field_dict["data"] = data
+        if email is not UNSET:
+            field_dict["email"] = email
+        if url is not UNSET:
+            field_dict["url"] = url
+        if reference is not UNSET:
+            field_dict["reference"] = reference
 
         return field_dict
 
@@ -58,25 +64,22 @@ class ReviewGetResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.review import Review
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: Review | Unset
-        if isinstance(_data,  Unset):
-            data = UNSET
-        else:
-            data = Review.from_dict(_data)
+        email = d.pop("email", UNSET)
 
+        url = d.pop("url", UNSET)
 
+        reference = d.pop("reference", UNSET)
 
-
-        review_get_response = cls(
-            data=data,
+        error_error_support = cls(
+            email=email,
+            url=url,
+            reference=reference,
         )
 
 
-        review_get_response.additional_properties = d
-        return review_get_response
+        error_error_support.additional_properties = d
+        return error_error_support
 
     @property
     def additional_keys(self) -> list[str]:

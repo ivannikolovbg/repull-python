@@ -56,6 +56,9 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Get Plumguide availability
 
+     Read the per-day availability calendar for a Plumguide listing. Returns the same row shape as Airbnb
+    availability for SDK convenience.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -82,6 +85,9 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Get Plumguide availability
+
+     Read the per-day availability calendar for a Plumguide listing. Returns the same row shape as Airbnb
+    availability for SDK convenience.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

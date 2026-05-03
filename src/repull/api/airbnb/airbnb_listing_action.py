@@ -58,6 +58,10 @@ def sync_detailed(
 ) -> Response[Any]:
     """ Listing action (push/publish/unlist/delete)
 
+     Apply a state action to an Airbnb listing — `push` (sync local changes upstream), `publish` (make
+    publicly bookable), `unlist` (hide), or `delete` (permanent). Each action has different
+    reversibility — see docs.
+
     Args:
         id (str):
 
@@ -89,6 +93,10 @@ async def asyncio_detailed(
 
 ) -> Response[Any]:
     """ Listing action (push/publish/unlist/delete)
+
+     Apply a state action to an Airbnb listing — `push` (sync local changes upstream), `publish` (make
+    publicly bookable), `unlist` (hide), or `delete` (permanent). Each action has different
+    reversibility — see docs.
 
     Args:
         id (str):

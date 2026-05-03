@@ -39,12 +39,12 @@ def _get_kwargs(
     json_start_date: str | Unset = UNSET
     if not isinstance(start_date, Unset):
         json_start_date = start_date.isoformat()
-    params["start_date"] = json_start_date
+    params["startDate"] = json_start_date
 
     json_end_date: str | Unset = UNSET
     if not isinstance(end_date, Unset):
         json_end_date = end_date.isoformat()
-    params["end_date"] = json_end_date
+    params["endDate"] = json_end_date
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
