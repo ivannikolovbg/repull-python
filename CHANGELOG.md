@@ -5,7 +5,31 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.0] - 2026-05-02
+## [0.2.0] - 2026-05-03
+
+First public release on PyPI: <https://pypi.org/project/repull-sdk/>.
+
+### Distribution rename — `repull` → `repull-sdk` (PyPI name only)
+PyPI's name-collision filter blocked the bare `repull` distribution
+name, so the package was renamed to `repull-sdk` to ship publicly.
+
+Install with:
+
+```
+pip install repull-sdk
+```
+
+The **Python module / import path is unchanged** — keep using:
+
+```python
+import repull
+from repull import AuthenticatedClient
+```
+
+Only the distribution name on PyPI (and in `pyproject.toml`) changed.
+Imports, attributes, and APIs are identical to the source tree.
+
+### Wire-format / API changes (carried over from the 0.2.0 cut)
 
 Major bump — multiple breaking wire-format changes since `0.1.3`. This release
 re-cuts the client against the canonical `api.repull.dev` spec where every
