@@ -20,7 +20,10 @@ def _get_kwargs(
     *,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    status: ListPropertiesStatus | Unset = UNSET,
+    offset: int | Unset = 0,
+    q: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
+    lifecycle_status: str | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> dict[str, Any]:
@@ -34,11 +37,17 @@ def _get_kwargs(
 
     params["cursor"] = cursor
 
+    params["offset"] = offset
+
+    params["q"] = q
+
     json_status: str | Unset = UNSET
     if not isinstance(status, Unset):
         json_status = status.value
 
     params["status"] = json_status
+
+    params["lifecycle_status"] = lifecycle_status
 
     params["include_total"] = include_total
 
@@ -99,7 +108,10 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    status: ListPropertiesStatus | Unset = UNSET,
+    offset: int | Unset = 0,
+    q: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
+    lifecycle_status: str | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
@@ -109,13 +121,20 @@ def sync_detailed(
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
+    Filters: `q` (substring on name/street/city), `status` (active|inactive|all), `lifecycle_status`
+    (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
+    `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        status (ListPropertiesStatus | Unset):
+        offset (int | Unset):  Default: 0.
+        q (str | Unset):
+        status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
+        lifecycle_status (str | Unset):  Example: live.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -130,7 +149,10 @@ def sync_detailed(
     kwargs = _get_kwargs(
         limit=limit,
 cursor=cursor,
+offset=offset,
+q=q,
 status=status,
+lifecycle_status=lifecycle_status,
 include_total=include_total,
 
     )
@@ -146,7 +168,10 @@ def sync(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    status: ListPropertiesStatus | Unset = UNSET,
+    offset: int | Unset = 0,
+    q: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
+    lifecycle_status: str | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
@@ -156,13 +181,20 @@ def sync(
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
+    Filters: `q` (substring on name/street/city), `status` (active|inactive|all), `lifecycle_status`
+    (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
+    `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        status (ListPropertiesStatus | Unset):
+        offset (int | Unset):  Default: 0.
+        q (str | Unset):
+        status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
+        lifecycle_status (str | Unset):  Example: live.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -178,7 +210,10 @@ def sync(
         client=client,
 limit=limit,
 cursor=cursor,
+offset=offset,
+q=q,
 status=status,
+lifecycle_status=lifecycle_status,
 include_total=include_total,
 
     ).parsed
@@ -188,7 +223,10 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    status: ListPropertiesStatus | Unset = UNSET,
+    offset: int | Unset = 0,
+    q: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
+    lifecycle_status: str | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
@@ -198,13 +236,20 @@ async def asyncio_detailed(
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
+    Filters: `q` (substring on name/street/city), `status` (active|inactive|all), `lifecycle_status`
+    (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
+    `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        status (ListPropertiesStatus | Unset):
+        offset (int | Unset):  Default: 0.
+        q (str | Unset):
+        status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
+        lifecycle_status (str | Unset):  Example: live.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -219,7 +264,10 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         limit=limit,
 cursor=cursor,
+offset=offset,
+q=q,
 status=status,
+lifecycle_status=lifecycle_status,
 include_total=include_total,
 
     )
@@ -235,7 +283,10 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
-    status: ListPropertiesStatus | Unset = UNSET,
+    offset: int | Unset = 0,
+    q: str | Unset = UNSET,
+    status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
+    lifecycle_status: str | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
@@ -245,13 +296,20 @@ async def asyncio(
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
+    Filters: `q` (substring on name/street/city), `status` (active|inactive|all), `lifecycle_status`
+    (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
+    `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
-        status (ListPropertiesStatus | Unset):
+        offset (int | Unset):  Default: 0.
+        q (str | Unset):
+        status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
+        lifecycle_status (str | Unset):  Example: live.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -267,7 +325,10 @@ async def asyncio(
         client=client,
 limit=limit,
 cursor=cursor,
+offset=offset,
+q=q,
 status=status,
+lifecycle_status=lifecycle_status,
 include_total=include_total,
 
     )).parsed

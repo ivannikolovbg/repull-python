@@ -45,7 +45,7 @@ class MarketsOverviewResponse:
             free_market (None | str | Unset): City auto-assigned as the customer's free market (largest by listing count).
                 Null for customers with no listings.
             subscriptions (MarketsOverviewResponseSubscriptions | Unset): Active per-market unlocks vs the tier quota.
-            tier (str | Unset): Resolved Repull tier (free / pro / scale).
+            tier (str | Unset): Resolved Repull tier (free / starter / custom).
             browse (MarketsOverviewResponseBrowse | Unset): Lightweight discovery summary. Use `/v1/markets/browse` for the
                 full paginated catalog.
      """

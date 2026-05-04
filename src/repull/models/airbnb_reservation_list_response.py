@@ -13,7 +13,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.airbnb_reservation import AirbnbReservation
-  from ..models.pagination import Pagination
+  from ..models.cursor_pagination import CursorPagination
 
 
 
@@ -25,16 +25,18 @@ T = TypeVar("T", bound="AirbnbReservationListResponse")
 
 @_attrs_define
 class AirbnbReservationListResponse:
-    """ 
+    """ Cursor-paginated Airbnb reservation list. Pass `pagination.next_cursor` back as `?cursor=` to fetch the next page;
+    stop when `pagination.has_more` is `false`.
+
         Attributes:
             data (list[AirbnbReservation] | Unset):
-            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
+            pagination (CursorPagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
                 `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
                 construct it by hand.
      """
 
     data: list[AirbnbReservation] | Unset = UNSET
-    pagination: Pagination | Unset = UNSET
+    pagination: CursorPagination | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -43,7 +45,7 @@ class AirbnbReservationListResponse:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.airbnb_reservation import AirbnbReservation
-        from ..models.pagination import Pagination
+        from ..models.cursor_pagination import CursorPagination
         data: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.data, Unset):
             data = []
@@ -74,7 +76,7 @@ class AirbnbReservationListResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.airbnb_reservation import AirbnbReservation
-        from ..models.pagination import Pagination
+        from ..models.cursor_pagination import CursorPagination
         d = dict(src_dict)
         _data = d.pop("data", UNSET)
         data: list[AirbnbReservation] | Unset = UNSET
@@ -89,11 +91,11 @@ class AirbnbReservationListResponse:
 
 
         _pagination = d.pop("pagination", UNSET)
-        pagination: Pagination | Unset
+        pagination: CursorPagination | Unset
         if isinstance(_pagination,  Unset):
             pagination = UNSET
         else:
-            pagination = Pagination.from_dict(_pagination)
+            pagination = CursorPagination.from_dict(_pagination)
 
 
 

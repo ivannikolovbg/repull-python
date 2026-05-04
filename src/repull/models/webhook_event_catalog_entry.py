@@ -8,36 +8,40 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.webhook_event_catalog_entry_domain import WebhookEventCatalogEntryDomain
+from ..models.webhook_event_type import WebhookEventType
 from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.webhook_event_catalog_domains_item_events_item_sample_payload import WebhookEventCatalogDomainsItemEventsItemSamplePayload
+  from ..models.webhook_event_catalog_entry_sample_payload import WebhookEventCatalogEntrySamplePayload
 
 
 
 
 
-T = TypeVar("T", bound="WebhookEventCatalogDomainsItemEventsItem")
+T = TypeVar("T", bound="WebhookEventCatalogEntry")
 
 
 
 @_attrs_define
-class WebhookEventCatalogDomainsItemEventsItem:
+class WebhookEventCatalogEntry:
     """ 
         Attributes:
-            type_ (str | Unset):
-            domain (str | Unset):
+            type_ (WebhookEventType | Unset): Canonical event type identifier. Every webhook delivery declares one of these
+                in its `type` field; SDKs key the discriminated `WebhookEvent` union on this value.
+            domain (WebhookEventCatalogEntryDomain | Unset):
             title (str | Unset):
             description (str | Unset):
-            sample_payload (WebhookEventCatalogDomainsItemEventsItemSamplePayload | Unset):
+            sample_payload (WebhookEventCatalogEntrySamplePayload | Unset): Realistic example of the `data` payload an event
+                of this `type` will deliver. Shape matches the matching variant in the `WebhookEvent` discriminated union.
      """
 
-    type_: str | Unset = UNSET
-    domain: str | Unset = UNSET
+    type_: WebhookEventType | Unset = UNSET
+    domain: WebhookEventCatalogEntryDomain | Unset = UNSET
     title: str | Unset = UNSET
     description: str | Unset = UNSET
-    sample_payload: WebhookEventCatalogDomainsItemEventsItemSamplePayload | Unset = UNSET
+    sample_payload: WebhookEventCatalogEntrySamplePayload | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -45,10 +49,16 @@ class WebhookEventCatalogDomainsItemEventsItem:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.webhook_event_catalog_domains_item_events_item_sample_payload import WebhookEventCatalogDomainsItemEventsItemSamplePayload
-        type_ = self.type_
+        from ..models.webhook_event_catalog_entry_sample_payload import WebhookEventCatalogEntrySamplePayload
+        type_: str | Unset = UNSET
+        if not isinstance(self.type_, Unset):
+            type_ = self.type_.value
 
-        domain = self.domain
+
+        domain: str | Unset = UNSET
+        if not isinstance(self.domain, Unset):
+            domain = self.domain.value
+
 
         title = self.title
 
@@ -80,27 +90,43 @@ class WebhookEventCatalogDomainsItemEventsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webhook_event_catalog_domains_item_events_item_sample_payload import WebhookEventCatalogDomainsItemEventsItemSamplePayload
+        from ..models.webhook_event_catalog_entry_sample_payload import WebhookEventCatalogEntrySamplePayload
         d = dict(src_dict)
-        type_ = d.pop("type", UNSET)
+        _type_ = d.pop("type", UNSET)
+        type_: WebhookEventType | Unset
+        if isinstance(_type_,  Unset):
+            type_ = UNSET
+        else:
+            type_ = WebhookEventType(_type_)
 
-        domain = d.pop("domain", UNSET)
+
+
+
+        _domain = d.pop("domain", UNSET)
+        domain: WebhookEventCatalogEntryDomain | Unset
+        if isinstance(_domain,  Unset):
+            domain = UNSET
+        else:
+            domain = WebhookEventCatalogEntryDomain(_domain)
+
+
+
 
         title = d.pop("title", UNSET)
 
         description = d.pop("description", UNSET)
 
         _sample_payload = d.pop("samplePayload", UNSET)
-        sample_payload: WebhookEventCatalogDomainsItemEventsItemSamplePayload | Unset
+        sample_payload: WebhookEventCatalogEntrySamplePayload | Unset
         if isinstance(_sample_payload,  Unset):
             sample_payload = UNSET
         else:
-            sample_payload = WebhookEventCatalogDomainsItemEventsItemSamplePayload.from_dict(_sample_payload)
+            sample_payload = WebhookEventCatalogEntrySamplePayload.from_dict(_sample_payload)
 
 
 
 
-        webhook_event_catalog_domains_item_events_item = cls(
+        webhook_event_catalog_entry = cls(
             type_=type_,
             domain=domain,
             title=title,
@@ -109,8 +135,8 @@ class WebhookEventCatalogDomainsItemEventsItem:
         )
 
 
-        webhook_event_catalog_domains_item_events_item.additional_properties = d
-        return webhook_event_catalog_domains_item_events_item
+        webhook_event_catalog_entry.additional_properties = d
+        return webhook_event_catalog_entry
 
     @property
     def additional_keys(self) -> list[str]:

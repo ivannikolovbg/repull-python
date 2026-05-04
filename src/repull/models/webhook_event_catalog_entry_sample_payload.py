@@ -14,13 +14,15 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="WebhookEventCatalogDomainsItemEventsItemSamplePayload")
+T = TypeVar("T", bound="WebhookEventCatalogEntrySamplePayload")
 
 
 
 @_attrs_define
-class WebhookEventCatalogDomainsItemEventsItemSamplePayload:
-    """ 
+class WebhookEventCatalogEntrySamplePayload:
+    """ Realistic example of the `data` payload an event of this `type` will deliver. Shape matches the matching variant in
+    the `WebhookEvent` discriminated union.
+
      """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -41,12 +43,12 @@ class WebhookEventCatalogDomainsItemEventsItemSamplePayload:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        webhook_event_catalog_domains_item_events_item_sample_payload = cls(
+        webhook_event_catalog_entry_sample_payload = cls(
         )
 
 
-        webhook_event_catalog_domains_item_events_item_sample_payload.additional_properties = d
-        return webhook_event_catalog_domains_item_events_item_sample_payload
+        webhook_event_catalog_entry_sample_payload.additional_properties = d
+        return webhook_event_catalog_entry_sample_payload
 
     @property
     def additional_keys(self) -> list[str]:

@@ -8,21 +8,29 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
 
 
 
 
 
 
-T = TypeVar("T", bound="WebhookDeliveryDetailPayload")
+T = TypeVar("T", bound="ReservationCreatedPayloadGuests")
 
 
 
 @_attrs_define
-class WebhookDeliveryDetailPayload:
+class ReservationCreatedPayloadGuests:
     """ 
+        Attributes:
+            adults (int | Unset):  Example: 2.
+            children (int | Unset):
+            infants (int | Unset):
      """
 
+    adults: int | Unset = UNSET
+    children: int | Unset = UNSET
+    infants: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -30,9 +38,23 @@ class WebhookDeliveryDetailPayload:
 
 
     def to_dict(self) -> dict[str, Any]:
-        
+        adults = self.adults
+
+        children = self.children
+
+        infants = self.infants
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update({
+        })
+        if adults is not UNSET:
+            field_dict["adults"] = adults
+        if children is not UNSET:
+            field_dict["children"] = children
+        if infants is not UNSET:
+            field_dict["infants"] = infants
 
         return field_dict
 
@@ -41,12 +63,21 @@ class WebhookDeliveryDetailPayload:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        webhook_delivery_detail_payload = cls(
+        adults = d.pop("adults", UNSET)
+
+        children = d.pop("children", UNSET)
+
+        infants = d.pop("infants", UNSET)
+
+        reservation_created_payload_guests = cls(
+            adults=adults,
+            children=children,
+            infants=infants,
         )
 
 
-        webhook_delivery_detail_payload.additional_properties = d
-        return webhook_delivery_detail_payload
+        reservation_created_payload_guests.additional_properties = d
+        return reservation_created_payload_guests
 
     @property
     def additional_keys(self) -> list[str]:

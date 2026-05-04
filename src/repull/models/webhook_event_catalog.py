@@ -13,6 +13,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.webhook_event_catalog_domains_item import WebhookEventCatalogDomainsItem
+  from ..models.webhook_event_catalog_entry import WebhookEventCatalogEntry
 
 
 
@@ -24,12 +25,18 @@ T = TypeVar("T", bound="WebhookEventCatalog")
 
 @_attrs_define
 class WebhookEventCatalog:
-    """ 
+    """ Canonical catalog of every event the API can deliver, grouped by domain. Each entry includes a realistic
+    `samplePayload` matching the discriminated `WebhookEvent` union — so SDKs can render docs and dashboards from this
+    single source of truth.
+
         Attributes:
             domains (list[WebhookEventCatalogDomainsItem] | Unset):
+            flat (list[WebhookEventCatalogEntry] | Unset): All events in a flat list (same entries as `domains[].events`,
+                ungrouped).
      """
 
     domains: list[WebhookEventCatalogDomainsItem] | Unset = UNSET
+    flat: list[WebhookEventCatalogEntry] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,12 +45,22 @@ class WebhookEventCatalog:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.webhook_event_catalog_domains_item import WebhookEventCatalogDomainsItem
+        from ..models.webhook_event_catalog_entry import WebhookEventCatalogEntry
         domains: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.domains, Unset):
             domains = []
             for domains_item_data in self.domains:
                 domains_item = domains_item_data.to_dict()
                 domains.append(domains_item)
+
+
+
+        flat: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.flat, Unset):
+            flat = []
+            for flat_item_data in self.flat:
+                flat_item = flat_item_data.to_dict()
+                flat.append(flat_item)
 
 
 
@@ -54,6 +71,8 @@ class WebhookEventCatalog:
         })
         if domains is not UNSET:
             field_dict["domains"] = domains
+        if flat is not UNSET:
+            field_dict["flat"] = flat
 
         return field_dict
 
@@ -62,6 +81,7 @@ class WebhookEventCatalog:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webhook_event_catalog_domains_item import WebhookEventCatalogDomainsItem
+        from ..models.webhook_event_catalog_entry import WebhookEventCatalogEntry
         d = dict(src_dict)
         _domains = d.pop("domains", UNSET)
         domains: list[WebhookEventCatalogDomainsItem] | Unset = UNSET
@@ -75,8 +95,21 @@ class WebhookEventCatalog:
                 domains.append(domains_item)
 
 
+        _flat = d.pop("flat", UNSET)
+        flat: list[WebhookEventCatalogEntry] | Unset = UNSET
+        if _flat is not UNSET:
+            flat = []
+            for flat_item_data in _flat:
+                flat_item = WebhookEventCatalogEntry.from_dict(flat_item_data)
+
+
+
+                flat.append(flat_item)
+
+
         webhook_event_catalog = cls(
             domains=domains,
+            flat=flat,
         )
 
 

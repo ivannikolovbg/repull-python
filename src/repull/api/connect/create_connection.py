@@ -82,7 +82,7 @@ def sync_detailed(
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
     `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `oauthUrl` to redirect the user to.
+    host scopes). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):
@@ -124,7 +124,7 @@ def sync(
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
     `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `oauthUrl` to redirect the user to.
+    host scopes). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):
@@ -161,7 +161,7 @@ async def asyncio_detailed(
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
     `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `oauthUrl` to redirect the user to.
+    host scopes). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):
@@ -203,7 +203,7 @@ async def asyncio(
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
     `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `oauthUrl` to redirect the user to.
+    host scopes). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):

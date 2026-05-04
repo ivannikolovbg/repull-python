@@ -12,7 +12,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.webhook_event_catalog_domains_item_events_item import WebhookEventCatalogDomainsItemEventsItem
+  from ..models.webhook_event_catalog_entry import WebhookEventCatalogEntry
 
 
 
@@ -28,12 +28,12 @@ class WebhookEventCatalogDomainsItem:
         Attributes:
             id (str | Unset):
             title (str | Unset):
-            events (list[WebhookEventCatalogDomainsItemEventsItem] | Unset):
+            events (list[WebhookEventCatalogEntry] | Unset):
      """
 
     id: str | Unset = UNSET
     title: str | Unset = UNSET
-    events: list[WebhookEventCatalogDomainsItemEventsItem] | Unset = UNSET
+    events: list[WebhookEventCatalogEntry] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,7 +41,7 @@ class WebhookEventCatalogDomainsItem:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.webhook_event_catalog_domains_item_events_item import WebhookEventCatalogDomainsItemEventsItem
+        from ..models.webhook_event_catalog_entry import WebhookEventCatalogEntry
         id = self.id
 
         title = self.title
@@ -73,18 +73,18 @@ class WebhookEventCatalogDomainsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webhook_event_catalog_domains_item_events_item import WebhookEventCatalogDomainsItemEventsItem
+        from ..models.webhook_event_catalog_entry import WebhookEventCatalogEntry
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
         title = d.pop("title", UNSET)
 
         _events = d.pop("events", UNSET)
-        events: list[WebhookEventCatalogDomainsItemEventsItem] | Unset = UNSET
+        events: list[WebhookEventCatalogEntry] | Unset = UNSET
         if _events is not UNSET:
             events = []
             for events_item_data in _events:
-                events_item = WebhookEventCatalogDomainsItemEventsItem.from_dict(events_item_data)
+                events_item = WebhookEventCatalogEntry.from_dict(events_item_data)
 
 
 

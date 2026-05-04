@@ -9,22 +9,41 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.vrbo_reservation_list_response import VrboReservationListResponse
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
-    
+    *,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 50,
+    include_total: bool | Unset = True,
+
 ) -> dict[str, Any]:
     
 
     
 
-    
+    params: dict[str, Any] = {}
+
+    params["cursor"] = cursor
+
+    params["offset"] = offset
+
+    params["limit"] = limit
+
+    params["include_total"] = include_total
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/v1/channels/vrbo/reservations",
+        "params": params,
     }
 
 
@@ -58,12 +77,23 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 50,
+    include_total: bool | Unset = True,
 
 ) -> Response[VrboReservationListResponse]:
     """ List VRBO reservations
 
-     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
-    Airbnb / Booking.com.
+     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
+    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+    (mutually exclusive; offset capped at 10000).
+
+    Args:
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 50.
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -75,7 +105,11 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        cursor=cursor,
+offset=offset,
+limit=limit,
+include_total=include_total,
+
     )
 
     response = client.get_httpx_client().request(
@@ -87,12 +121,23 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 50,
+    include_total: bool | Unset = True,
 
 ) -> VrboReservationListResponse | None:
     """ List VRBO reservations
 
-     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
-    Airbnb / Booking.com.
+     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
+    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+    (mutually exclusive; offset capped at 10000).
+
+    Args:
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 50.
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -105,18 +150,33 @@ def sync(
 
     return sync_detailed(
         client=client,
+cursor=cursor,
+offset=offset,
+limit=limit,
+include_total=include_total,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 50,
+    include_total: bool | Unset = True,
 
 ) -> Response[VrboReservationListResponse]:
     """ List VRBO reservations
 
-     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
-    Airbnb / Booking.com.
+     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
+    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+    (mutually exclusive; offset capped at 10000).
+
+    Args:
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 50.
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -128,7 +188,11 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        cursor=cursor,
+offset=offset,
+limit=limit,
+include_total=include_total,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -140,12 +204,23 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 50,
+    include_total: bool | Unset = True,
 
 ) -> VrboReservationListResponse | None:
     """ List VRBO reservations
 
-     List VRBO reservations sourced from the public booking feed. Lag is typically 5-10 minutes vs.
-    Airbnb / Booking.com.
+     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
+    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+    (mutually exclusive; offset capped at 10000).
+
+    Args:
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 50.
+        include_total (bool | Unset):  Default: True.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -158,5 +233,9 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+cursor=cursor,
+offset=offset,
+limit=limit,
+include_total=include_total,
 
     )).parsed

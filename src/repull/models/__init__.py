@@ -1,8 +1,28 @@
 """ Contains all the data models used in inputs/outputs """
 
+from .account_created_event import AccountCreatedEvent
+from .account_created_event_type import AccountCreatedEventType
+from .account_created_payload import AccountCreatedPayload
+from .account_disconnected_event import AccountDisconnectedEvent
+from .account_disconnected_event_type import AccountDisconnectedEventType
+from .account_disconnected_payload import AccountDisconnectedPayload
+from .account_disconnected_payload_reason import AccountDisconnectedPayloadReason
 from .ai_operation import AIOperation
+from .ai_operation_completed_event import AiOperationCompletedEvent
+from .ai_operation_completed_event_type import AiOperationCompletedEventType
+from .ai_operation_completed_payload import AiOperationCompletedPayload
+from .ai_operation_completed_payload_output import AiOperationCompletedPayloadOutput
+from .ai_operation_failed_event import AiOperationFailedEvent
+from .ai_operation_failed_event_type import AiOperationFailedEventType
+from .ai_operation_failed_payload import AiOperationFailedPayload
+from .ai_operation_failed_payload_error import AiOperationFailedPayloadError
 from .ai_operation_input import AIOperationInput
 from .ai_operation_operation import AIOperationOperation
+from .airbnb_connection import AirbnbConnection
+from .airbnb_connection_accessibility_amenities_type_0_item import AirbnbConnectionAccessibilityAmenitiesType0Item
+from .airbnb_connection_amenities_type_0_item import AirbnbConnectionAmenitiesType0Item
+from .airbnb_connection_errors_type_0 import AirbnbConnectionErrorsType0
+from .airbnb_connection_errors_type_0_additional_property import AirbnbConnectionErrorsType0AdditionalProperty
 from .airbnb_listing import AirbnbListing
 from .airbnb_listing_list_response import AirbnbListingListResponse
 from .airbnb_reservation import AirbnbReservation
@@ -39,6 +59,10 @@ from .bulk_pricing_request_action import BulkPricingRequestAction
 from .bulk_pricing_response import BulkPricingResponse
 from .calendar_day import CalendarDay
 from .calendar_response import CalendarResponse
+from .calendar_updated_event import CalendarUpdatedEvent
+from .calendar_updated_event_type import CalendarUpdatedEventType
+from .calendar_updated_payload import CalendarUpdatedPayload
+from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
 from .connect_host import ConnectHost
 from .connect_provider import ConnectProvider
 from .connect_provider_category import ConnectProviderCategory
@@ -67,6 +91,17 @@ from .create_connect_session_body import CreateConnectSessionBody
 from .create_connection_body import CreateConnectionBody
 from .create_connection_body_access_type import CreateConnectionBodyAccessType
 from .create_reservation_body import CreateReservationBody
+from .create_studio_deployment_body import CreateStudioDeploymentBody
+from .create_studio_deployment_response_201 import CreateStudioDeploymentResponse201
+from .create_studio_deployment_response_201_data import CreateStudioDeploymentResponse201Data
+from .create_studio_deployment_response_201_data_status import CreateStudioDeploymentResponse201DataStatus
+from .create_studio_project_body import CreateStudioProjectBody
+from .create_studio_project_generation_body import CreateStudioProjectGenerationBody
+from .create_studio_project_generation_response_201 import CreateStudioProjectGenerationResponse201
+from .create_studio_project_generation_response_201_data import CreateStudioProjectGenerationResponse201Data
+from .create_studio_project_response_201 import CreateStudioProjectResponse201
+from .create_studio_project_response_201_data import CreateStudioProjectResponse201Data
+from .create_studio_project_response_201_data_status import CreateStudioProjectResponse201DataStatus
 from .create_webhook_body import CreateWebhookBody
 from .cursor_pagination import CursorPagination
 from .custom_schema import CustomSchema
@@ -77,11 +112,22 @@ from .custom_schema_list_response import CustomSchemaListResponse
 from .custom_schema_mappings import CustomSchemaMappings
 from .custom_schema_summary import CustomSchemaSummary
 from .custom_schema_update import CustomSchemaUpdate
+from .delete_studio_deployment_response_200 import DeleteStudioDeploymentResponse200
+from .delete_studio_deployment_response_200_data import DeleteStudioDeploymentResponse200Data
+from .delete_studio_project_file_response_200 import DeleteStudioProjectFileResponse200
+from .delete_studio_project_file_response_200_data import DeleteStudioProjectFileResponse200Data
+from .delete_studio_project_response_200 import DeleteStudioProjectResponse200
+from .delete_studio_project_response_200_data import DeleteStudioProjectResponse200Data
 from .error import Error
 from .error_error import ErrorError
 from .error_error_support import ErrorErrorSupport
+from .generate_studio_completion_body import GenerateStudioCompletionBody
+from .generate_studio_completion_response_200 import GenerateStudioCompletionResponse200
+from .generate_studio_completion_response_200_data import GenerateStudioCompletionResponse200Data
 from .get_health_response_200 import GetHealthResponse200
 from .get_listing_segments_level import GetListingSegmentsLevel
+from .get_studio_deployment_response_200 import GetStudioDeploymentResponse200
+from .get_studio_project_response_200 import GetStudioProjectResponse200
 from .guest import Guest
 from .guest_contact import GuestContact
 from .guest_flag import GuestFlag
@@ -89,6 +135,7 @@ from .guest_list_response import GuestListResponse
 from .guest_note import GuestNote
 from .guest_profile import GuestProfile
 from .guest_reservations_summary import GuestReservationsSummary
+from .list_airbnb_reservations_status import ListAirbnbReservationsStatus
 from .list_conversation_messages_order import ListConversationMessagesOrder
 from .list_conversations_platform import ListConversationsPlatform
 from .list_conversations_status import ListConversationsStatus
@@ -99,6 +146,10 @@ from .list_reservations_status import ListReservationsStatus
 from .list_reviews_platform import ListReviewsPlatform
 from .list_reviews_reviewer_role import ListReviewsReviewerRole
 from .list_reviews_status import ListReviewsStatus
+from .list_studio_deployments_response_200 import ListStudioDeploymentsResponse200
+from .list_studio_deployments_status import ListStudioDeploymentsStatus
+from .list_studio_project_files_response_200 import ListStudioProjectFilesResponse200
+from .list_studio_projects_response_200 import ListStudioProjectsResponse200
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
 from .listing import Listing
 from .listing_address import ListingAddress
@@ -112,6 +163,13 @@ from .listing_content import ListingContent
 from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
 from .listing_create_response import ListingCreateResponse
+from .listing_created_event import ListingCreatedEvent
+from .listing_created_event_type import ListingCreatedEventType
+from .listing_created_payload import ListingCreatedPayload
+from .listing_created_payload_address import ListingCreatedPayloadAddress
+from .listing_deleted_event import ListingDeletedEvent
+from .listing_deleted_event_type import ListingDeletedEventType
+from .listing_deleted_payload import ListingDeletedPayload
 from .listing_generate_content_request import ListingGenerateContentRequest
 from .listing_generate_content_request_style import ListingGenerateContentRequestStyle
 from .listing_generate_content_response import ListingGenerateContentResponse
@@ -162,6 +220,10 @@ from .listing_segments_response_my_quality_tier_type_2_type_1 import ListingSegm
 from .listing_segments_response_my_quality_tier_type_3_type_1 import ListingSegmentsResponseMyQualityTierType3Type1
 from .listing_segments_response_scope import ListingSegmentsResponseScope
 from .listing_status import ListingStatus
+from .listing_updated_event import ListingUpdatedEvent
+from .listing_updated_event_type import ListingUpdatedEventType
+from .listing_updated_payload import ListingUpdatedPayload
+from .listing_updated_payload_changes import ListingUpdatedPayloadChanges
 from .map_connect_booking_rooms_request import MapConnectBookingRoomsRequest
 from .map_connect_booking_rooms_response import MapConnectBookingRoomsResponse
 from .market_browse_category import MarketBrowseCategory
@@ -196,17 +258,47 @@ from .message import Message
 from .message_direction import MessageDirection
 from .message_list_response import MessageListResponse
 from .pagination import Pagination
+from .payment_completed_event import PaymentCompletedEvent
+from .payment_completed_event_type import PaymentCompletedEventType
+from .payment_completed_payload import PaymentCompletedPayload
+from .payment_refunded_event import PaymentRefundedEvent
+from .payment_refunded_event_type import PaymentRefundedEventType
+from .payment_refunded_payload import PaymentRefundedPayload
 from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
 from .property_ import Property
 from .property_list_response import PropertyListResponse
+from .reply_booking_review_body import ReplyBookingReviewBody
+from .reply_booking_review_response_200 import ReplyBookingReviewResponse200
+from .repull_ping_event import RepullPingEvent
+from .repull_ping_event_type import RepullPingEventType
+from .repull_ping_payload import RepullPingPayload
 from .reservation import Reservation
+from .reservation_cancelled_event import ReservationCancelledEvent
+from .reservation_cancelled_event_type import ReservationCancelledEventType
+from .reservation_cancelled_payload import ReservationCancelledPayload
+from .reservation_cancelled_payload_refund_type_0 import ReservationCancelledPayloadRefundType0
+from .reservation_created_event import ReservationCreatedEvent
+from .reservation_created_event_type import ReservationCreatedEventType
+from .reservation_created_payload import ReservationCreatedPayload
+from .reservation_created_payload_guests import ReservationCreatedPayloadGuests
+from .reservation_created_payload_pricing import ReservationCreatedPayloadPricing
+from .reservation_created_payload_primary_guest import ReservationCreatedPayloadPrimaryGuest
 from .reservation_guest_details import ReservationGuestDetails
 from .reservation_list_response import ReservationListResponse
+from .reservation_message_received_event import ReservationMessageReceivedEvent
+from .reservation_message_received_event_type import ReservationMessageReceivedEventType
+from .reservation_message_received_payload import ReservationMessageReceivedPayload
+from .reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
 from .reservation_platform_type_1 import ReservationPlatformType1
 from .reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
 from .reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
 from .reservation_status import ReservationStatus
+from .reservation_updated_event import ReservationUpdatedEvent
+from .reservation_updated_event_type import ReservationUpdatedEventType
+from .reservation_updated_payload import ReservationUpdatedPayload
+from .reservation_updated_payload_changes import ReservationUpdatedPayloadChanges
+from .respond_airbnb_review_body import RespondAirbnbReviewBody
 from .review import Review
 from .review_category import ReviewCategory
 from .review_list_response import ReviewListResponse
@@ -217,34 +309,71 @@ from .rotate_webhook_secret_response_200 import RotateWebhookSecretResponse200
 from .select_connect_provider_body import SelectConnectProviderBody
 from .select_provider_response import SelectProviderResponse
 from .select_provider_response_pattern import SelectProviderResponsePattern
+from .studio_deployment import StudioDeployment
+from .studio_deployment_status import StudioDeploymentStatus
+from .studio_error import StudioError
+from .studio_error_error import StudioErrorError
+from .studio_file import StudioFile
+from .studio_generation import StudioGeneration
+from .studio_project import StudioProject
+from .studio_project_status import StudioProjectStatus
+from .suspend_studio_deployment_response_200 import SuspendStudioDeploymentResponse200
 from .test_webhook_body import TestWebhookBody
 from .update_availability_body import UpdateAvailabilityBody
 from .update_listing_pricing_strategy_response_200 import UpdateListingPricingStrategyResponse200
 from .update_reservation_body import UpdateReservationBody
+from .update_studio_project_body import UpdateStudioProjectBody
+from .update_studio_project_body_status import UpdateStudioProjectBodyStatus
+from .update_studio_project_response_200 import UpdateStudioProjectResponse200
 from .update_webhook_body import UpdateWebhookBody
 from .update_webhook_body_status import UpdateWebhookBodyStatus
+from .upsert_studio_project_file_body import UpsertStudioProjectFileBody
+from .upsert_studio_project_file_response_200 import UpsertStudioProjectFileResponse200
+from .upsert_studio_project_file_response_200_data import UpsertStudioProjectFileResponse200Data
 from .vrbo_listing import VrboListing
 from .vrbo_listing_list_response import VrboListingListResponse
 from .vrbo_reservation import VrboReservation
 from .vrbo_reservation_list_response import VrboReservationListResponse
+from .wake_studio_deployment_response_200 import WakeStudioDeploymentResponse200
 from .webhook_delivery import WebhookDelivery
 from .webhook_delivery_detail import WebhookDeliveryDetail
-from .webhook_delivery_detail_payload import WebhookDeliveryDetailPayload
 from .webhook_delivery_detail_request_headers_type_0 import WebhookDeliveryDetailRequestHeadersType0
 from .webhook_delivery_detail_response_headers_type_0 import WebhookDeliveryDetailResponseHeadersType0
 from .webhook_delivery_list_response import WebhookDeliveryListResponse
 from .webhook_event_catalog import WebhookEventCatalog
 from .webhook_event_catalog_domains_item import WebhookEventCatalogDomainsItem
-from .webhook_event_catalog_domains_item_events_item import WebhookEventCatalogDomainsItemEventsItem
-from .webhook_event_catalog_domains_item_events_item_sample_payload import WebhookEventCatalogDomainsItemEventsItemSamplePayload
+from .webhook_event_catalog_entry import WebhookEventCatalogEntry
+from .webhook_event_catalog_entry_domain import WebhookEventCatalogEntryDomain
+from .webhook_event_catalog_entry_sample_payload import WebhookEventCatalogEntrySamplePayload
+from .webhook_event_type import WebhookEventType
 from .webhook_list_response import WebhookListResponse
 from .webhook_subscription import WebhookSubscription
 from .webhook_subscription_status import WebhookSubscriptionStatus
 
 __all__ = (
+    "AccountCreatedEvent",
+    "AccountCreatedEventType",
+    "AccountCreatedPayload",
+    "AccountDisconnectedEvent",
+    "AccountDisconnectedEventType",
+    "AccountDisconnectedPayload",
+    "AccountDisconnectedPayloadReason",
     "AIOperation",
+    "AiOperationCompletedEvent",
+    "AiOperationCompletedEventType",
+    "AiOperationCompletedPayload",
+    "AiOperationCompletedPayloadOutput",
+    "AiOperationFailedEvent",
+    "AiOperationFailedEventType",
+    "AiOperationFailedPayload",
+    "AiOperationFailedPayloadError",
     "AIOperationInput",
     "AIOperationOperation",
+    "AirbnbConnection",
+    "AirbnbConnectionAccessibilityAmenitiesType0Item",
+    "AirbnbConnectionAmenitiesType0Item",
+    "AirbnbConnectionErrorsType0",
+    "AirbnbConnectionErrorsType0AdditionalProperty",
     "AirbnbListing",
     "AirbnbListingListResponse",
     "AirbnbReservation",
@@ -281,6 +410,10 @@ __all__ = (
     "BulkPricingResponse",
     "CalendarDay",
     "CalendarResponse",
+    "CalendarUpdatedEvent",
+    "CalendarUpdatedEventType",
+    "CalendarUpdatedPayload",
+    "CalendarUpdatedPayloadRange",
     "ConnectHost",
     "Connection",
     "ConnectionListResponse",
@@ -309,6 +442,17 @@ __all__ = (
     "CreateConnectionBodyAccessType",
     "CreateConnectSessionBody",
     "CreateReservationBody",
+    "CreateStudioDeploymentBody",
+    "CreateStudioDeploymentResponse201",
+    "CreateStudioDeploymentResponse201Data",
+    "CreateStudioDeploymentResponse201DataStatus",
+    "CreateStudioProjectBody",
+    "CreateStudioProjectGenerationBody",
+    "CreateStudioProjectGenerationResponse201",
+    "CreateStudioProjectGenerationResponse201Data",
+    "CreateStudioProjectResponse201",
+    "CreateStudioProjectResponse201Data",
+    "CreateStudioProjectResponse201DataStatus",
     "CreateWebhookBody",
     "CursorPagination",
     "CustomSchema",
@@ -319,11 +463,22 @@ __all__ = (
     "CustomSchemaMappings",
     "CustomSchemaSummary",
     "CustomSchemaUpdate",
+    "DeleteStudioDeploymentResponse200",
+    "DeleteStudioDeploymentResponse200Data",
+    "DeleteStudioProjectFileResponse200",
+    "DeleteStudioProjectFileResponse200Data",
+    "DeleteStudioProjectResponse200",
+    "DeleteStudioProjectResponse200Data",
     "Error",
     "ErrorError",
     "ErrorErrorSupport",
+    "GenerateStudioCompletionBody",
+    "GenerateStudioCompletionResponse200",
+    "GenerateStudioCompletionResponse200Data",
     "GetHealthResponse200",
     "GetListingSegmentsLevel",
+    "GetStudioDeploymentResponse200",
+    "GetStudioProjectResponse200",
     "Guest",
     "GuestContact",
     "GuestFlag",
@@ -331,6 +486,7 @@ __all__ = (
     "GuestNote",
     "GuestProfile",
     "GuestReservationsSummary",
+    "ListAirbnbReservationsStatus",
     "ListConversationMessagesOrder",
     "ListConversationsPlatform",
     "ListConversationsStatus",
@@ -343,9 +499,16 @@ __all__ = (
     "ListingCompsResponse",
     "ListingCompsResponseDateRange",
     "ListingContent",
+    "ListingCreatedEvent",
+    "ListingCreatedEventType",
+    "ListingCreatedPayload",
+    "ListingCreatedPayloadAddress",
     "ListingCreateRequest",
     "ListingCreateRequestCancellationPolicy",
     "ListingCreateResponse",
+    "ListingDeletedEvent",
+    "ListingDeletedEventType",
+    "ListingDeletedPayload",
     "ListingGenerateContentRequest",
     "ListingGenerateContentRequestStyle",
     "ListingGenerateContentResponse",
@@ -396,6 +559,10 @@ __all__ = (
     "ListingSegmentsResponseMyQualityTierType3Type1",
     "ListingSegmentsResponseScope",
     "ListingStatus",
+    "ListingUpdatedEvent",
+    "ListingUpdatedEventType",
+    "ListingUpdatedPayload",
+    "ListingUpdatedPayloadChanges",
     "ListListingsStatus",
     "ListMarketBrowseSort",
     "ListPropertiesStatus",
@@ -403,6 +570,10 @@ __all__ = (
     "ListReviewsPlatform",
     "ListReviewsReviewerRole",
     "ListReviewsStatus",
+    "ListStudioDeploymentsResponse200",
+    "ListStudioDeploymentsStatus",
+    "ListStudioProjectFilesResponse200",
+    "ListStudioProjectsResponse200",
     "ListWebhookDeliveriesStatus",
     "MapConnectBookingRoomsRequest",
     "MapConnectBookingRoomsResponse",
@@ -438,17 +609,47 @@ __all__ = (
     "MessageDirection",
     "MessageListResponse",
     "Pagination",
+    "PaymentCompletedEvent",
+    "PaymentCompletedEventType",
+    "PaymentCompletedPayload",
+    "PaymentRefundedEvent",
+    "PaymentRefundedEventType",
+    "PaymentRefundedPayload",
     "PlumguideListing",
     "PlumguideListingListResponse",
     "Property",
     "PropertyListResponse",
+    "ReplyBookingReviewBody",
+    "ReplyBookingReviewResponse200",
+    "RepullPingEvent",
+    "RepullPingEventType",
+    "RepullPingPayload",
     "Reservation",
+    "ReservationCancelledEvent",
+    "ReservationCancelledEventType",
+    "ReservationCancelledPayload",
+    "ReservationCancelledPayloadRefundType0",
+    "ReservationCreatedEvent",
+    "ReservationCreatedEventType",
+    "ReservationCreatedPayload",
+    "ReservationCreatedPayloadGuests",
+    "ReservationCreatedPayloadPricing",
+    "ReservationCreatedPayloadPrimaryGuest",
     "ReservationGuestDetails",
     "ReservationListResponse",
+    "ReservationMessageReceivedEvent",
+    "ReservationMessageReceivedEventType",
+    "ReservationMessageReceivedPayload",
+    "ReservationMessageReceivedPayloadFrom",
     "ReservationPlatformType1",
     "ReservationPlatformType2Type1",
     "ReservationPlatformType3Type1",
     "ReservationStatus",
+    "ReservationUpdatedEvent",
+    "ReservationUpdatedEventType",
+    "ReservationUpdatedPayload",
+    "ReservationUpdatedPayloadChanges",
+    "RespondAirbnbReviewBody",
     "Review",
     "ReviewCategory",
     "ReviewListResponse",
@@ -459,26 +660,43 @@ __all__ = (
     "SelectConnectProviderBody",
     "SelectProviderResponse",
     "SelectProviderResponsePattern",
+    "StudioDeployment",
+    "StudioDeploymentStatus",
+    "StudioError",
+    "StudioErrorError",
+    "StudioFile",
+    "StudioGeneration",
+    "StudioProject",
+    "StudioProjectStatus",
+    "SuspendStudioDeploymentResponse200",
     "TestWebhookBody",
     "UpdateAvailabilityBody",
     "UpdateListingPricingStrategyResponse200",
     "UpdateReservationBody",
+    "UpdateStudioProjectBody",
+    "UpdateStudioProjectBodyStatus",
+    "UpdateStudioProjectResponse200",
     "UpdateWebhookBody",
     "UpdateWebhookBodyStatus",
+    "UpsertStudioProjectFileBody",
+    "UpsertStudioProjectFileResponse200",
+    "UpsertStudioProjectFileResponse200Data",
     "VrboListing",
     "VrboListingListResponse",
     "VrboReservation",
     "VrboReservationListResponse",
+    "WakeStudioDeploymentResponse200",
     "WebhookDelivery",
     "WebhookDeliveryDetail",
-    "WebhookDeliveryDetailPayload",
     "WebhookDeliveryDetailRequestHeadersType0",
     "WebhookDeliveryDetailResponseHeadersType0",
     "WebhookDeliveryListResponse",
     "WebhookEventCatalog",
     "WebhookEventCatalogDomainsItem",
-    "WebhookEventCatalogDomainsItemEventsItem",
-    "WebhookEventCatalogDomainsItemEventsItemSamplePayload",
+    "WebhookEventCatalogEntry",
+    "WebhookEventCatalogEntryDomain",
+    "WebhookEventCatalogEntrySamplePayload",
+    "WebhookEventType",
     "WebhookListResponse",
     "WebhookSubscription",
     "WebhookSubscriptionStatus",

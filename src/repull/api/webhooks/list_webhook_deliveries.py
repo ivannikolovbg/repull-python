@@ -21,6 +21,7 @@ def _get_kwargs(
     *,
     limit: int | Unset = 25,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     status: ListWebhookDeliveriesStatus | Unset = ListWebhookDeliveriesStatus.ALL,
 
 ) -> dict[str, Any]:
@@ -33,6 +34,8 @@ def _get_kwargs(
     params["limit"] = limit
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     json_status: str | Unset = UNSET
     if not isinstance(status, Unset):
@@ -84,6 +87,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 25,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     status: ListWebhookDeliveriesStatus | Unset = ListWebhookDeliveriesStatus.ALL,
 
 ) -> Response[WebhookDeliveryListResponse]:
@@ -91,13 +95,15 @@ def sync_detailed(
 
      Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
-    base64 — do not parse it.
+    base64 — do not parse it. `?offset=` is also accepted as a first-class alias for shallow paging
+    (0..10000) — mutually exclusive with `cursor`.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
         cursor (str | Unset): Opaque cursor returned in the previous response's
             `pagination.nextCursor`. Omit to fetch the first page.
+        offset (int | Unset):  Default: 0.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:
@@ -113,6 +119,7 @@ def sync_detailed(
         id=id,
 limit=limit,
 cursor=cursor,
+offset=offset,
 status=status,
 
     )
@@ -129,6 +136,7 @@ def sync(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 25,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     status: ListWebhookDeliveriesStatus | Unset = ListWebhookDeliveriesStatus.ALL,
 
 ) -> WebhookDeliveryListResponse | None:
@@ -136,13 +144,15 @@ def sync(
 
      Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
-    base64 — do not parse it.
+    base64 — do not parse it. `?offset=` is also accepted as a first-class alias for shallow paging
+    (0..10000) — mutually exclusive with `cursor`.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
         cursor (str | Unset): Opaque cursor returned in the previous response's
             `pagination.nextCursor`. Omit to fetch the first page.
+        offset (int | Unset):  Default: 0.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:
@@ -159,6 +169,7 @@ def sync(
 client=client,
 limit=limit,
 cursor=cursor,
+offset=offset,
 status=status,
 
     ).parsed
@@ -169,6 +180,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 25,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     status: ListWebhookDeliveriesStatus | Unset = ListWebhookDeliveriesStatus.ALL,
 
 ) -> Response[WebhookDeliveryListResponse]:
@@ -176,13 +188,15 @@ async def asyncio_detailed(
 
      Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
-    base64 — do not parse it.
+    base64 — do not parse it. `?offset=` is also accepted as a first-class alias for shallow paging
+    (0..10000) — mutually exclusive with `cursor`.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
         cursor (str | Unset): Opaque cursor returned in the previous response's
             `pagination.nextCursor`. Omit to fetch the first page.
+        offset (int | Unset):  Default: 0.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:
@@ -198,6 +212,7 @@ async def asyncio_detailed(
         id=id,
 limit=limit,
 cursor=cursor,
+offset=offset,
 status=status,
 
     )
@@ -214,6 +229,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 25,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     status: ListWebhookDeliveriesStatus | Unset = ListWebhookDeliveriesStatus.ALL,
 
 ) -> WebhookDeliveryListResponse | None:
@@ -221,13 +237,15 @@ async def asyncio(
 
      Cursor-paginated history of every delivery attempt for this subscription. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. The cursor is opaque
-    base64 — do not parse it.
+    base64 — do not parse it. `?offset=` is also accepted as a first-class alias for shallow paging
+    (0..10000) — mutually exclusive with `cursor`.
 
     Args:
         id (UUID):
         limit (int | Unset):  Default: 25.
         cursor (str | Unset): Opaque cursor returned in the previous response's
             `pagination.nextCursor`. Omit to fetch the first page.
+        offset (int | Unset):  Default: 0.
         status (ListWebhookDeliveriesStatus | Unset):  Default: ListWebhookDeliveriesStatus.ALL.
 
     Raises:
@@ -244,6 +262,7 @@ async def asyncio(
 client=client,
 limit=limit,
 cursor=cursor,
+offset=offset,
 status=status,
 
     )).parsed

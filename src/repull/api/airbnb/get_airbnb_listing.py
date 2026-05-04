@@ -9,23 +9,33 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.airbnb_listing import AirbnbListing
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
     id: str,
+    *,
+    include: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
 
     
 
-    
+    params: dict[str, Any] = {}
+
+    params["include"] = include
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/v1/channels/airbnb/listings/{id}".format(id=quote(str(id), safe=""),),
+        "params": params,
     }
 
 
@@ -60,15 +70,18 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> Response[AirbnbListing]:
     """ Get Airbnb listing
 
-     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
-    Airbnb-side ids (numeric strings).
+     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+    multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
+    its current Airbnb amenities.
 
     Args:
         id (str):
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -81,6 +94,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+include=include,
 
     )
 
@@ -94,15 +108,18 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> AirbnbListing | None:
     """ Get Airbnb listing
 
-     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
-    Airbnb-side ids (numeric strings).
+     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+    multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
+    its current Airbnb amenities.
 
     Args:
         id (str):
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -116,6 +133,7 @@ def sync(
     return sync_detailed(
         id=id,
 client=client,
+include=include,
 
     ).parsed
 
@@ -123,15 +141,18 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> Response[AirbnbListing]:
     """ Get Airbnb listing
 
-     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
-    Airbnb-side ids (numeric strings).
+     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+    multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
+    its current Airbnb amenities.
 
     Args:
         id (str):
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -144,6 +165,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+include=include,
 
     )
 
@@ -157,15 +179,18 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> AirbnbListing | None:
     """ Get Airbnb listing
 
-     Fetch a single Airbnb listing by id with full pricing, availability, and content. Listing ids are
-    Airbnb-side ids (numeric strings).
+     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+    multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
+    its current Airbnb amenities.
 
     Args:
         id (str):
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,5 +204,6 @@ async def asyncio(
     return (await asyncio_detailed(
         id=id,
 client=client,
+include=include,
 
     )).parsed

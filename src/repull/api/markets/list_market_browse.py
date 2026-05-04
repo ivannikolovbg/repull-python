@@ -22,6 +22,7 @@ def _get_kwargs(
     country: str | Unset = UNSET,
     min_listings: int | Unset = 5,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 30,
     sort: ListMarketBrowseSort | Unset = ListMarketBrowseSort.LISTINGS_DESC,
 
@@ -39,6 +40,8 @@ def _get_kwargs(
     params["min_listings"] = min_listings
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     params["limit"] = limit
 
@@ -107,6 +110,7 @@ def sync_detailed(
     country: str | Unset = UNSET,
     min_listings: int | Unset = 5,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 30,
     sort: ListMarketBrowseSort | Unset = ListMarketBrowseSort.LISTINGS_DESC,
 
@@ -119,15 +123,18 @@ def sync_detailed(
     (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
     an opaque base64 token; do not parse it.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
-    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
-    same `pagination.total` field as on every other list endpoint.
+    (across all pages) — same shape as every other list endpoint.
 
     Args:
         q (str | Unset):
         country (str | Unset):
         min_listings (int | Unset):  Default: 5.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 30.
         sort (ListMarketBrowseSort | Unset):  Default: ListMarketBrowseSort.LISTINGS_DESC.
 
@@ -145,6 +152,7 @@ def sync_detailed(
 country=country,
 min_listings=min_listings,
 cursor=cursor,
+offset=offset,
 limit=limit,
 sort=sort,
 
@@ -163,6 +171,7 @@ def sync(
     country: str | Unset = UNSET,
     min_listings: int | Unset = 5,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 30,
     sort: ListMarketBrowseSort | Unset = ListMarketBrowseSort.LISTINGS_DESC,
 
@@ -175,15 +184,18 @@ def sync(
     (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
     an opaque base64 token; do not parse it.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
-    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
-    same `pagination.total` field as on every other list endpoint.
+    (across all pages) — same shape as every other list endpoint.
 
     Args:
         q (str | Unset):
         country (str | Unset):
         min_listings (int | Unset):  Default: 5.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 30.
         sort (ListMarketBrowseSort | Unset):  Default: ListMarketBrowseSort.LISTINGS_DESC.
 
@@ -202,6 +214,7 @@ q=q,
 country=country,
 min_listings=min_listings,
 cursor=cursor,
+offset=offset,
 limit=limit,
 sort=sort,
 
@@ -214,6 +227,7 @@ async def asyncio_detailed(
     country: str | Unset = UNSET,
     min_listings: int | Unset = 5,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 30,
     sort: ListMarketBrowseSort | Unset = ListMarketBrowseSort.LISTINGS_DESC,
 
@@ -226,15 +240,18 @@ async def asyncio_detailed(
     (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
     an opaque base64 token; do not parse it.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
-    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
-    same `pagination.total` field as on every other list endpoint.
+    (across all pages) — same shape as every other list endpoint.
 
     Args:
         q (str | Unset):
         country (str | Unset):
         min_listings (int | Unset):  Default: 5.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 30.
         sort (ListMarketBrowseSort | Unset):  Default: ListMarketBrowseSort.LISTINGS_DESC.
 
@@ -252,6 +269,7 @@ async def asyncio_detailed(
 country=country,
 min_listings=min_listings,
 cursor=cursor,
+offset=offset,
 limit=limit,
 sort=sort,
 
@@ -270,6 +288,7 @@ async def asyncio(
     country: str | Unset = UNSET,
     min_listings: int | Unset = 5,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 30,
     sort: ListMarketBrowseSort | Unset = ListMarketBrowseSort.LISTINGS_DESC,
 
@@ -282,15 +301,18 @@ async def asyncio(
     (`listings_desc` | `name_asc`). Use the `nextCursor` from `pagination` to walk pages — the cursor is
     an opaque base64 token; do not parse it.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     `pagination.total` is the count of markets matching the current `q`/`country`/`min_listings` filter
-    (across all pages). Renamed from the upstream's legacy `total_in_filter` so SDK consumers see the
-    same `pagination.total` field as on every other list endpoint.
+    (across all pages) — same shape as every other list endpoint.
 
     Args:
         q (str | Unset):
         country (str | Unset):
         min_listings (int | Unset):  Default: 5.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 30.
         sort (ListMarketBrowseSort | Unset):  Default: ListMarketBrowseSort.LISTINGS_DESC.
 
@@ -309,6 +331,7 @@ q=q,
 country=country,
 min_listings=min_listings,
 cursor=cursor,
+offset=offset,
 limit=limit,
 sort=sort,
 

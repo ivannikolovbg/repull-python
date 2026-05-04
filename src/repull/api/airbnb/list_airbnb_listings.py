@@ -9,22 +9,32 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.airbnb_listing_list_response import AirbnbListingListResponse
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
-    
+    *,
+    include: str | Unset = UNSET,
+
 ) -> dict[str, Any]:
     
 
     
 
-    
+    params: dict[str, Any] = {}
+
+    params["include"] = include
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/v1/channels/airbnb/listings",
+        "params": params,
     }
 
 
@@ -58,13 +68,20 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> Response[AirbnbListingListResponse]:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
-    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
-    force a fresh upstream pull.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
+    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+
+    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
+    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
+    `_errors.amenities` rather than failing the whole request.
+
+    Args:
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -76,7 +93,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        include=include,
+
     )
 
     response = client.get_httpx_client().request(
@@ -88,13 +106,20 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> AirbnbListingListResponse | None:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
-    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
-    force a fresh upstream pull.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
+    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+
+    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
+    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
+    `_errors.amenities` rather than failing the whole request.
+
+    Args:
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,19 +132,27 @@ def sync(
 
     return sync_detailed(
         client=client,
+include=include,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> Response[AirbnbListingListResponse]:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
-    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
-    force a fresh upstream pull.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
+    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+
+    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
+    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
+    `_errors.amenities` rather than failing the whole request.
+
+    Args:
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -131,7 +164,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        include=include,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -143,13 +177,20 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    include: str | Unset = UNSET,
 
 ) -> AirbnbListingListResponse | None:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Sourced
-    from the Airbnb Listing API. Listings sync automatically every few minutes — pass `?refresh=true` to
-    force a fresh upstream pull.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
+    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+
+    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
+    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
+    `_errors.amenities` rather than failing the whole request.
+
+    Args:
+        include (str | Unset):  Example: amenities.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -162,5 +203,6 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+include=include,
 
     )).parsed

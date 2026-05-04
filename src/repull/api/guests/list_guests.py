@@ -18,6 +18,7 @@ from typing import cast
 def _get_kwargs(
     *,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
@@ -36,6 +37,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     params["limit"] = limit
 
@@ -116,6 +119,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
@@ -129,11 +133,15 @@ def sync_detailed(
     cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         has_reservation (bool | Unset):
@@ -151,6 +159,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 has_reservation=has_reservation,
@@ -169,6 +178,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
@@ -182,11 +192,15 @@ def sync(
     cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         has_reservation (bool | Unset):
@@ -205,6 +219,7 @@ def sync(
     return sync_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 has_reservation=has_reservation,
@@ -217,6 +232,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
@@ -230,11 +246,15 @@ async def asyncio_detailed(
     cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         has_reservation (bool | Unset):
@@ -252,6 +272,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 has_reservation=has_reservation,
@@ -270,6 +291,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     has_reservation: bool | Unset = UNSET,
@@ -283,11 +305,15 @@ async def asyncio(
     cost regardless of how many guests the customer has. Use `pagination.nextCursor` from one response
     as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         has_reservation (bool | Unset):
@@ -306,6 +332,7 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 has_reservation=has_reservation,
