@@ -8,13 +8,28 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.webhook_event_type import WebhookEventType
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.webhook_delivery_detail_payload import WebhookDeliveryDetailPayload
+  from ..models.account_created_event import AccountCreatedEvent
+  from ..models.account_disconnected_event import AccountDisconnectedEvent
+  from ..models.ai_operation_completed_event import AiOperationCompletedEvent
+  from ..models.ai_operation_failed_event import AiOperationFailedEvent
+  from ..models.calendar_updated_event import CalendarUpdatedEvent
+  from ..models.listing_created_event import ListingCreatedEvent
+  from ..models.listing_deleted_event import ListingDeletedEvent
+  from ..models.listing_updated_event import ListingUpdatedEvent
+  from ..models.payment_completed_event import PaymentCompletedEvent
+  from ..models.payment_refunded_event import PaymentRefundedEvent
+  from ..models.repull_ping_event import RepullPingEvent
+  from ..models.reservation_cancelled_event import ReservationCancelledEvent
+  from ..models.reservation_created_event import ReservationCreatedEvent
+  from ..models.reservation_message_received_event import ReservationMessageReceivedEvent
+  from ..models.reservation_updated_event import ReservationUpdatedEvent
   from ..models.webhook_delivery_detail_request_headers_type_0 import WebhookDeliveryDetailRequestHeadersType0
   from ..models.webhook_delivery_detail_response_headers_type_0 import WebhookDeliveryDetailResponseHeadersType0
 
@@ -28,12 +43,20 @@ T = TypeVar("T", bound="WebhookDeliveryDetail")
 
 @_attrs_define
 class WebhookDeliveryDetail:
-    """ 
+    """ Full request + response capture for one delivery attempt. `payload` is the exact `WebhookEvent` envelope that was
+    (or would have been) POSTed to the subscription URL.
+
         Attributes:
             id (str | Unset):
             event_id (str | Unset):
-            event_type (str | Unset):
-            payload (WebhookDeliveryDetailPayload | Unset):
+            event_type (WebhookEventType | Unset): Canonical event type identifier. Every webhook delivery declares one of
+                these in its `type` field; SDKs key the discriminated `WebhookEvent` union on this value.
+            payload (AccountCreatedEvent | AccountDisconnectedEvent | AiOperationCompletedEvent | AiOperationFailedEvent |
+                CalendarUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingUpdatedEvent | PaymentCompletedEvent |
+                PaymentRefundedEvent | RepullPingEvent | ReservationCancelledEvent | ReservationCreatedEvent |
+                ReservationMessageReceivedEvent | ReservationUpdatedEvent | Unset): The full event envelope POSTed to your
+                webhook URL. Discriminated on `type` — narrow `event.data` by switching on `event.type`. Use the matching
+                `*Event` variant directly if your SDK lacks discriminator support.
             request_headers (None | Unset | WebhookDeliveryDetailRequestHeadersType0):
             status_code (int | None | Unset):
             response_headers (None | Unset | WebhookDeliveryDetailResponseHeadersType0):
@@ -47,8 +70,8 @@ class WebhookDeliveryDetail:
 
     id: str | Unset = UNSET
     event_id: str | Unset = UNSET
-    event_type: str | Unset = UNSET
-    payload: WebhookDeliveryDetailPayload | Unset = UNSET
+    event_type: WebhookEventType | Unset = UNSET
+    payload: AccountCreatedEvent | AccountDisconnectedEvent | AiOperationCompletedEvent | AiOperationFailedEvent | CalendarUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingUpdatedEvent | PaymentCompletedEvent | PaymentRefundedEvent | RepullPingEvent | ReservationCancelledEvent | ReservationCreatedEvent | ReservationMessageReceivedEvent | ReservationUpdatedEvent | Unset = UNSET
     request_headers: None | Unset | WebhookDeliveryDetailRequestHeadersType0 = UNSET
     status_code: int | None | Unset = UNSET
     response_headers: None | Unset | WebhookDeliveryDetailResponseHeadersType0 = UNSET
@@ -65,18 +88,66 @@ class WebhookDeliveryDetail:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.webhook_delivery_detail_payload import WebhookDeliveryDetailPayload
+        from ..models.account_created_event import AccountCreatedEvent
+        from ..models.account_disconnected_event import AccountDisconnectedEvent
+        from ..models.ai_operation_completed_event import AiOperationCompletedEvent
+        from ..models.ai_operation_failed_event import AiOperationFailedEvent
+        from ..models.calendar_updated_event import CalendarUpdatedEvent
+        from ..models.listing_created_event import ListingCreatedEvent
+        from ..models.listing_deleted_event import ListingDeletedEvent
+        from ..models.listing_updated_event import ListingUpdatedEvent
+        from ..models.payment_completed_event import PaymentCompletedEvent
+        from ..models.payment_refunded_event import PaymentRefundedEvent
+        from ..models.repull_ping_event import RepullPingEvent
+        from ..models.reservation_cancelled_event import ReservationCancelledEvent
+        from ..models.reservation_created_event import ReservationCreatedEvent
+        from ..models.reservation_message_received_event import ReservationMessageReceivedEvent
+        from ..models.reservation_updated_event import ReservationUpdatedEvent
         from ..models.webhook_delivery_detail_request_headers_type_0 import WebhookDeliveryDetailRequestHeadersType0
         from ..models.webhook_delivery_detail_response_headers_type_0 import WebhookDeliveryDetailResponseHeadersType0
         id = self.id
 
         event_id = self.event_id
 
-        event_type = self.event_type
+        event_type: str | Unset = UNSET
+        if not isinstance(self.event_type, Unset):
+            event_type = self.event_type.value
 
-        payload: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.payload, Unset):
+
+        payload: dict[str, Any] | Unset
+        if isinstance(self.payload, Unset):
+            payload = UNSET
+        elif isinstance(self.payload, ReservationCreatedEvent):
             payload = self.payload.to_dict()
+        elif isinstance(self.payload, ReservationUpdatedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, ReservationCancelledEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, ReservationMessageReceivedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, ListingCreatedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, ListingUpdatedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, ListingDeletedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, CalendarUpdatedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, AccountCreatedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, AccountDisconnectedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, AiOperationCompletedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, AiOperationFailedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, PaymentCompletedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, PaymentRefundedEvent):
+            payload = self.payload.to_dict()
+        else:
+            payload = self.payload.to_dict()
+
 
         request_headers: dict[str, Any] | None | Unset
         if isinstance(self.request_headers, Unset):
@@ -164,7 +235,21 @@ class WebhookDeliveryDetail:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webhook_delivery_detail_payload import WebhookDeliveryDetailPayload
+        from ..models.account_created_event import AccountCreatedEvent
+        from ..models.account_disconnected_event import AccountDisconnectedEvent
+        from ..models.ai_operation_completed_event import AiOperationCompletedEvent
+        from ..models.ai_operation_failed_event import AiOperationFailedEvent
+        from ..models.calendar_updated_event import CalendarUpdatedEvent
+        from ..models.listing_created_event import ListingCreatedEvent
+        from ..models.listing_deleted_event import ListingDeletedEvent
+        from ..models.listing_updated_event import ListingUpdatedEvent
+        from ..models.payment_completed_event import PaymentCompletedEvent
+        from ..models.payment_refunded_event import PaymentRefundedEvent
+        from ..models.repull_ping_event import RepullPingEvent
+        from ..models.reservation_cancelled_event import ReservationCancelledEvent
+        from ..models.reservation_created_event import ReservationCreatedEvent
+        from ..models.reservation_message_received_event import ReservationMessageReceivedEvent
+        from ..models.reservation_updated_event import ReservationUpdatedEvent
         from ..models.webhook_delivery_detail_request_headers_type_0 import WebhookDeliveryDetailRequestHeadersType0
         from ..models.webhook_delivery_detail_response_headers_type_0 import WebhookDeliveryDetailResponseHeadersType0
         d = dict(src_dict)
@@ -172,16 +257,168 @@ class WebhookDeliveryDetail:
 
         event_id = d.pop("eventId", UNSET)
 
-        event_type = d.pop("eventType", UNSET)
-
-        _payload = d.pop("payload", UNSET)
-        payload: WebhookDeliveryDetailPayload | Unset
-        if isinstance(_payload,  Unset):
-            payload = UNSET
+        _event_type = d.pop("eventType", UNSET)
+        event_type: WebhookEventType | Unset
+        if isinstance(_event_type,  Unset):
+            event_type = UNSET
         else:
-            payload = WebhookDeliveryDetailPayload.from_dict(_payload)
+            event_type = WebhookEventType(_event_type)
 
 
+
+
+        def _parse_payload(data: object) -> AccountCreatedEvent | AccountDisconnectedEvent | AiOperationCompletedEvent | AiOperationFailedEvent | CalendarUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingUpdatedEvent | PaymentCompletedEvent | PaymentRefundedEvent | RepullPingEvent | ReservationCancelledEvent | ReservationCreatedEvent | ReservationMessageReceivedEvent | ReservationUpdatedEvent | Unset:
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_0 = ReservationCreatedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_1 = ReservationUpdatedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_2 = ReservationCancelledEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_2
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_3 = ReservationMessageReceivedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_3
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_4 = ListingCreatedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_4
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_5 = ListingUpdatedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_5
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_6 = ListingDeletedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_6
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_7 = CalendarUpdatedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_7
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_8 = AccountCreatedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_8
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_9 = AccountDisconnectedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_9
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_10 = AiOperationCompletedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_10
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_11 = AiOperationFailedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_11
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_12 = PaymentCompletedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_12
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_13 = PaymentRefundedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_13
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            componentsschemas_webhook_event_type_14 = RepullPingEvent.from_dict(data)
+
+
+
+            return componentsschemas_webhook_event_type_14
+
+        payload = _parse_payload(d.pop("payload", UNSET))
 
 
         def _parse_request_headers(data: object) -> None | Unset | WebhookDeliveryDetailRequestHeadersType0:

@@ -11,6 +11,8 @@ from ..types import UNSET, Unset
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.airbnb_connection import AirbnbConnection
 
 
 
@@ -22,29 +24,20 @@ T = TypeVar("T", bound="AirbnbListing")
 
 @_attrs_define
 class AirbnbListing:
-    """ An Airbnb listing in the host account. Mirrors the Airbnb partner API shape with light normalization.
+    """ A Vanio listing paired with its Airbnb connection rows. The list endpoint groups every `listings_airbnb` row that
+    points at the same Vanio `listingId` under a single `connections[]` array.
 
         Attributes:
-            id (str | Unset): Airbnb listing ID Example: 12345678.
-            name (str | Unset): Listing title
-            status (str | Unset): Listing status (active, unlisted, etc.)
-            property_type (None | str | Unset):
-            room_type (None | str | Unset):
-            bedrooms (int | None | Unset):
-            bathrooms (float | None | Unset):
-            max_guests (int | None | Unset):
-            thumbnail_url (None | str | Unset):
+            listing_id (int | Unset): Vanio (Repull) listing id Example: 6248.
+            name (str | Unset): Listing title Example: Oceanview Villa.
+            city (None | str | Unset):  Example: Malibu.
+            connections (list[AirbnbConnection] | Unset):
      """
 
-    id: str | Unset = UNSET
+    listing_id: int | Unset = UNSET
     name: str | Unset = UNSET
-    status: str | Unset = UNSET
-    property_type: None | str | Unset = UNSET
-    room_type: None | str | Unset = UNSET
-    bedrooms: int | None | Unset = UNSET
-    bathrooms: float | None | Unset = UNSET
-    max_guests: int | None | Unset = UNSET
-    thumbnail_url: None | str | Unset = UNSET
+    city: None | str | Unset = UNSET
+    connections: list[AirbnbConnection] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -52,71 +45,39 @@ class AirbnbListing:
 
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        from ..models.airbnb_connection import AirbnbConnection
+        listing_id = self.listing_id
 
         name = self.name
 
-        status = self.status
-
-        property_type: None | str | Unset
-        if isinstance(self.property_type, Unset):
-            property_type = UNSET
+        city: None | str | Unset
+        if isinstance(self.city, Unset):
+            city = UNSET
         else:
-            property_type = self.property_type
+            city = self.city
 
-        room_type: None | str | Unset
-        if isinstance(self.room_type, Unset):
-            room_type = UNSET
-        else:
-            room_type = self.room_type
+        connections: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.connections, Unset):
+            connections = []
+            for connections_item_data in self.connections:
+                connections_item = connections_item_data.to_dict()
+                connections.append(connections_item)
 
-        bedrooms: int | None | Unset
-        if isinstance(self.bedrooms, Unset):
-            bedrooms = UNSET
-        else:
-            bedrooms = self.bedrooms
 
-        bathrooms: float | None | Unset
-        if isinstance(self.bathrooms, Unset):
-            bathrooms = UNSET
-        else:
-            bathrooms = self.bathrooms
-
-        max_guests: int | None | Unset
-        if isinstance(self.max_guests, Unset):
-            max_guests = UNSET
-        else:
-            max_guests = self.max_guests
-
-        thumbnail_url: None | str | Unset
-        if isinstance(self.thumbnail_url, Unset):
-            thumbnail_url = UNSET
-        else:
-            thumbnail_url = self.thumbnail_url
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
-        if id is not UNSET:
-            field_dict["id"] = id
+        if listing_id is not UNSET:
+            field_dict["listingId"] = listing_id
         if name is not UNSET:
             field_dict["name"] = name
-        if status is not UNSET:
-            field_dict["status"] = status
-        if property_type is not UNSET:
-            field_dict["propertyType"] = property_type
-        if room_type is not UNSET:
-            field_dict["roomType"] = room_type
-        if bedrooms is not UNSET:
-            field_dict["bedrooms"] = bedrooms
-        if bathrooms is not UNSET:
-            field_dict["bathrooms"] = bathrooms
-        if max_guests is not UNSET:
-            field_dict["maxGuests"] = max_guests
-        if thumbnail_url is not UNSET:
-            field_dict["thumbnailUrl"] = thumbnail_url
+        if city is not UNSET:
+            field_dict["city"] = city
+        if connections is not UNSET:
+            field_dict["connections"] = connections
 
         return field_dict
 
@@ -124,83 +85,39 @@ class AirbnbListing:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_connection import AirbnbConnection
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        listing_id = d.pop("listingId", UNSET)
 
         name = d.pop("name", UNSET)
 
-        status = d.pop("status", UNSET)
-
-        def _parse_property_type(data: object) -> None | str | Unset:
+        def _parse_city(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        property_type = _parse_property_type(d.pop("propertyType", UNSET))
+        city = _parse_city(d.pop("city", UNSET))
 
 
-        def _parse_room_type(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        room_type = _parse_room_type(d.pop("roomType", UNSET))
+        _connections = d.pop("connections", UNSET)
+        connections: list[AirbnbConnection] | Unset = UNSET
+        if _connections is not UNSET:
+            connections = []
+            for connections_item_data in _connections:
+                connections_item = AirbnbConnection.from_dict(connections_item_data)
 
 
-        def _parse_bedrooms(data: object) -> int | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(int | None | Unset, data)
 
-        bedrooms = _parse_bedrooms(d.pop("bedrooms", UNSET))
-
-
-        def _parse_bathrooms(data: object) -> float | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(float | None | Unset, data)
-
-        bathrooms = _parse_bathrooms(d.pop("bathrooms", UNSET))
-
-
-        def _parse_max_guests(data: object) -> int | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(int | None | Unset, data)
-
-        max_guests = _parse_max_guests(d.pop("maxGuests", UNSET))
-
-
-        def _parse_thumbnail_url(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        thumbnail_url = _parse_thumbnail_url(d.pop("thumbnailUrl", UNSET))
+                connections.append(connections_item)
 
 
         airbnb_listing = cls(
-            id=id,
+            listing_id=listing_id,
             name=name,
-            status=status,
-            property_type=property_type,
-            room_type=room_type,
-            bedrooms=bedrooms,
-            bathrooms=bathrooms,
-            max_guests=max_guests,
-            thumbnail_url=thumbnail_url,
+            city=city,
+            connections=connections,
         )
 
 

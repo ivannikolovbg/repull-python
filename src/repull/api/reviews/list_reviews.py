@@ -21,6 +21,7 @@ from typing import cast
 def _get_kwargs(
     *,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListReviewsPlatform | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -42,6 +43,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     params["limit"] = limit
 
@@ -140,6 +143,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListReviewsPlatform | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -156,12 +160,16 @@ def sync_detailed(
     `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListReviewsPlatform | Unset):
         listing_id (int | Unset):
@@ -182,6 +190,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 listing_id=listing_id,
@@ -203,6 +212,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListReviewsPlatform | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -219,12 +229,16 @@ def sync(
     `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListReviewsPlatform | Unset):
         listing_id (int | Unset):
@@ -246,6 +260,7 @@ def sync(
     return sync_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 listing_id=listing_id,
@@ -261,6 +276,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListReviewsPlatform | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -277,12 +293,16 @@ async def asyncio_detailed(
     `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListReviewsPlatform | Unset):
         listing_id (int | Unset):
@@ -303,6 +323,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 listing_id=listing_id,
@@ -324,6 +345,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListReviewsPlatform | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -340,12 +362,16 @@ async def asyncio(
     `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListReviewsPlatform | Unset):
         listing_id (int | Unset):
@@ -367,6 +393,7 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 listing_id=listing_id,

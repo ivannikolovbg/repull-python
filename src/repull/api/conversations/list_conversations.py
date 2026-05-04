@@ -20,6 +20,7 @@ from typing import cast
 def _get_kwargs(
     *,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
@@ -37,6 +38,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     params["limit"] = limit
 
@@ -123,6 +126,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
@@ -135,11 +139,15 @@ def sync_detailed(
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
     cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         status (ListConversationsStatus | Unset):
@@ -156,6 +164,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 status=status,
@@ -173,6 +182,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
@@ -185,11 +195,15 @@ def sync(
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
     cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         status (ListConversationsStatus | Unset):
@@ -207,6 +221,7 @@ def sync(
     return sync_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 status=status,
@@ -218,6 +233,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
@@ -230,11 +246,15 @@ async def asyncio_detailed(
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
     cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         status (ListConversationsStatus | Unset):
@@ -251,6 +271,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 status=status,
@@ -268,6 +289,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
@@ -280,11 +302,15 @@ async def asyncio(
     `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
     cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         status (ListConversationsStatus | Unset):
@@ -302,6 +328,7 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 platform=platform,
 status=status,

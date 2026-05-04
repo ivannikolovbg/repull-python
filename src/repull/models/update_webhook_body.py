@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.update_webhook_body_status import UpdateWebhookBodyStatus
+from ..models.webhook_event_type import WebhookEventType
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -27,13 +28,13 @@ class UpdateWebhookBody:
         Attributes:
             url (str | Unset):
             description (None | str | Unset):
-            events (list[str] | Unset):
+            events (list[WebhookEventType] | Unset):
             status (UpdateWebhookBodyStatus | Unset):
      """
 
     url: str | Unset = UNSET
     description: None | str | Unset = UNSET
-    events: list[str] | Unset = UNSET
+    events: list[WebhookEventType] | Unset = UNSET
     status: UpdateWebhookBodyStatus | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -52,7 +53,10 @@ class UpdateWebhookBody:
 
         events: list[str] | Unset = UNSET
         if not isinstance(self.events, Unset):
-            events = self.events
+            events = []
+            for events_item_data in self.events:
+                events_item = events_item_data.value
+                events.append(events_item)
 
 
 
@@ -94,7 +98,16 @@ class UpdateWebhookBody:
         description = _parse_description(d.pop("description", UNSET))
 
 
-        events = cast(list[str], d.pop("events", UNSET))
+        _events = d.pop("events", UNSET)
+        events: list[WebhookEventType] | Unset = UNSET
+        if _events is not UNSET:
+            events = []
+            for events_item_data in _events:
+                events_item = WebhookEventType(events_item_data)
+
+
+
+                events.append(events_item)
 
 
         _status = d.pop("status", UNSET)

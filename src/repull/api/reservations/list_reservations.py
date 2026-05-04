@@ -22,6 +22,7 @@ def _get_kwargs(
     *,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -46,6 +47,8 @@ def _get_kwargs(
     params["limit"] = limit
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     params["platform"] = platform
 
@@ -130,6 +133,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -150,12 +154,14 @@ def sync_detailed(
     `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
+    offset > 10000 returns 422 with a docs link.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -178,6 +184,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         limit=limit,
 cursor=cursor,
+offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,
@@ -201,6 +208,7 @@ def sync(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -221,12 +229,14 @@ def sync(
     `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
+    offset > 10000 returns 422 with a docs link.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -250,6 +260,7 @@ def sync(
         client=client,
 limit=limit,
 cursor=cursor,
+offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,
@@ -267,6 +278,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -287,12 +299,14 @@ async def asyncio_detailed(
     `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
+    offset > 10000 returns 422 with a docs link.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -315,6 +329,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         limit=limit,
 cursor=cursor,
+offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,
@@ -338,6 +353,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     platform: str | Unset = UNSET,
     status: ListReservationsStatus | Unset = UNSET,
     listing_id: int | Unset = UNSET,
@@ -358,12 +374,14 @@ async def asyncio(
     `?cursor=` on the next request. Stop when `pagination.hasMore` is `false`. `limit` defaults to 50,
     max 100; requesting more returns 422 (no silent truncation).
 
-    **Breaking change:** `?offset=` is no longer accepted. Requests passing it return 422 with a
-    `did_you_mean: 'cursor'` hint.
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
+    offset > 10000 returns 422 with a docs link.
 
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
@@ -387,6 +405,7 @@ async def asyncio(
         client=client,
 limit=limit,
 cursor=cursor,
+offset=offset,
 platform=platform,
 status=status,
 listing_id=listing_id,

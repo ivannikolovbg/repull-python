@@ -8,13 +8,14 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.webhook_event_type import WebhookEventType
 from uuid import UUID
 
 
 
 def _get_kwargs(
     id: UUID,
-    event_type: str,
+    event_type: WebhookEventType,
 
 ) -> dict[str, Any]:
     
@@ -54,7 +55,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def sync_detailed(
     id: UUID,
-    event_type: str,
+    event_type: WebhookEventType,
     *,
     client: AuthenticatedClient | Client,
 
@@ -65,7 +66,9 @@ def sync_detailed(
 
     Args:
         id (UUID):
-        event_type (str):  Example: reservation.created.
+        event_type (WebhookEventType): Canonical event type identifier. Every webhook delivery
+            declares one of these in its `type` field; SDKs key the discriminated `WebhookEvent` union
+            on this value.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -91,7 +94,7 @@ event_type=event_type,
 
 async def asyncio_detailed(
     id: UUID,
-    event_type: str,
+    event_type: WebhookEventType,
     *,
     client: AuthenticatedClient | Client,
 
@@ -102,7 +105,9 @@ async def asyncio_detailed(
 
     Args:
         id (UUID):
-        event_type (str):  Example: reservation.created.
+        event_type (WebhookEventType): Canonical event type identifier. Every webhook delivery
+            declares one of these in its `type` field; SDKs key the discriminated `WebhookEvent` union
+            on this value.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

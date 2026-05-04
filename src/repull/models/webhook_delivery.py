@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.webhook_event_type import WebhookEventType
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -25,11 +26,14 @@ T = TypeVar("T", bound="WebhookDelivery")
 
 @_attrs_define
 class WebhookDelivery:
-    """ 
+    """ A single delivery attempt for a webhook event. The actual `WebhookEvent` envelope POSTed to the subscription URL is
+    captured on `WebhookDeliveryDetail.payload` (this list view omits the body for size).
+
         Attributes:
             id (UUID | Unset):
             event_id (UUID | Unset): Stable across retries of the same logical event.
-            event_type (str | Unset):
+            event_type (WebhookEventType | Unset): Canonical event type identifier. Every webhook delivery declares one of
+                these in its `type` field; SDKs key the discriminated `WebhookEvent` union on this value.
             status_code (int | None | Unset):
             response_time_ms (int | None | Unset):
             attempt (int | Unset):
@@ -42,7 +46,7 @@ class WebhookDelivery:
 
     id: UUID | Unset = UNSET
     event_id: UUID | Unset = UNSET
-    event_type: str | Unset = UNSET
+    event_type: WebhookEventType | Unset = UNSET
     status_code: int | None | Unset = UNSET
     response_time_ms: int | None | Unset = UNSET
     attempt: int | Unset = UNSET
@@ -66,7 +70,10 @@ class WebhookDelivery:
         if not isinstance(self.event_id, Unset):
             event_id = str(self.event_id)
 
-        event_type = self.event_type
+        event_type: str | Unset = UNSET
+        if not isinstance(self.event_type, Unset):
+            event_type = self.event_type.value
+
 
         status_code: int | None | Unset
         if isinstance(self.status_code, Unset):
@@ -165,7 +172,15 @@ class WebhookDelivery:
 
 
 
-        event_type = d.pop("eventType", UNSET)
+        _event_type = d.pop("eventType", UNSET)
+        event_type: WebhookEventType | Unset
+        if isinstance(_event_type,  Unset):
+            event_type = UNSET
+        else:
+            event_type = WebhookEventType(_event_type)
+
+
+
 
         def _parse_status_code(data: object) -> int | None | Unset:
             if data is None:

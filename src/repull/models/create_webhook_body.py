@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.webhook_event_type import WebhookEventType
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -25,13 +26,13 @@ class CreateWebhookBody:
     """ 
         Attributes:
             url (str):
-            events (list[str]):
+            events (list[WebhookEventType]):
             description (None | str | Unset):
             api_version (str | Unset):  Example: 2026-04.
      """
 
     url: str
-    events: list[str]
+    events: list[WebhookEventType]
     description: None | str | Unset = UNSET
     api_version: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -43,7 +44,10 @@ class CreateWebhookBody:
     def to_dict(self) -> dict[str, Any]:
         url = self.url
 
-        events = self.events
+        events = []
+        for events_item_data in self.events:
+            events_item = events_item_data.value
+            events.append(events_item)
 
 
 
@@ -76,7 +80,14 @@ class CreateWebhookBody:
         d = dict(src_dict)
         url = d.pop("url")
 
-        events = cast(list[str], d.pop("events"))
+        events = []
+        _events = d.pop("events")
+        for events_item_data in (_events):
+            events_item = WebhookEventType(events_item_data)
+
+
+
+            events.append(events_item)
 
 
         def _parse_description(data: object) -> None | str | Unset:

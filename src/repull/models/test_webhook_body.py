@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.webhook_event_type import WebhookEventType
 from ..types import UNSET, Unset
 
 
@@ -24,12 +25,13 @@ class TestWebhookBody:
     """ 
         Attributes:
             url (str | Unset):
-            event_type (str | Unset):
+            event_type (WebhookEventType | Unset): Canonical event type identifier. Every webhook delivery declares one of
+                these in its `type` field; SDKs key the discriminated `WebhookEvent` union on this value.
             signing_secret (str | Unset):
      """
 
     url: str | Unset = UNSET
-    event_type: str | Unset = UNSET
+    event_type: WebhookEventType | Unset = UNSET
     signing_secret: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -40,7 +42,10 @@ class TestWebhookBody:
     def to_dict(self) -> dict[str, Any]:
         url = self.url
 
-        event_type = self.event_type
+        event_type: str | Unset = UNSET
+        if not isinstance(self.event_type, Unset):
+            event_type = self.event_type.value
+
 
         signing_secret = self.signing_secret
 
@@ -65,7 +70,15 @@ class TestWebhookBody:
         d = dict(src_dict)
         url = d.pop("url", UNSET)
 
-        event_type = d.pop("event_type", UNSET)
+        _event_type = d.pop("event_type", UNSET)
+        event_type: WebhookEventType | Unset
+        if isinstance(_event_type,  Unset):
+            event_type = UNSET
+        else:
+            event_type = WebhookEventType(_event_type)
+
+
+
 
         signing_secret = d.pop("signing_secret", UNSET)
 

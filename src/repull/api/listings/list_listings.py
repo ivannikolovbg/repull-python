@@ -19,6 +19,7 @@ from typing import cast
 def _get_kwargs(
     *,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
@@ -37,6 +38,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     params["limit"] = limit
 
@@ -107,6 +110,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
@@ -117,11 +121,14 @@ def sync_detailed(
     """ List listings
 
      Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
-    from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
-    (substring on name/street/city), `status`, `channel`.
+    from one response as the `cursor` query param of the next request to walk the full set. `?offset=`
+    is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset` parameter
+    below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
+    `channel`.
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         status (ListListingsStatus | Unset):
@@ -139,6 +146,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 status=status,
@@ -157,6 +165,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
@@ -167,11 +176,14 @@ def sync(
     """ List listings
 
      Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
-    from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
-    (substring on name/street/city), `status`, `channel`.
+    from one response as the `cursor` query param of the next request to walk the full set. `?offset=`
+    is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset` parameter
+    below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
+    `channel`.
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         status (ListListingsStatus | Unset):
@@ -190,6 +202,7 @@ def sync(
     return sync_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 status=status,
@@ -202,6 +215,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
@@ -212,11 +226,14 @@ async def asyncio_detailed(
     """ List listings
 
      Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
-    from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
-    (substring on name/street/city), `status`, `channel`.
+    from one response as the `cursor` query param of the next request to walk the full set. `?offset=`
+    is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset` parameter
+    below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
+    `channel`.
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         status (ListListingsStatus | Unset):
@@ -234,6 +251,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 status=status,
@@ -252,6 +270,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
@@ -262,11 +281,14 @@ async def asyncio(
     """ List listings
 
      Cursor-paginated list of listings owned by the authenticated workspace. Use `pagination.nextCursor`
-    from one response as the `cursor` query param of the next request to walk the full set. Filters: `q`
-    (substring on name/street/city), `status`, `channel`.
+    from one response as the `cursor` query param of the next request to walk the full set. `?offset=`
+    is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset` parameter
+    below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
+    `channel`.
 
     Args:
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
         status (ListListingsStatus | Unset):
@@ -285,6 +307,7 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 q=q,
 status=status,

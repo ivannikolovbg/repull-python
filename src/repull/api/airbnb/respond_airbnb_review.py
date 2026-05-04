@@ -8,13 +8,21 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.airbnb_review import AirbnbReview
+from ...models.error import Error
+from ...models.respond_airbnb_review_body import RespondAirbnbReviewBody
+from typing import cast
 
 
 
 def _get_kwargs(
-    
+    id: str,
+    *,
+    body: RespondAirbnbReviewBody,
+
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+
 
     
 
@@ -22,17 +30,54 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "post",
-        "url": "/v1/channels/airbnb/reviews",
+        "url": "/v1/channels/airbnb/reviews/{id}/respond".format(id=quote(str(id), safe=""),),
     }
 
+    _kwargs["json"] = body.to_dict()
 
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReview | Error | None:
     if response.status_code == 200:
-        return None
+        response_200 = AirbnbReview.from_dict(response.json())
+
+
+
+        return response_200
+
+    if response.status_code == 401:
+        response_401 = Error.from_dict(response.json())
+
+
+
+        return response_401
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
+    if response.status_code == 500:
+        response_500 = Error.from_dict(response.json())
+
+
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -40,7 +85,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReview | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -50,26 +95,34 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
 def sync_detailed(
+    id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: RespondAirbnbReviewBody,
 
-) -> Response[Any]:
+) -> Response[AirbnbReview | Error]:
     """ Respond to Airbnb review
 
-     Post a public response to a guest review. Airbnb allows one response per review — repeated POSTs
-    return 409.
+     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+    POSTs return 409. Response text is capped at 1000 characters.
+
+    Args:
+        id (str):
+        body (RespondAirbnbReviewBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[AirbnbReview | Error]
      """
 
 
     kwargs = _get_kwargs(
-        
+        id=id,
+body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -78,28 +131,67 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
-async def asyncio_detailed(
+def sync(
+    id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: RespondAirbnbReviewBody,
 
-) -> Response[Any]:
+) -> AirbnbReview | Error | None:
     """ Respond to Airbnb review
 
-     Post a public response to a guest review. Airbnb allows one response per review — repeated POSTs
-    return 409.
+     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+    POSTs return 409. Response text is capped at 1000 characters.
+
+    Args:
+        id (str):
+        body (RespondAirbnbReviewBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        AirbnbReview | Error
+     """
+
+
+    return sync_detailed(
+        id=id,
+client=client,
+body=body,
+
+    ).parsed
+
+async def asyncio_detailed(
+    id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: RespondAirbnbReviewBody,
+
+) -> Response[AirbnbReview | Error]:
+    """ Respond to Airbnb review
+
+     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+    POSTs return 409. Response text is capped at 1000 characters.
+
+    Args:
+        id (str):
+        body (RespondAirbnbReviewBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[AirbnbReview | Error]
      """
 
 
     kwargs = _get_kwargs(
-        
+        id=id,
+body=body,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -108,3 +200,34 @@ async def asyncio_detailed(
 
     return _build_response(client=client, response=response)
 
+async def asyncio(
+    id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: RespondAirbnbReviewBody,
+
+) -> AirbnbReview | Error | None:
+    """ Respond to Airbnb review
+
+     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+    POSTs return 409. Response text is capped at 1000 characters.
+
+    Args:
+        id (str):
+        body (RespondAirbnbReviewBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        AirbnbReview | Error
+     """
+
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+body=body,
+
+    )).parsed
