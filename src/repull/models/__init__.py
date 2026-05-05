@@ -277,27 +277,31 @@ from .reservation import Reservation
 from .reservation_cancelled_event import ReservationCancelledEvent
 from .reservation_cancelled_event_type import ReservationCancelledEventType
 from .reservation_cancelled_payload import ReservationCancelledPayload
-from .reservation_cancelled_payload_refund_type_0 import ReservationCancelledPayloadRefundType0
+from .reservation_cancelled_payload_cancelled_by import ReservationCancelledPayloadCancelledBy
 from .reservation_created_event import ReservationCreatedEvent
 from .reservation_created_event_type import ReservationCreatedEventType
 from .reservation_created_payload import ReservationCreatedPayload
-from .reservation_created_payload_guests import ReservationCreatedPayloadGuests
-from .reservation_created_payload_pricing import ReservationCreatedPayloadPricing
-from .reservation_created_payload_primary_guest import ReservationCreatedPayloadPrimaryGuest
+from .reservation_financials import ReservationFinancials
 from .reservation_guest_details import ReservationGuestDetails
 from .reservation_list_response import ReservationListResponse
 from .reservation_message_received_event import ReservationMessageReceivedEvent
 from .reservation_message_received_event_type import ReservationMessageReceivedEventType
 from .reservation_message_received_payload import ReservationMessageReceivedPayload
 from .reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
+from .reservation_occupancy import ReservationOccupancy
 from .reservation_platform_type_1 import ReservationPlatformType1
 from .reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
 from .reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
+from .reservation_primary_guest import ReservationPrimaryGuest
+from .reservation_source_type_1 import ReservationSourceType1
+from .reservation_source_type_2_type_1 import ReservationSourceType2Type1
+from .reservation_source_type_3_type_1 import ReservationSourceType3Type1
 from .reservation_status import ReservationStatus
 from .reservation_updated_event import ReservationUpdatedEvent
 from .reservation_updated_event_type import ReservationUpdatedEventType
 from .reservation_updated_payload import ReservationUpdatedPayload
-from .reservation_updated_payload_changes import ReservationUpdatedPayloadChanges
+from .reservation_updated_payload_previous_attributes import ReservationUpdatedPayloadPreviousAttributes
+from .reservation_webhook_object import ReservationWebhookObject
 from .respond_airbnb_review_body import RespondAirbnbReviewBody
 from .review import Review
 from .review_category import ReviewCategory
@@ -628,27 +632,31 @@ __all__ = (
     "ReservationCancelledEvent",
     "ReservationCancelledEventType",
     "ReservationCancelledPayload",
-    "ReservationCancelledPayloadRefundType0",
+    "ReservationCancelledPayloadCancelledBy",
     "ReservationCreatedEvent",
     "ReservationCreatedEventType",
     "ReservationCreatedPayload",
-    "ReservationCreatedPayloadGuests",
-    "ReservationCreatedPayloadPricing",
-    "ReservationCreatedPayloadPrimaryGuest",
+    "ReservationFinancials",
     "ReservationGuestDetails",
     "ReservationListResponse",
     "ReservationMessageReceivedEvent",
     "ReservationMessageReceivedEventType",
     "ReservationMessageReceivedPayload",
     "ReservationMessageReceivedPayloadFrom",
+    "ReservationOccupancy",
     "ReservationPlatformType1",
     "ReservationPlatformType2Type1",
     "ReservationPlatformType3Type1",
+    "ReservationPrimaryGuest",
+    "ReservationSourceType1",
+    "ReservationSourceType2Type1",
+    "ReservationSourceType3Type1",
     "ReservationStatus",
     "ReservationUpdatedEvent",
     "ReservationUpdatedEventType",
     "ReservationUpdatedPayload",
-    "ReservationUpdatedPayloadChanges",
+    "ReservationUpdatedPayloadPreviousAttributes",
+    "ReservationWebhookObject",
     "RespondAirbnbReviewBody",
     "Review",
     "ReviewCategory",

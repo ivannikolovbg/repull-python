@@ -32,7 +32,7 @@ class ReservationCreatedEvent:
         Attributes:
             type_ (ReservationCreatedEventType):
             data (ReservationCreatedPayload): Payload for `reservation.created`. A new reservation arrived from any
-                connected channel or direct booking.
+                connected channel or direct booking. Stripe-pattern envelope: `data.object` carries the reservation snapshot.
             id (UUID | Unset): Stable event id — same across delivery retries of the same logical event.
             created_at (datetime.datetime | Unset):
             api_version (str | Unset):  Example: 2026-04.

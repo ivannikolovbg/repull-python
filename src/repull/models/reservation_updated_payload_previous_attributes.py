@@ -8,29 +8,27 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 
 
 
 
 
 
-T = TypeVar("T", bound="ReservationCreatedPayloadGuests")
+T = TypeVar("T", bound="ReservationUpdatedPayloadPreviousAttributes")
 
 
 
 @_attrs_define
-class ReservationCreatedPayloadGuests:
-    """ 
-        Attributes:
-            adults (int | Unset):  Example: 2.
-            children (int | Unset):
-            infants (int | Unset):
+class ReservationUpdatedPayloadPreviousAttributes:
+    """ Sparse map: every key here is a field on the reservation snapshot whose value changed in this event, mapped to its
+    prior value. Mirrors the keys of `ReservationWebhookObject` (e.g. `checkinDate`, `checkoutDate`, `status`).
+    Receivers can diff `object[k]` vs `previousAttributes[k]` to know what moved.
+
+        Example:
+            {'checkinDate': '2026-06-11', 'checkoutDate': '2026-06-16'}
+
      """
 
-    adults: int | Unset = UNSET
-    children: int | Unset = UNSET
-    infants: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,23 +36,9 @@ class ReservationCreatedPayloadGuests:
 
 
     def to_dict(self) -> dict[str, Any]:
-        adults = self.adults
-
-        children = self.children
-
-        infants = self.infants
-
-
+        
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({
-        })
-        if adults is not UNSET:
-            field_dict["adults"] = adults
-        if children is not UNSET:
-            field_dict["children"] = children
-        if infants is not UNSET:
-            field_dict["infants"] = infants
 
         return field_dict
 
@@ -63,21 +47,12 @@ class ReservationCreatedPayloadGuests:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        adults = d.pop("adults", UNSET)
-
-        children = d.pop("children", UNSET)
-
-        infants = d.pop("infants", UNSET)
-
-        reservation_created_payload_guests = cls(
-            adults=adults,
-            children=children,
-            infants=infants,
+        reservation_updated_payload_previous_attributes = cls(
         )
 
 
-        reservation_created_payload_guests.additional_properties = d
-        return reservation_created_payload_guests
+        reservation_updated_payload_previous_attributes.additional_properties = d
+        return reservation_updated_payload_previous_attributes
 
     @property
     def additional_keys(self) -> list[str]:

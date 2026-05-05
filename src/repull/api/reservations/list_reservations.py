@@ -28,8 +28,14 @@ def _get_kwargs(
     listing_id: int | Unset = UNSET,
     check_in_after: datetime.date | Unset = UNSET,
     check_in_before: datetime.date | Unset = UNSET,
+    check_out_after: datetime.date | Unset = UNSET,
+    check_out_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    checkInAfter: datetime.date | Unset = UNSET,
+    checkInBefore: datetime.date | Unset = UNSET,
+    checkOutAfter: datetime.date | Unset = UNSET,
+    checkOutBefore: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -70,6 +76,16 @@ def _get_kwargs(
         json_check_in_before = check_in_before.isoformat()
     params["check_in_before"] = json_check_in_before
 
+    json_check_out_after: str | Unset = UNSET
+    if not isinstance(check_out_after, Unset):
+        json_check_out_after = check_out_after.isoformat()
+    params["check_out_after"] = json_check_out_after
+
+    json_check_out_before: str | Unset = UNSET
+    if not isinstance(check_out_before, Unset):
+        json_check_out_before = check_out_before.isoformat()
+    params["check_out_before"] = json_check_out_before
+
     json_check_in_from: str | Unset = UNSET
     if not isinstance(check_in_from, Unset):
         json_check_in_from = check_in_from.isoformat()
@@ -79,6 +95,26 @@ def _get_kwargs(
     if not isinstance(check_in_to, Unset):
         json_check_in_to = check_in_to.isoformat()
     params["checkInTo"] = json_check_in_to
+
+    json_checkInAfter: str | Unset = UNSET
+    if not isinstance(checkInAfter, Unset):
+        json_checkInAfter = checkInAfter.isoformat()
+    params["checkInAfter"] = json_checkInAfter
+
+    json_checkInBefore: str | Unset = UNSET
+    if not isinstance(checkInBefore, Unset):
+        json_checkInBefore = checkInBefore.isoformat()
+    params["checkInBefore"] = json_checkInBefore
+
+    json_checkOutAfter: str | Unset = UNSET
+    if not isinstance(checkOutAfter, Unset):
+        json_checkOutAfter = checkOutAfter.isoformat()
+    params["checkOutAfter"] = json_checkOutAfter
+
+    json_checkOutBefore: str | Unset = UNSET
+    if not isinstance(checkOutBefore, Unset):
+        json_checkOutBefore = checkOutBefore.isoformat()
+    params["checkOutBefore"] = json_checkOutBefore
 
     params["include_total"] = include_total
 
@@ -139,8 +175,14 @@ def sync_detailed(
     listing_id: int | Unset = UNSET,
     check_in_after: datetime.date | Unset = UNSET,
     check_in_before: datetime.date | Unset = UNSET,
+    check_out_after: datetime.date | Unset = UNSET,
+    check_out_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    checkInAfter: datetime.date | Unset = UNSET,
+    checkInBefore: datetime.date | Unset = UNSET,
+    checkOutAfter: datetime.date | Unset = UNSET,
+    checkOutBefore: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -165,10 +207,16 @@ def sync_detailed(
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
-        check_in_after (datetime.date | Unset):
-        check_in_before (datetime.date | Unset):
+        check_in_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_in_before (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_before (datetime.date | Unset):  Example: 2026-05-31.
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        checkInAfter (datetime.date | Unset):
+        checkInBefore (datetime.date | Unset):
+        checkOutAfter (datetime.date | Unset):
+        checkOutBefore (datetime.date | Unset):
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -190,8 +238,14 @@ status=status,
 listing_id=listing_id,
 check_in_after=check_in_after,
 check_in_before=check_in_before,
+check_out_after=check_out_after,
+check_out_before=check_out_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+checkInAfter=checkInAfter,
+checkInBefore=checkInBefore,
+checkOutAfter=checkOutAfter,
+checkOutBefore=checkOutBefore,
 include_total=include_total,
 x_schema=x_schema,
 
@@ -214,8 +268,14 @@ def sync(
     listing_id: int | Unset = UNSET,
     check_in_after: datetime.date | Unset = UNSET,
     check_in_before: datetime.date | Unset = UNSET,
+    check_out_after: datetime.date | Unset = UNSET,
+    check_out_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    checkInAfter: datetime.date | Unset = UNSET,
+    checkInBefore: datetime.date | Unset = UNSET,
+    checkOutAfter: datetime.date | Unset = UNSET,
+    checkOutBefore: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -240,10 +300,16 @@ def sync(
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
-        check_in_after (datetime.date | Unset):
-        check_in_before (datetime.date | Unset):
+        check_in_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_in_before (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_before (datetime.date | Unset):  Example: 2026-05-31.
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        checkInAfter (datetime.date | Unset):
+        checkInBefore (datetime.date | Unset):
+        checkOutAfter (datetime.date | Unset):
+        checkOutBefore (datetime.date | Unset):
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -266,8 +332,14 @@ status=status,
 listing_id=listing_id,
 check_in_after=check_in_after,
 check_in_before=check_in_before,
+check_out_after=check_out_after,
+check_out_before=check_out_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+checkInAfter=checkInAfter,
+checkInBefore=checkInBefore,
+checkOutAfter=checkOutAfter,
+checkOutBefore=checkOutBefore,
 include_total=include_total,
 x_schema=x_schema,
 
@@ -284,8 +356,14 @@ async def asyncio_detailed(
     listing_id: int | Unset = UNSET,
     check_in_after: datetime.date | Unset = UNSET,
     check_in_before: datetime.date | Unset = UNSET,
+    check_out_after: datetime.date | Unset = UNSET,
+    check_out_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    checkInAfter: datetime.date | Unset = UNSET,
+    checkInBefore: datetime.date | Unset = UNSET,
+    checkOutAfter: datetime.date | Unset = UNSET,
+    checkOutBefore: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -310,10 +388,16 @@ async def asyncio_detailed(
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
-        check_in_after (datetime.date | Unset):
-        check_in_before (datetime.date | Unset):
+        check_in_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_in_before (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_before (datetime.date | Unset):  Example: 2026-05-31.
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        checkInAfter (datetime.date | Unset):
+        checkInBefore (datetime.date | Unset):
+        checkOutAfter (datetime.date | Unset):
+        checkOutBefore (datetime.date | Unset):
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -335,8 +419,14 @@ status=status,
 listing_id=listing_id,
 check_in_after=check_in_after,
 check_in_before=check_in_before,
+check_out_after=check_out_after,
+check_out_before=check_out_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+checkInAfter=checkInAfter,
+checkInBefore=checkInBefore,
+checkOutAfter=checkOutAfter,
+checkOutBefore=checkOutBefore,
 include_total=include_total,
 x_schema=x_schema,
 
@@ -359,8 +449,14 @@ async def asyncio(
     listing_id: int | Unset = UNSET,
     check_in_after: datetime.date | Unset = UNSET,
     check_in_before: datetime.date | Unset = UNSET,
+    check_out_after: datetime.date | Unset = UNSET,
+    check_out_before: datetime.date | Unset = UNSET,
     check_in_from: datetime.date | Unset = UNSET,
     check_in_to: datetime.date | Unset = UNSET,
+    checkInAfter: datetime.date | Unset = UNSET,
+    checkInBefore: datetime.date | Unset = UNSET,
+    checkOutAfter: datetime.date | Unset = UNSET,
+    checkOutBefore: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -385,10 +481,16 @@ async def asyncio(
         platform (str | Unset):
         status (ListReservationsStatus | Unset):
         listing_id (int | Unset):
-        check_in_after (datetime.date | Unset):
-        check_in_before (datetime.date | Unset):
+        check_in_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_in_before (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_after (datetime.date | Unset):  Example: 2026-05-31.
+        check_out_before (datetime.date | Unset):  Example: 2026-05-31.
         check_in_from (datetime.date | Unset):
         check_in_to (datetime.date | Unset):
+        checkInAfter (datetime.date | Unset):
+        checkInBefore (datetime.date | Unset):
+        checkOutAfter (datetime.date | Unset):
+        checkOutBefore (datetime.date | Unset):
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -411,8 +513,14 @@ status=status,
 listing_id=listing_id,
 check_in_after=check_in_after,
 check_in_before=check_in_before,
+check_out_after=check_out_after,
+check_out_before=check_out_before,
 check_in_from=check_in_from,
 check_in_to=check_in_to,
+checkInAfter=checkInAfter,
+checkInBefore=checkInBefore,
+checkOutAfter=checkOutAfter,
+checkOutBefore=checkOutBefore,
 include_total=include_total,
 x_schema=x_schema,
 

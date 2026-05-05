@@ -24,6 +24,7 @@ def _get_kwargs(
     end_date: datetime.date | Unset = UNSET,
     limit: int | Unset = 100,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
 
 ) -> dict[str, Any]:
     
@@ -45,6 +46,8 @@ def _get_kwargs(
     params["limit"] = limit
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -127,6 +130,7 @@ def sync_detailed(
     end_date: datetime.date | Unset = UNSET,
     limit: int | Unset = 100,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
 
 ) -> Response[Error | ListingPricingHistoryResponse]:
     """ Pricing recommendation audit trail
@@ -138,12 +142,16 @@ def sync_detailed(
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added
     during a partner's pagination walk. `limit` is capped at 500 — exceeding returns 422.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         start_date (datetime.date | Unset):
         end_date (datetime.date | Unset):
         limit (int | Unset):  Default: 100.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -160,6 +168,7 @@ start_date=start_date,
 end_date=end_date,
 limit=limit,
 cursor=cursor,
+offset=offset,
 
     )
 
@@ -177,6 +186,7 @@ def sync(
     end_date: datetime.date | Unset = UNSET,
     limit: int | Unset = 100,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
 
 ) -> Error | ListingPricingHistoryResponse | None:
     """ Pricing recommendation audit trail
@@ -188,12 +198,16 @@ def sync(
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added
     during a partner's pagination walk. `limit` is capped at 500 — exceeding returns 422.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         start_date (datetime.date | Unset):
         end_date (datetime.date | Unset):
         limit (int | Unset):  Default: 100.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -211,6 +225,7 @@ start_date=start_date,
 end_date=end_date,
 limit=limit,
 cursor=cursor,
+offset=offset,
 
     ).parsed
 
@@ -222,6 +237,7 @@ async def asyncio_detailed(
     end_date: datetime.date | Unset = UNSET,
     limit: int | Unset = 100,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
 
 ) -> Response[Error | ListingPricingHistoryResponse]:
     """ Pricing recommendation audit trail
@@ -233,12 +249,16 @@ async def asyncio_detailed(
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added
     during a partner's pagination walk. `limit` is capped at 500 — exceeding returns 422.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         start_date (datetime.date | Unset):
         end_date (datetime.date | Unset):
         limit (int | Unset):  Default: 100.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -255,6 +275,7 @@ start_date=start_date,
 end_date=end_date,
 limit=limit,
 cursor=cursor,
+offset=offset,
 
     )
 
@@ -272,6 +293,7 @@ async def asyncio(
     end_date: datetime.date | Unset = UNSET,
     limit: int | Unset = 100,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
 
 ) -> Error | ListingPricingHistoryResponse | None:
     """ Pricing recommendation audit trail
@@ -283,12 +305,16 @@ async def asyncio(
     Defaults to ±90 days from today. Cursor is a keyset on `date ASC` — stable even if rows are added
     during a partner's pagination walk. `limit` is capped at 500 — exceeding returns 422.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         start_date (datetime.date | Unset):
         end_date (datetime.date | Unset):
         limit (int | Unset):  Default: 100.
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -306,5 +332,6 @@ start_date=start_date,
 end_date=end_date,
 limit=limit,
 cursor=cursor,
+offset=offset,
 
     )).parsed

@@ -89,8 +89,8 @@ def sync_detailed(
 ) -> Response[Any | Error | ListingGenerateContentResponse]:
     """ AI-generate listing content
 
-     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
-    K2. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
+     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Repull
+    AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
 
     Args:
@@ -127,8 +127,8 @@ def sync(
 ) -> Any | Error | ListingGenerateContentResponse | None:
     """ AI-generate listing content
 
-     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
-    K2. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
+     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Repull
+    AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
 
     Args:
@@ -160,8 +160,8 @@ async def asyncio_detailed(
 ) -> Response[Any | Error | ListingGenerateContentResponse]:
     """ AI-generate listing content
 
-     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
-    K2. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
+     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Repull
+    AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
 
     Args:
@@ -198,8 +198,8 @@ async def asyncio(
 ) -> Any | Error | ListingGenerateContentResponse | None:
     """ AI-generate listing content
 
-     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Kimi
-    K2. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
+     Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Repull
+    AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
 
     Args:

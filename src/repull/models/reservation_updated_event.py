@@ -31,8 +31,9 @@ class ReservationUpdatedEvent:
     """ 
         Attributes:
             type_ (ReservationUpdatedEventType):
-            data (ReservationUpdatedPayload): Payload for `reservation.updated`. Dates, guest count, status, or pricing
-                changed on an existing reservation. The `changes` map carries `{ from, to }` deltas for each field that moved.
+            data (ReservationUpdatedPayload): Payload for `reservation.updated`. Dates, status, or any tracked field changed
+                on an existing reservation. `data.object` is the post-change snapshot; `data.previousAttributes` lists ONLY the
+                fields that actually moved, with their prior values. Fields not in `previousAttributes` did not change.
             id (UUID | Unset):
             created_at (datetime.datetime | Unset):
             api_version (str | Unset):

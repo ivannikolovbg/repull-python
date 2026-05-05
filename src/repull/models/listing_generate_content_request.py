@@ -25,7 +25,7 @@ T = TypeVar("T", bound="ListingGenerateContentRequest")
 class ListingGenerateContentRequest:
     """ 
         Attributes:
-            photos (list[str] | Unset): Up to 8 reference photos. When present, Kimi K2 vision is used for grounded copy.
+            photos (list[str] | Unset): Up to 8 reference photos. When present, Repull AI vision is used for grounded copy.
             style (ListingGenerateContentRequestStyle | Unset):  Default: ListingGenerateContentRequestStyle.WARM.
             persist (bool | Unset): Save the generated content to the listing (so subsequent publishes pick it up). Default:
                 True.

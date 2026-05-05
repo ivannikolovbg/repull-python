@@ -9,12 +9,11 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
-from dateutil.parser import isoparse
 from typing import cast
-import datetime
 
 if TYPE_CHECKING:
-  from ..models.reservation_updated_payload_changes import ReservationUpdatedPayloadChanges
+  from ..models.reservation_updated_payload_previous_attributes import ReservationUpdatedPayloadPreviousAttributes
+  from ..models.reservation_webhook_object import ReservationWebhookObject
 
 
 
@@ -26,22 +25,24 @@ T = TypeVar("T", bound="ReservationUpdatedPayload")
 
 @_attrs_define
 class ReservationUpdatedPayload:
-    """ Payload for `reservation.updated`. Dates, guest count, status, or pricing changed on an existing reservation. The
-    `changes` map carries `{ from, to }` deltas for each field that moved.
+    """ Payload for `reservation.updated`. Dates, status, or any tracked field changed on an existing reservation.
+    `data.object` is the post-change snapshot; `data.previousAttributes` lists ONLY the fields that actually moved, with
+    their prior values. Fields not in `previousAttributes` did not change.
 
         Attributes:
-            id (int | Unset):  Example: 215906.
-            confirmation_code (str | Unset):  Example: HMA1234567.
-            changes (ReservationUpdatedPayloadChanges | Unset): Map of `field` → `{ from, to }` pairs describing what
-                changed. Example: {'checkOut': {'from': '2026-06-05', 'to': '2026-06-07'}, 'pricing': {'from': {'total':
-                '1320.00'}, 'to': {'total': '1640.00'}}}.
-            updated_at (datetime.datetime | Unset):  Example: 2026-05-01T13:00:00.000Z.
+            object_ (ReservationWebhookObject): Lightweight reservation snapshot delivered as `data.object` on every
+                reservation webhook event. Stable across `reservation.created`, `reservation.updated`, and
+                `reservation.cancelled`. Fetch the full reservation via `GET /v1/reservations/{id}` if you need pricing, guest
+                contact info, or audit history — those are deliberately omitted to keep deliveries small.
+            previous_attributes (ReservationUpdatedPayloadPreviousAttributes | Unset): Sparse map: every key here is a field
+                on the reservation snapshot whose value changed in this event, mapped to its prior value. Mirrors the keys of
+                `ReservationWebhookObject` (e.g. `checkinDate`, `checkoutDate`, `status`). Receivers can diff `object[k]` vs
+                `previousAttributes[k]` to know what moved. Example: {'checkinDate': '2026-06-11', 'checkoutDate':
+                '2026-06-16'}.
      """
 
-    id: int | Unset = UNSET
-    confirmation_code: str | Unset = UNSET
-    changes: ReservationUpdatedPayloadChanges | Unset = UNSET
-    updated_at: datetime.datetime | Unset = UNSET
+    object_: ReservationWebhookObject
+    previous_attributes: ReservationUpdatedPayloadPreviousAttributes | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -49,32 +50,22 @@ class ReservationUpdatedPayload:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.reservation_updated_payload_changes import ReservationUpdatedPayloadChanges
-        id = self.id
+        from ..models.reservation_updated_payload_previous_attributes import ReservationUpdatedPayloadPreviousAttributes
+        from ..models.reservation_webhook_object import ReservationWebhookObject
+        object_ = self.object_.to_dict()
 
-        confirmation_code = self.confirmation_code
-
-        changes: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.changes, Unset):
-            changes = self.changes.to_dict()
-
-        updated_at: str | Unset = UNSET
-        if not isinstance(self.updated_at, Unset):
-            updated_at = self.updated_at.isoformat()
+        previous_attributes: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.previous_attributes, Unset):
+            previous_attributes = self.previous_attributes.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "object": object_,
         })
-        if id is not UNSET:
-            field_dict["id"] = id
-        if confirmation_code is not UNSET:
-            field_dict["confirmationCode"] = confirmation_code
-        if changes is not UNSET:
-            field_dict["changes"] = changes
-        if updated_at is not UNSET:
-            field_dict["updatedAt"] = updated_at
+        if previous_attributes is not UNSET:
+            field_dict["previousAttributes"] = previous_attributes
 
         return field_dict
 
@@ -82,37 +73,27 @@ class ReservationUpdatedPayload:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.reservation_updated_payload_changes import ReservationUpdatedPayloadChanges
+        from ..models.reservation_updated_payload_previous_attributes import ReservationUpdatedPayloadPreviousAttributes
+        from ..models.reservation_webhook_object import ReservationWebhookObject
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        object_ = ReservationWebhookObject.from_dict(d.pop("object"))
 
-        confirmation_code = d.pop("confirmationCode", UNSET)
 
-        _changes = d.pop("changes", UNSET)
-        changes: ReservationUpdatedPayloadChanges | Unset
-        if isinstance(_changes,  Unset):
-            changes = UNSET
+
+
+        _previous_attributes = d.pop("previousAttributes", UNSET)
+        previous_attributes: ReservationUpdatedPayloadPreviousAttributes | Unset
+        if isinstance(_previous_attributes,  Unset):
+            previous_attributes = UNSET
         else:
-            changes = ReservationUpdatedPayloadChanges.from_dict(_changes)
-
-
-
-
-        _updated_at = d.pop("updatedAt", UNSET)
-        updated_at: datetime.datetime | Unset
-        if isinstance(_updated_at,  Unset):
-            updated_at = UNSET
-        else:
-            updated_at = isoparse(_updated_at)
+            previous_attributes = ReservationUpdatedPayloadPreviousAttributes.from_dict(_previous_attributes)
 
 
 
 
         reservation_updated_payload = cls(
-            id=id,
-            confirmation_code=confirmation_code,
-            changes=changes,
-            updated_at=updated_at,
+            object_=object_,
+            previous_attributes=previous_attributes,
         )
 
 

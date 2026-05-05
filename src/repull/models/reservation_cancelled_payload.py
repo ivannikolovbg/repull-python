@@ -8,13 +8,14 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.reservation_cancelled_payload_cancelled_by import ReservationCancelledPayloadCancelledBy
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.reservation_cancelled_payload_refund_type_0 import ReservationCancelledPayloadRefundType0
+  from ..models.reservation_webhook_object import ReservationWebhookObject
 
 
 
@@ -26,23 +27,24 @@ T = TypeVar("T", bound="ReservationCancelledPayload")
 
 @_attrs_define
 class ReservationCancelledPayload:
-    """ Payload for `reservation.cancelled`. A reservation was cancelled by the guest, host, or platform.
+    """ Payload for `reservation.cancelled`. A reservation was cancelled by the guest, host, or platform. `data.object`
+    reflects the post-cancel snapshot (status will be `cancelled`); top-level fields capture cancellation metadata.
 
         Attributes:
-            id (int | Unset):  Example: 215906.
-            confirmation_code (str | Unset):  Example: HMA1234567.
-            cancelled_at (datetime.datetime | Unset):  Example: 2026-05-01T14:00:00.000Z.
-            cancelled_by (str | Unset): Who initiated the cancellation (guest, host, platform). Example: guest.
-            reason (None | str | Unset):  Example: guest_requested.
-            refund (None | ReservationCancelledPayloadRefundType0 | Unset):
+            object_ (ReservationWebhookObject): Lightweight reservation snapshot delivered as `data.object` on every
+                reservation webhook event. Stable across `reservation.created`, `reservation.updated`, and
+                `reservation.cancelled`. Fetch the full reservation via `GET /v1/reservations/{id}` if you need pricing, guest
+                contact info, or audit history — those are deliberately omitted to keep deliveries small.
+            cancelled_at (datetime.datetime | Unset): When the cancellation was recorded. Example: 2026-05-01T14:00:00.000Z.
+            cancelled_by (ReservationCancelledPayloadCancelledBy | Unset): Who initiated the cancellation. Example: guest.
+            reason (None | str | Unset): Free-form cancellation reason from the source channel, if available. Example:
+                guest_requested.
      """
 
-    id: int | Unset = UNSET
-    confirmation_code: str | Unset = UNSET
+    object_: ReservationWebhookObject
     cancelled_at: datetime.datetime | Unset = UNSET
-    cancelled_by: str | Unset = UNSET
+    cancelled_by: ReservationCancelledPayloadCancelledBy | Unset = UNSET
     reason: None | str | Unset = UNSET
-    refund: None | ReservationCancelledPayloadRefundType0 | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -50,16 +52,17 @@ class ReservationCancelledPayload:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.reservation_cancelled_payload_refund_type_0 import ReservationCancelledPayloadRefundType0
-        id = self.id
-
-        confirmation_code = self.confirmation_code
+        from ..models.reservation_webhook_object import ReservationWebhookObject
+        object_ = self.object_.to_dict()
 
         cancelled_at: str | Unset = UNSET
         if not isinstance(self.cancelled_at, Unset):
             cancelled_at = self.cancelled_at.isoformat()
 
-        cancelled_by = self.cancelled_by
+        cancelled_by: str | Unset = UNSET
+        if not isinstance(self.cancelled_by, Unset):
+            cancelled_by = self.cancelled_by.value
+
 
         reason: None | str | Unset
         if isinstance(self.reason, Unset):
@@ -67,31 +70,18 @@ class ReservationCancelledPayload:
         else:
             reason = self.reason
 
-        refund: dict[str, Any] | None | Unset
-        if isinstance(self.refund, Unset):
-            refund = UNSET
-        elif isinstance(self.refund, ReservationCancelledPayloadRefundType0):
-            refund = self.refund.to_dict()
-        else:
-            refund = self.refund
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "object": object_,
         })
-        if id is not UNSET:
-            field_dict["id"] = id
-        if confirmation_code is not UNSET:
-            field_dict["confirmationCode"] = confirmation_code
         if cancelled_at is not UNSET:
             field_dict["cancelledAt"] = cancelled_at
         if cancelled_by is not UNSET:
             field_dict["cancelledBy"] = cancelled_by
         if reason is not UNSET:
             field_dict["reason"] = reason
-        if refund is not UNSET:
-            field_dict["refund"] = refund
 
         return field_dict
 
@@ -99,11 +89,12 @@ class ReservationCancelledPayload:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.reservation_cancelled_payload_refund_type_0 import ReservationCancelledPayloadRefundType0
+        from ..models.reservation_webhook_object import ReservationWebhookObject
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        object_ = ReservationWebhookObject.from_dict(d.pop("object"))
 
-        confirmation_code = d.pop("confirmationCode", UNSET)
+
+
 
         _cancelled_at = d.pop("cancelledAt", UNSET)
         cancelled_at: datetime.datetime | Unset
@@ -115,7 +106,15 @@ class ReservationCancelledPayload:
 
 
 
-        cancelled_by = d.pop("cancelledBy", UNSET)
+        _cancelled_by = d.pop("cancelledBy", UNSET)
+        cancelled_by: ReservationCancelledPayloadCancelledBy | Unset
+        if isinstance(_cancelled_by,  Unset):
+            cancelled_by = UNSET
+        else:
+            cancelled_by = ReservationCancelledPayloadCancelledBy(_cancelled_by)
+
+
+
 
         def _parse_reason(data: object) -> None | str | Unset:
             if data is None:
@@ -127,33 +126,11 @@ class ReservationCancelledPayload:
         reason = _parse_reason(d.pop("reason", UNSET))
 
 
-        def _parse_refund(data: object) -> None | ReservationCancelledPayloadRefundType0 | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                refund_type_0 = ReservationCancelledPayloadRefundType0.from_dict(data)
-
-
-
-                return refund_type_0
-            except (TypeError, ValueError, AttributeError, KeyError):
-                pass
-            return cast(None | ReservationCancelledPayloadRefundType0 | Unset, data)
-
-        refund = _parse_refund(d.pop("refund", UNSET))
-
-
         reservation_cancelled_payload = cls(
-            id=id,
-            confirmation_code=confirmation_code,
+            object_=object_,
             cancelled_at=cancelled_at,
             cancelled_by=cancelled_by,
             reason=reason,
-            refund=refund,
         )
 
 

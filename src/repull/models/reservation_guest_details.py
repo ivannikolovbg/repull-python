@@ -20,8 +20,8 @@ T = TypeVar("T", bound="ReservationGuestDetails")
 
 @_attrs_define
 class ReservationGuestDetails:
-    """ Raw guest details from the source channel (firstName, lastName, email, phone, count, etc.). Shape varies by platform
-    — use the dedicated guest endpoint for a normalized profile.
+    """ DEPRECATED — use `occupancy` for normalized counts and `primaryGuest` for guest identity. Raw guest details from the
+    source channel; shape varies by platform.
 
      """
 

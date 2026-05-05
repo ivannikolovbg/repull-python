@@ -20,6 +20,7 @@ def _get_kwargs(
     id: int,
     *,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
     x_schema: str | Unset = UNSET,
@@ -36,6 +37,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["cursor"] = cursor
+
+    params["offset"] = offset
 
     params["limit"] = limit
 
@@ -124,6 +127,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
     x_schema: str | Unset = UNSET,
@@ -135,9 +139,13 @@ def sync_detailed(
     `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
     query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
@@ -155,6 +163,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
 cursor=cursor,
+offset=offset,
 limit=limit,
 order=order,
 x_schema=x_schema,
@@ -172,6 +181,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
     x_schema: str | Unset = UNSET,
@@ -183,9 +193,13 @@ def sync(
     `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
     query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
@@ -204,6 +218,7 @@ def sync(
         id=id,
 client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 order=order,
 x_schema=x_schema,
@@ -215,6 +230,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
     x_schema: str | Unset = UNSET,
@@ -226,9 +242,13 @@ async def asyncio_detailed(
     `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
     query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
@@ -246,6 +266,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
 cursor=cursor,
+offset=offset,
 limit=limit,
 order=order,
 x_schema=x_schema,
@@ -263,6 +284,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
     limit: int | Unset = 20,
     order: ListConversationMessagesOrder | Unset = ListConversationMessagesOrder.DESC,
     x_schema: str | Unset = UNSET,
@@ -274,9 +296,13 @@ async def asyncio(
     `?order=asc` for chronological replay. Use `pagination.nextCursor` from one response as the `cursor`
     query param of the next request.
 
+    `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
+    parameter below. Mutually exclusive with `cursor`.
+
     Args:
         id (int):
         cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         order (ListConversationMessagesOrder | Unset):  Default:
             ListConversationMessagesOrder.DESC.
@@ -295,6 +321,7 @@ async def asyncio(
         id=id,
 client=client,
 cursor=cursor,
+offset=offset,
 limit=limit,
 order=order,
 x_schema=x_schema,

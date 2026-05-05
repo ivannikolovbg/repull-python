@@ -32,7 +32,8 @@ class ReservationCancelledEvent:
         Attributes:
             type_ (ReservationCancelledEventType):
             data (ReservationCancelledPayload): Payload for `reservation.cancelled`. A reservation was cancelled by the
-                guest, host, or platform.
+                guest, host, or platform. `data.object` reflects the post-cancel snapshot (status will be `cancelled`); top-
+                level fields capture cancellation metadata.
             id (UUID | Unset):
             created_at (datetime.datetime | Unset):
             api_version (str | Unset):
