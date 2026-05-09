@@ -16,6 +16,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.listing_address import ListingAddress
+  from ..models.listing_amenity import ListingAmenity
   from ..models.listing_channel import ListingChannel
 
 
@@ -37,6 +38,8 @@ class Listing:
             thumbnail_url (None | str | Unset):
             status (ListingStatus | Unset):
             channels (list[ListingChannel] | Unset): Channels (Airbnb, Booking, VRBO, etc.) the listing is connected to.
+            amenities (list[ListingAmenity] | Unset): Amenity rows for the listing. **Only present when the caller passes
+                `?include=amenities`.** Empty array (`[]`) when the listing has no amenity rows.
             created_at (datetime.datetime | Unset):
             updated_at (datetime.datetime | Unset):
      """
@@ -47,6 +50,7 @@ class Listing:
     thumbnail_url: None | str | Unset = UNSET
     status: ListingStatus | Unset = UNSET
     channels: list[ListingChannel] | Unset = UNSET
+    amenities: list[ListingAmenity] | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     updated_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -57,6 +61,7 @@ class Listing:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_address import ListingAddress
+        from ..models.listing_amenity import ListingAmenity
         from ..models.listing_channel import ListingChannel
         id = self.id
 
@@ -86,6 +91,15 @@ class Listing:
 
 
 
+        amenities: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.amenities, Unset):
+            amenities = []
+            for amenities_item_data in self.amenities:
+                amenities_item = amenities_item_data.to_dict()
+                amenities.append(amenities_item)
+
+
+
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
             created_at = self.created_at.isoformat()
@@ -111,6 +125,8 @@ class Listing:
             field_dict["status"] = status
         if channels is not UNSET:
             field_dict["channels"] = channels
+        if amenities is not UNSET:
+            field_dict["amenities"] = amenities
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
         if updated_at is not UNSET:
@@ -123,6 +139,7 @@ class Listing:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_address import ListingAddress
+        from ..models.listing_amenity import ListingAmenity
         from ..models.listing_channel import ListingChannel
         d = dict(src_dict)
         id = d.pop("id", UNSET)
@@ -171,6 +188,18 @@ class Listing:
                 channels.append(channels_item)
 
 
+        _amenities = d.pop("amenities", UNSET)
+        amenities: list[ListingAmenity] | Unset = UNSET
+        if _amenities is not UNSET:
+            amenities = []
+            for amenities_item_data in _amenities:
+                amenities_item = ListingAmenity.from_dict(amenities_item_data)
+
+
+
+                amenities.append(amenities_item)
+
+
         _created_at = d.pop("createdAt", UNSET)
         created_at: datetime.datetime | Unset
         if isinstance(_created_at,  Unset):
@@ -198,6 +227,7 @@ class Listing:
             thumbnail_url=thumbnail_url,
             status=status,
             channels=channels,
+            amenities=amenities,
             created_at=created_at,
             updated_at=updated_at,
         )

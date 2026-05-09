@@ -8,10 +8,10 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.airbnb_data_freshness import AirbnbDataFreshness
   from ..models.airbnb_listing import AirbnbListing
   from ..models.pagination import Pagination
 
@@ -27,14 +27,19 @@ T = TypeVar("T", bound="AirbnbListingListResponse")
 class AirbnbListingListResponse:
     """ 
         Attributes:
-            data (list[AirbnbListing] | Unset):
-            pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
-                `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
-                construct it by hand.
+            data (list[AirbnbListing]):
+            pagination (Pagination): Canonical cursor-based pagination envelope. Pass `nextCursor` back as `?cursor=` to
+                fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or construct it
+                by hand.
+            data_freshness (AirbnbDataFreshness): Top-level freshness indicator for any DB-backed Airbnb read. Tells
+                consumers WHY a column may be `null` or stale without sprinkling per-row error envelopes through the response.
+                The endpoint always returns 200 + DB data; this field is the single signal for "should I prompt the user to
+                reconnect / wait for sync?".
      """
 
-    data: list[AirbnbListing] | Unset = UNSET
-    pagination: Pagination | Unset = UNSET
+    data: list[AirbnbListing]
+    pagination: Pagination
+    data_freshness: AirbnbDataFreshness
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -42,30 +47,28 @@ class AirbnbListingListResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.airbnb_data_freshness import AirbnbDataFreshness
         from ..models.airbnb_listing import AirbnbListing
         from ..models.pagination import Pagination
-        data: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = []
-            for data_item_data in self.data:
-                data_item = data_item_data.to_dict()
-                data.append(data_item)
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+            data.append(data_item)
 
 
 
-        pagination: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.pagination, Unset):
-            pagination = self.pagination.to_dict()
+        pagination = self.pagination.to_dict()
+
+        data_freshness = self.data_freshness.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "data": data,
+            "pagination": pagination,
+            "data_freshness": data_freshness,
         })
-        if data is not UNSET:
-            field_dict["data"] = data
-        if pagination is not UNSET:
-            field_dict["pagination"] = pagination
 
         return field_dict
 
@@ -73,27 +76,26 @@ class AirbnbListingListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_data_freshness import AirbnbDataFreshness
         from ..models.airbnb_listing import AirbnbListing
         from ..models.pagination import Pagination
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: list[AirbnbListing] | Unset = UNSET
-        if _data is not UNSET:
-            data = []
-            for data_item_data in _data:
-                data_item = AirbnbListing.from_dict(data_item_data)
+        data = []
+        _data = d.pop("data")
+        for data_item_data in (_data):
+            data_item = AirbnbListing.from_dict(data_item_data)
 
 
 
-                data.append(data_item)
+            data.append(data_item)
 
 
-        _pagination = d.pop("pagination", UNSET)
-        pagination: Pagination | Unset
-        if isinstance(_pagination,  Unset):
-            pagination = UNSET
-        else:
-            pagination = Pagination.from_dict(_pagination)
+        pagination = Pagination.from_dict(d.pop("pagination"))
+
+
+
+
+        data_freshness = AirbnbDataFreshness.from_dict(d.pop("data_freshness"))
 
 
 
@@ -101,6 +103,7 @@ class AirbnbListingListResponse:
         airbnb_listing_list_response = cls(
             data=data,
             pagination=pagination,
+            data_freshness=data_freshness,
         )
 
 

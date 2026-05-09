@@ -9,7 +9,10 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.listing_amenity import ListingAmenity
 
 
 
@@ -38,6 +41,8 @@ class Property:
             max_guests (int | Unset):  Example: 6.
             thumbnail (str | Unset): Primary photo URL
             provider (str | Unset): Source PMS Example: hostaway.
+            amenities (list[ListingAmenity] | Unset): Amenity rows for the property. **Only present when the caller passes
+                `?include=amenities`.** Empty array (`[]`) when the property has no amenity rows.
      """
 
     id: str | Unset = UNSET
@@ -54,6 +59,7 @@ class Property:
     max_guests: int | Unset = UNSET
     thumbnail: str | Unset = UNSET
     provider: str | Unset = UNSET
+    amenities: list[ListingAmenity] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -61,6 +67,7 @@ class Property:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.listing_amenity import ListingAmenity
         id = self.id
 
         external_id = self.external_id
@@ -88,6 +95,15 @@ class Property:
         thumbnail = self.thumbnail
 
         provider = self.provider
+
+        amenities: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.amenities, Unset):
+            amenities = []
+            for amenities_item_data in self.amenities:
+                amenities_item = amenities_item_data.to_dict()
+                amenities.append(amenities_item)
+
+
 
 
         field_dict: dict[str, Any] = {}
@@ -122,6 +138,8 @@ class Property:
             field_dict["thumbnail"] = thumbnail
         if provider is not UNSET:
             field_dict["provider"] = provider
+        if amenities is not UNSET:
+            field_dict["amenities"] = amenities
 
         return field_dict
 
@@ -129,6 +147,7 @@ class Property:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.listing_amenity import ListingAmenity
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -158,6 +177,18 @@ class Property:
 
         provider = d.pop("provider", UNSET)
 
+        _amenities = d.pop("amenities", UNSET)
+        amenities: list[ListingAmenity] | Unset = UNSET
+        if _amenities is not UNSET:
+            amenities = []
+            for amenities_item_data in _amenities:
+                amenities_item = ListingAmenity.from_dict(amenities_item_data)
+
+
+
+                amenities.append(amenities_item)
+
+
         property_ = cls(
             id=id,
             external_id=external_id,
@@ -173,6 +204,7 @@ class Property:
             max_guests=max_guests,
             thumbnail=thumbnail,
             provider=provider,
+            amenities=amenities,
         )
 
 

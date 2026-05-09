@@ -48,7 +48,9 @@ class Reservation:
             listing_id (str): Internal Repull listing ID this reservation is on.
             check_in (datetime.date):  Example: 2026-04-15.
             check_out (datetime.date):  Example: 2026-04-20.
-            status (ReservationStatus):  Example: confirmed.
+            status (ReservationStatus): Lifecycle status. The API normalises a multi-decade internal taxonomy down to these
+                four buckets, so the value you receive is always one of the enum constants. `completed` is derived from
+                `checkOut < today`. Example: confirmed.
             confirmation_code (str): Channel-side confirmation code (Airbnb HMxxx, Booking.com numeric, etc.). Example:
                 HMXYZ123.
             created_at (datetime.datetime): When the reservation row was created in Repull (not the booking-on-channel
