@@ -73,12 +73,14 @@ def sync_detailed(
 ) -> Response[AirbnbListingListResponse]:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
-    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
+    read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
+    serves what's already there. Customers with a disconnected host still see their last-synced data,
+    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    URL.
 
-    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
-    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
-    `_errors.amenities` rather than failing the whole request.
+    Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
+    `null` per connection when the cache is empty.
 
     Args:
         include (str | Unset):  Example: amenities.
@@ -111,12 +113,14 @@ def sync(
 ) -> AirbnbListingListResponse | None:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
-    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
+    read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
+    serves what's already there. Customers with a disconnected host still see their last-synced data,
+    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    URL.
 
-    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
-    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
-    `_errors.amenities` rather than failing the whole request.
+    Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
+    `null` per connection when the cache is empty.
 
     Args:
         include (str | Unset):  Example: amenities.
@@ -144,12 +148,14 @@ async def asyncio_detailed(
 ) -> Response[AirbnbListingListResponse]:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
-    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
+    read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
+    serves what's already there. Customers with a disconnected host still see their last-synced data,
+    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    URL.
 
-    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
-    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
-    `_errors.amenities` rather than failing the whole request.
+    Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
+    `null` per connection when the cache is empty.
 
     Args:
         include (str | Unset):  Example: amenities.
@@ -182,12 +188,14 @@ async def asyncio(
 ) -> AirbnbListingListResponse | None:
     """ List Airbnb listings
 
-     List every Airbnb listing this workspace has access to via the connected Airbnb account. Default
-    response is a fast DB read pairing each Vanio listing with its `listings_airbnb` connection rows.
+     List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
+    read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
+    serves what's already there. Customers with a disconnected host still see their last-synced data,
+    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    URL.
 
-    Pass `?include=amenities` to enrich each connection with its current Airbnb amenity set (one extra
-    upstream call per unique Airbnb id, fanned out in parallel). Per-connection failures surface in
-    `_errors.amenities` rather than failing the whole request.
+    Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
+    `null` per connection when the cache is empty.
 
     Args:
         include (str | Unset):  Example: amenities.

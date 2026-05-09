@@ -21,8 +21,11 @@ from .ai_operation_operation import AIOperationOperation
 from .airbnb_connection import AirbnbConnection
 from .airbnb_connection_accessibility_amenities_type_0_item import AirbnbConnectionAccessibilityAmenitiesType0Item
 from .airbnb_connection_amenities_type_0_item import AirbnbConnectionAmenitiesType0Item
-from .airbnb_connection_errors_type_0 import AirbnbConnectionErrorsType0
-from .airbnb_connection_errors_type_0_additional_property import AirbnbConnectionErrorsType0AdditionalProperty
+from .airbnb_connection_host import AirbnbConnectionHost
+from .airbnb_connection_response import AirbnbConnectionResponse
+from .airbnb_connection_summary import AirbnbConnectionSummary
+from .airbnb_connection_summary_status import AirbnbConnectionSummaryStatus
+from .airbnb_data_freshness import AirbnbDataFreshness
 from .airbnb_listing import AirbnbListing
 from .airbnb_listing_list_response import AirbnbListingListResponse
 from .airbnb_reservation import AirbnbReservation
@@ -63,6 +66,7 @@ from .calendar_updated_event import CalendarUpdatedEvent
 from .calendar_updated_event_type import CalendarUpdatedEventType
 from .calendar_updated_payload import CalendarUpdatedPayload
 from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
+from .clear_kv_response_200 import ClearKvResponse200
 from .connect_host import ConnectHost
 from .connect_provider import ConnectProvider
 from .connect_provider_category import ConnectProviderCategory
@@ -112,6 +116,7 @@ from .custom_schema_list_response import CustomSchemaListResponse
 from .custom_schema_mappings import CustomSchemaMappings
 from .custom_schema_summary import CustomSchemaSummary
 from .custom_schema_update import CustomSchemaUpdate
+from .delete_kv_response_200 import DeleteKvResponse200
 from .delete_studio_deployment_response_200 import DeleteStudioDeploymentResponse200
 from .delete_studio_deployment_response_200_data import DeleteStudioDeploymentResponse200Data
 from .delete_studio_project_file_response_200 import DeleteStudioProjectFileResponse200
@@ -125,7 +130,10 @@ from .generate_studio_completion_body import GenerateStudioCompletionBody
 from .generate_studio_completion_response_200 import GenerateStudioCompletionResponse200
 from .generate_studio_completion_response_200_data import GenerateStudioCompletionResponse200Data
 from .get_health_response_200 import GetHealthResponse200
+from .get_kv_response_200 import GetKvResponse200
+from .get_listing_include import GetListingInclude
 from .get_listing_segments_level import GetListingSegmentsLevel
+from .get_property_include import GetPropertyInclude
 from .get_studio_deployment_response_200 import GetStudioDeploymentResponse200
 from .get_studio_project_response_200 import GetStudioProjectResponse200
 from .guest import Guest
@@ -139,6 +147,9 @@ from .list_airbnb_reservations_status import ListAirbnbReservationsStatus
 from .list_conversation_messages_order import ListConversationMessagesOrder
 from .list_conversations_platform import ListConversationsPlatform
 from .list_conversations_status import ListConversationsStatus
+from .list_kv_response_200 import ListKvResponse200
+from .list_kv_response_200_data_item import ListKvResponse200DataItem
+from .list_kv_response_200_pagination import ListKvResponse200Pagination
 from .list_listings_status import ListListingsStatus
 from .list_market_browse_sort import ListMarketBrowseSort
 from .list_properties_status import ListPropertiesStatus
@@ -153,6 +164,7 @@ from .list_studio_projects_response_200 import ListStudioProjectsResponse200
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
 from .listing import Listing
 from .listing_address import ListingAddress
+from .listing_amenity import ListingAmenity
 from .listing_channel import ListingChannel
 from .listing_comp import ListingComp
 from .listing_comp_nightly import ListingCompNightly
@@ -203,6 +215,7 @@ from .listing_publish_response_channel import ListingPublishResponseChannel
 from .listing_publish_response_result import ListingPublishResponseResult
 from .listing_publish_status_channel import ListingPublishStatusChannel
 from .listing_publish_status_channel_push_status import ListingPublishStatusChannelPushStatus
+from .listing_publish_status_connection import ListingPublishStatusConnection
 from .listing_publish_status_response import ListingPublishStatusResponse
 from .listing_quality_tier import ListingQualityTier
 from .listing_quality_tier_tier import ListingQualityTierTier
@@ -313,6 +326,8 @@ from .rotate_webhook_secret_response_200 import RotateWebhookSecretResponse200
 from .select_connect_provider_body import SelectConnectProviderBody
 from .select_provider_response import SelectProviderResponse
 from .select_provider_response_pattern import SelectProviderResponsePattern
+from .set_kv_body import SetKvBody
+from .set_kv_response_200 import SetKvResponse200
 from .studio_deployment import StudioDeployment
 from .studio_deployment_status import StudioDeploymentStatus
 from .studio_error import StudioError
@@ -376,8 +391,11 @@ __all__ = (
     "AirbnbConnection",
     "AirbnbConnectionAccessibilityAmenitiesType0Item",
     "AirbnbConnectionAmenitiesType0Item",
-    "AirbnbConnectionErrorsType0",
-    "AirbnbConnectionErrorsType0AdditionalProperty",
+    "AirbnbConnectionHost",
+    "AirbnbConnectionResponse",
+    "AirbnbConnectionSummary",
+    "AirbnbConnectionSummaryStatus",
+    "AirbnbDataFreshness",
     "AirbnbListing",
     "AirbnbListingListResponse",
     "AirbnbReservation",
@@ -418,6 +436,7 @@ __all__ = (
     "CalendarUpdatedEventType",
     "CalendarUpdatedPayload",
     "CalendarUpdatedPayloadRange",
+    "ClearKvResponse200",
     "ConnectHost",
     "Connection",
     "ConnectionListResponse",
@@ -467,6 +486,7 @@ __all__ = (
     "CustomSchemaMappings",
     "CustomSchemaSummary",
     "CustomSchemaUpdate",
+    "DeleteKvResponse200",
     "DeleteStudioDeploymentResponse200",
     "DeleteStudioDeploymentResponse200Data",
     "DeleteStudioProjectFileResponse200",
@@ -480,7 +500,10 @@ __all__ = (
     "GenerateStudioCompletionResponse200",
     "GenerateStudioCompletionResponse200Data",
     "GetHealthResponse200",
+    "GetKvResponse200",
+    "GetListingInclude",
     "GetListingSegmentsLevel",
+    "GetPropertyInclude",
     "GetStudioDeploymentResponse200",
     "GetStudioProjectResponse200",
     "Guest",
@@ -496,6 +519,7 @@ __all__ = (
     "ListConversationsStatus",
     "Listing",
     "ListingAddress",
+    "ListingAmenity",
     "ListingChannel",
     "ListingComp",
     "ListingCompNightly",
@@ -546,6 +570,7 @@ __all__ = (
     "ListingPublishResponseResult",
     "ListingPublishStatusChannel",
     "ListingPublishStatusChannelPushStatus",
+    "ListingPublishStatusConnection",
     "ListingPublishStatusResponse",
     "ListingQualityTier",
     "ListingQualityTierTier",
@@ -567,6 +592,9 @@ __all__ = (
     "ListingUpdatedEventType",
     "ListingUpdatedPayload",
     "ListingUpdatedPayloadChanges",
+    "ListKvResponse200",
+    "ListKvResponse200DataItem",
+    "ListKvResponse200Pagination",
     "ListListingsStatus",
     "ListMarketBrowseSort",
     "ListPropertiesStatus",
@@ -668,6 +696,8 @@ __all__ = (
     "SelectConnectProviderBody",
     "SelectProviderResponse",
     "SelectProviderResponsePattern",
+    "SetKvBody",
+    "SetKvResponse200",
     "StudioDeployment",
     "StudioDeploymentStatus",
     "StudioError",

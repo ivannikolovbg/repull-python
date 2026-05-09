@@ -5,6 +5,18 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2026-05-07
+
+### Added
+- Regen against latest `https://api.repull.dev/openapi.json`.
+- `GET /v1/listings/{id}` and `GET /v1/properties/{id}` accept the new
+  `?include=amenities` query param (`GetListingInclude.AMENITIES` /
+  `GetPropertyInclude.AMENITIES`). When passed, responses include an
+  `amenities[]` array of `ListingAmenity` rows.
+- New Airbnb connection + KV operations surfaced by the spec.
+
+Refs: vanio-repull-api #59, #61.
+
 ## [0.2.0] - 2026-05-03
 
 First public release on PyPI: <https://pypi.org/project/repull-sdk/>.

@@ -16,7 +16,6 @@ import datetime
 if TYPE_CHECKING:
   from ..models.airbnb_connection_accessibility_amenities_type_0_item import AirbnbConnectionAccessibilityAmenitiesType0Item
   from ..models.airbnb_connection_amenities_type_0_item import AirbnbConnectionAmenitiesType0Item
-  from ..models.airbnb_connection_errors_type_0 import AirbnbConnectionErrorsType0
 
 
 
@@ -41,11 +40,14 @@ class AirbnbConnection:
             markup (None | str | Unset): Decimal markup (e.g. "1.10" for +10%).
             created_at (datetime.datetime | Unset):
             amenities (list[AirbnbConnectionAmenitiesType0Item] | None | Unset): Present only when `?include=amenities` is
-                passed. Sourced from `GET /v2/listings/:id/amenities` on Airbnb.
+                passed. Sourced from the local `listings_airbnb_amenities` cache (populated by the Airbnb sync worker). Returns
+                `null` when the cache is empty for this connection — see the top-level `data_freshness` envelope to disambiguate
+                "never synced" vs "host disconnected" vs "fresh and genuinely empty".
             accessibility_amenities (list[AirbnbConnectionAccessibilityAmenitiesType0Item] | None | Unset): Present only
-                when `?include=amenities` is passed.
-            field_errors (AirbnbConnectionErrorsType0 | None | Unset): Per-expansion failures. Present only when an
-                `?include=` upstream call failed for this connection (others may still succeed).
+                when `?include=amenities` is passed. Accessibility-tagged subset of the local amenity cache (step-free access,
+                wide doorways, grab rails, disabled parking, wheelchair, accessible-height fixtures, hoists, etc). Returns an
+                empty array when amenities synced but none qualify as accessibility; returns `null` when the cache is empty for
+                this connection (use `data_freshness` to disambiguate "never synced" from "fresh and genuinely empty").
      """
 
     id: int | Unset = UNSET
@@ -58,7 +60,6 @@ class AirbnbConnection:
     created_at: datetime.datetime | Unset = UNSET
     amenities: list[AirbnbConnectionAmenitiesType0Item] | None | Unset = UNSET
     accessibility_amenities: list[AirbnbConnectionAccessibilityAmenitiesType0Item] | None | Unset = UNSET
-    field_errors: AirbnbConnectionErrorsType0 | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -68,7 +69,6 @@ class AirbnbConnection:
     def to_dict(self) -> dict[str, Any]:
         from ..models.airbnb_connection_accessibility_amenities_type_0_item import AirbnbConnectionAccessibilityAmenitiesType0Item
         from ..models.airbnb_connection_amenities_type_0_item import AirbnbConnectionAmenitiesType0Item
-        from ..models.airbnb_connection_errors_type_0 import AirbnbConnectionErrorsType0
         id = self.id
 
         airbnb_id = self.airbnb_id
@@ -117,14 +117,6 @@ class AirbnbConnection:
         else:
             accessibility_amenities = self.accessibility_amenities
 
-        field_errors: dict[str, Any] | None | Unset
-        if isinstance(self.field_errors, Unset):
-            field_errors = UNSET
-        elif isinstance(self.field_errors, AirbnbConnectionErrorsType0):
-            field_errors = self.field_errors.to_dict()
-        else:
-            field_errors = self.field_errors
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -150,8 +142,6 @@ class AirbnbConnection:
             field_dict["amenities"] = amenities
         if accessibility_amenities is not UNSET:
             field_dict["accessibility_amenities"] = accessibility_amenities
-        if field_errors is not UNSET:
-            field_dict["_errors"] = field_errors
 
         return field_dict
 
@@ -161,7 +151,6 @@ class AirbnbConnection:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.airbnb_connection_accessibility_amenities_type_0_item import AirbnbConnectionAccessibilityAmenitiesType0Item
         from ..models.airbnb_connection_amenities_type_0_item import AirbnbConnectionAmenitiesType0Item
-        from ..models.airbnb_connection_errors_type_0 import AirbnbConnectionErrorsType0
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -245,26 +234,6 @@ class AirbnbConnection:
         accessibility_amenities = _parse_accessibility_amenities(d.pop("accessibility_amenities", UNSET))
 
 
-        def _parse_field_errors(data: object) -> AirbnbConnectionErrorsType0 | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                field_errors_type_0 = AirbnbConnectionErrorsType0.from_dict(data)
-
-
-
-                return field_errors_type_0
-            except (TypeError, ValueError, AttributeError, KeyError):
-                pass
-            return cast(AirbnbConnectionErrorsType0 | None | Unset, data)
-
-        field_errors = _parse_field_errors(d.pop("_errors", UNSET))
-
-
         airbnb_connection = cls(
             id=id,
             airbnb_id=airbnb_id,
@@ -276,7 +245,6 @@ class AirbnbConnection:
             created_at=created_at,
             amenities=amenities,
             accessibility_amenities=accessibility_amenities,
-            field_errors=field_errors,
         )
 
 

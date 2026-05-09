@@ -16,22 +16,26 @@ from typing import cast
 
 
 
-T = TypeVar("T", bound="AirbnbConnectionAmenitiesType0Item")
+T = TypeVar("T", bound="ListingAmenity")
 
 
 
 @_attrs_define
-class AirbnbConnectionAmenitiesType0Item:
-    """ 
+class ListingAmenity:
+    """ A single amenity row from the unified `listings_amenities` table. Surfaced on `GET /v1/listings/{id}` and `GET
+    /v1/properties/{id}` only when the caller passes `?include=amenities`.
+
         Attributes:
-            id (str | Unset): Airbnb amenity id (e.g. `wifi`, `kitchen`).
-            is_present (bool | Unset):
-            instruction (None | str | Unset): Host-supplied instruction for the amenity (e.g. "WiFi password is on the
-                fridge").
+            amenity_key (str): Canonical amenity key (e.g. `wifi`, `pool`, `parking`). Example: wifi.
+            is_present (bool): `true` when the listing has this amenity, `false` when it has been explicitly opted out.
+            category (None | str | Unset): Optional grouping (e.g. `essentials`, `safety`).
+            instruction (None | str | Unset): Optional free-form instruction for the guest (e.g. WiFi password, parking
+                notes).
      """
 
-    id: str | Unset = UNSET
-    is_present: bool | Unset = UNSET
+    amenity_key: str
+    is_present: bool
+    category: None | str | Unset = UNSET
     instruction: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -40,9 +44,15 @@ class AirbnbConnectionAmenitiesType0Item:
 
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        amenity_key = self.amenity_key
 
         is_present = self.is_present
+
+        category: None | str | Unset
+        if isinstance(self.category, Unset):
+            category = UNSET
+        else:
+            category = self.category
 
         instruction: None | str | Unset
         if isinstance(self.instruction, Unset):
@@ -54,11 +64,11 @@ class AirbnbConnectionAmenitiesType0Item:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "amenityKey": amenity_key,
+            "isPresent": is_present,
         })
-        if id is not UNSET:
-            field_dict["id"] = id
-        if is_present is not UNSET:
-            field_dict["is_present"] = is_present
+        if category is not UNSET:
+            field_dict["category"] = category
         if instruction is not UNSET:
             field_dict["instruction"] = instruction
 
@@ -69,9 +79,19 @@ class AirbnbConnectionAmenitiesType0Item:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        amenity_key = d.pop("amenityKey")
 
-        is_present = d.pop("is_present", UNSET)
+        is_present = d.pop("isPresent")
+
+        def _parse_category(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        category = _parse_category(d.pop("category", UNSET))
+
 
         def _parse_instruction(data: object) -> None | str | Unset:
             if data is None:
@@ -83,15 +103,16 @@ class AirbnbConnectionAmenitiesType0Item:
         instruction = _parse_instruction(d.pop("instruction", UNSET))
 
 
-        airbnb_connection_amenities_type_0_item = cls(
-            id=id,
+        listing_amenity = cls(
+            amenity_key=amenity_key,
             is_present=is_present,
+            category=category,
             instruction=instruction,
         )
 
 
-        airbnb_connection_amenities_type_0_item.additional_properties = d
-        return airbnb_connection_amenities_type_0_item
+        listing_amenity.additional_properties = d
+        return listing_amenity
 
     @property
     def additional_keys(self) -> list[str]:

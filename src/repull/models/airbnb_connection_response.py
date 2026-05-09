@@ -8,28 +8,28 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.airbnb_connection_summary import AirbnbConnectionSummary
 
 
 
 
 
-T = TypeVar("T", bound="AirbnbConnectionErrorsType0AdditionalProperty")
+T = TypeVar("T", bound="AirbnbConnectionResponse")
 
 
 
 @_attrs_define
-class AirbnbConnectionErrorsType0AdditionalProperty:
+class AirbnbConnectionResponse:
     """ 
         Attributes:
-            message (str | Unset):
-            status (int | None | Unset):
+            data (AirbnbConnectionSummary): Workspace-level Airbnb connection state. The dedicated answer to "is my Airbnb
+                still connected?" — emit one summary instead of inferring from per-listing 401s.
      """
 
-    message: str | Unset = UNSET
-    status: int | None | Unset = UNSET
+    data: AirbnbConnectionSummary
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -37,23 +37,15 @@ class AirbnbConnectionErrorsType0AdditionalProperty:
 
 
     def to_dict(self) -> dict[str, Any]:
-        message = self.message
-
-        status: int | None | Unset
-        if isinstance(self.status, Unset):
-            status = UNSET
-        else:
-            status = self.status
+        from ..models.airbnb_connection_summary import AirbnbConnectionSummary
+        data = self.data.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "data": data,
         })
-        if message is not UNSET:
-            field_dict["message"] = message
-        if status is not UNSET:
-            field_dict["status"] = status
 
         return field_dict
 
@@ -61,27 +53,20 @@ class AirbnbConnectionErrorsType0AdditionalProperty:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_connection_summary import AirbnbConnectionSummary
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
-
-        def _parse_status(data: object) -> int | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(int | None | Unset, data)
-
-        status = _parse_status(d.pop("status", UNSET))
+        data = AirbnbConnectionSummary.from_dict(d.pop("data"))
 
 
-        airbnb_connection_errors_type_0_additional_property = cls(
-            message=message,
-            status=status,
+
+
+        airbnb_connection_response = cls(
+            data=data,
         )
 
 
-        airbnb_connection_errors_type_0_additional_property.additional_properties = d
-        return airbnb_connection_errors_type_0_additional_property
+        airbnb_connection_response.additional_properties = d
+        return airbnb_connection_response
 
     @property
     def additional_keys(self) -> list[str]:

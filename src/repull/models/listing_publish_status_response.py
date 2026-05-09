@@ -13,6 +13,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.listing_publish_status_channel import ListingPublishStatusChannel
+  from ..models.listing_publish_status_connection import ListingPublishStatusConnection
 
 
 
@@ -27,11 +28,15 @@ class ListingPublishStatusResponse:
     """ 
         Attributes:
             listing_id (str | Unset):
-            channels (list[ListingPublishStatusChannel] | Unset):
+            channels (list[ListingPublishStatusChannel] | Unset): Sync activity per channel — empty if the listing has never
+                been pushed/pulled. Empty does NOT mean "not connected"; check `connections` for that.
+            connections (list[ListingPublishStatusConnection] | Unset): Connection state per channel. Populated even when
+                `channels` is empty so callers can distinguish "owned, never pushed" from "owned, never connected".
      """
 
     listing_id: str | Unset = UNSET
     channels: list[ListingPublishStatusChannel] | Unset = UNSET
+    connections: list[ListingPublishStatusConnection] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -40,6 +45,7 @@ class ListingPublishStatusResponse:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_publish_status_channel import ListingPublishStatusChannel
+        from ..models.listing_publish_status_connection import ListingPublishStatusConnection
         listing_id = self.listing_id
 
         channels: list[dict[str, Any]] | Unset = UNSET
@@ -48,6 +54,15 @@ class ListingPublishStatusResponse:
             for channels_item_data in self.channels:
                 channels_item = channels_item_data.to_dict()
                 channels.append(channels_item)
+
+
+
+        connections: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.connections, Unset):
+            connections = []
+            for connections_item_data in self.connections:
+                connections_item = connections_item_data.to_dict()
+                connections.append(connections_item)
 
 
 
@@ -60,6 +75,8 @@ class ListingPublishStatusResponse:
             field_dict["listingId"] = listing_id
         if channels is not UNSET:
             field_dict["channels"] = channels
+        if connections is not UNSET:
+            field_dict["connections"] = connections
 
         return field_dict
 
@@ -68,6 +85,7 @@ class ListingPublishStatusResponse:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_publish_status_channel import ListingPublishStatusChannel
+        from ..models.listing_publish_status_connection import ListingPublishStatusConnection
         d = dict(src_dict)
         listing_id = d.pop("listingId", UNSET)
 
@@ -83,9 +101,22 @@ class ListingPublishStatusResponse:
                 channels.append(channels_item)
 
 
+        _connections = d.pop("connections", UNSET)
+        connections: list[ListingPublishStatusConnection] | Unset = UNSET
+        if _connections is not UNSET:
+            connections = []
+            for connections_item_data in _connections:
+                connections_item = ListingPublishStatusConnection.from_dict(connections_item_data)
+
+
+
+                connections.append(connections_item)
+
+
         listing_publish_status_response = cls(
             listing_id=listing_id,
             channels=channels,
+            connections=connections,
         )
 
 
