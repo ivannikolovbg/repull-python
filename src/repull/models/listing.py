@@ -18,6 +18,8 @@ if TYPE_CHECKING:
   from ..models.listing_address import ListingAddress
   from ..models.listing_amenity import ListingAmenity
   from ..models.listing_channel import ListingChannel
+  from ..models.listing_content import ListingContent
+  from ..models.listing_details import ListingDetails
 
 
 
@@ -40,6 +42,12 @@ class Listing:
             channels (list[ListingChannel] | Unset): Channels (Airbnb, Booking, VRBO, etc.) the listing is connected to.
             amenities (list[ListingAmenity] | Unset): Amenity rows for the listing. **Only present when the caller passes
                 `?include=amenities`.** Empty array (`[]`) when the listing has no amenity rows.
+            content (ListingContent | None | Unset): **Only present when the caller passes `?include=content`.** Sourced
+                from `listings_descriptions` for the `en` locale. `null` when the listing has no description row stored (vs the
+                field being absent — that signals the caller did not opt into the expansion).
+            details (ListingDetails | None | Unset): **Only present when the caller passes `?include=details`.** Sourced
+                from `listings_details`. `null` when the listing has no details row stored (vs the field being absent — that
+                signals the caller did not opt into the expansion).
             created_at (datetime.datetime | Unset):
             updated_at (datetime.datetime | Unset):
      """
@@ -51,6 +59,8 @@ class Listing:
     status: ListingStatus | Unset = UNSET
     channels: list[ListingChannel] | Unset = UNSET
     amenities: list[ListingAmenity] | Unset = UNSET
+    content: ListingContent | None | Unset = UNSET
+    details: ListingDetails | None | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     updated_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -63,6 +73,8 @@ class Listing:
         from ..models.listing_address import ListingAddress
         from ..models.listing_amenity import ListingAmenity
         from ..models.listing_channel import ListingChannel
+        from ..models.listing_content import ListingContent
+        from ..models.listing_details import ListingDetails
         id = self.id
 
         name = self.name
@@ -100,6 +112,22 @@ class Listing:
 
 
 
+        content: dict[str, Any] | None | Unset
+        if isinstance(self.content, Unset):
+            content = UNSET
+        elif isinstance(self.content, ListingContent):
+            content = self.content.to_dict()
+        else:
+            content = self.content
+
+        details: dict[str, Any] | None | Unset
+        if isinstance(self.details, Unset):
+            details = UNSET
+        elif isinstance(self.details, ListingDetails):
+            details = self.details.to_dict()
+        else:
+            details = self.details
+
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
             created_at = self.created_at.isoformat()
@@ -127,6 +155,10 @@ class Listing:
             field_dict["channels"] = channels
         if amenities is not UNSET:
             field_dict["amenities"] = amenities
+        if content is not UNSET:
+            field_dict["content"] = content
+        if details is not UNSET:
+            field_dict["details"] = details
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
         if updated_at is not UNSET:
@@ -141,6 +173,8 @@ class Listing:
         from ..models.listing_address import ListingAddress
         from ..models.listing_amenity import ListingAmenity
         from ..models.listing_channel import ListingChannel
+        from ..models.listing_content import ListingContent
+        from ..models.listing_details import ListingDetails
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -200,6 +234,46 @@ class Listing:
                 amenities.append(amenities_item)
 
 
+        def _parse_content(data: object) -> ListingContent | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                content_type_1 = ListingContent.from_dict(data)
+
+
+
+                return content_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingContent | None | Unset, data)
+
+        content = _parse_content(d.pop("content", UNSET))
+
+
+        def _parse_details(data: object) -> ListingDetails | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                details_type_1 = ListingDetails.from_dict(data)
+
+
+
+                return details_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingDetails | None | Unset, data)
+
+        details = _parse_details(d.pop("details", UNSET))
+
+
         _created_at = d.pop("createdAt", UNSET)
         created_at: datetime.datetime | Unset
         if isinstance(_created_at,  Unset):
@@ -228,6 +302,8 @@ class Listing:
             status=status,
             channels=channels,
             amenities=amenities,
+            content=content,
+            details=details,
             created_at=created_at,
             updated_at=updated_at,
         )

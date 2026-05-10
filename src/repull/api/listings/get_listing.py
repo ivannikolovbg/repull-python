@@ -9,7 +9,6 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...models.get_listing_include import GetListingInclude
 from ...models.listing import Listing
 from ...types import UNSET, Unset
 from typing import cast
@@ -19,7 +18,7 @@ from typing import cast
 def _get_kwargs(
     id: int,
     *,
-    include: GetListingInclude | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
@@ -33,11 +32,7 @@ def _get_kwargs(
 
     params: dict[str, Any] = {}
 
-    json_include: str | Unset = UNSET
-    if not isinstance(include, Unset):
-        json_include = include.value
-
-    params["include"] = json_include
+    params["include"] = include
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -103,7 +98,7 @@ def sync_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
-    include: GetListingInclude | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | Listing]:
@@ -113,13 +108,17 @@ def sync_detailed(
     response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
     to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
-    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's
-    amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the listing has
-    no amenity rows. The default response stays lean; consumers must opt in.
+    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's amenity
+    rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
+    description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
+    `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
+    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    consumers must opt in.
 
     Args:
         id (int):
-        include (GetListingInclude | Unset):
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -148,7 +147,7 @@ def sync(
     id: int,
     *,
     client: AuthenticatedClient | Client,
-    include: GetListingInclude | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Error | Listing | None:
@@ -158,13 +157,17 @@ def sync(
     response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
     to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
-    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's
-    amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the listing has
-    no amenity rows. The default response stays lean; consumers must opt in.
+    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's amenity
+    rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
+    description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
+    `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
+    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    consumers must opt in.
 
     Args:
         id (int):
-        include (GetListingInclude | Unset):
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -188,7 +191,7 @@ async def asyncio_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
-    include: GetListingInclude | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | Listing]:
@@ -198,13 +201,17 @@ async def asyncio_detailed(
     response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
     to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
-    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's
-    amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the listing has
-    no amenity rows. The default response stays lean; consumers must opt in.
+    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's amenity
+    rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
+    description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
+    `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
+    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    consumers must opt in.
 
     Args:
         id (int):
-        include (GetListingInclude | Unset):
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -233,7 +240,7 @@ async def asyncio(
     id: int,
     *,
     client: AuthenticatedClient | Client,
-    include: GetListingInclude | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Error | Listing | None:
@@ -243,13 +250,17 @@ async def asyncio(
     response, so you can bind the result to the same model. Cross-tenant access (a listing that belongs
     to a different workspace) returns 404 — never 403, never reveals the listing's existence.
 
-    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's
-    amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the listing has
-    no amenity rows. The default response stays lean; consumers must opt in.
+    **Optional expansions:** Pass `?include=amenities` to enrich the response with the listing's amenity
+    rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
+    description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
+    `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
+    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    consumers must opt in.
 
     Args:
         id (int):
-        include (GetListingInclude | Unset):
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:

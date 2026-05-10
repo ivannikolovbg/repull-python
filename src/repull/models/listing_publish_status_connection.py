@@ -69,7 +69,7 @@ class ListingPublishStatusConnection:
         if connected is not UNSET:
             field_dict["connected"] = connected
         if sync_enabled is not UNSET:
-            field_dict["sync_enabled"] = sync_enabled
+            field_dict["syncEnabled"] = sync_enabled
         if since is not UNSET:
             field_dict["since"] = since
 
@@ -84,7 +84,7 @@ class ListingPublishStatusConnection:
 
         connected = d.pop("connected", UNSET)
 
-        sync_enabled = d.pop("sync_enabled", UNSET)
+        sync_enabled = d.pop("syncEnabled", UNSET)
 
         def _parse_since(data: object) -> datetime.datetime | None | Unset:
             if data is None:

@@ -24,6 +24,7 @@ def _get_kwargs(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
@@ -52,6 +53,8 @@ def _get_kwargs(
     params["status"] = json_status
 
     params["channel"] = channel
+
+    params["include"] = include
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -115,6 +118,7 @@ def sync_detailed(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ListingListResponse]:
@@ -126,6 +130,14 @@ def sync_detailed(
     below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
     `channel`.
 
+    **Optional expansions:** Pass `?include=content` to enrich each row with the rich content slab
+    (summary, description, space, house rules, etc. — sourced from `listings_descriptions` for the `en`
+    locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
+    check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
+    `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
+    (which signals the expansion was not requested). Combine comma-separated, e.g.
+    `?include=content,details`. The default response stays lean; consumers must opt in.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -133,6 +145,7 @@ def sync_detailed(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -151,6 +164,7 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+include=include,
 x_schema=x_schema,
 
     )
@@ -170,6 +184,7 @@ def sync(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Error | ListingListResponse | None:
@@ -181,6 +196,14 @@ def sync(
     below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
     `channel`.
 
+    **Optional expansions:** Pass `?include=content` to enrich each row with the rich content slab
+    (summary, description, space, house rules, etc. — sourced from `listings_descriptions` for the `en`
+    locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
+    check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
+    `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
+    (which signals the expansion was not requested). Combine comma-separated, e.g.
+    `?include=content,details`. The default response stays lean; consumers must opt in.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -188,6 +211,7 @@ def sync(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -207,6 +231,7 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+include=include,
 x_schema=x_schema,
 
     ).parsed
@@ -220,6 +245,7 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Response[Error | ListingListResponse]:
@@ -231,6 +257,14 @@ async def asyncio_detailed(
     below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
     `channel`.
 
+    **Optional expansions:** Pass `?include=content` to enrich each row with the rich content slab
+    (summary, description, space, house rules, etc. — sourced from `listings_descriptions` for the `en`
+    locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
+    check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
+    `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
+    (which signals the expansion was not requested). Combine comma-separated, e.g.
+    `?include=content,details`. The default response stays lean; consumers must opt in.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -238,6 +272,7 @@ async def asyncio_detailed(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -256,6 +291,7 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+include=include,
 x_schema=x_schema,
 
     )
@@ -275,6 +311,7 @@ async def asyncio(
     q: str | Unset = UNSET,
     status: ListListingsStatus | Unset = UNSET,
     channel: str | Unset = UNSET,
+    include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
 ) -> Error | ListingListResponse | None:
@@ -286,6 +323,14 @@ async def asyncio(
     below. Mutually exclusive with `cursor`. Filters: `q` (substring on name/street/city), `status`,
     `channel`.
 
+    **Optional expansions:** Pass `?include=content` to enrich each row with the rich content slab
+    (summary, description, space, house rules, etc. — sourced from `listings_descriptions` for the `en`
+    locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
+    check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
+    `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
+    (which signals the expansion was not requested). Combine comma-separated, e.g.
+    `?include=content,details`. The default response stays lean; consumers must opt in.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -293,6 +338,7 @@ async def asyncio(
         q (str | Unset):
         status (ListListingsStatus | Unset):
         channel (str | Unset):  Example: airbnb.
+        include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -312,6 +358,7 @@ limit=limit,
 q=q,
 status=status,
 channel=channel,
+include=include,
 x_schema=x_schema,
 
     )).parsed

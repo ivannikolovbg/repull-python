@@ -131,7 +131,6 @@ from .generate_studio_completion_response_200 import GenerateStudioCompletionRes
 from .generate_studio_completion_response_200_data import GenerateStudioCompletionResponse200Data
 from .get_health_response_200 import GetHealthResponse200
 from .get_kv_response_200 import GetKvResponse200
-from .get_listing_include import GetListingInclude
 from .get_listing_segments_level import GetListingSegmentsLevel
 from .get_property_include import GetPropertyInclude
 from .get_studio_deployment_response_200 import GetStudioDeploymentResponse200
@@ -182,6 +181,7 @@ from .listing_created_payload_address import ListingCreatedPayloadAddress
 from .listing_deleted_event import ListingDeletedEvent
 from .listing_deleted_event_type import ListingDeletedEventType
 from .listing_deleted_payload import ListingDeletedPayload
+from .listing_details import ListingDetails
 from .listing_generate_content_request import ListingGenerateContentRequest
 from .listing_generate_content_request_style import ListingGenerateContentRequestStyle
 from .listing_generate_content_response import ListingGenerateContentResponse
@@ -501,7 +501,6 @@ __all__ = (
     "GenerateStudioCompletionResponse200Data",
     "GetHealthResponse200",
     "GetKvResponse200",
-    "GetListingInclude",
     "GetListingSegmentsLevel",
     "GetPropertyInclude",
     "GetStudioDeploymentResponse200",
@@ -537,6 +536,7 @@ __all__ = (
     "ListingDeletedEvent",
     "ListingDeletedEventType",
     "ListingDeletedPayload",
+    "ListingDetails",
     "ListingGenerateContentRequest",
     "ListingGenerateContentRequestStyle",
     "ListingGenerateContentResponse",

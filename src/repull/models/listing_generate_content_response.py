@@ -28,7 +28,10 @@ class ListingGenerateContentResponse:
         Attributes:
             listing_id (str | Unset):
             persisted (bool | Unset):
-            content (ListingContent | Unset):
+            content (ListingContent | Unset): Rich multilingual content slab for a listing — guest-facing copy sourced from
+                `listings_descriptions` (the `en` row when surfaced via `?include=content`). Also returned as the AI-generated
+                payload from `POST /v1/listings/{id}/generate-content` (where `title` and `amenities` are populated). All fields
+                are individually nullable.
      """
 
     listing_id: str | Unset = UNSET
