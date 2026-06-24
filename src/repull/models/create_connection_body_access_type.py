@@ -2,6 +2,7 @@ from enum import Enum
 
 class CreateConnectionBodyAccessType(str, Enum):
     FULL_ACCESS = "full_access"
+    MESSAGING = "messaging"
     READ_ONLY = "read_only"
 
     def __str__(self) -> str:

@@ -81,8 +81,11 @@ def sync_detailed(
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
+    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
+    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
+    — grants full host scopes including the exclusive property management (only one app per Airbnb
+    account can hold it). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):
@@ -123,8 +126,11 @@ def sync(
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
+    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
+    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
+    — grants full host scopes including the exclusive property management (only one app per Airbnb
+    account can hold it). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):
@@ -160,8 +166,11 @@ async def asyncio_detailed(
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
+    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
+    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
+    — grants full host scopes including the exclusive property management (only one app per Airbnb
+    account can hold it). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):
@@ -202,8 +211,11 @@ async def asyncio(
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType` (`read_only` for calendar-only OAuth scopes, or `full_access` — the default — for full
-    host scopes). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
+    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
+    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
+    — grants full host scopes including the exclusive property management (only one app per Airbnb
+    account can hold it). The response returns a hosted `url` to redirect the user to.
 
     Args:
         provider (str):

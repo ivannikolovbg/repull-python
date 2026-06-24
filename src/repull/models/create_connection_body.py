@@ -27,8 +27,10 @@ class CreateConnectionBody:
         Attributes:
             redirect_url (str | Unset): Airbnb only — where to redirect the user after the OAuth flow completes.
             access_type (CreateConnectionBodyAccessType | Unset): Airbnb only — selects the OAuth scope set. 'read_only'
-                grants calendar-only access; 'full_access' grants full host scopes (default). Default:
-                CreateConnectionBodyAccessType.FULL_ACCESS.
+                grants read-only scopes; 'messaging' grants read scopes plus message read/send but NOT property management, so
+                it can coexist with another app (e.g. an existing PMS) that already holds property management on the same Airbnb
+                account; 'full_access' (default) grants full host scopes including the exclusive property management (only one
+                app per Airbnb account can hold it). Default: CreateConnectionBodyAccessType.FULL_ACCESS.
             api_key (str | Unset): PMS providers — API key.
             client_id (str | Unset): Plumguide — client ID.
             client_secret (str | Unset): Plumguide — client secret.

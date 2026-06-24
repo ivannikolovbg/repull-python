@@ -5,6 +5,14 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.5] - 2026-06-24
+
+### Added
+- Add `messaging` Airbnb Connect access scope (read + send guest messages, no
+  property management). `CreateConnectionBodyAccessType.MESSAGING` now joins
+  `READ_ONLY` and `FULL_ACCESS` on `POST /v1/connect/{provider}`. Regenerated
+  against the live `https://api.repull.dev/openapi.json`.
+
 ## [0.2.2] - 2026-05-07
 
 ### Added
