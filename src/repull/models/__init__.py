@@ -151,6 +151,7 @@ from .list_kv_response_200_data_item import ListKvResponse200DataItem
 from .list_kv_response_200_pagination import ListKvResponse200Pagination
 from .list_listings_status import ListListingsStatus
 from .list_market_browse_sort import ListMarketBrowseSort
+from .list_properties_channel import ListPropertiesChannel
 from .list_properties_status import ListPropertiesStatus
 from .list_reservations_status import ListReservationsStatus
 from .list_reviews_platform import ListReviewsPlatform
@@ -597,6 +598,7 @@ __all__ = (
     "ListKvResponse200Pagination",
     "ListListingsStatus",
     "ListMarketBrowseSort",
+    "ListPropertiesChannel",
     "ListPropertiesStatus",
     "ListReservationsStatus",
     "ListReviewsPlatform",

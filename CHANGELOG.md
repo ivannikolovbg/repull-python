@@ -5,6 +5,20 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.6] - 2026-06-25
+
+### Added
+- Booking.com hosted connect flow on `POST /v1/connect/{provider}` (`provider=booking`):
+  pass `redirectUrl` to get back a hosted `url`/`sessionId`/`expiresAt`, then drive
+  the room-mapping surface via `GET /v1/connect/booking/rooms`,
+  `POST /v1/connect/booking/map-rooms`, and `POST /v1/connect/booking/verify`.
+- `GET /v1/properties` now accepts a `channel` filter (`ListPropertiesChannel`:
+  `airbnb` / `booking` / `vrbo`) to list only properties published on a given OTA.
+- `Property.channels` (`list[str]`) — the OTAs/channels a property is actively
+  published on (e.g. `["airbnb", "booking"]`); empty when none.
+
+Regenerated against the live `https://api.repull.dev/openapi.json`.
+
 ## [0.2.5] - 2026-06-24
 
 ### Added

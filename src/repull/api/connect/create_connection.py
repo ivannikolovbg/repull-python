@@ -87,6 +87,12 @@ def sync_detailed(
     — grants full host scopes including the exclusive property management (only one app per Airbnb
     account can hold it). The response returns a hosted `url` to redirect the user to.
 
+    Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
+    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
+    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+
+    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
+
     Args:
         provider (str):
         body (CreateConnectionBody | Unset): Provider-specific credentials (apiKey,
@@ -132,6 +138,12 @@ def sync(
     — grants full host scopes including the exclusive property management (only one app per Airbnb
     account can hold it). The response returns a hosted `url` to redirect the user to.
 
+    Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
+    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
+    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+
+    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
+
     Args:
         provider (str):
         body (CreateConnectionBody | Unset): Provider-specific credentials (apiKey,
@@ -171,6 +183,12 @@ async def asyncio_detailed(
     PMS) that already holds property management on the same Airbnb account; `full_access` — the default
     — grants full host scopes including the exclusive property management (only one app per Airbnb
     account can hold it). The response returns a hosted `url` to redirect the user to.
+
+    Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
+    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
+    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+
+    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
 
     Args:
         provider (str):
@@ -216,6 +234,12 @@ async def asyncio(
     PMS) that already holds property management on the same Airbnb account; `full_access` — the default
     — grants full host scopes including the exclusive property management (only one app per Airbnb
     account can hold it). The response returns a hosted `url` to redirect the user to.
+
+    Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
+    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
+    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+
+    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
 
     Args:
         provider (str):

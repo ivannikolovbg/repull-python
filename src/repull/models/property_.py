@@ -41,6 +41,8 @@ class Property:
             max_guests (int | Unset):  Example: 6.
             thumbnail (str | Unset): Primary photo URL
             provider (str | Unset): Source PMS Example: hostaway.
+            channels (list[str] | Unset): OTAs/channels this property is actively published on (e.g. `airbnb`, `booking`,
+                `vrbo`). Empty array when the property has no active channel links. Example: ['airbnb', 'booking'].
             amenities (list[ListingAmenity] | Unset): Amenity rows for the property. **Only present when the caller passes
                 `?include=amenities`.** Empty array (`[]`) when the property has no amenity rows.
      """
@@ -59,6 +61,7 @@ class Property:
     max_guests: int | Unset = UNSET
     thumbnail: str | Unset = UNSET
     provider: str | Unset = UNSET
+    channels: list[str] | Unset = UNSET
     amenities: list[ListingAmenity] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -95,6 +98,12 @@ class Property:
         thumbnail = self.thumbnail
 
         provider = self.provider
+
+        channels: list[str] | Unset = UNSET
+        if not isinstance(self.channels, Unset):
+            channels = self.channels
+
+
 
         amenities: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.amenities, Unset):
@@ -138,6 +147,8 @@ class Property:
             field_dict["thumbnail"] = thumbnail
         if provider is not UNSET:
             field_dict["provider"] = provider
+        if channels is not UNSET:
+            field_dict["channels"] = channels
         if amenities is not UNSET:
             field_dict["amenities"] = amenities
 
@@ -177,6 +188,9 @@ class Property:
 
         provider = d.pop("provider", UNSET)
 
+        channels = cast(list[str], d.pop("channels", UNSET))
+
+
         _amenities = d.pop("amenities", UNSET)
         amenities: list[ListingAmenity] | Unset = UNSET
         if _amenities is not UNSET:
@@ -204,6 +218,7 @@ class Property:
             max_guests=max_guests,
             thumbnail=thumbnail,
             provider=provider,
+            channels=channels,
             amenities=amenities,
         )
 

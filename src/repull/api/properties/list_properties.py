@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
+from ...models.list_properties_channel import ListPropertiesChannel
 from ...models.list_properties_status import ListPropertiesStatus
 from ...models.property_list_response import PropertyListResponse
 from ...types import UNSET, Unset
@@ -24,6 +25,7 @@ def _get_kwargs(
     q: str | Unset = UNSET,
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
+    channel: ListPropertiesChannel | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> dict[str, Any]:
@@ -48,6 +50,12 @@ def _get_kwargs(
     params["status"] = json_status
 
     params["lifecycle_status"] = lifecycle_status
+
+    json_channel: str | Unset = UNSET
+    if not isinstance(channel, Unset):
+        json_channel = channel.value
+
+    params["channel"] = json_channel
 
     params["include_total"] = include_total
 
@@ -112,6 +120,7 @@ def sync_detailed(
     q: str | Unset = UNSET,
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
+    channel: ListPropertiesChannel | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
@@ -135,6 +144,7 @@ def sync_detailed(
         q (str | Unset):
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
+        channel (ListPropertiesChannel | Unset):  Example: airbnb.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -153,6 +163,7 @@ offset=offset,
 q=q,
 status=status,
 lifecycle_status=lifecycle_status,
+channel=channel,
 include_total=include_total,
 
     )
@@ -172,6 +183,7 @@ def sync(
     q: str | Unset = UNSET,
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
+    channel: ListPropertiesChannel | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
@@ -195,6 +207,7 @@ def sync(
         q (str | Unset):
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
+        channel (ListPropertiesChannel | Unset):  Example: airbnb.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -214,6 +227,7 @@ offset=offset,
 q=q,
 status=status,
 lifecycle_status=lifecycle_status,
+channel=channel,
 include_total=include_total,
 
     ).parsed
@@ -227,6 +241,7 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
+    channel: ListPropertiesChannel | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
@@ -250,6 +265,7 @@ async def asyncio_detailed(
         q (str | Unset):
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
+        channel (ListPropertiesChannel | Unset):  Example: airbnb.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -268,6 +284,7 @@ offset=offset,
 q=q,
 status=status,
 lifecycle_status=lifecycle_status,
+channel=channel,
 include_total=include_total,
 
     )
@@ -287,6 +304,7 @@ async def asyncio(
     q: str | Unset = UNSET,
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
+    channel: ListPropertiesChannel | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
@@ -310,6 +328,7 @@ async def asyncio(
         q (str | Unset):
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
+        channel (ListPropertiesChannel | Unset):  Example: airbnb.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -329,6 +348,7 @@ offset=offset,
 q=q,
 status=status,
 lifecycle_status=lifecycle_status,
+channel=channel,
 include_total=include_total,
 
     )).parsed
