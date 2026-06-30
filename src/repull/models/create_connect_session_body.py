@@ -28,11 +28,17 @@ class CreateConnectSessionBody:
             state (None | str | Unset): Opaque pass-through correlation token. Echoed back in the response.
             allowed_providers (list[str] | None | Unset): Optional whitelist of provider IDs the picker should expose. Omit
                 to show every channel in the registry.
+            locale (None | str | Unset): Optional UI language for the hosted Connect pages. Accepts any supported locale
+                code (currently `en`, `fr`). When set it pins the language for the whole flow, overriding the workspace
+                `default_language`. Unknown codes are ignored and the page falls back to the workspace default, then `Accept-
+                Language`, then `en`. The end user can still override per-visit with a `?locale=` query param on the hosted
+                page. Example: fr.
      """
 
     redirect_url: str
     state: None | str | Unset = UNSET
     allowed_providers: list[str] | None | Unset = UNSET
+    locale: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -58,6 +64,12 @@ class CreateConnectSessionBody:
         else:
             allowed_providers = self.allowed_providers
 
+        locale: None | str | Unset
+        if isinstance(self.locale, Unset):
+            locale = UNSET
+        else:
+            locale = self.locale
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -68,6 +80,8 @@ class CreateConnectSessionBody:
             field_dict["state"] = state
         if allowed_providers is not UNSET:
             field_dict["allowedProviders"] = allowed_providers
+        if locale is not UNSET:
+            field_dict["locale"] = locale
 
         return field_dict
 
@@ -106,10 +120,21 @@ class CreateConnectSessionBody:
         allowed_providers = _parse_allowed_providers(d.pop("allowedProviders", UNSET))
 
 
+        def _parse_locale(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        locale = _parse_locale(d.pop("locale", UNSET))
+
+
         create_connect_session_body = cls(
             redirect_url=redirect_url,
             state=state,
             allowed_providers=allowed_providers,
+            locale=locale,
         )
 
 

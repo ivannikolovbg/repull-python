@@ -10,6 +10,7 @@ from ..types import UNSET, Unset
 
 from ..models.create_connection_body_access_type import CreateConnectionBodyAccessType
 from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -35,6 +36,9 @@ class CreateConnectionBody:
             api_key (str | Unset): PMS providers — API key.
             client_id (str | Unset): Plumguide — client ID.
             client_secret (str | Unset): Plumguide — client secret.
+            locale (None | str | Unset): Airbnb only — optional UI language for the hosted Connect pages. Accepts any
+                supported locale code (currently `en`, `fr`); unknown codes are ignored and resolution falls back to the
+                workspace `default_language`, then `Accept-Language`, then `en`. Example: fr.
      """
 
     redirect_url: str | Unset = UNSET
@@ -42,6 +46,7 @@ class CreateConnectionBody:
     api_key: str | Unset = UNSET
     client_id: str | Unset = UNSET
     client_secret: str | Unset = UNSET
+    locale: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -62,6 +67,12 @@ class CreateConnectionBody:
 
         client_secret = self.client_secret
 
+        locale: None | str | Unset
+        if isinstance(self.locale, Unset):
+            locale = UNSET
+        else:
+            locale = self.locale
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -77,6 +88,8 @@ class CreateConnectionBody:
             field_dict["clientId"] = client_id
         if client_secret is not UNSET:
             field_dict["clientSecret"] = client_secret
+        if locale is not UNSET:
+            field_dict["locale"] = locale
 
         return field_dict
 
@@ -103,12 +116,23 @@ class CreateConnectionBody:
 
         client_secret = d.pop("clientSecret", UNSET)
 
+        def _parse_locale(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        locale = _parse_locale(d.pop("locale", UNSET))
+
+
         create_connection_body = cls(
             redirect_url=redirect_url,
             access_type=access_type,
             api_key=api_key,
             client_id=client_id,
             client_secret=client_secret,
+            locale=locale,
         )
 
 
