@@ -56,11 +56,17 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Any]:
-    """ Listing action (push/publish/unlist/delete)
+    r""" Listing action (delete/push/publish/unlist)
 
-     Apply a state action to an Airbnb listing — `push` (sync local changes upstream), `publish` (make
-    publicly bookable), `unlist` (hide), or `delete` (permanent). Each action has different
-    reversibility — see docs.
+     Apply a state action to a listing by id.
+
+    `delete` is implemented as a **deactivate of the Repull record only** — it sets the listing inactive
+    and KEEPS the row; it does NOT touch the upstream Airbnb listing (Repull never deletes or
+    deactivates on Airbnb's side). Use it to exclude a listing / trim back under the plan-listings cap;
+    reactivate via `PATCH /v1/listings/{id}` with `{ \"active\": true }`. Idempotent.
+
+    `push` (sync local changes upstream), `publish` (make publicly bookable), and `unlist` (hide) depend
+    on the host-side sync orchestrator and currently return 501.
 
     Args:
         id (str):
@@ -92,11 +98,17 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Any]:
-    """ Listing action (push/publish/unlist/delete)
+    r""" Listing action (delete/push/publish/unlist)
 
-     Apply a state action to an Airbnb listing — `push` (sync local changes upstream), `publish` (make
-    publicly bookable), `unlist` (hide), or `delete` (permanent). Each action has different
-    reversibility — see docs.
+     Apply a state action to a listing by id.
+
+    `delete` is implemented as a **deactivate of the Repull record only** — it sets the listing inactive
+    and KEEPS the row; it does NOT touch the upstream Airbnb listing (Repull never deletes or
+    deactivates on Airbnb's side). Use it to exclude a listing / trim back under the plan-listings cap;
+    reactivate via `PATCH /v1/listings/{id}` with `{ \"active\": true }`. Idempotent.
+
+    `push` (sync local changes upstream), `publish` (make publicly bookable), and `unlist` (hide) depend
+    on the host-side sync orchestrator and currently return 501.
 
     Args:
         id (str):
