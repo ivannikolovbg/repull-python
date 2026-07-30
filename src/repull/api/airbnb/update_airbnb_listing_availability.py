@@ -8,14 +8,19 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.airbnb_availability_write_request import AirbnbAvailabilityWriteRequest
+from typing import cast
 
 
 
 def _get_kwargs(
     id: str,
+    *,
+    body: AirbnbAvailabilityWriteRequest,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+
 
     
 
@@ -26,7 +31,12 @@ def _get_kwargs(
         "url": "/v1/channels/airbnb/listings/{id}/availability".format(id=quote(str(id), safe=""),),
     }
 
+    _kwargs["json"] = body.to_dict()
 
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -54,15 +64,25 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: AirbnbAvailabilityWriteRequest,
 
 ) -> Response[Any]:
-    """ Update Airbnb availability
+    r""" Update Airbnb availability
 
-     Push per-day availability + pricing overrides to Airbnb. Accepts a sparse map (date → fields) — only
-    included dates are updated.
+     Push availability + restrictions to Airbnb. `type: \"calendar\"` writes per-date restrictions —
+    min/max nights, closed-to-arrival, closed-to-departure, and stop-sell (`availability:
+    \"unavailable\"`) — via a batch of operations that each target either a date range or an explicit
+    date list. `type: \"rules\"` writes listing-level availability rules (default min/max nights,
+    booking lead time, turnover days, seasonal/day-of-week min nights). Restrictions never leak across
+    channels — this endpoint writes only to Airbnb.
 
     Args:
         id (str):
+        body (AirbnbAvailabilityWriteRequest): Body for `PUT
+            /v1/channels/airbnb/listings/{id}/availability`. `type: "calendar"` carries per-date
+            restrictions (min/max nights, closed-to-arrival/departure, stop-sell); `type: "rules"`
+            carries listing-level availability rules (default min/max nights, booking lead time,
+            turnover days).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -75,6 +95,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+body=body,
 
     )
 
@@ -89,15 +110,25 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: AirbnbAvailabilityWriteRequest,
 
 ) -> Response[Any]:
-    """ Update Airbnb availability
+    r""" Update Airbnb availability
 
-     Push per-day availability + pricing overrides to Airbnb. Accepts a sparse map (date → fields) — only
-    included dates are updated.
+     Push availability + restrictions to Airbnb. `type: \"calendar\"` writes per-date restrictions —
+    min/max nights, closed-to-arrival, closed-to-departure, and stop-sell (`availability:
+    \"unavailable\"`) — via a batch of operations that each target either a date range or an explicit
+    date list. `type: \"rules\"` writes listing-level availability rules (default min/max nights,
+    booking lead time, turnover days, seasonal/day-of-week min nights). Restrictions never leak across
+    channels — this endpoint writes only to Airbnb.
 
     Args:
         id (str):
+        body (AirbnbAvailabilityWriteRequest): Body for `PUT
+            /v1/channels/airbnb/listings/{id}/availability`. `type: "calendar"` carries per-date
+            restrictions (min/max nights, closed-to-arrival/departure, stop-sell); `type: "rules"`
+            carries listing-level availability rules (default min/max nights, booking lead time,
+            turnover days).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -110,6 +141,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+body=body,
 
     )
 

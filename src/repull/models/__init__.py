@@ -18,6 +18,11 @@ from .ai_operation_failed_payload import AiOperationFailedPayload
 from .ai_operation_failed_payload_error import AiOperationFailedPayloadError
 from .ai_operation_input import AIOperationInput
 from .ai_operation_operation import AIOperationOperation
+from .airbnb_availability_write_request import AirbnbAvailabilityWriteRequest
+from .airbnb_availability_write_request_rules import AirbnbAvailabilityWriteRequestRules
+from .airbnb_availability_write_request_type import AirbnbAvailabilityWriteRequestType
+from .airbnb_calendar_operation import AirbnbCalendarOperation
+from .airbnb_calendar_operation_availability import AirbnbCalendarOperationAvailability
 from .airbnb_connection import AirbnbConnection
 from .airbnb_connection_accessibility_amenities_type_0_item import AirbnbConnectionAccessibilityAmenitiesType0Item
 from .airbnb_connection_amenities_type_0_item import AirbnbConnectionAmenitiesType0Item
@@ -27,7 +32,14 @@ from .airbnb_connection_summary import AirbnbConnectionSummary
 from .airbnb_connection_summary_status import AirbnbConnectionSummaryStatus
 from .airbnb_data_freshness import AirbnbDataFreshness
 from .airbnb_listing import AirbnbListing
+from .airbnb_listing_action_request import AirbnbListingActionRequest
+from .airbnb_listing_action_request_action import AirbnbListingActionRequestAction
 from .airbnb_listing_list_response import AirbnbListingListResponse
+from .airbnb_pricing_write_request import AirbnbPricingWriteRequest
+from .airbnb_pricing_write_request_records_type_0_item import AirbnbPricingWriteRequestRecordsType0Item
+from .airbnb_pricing_write_request_rule_type_0 import AirbnbPricingWriteRequestRuleType0
+from .airbnb_pricing_write_request_settings_type_0 import AirbnbPricingWriteRequestSettingsType0
+from .airbnb_pricing_write_request_type import AirbnbPricingWriteRequestType
 from .airbnb_reservation import AirbnbReservation
 from .airbnb_reservation_list_response import AirbnbReservationListResponse
 from .airbnb_reservation_status import AirbnbReservationStatus
@@ -35,6 +47,11 @@ from .airbnb_review import AirbnbReview
 from .airbnb_review_list_response import AirbnbReviewListResponse
 from .airbnb_thread import AirbnbThread
 from .airbnb_thread_list_response import AirbnbThreadListResponse
+from .booking_availability_update import BookingAvailabilityUpdate
+from .booking_availability_update_date_range import BookingAvailabilityUpdateDateRange
+from .booking_availability_update_request import BookingAvailabilityUpdateRequest
+from .booking_availability_update_request_type import BookingAvailabilityUpdateRequestType
+from .booking_availability_update_status import BookingAvailabilityUpdateStatus
 from .booking_connect_listing_option import BookingConnectListingOption
 from .booking_connect_room import BookingConnectRoom
 from .booking_connect_rooms_response import BookingConnectRoomsResponse
@@ -88,24 +105,11 @@ from .conversation_list_response import ConversationListResponse
 from .conversation_message_attachment import ConversationMessageAttachment
 from .conversation_platform import ConversationPlatform
 from .conversation_status import ConversationStatus
-from .create_ai_operation_response_200 import CreateAiOperationResponse200
 from .create_billing_checkout_body import CreateBillingCheckoutBody
 from .create_billing_checkout_body_plan import CreateBillingCheckoutBodyPlan
 from .create_connect_session_body import CreateConnectSessionBody
 from .create_connection_body import CreateConnectionBody
 from .create_connection_body_access_type import CreateConnectionBodyAccessType
-from .create_reservation_body import CreateReservationBody
-from .create_studio_deployment_body import CreateStudioDeploymentBody
-from .create_studio_deployment_response_201 import CreateStudioDeploymentResponse201
-from .create_studio_deployment_response_201_data import CreateStudioDeploymentResponse201Data
-from .create_studio_deployment_response_201_data_status import CreateStudioDeploymentResponse201DataStatus
-from .create_studio_project_body import CreateStudioProjectBody
-from .create_studio_project_generation_body import CreateStudioProjectGenerationBody
-from .create_studio_project_generation_response_201 import CreateStudioProjectGenerationResponse201
-from .create_studio_project_generation_response_201_data import CreateStudioProjectGenerationResponse201Data
-from .create_studio_project_response_201 import CreateStudioProjectResponse201
-from .create_studio_project_response_201_data import CreateStudioProjectResponse201Data
-from .create_studio_project_response_201_data_status import CreateStudioProjectResponse201DataStatus
 from .create_webhook_body import CreateWebhookBody
 from .cursor_pagination import CursorPagination
 from .custom_schema import CustomSchema
@@ -117,24 +121,13 @@ from .custom_schema_mappings import CustomSchemaMappings
 from .custom_schema_summary import CustomSchemaSummary
 from .custom_schema_update import CustomSchemaUpdate
 from .delete_kv_response_200 import DeleteKvResponse200
-from .delete_studio_deployment_response_200 import DeleteStudioDeploymentResponse200
-from .delete_studio_deployment_response_200_data import DeleteStudioDeploymentResponse200Data
-from .delete_studio_project_file_response_200 import DeleteStudioProjectFileResponse200
-from .delete_studio_project_file_response_200_data import DeleteStudioProjectFileResponse200Data
-from .delete_studio_project_response_200 import DeleteStudioProjectResponse200
-from .delete_studio_project_response_200_data import DeleteStudioProjectResponse200Data
 from .error import Error
 from .error_error import ErrorError
 from .error_error_support import ErrorErrorSupport
-from .generate_studio_completion_body import GenerateStudioCompletionBody
-from .generate_studio_completion_response_200 import GenerateStudioCompletionResponse200
-from .generate_studio_completion_response_200_data import GenerateStudioCompletionResponse200Data
 from .get_health_response_200 import GetHealthResponse200
 from .get_kv_response_200 import GetKvResponse200
 from .get_listing_segments_level import GetListingSegmentsLevel
 from .get_property_include import GetPropertyInclude
-from .get_studio_deployment_response_200 import GetStudioDeploymentResponse200
-from .get_studio_project_response_200 import GetStudioProjectResponse200
 from .guest import Guest
 from .guest_contact import GuestContact
 from .guest_flag import GuestFlag
@@ -157,10 +150,6 @@ from .list_reservations_status import ListReservationsStatus
 from .list_reviews_platform import ListReviewsPlatform
 from .list_reviews_reviewer_role import ListReviewsReviewerRole
 from .list_reviews_status import ListReviewsStatus
-from .list_studio_deployments_response_200 import ListStudioDeploymentsResponse200
-from .list_studio_deployments_status import ListStudioDeploymentsStatus
-from .list_studio_project_files_response_200 import ListStudioProjectFilesResponse200
-from .list_studio_projects_response_200 import ListStudioProjectsResponse200
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
 from .listing import Listing
 from .listing_active_request import ListingActiveRequest
@@ -174,6 +163,14 @@ from .listing_comp_ratings import ListingCompRatings
 from .listing_comps_response import ListingCompsResponse
 from .listing_comps_response_date_range import ListingCompsResponseDateRange
 from .listing_content import ListingContent
+from .listing_content_update_request import ListingContentUpdateRequest
+from .listing_content_update_request_address import ListingContentUpdateRequestAddress
+from .listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+from .listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
+from .listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
+from .listing_content_update_request_photos_mode import ListingContentUpdateRequestPhotosMode
+from .listing_content_update_request_policies import ListingContentUpdateRequestPolicies
+from .listing_content_update_response import ListingContentUpdateResponse
 from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
 from .listing_create_response import ListingCreateResponse
@@ -240,6 +237,8 @@ from .listing_updated_event import ListingUpdatedEvent
 from .listing_updated_event_type import ListingUpdatedEventType
 from .listing_updated_payload import ListingUpdatedPayload
 from .listing_updated_payload_changes import ListingUpdatedPayloadChanges
+from .map_airbnb_listing_request import MapAirbnbListingRequest
+from .map_airbnb_listing_response import MapAirbnbListingResponse
 from .map_connect_booking_rooms_request import MapConnectBookingRoomsRequest
 from .map_connect_booking_rooms_response import MapConnectBookingRoomsResponse
 from .market_browse_category import MarketBrowseCategory
@@ -284,6 +283,7 @@ from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
 from .property_ import Property
 from .property_list_response import PropertyListResponse
+from .property_status import PropertyStatus
 from .reply_booking_review_body import ReplyBookingReviewBody
 from .reply_booking_review_response_200 import ReplyBookingReviewResponse200
 from .repull_ping_event import RepullPingEvent
@@ -326,6 +326,10 @@ from .review_platform import ReviewPlatform
 from .review_response import ReviewResponse
 from .review_reviewer_role import ReviewReviewerRole
 from .rotate_webhook_secret_response_200 import RotateWebhookSecretResponse200
+from .sandbox_fixture_ref import SandboxFixtureRef
+from .sandbox_reset_result import SandboxResetResult
+from .sandbox_reset_result_deleted import SandboxResetResultDeleted
+from .sandbox_seed_result import SandboxSeedResult
 from .select_connect_provider_body import SelectConnectProviderBody
 from .select_provider_response import SelectProviderResponse
 from .select_provider_response_pattern import SelectProviderResponsePattern
@@ -339,24 +343,14 @@ from .studio_file import StudioFile
 from .studio_generation import StudioGeneration
 from .studio_project import StudioProject
 from .studio_project_status import StudioProjectStatus
-from .suspend_studio_deployment_response_200 import SuspendStudioDeploymentResponse200
 from .test_webhook_body import TestWebhookBody
-from .update_availability_body import UpdateAvailabilityBody
 from .update_listing_pricing_strategy_response_200 import UpdateListingPricingStrategyResponse200
-from .update_reservation_body import UpdateReservationBody
-from .update_studio_project_body import UpdateStudioProjectBody
-from .update_studio_project_body_status import UpdateStudioProjectBodyStatus
-from .update_studio_project_response_200 import UpdateStudioProjectResponse200
 from .update_webhook_body import UpdateWebhookBody
 from .update_webhook_body_status import UpdateWebhookBodyStatus
-from .upsert_studio_project_file_body import UpsertStudioProjectFileBody
-from .upsert_studio_project_file_response_200 import UpsertStudioProjectFileResponse200
-from .upsert_studio_project_file_response_200_data import UpsertStudioProjectFileResponse200Data
 from .vrbo_listing import VrboListing
 from .vrbo_listing_list_response import VrboListingListResponse
 from .vrbo_reservation import VrboReservation
 from .vrbo_reservation_list_response import VrboReservationListResponse
-from .wake_studio_deployment_response_200 import WakeStudioDeploymentResponse200
 from .webhook_delivery import WebhookDelivery
 from .webhook_delivery_detail import WebhookDeliveryDetail
 from .webhook_delivery_detail_request_headers_type_0 import WebhookDeliveryDetailRequestHeadersType0
@@ -391,6 +385,11 @@ __all__ = (
     "AiOperationFailedPayloadError",
     "AIOperationInput",
     "AIOperationOperation",
+    "AirbnbAvailabilityWriteRequest",
+    "AirbnbAvailabilityWriteRequestRules",
+    "AirbnbAvailabilityWriteRequestType",
+    "AirbnbCalendarOperation",
+    "AirbnbCalendarOperationAvailability",
     "AirbnbConnection",
     "AirbnbConnectionAccessibilityAmenitiesType0Item",
     "AirbnbConnectionAmenitiesType0Item",
@@ -400,7 +399,14 @@ __all__ = (
     "AirbnbConnectionSummaryStatus",
     "AirbnbDataFreshness",
     "AirbnbListing",
+    "AirbnbListingActionRequest",
+    "AirbnbListingActionRequestAction",
     "AirbnbListingListResponse",
+    "AirbnbPricingWriteRequest",
+    "AirbnbPricingWriteRequestRecordsType0Item",
+    "AirbnbPricingWriteRequestRuleType0",
+    "AirbnbPricingWriteRequestSettingsType0",
+    "AirbnbPricingWriteRequestType",
     "AirbnbReservation",
     "AirbnbReservationListResponse",
     "AirbnbReservationStatus",
@@ -408,6 +414,11 @@ __all__ = (
     "AirbnbReviewListResponse",
     "AirbnbThread",
     "AirbnbThreadListResponse",
+    "BookingAvailabilityUpdate",
+    "BookingAvailabilityUpdateDateRange",
+    "BookingAvailabilityUpdateRequest",
+    "BookingAvailabilityUpdateRequestType",
+    "BookingAvailabilityUpdateStatus",
     "BookingConnectListingOption",
     "BookingConnectRoom",
     "BookingConnectRoomsResponse",
@@ -461,24 +472,11 @@ __all__ = (
     "ConversationMessageAttachment",
     "ConversationPlatform",
     "ConversationStatus",
-    "CreateAiOperationResponse200",
     "CreateBillingCheckoutBody",
     "CreateBillingCheckoutBodyPlan",
     "CreateConnectionBody",
     "CreateConnectionBodyAccessType",
     "CreateConnectSessionBody",
-    "CreateReservationBody",
-    "CreateStudioDeploymentBody",
-    "CreateStudioDeploymentResponse201",
-    "CreateStudioDeploymentResponse201Data",
-    "CreateStudioDeploymentResponse201DataStatus",
-    "CreateStudioProjectBody",
-    "CreateStudioProjectGenerationBody",
-    "CreateStudioProjectGenerationResponse201",
-    "CreateStudioProjectGenerationResponse201Data",
-    "CreateStudioProjectResponse201",
-    "CreateStudioProjectResponse201Data",
-    "CreateStudioProjectResponse201DataStatus",
     "CreateWebhookBody",
     "CursorPagination",
     "CustomSchema",
@@ -490,24 +488,13 @@ __all__ = (
     "CustomSchemaSummary",
     "CustomSchemaUpdate",
     "DeleteKvResponse200",
-    "DeleteStudioDeploymentResponse200",
-    "DeleteStudioDeploymentResponse200Data",
-    "DeleteStudioProjectFileResponse200",
-    "DeleteStudioProjectFileResponse200Data",
-    "DeleteStudioProjectResponse200",
-    "DeleteStudioProjectResponse200Data",
     "Error",
     "ErrorError",
     "ErrorErrorSupport",
-    "GenerateStudioCompletionBody",
-    "GenerateStudioCompletionResponse200",
-    "GenerateStudioCompletionResponse200Data",
     "GetHealthResponse200",
     "GetKvResponse200",
     "GetListingSegmentsLevel",
     "GetPropertyInclude",
-    "GetStudioDeploymentResponse200",
-    "GetStudioProjectResponse200",
     "Guest",
     "GuestContact",
     "GuestFlag",
@@ -531,6 +518,14 @@ __all__ = (
     "ListingCompsResponse",
     "ListingCompsResponseDateRange",
     "ListingContent",
+    "ListingContentUpdateRequest",
+    "ListingContentUpdateRequestAddress",
+    "ListingContentUpdateRequestAmenitiesType1Item",
+    "ListingContentUpdateRequestOccupancy",
+    "ListingContentUpdateRequestPhotosItemType1",
+    "ListingContentUpdateRequestPhotosMode",
+    "ListingContentUpdateRequestPolicies",
+    "ListingContentUpdateResponse",
     "ListingCreatedEvent",
     "ListingCreatedEventType",
     "ListingCreatedPayload",
@@ -608,11 +603,9 @@ __all__ = (
     "ListReviewsPlatform",
     "ListReviewsReviewerRole",
     "ListReviewsStatus",
-    "ListStudioDeploymentsResponse200",
-    "ListStudioDeploymentsStatus",
-    "ListStudioProjectFilesResponse200",
-    "ListStudioProjectsResponse200",
     "ListWebhookDeliveriesStatus",
+    "MapAirbnbListingRequest",
+    "MapAirbnbListingResponse",
     "MapConnectBookingRoomsRequest",
     "MapConnectBookingRoomsResponse",
     "MarketBrowseCategory",
@@ -657,6 +650,7 @@ __all__ = (
     "PlumguideListingListResponse",
     "Property",
     "PropertyListResponse",
+    "PropertyStatus",
     "ReplyBookingReviewBody",
     "ReplyBookingReviewResponse200",
     "RepullPingEvent",
@@ -699,6 +693,10 @@ __all__ = (
     "ReviewResponse",
     "ReviewReviewerRole",
     "RotateWebhookSecretResponse200",
+    "SandboxFixtureRef",
+    "SandboxResetResult",
+    "SandboxResetResultDeleted",
+    "SandboxSeedResult",
     "SelectConnectProviderBody",
     "SelectProviderResponse",
     "SelectProviderResponsePattern",
@@ -712,24 +710,14 @@ __all__ = (
     "StudioGeneration",
     "StudioProject",
     "StudioProjectStatus",
-    "SuspendStudioDeploymentResponse200",
     "TestWebhookBody",
-    "UpdateAvailabilityBody",
     "UpdateListingPricingStrategyResponse200",
-    "UpdateReservationBody",
-    "UpdateStudioProjectBody",
-    "UpdateStudioProjectBodyStatus",
-    "UpdateStudioProjectResponse200",
     "UpdateWebhookBody",
     "UpdateWebhookBodyStatus",
-    "UpsertStudioProjectFileBody",
-    "UpsertStudioProjectFileResponse200",
-    "UpsertStudioProjectFileResponse200Data",
     "VrboListing",
     "VrboListingListResponse",
     "VrboReservation",
     "VrboReservationListResponse",
-    "WakeStudioDeploymentResponse200",
     "WebhookDelivery",
     "WebhookDeliveryDetail",
     "WebhookDeliveryDetailRequestHeadersType0",

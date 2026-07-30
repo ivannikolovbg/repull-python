@@ -55,6 +55,9 @@ class Reservation:
                 HMXYZ123.
             created_at (datetime.datetime): When the reservation row was created in Repull (not the booking-on-channel
                 timestamp).
+            updated_at (datetime.datetime): Last time this reservation was modified (dates, status, price, or guest
+                details). Advances on every amendment or cancellation — poll or compare this value to reconcile changes instead
+                of fingerprinting individual fields.
             guest_id (str | Unset): DEPRECATED — use `primaryGuest.id`. Internal Repull guest ID. Kept populated for back-
                 compat.
             source (None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset):
@@ -89,6 +92,7 @@ class Reservation:
     status: ReservationStatus
     confirmation_code: str
     created_at: datetime.datetime
+    updated_at: datetime.datetime
     guest_id: str | Unset = UNSET
     source: None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset = UNSET
     platform: None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset = UNSET
@@ -124,6 +128,8 @@ class Reservation:
         confirmation_code = self.confirmation_code
 
         created_at = self.created_at.isoformat()
+
+        updated_at = self.updated_at.isoformat()
 
         guest_id = self.guest_id
 
@@ -196,6 +202,7 @@ class Reservation:
             "status": status,
             "confirmationCode": confirmation_code,
             "createdAt": created_at,
+            "updatedAt": updated_at,
         })
         if guest_id is not UNSET:
             field_dict["guestId"] = guest_id
@@ -253,6 +260,11 @@ class Reservation:
         confirmation_code = d.pop("confirmationCode")
 
         created_at = isoparse(d.pop("createdAt"))
+
+
+
+
+        updated_at = isoparse(d.pop("updatedAt"))
 
 
 
@@ -421,6 +433,7 @@ class Reservation:
             status=status,
             confirmation_code=confirmation_code,
             created_at=created_at,
+            updated_at=updated_at,
             guest_id=guest_id,
             source=source,
             platform=platform,

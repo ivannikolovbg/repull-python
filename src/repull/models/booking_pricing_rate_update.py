@@ -35,9 +35,12 @@ class BookingPricingRateUpdate:
             currency (str):  Example: USD.
             single_price (float | None | Unset):
             occupancy (int | None | Unset):
-            rooms_to_sell (int | None | Unset):
+            rooms_to_sell (int | None | Unset): Rooms to sell for the date range. Set to `0` to stop-sell this room/rate on
+                the rates endpoint (Booking's dedicated `<closed>` stop-sell flag lives on the availability endpoint — see
+                `BookingAvailabilityUpdate.closed`).
             restrictions (BookingPricingRateUpdateRestrictions | Unset): Optional length-of-stay / availability restrictions
-                for one rate update.
+                for one rate update. Every field here is forwarded verbatim into Booking.com's rates XML (`minimumstay`,
+                `maximumstay`, `closedonarrival`, `closedondeparture`, …) — omit a field to leave that restriction untouched.
      """
 
     room_id: str

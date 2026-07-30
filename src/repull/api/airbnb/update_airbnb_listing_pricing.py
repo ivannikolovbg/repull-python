@@ -8,14 +8,19 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.airbnb_pricing_write_request import AirbnbPricingWriteRequest
+from typing import cast
 
 
 
 def _get_kwargs(
     id: str,
+    *,
+    body: AirbnbPricingWriteRequest,
 
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+
 
     
 
@@ -26,7 +31,12 @@ def _get_kwargs(
         "url": "/v1/channels/airbnb/listings/{id}/pricing".format(id=quote(str(id), safe=""),),
     }
 
+    _kwargs["json"] = body.to_dict()
 
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
@@ -54,15 +64,24 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: AirbnbPricingWriteRequest,
 
 ) -> Response[Any]:
-    """ Update Airbnb pricing
+    r""" Update Airbnb pricing
 
-     Push pricing changes to Airbnb. The full pricing object is replaced — to patch a single field, GET
-    first, mutate locally, then PUT the whole object.
+     Push pricing changes to Airbnb. The `type` discriminator selects the sub-resource (model, standard
+    settings, LOS, rate-plan, fees, currency, rule, or per-date `calendar`). `type: \"calendar\"`
+    carries the full per-date restriction set — nightly price, min/max nights, closed-to-arrival,
+    closed-to-departure, and stop-sell (`availability: \"unavailable\"`). For settings sub-resources the
+    full object is replaced — GET first, mutate locally, then PUT the whole object.
 
     Args:
         id (str):
+        body (AirbnbPricingWriteRequest): Body for `PUT
+            /v1/channels/airbnb/listings/{id}/pricing`. The `type` discriminator selects the pricing
+            sub-resource. `type: "calendar"` shares the same per-date restriction shape as the
+            availability endpoint (min/max nights, closed-to-arrival/departure, stop-sell via
+            `availability: "unavailable"`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -75,6 +94,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+body=body,
 
     )
 
@@ -89,15 +109,24 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
+    body: AirbnbPricingWriteRequest,
 
 ) -> Response[Any]:
-    """ Update Airbnb pricing
+    r""" Update Airbnb pricing
 
-     Push pricing changes to Airbnb. The full pricing object is replaced — to patch a single field, GET
-    first, mutate locally, then PUT the whole object.
+     Push pricing changes to Airbnb. The `type` discriminator selects the sub-resource (model, standard
+    settings, LOS, rate-plan, fees, currency, rule, or per-date `calendar`). `type: \"calendar\"`
+    carries the full per-date restriction set — nightly price, min/max nights, closed-to-arrival,
+    closed-to-departure, and stop-sell (`availability: \"unavailable\"`). For settings sub-resources the
+    full object is replaced — GET first, mutate locally, then PUT the whole object.
 
     Args:
         id (str):
+        body (AirbnbPricingWriteRequest): Body for `PUT
+            /v1/channels/airbnb/listings/{id}/pricing`. The `type` discriminator selects the pricing
+            sub-resource. `type: "calendar"` shares the same per-date restriction shape as the
+            availability endpoint (min/max nights, closed-to-arrival/departure, stop-sell via
+            `availability: "unavailable"`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -110,6 +139,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+body=body,
 
     )
 
