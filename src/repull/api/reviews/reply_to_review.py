@@ -8,17 +8,17 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.availability_write_request import AvailabilityWriteRequest
-from ...models.availability_write_result import AvailabilityWriteResult
 from ...models.error import Error
+from ...models.reply_to_review_body import ReplyToReviewBody
+from ...models.reply_to_review_response_201 import ReplyToReviewResponse201
 from typing import cast
 
 
 
 def _get_kwargs(
-    property_id: int,
+    id: int,
     *,
-    body: AvailabilityWriteRequest,
+    body: ReplyToReviewBody,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
@@ -29,8 +29,8 @@ def _get_kwargs(
     
 
     _kwargs: dict[str, Any] = {
-        "method": "put",
-        "url": "/v1/availability/{property_id}".format(property_id=quote(str(property_id), safe=""),),
+        "method": "post",
+        "url": "/v1/reviews/{id}/reply".format(id=quote(str(id), safe=""),),
     }
 
     _kwargs["json"] = body.to_dict()
@@ -43,13 +43,13 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AvailabilityWriteResult | Error | None:
-    if response.status_code == 200:
-        response_200 = AvailabilityWriteResult.from_dict(response.json())
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | ReplyToReviewResponse201 | None:
+    if response.status_code == 201:
+        response_201 = ReplyToReviewResponse201.from_dict(response.json())
 
 
 
-        return response_200
+        return response_201
 
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
@@ -78,7 +78,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AvailabilityWriteResult | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | ReplyToReviewResponse201]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -88,32 +88,35 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
 def sync_detailed(
-    property_id: int,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
-    body: AvailabilityWriteRequest,
+    body: ReplyToReviewBody,
 
-) -> Response[AvailabilityWriteResult | Error]:
-    """ Set prices, block or unblock dates
+) -> Response[Error | ReplyToReviewResponse201]:
+    """ Reply to a review on any channel
 
-     Writes the calendar for one property AND pushes to every connected channel in the same step. A write
-    that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+     Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
+    know where the review came from.
+
+    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     Args:
-        property_id (int):
-        body (AvailabilityWriteRequest):
+        id (int):
+        body (ReplyToReviewBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AvailabilityWriteResult | Error]
+        Response[Error | ReplyToReviewResponse201]
      """
 
 
     kwargs = _get_kwargs(
-        property_id=property_id,
+        id=id,
 body=body,
 
     )
@@ -125,64 +128,70 @@ body=body,
     return _build_response(client=client, response=response)
 
 def sync(
-    property_id: int,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
-    body: AvailabilityWriteRequest,
+    body: ReplyToReviewBody,
 
-) -> AvailabilityWriteResult | Error | None:
-    """ Set prices, block or unblock dates
+) -> Error | ReplyToReviewResponse201 | None:
+    """ Reply to a review on any channel
 
-     Writes the calendar for one property AND pushes to every connected channel in the same step. A write
-    that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+     Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
+    know where the review came from.
+
+    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     Args:
-        property_id (int):
-        body (AvailabilityWriteRequest):
+        id (int):
+        body (ReplyToReviewBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AvailabilityWriteResult | Error
+        Error | ReplyToReviewResponse201
      """
 
 
     return sync_detailed(
-        property_id=property_id,
+        id=id,
 client=client,
 body=body,
 
     ).parsed
 
 async def asyncio_detailed(
-    property_id: int,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
-    body: AvailabilityWriteRequest,
+    body: ReplyToReviewBody,
 
-) -> Response[AvailabilityWriteResult | Error]:
-    """ Set prices, block or unblock dates
+) -> Response[Error | ReplyToReviewResponse201]:
+    """ Reply to a review on any channel
 
-     Writes the calendar for one property AND pushes to every connected channel in the same step. A write
-    that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+     Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
+    know where the review came from.
+
+    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     Args:
-        property_id (int):
-        body (AvailabilityWriteRequest):
+        id (int):
+        body (ReplyToReviewBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AvailabilityWriteResult | Error]
+        Response[Error | ReplyToReviewResponse201]
      """
 
 
     kwargs = _get_kwargs(
-        property_id=property_id,
+        id=id,
 body=body,
 
     )
@@ -194,32 +203,35 @@ body=body,
     return _build_response(client=client, response=response)
 
 async def asyncio(
-    property_id: int,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
-    body: AvailabilityWriteRequest,
+    body: ReplyToReviewBody,
 
-) -> AvailabilityWriteResult | Error | None:
-    """ Set prices, block or unblock dates
+) -> Error | ReplyToReviewResponse201 | None:
+    """ Reply to a review on any channel
 
-     Writes the calendar for one property AND pushes to every connected channel in the same step. A write
-    that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+     Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
+    know where the review came from.
+
+    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     Args:
-        property_id (int):
-        body (AvailabilityWriteRequest):
+        id (int):
+        body (ReplyToReviewBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AvailabilityWriteResult | Error
+        Error | ReplyToReviewResponse201
      """
 
 
     return (await asyncio_detailed(
-        property_id=property_id,
+        id=id,
 client=client,
 body=body,
 
