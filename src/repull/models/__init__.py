@@ -207,6 +207,10 @@ from .get_usage_tier_response_200_used import GetUsageTierResponse200Used
 from .get_webhooks_health_response_200 import GetWebhooksHealthResponse200
 from .guest import Guest
 from .guest_contact import GuestContact
+from .guest_create_request import GuestCreateRequest
+from .guest_create_response import GuestCreateResponse
+from .guest_create_response_contacts_item import GuestCreateResponseContactsItem
+from .guest_create_response_contacts_item_type import GuestCreateResponseContactsItemType
 from .guest_flag import GuestFlag
 from .guest_list_response import GuestListResponse
 from .guest_note import GuestNote
@@ -402,12 +406,16 @@ from .reservation_cancelled_event import ReservationCancelledEvent
 from .reservation_cancelled_event_type import ReservationCancelledEventType
 from .reservation_cancelled_payload import ReservationCancelledPayload
 from .reservation_cancelled_payload_cancelled_by import ReservationCancelledPayloadCancelledBy
+from .reservation_create_request import ReservationCreateRequest
+from .reservation_create_request_platform import ReservationCreateRequestPlatform
+from .reservation_create_response import ReservationCreateResponse
 from .reservation_created_event import ReservationCreatedEvent
 from .reservation_created_event_type import ReservationCreatedEventType
 from .reservation_created_payload import ReservationCreatedPayload
 from .reservation_financials import ReservationFinancials
 from .reservation_guest_details import ReservationGuestDetails
 from .reservation_guest_financials import ReservationGuestFinancials
+from .reservation_guest_input import ReservationGuestInput
 from .reservation_host_financials import ReservationHostFinancials
 from .reservation_list_response import ReservationListResponse
 from .reservation_message_received_event import ReservationMessageReceivedEvent
@@ -424,6 +432,8 @@ from .reservation_source_type_1 import ReservationSourceType1
 from .reservation_source_type_2_type_1 import ReservationSourceType2Type1
 from .reservation_source_type_3_type_1 import ReservationSourceType3Type1
 from .reservation_status import ReservationStatus
+from .reservation_update_request import ReservationUpdateRequest
+from .reservation_update_response import ReservationUpdateResponse
 from .reservation_updated_event import ReservationUpdatedEvent
 from .reservation_updated_event_type import ReservationUpdatedEventType
 from .reservation_updated_payload import ReservationUpdatedPayload
@@ -450,6 +460,10 @@ from .select_provider_response import SelectProviderResponse
 from .select_provider_response_pattern import SelectProviderResponsePattern
 from .send_airbnb_message_body import SendAirbnbMessageBody
 from .send_booking_message_body import SendBookingMessageBody
+from .send_message_request import SendMessageRequest
+from .send_message_request_channel import SendMessageRequestChannel
+from .send_message_response import SendMessageResponse
+from .send_message_response_direction import SendMessageResponseDirection
 from .set_kv_body import SetKvBody
 from .set_kv_response_200 import SetKvResponse200
 from .submit_beds_24_credentials_body import SubmitBeds24CredentialsBody
@@ -731,6 +745,10 @@ __all__ = (
     "GetWebhooksHealthResponse200",
     "Guest",
     "GuestContact",
+    "GuestCreateRequest",
+    "GuestCreateResponse",
+    "GuestCreateResponseContactsItem",
+    "GuestCreateResponseContactsItemType",
     "GuestFlag",
     "GuestListResponse",
     "GuestNote",
@@ -929,9 +947,13 @@ __all__ = (
     "ReservationCreatedEvent",
     "ReservationCreatedEventType",
     "ReservationCreatedPayload",
+    "ReservationCreateRequest",
+    "ReservationCreateRequestPlatform",
+    "ReservationCreateResponse",
     "ReservationFinancials",
     "ReservationGuestDetails",
     "ReservationGuestFinancials",
+    "ReservationGuestInput",
     "ReservationHostFinancials",
     "ReservationListResponse",
     "ReservationMessageReceivedEvent",
@@ -952,6 +974,8 @@ __all__ = (
     "ReservationUpdatedEventType",
     "ReservationUpdatedPayload",
     "ReservationUpdatedPayloadPreviousAttributes",
+    "ReservationUpdateRequest",
+    "ReservationUpdateResponse",
     "ReservationWebhookObject",
     "RespondAirbnbReviewBody",
     "Review",
@@ -974,6 +998,10 @@ __all__ = (
     "SelectProviderResponsePattern",
     "SendAirbnbMessageBody",
     "SendBookingMessageBody",
+    "SendMessageRequest",
+    "SendMessageRequestChannel",
+    "SendMessageResponse",
+    "SendMessageResponseDirection",
     "SetKvBody",
     "SetKvResponse200",
     "SubmitBeds24CredentialsBody",

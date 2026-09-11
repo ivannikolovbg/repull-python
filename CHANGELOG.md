@@ -5,6 +5,21 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.12] - 2026-09-11
+
+### Added
+- Regenerated against the live `https://api.repull.dev/openapi.json` (124 paths,
+  170 → 174 operations). Four new write operations are now reachable:
+  - `POST /v1/guests` (`create_guest`) — `repull.api.guests.create_guest`
+  - `POST /v1/reservations` (`create_reservation`) — `repull.api.reservations.create_reservation`
+  - `PATCH /v1/reservations/{id}` (`update_reservation`) — `repull.api.reservations.update_reservation`
+  - `POST /v1/conversations/{id}/messages` (`send_conversation_message`) — `repull.api.conversations.send_conversation_message`
+  Corresponding request/response models added: `GuestCreateRequest`/`GuestCreateResponse`,
+  `ReservationCreateRequest`/`ReservationCreateResponse` (+ `ReservationGuestInput`,
+  `ReservationCreateRequestPlatform`), `ReservationUpdateRequest`/`ReservationUpdateResponse`,
+  `SendMessageRequest`/`SendMessageResponse` (+ `SendMessageRequestChannel`,
+  `SendMessageResponseDirection`).
+
 ## [0.2.11] - 2026-09-11
 
 ### Added
