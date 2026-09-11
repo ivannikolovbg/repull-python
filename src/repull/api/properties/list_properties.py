@@ -13,7 +13,9 @@ from ...models.list_properties_channel import ListPropertiesChannel
 from ...models.list_properties_status import ListPropertiesStatus
 from ...models.property_list_response import PropertyListResponse
 from ...types import UNSET, Unset
+from dateutil.parser import isoparse
 from typing import cast
+import datetime
 
 
 
@@ -26,6 +28,7 @@ def _get_kwargs(
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
     channel: ListPropertiesChannel | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> dict[str, Any]:
@@ -56,6 +59,11 @@ def _get_kwargs(
         json_channel = channel.value
 
     params["channel"] = json_channel
+
+    json_updated_since: str | Unset = UNSET
+    if not isinstance(updated_since, Unset):
+        json_updated_since = updated_since.isoformat()
+    params["updated_since"] = json_updated_since
 
     params["include_total"] = include_total
 
@@ -121,6 +129,7 @@ def sync_detailed(
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
     channel: ListPropertiesChannel | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
@@ -137,6 +146,12 @@ def sync_detailed(
     (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
     `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    properties changed at or after that instant. Each property carries `updatedAt` — the last row of the
+    final page is your next watermark. `updated_since` changes the page ordering to `updatedAt ASC, id
+    ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
+    `updated_since` — use this endpoint for property-side incremental sync.
+
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
@@ -145,6 +160,7 @@ def sync_detailed(
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
         channel (ListPropertiesChannel | Unset):  Example: airbnb.
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -164,6 +180,7 @@ q=q,
 status=status,
 lifecycle_status=lifecycle_status,
 channel=channel,
+updated_since=updated_since,
 include_total=include_total,
 
     )
@@ -184,6 +201,7 @@ def sync(
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
     channel: ListPropertiesChannel | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
@@ -200,6 +218,12 @@ def sync(
     (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
     `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    properties changed at or after that instant. Each property carries `updatedAt` — the last row of the
+    final page is your next watermark. `updated_since` changes the page ordering to `updatedAt ASC, id
+    ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
+    `updated_since` — use this endpoint for property-side incremental sync.
+
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
@@ -208,6 +232,7 @@ def sync(
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
         channel (ListPropertiesChannel | Unset):  Example: airbnb.
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -228,6 +253,7 @@ q=q,
 status=status,
 lifecycle_status=lifecycle_status,
 channel=channel,
+updated_since=updated_since,
 include_total=include_total,
 
     ).parsed
@@ -242,6 +268,7 @@ async def asyncio_detailed(
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
     channel: ListPropertiesChannel | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
@@ -258,6 +285,12 @@ async def asyncio_detailed(
     (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
     `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    properties changed at or after that instant. Each property carries `updatedAt` — the last row of the
+    final page is your next watermark. `updated_since` changes the page ordering to `updatedAt ASC, id
+    ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
+    `updated_since` — use this endpoint for property-side incremental sync.
+
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
@@ -266,6 +299,7 @@ async def asyncio_detailed(
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
         channel (ListPropertiesChannel | Unset):  Example: airbnb.
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -285,6 +319,7 @@ q=q,
 status=status,
 lifecycle_status=lifecycle_status,
 channel=channel,
+updated_since=updated_since,
 include_total=include_total,
 
     )
@@ -305,6 +340,7 @@ async def asyncio(
     status: ListPropertiesStatus | Unset = ListPropertiesStatus.ACTIVE,
     lifecycle_status: str | Unset = UNSET,
     channel: ListPropertiesChannel | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
@@ -321,6 +357,12 @@ async def asyncio(
     (exact match on the listing's lifecycle state). Other unknown params (e.g. `?search=` or
     `?propertyId=`) are rejected with 422 — no silent unfiltered results.
 
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    properties changed at or after that instant. Each property carries `updatedAt` — the last row of the
+    final page is your next watermark. `updated_since` changes the page ordering to `updatedAt ASC, id
+    ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
+    `updated_since` — use this endpoint for property-side incremental sync.
+
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
@@ -329,6 +371,7 @@ async def asyncio(
         status (ListPropertiesStatus | Unset):  Default: ListPropertiesStatus.ACTIVE.
         lifecycle_status (str | Unset):  Example: live.
         channel (ListPropertiesChannel | Unset):  Example: airbnb.
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
 
     Raises:
@@ -349,6 +392,7 @@ q=q,
 status=status,
 lifecycle_status=lifecycle_status,
 channel=channel,
+updated_since=updated_since,
 include_total=include_total,
 
     )).parsed

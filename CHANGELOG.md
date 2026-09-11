@@ -5,6 +5,48 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.12] - 2026-09-11
+
+### Added
+- Regenerated against the live `https://api.repull.dev/openapi.json` (124 paths,
+  170 → 174 operations). Four new write operations are now reachable:
+  - `POST /v1/guests` (`create_guest`) — `repull.api.guests.create_guest`
+  - `POST /v1/reservations` (`create_reservation`) — `repull.api.reservations.create_reservation`
+  - `PATCH /v1/reservations/{id}` (`update_reservation`) — `repull.api.reservations.update_reservation`
+  - `POST /v1/conversations/{id}/messages` (`send_conversation_message`) — `repull.api.conversations.send_conversation_message`
+  Corresponding request/response models added: `GuestCreateRequest`/`GuestCreateResponse`,
+  `ReservationCreateRequest`/`ReservationCreateResponse` (+ `ReservationGuestInput`,
+  `ReservationCreateRequestPlatform`), `ReservationUpdateRequest`/`ReservationUpdateResponse`,
+  `SendMessageRequest`/`SendMessageResponse` (+ `SendMessageRequestChannel`,
+  `SendMessageResponseDirection`).
+
+## [0.2.11] - 2026-09-11
+
+### Added
+- Regenerated against the live `https://api.repull.dev/openapi.json` (102 → 124
+  paths). 24 previously-missing operations are now reachable, including
+  `PATCH /v1/availability/batch`, Airbnb alteration accept/decline, Booking.com
+  room listing, credentials-based Connect flows for Beds24/BookingSync/Guesty/
+  Hospitable/Hostaway/iGMS/Lodgify/OwnerRez/Smoobu/VRBO, per-channel health
+  checks (`/v1/health/atlas`, `/v1/health/auth`, `/v1/health/channels/{channel}`,
+  `/v1/health/mcp`, `/v1/health/webhooks`), listing photo upload/list, `GET
+  /v1/quotes`, and channel-neutral review replies.
+- Note: `POST /v1/reviews/{id}/reply` is present in the spec's `paths` but the
+  operation itself does not generate a client function — the live spec is
+  missing the `id` path-parameter declaration for that operation, which trips
+  `openapi-python-client`'s path-templating check. Upstream fix needed in
+  `api.repull.dev`'s OpenAPI generation; use `POST /v1/channels/booking/reviews`
+  (`reply_booking_review`) or the Airbnb review-response endpoints in the
+  meantime.
+
+### Removed
+- Sandbox support end-to-end: the live API deleted the sandbox entirely
+  (`/v1/sandbox/reset` and `/v1/sandbox/seed` now 404, `sk_test_*` keys now
+  401). Dropped the generated `repull.api.sandbox` module and its models
+  (`SandboxSeedResult`, `SandboxResetResult`, `SandboxFixtureRef`,
+  `SandboxResetResultDeleted`), and removed the `sk_test_*` sandbox-key
+  mention from the README's auth section.
+
 ## [0.2.6] - 2026-06-25
 
 ### Added

@@ -11,6 +11,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.property_availability_coverage import PropertyAvailabilityCoverage
   from ..models.property_availability_day import PropertyAvailabilityDay
 
 
@@ -23,20 +24,24 @@ T = TypeVar("T", bound="PropertyAvailability")
 
 @_attrs_define
 class PropertyAvailability:
-    """ Channel-agnostic availability calendar for a property over the requested window. Every date in `[from, to]`
-    (inclusive) is present in `days`; dates with no explicit calendar row fall back to available at the default price.
+    """ Channel-agnostic availability calendar for a property over the requested window. `days` carries only the dates
+    backed by a real calendar row; anything the calendar does not cover is reported in `coverage.missingDates` rather
+    than synthesised as available.
 
         Attributes:
             property_id (str): Repull property id (equal to `listings.id`), emitted as a string like every other id in the
                 API. Example: 4118.
             currency (str): ISO 4217 currency code for the nightly prices in `days`. Example: USD.
-            days (list[PropertyAvailabilityDay]): Dense per-date calendar for the requested window (capped at 366 days),
-                ordered ascending by date.
+            days (list[PropertyAvailabilityDay]): Per-date calendar for the requested window (capped at 366 days), ordered
+                ascending by date. Contains only dates we hold data for — it may be shorter than the window, or empty.
+            coverage (PropertyAvailabilityCoverage): How much of the requested window we actually hold calendar data for.
+                Read this before treating an absent date as bookable — absence means "no data", not "available".
      """
 
     property_id: str
     currency: str
     days: list[PropertyAvailabilityDay]
+    coverage: PropertyAvailabilityCoverage
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -44,6 +49,7 @@ class PropertyAvailability:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.property_availability_coverage import PropertyAvailabilityCoverage
         from ..models.property_availability_day import PropertyAvailabilityDay
         property_id = self.property_id
 
@@ -56,6 +62,8 @@ class PropertyAvailability:
 
 
 
+        coverage = self.coverage.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -63,6 +71,7 @@ class PropertyAvailability:
             "propertyId": property_id,
             "currency": currency,
             "days": days,
+            "coverage": coverage,
         })
 
         return field_dict
@@ -71,6 +80,7 @@ class PropertyAvailability:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.property_availability_coverage import PropertyAvailabilityCoverage
         from ..models.property_availability_day import PropertyAvailabilityDay
         d = dict(src_dict)
         property_id = d.pop("propertyId")
@@ -87,10 +97,16 @@ class PropertyAvailability:
             days.append(days_item)
 
 
+        coverage = PropertyAvailabilityCoverage.from_dict(d.pop("coverage"))
+
+
+
+
         property_availability = cls(
             property_id=property_id,
             currency=currency,
             days=days,
+            coverage=coverage,
         )
 
 

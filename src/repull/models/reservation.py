@@ -73,7 +73,17 @@ class Reservation:
                 reservation.
             financials (ReservationFinancials | Unset): Normalized money block. `totalPrice` is a `number` (NOT a decimal-
                 as-string) — the legacy top-level `totalPrice` string field is kept on the parent for back-compat but is
-                deprecated.
+                deprecated. `totalPrice` is the GUEST-side stay total (what the guest paid), NOT the host payout.
+
+                The full host/guest breakdown — accommodation subtotal, discounts, cleaning and other guest fees, channel
+                service fees split host/guest, tax lines, and the expected host payout — is served inline under `host` and
+                `guest` for EVERY channel. (Earlier versions of this spec sent you to `GET /v1/channels/airbnb/transactions` for
+                the host payout; that endpoint is Airbnb-only and is no longer the place to look for a reservation's financials.
+                It remains useful for settlement-level detail — actual payout dates and settlement status — which the
+                reservation record does not carry.)
+
+                Not yet served here: individual guest **payment records** (charges, refunds, schedules) and post-booking
+                **adjustments** — neither is stored on the reservation breakdown.
             total_price (str | Unset): DEPRECATED — use `financials.totalPrice` (a number). Decimal-as-string (precision 10,
                 scale 2) kept for back-compat. Example: 1250.00.
             currency (str | Unset): DEPRECATED — use `financials.currency`. ISO 4217 currency code. Example: USD.

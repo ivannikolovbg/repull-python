@@ -12,10 +12,14 @@ class WebhookEventType(str, Enum):
     PAYMENT_COMPLETED = "payment.completed"
     PAYMENT_REFUNDED = "payment.refunded"
     REPULL_PING = "repull.ping"
+    RESERVATION_ALTERATION_CREATED = "reservation.alteration.created"
+    RESERVATION_ALTERATION_RESPONDED = "reservation.alteration.responded"
     RESERVATION_CANCELLED = "reservation.cancelled"
     RESERVATION_CREATED = "reservation.created"
     RESERVATION_MESSAGE_RECEIVED = "reservation.message.received"
     RESERVATION_UPDATED = "reservation.updated"
+    REVIEW_CREATED = "review.created"
+    REVIEW_RESPONDED = "review.responded"
 
     def __str__(self) -> str:
         return str(self.value)

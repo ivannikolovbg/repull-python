@@ -8,13 +8,19 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
+from ...models.send_booking_message_body import SendBookingMessageBody
+from typing import cast
 
 
 
 def _get_kwargs(
-    
+    *,
+    body: SendBookingMessageBody,
+
 ) -> dict[str, Any]:
-    
+    headers: dict[str, Any] = {}
+
 
     
 
@@ -25,14 +31,48 @@ def _get_kwargs(
         "url": "/v1/channels/booking/messaging",
     }
 
+    _kwargs["json"] = body.to_dict()
 
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | None:
-    if response.status_code == 200:
-        return None
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+    if response.status_code == 201:
+        response_201 = cast(Any, None)
+        return response_201
+
+    if response.status_code == 400:
+        response_400 = Error.from_dict(response.json())
+
+
+
+        return response_400
+
+    if response.status_code == 401:
+        response_401 = Error.from_dict(response.json())
+
+
+
+        return response_401
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
+    if response.status_code == 500:
+        response_500 = Error.from_dict(response.json())
+
+
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -40,7 +80,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -52,24 +92,29 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    body: SendBookingMessageBody,
 
-) -> Response[Any]:
+) -> Response[Any | Error]:
     """ Send Booking.com message
 
      Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
     Airbnb.
+
+    Args:
+        body (SendBookingMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[Any | Error]
      """
 
 
     kwargs = _get_kwargs(
-        
+        body=body,
+
     )
 
     response = client.get_httpx_client().request(
@@ -78,28 +123,61 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
-async def asyncio_detailed(
+def sync(
     *,
     client: AuthenticatedClient | Client,
+    body: SendBookingMessageBody,
 
-) -> Response[Any]:
+) -> Any | Error | None:
     """ Send Booking.com message
 
      Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
     Airbnb.
+
+    Args:
+        body (SendBookingMessageBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Any | Error
+     """
+
+
+    return sync_detailed(
+        client=client,
+body=body,
+
+    ).parsed
+
+async def asyncio_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: SendBookingMessageBody,
+
+) -> Response[Any | Error]:
+    """ Send Booking.com message
+
+     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
+    Airbnb.
+
+    Args:
+        body (SendBookingMessageBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any | Error]
      """
 
 
     kwargs = _get_kwargs(
-        
+        body=body,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -108,3 +186,31 @@ async def asyncio_detailed(
 
     return _build_response(client=client, response=response)
 
+async def asyncio(
+    *,
+    client: AuthenticatedClient | Client,
+    body: SendBookingMessageBody,
+
+) -> Any | Error | None:
+    """ Send Booking.com message
+
+     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
+    Airbnb.
+
+    Args:
+        body (SendBookingMessageBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Any | Error
+     """
+
+
+    return (await asyncio_detailed(
+        client=client,
+body=body,
+
+    )).parsed

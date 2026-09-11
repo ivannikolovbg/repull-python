@@ -22,8 +22,8 @@ T = TypeVar("T", bound="ListingActiveRequest")
 class ListingActiveRequest:
     """ 
         Attributes:
-            active (bool): Target active state. `false` deactivates (excludes) the listing; `true` reactivates it (subject
-                to the plan-listings cap).
+            active (bool): Target active state. `false` deactivates the listing and removes it from your billable listing
+                count; `true` reactivates it. Free-tier workspaces are still subject to their listing cap.
      """
 
     active: bool

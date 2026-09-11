@@ -12,7 +12,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.airbnb_data_freshness import AirbnbDataFreshness
-  from ..models.list_airbnb_transactions_response_200_data_item import ListAirbnbTransactionsResponse200DataItem
+  from ..models.airbnb_transaction import AirbnbTransaction
 
 
 
@@ -26,14 +26,14 @@ T = TypeVar("T", bound="ListAirbnbTransactionsResponse200")
 class ListAirbnbTransactionsResponse200:
     """ 
         Attributes:
-            data (list[ListAirbnbTransactionsResponse200DataItem]):
+            data (list[AirbnbTransaction]):
             data_freshness (AirbnbDataFreshness): Top-level freshness indicator for any DB-backed Airbnb read. Tells
                 consumers WHY a column may be `null` or stale without sprinkling per-row error envelopes through the response.
                 The endpoint always returns 200 + DB data; this field is the single signal for "should I prompt the user to
                 reconnect / wait for sync?".
      """
 
-    data: list[ListAirbnbTransactionsResponse200DataItem]
+    data: list[AirbnbTransaction]
     data_freshness: AirbnbDataFreshness
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -43,7 +43,7 @@ class ListAirbnbTransactionsResponse200:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.airbnb_data_freshness import AirbnbDataFreshness
-        from ..models.list_airbnb_transactions_response_200_data_item import ListAirbnbTransactionsResponse200DataItem
+        from ..models.airbnb_transaction import AirbnbTransaction
         data = []
         for data_item_data in self.data:
             data_item = data_item_data.to_dict()
@@ -68,12 +68,12 @@ class ListAirbnbTransactionsResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.airbnb_data_freshness import AirbnbDataFreshness
-        from ..models.list_airbnb_transactions_response_200_data_item import ListAirbnbTransactionsResponse200DataItem
+        from ..models.airbnb_transaction import AirbnbTransaction
         d = dict(src_dict)
         data = []
         _data = d.pop("data")
         for data_item_data in (_data):
-            data_item = ListAirbnbTransactionsResponse200DataItem.from_dict(data_item_data)
+            data_item = AirbnbTransaction.from_dict(data_item_data)
 
 
 

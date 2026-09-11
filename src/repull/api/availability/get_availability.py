@@ -98,19 +98,24 @@ def sync_detailed(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the connected channel
-    calendar (currently Airbnb).
+    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
     first 366 days.
 
-    Every date in the window is present in `days`: dates with no explicit calendar row fall back to
-    `available: true` at the property's default nightly price. A property with no channel calendar still
-    returns a real 200 (a fully-default calendar), never a 404 — 404 means the property id does not
-    exist or belongs to a different workspace.
+    **`days` contains only the dates we actually hold calendar data for.** Requested dates with no
+    calendar row are listed in `coverage.missingDates` — their availability is unknown. Never treat a
+    missing date as bookable: this endpoint deliberately does not synthesise availability, because a
+    fabricated open date can be double-booked. A property with no calendar still returns a real 200
+    (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
+    not exist or belongs to a different workspace.
 
-    This endpoint is read-only. Availability **writes** stay per-channel: `PUT
+    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
+    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
+    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
+    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
+    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
 
@@ -152,19 +157,24 @@ def sync(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the connected channel
-    calendar (currently Airbnb).
+    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
     first 366 days.
 
-    Every date in the window is present in `days`: dates with no explicit calendar row fall back to
-    `available: true` at the property's default nightly price. A property with no channel calendar still
-    returns a real 200 (a fully-default calendar), never a 404 — 404 means the property id does not
-    exist or belongs to a different workspace.
+    **`days` contains only the dates we actually hold calendar data for.** Requested dates with no
+    calendar row are listed in `coverage.missingDates` — their availability is unknown. Never treat a
+    missing date as bookable: this endpoint deliberately does not synthesise availability, because a
+    fabricated open date can be double-booked. A property with no calendar still returns a real 200
+    (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
+    not exist or belongs to a different workspace.
 
-    This endpoint is read-only. Availability **writes** stay per-channel: `PUT
+    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
+    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
+    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
+    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
+    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
 
@@ -201,19 +211,24 @@ async def asyncio_detailed(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the connected channel
-    calendar (currently Airbnb).
+    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
     first 366 days.
 
-    Every date in the window is present in `days`: dates with no explicit calendar row fall back to
-    `available: true` at the property's default nightly price. A property with no channel calendar still
-    returns a real 200 (a fully-default calendar), never a 404 — 404 means the property id does not
-    exist or belongs to a different workspace.
+    **`days` contains only the dates we actually hold calendar data for.** Requested dates with no
+    calendar row are listed in `coverage.missingDates` — their availability is unknown. Never treat a
+    missing date as bookable: this endpoint deliberately does not synthesise availability, because a
+    fabricated open date can be double-booked. A property with no calendar still returns a real 200
+    (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
+    not exist or belongs to a different workspace.
 
-    This endpoint is read-only. Availability **writes** stay per-channel: `PUT
+    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
+    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
+    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
+    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
+    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
 
@@ -255,19 +270,24 @@ async def asyncio(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the connected channel
-    calendar (currently Airbnb).
+    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
     first 366 days.
 
-    Every date in the window is present in `days`: dates with no explicit calendar row fall back to
-    `available: true` at the property's default nightly price. A property with no channel calendar still
-    returns a real 200 (a fully-default calendar), never a 404 — 404 means the property id does not
-    exist or belongs to a different workspace.
+    **`days` contains only the dates we actually hold calendar data for.** Requested dates with no
+    calendar row are listed in `coverage.missingDates` — their availability is unknown. Never treat a
+    missing date as bookable: this endpoint deliberately does not synthesise availability, because a
+    fabricated open date can be double-booked. A property with no calendar still returns a real 200
+    (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
+    not exist or belongs to a different workspace.
 
-    This endpoint is read-only. Availability **writes** stay per-channel: `PUT
+    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
+    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
+    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
+    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
+    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
 

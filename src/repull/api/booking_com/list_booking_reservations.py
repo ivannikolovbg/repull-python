@@ -8,7 +8,9 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.booking_reservation import BookingReservation
 from ...models.error import Error
+from ...models.list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
 from ...models.list_booking_reservations_type import ListBookingReservationsType
 from ...types import UNSET, Unset
 from typing import cast
@@ -53,9 +55,29 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> BookingReservation | ListBookingReservationsResponse200Type1 | Error | None:
     if response.status_code == 200:
-        response_200 = cast(Any, None)
+        def _parse_response_200(data: object) -> BookingReservation | ListBookingReservationsResponse200Type1:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_200_type_0 = BookingReservation.from_dict(data)
+
+
+
+                return response_200_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_200_type_1 = ListBookingReservationsResponse200Type1.from_dict(data)
+
+
+
+            return response_200_type_1
+
+        response_200 = _parse_response_200(response.json())
+
         return response_200
 
     if response.status_code == 400:
@@ -92,7 +114,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[BookingReservation | ListBookingReservationsResponse200Type1 | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -108,7 +130,7 @@ def sync_detailed(
     hotel_id: str | Unset = UNSET,
     reservation_id: str | Unset = UNSET,
 
-) -> Response[Any | Error]:
+) -> Response[BookingReservation | ListBookingReservationsResponse200Type1 | Error]:
     """ List Booking.com reservations
 
      Pull reservations from Booking.com. `type=new` (default) returns un-acknowledged bookings;
@@ -126,7 +148,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[BookingReservation | ListBookingReservationsResponse200Type1 | Error]
      """
 
 
@@ -150,7 +172,7 @@ def sync(
     hotel_id: str | Unset = UNSET,
     reservation_id: str | Unset = UNSET,
 
-) -> Any | Error | None:
+) -> BookingReservation | ListBookingReservationsResponse200Type1 | Error | None:
     """ List Booking.com reservations
 
      Pull reservations from Booking.com. `type=new` (default) returns un-acknowledged bookings;
@@ -168,7 +190,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        BookingReservation | ListBookingReservationsResponse200Type1 | Error
      """
 
 
@@ -187,7 +209,7 @@ async def asyncio_detailed(
     hotel_id: str | Unset = UNSET,
     reservation_id: str | Unset = UNSET,
 
-) -> Response[Any | Error]:
+) -> Response[BookingReservation | ListBookingReservationsResponse200Type1 | Error]:
     """ List Booking.com reservations
 
      Pull reservations from Booking.com. `type=new` (default) returns un-acknowledged bookings;
@@ -205,7 +227,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[BookingReservation | ListBookingReservationsResponse200Type1 | Error]
      """
 
 
@@ -229,7 +251,7 @@ async def asyncio(
     hotel_id: str | Unset = UNSET,
     reservation_id: str | Unset = UNSET,
 
-) -> Any | Error | None:
+) -> BookingReservation | ListBookingReservationsResponse200Type1 | Error | None:
     """ List Booking.com reservations
 
      Pull reservations from Booking.com. `type=new` (default) returns un-acknowledged bookings;
@@ -247,7 +269,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        BookingReservation | ListBookingReservationsResponse200Type1 | Error
      """
 
 

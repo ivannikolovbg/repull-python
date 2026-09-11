@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "repull-sdk"
-version = "0.2.10"
+version = "0.2.12"
 description = "Python SDK for Repull — build vacation-rental tech in Python."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -81,11 +81,13 @@ python_version = "3.10"
 strict = false
 ignore_missing_imports = true
 files = ["src/repull"]
-# Generated client has a couple of known issues we don't want to chase:
+# Generated client has a few known issues we don't want to chase:
 #   - `paginated_response.py` references `Property` only inside `if TYPE_CHECKING`
 #     via a string forward-ref that mypy can't always resolve.
 #   - `error.py` has an over-eager generic narrowing in the from_dict hot path.
-# Both come straight from openapi-python-client templates and are harmless at
+#   - `listing_content_update_request.py` has the same to_dict() union-narrowing
+#     quirk on its `amenities: list[dict] | list[str] | Unset` field.
+# All come straight from openapi-python-client templates and are harmless at
 # runtime. Allow them.
 [[tool.mypy.overrides]]
 module = "repull.models.paginated_response"
@@ -94,6 +96,10 @@ disable_error_code = ["name-defined"]
 [[tool.mypy.overrides]]
 module = "repull.models.error"
 disable_error_code = ["assignment", "union-attr", "return-value"]
+
+[[tool.mypy.overrides]]
+module = "repull.models.listing_content_update_request"
+disable_error_code = ["assignment"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
