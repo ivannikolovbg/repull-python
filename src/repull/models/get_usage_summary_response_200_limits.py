@@ -55,9 +55,9 @@ class GetUsageSummaryResponse200Limits:
         field_dict.update({
         })
         if monthly_requests is not UNSET:
-            field_dict["monthly_requests"] = monthly_requests
+            field_dict["monthlyRequests"] = monthly_requests
         if daily_ai_requests is not UNSET:
-            field_dict["daily_ai_requests"] = daily_ai_requests
+            field_dict["dailyAiRequests"] = daily_ai_requests
 
         return field_dict
 
@@ -73,7 +73,7 @@ class GetUsageSummaryResponse200Limits:
                 return data
             return cast(int | None | Unset, data)
 
-        monthly_requests = _parse_monthly_requests(d.pop("monthly_requests", UNSET))
+        monthly_requests = _parse_monthly_requests(d.pop("monthlyRequests", UNSET))
 
 
         def _parse_daily_ai_requests(data: object) -> int | None | Unset:
@@ -83,7 +83,7 @@ class GetUsageSummaryResponse200Limits:
                 return data
             return cast(int | None | Unset, data)
 
-        daily_ai_requests = _parse_daily_ai_requests(d.pop("daily_ai_requests", UNSET))
+        daily_ai_requests = _parse_daily_ai_requests(d.pop("dailyAiRequests", UNSET))
 
 
         get_usage_summary_response_200_limits = cls(

@@ -48,7 +48,7 @@ class GetUsageSummaryResponse200Used:
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
         if daily_ai is not UNSET:
-            field_dict["daily_ai"] = daily_ai
+            field_dict["dailyAi"] = daily_ai
 
         return field_dict
 
@@ -59,7 +59,7 @@ class GetUsageSummaryResponse200Used:
         d = dict(src_dict)
         monthly = d.pop("monthly", UNSET)
 
-        daily_ai = d.pop("daily_ai", UNSET)
+        daily_ai = d.pop("dailyAi", UNSET)
 
         get_usage_summary_response_200_used = cls(
             monthly=monthly,

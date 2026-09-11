@@ -74,13 +74,13 @@ class AirbnbDataFreshness:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "last_synced_at": last_synced_at,
+            "lastSyncedAt": last_synced_at,
             "stale": stale,
         })
         if reason is not UNSET:
             field_dict["reason"] = reason
         if fix_url is not UNSET:
-            field_dict["fix_url"] = fix_url
+            field_dict["fixUrl"] = fix_url
 
         return field_dict
 
@@ -104,7 +104,7 @@ class AirbnbDataFreshness:
                 pass
             return cast(datetime.datetime | None, data)
 
-        last_synced_at = _parse_last_synced_at(d.pop("last_synced_at"))
+        last_synced_at = _parse_last_synced_at(d.pop("lastSyncedAt"))
 
 
         stale = d.pop("stale")
@@ -126,7 +126,7 @@ class AirbnbDataFreshness:
                 return data
             return cast(None | str | Unset, data)
 
-        fix_url = _parse_fix_url(d.pop("fix_url", UNSET))
+        fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
 
 
         airbnb_data_freshness = cls(

@@ -76,7 +76,7 @@ def sync_detailed(
      List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
     read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
     serves what's already there. Customers with a disconnected host still see their last-synced data,
-    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    with the top-level `dataFreshness` envelope flagging the staleness and pointing at the reconnect
     URL.
 
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
@@ -116,7 +116,7 @@ def sync(
      List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
     read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
     serves what's already there. Customers with a disconnected host still see their last-synced data,
-    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    with the top-level `dataFreshness` envelope flagging the staleness and pointing at the reconnect
     URL.
 
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
@@ -151,7 +151,7 @@ async def asyncio_detailed(
      List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
     read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
     serves what's already there. Customers with a disconnected host still see their last-synced data,
-    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    with the top-level `dataFreshness` envelope flagging the staleness and pointing at the reconnect
     URL.
 
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
@@ -191,7 +191,7 @@ async def asyncio(
      List every Airbnb listing this workspace has access to via the connected Airbnb account. **Pure DB
     read — never calls Airbnb upstream.** The connect flow is what populates the local cache; the API
     serves what's already there. Customers with a disconnected host still see their last-synced data,
-    with the top-level `data_freshness` envelope flagging the staleness and pointing at the reconnect
+    with the top-level `dataFreshness` envelope flagging the staleness and pointing at the reconnect
     URL.
 
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns

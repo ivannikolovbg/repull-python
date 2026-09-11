@@ -30,11 +30,11 @@ class AirbnbAlteration:
     decline (`POST .../{id}/decline`).
 
         Attributes:
-            id (int | Unset): Internal Repull mirror-row id (not the Airbnb alteration id — use `alterationId` for the
+            id (str | Unset): Internal Repull mirror-row id (not the Airbnb alteration id — use `alterationId` for the
                 `{id}` path param on the get / accept / decline routes).
             alteration_id (None | str | Unset): Airbnb alteration id. This is the `{id}` you pass to `GET/POST
                 /v1/channels/airbnb/alterations/{id}` and the accept / decline sub-routes.
-            reservation_id (int | None | Unset): Repull reservation id the alteration belongs to.
+            reservation_id (None | str | Unset): Repull reservation id the alteration belongs to.
             platform (str | Unset): Always `airbnb` on this surface. Example: airbnb.
             status (None | str | Unset): Alteration lifecycle status — e.g. `pending` (awaiting a decision), `accepted`,
                 `declined`, `canceled`.
@@ -53,9 +53,9 @@ class AirbnbAlteration:
             updated_at (datetime.datetime | None | Unset): When the alteration mirror row was last updated.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     alteration_id: None | str | Unset = UNSET
-    reservation_id: int | None | Unset = UNSET
+    reservation_id: None | str | Unset = UNSET
     platform: str | Unset = UNSET
     status: None | str | Unset = UNSET
     initiator: None | str | Unset = UNSET
@@ -86,7 +86,7 @@ class AirbnbAlteration:
         else:
             alteration_id = self.alteration_id
 
-        reservation_id: int | None | Unset
+        reservation_id: None | str | Unset
         if isinstance(self.reservation_id, Unset):
             reservation_id = UNSET
         else:
@@ -251,12 +251,12 @@ class AirbnbAlteration:
         alteration_id = _parse_alteration_id(d.pop("alterationId", UNSET))
 
 
-        def _parse_reservation_id(data: object) -> int | None | Unset:
+        def _parse_reservation_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         reservation_id = _parse_reservation_id(d.pop("reservationId", UNSET))
 

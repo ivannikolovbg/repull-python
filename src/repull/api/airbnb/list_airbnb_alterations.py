@@ -102,8 +102,8 @@ def sync_detailed(
     workspace via the reservations join.
 
     Default returns only pending alterations; pass `?type=all` for the full history. Filter to a single
-    reservation with `?reservation_code=<confirmation code>`. Every response carries the
-    `data_freshness` envelope.
+    reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
+    envelope.
 
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
@@ -144,8 +144,8 @@ def sync(
     workspace via the reservations join.
 
     Default returns only pending alterations; pass `?type=all` for the full history. Filter to a single
-    reservation with `?reservation_code=<confirmation code>`. Every response carries the
-    `data_freshness` envelope.
+    reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
+    envelope.
 
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
@@ -181,8 +181,8 @@ async def asyncio_detailed(
     workspace via the reservations join.
 
     Default returns only pending alterations; pass `?type=all` for the full history. Filter to a single
-    reservation with `?reservation_code=<confirmation code>`. Every response carries the
-    `data_freshness` envelope.
+    reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
+    envelope.
 
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
@@ -223,8 +223,8 @@ async def asyncio(
     workspace via the reservations join.
 
     Default returns only pending alterations; pass `?type=all` for the full history. Filter to a single
-    reservation with `?reservation_code=<confirmation code>`. Every response carries the
-    `data_freshness` envelope.
+    reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
+    envelope.
 
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.

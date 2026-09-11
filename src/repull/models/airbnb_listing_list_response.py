@@ -67,7 +67,7 @@ class AirbnbListingListResponse:
         field_dict.update({
             "data": data,
             "pagination": pagination,
-            "data_freshness": data_freshness,
+            "dataFreshness": data_freshness,
         })
 
         return field_dict
@@ -95,7 +95,7 @@ class AirbnbListingListResponse:
 
 
 
-        data_freshness = AirbnbDataFreshness.from_dict(d.pop("data_freshness"))
+        data_freshness = AirbnbDataFreshness.from_dict(d.pop("dataFreshness"))
 
 
 

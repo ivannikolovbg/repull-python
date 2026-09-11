@@ -84,7 +84,7 @@ class GetUsageTierResponse200:
         if remaining is not UNSET:
             field_dict["remaining"] = remaining
         if resets_at is not UNSET:
-            field_dict["resets_at"] = resets_at
+            field_dict["resetsAt"] = resets_at
 
         return field_dict
 
@@ -128,7 +128,7 @@ class GetUsageTierResponse200:
 
 
 
-        _resets_at = d.pop("resets_at", UNSET)
+        _resets_at = d.pop("resetsAt", UNSET)
         resets_at: datetime.datetime | Unset
         if isinstance(_resets_at,  Unset):
             resets_at = UNSET

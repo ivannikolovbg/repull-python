@@ -57,7 +57,7 @@ class GetUsageSummaryResponse200Remaining:
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
         if daily_ai is not UNSET:
-            field_dict["daily_ai"] = daily_ai
+            field_dict["dailyAi"] = daily_ai
 
         return field_dict
 
@@ -83,7 +83,7 @@ class GetUsageSummaryResponse200Remaining:
                 return data
             return cast(int | None | Unset, data)
 
-        daily_ai = _parse_daily_ai(d.pop("daily_ai", UNSET))
+        daily_ai = _parse_daily_ai(d.pop("dailyAi", UNSET))
 
 
         get_usage_summary_response_200_remaining = cls(
