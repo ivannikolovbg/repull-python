@@ -47,6 +47,8 @@ class Property:
             status (PropertyStatus | Unset): Derived from `listings.active`.
             lifecycle_status (None | str | Unset): The listing's lifecycle state (e.g. `live`, `draft`, `archived`).
             created_at (datetime.datetime | Unset): When the property was created. Detail endpoint only.
+            updated_at (datetime.datetime | Unset): Last time this property record changed. Feed the newest value you have
+                seen back as `?updated_since=` to poll for changes only. List endpoint (`GET /v1/properties`) only.
             channels (list[str] | Unset): OTAs/channels this property is actively published on, as channel-name strings
                 (e.g. `airbnb`, `booking`, `vrbo`). Empty array when the property has no active channel links. List endpoint
                 (`GET /v1/properties`) only. Example: ['airbnb', 'booking'].
@@ -64,6 +66,7 @@ class Property:
     status: PropertyStatus | Unset = UNSET
     lifecycle_status: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
+    updated_at: datetime.datetime | Unset = UNSET
     channels: list[str] | Unset = UNSET
     amenities: list[ListingAmenity] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -123,6 +126,10 @@ class Property:
         if not isinstance(self.created_at, Unset):
             created_at = self.created_at.isoformat()
 
+        updated_at: str | Unset = UNSET
+        if not isinstance(self.updated_at, Unset):
+            updated_at = self.updated_at.isoformat()
+
         channels: list[str] | Unset = UNSET
         if not isinstance(self.channels, Unset):
             channels = self.channels
@@ -163,6 +170,8 @@ class Property:
             field_dict["lifecycleStatus"] = lifecycle_status
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
+        if updated_at is not UNSET:
+            field_dict["updatedAt"] = updated_at
         if channels is not UNSET:
             field_dict["channels"] = channels
         if amenities is not UNSET:
@@ -260,6 +269,16 @@ class Property:
 
 
 
+        _updated_at = d.pop("updatedAt", UNSET)
+        updated_at: datetime.datetime | Unset
+        if isinstance(_updated_at,  Unset):
+            updated_at = UNSET
+        else:
+            updated_at = isoparse(_updated_at)
+
+
+
+
         channels = cast(list[str], d.pop("channels", UNSET))
 
 
@@ -286,6 +305,7 @@ class Property:
             status=status,
             lifecycle_status=lifecycle_status,
             created_at=created_at,
+            updated_at=updated_at,
             channels=channels,
             amenities=amenities,
         )

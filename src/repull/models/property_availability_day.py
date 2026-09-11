@@ -27,11 +27,13 @@ class PropertyAvailabilityDay:
 
         Attributes:
             date (datetime.date): The calendar date, ISO `YYYY-MM-DD`. Example: 2026-09-01.
-            available (bool): Whether the property is bookable on this date. `false` when the channel calendar marks the
-                date unavailable (stop-sell / blocked).
+            available (bool): Whether the property is bookable on this date. `false` when the calendar marks the date booked
+                or blocked. Only dates we actually hold a calendar row for appear in `days`, so this is never a guess — a date
+                with no data is listed in `coverage.missingDates` instead.
             price (float): Nightly price for this date in the property currency. Falls back to the property's default
-                nightly price for dates with no explicit calendar override. Example: 245.
-            min_nights (int): Minimum-stay requirement for a stay starting on this date. Example: 2.
+                nightly price when the calendar row itself carries no price. Example: 245.
+            min_nights (int): Minimum-stay requirement for a stay starting on this date. Falls back to the listing-level
+                default min-nights when the calendar row carries none. Example: 2.
      """
 
     date: datetime.date

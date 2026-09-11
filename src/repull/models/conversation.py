@@ -32,6 +32,11 @@ class Conversation:
         Attributes:
             id (str | Unset):
             platform (ConversationPlatform | Unset):  Example: airbnb.
+            external_thread_id (None | str | Unset): The source channel's own thread id (Airbnb thread id, Booking
+                conversation id, …). Pass this as the `{threadId}` path param on `POST
+                /v1/channels/airbnb/messaging/{threadId}/messages` to reply — it is the bridge from a unified conversation
+                straight to the provider-specific send call. `null` when the thread has no external id yet (e.g. a website/email
+                thread).
             guest_id (None | str | Unset):
             listing_id (None | str | Unset):
             reservation_id (None | str | Unset):
@@ -47,6 +52,7 @@ class Conversation:
 
     id: str | Unset = UNSET
     platform: ConversationPlatform | Unset = UNSET
+    external_thread_id: None | str | Unset = UNSET
     guest_id: None | str | Unset = UNSET
     listing_id: None | str | Unset = UNSET
     reservation_id: None | str | Unset = UNSET
@@ -70,6 +76,12 @@ class Conversation:
         if not isinstance(self.platform, Unset):
             platform = self.platform.value
 
+
+        external_thread_id: None | str | Unset
+        if isinstance(self.external_thread_id, Unset):
+            external_thread_id = UNSET
+        else:
+            external_thread_id = self.external_thread_id
 
         guest_id: None | str | Unset
         if isinstance(self.guest_id, Unset):
@@ -133,6 +145,8 @@ class Conversation:
             field_dict["id"] = id
         if platform is not UNSET:
             field_dict["platform"] = platform
+        if external_thread_id is not UNSET:
+            field_dict["externalThreadId"] = external_thread_id
         if guest_id is not UNSET:
             field_dict["guestId"] = guest_id
         if listing_id is not UNSET:
@@ -171,6 +185,16 @@ class Conversation:
             platform = ConversationPlatform(_platform)
 
 
+
+
+        def _parse_external_thread_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        external_thread_id = _parse_external_thread_id(d.pop("externalThreadId", UNSET))
 
 
         def _parse_guest_id(data: object) -> None | str | Unset:
@@ -278,6 +302,7 @@ class Conversation:
         conversation = cls(
             id=id,
             platform=platform,
+            external_thread_id=external_thread_id,
             guest_id=guest_id,
             listing_id=listing_id,
             reservation_id=reservation_id,

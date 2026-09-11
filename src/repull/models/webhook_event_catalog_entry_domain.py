@@ -7,6 +7,7 @@ class WebhookEventCatalogEntryDomain(str, Enum):
     LISTINGS = "listings"
     PAYMENTS = "payments"
     RESERVATIONS = "reservations"
+    REVIEWS = "reviews"
     SYSTEM = "system"
 
     def __str__(self) -> str:

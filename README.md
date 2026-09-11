@@ -49,10 +49,7 @@ There is also a sync flavour for every endpoint — drop the `async with` and ca
 
 ## Authentication
 
-Every call goes through `AuthenticatedClient(token=...)`. The token is your Repull API key:
-
-- `sk_test_*` — sandbox
-- `sk_live_*` — production
+Every call goes through `AuthenticatedClient(token=...)`. The token is your Repull API key — it looks like `sk_live_...`.
 
 Get one at [repull.dev/dashboard](https://repull.dev/dashboard) → **API keys**.
 

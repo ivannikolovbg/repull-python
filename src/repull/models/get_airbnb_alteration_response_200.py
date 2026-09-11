@@ -27,7 +27,9 @@ class GetAirbnbAlterationResponse200:
     """ 
         Attributes:
             data (AirbnbAlteration): An Airbnb reservation alteration request (date change, guest-count change, or price
-                change), mirrored locally in `reservation_alterations`. Additional Airbnb-side fields may be present.
+                change), mirrored locally in `reservation_alterations`. Fields prefixed `original*` describe the reservation as
+                it stands today; `new*` fields describe the proposed change. Compare them to render a diff and decide whether to
+                accept (`POST .../{id}/accept`) or decline (`POST .../{id}/decline`).
             data_freshness (AirbnbDataFreshness): Top-level freshness indicator for any DB-backed Airbnb read. Tells
                 consumers WHY a column may be `null` or stale without sprinkling per-row error envelopes through the response.
                 The endpoint always returns 200 + DB data; this field is the single signal for "should I prompt the user to

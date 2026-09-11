@@ -34,9 +34,14 @@ class Review:
 
         Attributes:
             id (str | Unset): Internal Repull review id — pass back to `/v1/reviews/{id}`.
-            external_id (str | Unset): ID in the source channel (Airbnb review id, Booking review id, etc.).
+            external_id (str | Unset): ID in the source channel (Airbnb review id, Booking review id, etc.). Pass as
+                `review_id` to the provider reply endpoint.
             platform (ReviewPlatform | Unset):
             listing_id (None | str | Unset): Internal Repull listing id the review is attached to.
+            provider_property_id (None | str | Unset): The source channel's own listing/property id for this review
+                (Booking.com hotel/property id, Airbnb listing id, …). Pass this as `property_id` to `POST
+                /v1/channels/booking/reviews` to post a host reply — it is the bridge from a unified review straight to the
+                provider-specific reply call. `null` when the source listing id has not been mirrored yet.
             reservation_id (None | str | Unset):
             reservation_confirmation_code (None | str | Unset): Channel-side confirmation code for the reservation being
                 reviewed.
@@ -65,6 +70,7 @@ class Review:
     external_id: str | Unset = UNSET
     platform: ReviewPlatform | Unset = UNSET
     listing_id: None | str | Unset = UNSET
+    provider_property_id: None | str | Unset = UNSET
     reservation_id: None | str | Unset = UNSET
     reservation_confirmation_code: None | str | Unset = UNSET
     guest_id: None | str | Unset = UNSET
@@ -105,6 +111,12 @@ class Review:
             listing_id = UNSET
         else:
             listing_id = self.listing_id
+
+        provider_property_id: None | str | Unset
+        if isinstance(self.provider_property_id, Unset):
+            provider_property_id = UNSET
+        else:
+            provider_property_id = self.provider_property_id
 
         reservation_id: None | str | Unset
         if isinstance(self.reservation_id, Unset):
@@ -227,6 +239,8 @@ class Review:
             field_dict["platform"] = platform
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
+        if provider_property_id is not UNSET:
+            field_dict["providerPropertyId"] = provider_property_id
         if reservation_id is not UNSET:
             field_dict["reservationId"] = reservation_id
         if reservation_confirmation_code is not UNSET:
@@ -293,6 +307,16 @@ class Review:
             return cast(None | str | Unset, data)
 
         listing_id = _parse_listing_id(d.pop("listingId", UNSET))
+
+
+        def _parse_provider_property_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        provider_property_id = _parse_provider_property_id(d.pop("providerPropertyId", UNSET))
 
 
         def _parse_reservation_id(data: object) -> None | str | Unset:
@@ -504,6 +528,7 @@ class Review:
             external_id=external_id,
             platform=platform,
             listing_id=listing_id,
+            provider_property_id=provider_property_id,
             reservation_id=reservation_id,
             reservation_confirmation_code=reservation_confirmation_code,
             guest_id=guest_id,

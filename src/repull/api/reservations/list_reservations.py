@@ -36,6 +36,7 @@ def _get_kwargs(
     checkInBefore: datetime.date | Unset = UNSET,
     checkOutAfter: datetime.date | Unset = UNSET,
     checkOutBefore: datetime.date | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -116,6 +117,11 @@ def _get_kwargs(
         json_checkOutBefore = checkOutBefore.isoformat()
     params["checkOutBefore"] = json_checkOutBefore
 
+    json_updated_since: str | Unset = UNSET
+    if not isinstance(updated_since, Unset):
+        json_updated_since = updated_since.isoformat()
+    params["updated_since"] = json_updated_since
+
     params["include_total"] = include_total
 
 
@@ -183,6 +189,7 @@ def sync_detailed(
     checkInBefore: datetime.date | Unset = UNSET,
     checkOutAfter: datetime.date | Unset = UNSET,
     checkOutBefore: datetime.date | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -199,6 +206,12 @@ def sync_detailed(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
     offset > 10000 returns 422 with a docs link.
+
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    reservations amended, cancelled, or created at or after that instant — no full re-walk. Each row
+    carries `updatedAt`; the last row of the final page is your next watermark. Note that
+    `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
+    mid-walk amendments cannot be skipped — see the parameter description for the full contract.
 
     Args:
         limit (int | Unset):  Default: 50.
@@ -217,6 +230,7 @@ def sync_detailed(
         checkInBefore (datetime.date | Unset):
         checkOutAfter (datetime.date | Unset):
         checkOutBefore (datetime.date | Unset):
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -246,6 +260,7 @@ checkInAfter=checkInAfter,
 checkInBefore=checkInBefore,
 checkOutAfter=checkOutAfter,
 checkOutBefore=checkOutBefore,
+updated_since=updated_since,
 include_total=include_total,
 x_schema=x_schema,
 
@@ -276,6 +291,7 @@ def sync(
     checkInBefore: datetime.date | Unset = UNSET,
     checkOutAfter: datetime.date | Unset = UNSET,
     checkOutBefore: datetime.date | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -292,6 +308,12 @@ def sync(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
     offset > 10000 returns 422 with a docs link.
+
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    reservations amended, cancelled, or created at or after that instant — no full re-walk. Each row
+    carries `updatedAt`; the last row of the final page is your next watermark. Note that
+    `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
+    mid-walk amendments cannot be skipped — see the parameter description for the full contract.
 
     Args:
         limit (int | Unset):  Default: 50.
@@ -310,6 +332,7 @@ def sync(
         checkInBefore (datetime.date | Unset):
         checkOutAfter (datetime.date | Unset):
         checkOutBefore (datetime.date | Unset):
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -340,6 +363,7 @@ checkInAfter=checkInAfter,
 checkInBefore=checkInBefore,
 checkOutAfter=checkOutAfter,
 checkOutBefore=checkOutBefore,
+updated_since=updated_since,
 include_total=include_total,
 x_schema=x_schema,
 
@@ -364,6 +388,7 @@ async def asyncio_detailed(
     checkInBefore: datetime.date | Unset = UNSET,
     checkOutAfter: datetime.date | Unset = UNSET,
     checkOutBefore: datetime.date | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -380,6 +405,12 @@ async def asyncio_detailed(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
     offset > 10000 returns 422 with a docs link.
+
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    reservations amended, cancelled, or created at or after that instant — no full re-walk. Each row
+    carries `updatedAt`; the last row of the final page is your next watermark. Note that
+    `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
+    mid-walk amendments cannot be skipped — see the parameter description for the full contract.
 
     Args:
         limit (int | Unset):  Default: 50.
@@ -398,6 +429,7 @@ async def asyncio_detailed(
         checkInBefore (datetime.date | Unset):
         checkOutAfter (datetime.date | Unset):
         checkOutBefore (datetime.date | Unset):
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -427,6 +459,7 @@ checkInAfter=checkInAfter,
 checkInBefore=checkInBefore,
 checkOutAfter=checkOutAfter,
 checkOutBefore=checkOutBefore,
+updated_since=updated_since,
 include_total=include_total,
 x_schema=x_schema,
 
@@ -457,6 +490,7 @@ async def asyncio(
     checkInBefore: datetime.date | Unset = UNSET,
     checkOutAfter: datetime.date | Unset = UNSET,
     checkOutBefore: datetime.date | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     include_total: bool | Unset = True,
     x_schema: str | Unset = UNSET,
 
@@ -473,6 +507,12 @@ async def asyncio(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. For deep pagination cursor remains O(1) per page;
     offset > 10000 returns 422 with a docs link.
+
+    **Incremental sync (only changes since last poll):** pass `?updated_since=<ISO8601>` to receive only
+    reservations amended, cancelled, or created at or after that instant — no full re-walk. Each row
+    carries `updatedAt`; the last row of the final page is your next watermark. Note that
+    `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
+    mid-walk amendments cannot be skipped — see the parameter description for the full contract.
 
     Args:
         limit (int | Unset):  Default: 50.
@@ -491,6 +531,7 @@ async def asyncio(
         checkInBefore (datetime.date | Unset):
         checkOutAfter (datetime.date | Unset):
         checkOutBefore (datetime.date | Unset):
+        updated_since (datetime.datetime | Unset):  Example: 2026-08-01T00:00:00Z.
         include_total (bool | Unset):  Default: True.
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -521,6 +562,7 @@ checkInAfter=checkInAfter,
 checkInBefore=checkInBefore,
 checkOutAfter=checkOutAfter,
 checkOutBefore=checkOutBefore,
+updated_since=updated_since,
 include_total=include_total,
 x_schema=x_schema,
 

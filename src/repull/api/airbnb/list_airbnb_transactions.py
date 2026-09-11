@@ -75,13 +75,15 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Error | ListAirbnbTransactionsResponse200]:
-    r""" List Airbnb transactions
+    """ List Airbnb transactions
 
-     List Airbnb host transactions (payouts, adjustments, resolutions) for this workspace. **Pure DB
-    read** — customer-facing reads never call Airbnb upstream. The transactions mirror is not yet synced
-    into this surface, so today this endpoint returns an empty array with `data_freshness.stale = true`
-    and `reason: \"never_synced\"`. Shape and contract are stable; the array populates once the sync
-    worker lands.
+     List Airbnb host transactions (reservation earnings, payouts, resolution adjustments) for this
+    workspace, newest first. **Pure DB read** — customer-facing reads never call Airbnb upstream; they
+    serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
+    breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
+    buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
+    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,13 +109,15 @@ def sync(
     client: AuthenticatedClient | Client,
 
 ) -> Error | ListAirbnbTransactionsResponse200 | None:
-    r""" List Airbnb transactions
+    """ List Airbnb transactions
 
-     List Airbnb host transactions (payouts, adjustments, resolutions) for this workspace. **Pure DB
-    read** — customer-facing reads never call Airbnb upstream. The transactions mirror is not yet synced
-    into this surface, so today this endpoint returns an empty array with `data_freshness.stale = true`
-    and `reason: \"never_synced\"`. Shape and contract are stable; the array populates once the sync
-    worker lands.
+     List Airbnb host transactions (reservation earnings, payouts, resolution adjustments) for this
+    workspace, newest first. **Pure DB read** — customer-facing reads never call Airbnb upstream; they
+    serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
+    breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
+    buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
+    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -134,13 +138,15 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Error | ListAirbnbTransactionsResponse200]:
-    r""" List Airbnb transactions
+    """ List Airbnb transactions
 
-     List Airbnb host transactions (payouts, adjustments, resolutions) for this workspace. **Pure DB
-    read** — customer-facing reads never call Airbnb upstream. The transactions mirror is not yet synced
-    into this surface, so today this endpoint returns an empty array with `data_freshness.stale = true`
-    and `reason: \"never_synced\"`. Shape and contract are stable; the array populates once the sync
-    worker lands.
+     List Airbnb host transactions (reservation earnings, payouts, resolution adjustments) for this
+    workspace, newest first. **Pure DB read** — customer-facing reads never call Airbnb upstream; they
+    serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
+    breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
+    buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
+    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -166,13 +172,15 @@ async def asyncio(
     client: AuthenticatedClient | Client,
 
 ) -> Error | ListAirbnbTransactionsResponse200 | None:
-    r""" List Airbnb transactions
+    """ List Airbnb transactions
 
-     List Airbnb host transactions (payouts, adjustments, resolutions) for this workspace. **Pure DB
-    read** — customer-facing reads never call Airbnb upstream. The transactions mirror is not yet synced
-    into this surface, so today this endpoint returns an empty array with `data_freshness.stale = true`
-    and `reason: \"never_synced\"`. Shape and contract are stable; the array populates once the sync
-    worker lands.
+     List Airbnb host transactions (reservation earnings, payouts, resolution adjustments) for this
+    workspace, newest first. **Pure DB read** — customer-facing reads never call Airbnb upstream; they
+    serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
+    breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
+    buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
+    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
