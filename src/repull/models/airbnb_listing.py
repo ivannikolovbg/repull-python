@@ -28,13 +28,13 @@ class AirbnbListing:
     points at the same Vanio `listingId` under a single `connections[]` array.
 
         Attributes:
-            listing_id (int | Unset): Vanio (Repull) listing id Example: 6248.
+            listing_id (str | Unset): Vanio (Repull) listing id Example: 6248.
             name (str | Unset): Listing title Example: Oceanview Villa.
             city (None | str | Unset):  Example: Malibu.
             connections (list[AirbnbConnection] | Unset):
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     name: str | Unset = UNSET
     city: None | str | Unset = UNSET
     connections: list[AirbnbConnection] | Unset = UNSET

@@ -5,6 +5,32 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.13] - 2026-09-11
+
+### Fixed
+- Regenerated against the live `https://api.repull.dev/openapi.json` to pick up
+  19 schema corrections merged into the spec. Path/operation inventory is
+  unchanged (124 paths / 174 operations) — only response *shapes* changed:
+  - Ten fields renamed from snake_case to camelCase on the wire:
+    `data_freshness`→`dataFreshness`, `last_synced_at`→`lastSyncedAt`,
+    `fix_url`→`fixUrl`, `next_cursor`→`nextCursor`, `has_more`→`hasMore`,
+    `monthly_requests`→`monthlyRequests`, `daily_ai_requests`→`dailyAiRequests`,
+    `daily_ai`→`dailyAi`, `dynamic_pricing_listings`→`dynamicPricingListings`,
+    `resets_at`→`resetsAt`. Generated model attributes keep their Pythonic
+    snake_case names (e.g. `AirbnbDataFreshness.last_synced_at`); only the
+    `to_dict`/`from_dict` JSON keys changed to camelCase.
+  - Three list endpoints now return bare arrays instead of `{data, pagination}`
+    envelopes: `list_booking_properties` (`GET /v1/channels/booking/properties`),
+    `list_booking_conversations` (`GET /v1/channels/booking/conversations`), and
+    `list_vrbo_listings` (`GET /v1/channels/vrbo/listings`) now return
+    `list[BookingProperty]` / `list[BookingConversation]` / `list[VrboListing]`
+    directly. The wrapper models `BookingPropertyListResponse`,
+    `BookingConversationListResponse`, and `VrboListingListResponse` are removed.
+  - Four id fields changed integer→string: `AirbnbAlteration.id`,
+    `AirbnbAlteration.reservation_id`, `AirbnbConnection.id`,
+    `AirbnbListing.listing_id`.
+  - `Property.latitude` and `Property.longitude` changed number→string.
+
 ## [0.2.12] - 2026-09-11
 
 ### Added

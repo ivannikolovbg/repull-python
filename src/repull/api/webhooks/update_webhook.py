@@ -78,8 +78,8 @@ def sync_detailed(
 ) -> Response[WebhookSubscription]:
     """ Update webhook subscription
 
-     Update url, description, events, or status (active|paused). Re-enabling clears
-    `consecutive_failures` and `disabled_at`.
+     Update url, description, events, or status (active|paused). Re-enabling clears `consecutiveFailures`
+    and `disabledAt`.
 
     Args:
         id (UUID):
@@ -115,8 +115,8 @@ def sync(
 ) -> WebhookSubscription | None:
     """ Update webhook subscription
 
-     Update url, description, events, or status (active|paused). Re-enabling clears
-    `consecutive_failures` and `disabled_at`.
+     Update url, description, events, or status (active|paused). Re-enabling clears `consecutiveFailures`
+    and `disabledAt`.
 
     Args:
         id (UUID):
@@ -147,8 +147,8 @@ async def asyncio_detailed(
 ) -> Response[WebhookSubscription]:
     """ Update webhook subscription
 
-     Update url, description, events, or status (active|paused). Re-enabling clears
-    `consecutive_failures` and `disabled_at`.
+     Update url, description, events, or status (active|paused). Re-enabling clears `consecutiveFailures`
+    and `disabledAt`.
 
     Args:
         id (UUID):
@@ -184,8 +184,8 @@ async def asyncio(
 ) -> WebhookSubscription | None:
     """ Update webhook subscription
 
-     Update url, description, events, or status (active|paused). Re-enabling clears
-    `consecutive_failures` and `disabled_at`.
+     Update url, description, events, or status (active|paused). Re-enabling clears `consecutiveFailures`
+    and `disabledAt`.
 
     Args:
         id (UUID):

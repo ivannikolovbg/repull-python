@@ -41,8 +41,8 @@ class Property:
             name (str | Unset): Property name Example: Oceanview Suite #3.
             address (None | str | Unset): Street address (from the listing's `street` field).
             city (None | str | Unset):  Example: Miami Beach.
-            latitude (float | None | Unset): Detail endpoint only. Example: 25.7617.
-            longitude (float | None | Unset): Detail endpoint only. Example: -80.1918.
+            latitude (None | str | Unset): Detail endpoint only. Decimal degrees, as a string. Example: 25.7617.
+            longitude (None | str | Unset): Detail endpoint only. Decimal degrees, as a string. Example: -80.1918.
             currency (None | str | Unset): ISO 4217 currency code for this property's pricing. Example: USD.
             status (PropertyStatus | Unset): Derived from `listings.active`.
             lifecycle_status (None | str | Unset): The listing's lifecycle state (e.g. `live`, `draft`, `archived`).
@@ -60,8 +60,8 @@ class Property:
     name: str | Unset = UNSET
     address: None | str | Unset = UNSET
     city: None | str | Unset = UNSET
-    latitude: float | None | Unset = UNSET
-    longitude: float | None | Unset = UNSET
+    latitude: None | str | Unset = UNSET
+    longitude: None | str | Unset = UNSET
     currency: None | str | Unset = UNSET
     status: PropertyStatus | Unset = UNSET
     lifecycle_status: None | str | Unset = UNSET
@@ -93,13 +93,13 @@ class Property:
         else:
             city = self.city
 
-        latitude: float | None | Unset
+        latitude: None | str | Unset
         if isinstance(self.latitude, Unset):
             latitude = UNSET
         else:
             latitude = self.latitude
 
-        longitude: float | None | Unset
+        longitude: None | str | Unset
         if isinstance(self.longitude, Unset):
             longitude = UNSET
         else:
@@ -209,22 +209,22 @@ class Property:
         city = _parse_city(d.pop("city", UNSET))
 
 
-        def _parse_latitude(data: object) -> float | None | Unset:
+        def _parse_latitude(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(float | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         latitude = _parse_latitude(d.pop("latitude", UNSET))
 
 
-        def _parse_longitude(data: object) -> float | None | Unset:
+        def _parse_longitude(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(float | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         longitude = _parse_longitude(d.pop("longitude", UNSET))
 

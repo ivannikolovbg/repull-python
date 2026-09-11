@@ -63,11 +63,11 @@ class GetUsageTierResponse200Limits:
         field_dict.update({
         })
         if monthly_requests is not UNSET:
-            field_dict["monthly_requests"] = monthly_requests
+            field_dict["monthlyRequests"] = monthly_requests
         if daily_ai_requests is not UNSET:
-            field_dict["daily_ai_requests"] = daily_ai_requests
+            field_dict["dailyAiRequests"] = daily_ai_requests
         if dynamic_pricing_listings is not UNSET:
-            field_dict["dynamic_pricing_listings"] = dynamic_pricing_listings
+            field_dict["dynamicPricingListings"] = dynamic_pricing_listings
 
         return field_dict
 
@@ -83,7 +83,7 @@ class GetUsageTierResponse200Limits:
                 return data
             return cast(int | None | Unset, data)
 
-        monthly_requests = _parse_monthly_requests(d.pop("monthly_requests", UNSET))
+        monthly_requests = _parse_monthly_requests(d.pop("monthlyRequests", UNSET))
 
 
         def _parse_daily_ai_requests(data: object) -> int | None | Unset:
@@ -93,7 +93,7 @@ class GetUsageTierResponse200Limits:
                 return data
             return cast(int | None | Unset, data)
 
-        daily_ai_requests = _parse_daily_ai_requests(d.pop("daily_ai_requests", UNSET))
+        daily_ai_requests = _parse_daily_ai_requests(d.pop("dailyAiRequests", UNSET))
 
 
         def _parse_dynamic_pricing_listings(data: object) -> int | None | Unset:
@@ -103,7 +103,7 @@ class GetUsageTierResponse200Limits:
                 return data
             return cast(int | None | Unset, data)
 
-        dynamic_pricing_listings = _parse_dynamic_pricing_listings(d.pop("dynamic_pricing_listings", UNSET))
+        dynamic_pricing_listings = _parse_dynamic_pricing_listings(d.pop("dynamicPricingListings", UNSET))
 
 
         get_usage_tier_response_200_limits = cls(

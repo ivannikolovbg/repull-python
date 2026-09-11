@@ -8,7 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.booking_property_list_response import BookingPropertyListResponse
+from ...models.booking_property import BookingProperty
 from typing import cast
 
 
@@ -32,11 +32,16 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> BookingPropertyListResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> list[BookingProperty] | None:
     if response.status_code == 200:
-        response_200 = BookingPropertyListResponse.from_dict(response.json())
+        response_200 = []
+        _response_200 = response.json()
+        for componentsschemas_booking_property_list_response_item_data in (_response_200):
+            componentsschemas_booking_property_list_response_item = BookingProperty.from_dict(componentsschemas_booking_property_list_response_item_data)
 
 
+
+            response_200.append(componentsschemas_booking_property_list_response_item)
 
         return response_200
 
@@ -46,7 +51,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[BookingPropertyListResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[list[BookingProperty]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,7 +64,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[BookingPropertyListResponse]:
+) -> Response[list[BookingProperty]]:
     """ List Booking.com properties
 
      List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
@@ -70,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BookingPropertyListResponse]
+        Response[list[BookingProperty]]
      """
 
 
@@ -88,7 +93,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> BookingPropertyListResponse | None:
+) -> list[BookingProperty] | None:
     """ List Booking.com properties
 
      List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
@@ -99,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        BookingPropertyListResponse
+        list[BookingProperty]
      """
 
 
@@ -112,7 +117,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[BookingPropertyListResponse]:
+) -> Response[list[BookingProperty]]:
     """ List Booking.com properties
 
      List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
@@ -123,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BookingPropertyListResponse]
+        Response[list[BookingProperty]]
      """
 
 
@@ -141,7 +146,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> BookingPropertyListResponse | None:
+) -> list[BookingProperty] | None:
     """ List Booking.com properties
 
      List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
@@ -152,7 +157,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        BookingPropertyListResponse
+        list[BookingProperty]
      """
 
 

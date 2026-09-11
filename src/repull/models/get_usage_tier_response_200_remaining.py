@@ -65,9 +65,9 @@ class GetUsageTierResponse200Remaining:
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
         if daily_ai is not UNSET:
-            field_dict["daily_ai"] = daily_ai
+            field_dict["dailyAi"] = daily_ai
         if dynamic_pricing_listings is not UNSET:
-            field_dict["dynamic_pricing_listings"] = dynamic_pricing_listings
+            field_dict["dynamicPricingListings"] = dynamic_pricing_listings
 
         return field_dict
 
@@ -93,7 +93,7 @@ class GetUsageTierResponse200Remaining:
                 return data
             return cast(int | None | Unset, data)
 
-        daily_ai = _parse_daily_ai(d.pop("daily_ai", UNSET))
+        daily_ai = _parse_daily_ai(d.pop("dailyAi", UNSET))
 
 
         def _parse_dynamic_pricing_listings(data: object) -> int | None | Unset:
@@ -103,7 +103,7 @@ class GetUsageTierResponse200Remaining:
                 return data
             return cast(int | None | Unset, data)
 
-        dynamic_pricing_listings = _parse_dynamic_pricing_listings(d.pop("dynamic_pricing_listings", UNSET))
+        dynamic_pricing_listings = _parse_dynamic_pricing_listings(d.pop("dynamicPricingListings", UNSET))
 
 
         get_usage_tier_response_200_remaining = cls(

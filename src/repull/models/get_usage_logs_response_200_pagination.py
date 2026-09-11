@@ -55,9 +55,9 @@ class GetUsageLogsResponse200Pagination:
         field_dict.update({
         })
         if next_cursor is not UNSET:
-            field_dict["next_cursor"] = next_cursor
+            field_dict["nextCursor"] = next_cursor
         if has_more is not UNSET:
-            field_dict["has_more"] = has_more
+            field_dict["hasMore"] = has_more
         if total is not UNSET:
             field_dict["total"] = total
 
@@ -75,10 +75,10 @@ class GetUsageLogsResponse200Pagination:
                 return data
             return cast(None | str | Unset, data)
 
-        next_cursor = _parse_next_cursor(d.pop("next_cursor", UNSET))
+        next_cursor = _parse_next_cursor(d.pop("nextCursor", UNSET))
 
 
-        has_more = d.pop("has_more", UNSET)
+        has_more = d.pop("hasMore", UNSET)
 
         total = d.pop("total", UNSET)
 

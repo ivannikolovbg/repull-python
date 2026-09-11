@@ -8,7 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.booking_conversation_list_response import BookingConversationListResponse
+from ...models.booking_conversation import BookingConversation
 from typing import cast
 
 
@@ -32,11 +32,16 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> BookingConversationListResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> list[BookingConversation] | None:
     if response.status_code == 200:
-        response_200 = BookingConversationListResponse.from_dict(response.json())
+        response_200 = []
+        _response_200 = response.json()
+        for componentsschemas_booking_conversation_list_response_item_data in (_response_200):
+            componentsschemas_booking_conversation_list_response_item = BookingConversation.from_dict(componentsschemas_booking_conversation_list_response_item_data)
 
 
+
+            response_200.append(componentsschemas_booking_conversation_list_response_item)
 
         return response_200
 
@@ -46,7 +51,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[BookingConversationListResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[list[BookingConversation]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,7 +64,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[BookingConversationListResponse]:
+) -> Response[list[BookingConversation]]:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
@@ -69,7 +74,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BookingConversationListResponse]
+        Response[list[BookingConversation]]
      """
 
 
@@ -87,7 +92,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> BookingConversationListResponse | None:
+) -> list[BookingConversation] | None:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
@@ -97,7 +102,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        BookingConversationListResponse
+        list[BookingConversation]
      """
 
 
@@ -110,7 +115,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[BookingConversationListResponse]:
+) -> Response[list[BookingConversation]]:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
@@ -120,7 +125,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BookingConversationListResponse]
+        Response[list[BookingConversation]]
      """
 
 
@@ -138,7 +143,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> BookingConversationListResponse | None:
+) -> list[BookingConversation] | None:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
@@ -148,7 +153,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        BookingConversationListResponse
+        list[BookingConversation]
      """
 
 

@@ -58,7 +58,7 @@ class ListAirbnbAlterationsResponse200:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "data": data,
-            "data_freshness": data_freshness,
+            "dataFreshness": data_freshness,
         })
 
         return field_dict
@@ -80,7 +80,7 @@ class ListAirbnbAlterationsResponse200:
             data.append(data_item)
 
 
-        data_freshness = AirbnbDataFreshness.from_dict(d.pop("data_freshness"))
+        data_freshness = AirbnbDataFreshness.from_dict(d.pop("dataFreshness"))
 
 
 

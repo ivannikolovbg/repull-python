@@ -8,7 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.vrbo_listing_list_response import VrboListingListResponse
+from ...models.vrbo_listing import VrboListing
 from typing import cast
 
 
@@ -32,11 +32,16 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> VrboListingListResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> list[VrboListing] | None:
     if response.status_code == 200:
-        response_200 = VrboListingListResponse.from_dict(response.json())
+        response_200 = []
+        _response_200 = response.json()
+        for componentsschemas_vrbo_listing_list_response_item_data in (_response_200):
+            componentsschemas_vrbo_listing_list_response_item = VrboListing.from_dict(componentsschemas_vrbo_listing_list_response_item_data)
 
 
+
+            response_200.append(componentsschemas_vrbo_listing_list_response_item)
 
         return response_200
 
@@ -46,7 +51,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[VrboListingListResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[list[VrboListing]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,7 +64,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[VrboListingListResponse]:
+) -> Response[list[VrboListing]]:
     """ List VRBO listings
 
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
@@ -70,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[VrboListingListResponse]
+        Response[list[VrboListing]]
      """
 
 
@@ -88,7 +93,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> VrboListingListResponse | None:
+) -> list[VrboListing] | None:
     """ List VRBO listings
 
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
@@ -99,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        VrboListingListResponse
+        list[VrboListing]
      """
 
 
@@ -112,7 +117,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[VrboListingListResponse]:
+) -> Response[list[VrboListing]]:
     """ List VRBO listings
 
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
@@ -123,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[VrboListingListResponse]
+        Response[list[VrboListing]]
      """
 
 
@@ -141,7 +146,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> VrboListingListResponse | None:
+) -> list[VrboListing] | None:
     """ List VRBO listings
 
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
@@ -152,7 +157,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        VrboListingListResponse
+        list[VrboListing]
      """
 
 

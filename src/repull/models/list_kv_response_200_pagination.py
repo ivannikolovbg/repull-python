@@ -48,7 +48,7 @@ class ListKvResponse200Pagination:
         if total is not UNSET:
             field_dict["total"] = total
         if has_more is not UNSET:
-            field_dict["has_more"] = has_more
+            field_dict["hasMore"] = has_more
 
         return field_dict
 
@@ -59,7 +59,7 @@ class ListKvResponse200Pagination:
         d = dict(src_dict)
         total = d.pop("total", UNSET)
 
-        has_more = d.pop("has_more", UNSET)
+        has_more = d.pop("hasMore", UNSET)
 
         list_kv_response_200_pagination = cls(
             total=total,

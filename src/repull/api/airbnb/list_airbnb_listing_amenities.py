@@ -97,7 +97,7 @@ def sync_detailed(
     cache — never calls Airbnb upstream. The response splits amenities into `amenities` (regular) and
     `accessibility_amenities` (step-free access, wide doorways, grab rails, disabled parking,
     wheelchair, accessible-height fixtures, hoists, etc). Both are arrays (`[]` when none). Consult
-    `data_freshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
+    `dataFreshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
     when the listing has no Airbnb connection in this workspace.
 
     Args:
@@ -135,7 +135,7 @@ def sync(
     cache — never calls Airbnb upstream. The response splits amenities into `amenities` (regular) and
     `accessibility_amenities` (step-free access, wide doorways, grab rails, disabled parking,
     wheelchair, accessible-height fixtures, hoists, etc). Both are arrays (`[]` when none). Consult
-    `data_freshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
+    `dataFreshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
     when the listing has no Airbnb connection in this workspace.
 
     Args:
@@ -168,7 +168,7 @@ async def asyncio_detailed(
     cache — never calls Airbnb upstream. The response splits amenities into `amenities` (regular) and
     `accessibility_amenities` (step-free access, wide doorways, grab rails, disabled parking,
     wheelchair, accessible-height fixtures, hoists, etc). Both are arrays (`[]` when none). Consult
-    `data_freshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
+    `dataFreshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
     when the listing has no Airbnb connection in this workspace.
 
     Args:
@@ -206,7 +206,7 @@ async def asyncio(
     cache — never calls Airbnb upstream. The response splits amenities into `amenities` (regular) and
     `accessibility_amenities` (step-free access, wide doorways, grab rails, disabled parking,
     wheelchair, accessible-height fixtures, hoists, etc). Both are arrays (`[]` when none). Consult
-    `data_freshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
+    `dataFreshness` to disambiguate \"never synced\" from \"fresh and genuinely empty\". Returns `404`
     when the listing has no Airbnb connection in this workspace.
 
     Args:

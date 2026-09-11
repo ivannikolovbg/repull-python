@@ -33,7 +33,7 @@ class ListingPricingHistoryEntry:
             date (datetime.date | Unset):
             recommended_rate (float | Unset): The Atlas model's recommended price for the date.
             applied_rate (float | None | Unset): Price actually written to the calendar. `null` when status is `pending` or
-                `declined`. For now, when `status=applied` this equals `recommended_rate` because the apply path writes the
+                `declined`. For now, when `status=applied` this equals `recommendedRate` because the apply path writes the
                 recommendation verbatim.
             status (ListingPricingHistoryEntryStatus | Unset): `overridden` is reserved for a future signal — it never
                 appears today.

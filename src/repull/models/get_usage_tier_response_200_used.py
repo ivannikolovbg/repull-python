@@ -52,9 +52,9 @@ class GetUsageTierResponse200Used:
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
         if daily_ai is not UNSET:
-            field_dict["daily_ai"] = daily_ai
+            field_dict["dailyAi"] = daily_ai
         if dynamic_pricing_listings is not UNSET:
-            field_dict["dynamic_pricing_listings"] = dynamic_pricing_listings
+            field_dict["dynamicPricingListings"] = dynamic_pricing_listings
 
         return field_dict
 
@@ -65,9 +65,9 @@ class GetUsageTierResponse200Used:
         d = dict(src_dict)
         monthly = d.pop("monthly", UNSET)
 
-        daily_ai = d.pop("daily_ai", UNSET)
+        daily_ai = d.pop("dailyAi", UNSET)
 
-        dynamic_pricing_listings = d.pop("dynamic_pricing_listings", UNSET)
+        dynamic_pricing_listings = d.pop("dynamicPricingListings", UNSET)
 
         get_usage_tier_response_200_used = cls(
             monthly=monthly,

@@ -31,7 +31,7 @@ class AirbnbConnection:
     has been linked from multiple Airbnb host accounts.
 
         Attributes:
-            id (int | Unset): Connection row id
+            id (str | Unset): Connection row id
             airbnb_id (str | Unset): Airbnb-side listing id Example: 1116939745194659457.
             host_id (str | Unset): Airbnb host user id
             active (bool | Unset):
@@ -41,16 +41,16 @@ class AirbnbConnection:
             created_at (datetime.datetime | Unset):
             amenities (list[AirbnbConnectionAmenitiesType0Item] | None | Unset): Present only when `?include=amenities` is
                 passed. Sourced from the local `listings_airbnb_amenities` cache (populated by the Airbnb sync worker). Returns
-                `null` when the cache is empty for this connection — see the top-level `data_freshness` envelope to disambiguate
+                `null` when the cache is empty for this connection — see the top-level `dataFreshness` envelope to disambiguate
                 "never synced" vs "host disconnected" vs "fresh and genuinely empty".
             accessibility_amenities (list[AirbnbConnectionAccessibilityAmenitiesType0Item] | None | Unset): Present only
                 when `?include=amenities` is passed. Accessibility-tagged subset of the local amenity cache (step-free access,
                 wide doorways, grab rails, disabled parking, wheelchair, accessible-height fixtures, hoists, etc). Returns an
                 empty array when amenities synced but none qualify as accessibility; returns `null` when the cache is empty for
-                this connection (use `data_freshness` to disambiguate "never synced" from "fresh and genuinely empty").
+                this connection (use `dataFreshness` to disambiguate "never synced" from "fresh and genuinely empty").
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     airbnb_id: str | Unset = UNSET
     host_id: str | Unset = UNSET
     active: bool | Unset = UNSET
