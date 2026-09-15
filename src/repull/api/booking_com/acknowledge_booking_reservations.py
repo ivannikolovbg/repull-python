@@ -101,6 +101,11 @@ def sync_detailed(
     carries `reservation_ids` (non-empty array). Acknowledge only after you have durably persisted each
     reservation.
 
+    Only reservations that belong to this workspace can be acknowledged. If any id in `reservation_ids`
+    is not one of this workspace's Booking.com reservations (`confirmationCode` on `GET
+    /v1/reservations?platform=booking`), nothing is acknowledged and the response is `404 not_found`
+    naming those ids in `reservation_ids`.
+
     Args:
         body (AcknowledgeBookingReservationsBody):
 
@@ -136,6 +141,11 @@ def sync(
     carries `reservation_ids` (non-empty array). Acknowledge only after you have durably persisted each
     reservation.
 
+    Only reservations that belong to this workspace can be acknowledged. If any id in `reservation_ids`
+    is not one of this workspace's Booking.com reservations (`confirmationCode` on `GET
+    /v1/reservations?platform=booking`), nothing is acknowledged and the response is `404 not_found`
+    naming those ids in `reservation_ids`.
+
     Args:
         body (AcknowledgeBookingReservationsBody):
 
@@ -165,6 +175,11 @@ async def asyncio_detailed(
      Acknowledge one or more reservations so Booking.com removes them from the `new` queue. The body
     carries `reservation_ids` (non-empty array). Acknowledge only after you have durably persisted each
     reservation.
+
+    Only reservations that belong to this workspace can be acknowledged. If any id in `reservation_ids`
+    is not one of this workspace's Booking.com reservations (`confirmationCode` on `GET
+    /v1/reservations?platform=booking`), nothing is acknowledged and the response is `404 not_found`
+    naming those ids in `reservation_ids`.
 
     Args:
         body (AcknowledgeBookingReservationsBody):
@@ -200,6 +215,11 @@ async def asyncio(
      Acknowledge one or more reservations so Booking.com removes them from the `new` queue. The body
     carries `reservation_ids` (non-empty array). Acknowledge only after you have durably persisted each
     reservation.
+
+    Only reservations that belong to this workspace can be acknowledged. If any id in `reservation_ids`
+    is not one of this workspace's Booking.com reservations (`confirmationCode` on `GET
+    /v1/reservations?platform=booking`), nothing is acknowledged and the response is `404 not_found`
+    naming those ids in `reservation_ids`.
 
     Args:
         body (AcknowledgeBookingReservationsBody):

@@ -54,6 +54,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -99,6 +106,9 @@ def sync_detailed(
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         thread_id (str):
         body (SendAirbnbMessageBody):
@@ -140,6 +150,9 @@ def sync(
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         thread_id (str):
         body (SendAirbnbMessageBody):
@@ -175,6 +188,9 @@ async def asyncio_detailed(
 
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):
@@ -216,6 +232,9 @@ async def asyncio(
 
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):

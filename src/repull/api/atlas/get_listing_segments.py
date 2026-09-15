@@ -74,6 +74,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -123,6 +130,9 @@ def sync_detailed(
     comps return `totalCompsAnalyzed: 0` plus a `low_dna_coverage` recommendation rather than fabricated
     data.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         level (GetListingSegmentsLevel | Unset):  Default: GetListingSegmentsLevel.COMP_SET.
@@ -170,6 +180,9 @@ def sync(
     comps return `totalCompsAnalyzed: 0` plus a `low_dna_coverage` recommendation rather than fabricated
     data.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         level (GetListingSegmentsLevel | Unset):  Default: GetListingSegmentsLevel.COMP_SET.
@@ -211,6 +224,9 @@ async def asyncio_detailed(
     DNA coverage is still ramping — segments are scored asynchronously. Cities and radii without scored
     comps return `totalCompsAnalyzed: 0` plus a `low_dna_coverage` recommendation rather than fabricated
     data.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -258,6 +274,9 @@ async def asyncio(
     DNA coverage is still ramping — segments are scored asynchronously. Cities and radii without scored
     comps return `totalCompsAnalyzed: 0` plus a `low_dna_coverage` recommendation rather than fabricated
     data.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

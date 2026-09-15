@@ -50,6 +50,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -106,6 +113,9 @@ def sync_detailed(
     enforced against your workspace on both the target listing and the existing Airbnb record; a listing
     that already links a different Airbnb listing returns 409.
 
+    Returns `403 listing_inactive` when the target listing, or the listing the Airbnb listing is mapped
+    to now, is inactive; nothing is changed.
+
     Args:
         body (MapAirbnbListingRequest): Body for `POST /v1/channels/airbnb/listings/map`.
 
@@ -149,6 +159,9 @@ def sync(
     enforced against your workspace on both the target listing and the existing Airbnb record; a listing
     that already links a different Airbnb listing returns 409.
 
+    Returns `403 listing_inactive` when the target listing, or the listing the Airbnb listing is mapped
+    to now, is inactive; nothing is changed.
+
     Args:
         body (MapAirbnbListingRequest): Body for `POST /v1/channels/airbnb/listings/map`.
 
@@ -186,6 +199,9 @@ async def asyncio_detailed(
     Idempotent — re-mapping to the same listing is a 200 no-op (`alreadyMapped: true`). Scope is
     enforced against your workspace on both the target listing and the existing Airbnb record; a listing
     that already links a different Airbnb listing returns 409.
+
+    Returns `403 listing_inactive` when the target listing, or the listing the Airbnb listing is mapped
+    to now, is inactive; nothing is changed.
 
     Args:
         body (MapAirbnbListingRequest): Body for `POST /v1/channels/airbnb/listings/map`.
@@ -229,6 +245,9 @@ async def asyncio(
     Idempotent — re-mapping to the same listing is a 200 no-op (`alreadyMapped: true`). Scope is
     enforced against your workspace on both the target listing and the existing Airbnb record; a listing
     that already links a different Airbnb listing returns 409.
+
+    Returns `403 listing_inactive` when the target listing, or the listing the Airbnb listing is mapped
+    to now, is inactive; nothing is changed.
 
     Args:
         body (MapAirbnbListingRequest): Body for `POST /v1/channels/airbnb/listings/map`.

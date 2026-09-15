@@ -56,6 +56,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -102,6 +109,9 @@ def sync_detailed(
     API-key surface for the room/rate ids that were previously only reachable inside the hosted Connect
     room-mapping flow.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
 
@@ -142,6 +152,9 @@ def sync(
     API-key surface for the room/rate ids that were previously only reachable inside the hosted Connect
     room-mapping flow.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
 
@@ -176,6 +189,9 @@ async def asyncio_detailed(
     returns rooms and rate plans together (the rooms-unit feed alone omits rate-plan ids). This is the
     API-key surface for the room/rate ids that were previously only reachable inside the hosted Connect
     room-mapping flow.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -216,6 +232,9 @@ async def asyncio(
     returns rooms and rate plans together (the rooms-unit feed alone omits rate-plan ids). This is the
     API-key surface for the room/rate ids that were previously only reachable inside the hosted Connect
     room-mapping flow.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

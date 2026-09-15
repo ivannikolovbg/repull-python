@@ -152,6 +152,11 @@ def sync_detailed(
     ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
     `updated_since` — use this endpoint for property-side incremental sync.
 
+    **Inactive properties:** an inactive property keeps syncing, but cannot be read or changed through
+    the API until it is activated. They are only listed when `status` asks for them, and then with `id`,
+    `name`, `status`, `lifecycleStatus`, `channels` and `updatedAt` only — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`.
+
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
@@ -224,6 +229,11 @@ def sync(
     ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
     `updated_since` — use this endpoint for property-side incremental sync.
 
+    **Inactive properties:** an inactive property keeps syncing, but cannot be read or changed through
+    the API until it is activated. They are only listed when `status` asks for them, and then with `id`,
+    `name`, `status`, `lifecycleStatus`, `channels` and `updatedAt` only — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`.
+
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
@@ -290,6 +300,11 @@ async def asyncio_detailed(
     final page is your next watermark. `updated_since` changes the page ordering to `updatedAt ASC, id
     ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
     `updated_since` — use this endpoint for property-side incremental sync.
+
+    **Inactive properties:** an inactive property keeps syncing, but cannot be read or changed through
+    the API until it is activated. They are only listed when `status` asks for them, and then with `id`,
+    `name`, `status`, `lifecycleStatus`, `channels` and `updatedAt` only — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`.
 
     Args:
         limit (int | Unset):  Default: 50.
@@ -362,6 +377,11 @@ async def asyncio(
     final page is your next watermark. `updated_since` changes the page ordering to `updatedAt ASC, id
     ASC` (and the cursor with it); see the parameter description. `GET /v1/listings` does NOT yet accept
     `updated_since` — use this endpoint for property-side incremental sync.
+
+    **Inactive properties:** an inactive property keeps syncing, but cannot be read or changed through
+    the API until it is activated. They are only listed when `status` asks for them, and then with `id`,
+    `name`, `status`, `lifecycleStatus`, `channels` and `updatedAt` only — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`.
 
     Args:
         limit (int | Unset):  Default: 50.

@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -99,6 +106,9 @@ def sync_detailed(
      Deletes a single stored photo by its storage `path` (as returned by `GET /v1/listings/{id}/photos`
     or `POST /v1/listings/{id}/photos/upload-url`).
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingPhotoDeleteRequest):
@@ -136,6 +146,9 @@ def sync(
      Deletes a single stored photo by its storage `path` (as returned by `GET /v1/listings/{id}/photos`
     or `POST /v1/listings/{id}/photos/upload-url`).
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingPhotoDeleteRequest):
@@ -167,6 +180,9 @@ async def asyncio_detailed(
 
      Deletes a single stored photo by its storage `path` (as returned by `GET /v1/listings/{id}/photos`
     or `POST /v1/listings/{id}/photos/upload-url`).
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -204,6 +220,9 @@ async def asyncio(
 
      Deletes a single stored photo by its storage `path` (as returned by `GET /v1/listings/{id}/photos`
     or `POST /v1/listings/{id}/photos/upload-url`).
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

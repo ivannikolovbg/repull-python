@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.message_list_response import MessageListResponse
 from typing import cast
 
@@ -33,7 +34,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> MessageListResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | MessageListResponse | None:
     if response.status_code == 200:
         response_200 = MessageListResponse.from_dict(response.json())
 
@@ -41,13 +42,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[MessageListResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | MessageListResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -61,11 +69,14 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[MessageListResponse]:
+) -> Response[Error | MessageListResponse]:
     """ Get Airbnb messages
 
      Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
     `?cursor=` until `pagination.hasMore` is `false`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):
@@ -75,7 +86,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MessageListResponse]
+        Response[Error | MessageListResponse]
      """
 
 
@@ -95,11 +106,14 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> MessageListResponse | None:
+) -> Error | MessageListResponse | None:
     """ Get Airbnb messages
 
      Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
     `?cursor=` until `pagination.hasMore` is `false`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):
@@ -109,7 +123,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MessageListResponse
+        Error | MessageListResponse
      """
 
 
@@ -124,11 +138,14 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[MessageListResponse]:
+) -> Response[Error | MessageListResponse]:
     """ Get Airbnb messages
 
      Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
     `?cursor=` until `pagination.hasMore` is `false`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):
@@ -138,7 +155,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MessageListResponse]
+        Response[Error | MessageListResponse]
      """
 
 
@@ -158,11 +175,14 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> MessageListResponse | None:
+) -> Error | MessageListResponse | None:
     """ Get Airbnb messages
 
      Fetch the full message log for an Airbnb thread, ordered oldest-to-newest. Walk pages with
     `?cursor=` until `pagination.hasMore` is `false`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):
@@ -172,7 +192,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MessageListResponse
+        Error | MessageListResponse
      """
 
 

@@ -61,7 +61,10 @@ class WebhookDeliveryDetail:
                 | ReservationCancelledEvent | ReservationCreatedEvent | ReservationMessageReceivedEvent |
                 ReservationUpdatedEvent | ReviewCreatedEvent | ReviewRespondedEvent | Unset): The full event envelope POSTed to
                 your webhook URL. Discriminated on `type` — narrow `event.data` by switching on `event.type`. Use the matching
-                `*Event` variant directly if your SDK lacks discriminator support.
+                `*Event` variant directly if your SDK lacks discriminator support. Events about an inactive listing
+                (reservations, messages, alterations, reviews, payments, calendar and listing events) are not delivered. The
+                data keeps syncing while the listing is inactive, but its events are never sent — including after you reactivate
+                it; webhooks resume for events that happen from reactivation on. Account-level events are always delivered.
             request_headers (None | Unset | WebhookDeliveryDetailRequestHeadersType0):
             status_code (int | None | Unset):
             response_headers (None | Unset | WebhookDeliveryDetailResponseHeadersType0):

@@ -32,7 +32,9 @@ class CreateConnectionBody:
                 grants read-only scopes; 'messaging' grants read scopes plus message read/send but NOT property management, so
                 it can coexist with another app (e.g. an existing PMS) that already holds property management on the same Airbnb
                 account; 'full_access' (default) grants full host scopes including the exclusive property management (only one
-                app per Airbnb account can hold it). Default: CreateConnectionBodyAccessType.FULL_ACCESS.
+                app per Airbnb account can hold it). The hosted consent screen normally lets the host pick a tier; passing
+                `accessType` explicitly fixes the tier and hides that choice, so the host can only continue with the tier you
+                requested. Omit it to let the host choose. Default: CreateConnectionBodyAccessType.FULL_ACCESS.
             api_key (str | Unset): PMS providers — API key.
             client_id (str | Unset): Plumguide — client ID.
             client_secret (str | Unset): Plumguide — client secret.

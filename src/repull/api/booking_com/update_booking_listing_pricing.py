@@ -65,6 +65,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -107,6 +114,9 @@ def sync_detailed(
     `rateId` + `dateRange` + `price` + `currency`. Field-level validation runs up front so callers don't
     have to parse Booking's XML error envelope to discover a missing `roomId`.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (BookingPricingUpdateRequest): Body for `PUT
@@ -147,6 +157,9 @@ def sync(
     `rateId` + `dateRange` + `price` + `currency`. Field-level validation runs up front so callers don't
     have to parse Booking's XML error envelope to discover a missing `roomId`.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (BookingPricingUpdateRequest): Body for `PUT
@@ -181,6 +194,9 @@ async def asyncio_detailed(
      Pushes one or more rate updates to Booking.com via `updateRates`. Each update needs `roomId` +
     `rateId` + `dateRange` + `price` + `currency`. Field-level validation runs up front so callers don't
     have to parse Booking's XML error envelope to discover a missing `roomId`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -221,6 +237,9 @@ async def asyncio(
      Pushes one or more rate updates to Booking.com via `updateRates`. Each update needs `roomId` +
     `rateId` + `dateRange` + `price` + `currency`. Field-level validation runs up front so callers don't
     have to parse Booking's XML error envelope to discover a missing `roomId`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

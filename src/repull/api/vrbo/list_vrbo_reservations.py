@@ -89,6 +89,9 @@ def sync_detailed(
     5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
 
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -133,6 +136,9 @@ def sync(
     5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
 
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -171,6 +177,9 @@ async def asyncio_detailed(
      Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
     5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated.
 
     Args:
         cursor (str | Unset):
@@ -215,6 +224,9 @@ async def asyncio(
      Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
     5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated.
 
     Args:
         cursor (str | Unset):

@@ -64,6 +64,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -106,6 +113,11 @@ def sync_detailed(
     and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
     Repull shape so SDK consumers don't have to learn the internal schema.
 
+    **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
+    listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the
+    reservation aggregates exclude reservations on inactive listings. A guest with no reservations is
+    always readable.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -144,6 +156,11 @@ def sync(
     and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
     Repull shape so SDK consumers don't have to learn the internal schema.
 
+    **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
+    listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the
+    reservation aggregates exclude reservations on inactive listings. A guest with no reservations is
+    always readable.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -176,6 +193,11 @@ async def asyncio_detailed(
      Returns the full guest profile — base list-row fields plus contacts, flags, notes, risk metadata,
     and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
     Repull shape so SDK consumers don't have to learn the internal schema.
+
+    **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
+    listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the
+    reservation aggregates exclude reservations on inactive listings. A guest with no reservations is
+    always readable.
 
     Args:
         id (int):
@@ -214,6 +236,11 @@ async def asyncio(
      Returns the full guest profile — base list-row fields plus contacts, flags, notes, risk metadata,
     and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
     Repull shape so SDK consumers don't have to learn the internal schema.
+
+    **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
+    listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the
+    reservation aggregates exclude reservations on inactive listings. A guest with no reservations is
+    always readable.
 
     Args:
         id (int):

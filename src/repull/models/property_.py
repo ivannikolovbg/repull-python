@@ -35,6 +35,11 @@ class Property:
     - `latitude`, `longitude`, `createdAt`, and `amenities` are returned by the detail endpoint (`GET
     /v1/properties/{id}`) only. `amenities` requires `?include=amenities`.
 
+    An **inactive** property (`status: inactive`) appears only in the list endpoint, and only when
+    `?status=inactive|all` asks for it. Such a row carries identity fields only — `id`, `name`, `status`,
+    `lifecycleStatus`, `channels`, `updatedAt` — so every other field is absent until the property is activated. Every
+    other endpoint answers `403 listing_inactive` for it.
+
         Attributes:
             id (str | Unset): Internal Repull property ID. Equal to the listing id (`listings.id`); the same integer is used
                 as `listingId` on reservations and `propertyId` on availability.

@@ -82,8 +82,11 @@ def sync_detailed(
     serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
     breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
     buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
-    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    path. When the mirror is empty or the host disconnected, `dataFreshness.stale = true` with a
     `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
+
+    Transactions of reservations on inactive listings are left out; payout rows, which belong to no
+    listing, are always included.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -116,8 +119,11 @@ def sync(
     serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
     breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
     buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
-    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    path. When the mirror is empty or the host disconnected, `dataFreshness.stale = true` with a
     `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
+
+    Transactions of reservations on inactive listings are left out; payout rows, which belong to no
+    listing, are always included.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -145,8 +151,11 @@ async def asyncio_detailed(
     serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
     breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
     buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
-    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    path. When the mirror is empty or the host disconnected, `dataFreshness.stale = true` with a
     `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
+
+    Transactions of reservations on inactive listings are left out; payout rows, which belong to no
+    listing, are always included.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,8 +188,11 @@ async def asyncio(
     serve the `airbnb_transactions` mirror. Each row carries the genuine host- and guest-side financial
     breakdown (accommodation subtotal, cleaning fee, host + guest service fees split base/VAT, tax
     buckets, expected/actual host payout with settlement status). Trigger a refresh with `POST` on this
-    path. When the mirror is empty or the host disconnected, `data_freshness.stale = true` with a
+    path. When the mirror is empty or the host disconnected, `dataFreshness.stale = true` with a
     `reason` (`never_synced`, `host_disconnected_<iso>`, `sync_lag_>_24h`).
+
+    Transactions of reservations on inactive listings are left out; payout rows, which belong to no
+    listing, are always included.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

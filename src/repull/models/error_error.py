@@ -50,6 +50,8 @@ class ErrorError:
                 consumers can match validation failures to the operation they invoked. Example: /v1/guests.
             did_you_mean (str | Unset): Suggestion for typos and near-matches. Present when the server can guess the intent.
                 Example: check_in_after.
+            listing_ids (list[str] | Unset): Every inactive listing the request involved. Present on `code:
+                "listing_inactive"` (HTTP 403) — activate these ids and retry. Example: ['4118'].
             retry_after (int | Unset): Seconds the client should wait before retrying. Mirrors the `Retry-After` HTTP
                 header. Present on rate-limit responses and on transient upstream failures that are safe to retry. Example: 60.
             support (ErrorErrorSupport | Unset): LAST-RESORT contact handle. Only set on errors that genuinely cannot be
@@ -68,6 +70,7 @@ class ErrorError:
     valid_params: list[str] | Unset = UNSET
     endpoint: str | Unset = UNSET
     did_you_mean: str | Unset = UNSET
+    listing_ids: list[str] | Unset = UNSET
     retry_after: int | Unset = UNSET
     support: ErrorErrorSupport | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -108,6 +111,12 @@ class ErrorError:
 
         did_you_mean = self.did_you_mean
 
+        listing_ids: list[str] | Unset = UNSET
+        if not isinstance(self.listing_ids, Unset):
+            listing_ids = self.listing_ids
+
+
+
         retry_after = self.retry_after
 
         support: dict[str, Any] | Unset = UNSET
@@ -136,6 +145,8 @@ class ErrorError:
             field_dict["endpoint"] = endpoint
         if did_you_mean is not UNSET:
             field_dict["did_you_mean"] = did_you_mean
+        if listing_ids is not UNSET:
+            field_dict["listing_ids"] = listing_ids
         if retry_after is not UNSET:
             field_dict["retry_after"] = retry_after
         if support is not UNSET:
@@ -173,6 +184,9 @@ class ErrorError:
 
         did_you_mean = d.pop("did_you_mean", UNSET)
 
+        listing_ids = cast(list[str], d.pop("listing_ids", UNSET))
+
+
         retry_after = d.pop("retry_after", UNSET)
 
         _support = d.pop("support", UNSET)
@@ -197,6 +211,7 @@ class ErrorError:
             valid_params=valid_params,
             endpoint=endpoint,
             did_you_mean=did_you_mean,
+            listing_ids=listing_ids,
             retry_after=retry_after,
             support=support,
         )

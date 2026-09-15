@@ -77,6 +77,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 502:
         response_502 = cast(Any, None)
         return response_502
@@ -110,6 +117,9 @@ def sync_detailed(
     listing's base-price context and a 5km comp summary. Recommendations come from the Atlas pricing
     model — pre-computed nightly and stored in `pricing_recommendations`. Use POST to apply or decline
     pending recommendations.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -153,6 +163,9 @@ def sync(
     model — pre-computed nightly and stored in `pricing_recommendations`. Use POST to apply or decline
     pending recommendations.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         start_date (datetime.date | Unset):
@@ -189,6 +202,9 @@ async def asyncio_detailed(
     listing's base-price context and a 5km comp summary. Recommendations come from the Atlas pricing
     model — pre-computed nightly and stored in `pricing_recommendations`. Use POST to apply or decline
     pending recommendations.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -231,6 +247,9 @@ async def asyncio(
     listing's base-price context and a 5km comp summary. Recommendations come from the Atlas pricing
     model — pre-computed nightly and stored in `pricing_recommendations`. Use POST to apply or decline
     pending recommendations.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

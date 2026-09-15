@@ -82,6 +82,9 @@ def sync_detailed(
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
     `null` per connection when the cache is empty.
 
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
+
     Args:
         include (str | Unset):  Example: amenities.
 
@@ -122,6 +125,9 @@ def sync(
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
     `null` per connection when the cache is empty.
 
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
+
     Args:
         include (str | Unset):  Example: amenities.
 
@@ -156,6 +162,9 @@ async def asyncio_detailed(
 
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
     `null` per connection when the cache is empty.
+
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
 
     Args:
         include (str | Unset):  Example: amenities.
@@ -196,6 +205,9 @@ async def asyncio(
 
     Pass `?include=amenities` to enrich each connection with its locally-cached amenity set. Returns
     `null` per connection when the cache is empty.
+
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
 
     Args:
         include (str | Unset):  Example: amenities.

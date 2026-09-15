@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.airbnb_pricing_write_request_model_type import AirbnbPricingWriteRequestModelType
 from ..models.airbnb_pricing_write_request_type import AirbnbPricingWriteRequestType
 from ..types import UNSET, Unset
 from typing import cast
@@ -36,20 +37,20 @@ class AirbnbPricingWriteRequest:
             type_ (AirbnbPricingWriteRequestType):
             operations (list[AirbnbCalendarOperation] | Unset): Required when `type: "calendar"`. Batch of per-date price +
                 restriction operations.
-            model_type (None | str | Unset): Required when `type: "model"` — the pricing-availability model to switch the
-                listing to.
+            model_type (AirbnbPricingWriteRequestModelType | Unset): Required when `type: "model"` — the pricing-
+                availability model to switch the listing to.
             settings (AirbnbPricingWriteRequestSettingsType0 | None | Unset): Required for `type: "standard" | "rate-plan" |
                 "fees"` — the pricing-settings object to PUT.
             records (list[AirbnbPricingWriteRequestRecordsType0Item] | None | Unset): Required for `type: "los"` — length-
                 of-stay records.
-            currency (None | str | Unset): Required for `type: "currency"` — ISO 4217 code.
+            currency (None | str | Unset): Required for `type: "currency"` — ISO 4217 code in capitals, e.g. `USD`.
             rule (AirbnbPricingWriteRequestRuleType0 | None | Unset): Required for `type: "rule"` — a single pricing rule
                 appended to the listing.
      """
 
     type_: AirbnbPricingWriteRequestType
     operations: list[AirbnbCalendarOperation] | Unset = UNSET
-    model_type: None | str | Unset = UNSET
+    model_type: AirbnbPricingWriteRequestModelType | Unset = UNSET
     settings: AirbnbPricingWriteRequestSettingsType0 | None | Unset = UNSET
     records: list[AirbnbPricingWriteRequestRecordsType0Item] | None | Unset = UNSET
     currency: None | str | Unset = UNSET
@@ -76,11 +77,10 @@ class AirbnbPricingWriteRequest:
 
 
 
-        model_type: None | str | Unset
-        if isinstance(self.model_type, Unset):
-            model_type = UNSET
-        else:
-            model_type = self.model_type
+        model_type: str | Unset = UNSET
+        if not isinstance(self.model_type, Unset):
+            model_type = self.model_type.value
+
 
         settings: dict[str, Any] | None | Unset
         if isinstance(self.settings, Unset):
@@ -164,14 +164,14 @@ class AirbnbPricingWriteRequest:
                 operations.append(operations_item)
 
 
-        def _parse_model_type(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
+        _model_type = d.pop("modelType", UNSET)
+        model_type: AirbnbPricingWriteRequestModelType | Unset
+        if isinstance(_model_type,  Unset):
+            model_type = UNSET
+        else:
+            model_type = AirbnbPricingWriteRequestModelType(_model_type)
 
-        model_type = _parse_model_type(d.pop("modelType", UNSET))
+
 
 
         def _parse_settings(data: object) -> AirbnbPricingWriteRequestSettingsType0 | None | Unset:

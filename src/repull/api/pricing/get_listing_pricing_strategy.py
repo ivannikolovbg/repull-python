@@ -49,6 +49,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -74,6 +81,9 @@ def sync_detailed(
 
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
     strategy row exists yet, returns sane defaults flagged with `isDefault: true`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -109,6 +119,9 @@ def sync(
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
     strategy row exists yet, returns sane defaults flagged with `isDefault: true`.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
 
@@ -137,6 +150,9 @@ async def asyncio_detailed(
 
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
     strategy row exists yet, returns sane defaults flagged with `isDefault: true`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -171,6 +187,9 @@ async def asyncio(
 
      Returns the strategy that constrains how the Atlas pricing model behaves for this listing. If no
     strategy row exists yet, returns sane defaults flagged with `isDefault: true`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

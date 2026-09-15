@@ -64,6 +64,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -114,6 +121,9 @@ def sync_detailed(
     `?type=all|standards|issues|stats` (default `all`, which returns `{ standards, issues }`). Returns
     `404` when the listing has no Airbnb connection in this workspace.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         type_ (GetAirbnbListingQualityType | Unset):  Default: GetAirbnbListingQualityType.ALL.
@@ -153,6 +163,9 @@ def sync(
     `?type=all|standards|issues|stats` (default `all`, which returns `{ standards, issues }`). Returns
     `404` when the listing has no Airbnb connection in this workspace.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         type_ (GetAirbnbListingQualityType | Unset):  Default: GetAirbnbListingQualityType.ALL.
@@ -186,6 +199,9 @@ async def asyncio_detailed(
     stats. **Pure DB read** from the local quality mirrors. Scope the response with
     `?type=all|standards|issues|stats` (default `all`, which returns `{ standards, issues }`). Returns
     `404` when the listing has no Airbnb connection in this workspace.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -225,6 +241,9 @@ async def asyncio(
     stats. **Pure DB read** from the local quality mirrors. Scope the response with
     `?type=all|standards|issues|stats` (default `all`, which returns `{ standards, issues }`). Returns
     `404` when the listing has no Airbnb connection in this workspace.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):

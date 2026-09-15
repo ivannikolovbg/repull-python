@@ -86,6 +86,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -142,6 +149,9 @@ def sync_detailed(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
 
+    A conversation that belongs to an inactive listing returns `403 listing_inactive`. Inactive listings
+    keep syncing; activate the listing to use it here.
+
     Args:
         id (int):
         cursor (str | Unset):
@@ -196,6 +206,9 @@ def sync(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
 
+    A conversation that belongs to an inactive listing returns `403 listing_inactive`. Inactive listings
+    keep syncing; activate the listing to use it here.
+
     Args:
         id (int):
         cursor (str | Unset):
@@ -244,6 +257,9 @@ async def asyncio_detailed(
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
+
+    A conversation that belongs to an inactive listing returns `403 listing_inactive`. Inactive listings
+    keep syncing; activate the listing to use it here.
 
     Args:
         id (int):
@@ -298,6 +314,9 @@ async def asyncio(
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
+
+    A conversation that belongs to an inactive listing returns `403 listing_inactive`. Inactive listings
+    keep syncing; activate the listing to use it here.
 
     Args:
         id (int):

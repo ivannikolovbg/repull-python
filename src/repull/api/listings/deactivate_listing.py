@@ -97,6 +97,8 @@ def sync_detailed(
 
     Idempotent: deactivating an already-inactive listing returns 200.
 
+    To deactivate many listings at once, use `POST /v1/listings/status` with `{ \"active\": false }`.
+
     Args:
         id (int):
 
@@ -139,6 +141,8 @@ def sync(
 
     Idempotent: deactivating an already-inactive listing returns 200.
 
+    To deactivate many listings at once, use `POST /v1/listings/status` with `{ \"active\": false }`.
+
     Args:
         id (int):
 
@@ -175,6 +179,8 @@ async def asyncio_detailed(
     `PATCH` with `{ \"active\": true }`.
 
     Idempotent: deactivating an already-inactive listing returns 200.
+
+    To deactivate many listings at once, use `POST /v1/listings/status` with `{ \"active\": false }`.
 
     Args:
         id (int):
@@ -217,6 +223,8 @@ async def asyncio(
     `PATCH` with `{ \"active\": true }`.
 
     Idempotent: deactivating an already-inactive listing returns 200.
+
+    To deactivate many listings at once, use `POST /v1/listings/status` with `{ \"active\": false }`.
 
     Args:
         id (int):

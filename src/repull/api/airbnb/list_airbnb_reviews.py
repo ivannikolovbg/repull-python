@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.airbnb_review_list_response import AirbnbReviewListResponse
+from ...models.error import Error
 from typing import cast
 
 
@@ -32,7 +33,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReviewListResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReviewListResponse | Error | None:
     if response.status_code == 200:
         response_200 = AirbnbReviewListResponse.from_dict(response.json())
 
@@ -40,13 +41,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReviewListResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReviewListResponse | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,18 +67,21 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[AirbnbReviewListResponse]:
+) -> Response[AirbnbReviewListResponse | Error]:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
+    activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReviewListResponse]
+        Response[AirbnbReviewListResponse | Error]
      """
 
 
@@ -88,18 +99,21 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> AirbnbReviewListResponse | None:
+) -> AirbnbReviewListResponse | Error | None:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
+    activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReviewListResponse
+        AirbnbReviewListResponse | Error
      """
 
 
@@ -112,18 +126,21 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[AirbnbReviewListResponse]:
+) -> Response[AirbnbReviewListResponse | Error]:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
+    activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReviewListResponse]
+        Response[AirbnbReviewListResponse | Error]
      """
 
 
@@ -141,18 +158,21 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> AirbnbReviewListResponse | None:
+) -> AirbnbReviewListResponse | Error | None:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
+    activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReviewListResponse
+        AirbnbReviewListResponse | Error
      """
 
 

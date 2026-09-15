@@ -49,6 +49,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -90,6 +97,9 @@ def sync_detailed(
     `message_threads` mirror, workspace-scoped. Returns `404 not_found` when no thread matches. For the
     messages within a thread use `GET /v1/channels/airbnb/messaging/{threadId}/messages`.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         thread_id (str):
 
@@ -125,6 +135,9 @@ def sync(
     `message_threads` mirror, workspace-scoped. Returns `404 not_found` when no thread matches. For the
     messages within a thread use `GET /v1/channels/airbnb/messaging/{threadId}/messages`.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         thread_id (str):
 
@@ -154,6 +167,9 @@ async def asyncio_detailed(
      Fetch a single Airbnb message thread by its Airbnb thread id. **Pure DB read** from the local
     `message_threads` mirror, workspace-scoped. Returns `404 not_found` when no thread matches. For the
     messages within a thread use `GET /v1/channels/airbnb/messaging/{threadId}/messages`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):
@@ -189,6 +205,9 @@ async def asyncio(
      Fetch a single Airbnb message thread by its Airbnb thread id. **Pure DB read** from the local
     `message_threads` mirror, workspace-scoped. Returns `404 not_found` when no thread matches. For the
     messages within a thread use `GET /v1/channels/airbnb/messaging/{threadId}/messages`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         thread_id (str):

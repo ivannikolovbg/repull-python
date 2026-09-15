@@ -54,6 +54,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -93,6 +100,9 @@ def sync_detailed(
     AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingGenerateContentRequest | Unset):
@@ -131,6 +141,9 @@ def sync(
     AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingGenerateContentRequest | Unset):
@@ -163,6 +176,9 @@ async def asyncio_detailed(
      Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Repull
     AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -201,6 +217,9 @@ async def asyncio(
      Generate guest-facing copy (title, summary, description, amenities, etc.) for a listing using Repull
     AI. When `photos` are provided the vision model is used for photo-grounded copy. Persists into the
     listing by default.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

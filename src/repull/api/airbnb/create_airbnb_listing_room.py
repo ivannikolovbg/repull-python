@@ -54,6 +54,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -95,6 +102,9 @@ def sync_detailed(
      Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
     room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         body (CreateAirbnbListingRoomBody): Full Airbnb room object minus `room_id`.
@@ -132,6 +142,9 @@ def sync(
      Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
     room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         body (CreateAirbnbListingRoomBody): Full Airbnb room object minus `room_id`.
@@ -163,6 +176,9 @@ async def asyncio_detailed(
 
      Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
     room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -200,6 +216,9 @@ async def asyncio(
 
      Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
     room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):

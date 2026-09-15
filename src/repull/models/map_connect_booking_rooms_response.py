@@ -8,6 +8,8 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -26,12 +28,17 @@ class MapConnectBookingRoomsResponse:
             mapped (int): Number of rooms processed (mapped + unmapped).
             session_id (str):
             connection_id (str):
+            reservations_imported (int | None | Unset): Reservations pulled from Booking.com once the rooms were mapped.
+                Mapping triggers the same full property sync the dashboard's Sync button runs, because a reservation can only be
+                resolved to a listing through a mapped room. `null` means the sync could not be run — the connection and mapping
+                are still good, and the property can be synced from the dashboard.
      """
 
     success: bool
     mapped: int
     session_id: str
     connection_id: str
+    reservations_imported: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -47,6 +54,12 @@ class MapConnectBookingRoomsResponse:
 
         connection_id = self.connection_id
 
+        reservations_imported: int | None | Unset
+        if isinstance(self.reservations_imported, Unset):
+            reservations_imported = UNSET
+        else:
+            reservations_imported = self.reservations_imported
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -56,6 +69,8 @@ class MapConnectBookingRoomsResponse:
             "sessionId": session_id,
             "connectionId": connection_id,
         })
+        if reservations_imported is not UNSET:
+            field_dict["reservationsImported"] = reservations_imported
 
         return field_dict
 
@@ -72,11 +87,22 @@ class MapConnectBookingRoomsResponse:
 
         connection_id = d.pop("connectionId")
 
+        def _parse_reservations_imported(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        reservations_imported = _parse_reservations_imported(d.pop("reservationsImported", UNSET))
+
+
         map_connect_booking_rooms_response = cls(
             success=success,
             mapped=mapped,
             session_id=session_id,
             connection_id=connection_id,
+            reservations_imported=reservations_imported,
         )
 
 

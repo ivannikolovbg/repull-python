@@ -94,6 +94,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -138,6 +145,15 @@ def sync_detailed(
     single reservation's full details. Acknowledge processed reservations with the POST so Booking stops
     re-serving them in the `new` queue.
 
+    Scoped to this workspace. `hotel_id` (or its alias `property_id`) must be a property connected to
+    this workspace; any other id returns `404 not_found`, the same as an id that does not exist. Without
+    a hotel, `new`/`modified` cover every Booking.com property this workspace holds (and return `404
+    not_found` if it holds none). A `reservation_id` that belongs to another workspace returns `404
+    not_found`.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         type_ (ListBookingReservationsType | Unset):  Default: ListBookingReservationsType.NEW.
         hotel_id (str | Unset):
@@ -180,6 +196,15 @@ def sync(
     single reservation's full details. Acknowledge processed reservations with the POST so Booking stops
     re-serving them in the `new` queue.
 
+    Scoped to this workspace. `hotel_id` (or its alias `property_id`) must be a property connected to
+    this workspace; any other id returns `404 not_found`, the same as an id that does not exist. Without
+    a hotel, `new`/`modified` cover every Booking.com property this workspace holds (and return `404
+    not_found` if it holds none). A `reservation_id` that belongs to another workspace returns `404
+    not_found`.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         type_ (ListBookingReservationsType | Unset):  Default: ListBookingReservationsType.NEW.
         hotel_id (str | Unset):
@@ -216,6 +241,15 @@ async def asyncio_detailed(
     `type=modified` returns changed bookings. Pass both `reservation_id` and `hotel_id` to fetch a
     single reservation's full details. Acknowledge processed reservations with the POST so Booking stops
     re-serving them in the `new` queue.
+
+    Scoped to this workspace. `hotel_id` (or its alias `property_id`) must be a property connected to
+    this workspace; any other id returns `404 not_found`, the same as an id that does not exist. Without
+    a hotel, `new`/`modified` cover every Booking.com property this workspace holds (and return `404
+    not_found` if it holds none). A `reservation_id` that belongs to another workspace returns `404
+    not_found`.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         type_ (ListBookingReservationsType | Unset):  Default: ListBookingReservationsType.NEW.
@@ -258,6 +292,15 @@ async def asyncio(
     `type=modified` returns changed bookings. Pass both `reservation_id` and `hotel_id` to fetch a
     single reservation's full details. Acknowledge processed reservations with the POST so Booking stops
     re-serving them in the `new` queue.
+
+    Scoped to this workspace. `hotel_id` (or its alias `property_id`) must be a property connected to
+    this workspace; any other id returns `404 not_found`, the same as an id that does not exist. Without
+    a hotel, `new`/`modified` cover every Booking.com property this workspace holds (and return `404
+    not_found` if it holds none). A `reservation_id` that belongs to another workspace returns `404
+    not_found`.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         type_ (ListBookingReservationsType | Unset):  Default: ListBookingReservationsType.NEW.

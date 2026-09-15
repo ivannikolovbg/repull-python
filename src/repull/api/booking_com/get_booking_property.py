@@ -52,6 +52,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -93,6 +100,9 @@ def sync_detailed(
     flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
     with no Booking.com connection returns 404.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
 
@@ -128,6 +138,9 @@ def sync(
     flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
     with no Booking.com connection returns 404.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
 
@@ -157,6 +170,9 @@ async def asyncio_detailed(
      Return the Booking.com connection record(s) for a Vanio listing — the linked Booking hotel id, sync
     flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
     with no Booking.com connection returns 404.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -192,6 +208,9 @@ async def asyncio(
      Return the Booking.com connection record(s) for a Vanio listing — the linked Booking hotel id, sync
     flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
     with no Booking.com connection returns 404.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

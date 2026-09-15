@@ -64,6 +64,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -115,6 +122,9 @@ def sync_detailed(
     fans out to Airbnb/Booking/VRBO) then marks the Atlas recommendation `applied`. Decline path is
     Atlas-only — fast.
 
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
+
     Args:
         body (BulkPricingRequest): Body for `POST /v1/listings/pricing/bulk`. Apply or decline
             pending Atlas pricing recommendations across many listings in one call. Capped at 500
@@ -162,6 +172,9 @@ def sync(
     fans out to Airbnb/Booking/VRBO) then marks the Atlas recommendation `applied`. Decline path is
     Atlas-only — fast.
 
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
+
     Args:
         body (BulkPricingRequest): Body for `POST /v1/listings/pricing/bulk`. Apply or decline
             pending Atlas pricing recommendations across many listings in one call. Capped at 500
@@ -203,6 +216,9 @@ async def asyncio_detailed(
     Apply path writes the recommended price to each listing's calendar via the calendar service (which
     fans out to Airbnb/Booking/VRBO) then marks the Atlas recommendation `applied`. Decline path is
     Atlas-only — fast.
+
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
 
     Args:
         body (BulkPricingRequest): Body for `POST /v1/listings/pricing/bulk`. Apply or decline
@@ -250,6 +266,9 @@ async def asyncio(
     Apply path writes the recommended price to each listing's calendar via the calendar service (which
     fans out to Airbnb/Booking/VRBO) then marks the Atlas recommendation `applied`. Decline path is
     Atlas-only — fast.
+
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
 
     Args:
         body (BulkPricingRequest): Body for `POST /v1/listings/pricing/bulk`. Apply or decline

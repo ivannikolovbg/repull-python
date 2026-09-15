@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.airbnb_calendar_operation_availability import AirbnbCalendarOperationAvailability
+from ..models.airbnb_calendar_operation_busy_subtype import AirbnbCalendarOperationBusySubtype
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -25,19 +26,23 @@ T = TypeVar("T", bound="AirbnbCalendarOperation")
 
 @_attrs_define
 class AirbnbCalendarOperation:
-    """ One calendar operation. Supply either `start_date` + `end_date` OR a `dates` array. Every restriction here is
-    forwarded verbatim to Airbnb's batch calendar API.
+    """ One calendar operation, applied to every date it names. Supply either `dates` OR a `start_date` + `end_date` pair
+    (not both). Unknown fields are refused with `422 invalid_params` rather than dropped, so a misspelling such as
+    `price` (the field is `daily_price`) can never look like a successful write.
 
         Attributes:
-            start_date (datetime.date | None | Unset): Inclusive range start (pair with `end_date`).
-            end_date (datetime.date | None | Unset): Inclusive range end (pair with `start_date`).
-            dates (list[str] | None | Unset): Explicit date or `start:end` range strings, as an alternative to
-                `start_date`/`end_date`.
-            daily_price (float | None | Unset): Nightly price override.
+            start_date (datetime.date | None | Unset): Inclusive range start, YYYY-MM-DD. Send together with `end_date`.
+            end_date (datetime.date | None | Unset): Inclusive range end, YYYY-MM-DD, on or after `start_date`.
+            dates (list[str] | None | Unset): Dates as `YYYY-MM-DD`, or inclusive ranges as `YYYY-MM-DD:YYYY-MM-DD` — an
+                alternative to `start_date`/`end_date`.
+            daily_price (float | None | Unset): Nightly price override, in the listing currency.
             availability (AirbnbCalendarOperationAvailability | Unset): Stop-sell is expressed here: `unavailable` blocks
                 the date(s); `available` re-opens; `default` reverts to rule-based availability.
+            busy_subtype (AirbnbCalendarOperationBusySubtype | Unset): Why a blocked date is blocked. Airbnb requires it
+                whenever `availability` is `unavailable`; when you leave it out, Repull sends **`BLOCKED_BY_HOST`**. Use
+                `OUTSIDE_RESERVATION` for a date held by a booking made on another channel.
             min_nights (int | None | Unset): Minimum length of stay for the date(s).
-            max_nights (int | None | Unset): Maximum length of stay for the date(s).
+            max_nights (int | None | Unset): Maximum length of stay for the date(s); no lower than `min_nights`.
             closed_to_arrival (bool | None | Unset): Closed-to-arrival — no check-ins on the affected date(s).
             closed_to_departure (bool | None | Unset): Closed-to-departure — no check-outs on the affected date(s).
             notes (None | str | Unset):
@@ -48,12 +53,12 @@ class AirbnbCalendarOperation:
     dates: list[str] | None | Unset = UNSET
     daily_price: float | None | Unset = UNSET
     availability: AirbnbCalendarOperationAvailability | Unset = UNSET
+    busy_subtype: AirbnbCalendarOperationBusySubtype | Unset = UNSET
     min_nights: int | None | Unset = UNSET
     max_nights: int | None | Unset = UNSET
     closed_to_arrival: bool | None | Unset = UNSET
     closed_to_departure: bool | None | Unset = UNSET
     notes: None | str | Unset = UNSET
-    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
 
@@ -97,6 +102,11 @@ class AirbnbCalendarOperation:
             availability = self.availability.value
 
 
+        busy_subtype: str | Unset = UNSET
+        if not isinstance(self.busy_subtype, Unset):
+            busy_subtype = self.busy_subtype.value
+
+
         min_nights: int | None | Unset
         if isinstance(self.min_nights, Unset):
             min_nights = UNSET
@@ -129,7 +139,7 @@ class AirbnbCalendarOperation:
 
 
         field_dict: dict[str, Any] = {}
-        field_dict.update(self.additional_properties)
+
         field_dict.update({
         })
         if start_date is not UNSET:
@@ -142,6 +152,8 @@ class AirbnbCalendarOperation:
             field_dict["daily_price"] = daily_price
         if availability is not UNSET:
             field_dict["availability"] = availability
+        if busy_subtype is not UNSET:
+            field_dict["busy_subtype"] = busy_subtype
         if min_nights is not UNSET:
             field_dict["min_nights"] = min_nights
         if max_nights is not UNSET:
@@ -238,6 +250,16 @@ class AirbnbCalendarOperation:
 
 
 
+        _busy_subtype = d.pop("busy_subtype", UNSET)
+        busy_subtype: AirbnbCalendarOperationBusySubtype | Unset
+        if isinstance(_busy_subtype,  Unset):
+            busy_subtype = UNSET
+        else:
+            busy_subtype = AirbnbCalendarOperationBusySubtype(_busy_subtype)
+
+
+
+
         def _parse_min_nights(data: object) -> int | None | Unset:
             if data is None:
                 return data
@@ -294,6 +316,7 @@ class AirbnbCalendarOperation:
             dates=dates,
             daily_price=daily_price,
             availability=availability,
+            busy_subtype=busy_subtype,
             min_nights=min_nights,
             max_nights=max_nights,
             closed_to_arrival=closed_to_arrival,
@@ -301,22 +324,5 @@ class AirbnbCalendarOperation:
             notes=notes,
         )
 
-
-        airbnb_calendar_operation.additional_properties = d
         return airbnb_calendar_operation
 
-    @property
-    def additional_keys(self) -> list[str]:
-        return list(self.additional_properties.keys())
-
-    def __getitem__(self, key: str) -> Any:
-        return self.additional_properties[key]
-
-    def __setitem__(self, key: str, value: Any) -> None:
-        self.additional_properties[key] = value
-
-    def __delitem__(self, key: str) -> None:
-        del self.additional_properties[key]
-
-    def __contains__(self, key: str) -> bool:
-        return key in self.additional_properties

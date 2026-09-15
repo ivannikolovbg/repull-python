@@ -57,6 +57,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -102,6 +109,9 @@ def sync_detailed(
     amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the property has
     no amenity rows. The default response stays lean; consumers must opt in.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         include (GetPropertyInclude | Unset):
@@ -143,6 +153,9 @@ def sync(
     amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the property has
     no amenity rows. The default response stays lean; consumers must opt in.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         include (GetPropertyInclude | Unset):
@@ -178,6 +191,9 @@ async def asyncio_detailed(
     **Optional expansions:** Pass `?include=amenities` to enrich the response with the property's
     amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the property has
     no amenity rows. The default response stays lean; consumers must opt in.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -219,6 +235,9 @@ async def asyncio(
     **Optional expansions:** Pass `?include=amenities` to enrich the response with the property's
     amenities (sourced from the unified `listings_amenities` table). Returns `[]` when the property has
     no amenity rows. The default response stays lean; consumers must opt in.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

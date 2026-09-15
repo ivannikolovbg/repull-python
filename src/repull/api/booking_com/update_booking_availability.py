@@ -60,6 +60,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -109,6 +116,13 @@ def sync_detailed(
     Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
     upstream surface as `booking_error`.
 
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.
             Selects one of Booking's three ARI write paths via `type` and forwards `updates` verbatim
@@ -154,6 +168,13 @@ def sync(
     Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
     upstream surface as `booking_error`.
 
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.
             Selects one of Booking's three ARI write paths via `type` and forwards `updates` verbatim
@@ -193,6 +214,13 @@ async def asyncio_detailed(
 
     Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
     upstream surface as `booking_error`.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.
@@ -238,6 +266,13 @@ async def asyncio(
 
     Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
     upstream surface as `booking_error`.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.

@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -106,6 +113,9 @@ def sync_detailed(
      Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         body (RespondAirbnbReviewBody):
@@ -143,6 +153,9 @@ def sync(
      Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         body (RespondAirbnbReviewBody):
@@ -174,6 +187,9 @@ async def asyncio_detailed(
 
      Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -211,6 +227,9 @@ async def asyncio(
 
      Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):

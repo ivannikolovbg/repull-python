@@ -64,6 +64,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -106,6 +113,9 @@ def sync_detailed(
     authenticated workspace via the listings join — reviews that don't belong to the workspace return
     404 (we don't differentiate to avoid leaking other customers' ids).
 
+    A review of an inactive listing returns `403 listing_inactive`. Inactive listings keep syncing;
+    activate the listing to use it here.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -144,6 +154,9 @@ def sync(
     authenticated workspace via the listings join — reviews that don't belong to the workspace return
     404 (we don't differentiate to avoid leaking other customers' ids).
 
+    A review of an inactive listing returns `403 listing_inactive`. Inactive listings keep syncing;
+    activate the listing to use it here.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -176,6 +189,9 @@ async def asyncio_detailed(
      Returns one review (the bare `Review` object — NOT wrapped in `{ data: ... }`). Scoped to the
     authenticated workspace via the listings join — reviews that don't belong to the workspace return
     404 (we don't differentiate to avoid leaking other customers' ids).
+
+    A review of an inactive listing returns `403 listing_inactive`. Inactive listings keep syncing;
+    activate the listing to use it here.
 
     Args:
         id (int):
@@ -214,6 +230,9 @@ async def asyncio(
      Returns one review (the bare `Review` object — NOT wrapped in `{ data: ... }`). Scoped to the
     authenticated workspace via the listings join — reviews that don't belong to the workspace return
     404 (we don't differentiate to avoid leaking other customers' ids).
+
+    A review of an inactive listing returns `403 listing_inactive`. Inactive listings keep syncing;
+    activate the listing to use it here.
 
     Args:
         id (int):

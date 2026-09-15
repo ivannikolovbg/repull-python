@@ -41,18 +41,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
-    if response.status_code == 201:
-        response_201 = cast(Any, None)
-        return response_201
-
-    if response.status_code == 400:
-        response_400 = Error.from_dict(response.json())
-
-
-
-        return response_400
-
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | None:
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
 
@@ -60,19 +49,12 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
-    if response.status_code == 404:
-        response_404 = Error.from_dict(response.json())
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
 
 
 
-        return response_404
-
-    if response.status_code == 500:
-        response_500 = Error.from_dict(response.json())
-
-
-
-        return response_500
+        return response_403
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -80,7 +62,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -94,11 +76,14 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: CreateBookingWebhookBody,
 
-) -> Response[Any | Error]:
+) -> Response[Error]:
     """ Subscribe to a Booking.com notification
 
-     Subscribe to a Booking.com CNS notification type, delivered to `callback_url`. Returns 201 on
-    success.
+     **Not available through the API — always returns `403 forbidden`.** Booking.com notification
+    subscriptions belong to the Repull platform account that every workspace shares: they are per
+    notification type, not per property, so reading or changing them would affect every workspace.
+    Booking.com events for your own properties are delivered through Repull webhooks — subscribe with
+    `POST /v1/webhooks`.
 
     Args:
         body (CreateBookingWebhookBody):
@@ -108,7 +93,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error]
      """
 
 
@@ -128,11 +113,14 @@ def sync(
     client: AuthenticatedClient | Client,
     body: CreateBookingWebhookBody,
 
-) -> Any | Error | None:
+) -> Error | None:
     """ Subscribe to a Booking.com notification
 
-     Subscribe to a Booking.com CNS notification type, delivered to `callback_url`. Returns 201 on
-    success.
+     **Not available through the API — always returns `403 forbidden`.** Booking.com notification
+    subscriptions belong to the Repull platform account that every workspace shares: they are per
+    notification type, not per property, so reading or changing them would affect every workspace.
+    Booking.com events for your own properties are delivered through Repull webhooks — subscribe with
+    `POST /v1/webhooks`.
 
     Args:
         body (CreateBookingWebhookBody):
@@ -142,7 +130,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error
      """
 
 
@@ -157,11 +145,14 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: CreateBookingWebhookBody,
 
-) -> Response[Any | Error]:
+) -> Response[Error]:
     """ Subscribe to a Booking.com notification
 
-     Subscribe to a Booking.com CNS notification type, delivered to `callback_url`. Returns 201 on
-    success.
+     **Not available through the API — always returns `403 forbidden`.** Booking.com notification
+    subscriptions belong to the Repull platform account that every workspace shares: they are per
+    notification type, not per property, so reading or changing them would affect every workspace.
+    Booking.com events for your own properties are delivered through Repull webhooks — subscribe with
+    `POST /v1/webhooks`.
 
     Args:
         body (CreateBookingWebhookBody):
@@ -171,7 +162,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error]
      """
 
 
@@ -191,11 +182,14 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: CreateBookingWebhookBody,
 
-) -> Any | Error | None:
+) -> Error | None:
     """ Subscribe to a Booking.com notification
 
-     Subscribe to a Booking.com CNS notification type, delivered to `callback_url`. Returns 201 on
-    success.
+     **Not available through the API — always returns `403 forbidden`.** Booking.com notification
+    subscriptions belong to the Repull platform account that every workspace shares: they are per
+    notification type, not per property, so reading or changing them would affect every workspace.
+    Booking.com events for your own properties are delivered through Repull webhooks — subscribe with
+    `POST /v1/webhooks`.
 
     Args:
         body (CreateBookingWebhookBody):
@@ -205,7 +199,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error
      """
 
 

@@ -27,6 +27,7 @@ from .airbnb_availability_write_request_rules import AirbnbAvailabilityWriteRequ
 from .airbnb_availability_write_request_type import AirbnbAvailabilityWriteRequestType
 from .airbnb_calendar_operation import AirbnbCalendarOperation
 from .airbnb_calendar_operation_availability import AirbnbCalendarOperationAvailability
+from .airbnb_calendar_operation_busy_subtype import AirbnbCalendarOperationBusySubtype
 from .airbnb_connection import AirbnbConnection
 from .airbnb_connection_accessibility_amenities_type_0_item import AirbnbConnectionAccessibilityAmenitiesType0Item
 from .airbnb_connection_amenities_type_0_item import AirbnbConnectionAmenitiesType0Item
@@ -40,6 +41,7 @@ from .airbnb_listing_action_request import AirbnbListingActionRequest
 from .airbnb_listing_action_request_action import AirbnbListingActionRequestAction
 from .airbnb_listing_list_response import AirbnbListingListResponse
 from .airbnb_pricing_write_request import AirbnbPricingWriteRequest
+from .airbnb_pricing_write_request_model_type import AirbnbPricingWriteRequestModelType
 from .airbnb_pricing_write_request_records_type_0_item import AirbnbPricingWriteRequestRecordsType0Item
 from .airbnb_pricing_write_request_rule_type_0 import AirbnbPricingWriteRequestRuleType0
 from .airbnb_pricing_write_request_settings_type_0 import AirbnbPricingWriteRequestSettingsType0
@@ -78,6 +80,7 @@ from .booking_connect_callback_body import BookingConnectCallbackBody
 from .booking_connect_listing_option import BookingConnectListingOption
 from .booking_connect_room import BookingConnectRoom
 from .booking_connect_rooms_response import BookingConnectRoomsResponse
+from .booking_connect_rooms_response_missing_capabilities_item import BookingConnectRoomsResponseMissingCapabilitiesItem
 from .booking_connect_rooms_response_status import BookingConnectRoomsResponseStatus
 from .booking_conversation import BookingConversation
 from .booking_pricing_rate_update import BookingPricingRateUpdate
@@ -104,6 +107,7 @@ from .booking_setup_body_action import BookingSetupBodyAction
 from .booking_setup_body_contacts_item import BookingSetupBodyContactsItem
 from .booking_verify_hotel_request import BookingVerifyHotelRequest
 from .booking_verify_hotel_response import BookingVerifyHotelResponse
+from .booking_verify_hotel_response_missing_capabilities_item import BookingVerifyHotelResponseMissingCapabilitiesItem
 from .bulk_pricing_failure import BulkPricingFailure
 from .bulk_pricing_failure_error_code import BulkPricingFailureErrorCode
 from .bulk_pricing_item import BulkPricingItem
@@ -125,6 +129,7 @@ from .connect_provider_list_response import ConnectProviderListResponse
 from .connect_provider_status import ConnectProviderStatus
 from .connect_session import ConnectSession
 from .connect_status import ConnectStatus
+from .connect_status_accounts_item import ConnectStatusAccountsItem
 from .connect_status_status import ConnectStatusStatus
 from .connection import Connection
 from .connection_list_response import ConnectionListResponse
@@ -161,6 +166,7 @@ from .custom_schema_update import CustomSchemaUpdate
 from .decline_airbnb_alteration_body import DeclineAirbnbAlterationBody
 from .delete_airbnb_listing_photo_response_200 import DeleteAirbnbListingPhotoResponse200
 from .delete_airbnb_listing_room_response_200 import DeleteAirbnbListingRoomResponse200
+from .delete_connection_response_200 import DeleteConnectionResponse200
 from .delete_kv_response_200 import DeleteKvResponse200
 from .error import Error
 from .error_error import ErrorError
@@ -329,6 +335,8 @@ from .listing_segments_response_my_quality_tier_type_2_type_1 import ListingSegm
 from .listing_segments_response_my_quality_tier_type_3_type_1 import ListingSegmentsResponseMyQualityTierType3Type1
 from .listing_segments_response_scope import ListingSegmentsResponseScope
 from .listing_status import ListingStatus
+from .listing_status_batch_request import ListingStatusBatchRequest
+from .listing_status_batch_response import ListingStatusBatchResponse
 from .listing_updated_event import ListingUpdatedEvent
 from .listing_updated_event_type import ListingUpdatedEventType
 from .listing_updated_payload import ListingUpdatedPayload
@@ -562,6 +570,7 @@ __all__ = (
     "AirbnbAvailabilityWriteRequestType",
     "AirbnbCalendarOperation",
     "AirbnbCalendarOperationAvailability",
+    "AirbnbCalendarOperationBusySubtype",
     "AirbnbConnection",
     "AirbnbConnectionAccessibilityAmenitiesType0Item",
     "AirbnbConnectionAmenitiesType0Item",
@@ -575,6 +584,7 @@ __all__ = (
     "AirbnbListingActionRequestAction",
     "AirbnbListingListResponse",
     "AirbnbPricingWriteRequest",
+    "AirbnbPricingWriteRequestModelType",
     "AirbnbPricingWriteRequestRecordsType0Item",
     "AirbnbPricingWriteRequestRuleType0",
     "AirbnbPricingWriteRequestSettingsType0",
@@ -613,6 +623,7 @@ __all__ = (
     "BookingConnectListingOption",
     "BookingConnectRoom",
     "BookingConnectRoomsResponse",
+    "BookingConnectRoomsResponseMissingCapabilitiesItem",
     "BookingConnectRoomsResponseStatus",
     "BookingConversation",
     "BookingPricingRateUpdate",
@@ -639,6 +650,7 @@ __all__ = (
     "BookingSetupBodyContactsItem",
     "BookingVerifyHotelRequest",
     "BookingVerifyHotelResponse",
+    "BookingVerifyHotelResponseMissingCapabilitiesItem",
     "BulkPricingFailure",
     "BulkPricingFailureErrorCode",
     "BulkPricingItem",
@@ -663,6 +675,7 @@ __all__ = (
     "ConnectProviderStatus",
     "ConnectSession",
     "ConnectStatus",
+    "ConnectStatusAccountsItem",
     "ConnectStatusStatus",
     "Conversation",
     "ConversationDetail",
@@ -696,6 +709,7 @@ __all__ = (
     "DeclineAirbnbAlterationBody",
     "DeleteAirbnbListingPhotoResponse200",
     "DeleteAirbnbListingRoomResponse200",
+    "DeleteConnectionResponse200",
     "DeleteKvResponse200",
     "Error",
     "ErrorError",
@@ -852,6 +866,8 @@ __all__ = (
     "ListingSegmentsResponseMyQualityTierType3Type1",
     "ListingSegmentsResponseScope",
     "ListingStatus",
+    "ListingStatusBatchRequest",
+    "ListingStatusBatchResponse",
     "ListingUpdatedEvent",
     "ListingUpdatedEventType",
     "ListingUpdatedPayload",

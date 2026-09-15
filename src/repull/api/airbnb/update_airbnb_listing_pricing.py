@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.airbnb_pricing_write_request import AirbnbPricingWriteRequest
+from ...models.error import Error
 from typing import cast
 
 
@@ -41,9 +42,45 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
     if response.status_code == 200:
-        return None
+        response_200 = cast(Any, None)
+        return response_200
+
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+
+
+        return response_429
+
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -51,7 +88,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -66,7 +103,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: AirbnbPricingWriteRequest,
 
-) -> Response[Any]:
+) -> Response[Any | Error]:
     r""" Update Airbnb pricing
 
      Push pricing changes to Airbnb. The `type` discriminator selects the sub-resource (model, standard
@@ -74,6 +111,23 @@ def sync_detailed(
     carries the full per-date restriction set — nightly price, min/max nights, closed-to-arrival,
     closed-to-departure, and stop-sell (`availability: \"unavailable\"`). For settings sub-resources the
     full object is replaced — GET first, mutate locally, then PUT the whole object.
+
+    `{id}` is the **Repull listing id** (from `GET /v1/properties` or `GET
+    /v1/channels/airbnb/listings`), not the Airbnb listing id — Repull translates it before calling
+    Airbnb.
+
+    The body is validated before anything reaches Airbnb: a malformed body is `422 invalid_params`
+    naming the `field`. Calendar operations accept only the documented fields.
+
+    **Blocking dates:** Airbnb requires a `busy_subtype` whenever `availability` is `\"unavailable\"`.
+    If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
+    `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
+
+    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
+    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
+    Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
+    airbnb_error` — Airbnb outage or timeout; retry.
 
     Args:
         id (str):
@@ -88,7 +142,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[Any | Error]
      """
 
 
@@ -104,14 +158,13 @@ body=body,
 
     return _build_response(client=client, response=response)
 
-
-async def asyncio_detailed(
+def sync(
     id: str,
     *,
     client: AuthenticatedClient | Client,
     body: AirbnbPricingWriteRequest,
 
-) -> Response[Any]:
+) -> Any | Error | None:
     r""" Update Airbnb pricing
 
      Push pricing changes to Airbnb. The `type` discriminator selects the sub-resource (model, standard
@@ -119,6 +172,23 @@ async def asyncio_detailed(
     carries the full per-date restriction set — nightly price, min/max nights, closed-to-arrival,
     closed-to-departure, and stop-sell (`availability: \"unavailable\"`). For settings sub-resources the
     full object is replaced — GET first, mutate locally, then PUT the whole object.
+
+    `{id}` is the **Repull listing id** (from `GET /v1/properties` or `GET
+    /v1/channels/airbnb/listings`), not the Airbnb listing id — Repull translates it before calling
+    Airbnb.
+
+    The body is validated before anything reaches Airbnb: a malformed body is `422 invalid_params`
+    naming the `field`. Calendar operations accept only the documented fields.
+
+    **Blocking dates:** Airbnb requires a `busy_subtype` whenever `availability` is `\"unavailable\"`.
+    If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
+    `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
+
+    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
+    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
+    Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
+    airbnb_error` — Airbnb outage or timeout; retry.
 
     Args:
         id (str):
@@ -133,7 +203,63 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Any | Error
+     """
+
+
+    return sync_detailed(
+        id=id,
+client=client,
+body=body,
+
+    ).parsed
+
+async def asyncio_detailed(
+    id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: AirbnbPricingWriteRequest,
+
+) -> Response[Any | Error]:
+    r""" Update Airbnb pricing
+
+     Push pricing changes to Airbnb. The `type` discriminator selects the sub-resource (model, standard
+    settings, LOS, rate-plan, fees, currency, rule, or per-date `calendar`). `type: \"calendar\"`
+    carries the full per-date restriction set — nightly price, min/max nights, closed-to-arrival,
+    closed-to-departure, and stop-sell (`availability: \"unavailable\"`). For settings sub-resources the
+    full object is replaced — GET first, mutate locally, then PUT the whole object.
+
+    `{id}` is the **Repull listing id** (from `GET /v1/properties` or `GET
+    /v1/channels/airbnb/listings`), not the Airbnb listing id — Repull translates it before calling
+    Airbnb.
+
+    The body is validated before anything reaches Airbnb: a malformed body is `422 invalid_params`
+    naming the `field`. Calendar operations accept only the documented fields.
+
+    **Blocking dates:** Airbnb requires a `busy_subtype` whenever `availability` is `\"unavailable\"`.
+    If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
+    `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
+
+    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
+    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
+    Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
+    airbnb_error` — Airbnb outage or timeout; retry.
+
+    Args:
+        id (str):
+        body (AirbnbPricingWriteRequest): Body for `PUT
+            /v1/channels/airbnb/listings/{id}/pricing`. The `type` discriminator selects the pricing
+            sub-resource. `type: "calendar"` shares the same per-date restriction shape as the
+            availability endpoint (min/max nights, closed-to-arrival/departure, stop-sell via
+            `availability: "unavailable"`).
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any | Error]
      """
 
 
@@ -149,3 +275,58 @@ body=body,
 
     return _build_response(client=client, response=response)
 
+async def asyncio(
+    id: str,
+    *,
+    client: AuthenticatedClient | Client,
+    body: AirbnbPricingWriteRequest,
+
+) -> Any | Error | None:
+    r""" Update Airbnb pricing
+
+     Push pricing changes to Airbnb. The `type` discriminator selects the sub-resource (model, standard
+    settings, LOS, rate-plan, fees, currency, rule, or per-date `calendar`). `type: \"calendar\"`
+    carries the full per-date restriction set — nightly price, min/max nights, closed-to-arrival,
+    closed-to-departure, and stop-sell (`availability: \"unavailable\"`). For settings sub-resources the
+    full object is replaced — GET first, mutate locally, then PUT the whole object.
+
+    `{id}` is the **Repull listing id** (from `GET /v1/properties` or `GET
+    /v1/channels/airbnb/listings`), not the Airbnb listing id — Repull translates it before calling
+    Airbnb.
+
+    The body is validated before anything reaches Airbnb: a malformed body is `422 invalid_params`
+    naming the `field`. Calendar operations accept only the documented fields.
+
+    **Blocking dates:** Airbnb requires a `busy_subtype` whenever `availability` is `\"unavailable\"`.
+    If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
+    `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
+
+    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
+    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
+    Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
+    airbnb_error` — Airbnb outage or timeout; retry.
+
+    Args:
+        id (str):
+        body (AirbnbPricingWriteRequest): Body for `PUT
+            /v1/channels/airbnb/listings/{id}/pricing`. The `type` discriminator selects the pricing
+            sub-resource. `type: "calendar"` shares the same per-date restriction shape as the
+            availability endpoint (min/max nights, closed-to-arrival/departure, stop-sell via
+            `availability: "unavailable"`).
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Any | Error
+     """
+
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+body=body,
+
+    )).parsed

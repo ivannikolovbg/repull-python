@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -114,6 +121,9 @@ def sync_detailed(
     Cross-tenant access (a listing that belongs to a different workspace) returns 404 — never 403. This
     endpoint is served even when the account is over the plan-listings cap, since editing content on a
     listing you already own never grows the portfolio.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -172,6 +182,9 @@ def sync(
     endpoint is served even when the account is over the plan-listings cap, since editing content on a
     listing you already own never grows the portfolio.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingContentUpdateRequest): Canonical PMS-owned listing content. Every field is
@@ -223,6 +236,9 @@ async def asyncio_detailed(
     Cross-tenant access (a listing that belongs to a different workspace) returns 404 — never 403. This
     endpoint is served even when the account is over the plan-listings cap, since editing content on a
     listing you already own never grows the portfolio.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -280,6 +296,9 @@ async def asyncio(
     Cross-tenant access (a listing that belongs to a different workspace) returns 404 — never 403. This
     endpoint is served even when the account is over the plan-listings cap, since editing content on a
     listing you already own never grows the portfolio.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

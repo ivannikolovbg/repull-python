@@ -50,6 +50,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         response_200 = cast(Any, None)
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -94,6 +101,9 @@ def sync_detailed(
     field, ignoring dirty-field tracking.
 
     Any other action (e.g. `pull`, `unlist`) returns a structured 422 naming the supported actions.
+
+    Returns `403 listing_inactive` for `push`/`publish` when the listing is inactive. `delete`
+    (deactivation) is always accepted.
 
     Args:
         id (str):
@@ -144,6 +154,9 @@ def sync(
 
     Any other action (e.g. `pull`, `unlist`) returns a structured 422 naming the supported actions.
 
+    Returns `403 listing_inactive` for `push`/`publish` when the listing is inactive. `delete`
+    (deactivation) is always accepted.
+
     Args:
         id (str):
         body (AirbnbListingActionRequest | Unset): Body for `POST
@@ -187,6 +200,9 @@ async def asyncio_detailed(
     field, ignoring dirty-field tracking.
 
     Any other action (e.g. `pull`, `unlist`) returns a structured 422 naming the supported actions.
+
+    Returns `403 listing_inactive` for `push`/`publish` when the listing is inactive. `delete`
+    (deactivation) is always accepted.
 
     Args:
         id (str):
@@ -236,6 +252,9 @@ async def asyncio(
     field, ignoring dirty-field tracking.
 
     Any other action (e.g. `pull`, `unlist`) returns a structured 422 naming the supported actions.
+
+    Returns `403 listing_inactive` for `push`/`publish` when the listing is inactive. `delete`
+    (deactivation) is always accepted.
 
     Args:
         id (str):

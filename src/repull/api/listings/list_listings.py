@@ -22,7 +22,7 @@ def _get_kwargs(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
-    status: ListListingsStatus | Unset = UNSET,
+    status: ListListingsStatus | Unset = ListListingsStatus.ACTIVE,
     channel: str | Unset = UNSET,
     include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
@@ -116,7 +116,7 @@ def sync_detailed(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
-    status: ListListingsStatus | Unset = UNSET,
+    status: ListListingsStatus | Unset = ListListingsStatus.ACTIVE,
     channel: str | Unset = UNSET,
     include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
@@ -138,12 +138,17 @@ def sync_detailed(
     (which signals the expansion was not requested). Combine comma-separated, e.g.
     `?include=content,details`. The default response stays lean; consumers must opt in.
 
+    **Inactive listings:** by default only active listings are returned. An inactive listing keeps
+    syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
+    for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
-        status (ListListingsStatus | Unset):
+        status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
         include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
@@ -182,7 +187,7 @@ def sync(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
-    status: ListListingsStatus | Unset = UNSET,
+    status: ListListingsStatus | Unset = ListListingsStatus.ACTIVE,
     channel: str | Unset = UNSET,
     include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
@@ -204,12 +209,17 @@ def sync(
     (which signals the expansion was not requested). Combine comma-separated, e.g.
     `?include=content,details`. The default response stays lean; consumers must opt in.
 
+    **Inactive listings:** by default only active listings are returned. An inactive listing keeps
+    syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
+    for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
-        status (ListListingsStatus | Unset):
+        status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
         include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
@@ -243,7 +253,7 @@ async def asyncio_detailed(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
-    status: ListListingsStatus | Unset = UNSET,
+    status: ListListingsStatus | Unset = ListListingsStatus.ACTIVE,
     channel: str | Unset = UNSET,
     include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
@@ -265,12 +275,17 @@ async def asyncio_detailed(
     (which signals the expansion was not requested). Combine comma-separated, e.g.
     `?include=content,details`. The default response stays lean; consumers must opt in.
 
+    **Inactive listings:** by default only active listings are returned. An inactive listing keeps
+    syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
+    for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
-        status (ListListingsStatus | Unset):
+        status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
         include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.
@@ -309,7 +324,7 @@ async def asyncio(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     q: str | Unset = UNSET,
-    status: ListListingsStatus | Unset = UNSET,
+    status: ListListingsStatus | Unset = ListListingsStatus.ACTIVE,
     channel: str | Unset = UNSET,
     include: str | Unset = UNSET,
     x_schema: str | Unset = UNSET,
@@ -331,12 +346,17 @@ async def asyncio(
     (which signals the expansion was not requested). Combine comma-separated, e.g.
     `?include=content,details`. The default response stays lean; consumers must opt in.
 
+    **Inactive listings:** by default only active listings are returned. An inactive listing keeps
+    syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
+    for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
+    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         q (str | Unset):
-        status (ListListingsStatus | Unset):
+        status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
         include (str | Unset):  Example: content,details.
         x_schema (str | Unset):  Example: my-app-schema.

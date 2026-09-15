@@ -57,6 +57,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -103,6 +110,9 @@ def sync_detailed(
     Per-property *different* values are separate calls — presenting them as one request would be a false
     claim about atomicity.
 
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
+
     Args:
         body (AvailabilityBatchWriteRequest):
 
@@ -143,6 +153,9 @@ def sync(
     Per-property *different* values are separate calls — presenting them as one request would be a false
     claim about atomicity.
 
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
+
     Args:
         body (AvailabilityBatchWriteRequest):
 
@@ -177,6 +190,9 @@ async def asyncio_detailed(
 
     Per-property *different* values are separate calls — presenting them as one request would be a false
     claim about atomicity.
+
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
 
     Args:
         body (AvailabilityBatchWriteRequest):
@@ -217,6 +233,9 @@ async def asyncio(
 
     Per-property *different* values are separate calls — presenting them as one request would be a false
     claim about atomicity.
+
+    Returns `403 listing_inactive` naming every inactive listing when any listing in the request is
+    inactive; nothing is written.
 
     Args:
         body (AvailabilityBatchWriteRequest):

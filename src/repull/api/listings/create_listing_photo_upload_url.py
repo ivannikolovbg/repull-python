@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -106,6 +113,9 @@ def sync_detailed(
     is the durable URL for the uploaded photo — attach it to the listing via `PUT
     /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingPhotoUploadUrlRequest):
@@ -150,6 +160,9 @@ def sync(
     is the durable URL for the uploaded photo — attach it to the listing via `PUT
     /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingPhotoUploadUrlRequest):
@@ -188,6 +201,9 @@ async def asyncio_detailed(
     publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3) `publicUrl`
     is the durable URL for the uploaded photo — attach it to the listing via `PUT
     /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -232,6 +248,9 @@ async def asyncio(
     publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3) `publicUrl`
     is the durable URL for the uploaded photo — attach it to the listing via `PUT
     /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.booking_conversation import BookingConversation
+from ...models.error import Error
 from typing import cast
 
 
@@ -32,7 +33,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> list[BookingConversation] | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | list[BookingConversation] | None:
     if response.status_code == 200:
         response_200 = []
         _response_200 = response.json()
@@ -45,13 +46,27 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[list[BookingConversation]]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | list[BookingConversation]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -64,17 +79,24 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[list[BookingConversation]]:
+) -> Response[Error | list[BookingConversation]]:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
+
+    Scoped to this workspace. With `property_id`, the property must be connected to this workspace — any
+    other id returns `404 not_found`. Without it, only messages for this workspace's own Booking.com
+    properties are returned.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[BookingConversation]]
+        Response[Error | list[BookingConversation]]
      """
 
 
@@ -92,17 +114,24 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> list[BookingConversation] | None:
+) -> Error | list[BookingConversation] | None:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
+
+    Scoped to this workspace. With `property_id`, the property must be connected to this workspace — any
+    other id returns `404 not_found`. Without it, only messages for this workspace's own Booking.com
+    properties are returned.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[BookingConversation]
+        Error | list[BookingConversation]
      """
 
 
@@ -115,17 +144,24 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[list[BookingConversation]]:
+) -> Response[Error | list[BookingConversation]]:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
+
+    Scoped to this workspace. With `property_id`, the property must be connected to this workspace — any
+    other id returns `404 not_found`. Without it, only messages for this workspace's own Booking.com
+    properties are returned.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[list[BookingConversation]]
+        Response[Error | list[BookingConversation]]
      """
 
 
@@ -143,17 +179,24 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> list[BookingConversation] | None:
+) -> Error | list[BookingConversation] | None:
     """ List Booking.com conversations
 
      List Booking.com guest conversations. Cursor-paginated. Use the messaging POST to send a reply.
+
+    Scoped to this workspace. With `property_id`, the property must be connected to this workspace — any
+    other id returns `404 not_found`. Without it, only messages for this workspace's own Booking.com
+    properties are returned.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        list[BookingConversation]
+        Error | list[BookingConversation]
      """
 
 

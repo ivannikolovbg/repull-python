@@ -70,6 +70,9 @@ def sync_detailed(
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
     iCal/HTTP feeds.
 
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -99,6 +102,9 @@ def sync(
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
     iCal/HTTP feeds.
 
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -122,6 +128,9 @@ async def asyncio_detailed(
 
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
     iCal/HTTP feeds.
+
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -151,6 +160,9 @@ async def asyncio(
 
      List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
     iCal/HTTP feeds.
+
+    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
+    /v1/listings?status=inactive` to find them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

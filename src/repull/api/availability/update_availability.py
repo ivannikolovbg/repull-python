@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -99,6 +106,9 @@ def sync_detailed(
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         property_id (int):
         body (AvailabilityWriteRequest):
@@ -136,6 +146,9 @@ def sync(
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         property_id (int):
         body (AvailabilityWriteRequest):
@@ -167,6 +180,9 @@ async def asyncio_detailed(
 
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         property_id (int):
@@ -204,6 +220,9 @@ async def asyncio(
 
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         property_id (int):

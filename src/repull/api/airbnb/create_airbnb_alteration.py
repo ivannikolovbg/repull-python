@@ -53,6 +53,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -94,6 +101,9 @@ def sync_detailed(
     side** — calls Airbnb upstream. Requires a connected Airbnb host for the workspace, else `404
     no_connection`.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         body (CreateAirbnbAlterationBody):
 
@@ -129,6 +139,9 @@ def sync(
     side** — calls Airbnb upstream. Requires a connected Airbnb host for the workspace, else `404
     no_connection`.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         body (CreateAirbnbAlterationBody):
 
@@ -158,6 +171,9 @@ async def asyncio_detailed(
      Create a reservation alteration request (change dates, guest count, or price) on Airbnb. **Write-
     side** — calls Airbnb upstream. Requires a connected Airbnb host for the workspace, else `404
     no_connection`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         body (CreateAirbnbAlterationBody):
@@ -193,6 +209,9 @@ async def asyncio(
      Create a reservation alteration request (change dates, guest count, or price) on Airbnb. **Write-
     side** — calls Airbnb upstream. Requires a connected Airbnb host for the workspace, else `404
     no_connection`.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         body (CreateAirbnbAlterationBody):

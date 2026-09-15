@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -119,6 +126,9 @@ def sync_detailed(
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         property_id (int):
         from_ (datetime.date):
@@ -178,6 +188,9 @@ def sync(
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         property_id (int):
         from_ (datetime.date):
@@ -231,6 +244,9 @@ async def asyncio_detailed(
     /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         property_id (int):
@@ -290,6 +306,9 @@ async def asyncio(
     /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
     /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
     (Booking.com).
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         property_id (int):

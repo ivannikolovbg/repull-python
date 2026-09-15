@@ -116,6 +116,8 @@ def sync_detailed(
 
     Idempotent: setting a listing to the state it's already in returns 200.
 
+    To change many listings at once, all or nothing, use `POST /v1/listings/status`.
+
     Args:
         id (int):
         body (ListingActiveRequest):
@@ -163,6 +165,8 @@ def sync(
 
     Idempotent: setting a listing to the state it's already in returns 200.
 
+    To change many listings at once, all or nothing, use `POST /v1/listings/status`.
+
     Args:
         id (int):
         body (ListingActiveRequest):
@@ -204,6 +208,8 @@ async def asyncio_detailed(
     Deactivate another listing or upgrade first.
 
     Idempotent: setting a listing to the state it's already in returns 200.
+
+    To change many listings at once, all or nothing, use `POST /v1/listings/status`.
 
     Args:
         id (int):
@@ -251,6 +257,8 @@ async def asyncio(
     Deactivate another listing or upgrade first.
 
     Idempotent: setting a listing to the state it's already in returns 200.
+
+    To change many listings at once, all or nothing, use `POST /v1/listings/status`.
 
     Args:
         id (int):

@@ -23,15 +23,22 @@ T = TypeVar("T", bound="BookingRoomMapping")
 @_attrs_define
 class BookingRoomMapping:
     """ A single room→listing assignment. Pass `listingId: null` to explicitly UNMAP a room (e.g. "skip this room for now")
-    — this also removes the corresponding `listing_platform_links` row.
+    — this also removes the corresponding `listing_platform_links` row. Pass `create: true` instead of a `listingId` to
+    have a listing created for the room, which is what a customer onboarding from Booking.com first needs, since they
+    have no listings to map to yet.
 
         Attributes:
             room_id (str): Repull-side `listings_booking_rooms.id` from `listConnectBookingRooms`.
-            listing_id (None | str | Unset): Repull listing to bind to this room. `null` to unmap.
+            listing_id (None | str | Unset): Repull listing to bind to this room. `null` to unmap. Omit when `create` is
+                true.
+            create (bool | Unset): Create a new listing for this room and map it, instead of binding an existing one.
+                Mutually exclusive with `listingId` — sending both is rejected with 400 rather than silently resolved.
+                Idempotent: a room that is already mapped keeps its existing listing and no duplicate is created.
      """
 
     room_id: str
     listing_id: None | str | Unset = UNSET
+    create: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -47,6 +54,8 @@ class BookingRoomMapping:
         else:
             listing_id = self.listing_id
 
+        create = self.create
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -55,6 +64,8 @@ class BookingRoomMapping:
         })
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
+        if create is not UNSET:
+            field_dict["create"] = create
 
         return field_dict
 
@@ -75,9 +86,12 @@ class BookingRoomMapping:
         listing_id = _parse_listing_id(d.pop("listingId", UNSET))
 
 
+        create = d.pop("create", UNSET)
+
         booking_room_mapping = cls(
             room_id=room_id,
             listing_id=listing_id,
+            create=create,
         )
 
 

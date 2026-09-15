@@ -57,6 +57,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -107,6 +114,9 @@ def sync_detailed(
     for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
     never differentiates the two so caller can't enumerate other workspaces' ids.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -146,6 +156,9 @@ def sync(
     for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
     never differentiates the two so caller can't enumerate other workspaces' ids.
 
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -179,6 +192,9 @@ async def asyncio_detailed(
     shape is identical to a single row in `GET /v1/reservations` so SDK consumers can use the same type
     for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
     never differentiates the two so caller can't enumerate other workspaces' ids.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -218,6 +234,9 @@ async def asyncio(
     shape is identical to a single row in `GET /v1/reservations` so SDK consumers can use the same type
     for both. Returns **404** if the id does not exist OR belongs to a different workspace — the API
     never differentiates the two so caller can't enumerate other workspaces' ids.
+
+    Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
+    keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

@@ -110,6 +110,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -166,6 +173,10 @@ def sync_detailed(
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
+
+    **Inactive listings:** reviews of inactive listings are left out of the page and of
+    `pagination.total`. Filtering by an inactive `listing_id` returns `403 listing_inactive`. Inactive
+    listings keep syncing; activate the listing to use it here.
 
     Args:
         cursor (str | Unset):
@@ -236,6 +247,10 @@ def sync(
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
 
+    **Inactive listings:** reviews of inactive listings are left out of the page and of
+    `pagination.total`. Filtering by an inactive `listing_id` returns `403 listing_inactive`. Inactive
+    listings keep syncing; activate the listing to use it here.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -299,6 +314,10 @@ async def asyncio_detailed(
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
+
+    **Inactive listings:** reviews of inactive listings are left out of the page and of
+    `pagination.total`. Filtering by an inactive `listing_id` returns `403 listing_inactive`. Inactive
+    listings keep syncing; activate the listing to use it here.
 
     Args:
         cursor (str | Unset):
@@ -368,6 +387,10 @@ async def asyncio(
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
+
+    **Inactive listings:** reviews of inactive listings are left out of the page and of
+    `pagination.total`. Filtering by an inactive `listing_id` returns `403 listing_inactive`. Inactive
+    listings keep syncing; activate the listing to use it here.
 
     Args:
         cursor (str | Unset):

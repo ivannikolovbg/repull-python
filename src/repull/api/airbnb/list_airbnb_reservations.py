@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.airbnb_reservation_list_response import AirbnbReservationListResponse
+from ...models.error import Error
 from ...models.list_airbnb_reservations_status import ListAirbnbReservationsStatus
 from ...types import UNSET, Unset
 from dateutil.parser import isoparse
@@ -76,7 +77,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReservationListResponse | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReservationListResponse | Error | None:
     if response.status_code == 200:
         response_200 = AirbnbReservationListResponse.from_dict(response.json())
 
@@ -84,13 +85,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReservationListResponse]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReservationListResponse | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -111,15 +119,15 @@ def sync_detailed(
     end_date: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
 
-) -> Response[AirbnbReservationListResponse]:
+) -> Response[AirbnbReservationListResponse | Error]:
     r""" List Airbnb reservations
 
      Cursor-paginated list of reservations sourced directly from Airbnb. Use this when you need Airbnb-
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
 
-    Walk pages with `?cursor=<pagination.next_cursor>` until `pagination.has_more` is `false`. The
-    cursor is opaque — never construct or parse it client-side.
+    Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
+    is opaque — never construct or parse it client-side.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. Internally this walks upstream Airbnb cursor
@@ -128,6 +136,10 @@ def sync_detailed(
 
     When `status` is omitted, all statuses are returned (Airbnb defaults to `accepted` only on its own
     surface, but this endpoint normalises to \"all\"). Pass `?status=accepted` to scope.
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
 
     Args:
         cursor (str | Unset):
@@ -144,7 +156,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReservationListResponse]
+        Response[AirbnbReservationListResponse | Error]
      """
 
 
@@ -178,15 +190,15 @@ def sync(
     end_date: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
 
-) -> AirbnbReservationListResponse | None:
+) -> AirbnbReservationListResponse | Error | None:
     r""" List Airbnb reservations
 
      Cursor-paginated list of reservations sourced directly from Airbnb. Use this when you need Airbnb-
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
 
-    Walk pages with `?cursor=<pagination.next_cursor>` until `pagination.has_more` is `false`. The
-    cursor is opaque — never construct or parse it client-side.
+    Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
+    is opaque — never construct or parse it client-side.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. Internally this walks upstream Airbnb cursor
@@ -195,6 +207,10 @@ def sync(
 
     When `status` is omitted, all statuses are returned (Airbnb defaults to `accepted` only on its own
     surface, but this endpoint normalises to \"all\"). Pass `?status=accepted` to scope.
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
 
     Args:
         cursor (str | Unset):
@@ -211,7 +227,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReservationListResponse
+        AirbnbReservationListResponse | Error
      """
 
 
@@ -240,15 +256,15 @@ async def asyncio_detailed(
     end_date: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
 
-) -> Response[AirbnbReservationListResponse]:
+) -> Response[AirbnbReservationListResponse | Error]:
     r""" List Airbnb reservations
 
      Cursor-paginated list of reservations sourced directly from Airbnb. Use this when you need Airbnb-
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
 
-    Walk pages with `?cursor=<pagination.next_cursor>` until `pagination.has_more` is `false`. The
-    cursor is opaque — never construct or parse it client-side.
+    Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
+    is opaque — never construct or parse it client-side.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. Internally this walks upstream Airbnb cursor
@@ -257,6 +273,10 @@ async def asyncio_detailed(
 
     When `status` is omitted, all statuses are returned (Airbnb defaults to `accepted` only on its own
     surface, but this endpoint normalises to \"all\"). Pass `?status=accepted` to scope.
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
 
     Args:
         cursor (str | Unset):
@@ -273,7 +293,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReservationListResponse]
+        Response[AirbnbReservationListResponse | Error]
      """
 
 
@@ -307,15 +327,15 @@ async def asyncio(
     end_date: datetime.date | Unset = UNSET,
     include_total: bool | Unset = True,
 
-) -> AirbnbReservationListResponse | None:
+) -> AirbnbReservationListResponse | Error | None:
     r""" List Airbnb reservations
 
      Cursor-paginated list of reservations sourced directly from Airbnb. Use this when you need Airbnb-
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
 
-    Walk pages with `?cursor=<pagination.next_cursor>` until `pagination.has_more` is `false`. The
-    cursor is opaque — never construct or parse it client-side.
+    Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
+    is opaque — never construct or parse it client-side.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`. Internally this walks upstream Airbnb cursor
@@ -324,6 +344,10 @@ async def asyncio(
 
     When `status` is omitted, all statuses are returned (Airbnb defaults to `accepted` only on its own
     surface, but this endpoint normalises to \"all\"). Pass `?status=accepted` to scope.
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
 
     Args:
         cursor (str | Unset):
@@ -340,7 +364,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReservationListResponse
+        AirbnbReservationListResponse | Error
      """
 
 

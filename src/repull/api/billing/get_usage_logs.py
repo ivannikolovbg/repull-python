@@ -135,7 +135,7 @@ def sync_detailed(
 
      Cursor-paginated raw API request log for the authenticated workspace, newest first. Filter by time
     `range`, `operation` id(s), status class, or free-text `q`. Walk pages with `cursor` from
-    `pagination.next_cursor` until `pagination.has_more` is `false`; `offset` is accepted as a shallow
+    `pagination.nextCursor` until `pagination.hasMore` is `false`; `offset` is accepted as a shallow
     alias (deep walks must use `cursor`).
 
     Args:
@@ -192,7 +192,7 @@ def sync(
 
      Cursor-paginated raw API request log for the authenticated workspace, newest first. Filter by time
     `range`, `operation` id(s), status class, or free-text `q`. Walk pages with `cursor` from
-    `pagination.next_cursor` until `pagination.has_more` is `false`; `offset` is accepted as a shallow
+    `pagination.nextCursor` until `pagination.hasMore` is `false`; `offset` is accepted as a shallow
     alias (deep walks must use `cursor`).
 
     Args:
@@ -244,7 +244,7 @@ async def asyncio_detailed(
 
      Cursor-paginated raw API request log for the authenticated workspace, newest first. Filter by time
     `range`, `operation` id(s), status class, or free-text `q`. Walk pages with `cursor` from
-    `pagination.next_cursor` until `pagination.has_more` is `false`; `offset` is accepted as a shallow
+    `pagination.nextCursor` until `pagination.hasMore` is `false`; `offset` is accepted as a shallow
     alias (deep walks must use `cursor`).
 
     Args:
@@ -301,7 +301,7 @@ async def asyncio(
 
      Cursor-paginated raw API request log for the authenticated workspace, newest first. Filter by time
     `range`, `operation` id(s), status class, or free-text `q`. Walk pages with `cursor` from
-    `pagination.next_cursor` until `pagination.has_more` is `false`; `offset` is accepted as a shallow
+    `pagination.nextCursor` until `pagination.hasMore` is `false`; `offset` is accepted as a shallow
     alias (deep walks must use `cursor`).
 
     Args:

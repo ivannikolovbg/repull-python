@@ -8,6 +8,8 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
+from typing import cast
 
 
 
@@ -30,9 +32,24 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
     if response.status_code == 200:
-        return None
+        response_200 = cast(Any, None)
+        return response_200
+
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -40,7 +57,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,18 +70,25 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any]:
+) -> Response[Any | Error]:
     """ Update Booking.com content
 
      Push content changes (descriptions, amenities, photos) to Booking.com. Booking enforces editorial
     review on text fields — changes appear after their content moderation queue clears.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Response[Any | Error]
      """
 
 
@@ -78,23 +102,60 @@ def sync_detailed(
 
     return _build_response(client=client, response=response)
 
-
-async def asyncio_detailed(
+def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[Any]:
+) -> Any | Error | None:
     """ Update Booking.com content
 
      Push content changes (descriptions, amenities, photos) to Booking.com. Booking enforces editorial
     review on text fields — changes appear after their content moderation queue clears.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any]
+        Any | Error
+     """
+
+
+    return sync_detailed(
+        client=client,
+
+    ).parsed
+
+async def asyncio_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+
+) -> Response[Any | Error]:
+    """ Update Booking.com content
+
+     Push content changes (descriptions, amenities, photos) to Booking.com. Booking enforces editorial
+    review on text fields — changes appear after their content moderation queue clears.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any | Error]
      """
 
 
@@ -108,3 +169,33 @@ async def asyncio_detailed(
 
     return _build_response(client=client, response=response)
 
+async def asyncio(
+    *,
+    client: AuthenticatedClient | Client,
+
+) -> Any | Error | None:
+    """ Update Booking.com content
+
+     Push content changes (descriptions, amenities, photos) to Booking.com. Booking enforces editorial
+    review on text fields — changes appear after their content moderation queue clears.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Any | Error
+     """
+
+
+    return (await asyncio_detailed(
+        client=client,
+
+    )).parsed

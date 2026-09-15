@@ -16,6 +16,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.connect_host import ConnectHost
+  from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
 
 
 
@@ -39,6 +40,9 @@ class ConnectStatus:
             created_at (datetime.datetime | Unset):
             host (ConnectHost | None | Unset): Host metadata, populated for Airbnb when the host row exists. Null for other
                 providers (per-provider enrichment is incremental).
+            accounts (list[ConnectStatusAccountsItem] | Unset): Airbnb only: every Airbnb account this workspace has
+                connected, including ones since disconnected. Pass `externalAccountId` as `accountId` to `DELETE
+                /v1/connect/airbnb` to disconnect one account.
      """
 
     connected: bool | Unset = UNSET
@@ -48,6 +52,7 @@ class ConnectStatus:
     external_account_id: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     host: ConnectHost | None | Unset = UNSET
+    accounts: list[ConnectStatusAccountsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -56,6 +61,7 @@ class ConnectStatus:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.connect_host import ConnectHost
+        from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
         connected = self.connected
 
         provider = self.provider
@@ -85,6 +91,15 @@ class ConnectStatus:
         else:
             host = self.host
 
+        accounts: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.accounts, Unset):
+            accounts = []
+            for accounts_item_data in self.accounts:
+                accounts_item = accounts_item_data.to_dict()
+                accounts.append(accounts_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -104,6 +119,8 @@ class ConnectStatus:
             field_dict["createdAt"] = created_at
         if host is not UNSET:
             field_dict["host"] = host
+        if accounts is not UNSET:
+            field_dict["accounts"] = accounts
 
         return field_dict
 
@@ -112,6 +129,7 @@ class ConnectStatus:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.connect_host import ConnectHost
+        from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
         d = dict(src_dict)
         connected = d.pop("connected", UNSET)
 
@@ -169,6 +187,18 @@ class ConnectStatus:
         host = _parse_host(d.pop("host", UNSET))
 
 
+        _accounts = d.pop("accounts", UNSET)
+        accounts: list[ConnectStatusAccountsItem] | Unset = UNSET
+        if _accounts is not UNSET:
+            accounts = []
+            for accounts_item_data in _accounts:
+                accounts_item = ConnectStatusAccountsItem.from_dict(accounts_item_data)
+
+
+
+                accounts.append(accounts_item)
+
+
         connect_status = cls(
             connected=connected,
             provider=provider,
@@ -177,6 +207,7 @@ class ConnectStatus:
             external_account_id=external_account_id,
             created_at=created_at,
             host=host,
+            accounts=accounts,
         )
 
 

@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
+from ...models.error import Error
 from ...models.listing_pricing_strategy_input import ListingPricingStrategyInput
 from ...models.update_listing_pricing_strategy_response_200 import UpdateListingPricingStrategyResponse200
 from typing import cast
@@ -42,7 +43,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> UpdateListingPricingStrategyResponse200 | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | UpdateListingPricingStrategyResponse200 | None:
     if response.status_code == 200:
         response_200 = UpdateListingPricingStrategyResponse200.from_dict(response.json())
 
@@ -50,13 +51,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[UpdateListingPricingStrategyResponse200]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | UpdateListingPricingStrategyResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,11 +79,14 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: ListingPricingStrategyInput,
 
-) -> Response[UpdateListingPricingStrategyResponse200]:
+) -> Response[Error | UpdateListingPricingStrategyResponse200]:
     """ Update pricing strategy
 
      Upserts the strategy on `(listing_id, customer_id)` — repeated PUTs are idempotent. Send only the
     fields you want to change; omitted fields take server-side defaults.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -87,7 +98,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UpdateListingPricingStrategyResponse200]
+        Response[Error | UpdateListingPricingStrategyResponse200]
      """
 
 
@@ -109,11 +120,14 @@ def sync(
     client: AuthenticatedClient | Client,
     body: ListingPricingStrategyInput,
 
-) -> UpdateListingPricingStrategyResponse200 | None:
+) -> Error | UpdateListingPricingStrategyResponse200 | None:
     """ Update pricing strategy
 
      Upserts the strategy on `(listing_id, customer_id)` — repeated PUTs are idempotent. Send only the
     fields you want to change; omitted fields take server-side defaults.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -125,7 +139,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UpdateListingPricingStrategyResponse200
+        Error | UpdateListingPricingStrategyResponse200
      """
 
 
@@ -142,11 +156,14 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: ListingPricingStrategyInput,
 
-) -> Response[UpdateListingPricingStrategyResponse200]:
+) -> Response[Error | UpdateListingPricingStrategyResponse200]:
     """ Update pricing strategy
 
      Upserts the strategy on `(listing_id, customer_id)` — repeated PUTs are idempotent. Send only the
     fields you want to change; omitted fields take server-side defaults.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -158,7 +175,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UpdateListingPricingStrategyResponse200]
+        Response[Error | UpdateListingPricingStrategyResponse200]
      """
 
 
@@ -180,11 +197,14 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: ListingPricingStrategyInput,
 
-) -> UpdateListingPricingStrategyResponse200 | None:
+) -> Error | UpdateListingPricingStrategyResponse200 | None:
     """ Update pricing strategy
 
      Upserts the strategy on `(listing_id, customer_id)` — repeated PUTs are idempotent. Send only the
     fields you want to change; omitted fields take server-side defaults.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -196,7 +216,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UpdateListingPricingStrategyResponse200
+        Error | UpdateListingPricingStrategyResponse200
      """
 
 

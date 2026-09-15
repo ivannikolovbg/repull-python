@@ -63,6 +63,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -138,6 +145,9 @@ def sync_detailed(
     **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
     `GET /v1/availability/{propertyId}` first if that matters.
 
+    Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
+    move targets one; nothing is changed.
+
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
@@ -206,6 +216,9 @@ def sync(
     **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
     `GET /v1/availability/{propertyId}` first if that matters.
 
+    Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
+    move targets one; nothing is changed.
+
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
@@ -268,6 +281,9 @@ async def asyncio_detailed(
 
     **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
     `GET /v1/availability/{propertyId}` first if that matters.
+
+    Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
+    move targets one; nothing is changed.
 
     Args:
         id (int):
@@ -336,6 +352,9 @@ async def asyncio(
 
     **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
     `GET /v1/availability/{propertyId}` first if that matters.
+
+    Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
+    move targets one; nothing is changed.
 
     Args:
         id (int):

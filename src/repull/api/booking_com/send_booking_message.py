@@ -60,6 +60,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -100,6 +107,13 @@ def sync_detailed(
      Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
     Airbnb.
 
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         body (SendBookingMessageBody):
 
@@ -134,6 +148,13 @@ def sync(
      Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
     Airbnb.
 
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+
     Args:
         body (SendBookingMessageBody):
 
@@ -162,6 +183,13 @@ async def asyncio_detailed(
 
      Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
     Airbnb.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         body (SendBookingMessageBody):
@@ -196,6 +224,13 @@ async def asyncio(
 
      Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
     Airbnb.
+
+    `property_id` must be a Booking.com property connected to this workspace (`GET
+    /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
+    workspace — returns `404 not_found`, the same answer as an id that does not exist.
+
+    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
+    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
 
     Args:
         body (SendBookingMessageBody):

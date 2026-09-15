@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.booking_verify_hotel_response_missing_capabilities_item import BookingVerifyHotelResponseMissingCapabilitiesItem
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -34,6 +35,11 @@ class BookingVerifyHotelResponse:
             hotel_type (None | str | Unset): Booking.com hotel/property type code (e.g. `apartment`, `hotel`).
             country (None | str | Unset):
             city (None | str | Unset):
+            missing_capabilities (list[BookingVerifyHotelResponseMissingCapabilitiesItem] | Unset): Capabilities Booking.com
+                explicitly refused for this property (HTTP 401/403), usually empty. `content` means the connection is live and
+                syncs reservations, rates and messages normally, but the Content API was never granted, so the property name,
+                rooms and photos cannot be read from Booking.com and are substituted. A capability whose probe failed for any
+                other reason is omitted rather than listed here.
      """
 
     valid: bool
@@ -44,6 +50,7 @@ class BookingVerifyHotelResponse:
     hotel_type: None | str | Unset = UNSET
     country: None | str | Unset = UNSET
     city: None | str | Unset = UNSET
+    missing_capabilities: list[BookingVerifyHotelResponseMissingCapabilitiesItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -83,6 +90,15 @@ class BookingVerifyHotelResponse:
         else:
             city = self.city
 
+        missing_capabilities: list[str] | Unset = UNSET
+        if not isinstance(self.missing_capabilities, Unset):
+            missing_capabilities = []
+            for missing_capabilities_item_data in self.missing_capabilities:
+                missing_capabilities_item = missing_capabilities_item_data.value
+                missing_capabilities.append(missing_capabilities_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -100,6 +116,8 @@ class BookingVerifyHotelResponse:
             field_dict["country"] = country
         if city is not UNSET:
             field_dict["city"] = city
+        if missing_capabilities is not UNSET:
+            field_dict["missingCapabilities"] = missing_capabilities
 
         return field_dict
 
@@ -156,6 +174,18 @@ class BookingVerifyHotelResponse:
         city = _parse_city(d.pop("city", UNSET))
 
 
+        _missing_capabilities = d.pop("missingCapabilities", UNSET)
+        missing_capabilities: list[BookingVerifyHotelResponseMissingCapabilitiesItem] | Unset = UNSET
+        if _missing_capabilities is not UNSET:
+            missing_capabilities = []
+            for missing_capabilities_item_data in _missing_capabilities:
+                missing_capabilities_item = BookingVerifyHotelResponseMissingCapabilitiesItem(missing_capabilities_item_data)
+
+
+
+                missing_capabilities.append(missing_capabilities_item)
+
+
         booking_verify_hotel_response = cls(
             valid=valid,
             session_id=session_id,
@@ -165,6 +195,7 @@ class BookingVerifyHotelResponse:
             hotel_type=hotel_type,
             country=country,
             city=city,
+            missing_capabilities=missing_capabilities,
         )
 
 

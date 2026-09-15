@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_400
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -85,6 +92,9 @@ def sync_detailed(
      Apply: writes the recommended price to the listing's calendar for the given dates and triggers the
     platform fan-out (Airbnb / Booking.com / VRBO). Decline: marks the recommendation as `declined` so
     it stops surfacing — the model can re-recommend on the next training cycle.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -124,6 +134,9 @@ def sync(
     platform fan-out (Airbnb / Booking.com / VRBO). Decline: marks the recommendation as `declined` so
     it stops surfacing — the model can re-recommend on the next training cycle.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         body (ListingPricingApplyRequest):
@@ -156,6 +169,9 @@ async def asyncio_detailed(
      Apply: writes the recommended price to the listing's calendar for the given dates and triggers the
     platform fan-out (Airbnb / Booking.com / VRBO). Decline: marks the recommendation as `declined` so
     it stops surfacing — the model can re-recommend on the next training cycle.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -194,6 +210,9 @@ async def asyncio(
      Apply: writes the recommended price to the listing's calendar for the given dates and triggers the
     platform fan-out (Airbnb / Booking.com / VRBO). Decline: marks the recommendation as `declined` so
     it stops surfacing — the model can re-recommend on the next training cycle.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

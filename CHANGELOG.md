@@ -5,6 +5,45 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.14] - 2026-09-15
+
+Regenerated against the live `https://api.repull.dev/openapi.json`
+(174 → 175 operations).
+
+### Added
+- `POST /v1/listings/status` (`set_listings_status`) —
+  `repull.api.listings.set_listings_status`. Activate or deactivate up to 500
+  listings in one all-or-nothing call. New models `ListingStatusBatchRequest`
+  (`listing_ids`, `active`) and `ListingStatusBatchResponse`
+  (`active`, `updated`, `unchanged`).
+- `DELETE /v1/connect/{provider}` (`delete_connection`) gains an optional
+  `account_id` argument (sent as the `accountId` query param) — required when a
+  workspace has more than one account for the provider — and a typed response,
+  `DeleteConnectionResponse200` (`disconnected`, `provider`, `account_id`,
+  `listings_deactivated`). The account's listings are deactivated, not deleted.
+- `ConnectStatus.accounts` (`ConnectStatusAccountsItem`) on
+  `GET /v1/connect/{provider}` — every Airbnb account the workspace has connected.
+- New `403 listing_inactive` error response, declared on 83 operations.
+- Airbnb calendar operations gain `busy_subtype`
+  (`AirbnbCalendarOperationBusySubtype`); `AirbnbPricingWriteRequest.model_type`
+  is now an enum.
+
+### Changed
+- Lists default to active listings: `GET /v1/listings` accepts
+  `status=active|inactive|archived|all` and `GET /v1/properties` accepts
+  `status=active|inactive|all`. Inactive rows carry identity fields only, and
+  reading or writing an inactive listing returns `403 listing_inactive`.
+- Airbnb calendar writes (`PUT .../pricing`, `PUT .../availability`) validate
+  more strictly (unknown fields such as `price` are refused with
+  `422 invalid_params`) and declare new errors: `422 airbnb_rejected`,
+  `403 connection_reauth_required`, `429 airbnb_rate_limited`.
+- Sending `accessType` to `POST /v1/connect/airbnb` now locks the consent
+  screen to that tier; omit it to let the host choose.
+
+### Deprecated
+- Booking.com webhooks endpoints (`GET`/`POST`/`DELETE
+  /v1/channels/booking/webhooks`) are deprecated and always return `403`.
+
 ## [0.2.13] - 2026-09-11
 
 ### Fixed

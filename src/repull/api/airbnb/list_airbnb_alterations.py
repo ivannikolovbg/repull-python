@@ -66,6 +66,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
 
@@ -104,6 +111,9 @@ def sync_detailed(
     Default returns only pending alterations; pass `?type=all` for the full history. Filter to a single
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
+
+    Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
+    inactive listing (`reservation_code`) returns `403 listing_inactive`.
 
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
@@ -147,6 +157,9 @@ def sync(
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
 
+    Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
+    inactive listing (`reservation_code`) returns `403 listing_inactive`.
+
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
         reservation_code (str | Unset):
@@ -183,6 +196,9 @@ async def asyncio_detailed(
     Default returns only pending alterations; pass `?type=all` for the full history. Filter to a single
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
+
+    Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
+    inactive listing (`reservation_code`) returns `403 listing_inactive`.
 
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
@@ -225,6 +241,9 @@ async def asyncio(
     Default returns only pending alterations; pass `?type=all` for the full history. Filter to a single
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
+
+    Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
+    inactive listing (`reservation_code`) returns `403 listing_inactive`.
 
     Args:
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.

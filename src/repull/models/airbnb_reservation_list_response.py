@@ -25,8 +25,8 @@ T = TypeVar("T", bound="AirbnbReservationListResponse")
 
 @_attrs_define
 class AirbnbReservationListResponse:
-    """ Cursor-paginated Airbnb reservation list. Pass `pagination.next_cursor` back as `?cursor=` to fetch the next page;
-    stop when `pagination.has_more` is `false`.
+    """ Cursor-paginated Airbnb reservation list. Pass `pagination.nextCursor` back as `?cursor=` to fetch the next page;
+    stop when `pagination.hasMore` is `false`.
 
         Attributes:
             data (list[AirbnbReservation] | Unset):

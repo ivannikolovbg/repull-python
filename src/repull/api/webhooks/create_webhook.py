@@ -75,7 +75,10 @@ def sync_detailed(
      Register a new endpoint. Returns the plaintext signing secret ONCE — capture it from the response
     and store it securely. After this call the secret is masked everywhere; mint a new one with `POST
     /v1/webhooks/{id}/rotate-secret` if you lose it. See `GET /v1/webhooks/event-types` for the full
-    list of subscribable events.
+    list of subscribable events. Events about an inactive listing (reservations, messages, alterations,
+    reviews, payments, calendar and listing events) are not delivered. The data keeps syncing while the
+    listing is inactive, but its events are never sent — including after you reactivate it; webhooks
+    resume for events that happen from reactivation on. Account-level events are always delivered.
 
     Args:
         body (CreateWebhookBody):
@@ -111,7 +114,10 @@ def sync(
      Register a new endpoint. Returns the plaintext signing secret ONCE — capture it from the response
     and store it securely. After this call the secret is masked everywhere; mint a new one with `POST
     /v1/webhooks/{id}/rotate-secret` if you lose it. See `GET /v1/webhooks/event-types` for the full
-    list of subscribable events.
+    list of subscribable events. Events about an inactive listing (reservations, messages, alterations,
+    reviews, payments, calendar and listing events) are not delivered. The data keeps syncing while the
+    listing is inactive, but its events are never sent — including after you reactivate it; webhooks
+    resume for events that happen from reactivation on. Account-level events are always delivered.
 
     Args:
         body (CreateWebhookBody):
@@ -142,7 +148,10 @@ async def asyncio_detailed(
      Register a new endpoint. Returns the plaintext signing secret ONCE — capture it from the response
     and store it securely. After this call the secret is masked everywhere; mint a new one with `POST
     /v1/webhooks/{id}/rotate-secret` if you lose it. See `GET /v1/webhooks/event-types` for the full
-    list of subscribable events.
+    list of subscribable events. Events about an inactive listing (reservations, messages, alterations,
+    reviews, payments, calendar and listing events) are not delivered. The data keeps syncing while the
+    listing is inactive, but its events are never sent — including after you reactivate it; webhooks
+    resume for events that happen from reactivation on. Account-level events are always delivered.
 
     Args:
         body (CreateWebhookBody):
@@ -178,7 +187,10 @@ async def asyncio(
      Register a new endpoint. Returns the plaintext signing secret ONCE — capture it from the response
     and store it securely. After this call the secret is masked everywhere; mint a new one with `POST
     /v1/webhooks/{id}/rotate-secret` if you lose it. See `GET /v1/webhooks/event-types` for the full
-    list of subscribable events.
+    list of subscribable events. Events about an inactive listing (reservations, messages, alterations,
+    reviews, payments, calendar and listing events) are not delivered. The data keeps syncing while the
+    listing is inactive, but its events are never sent — including after you reactivate it; webhooks
+    resume for events that happen from reactivation on. Account-level events are always delivered.
 
     Args:
         body (CreateWebhookBody):

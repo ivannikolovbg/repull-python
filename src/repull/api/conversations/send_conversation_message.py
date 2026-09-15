@@ -63,6 +63,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -133,6 +140,9 @@ def sync_detailed(
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
 
+    **Inactive listings:** a conversation that belongs to an inactive listing returns `403
+    listing_inactive` and no message is sent. Activate the listing first.
+
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
@@ -194,6 +204,9 @@ def sync(
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
 
+    **Inactive listings:** a conversation that belongs to an inactive listing returns `403
+    listing_inactive` and no message is sent. Activate the listing first.
+
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
@@ -249,6 +262,9 @@ async def asyncio_detailed(
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
+
+    **Inactive listings:** a conversation that belongs to an inactive listing returns `403
+    listing_inactive` and no message is sent. Activate the listing first.
 
     Args:
         id (int):
@@ -310,6 +326,9 @@ async def asyncio(
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
+
+    **Inactive listings:** a conversation that belongs to an inactive listing returns `403
+    listing_inactive` and no message is sent. Activate the listing first.
 
     Args:
         id (int):

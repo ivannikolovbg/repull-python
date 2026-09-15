@@ -64,6 +64,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -106,6 +113,10 @@ def sync_detailed(
     `airbnb_hosts` for the thread's `host_id`) and `guest` (resolved via the thread's `reservation_id`,
     with up to 50 contacts) blocks.
 
+    A conversation that belongs to an inactive listing (by the thread's listing or its reservation's
+    listing) returns `403 listing_inactive`. Inactive listings keep syncing; activate the listing to use
+    it here.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -144,6 +155,10 @@ def sync(
     `airbnb_hosts` for the thread's `host_id`) and `guest` (resolved via the thread's `reservation_id`,
     with up to 50 contacts) blocks.
 
+    A conversation that belongs to an inactive listing (by the thread's listing or its reservation's
+    listing) returns `403 listing_inactive`. Inactive listings keep syncing; activate the listing to use
+    it here.
+
     Args:
         id (int):
         x_schema (str | Unset):  Example: my-app-schema.
@@ -176,6 +191,10 @@ async def asyncio_detailed(
      Returns one thread (the same shape as the list-row `Conversation`) plus expanded `host` (from
     `airbnb_hosts` for the thread's `host_id`) and `guest` (resolved via the thread's `reservation_id`,
     with up to 50 contacts) blocks.
+
+    A conversation that belongs to an inactive listing (by the thread's listing or its reservation's
+    listing) returns `403 listing_inactive`. Inactive listings keep syncing; activate the listing to use
+    it here.
 
     Args:
         id (int):
@@ -214,6 +233,10 @@ async def asyncio(
      Returns one thread (the same shape as the list-row `Conversation`) plus expanded `host` (from
     `airbnb_hosts` for the thread's `host_id`) and `guest` (resolved via the thread's `reservation_id`,
     with up to 50 contacts) blocks.
+
+    A conversation that belongs to an inactive listing (by the thread's listing or its reservation's
+    listing) returns `403 listing_inactive`. Inactive listings keep syncing; activate the listing to use
+    it here.
 
     Args:
         id (int):

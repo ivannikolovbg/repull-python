@@ -65,6 +65,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -116,6 +123,9 @@ def sync_detailed(
     comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
     consumers must opt in.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         include (str | Unset):  Example: content,details.
@@ -165,6 +175,9 @@ def sync(
     comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
     consumers must opt in.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (int):
         include (str | Unset):  Example: content,details.
@@ -208,6 +221,9 @@ async def asyncio_detailed(
     person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
     comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
     consumers must opt in.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):
@@ -257,6 +273,9 @@ async def asyncio(
     person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
     comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
     consumers must opt in.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (int):

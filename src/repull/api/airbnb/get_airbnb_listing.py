@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.airbnb_listing import AirbnbListing
+from ...models.error import Error
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -43,7 +44,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbListing | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbListing | Error | None:
     if response.status_code == 200:
         response_200 = AirbnbListing.from_dict(response.json())
 
@@ -51,13 +52,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbListing]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbListing | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,12 +80,15 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     include: str | Unset = UNSET,
 
-) -> Response[AirbnbListing]:
+) -> Response[AirbnbListing | Error]:
     """ Get Airbnb listing
 
      Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -88,7 +99,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbListing]
+        Response[AirbnbListing | Error]
      """
 
 
@@ -110,12 +121,15 @@ def sync(
     client: AuthenticatedClient | Client,
     include: str | Unset = UNSET,
 
-) -> AirbnbListing | None:
+) -> AirbnbListing | Error | None:
     """ Get Airbnb listing
 
      Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -126,7 +140,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbListing
+        AirbnbListing | Error
      """
 
 
@@ -143,12 +157,15 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     include: str | Unset = UNSET,
 
-) -> Response[AirbnbListing]:
+) -> Response[AirbnbListing | Error]:
     """ Get Airbnb listing
 
      Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -159,7 +176,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbListing]
+        Response[AirbnbListing | Error]
      """
 
 
@@ -181,12 +198,15 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     include: str | Unset = UNSET,
 
-) -> AirbnbListing | None:
+) -> AirbnbListing | Error | None:
     """ Get Airbnb listing
 
      Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -197,7 +217,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbListing
+        AirbnbListing | Error
      """
 
 

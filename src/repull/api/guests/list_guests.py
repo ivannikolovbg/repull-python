@@ -86,6 +86,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -138,6 +145,12 @@ def sync_detailed(
 
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
+
+    **Inactive listings:** a guest whose every reservation is on an inactive listing is left out of the
+    page and of `pagination.total`, and `totalReservations`, `totalRevenue`, `firstStayedAt` /
+    `lastStayedAt`, `has_reservation` and `listing_id` only consider reservations that are not on an
+    inactive listing. Guests with no reservations are tied to no listing and are always listed.
+    Filtering by an inactive `listing_id` returns `403 listing_inactive`.
 
     Args:
         cursor (str | Unset):
@@ -198,6 +211,12 @@ def sync(
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
 
+    **Inactive listings:** a guest whose every reservation is on an inactive listing is left out of the
+    page and of `pagination.total`, and `totalReservations`, `totalRevenue`, `firstStayedAt` /
+    `lastStayedAt`, `has_reservation` and `listing_id` only consider reservations that are not on an
+    inactive listing. Guests with no reservations are tied to no listing and are always listed.
+    Filtering by an inactive `listing_id` returns `403 listing_inactive`.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -251,6 +270,12 @@ async def asyncio_detailed(
 
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
+
+    **Inactive listings:** a guest whose every reservation is on an inactive listing is left out of the
+    page and of `pagination.total`, and `totalReservations`, `totalRevenue`, `firstStayedAt` /
+    `lastStayedAt`, `has_reservation` and `listing_id` only consider reservations that are not on an
+    inactive listing. Guests with no reservations are tied to no listing and are always listed.
+    Filtering by an inactive `listing_id` returns `403 listing_inactive`.
 
     Args:
         cursor (str | Unset):
@@ -310,6 +335,12 @@ async def asyncio(
 
     Filters: `q` (substring on name/email/phone), `has_reservation` (`true`|`false`), `listing_id`
     (restrict to guests with at least one reservation on that listing).
+
+    **Inactive listings:** a guest whose every reservation is on an inactive listing is left out of the
+    page and of `pagination.total`, and `totalReservations`, `totalRevenue`, `firstStayedAt` /
+    `lastStayedAt`, `has_reservation` and `listing_id` only consider reservations that are not on an
+    inactive listing. Guests with no reservations are tied to no listing and are always listed.
+    Filtering by an inactive `listing_id` returns `403 listing_inactive`.
 
     Args:
         cursor (str | Unset):

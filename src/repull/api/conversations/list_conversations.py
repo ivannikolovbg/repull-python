@@ -145,6 +145,10 @@ def sync_detailed(
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
 
+    **Inactive listings:** conversations that belong to an inactive listing (by the thread's listing or
+    its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
+    keep syncing; activate the listing to use it here.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -201,6 +205,10 @@ def sync(
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
 
+    **Inactive listings:** conversations that belong to an inactive listing (by the thread's listing or
+    its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
+    keep syncing; activate the listing to use it here.
+
     Args:
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -251,6 +259,10 @@ async def asyncio_detailed(
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
+
+    **Inactive listings:** conversations that belong to an inactive listing (by the thread's listing or
+    its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
+    keep syncing; activate the listing to use it here.
 
     Args:
         cursor (str | Unset):
@@ -307,6 +319,10 @@ async def asyncio(
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`|`website`|`email`), `status` (`open`|`archived` —
     `archived` is a stable no-op until the bit lands on `message_threads`).
+
+    **Inactive listings:** conversations that belong to an inactive listing (by the thread's listing or
+    its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
+    keep syncing; activate the listing to use it here.
 
     Args:
         cursor (str | Unset):

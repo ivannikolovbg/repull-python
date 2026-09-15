@@ -148,6 +148,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -212,6 +219,10 @@ def sync_detailed(
     carries `updatedAt`; the last row of the final page is your next watermark. Note that
     `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
     mid-walk amendments cannot be skipped — see the parameter description for the full contract.
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
 
     Args:
         limit (int | Unset):  Default: 50.
@@ -315,6 +326,10 @@ def sync(
     `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
     mid-walk amendments cannot be skipped — see the parameter description for the full contract.
 
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
+
     Args:
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
@@ -411,6 +426,10 @@ async def asyncio_detailed(
     carries `updatedAt`; the last row of the final page is your next watermark. Note that
     `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
     mid-walk amendments cannot be skipped — see the parameter description for the full contract.
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
 
     Args:
         limit (int | Unset):  Default: 50.
@@ -513,6 +532,10 @@ async def asyncio(
     carries `updatedAt`; the last row of the final page is your next watermark. Note that
     `updated_since` changes the page ordering to `updatedAt ASC, id ASC` (and the cursor with it) so
     mid-walk amendments cannot be skipped — see the parameter description for the full contract.
+
+    Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
+    reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
+    listing_inactive`.
 
     Args:
         limit (int | Unset):  Default: 50.

@@ -57,6 +57,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -98,6 +105,9 @@ def sync_detailed(
      List Plumguide bookings. Default returns all bookings; pass `listing_id` to filter to one listing,
     or `booking_code` to fetch a single booking.
 
+    Returns `403 listing_inactive` when `listing_id` or `booking_code` resolves to an inactive listing.
+    The unfiltered list is read straight from Plum Guide and is not filtered by listing status.
+
     Args:
         listing_id (int | Unset):
         booking_code (str | Unset):
@@ -135,6 +145,9 @@ def sync(
      List Plumguide bookings. Default returns all bookings; pass `listing_id` to filter to one listing,
     or `booking_code` to fetch a single booking.
 
+    Returns `403 listing_inactive` when `listing_id` or `booking_code` resolves to an inactive listing.
+    The unfiltered list is read straight from Plum Guide and is not filtered by listing status.
+
     Args:
         listing_id (int | Unset):
         booking_code (str | Unset):
@@ -166,6 +179,9 @@ async def asyncio_detailed(
 
      List Plumguide bookings. Default returns all bookings; pass `listing_id` to filter to one listing,
     or `booking_code` to fetch a single booking.
+
+    Returns `403 listing_inactive` when `listing_id` or `booking_code` resolves to an inactive listing.
+    The unfiltered list is read straight from Plum Guide and is not filtered by listing status.
 
     Args:
         listing_id (int | Unset):
@@ -203,6 +219,9 @@ async def asyncio(
 
      List Plumguide bookings. Default returns all bookings; pass `listing_id` to filter to one listing,
     or `booking_code` to fetch a single booking.
+
+    Returns `403 listing_inactive` when `listing_id` or `booking_code` resolves to an inactive listing.
+    The unfiltered list is read straight from Plum Guide and is not filtered by listing status.
 
     Args:
         listing_id (int | Unset):

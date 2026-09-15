@@ -59,6 +59,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -108,6 +115,9 @@ def sync_detailed(
     `listings_airbnb_check_in_guides`. Pass `?locale=en` to filter to one locale (prefix match). Returns
     `404` when the listing has no Airbnb connection in this workspace.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         locale (str | Unset):  Example: en.
@@ -146,6 +156,9 @@ def sync(
     `listings_airbnb_check_in_guides`. Pass `?locale=en` to filter to one locale (prefix match). Returns
     `404` when the listing has no Airbnb connection in this workspace.
 
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
+
     Args:
         id (str):
         locale (str | Unset):  Example: en.
@@ -178,6 +191,9 @@ async def asyncio_detailed(
      Return every published locale variant of an Airbnb listing's check-in guide. **Pure DB read** from
     `listings_airbnb_check_in_guides`. Pass `?locale=en` to filter to one locale (prefix match). Returns
     `404` when the listing has no Airbnb connection in this workspace.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
@@ -216,6 +232,9 @@ async def asyncio(
      Return every published locale variant of an Airbnb listing's check-in guide. **Pure DB read** from
     `listings_airbnb_check_in_guides`. Pass `?locale=en` to filter to one locale (prefix match). Returns
     `404` when the listing has no Airbnb connection in this workspace.
+
+    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
+    cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):

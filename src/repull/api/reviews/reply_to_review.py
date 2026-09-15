@@ -58,6 +58,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
@@ -102,6 +109,9 @@ def sync_detailed(
     Replies are available on Airbnb today; a review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
 
+    **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
+    reaches the channel. Activate the listing first.
+
     Args:
         id (int):
         body (ReplyToReviewBody):
@@ -142,6 +152,9 @@ def sync(
     Replies are available on Airbnb today; a review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
 
+    **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
+    reaches the channel. Activate the listing first.
+
     Args:
         id (int):
         body (ReplyToReviewBody):
@@ -176,6 +189,9 @@ async def asyncio_detailed(
 
     Replies are available on Airbnb today; a review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
+
+    **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
+    reaches the channel. Activate the listing first.
 
     Args:
         id (int):
@@ -216,6 +232,9 @@ async def asyncio(
 
     Replies are available on Airbnb today; a review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
+
+    **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
+    reaches the channel. Activate the listing first.
 
     Args:
         id (int):
