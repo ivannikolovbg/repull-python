@@ -12,6 +12,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.airbnb_data_freshness import AirbnbDataFreshness
   from ..models.airbnb_review import AirbnbReview
   from ..models.pagination import Pagination
 
@@ -31,10 +32,19 @@ class AirbnbReviewListResponse:
             pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
                 `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
                 construct it by hand.
+            data_freshness (AirbnbDataFreshness | Unset): Top-level freshness indicator for any DB-backed Airbnb read. Tells
+                consumers WHY a column may be `null` or stale without sprinkling per-row error envelopes through the response.
+                The endpoint always returns 200 + DB data; this field is the single signal for "should I prompt the user to
+                reconnect / wait for sync?".
+
+                A workspace can connect several Airbnb accounts, so the answer has two levels. `accounts[]` carries the verdict
+                per account; the top-level fields aggregate it. Scope a request with `?account_id=` and `accounts[]` holds
+                exactly that account, with the top-level fields mirroring it.
      """
 
     data: list[AirbnbReview] | Unset = UNSET
     pagination: Pagination | Unset = UNSET
+    data_freshness: AirbnbDataFreshness | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -42,6 +52,7 @@ class AirbnbReviewListResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.airbnb_data_freshness import AirbnbDataFreshness
         from ..models.airbnb_review import AirbnbReview
         from ..models.pagination import Pagination
         data: list[dict[str, Any]] | Unset = UNSET
@@ -57,6 +68,10 @@ class AirbnbReviewListResponse:
         if not isinstance(self.pagination, Unset):
             pagination = self.pagination.to_dict()
 
+        data_freshness: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.data_freshness, Unset):
+            data_freshness = self.data_freshness.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -66,6 +81,8 @@ class AirbnbReviewListResponse:
             field_dict["data"] = data
         if pagination is not UNSET:
             field_dict["pagination"] = pagination
+        if data_freshness is not UNSET:
+            field_dict["dataFreshness"] = data_freshness
 
         return field_dict
 
@@ -73,6 +90,7 @@ class AirbnbReviewListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_data_freshness import AirbnbDataFreshness
         from ..models.airbnb_review import AirbnbReview
         from ..models.pagination import Pagination
         d = dict(src_dict)
@@ -98,9 +116,20 @@ class AirbnbReviewListResponse:
 
 
 
+        _data_freshness = d.pop("dataFreshness", UNSET)
+        data_freshness: AirbnbDataFreshness | Unset
+        if isinstance(_data_freshness,  Unset):
+            data_freshness = UNSET
+        else:
+            data_freshness = AirbnbDataFreshness.from_dict(_data_freshness)
+
+
+
+
         airbnb_review_list_response = cls(
             data=data,
             pagination=pagination,
+            data_freshness=data_freshness,
         )
 
 

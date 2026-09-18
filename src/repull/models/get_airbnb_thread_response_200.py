@@ -31,6 +31,10 @@ class GetAirbnbThreadResponse200:
                 consumers WHY a column may be `null` or stale without sprinkling per-row error envelopes through the response.
                 The endpoint always returns 200 + DB data; this field is the single signal for "should I prompt the user to
                 reconnect / wait for sync?".
+
+                A workspace can connect several Airbnb accounts, so the answer has two levels. `accounts[]` carries the verdict
+                per account; the top-level fields aggregate it. Scope a request with `?account_id=` and `accounts[]` holds
+                exactly that account, with the top-level fields mirroring it.
      """
 
     data: AirbnbThread

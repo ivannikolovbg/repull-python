@@ -124,7 +124,10 @@ def sync_detailed(
     endpoint as well.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
-    side.
+    side. That answer depends only on the provider, not on your workspace: an unsupported provider
+    returns `501` whether or not you have a connection to it. `404 not_found` on a supported provider
+    means this workspace has no connection to it (or, with `accountId`, that the account is not
+    connected here).
 
     Args:
         provider (str):
@@ -180,7 +183,10 @@ def sync(
     endpoint as well.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
-    side.
+    side. That answer depends only on the provider, not on your workspace: an unsupported provider
+    returns `501` whether or not you have a connection to it. `404 not_found` on a supported provider
+    means this workspace has no connection to it (or, with `accountId`, that the account is not
+    connected here).
 
     Args:
         provider (str):
@@ -231,7 +237,10 @@ async def asyncio_detailed(
     endpoint as well.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
-    side.
+    side. That answer depends only on the provider, not on your workspace: an unsupported provider
+    returns `501` whether or not you have a connection to it. `404 not_found` on a supported provider
+    means this workspace has no connection to it (or, with `accountId`, that the account is not
+    connected here).
 
     Args:
         provider (str):
@@ -287,7 +296,10 @@ async def asyncio(
     endpoint as well.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
-    side.
+    side. That answer depends only on the provider, not on your workspace: an unsupported provider
+    returns `501` whether or not you have a connection to it. `404 not_found` on a supported provider
+    means this workspace has no connection to it (or, with `accountId`, that the account is not
+    connected here).
 
     Args:
         provider (str):

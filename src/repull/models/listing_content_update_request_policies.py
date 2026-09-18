@@ -8,9 +8,12 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.listing_content_update_request_policies_check_in_method import ListingContentUpdateRequestPoliciesCheckInMethod
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.airbnb_safety_disclosure import AirbnbSafetyDisclosure
 
 
 
@@ -35,6 +38,17 @@ class ListingContentUpdateRequestPolicies:
             allows_pets (bool | None | Unset):
             allows_smoking (bool | None | Unset):
             allows_events (bool | None | Unset):
+            quiet_hours_start (None | str | Unset): Quiet-hours window start, e.g. "22:00". Distributed to Airbnb by the
+                publish path. Example: 22:00.
+            quiet_hours_end (None | str | Unset):  Example: 07:00.
+            check_in_method (ListingContentUpdateRequestPoliciesCheckInMethod | Unset): How the guest lets themselves in.
+                Canonical storage only — distributing it to Airbnb is `PUT /v1/channels/airbnb/listings/{id}/details` with
+                `check_in_option`.
+            check_in_instruction (None | str | Unset): Instruction shown with the check-in method.
+            guest_safety_disclosures (list[AirbnbSafetyDisclosure] | None | Unset): Guest-safety disclosures — exterior
+                cameras, noise monitors, stairs, pets, an unfenced pool. FULL replacement of the canonical set: omit to leave
+                untouched, send `[]` to clear. Canonical storage only — distributing them to Airbnb is `PUT
+                /v1/channels/airbnb/listings/{id}/safety-disclosures`, which merges rather than replaces.
      """
 
     check_in_time_start: None | str | Unset = UNSET
@@ -48,6 +62,11 @@ class ListingContentUpdateRequestPolicies:
     allows_pets: bool | None | Unset = UNSET
     allows_smoking: bool | None | Unset = UNSET
     allows_events: bool | None | Unset = UNSET
+    quiet_hours_start: None | str | Unset = UNSET
+    quiet_hours_end: None | str | Unset = UNSET
+    check_in_method: ListingContentUpdateRequestPoliciesCheckInMethod | Unset = UNSET
+    check_in_instruction: None | str | Unset = UNSET
+    guest_safety_disclosures: list[AirbnbSafetyDisclosure] | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -55,6 +74,7 @@ class ListingContentUpdateRequestPolicies:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.airbnb_safety_disclosure import AirbnbSafetyDisclosure
         check_in_time_start: None | str | Unset
         if isinstance(self.check_in_time_start, Unset):
             check_in_time_start = UNSET
@@ -121,6 +141,42 @@ class ListingContentUpdateRequestPolicies:
         else:
             allows_events = self.allows_events
 
+        quiet_hours_start: None | str | Unset
+        if isinstance(self.quiet_hours_start, Unset):
+            quiet_hours_start = UNSET
+        else:
+            quiet_hours_start = self.quiet_hours_start
+
+        quiet_hours_end: None | str | Unset
+        if isinstance(self.quiet_hours_end, Unset):
+            quiet_hours_end = UNSET
+        else:
+            quiet_hours_end = self.quiet_hours_end
+
+        check_in_method: str | Unset = UNSET
+        if not isinstance(self.check_in_method, Unset):
+            check_in_method = self.check_in_method.value
+
+
+        check_in_instruction: None | str | Unset
+        if isinstance(self.check_in_instruction, Unset):
+            check_in_instruction = UNSET
+        else:
+            check_in_instruction = self.check_in_instruction
+
+        guest_safety_disclosures: list[dict[str, Any]] | None | Unset
+        if isinstance(self.guest_safety_disclosures, Unset):
+            guest_safety_disclosures = UNSET
+        elif isinstance(self.guest_safety_disclosures, list):
+            guest_safety_disclosures = []
+            for guest_safety_disclosures_type_0_item_data in self.guest_safety_disclosures:
+                guest_safety_disclosures_type_0_item = guest_safety_disclosures_type_0_item_data.to_dict()
+                guest_safety_disclosures.append(guest_safety_disclosures_type_0_item)
+
+
+        else:
+            guest_safety_disclosures = self.guest_safety_disclosures
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -148,6 +204,16 @@ class ListingContentUpdateRequestPolicies:
             field_dict["allowsSmoking"] = allows_smoking
         if allows_events is not UNSET:
             field_dict["allowsEvents"] = allows_events
+        if quiet_hours_start is not UNSET:
+            field_dict["quietHoursStart"] = quiet_hours_start
+        if quiet_hours_end is not UNSET:
+            field_dict["quietHoursEnd"] = quiet_hours_end
+        if check_in_method is not UNSET:
+            field_dict["checkInMethod"] = check_in_method
+        if check_in_instruction is not UNSET:
+            field_dict["checkInInstruction"] = check_in_instruction
+        if guest_safety_disclosures is not UNSET:
+            field_dict["guestSafetyDisclosures"] = guest_safety_disclosures
 
         return field_dict
 
@@ -155,6 +221,7 @@ class ListingContentUpdateRequestPolicies:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_safety_disclosure import AirbnbSafetyDisclosure
         d = dict(src_dict)
         def _parse_check_in_time_start(data: object) -> None | str | Unset:
             if data is None:
@@ -266,6 +333,71 @@ class ListingContentUpdateRequestPolicies:
         allows_events = _parse_allows_events(d.pop("allowsEvents", UNSET))
 
 
+        def _parse_quiet_hours_start(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        quiet_hours_start = _parse_quiet_hours_start(d.pop("quietHoursStart", UNSET))
+
+
+        def _parse_quiet_hours_end(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        quiet_hours_end = _parse_quiet_hours_end(d.pop("quietHoursEnd", UNSET))
+
+
+        _check_in_method = d.pop("checkInMethod", UNSET)
+        check_in_method: ListingContentUpdateRequestPoliciesCheckInMethod | Unset
+        if isinstance(_check_in_method,  Unset):
+            check_in_method = UNSET
+        else:
+            check_in_method = ListingContentUpdateRequestPoliciesCheckInMethod(_check_in_method)
+
+
+
+
+        def _parse_check_in_instruction(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        check_in_instruction = _parse_check_in_instruction(d.pop("checkInInstruction", UNSET))
+
+
+        def _parse_guest_safety_disclosures(data: object) -> list[AirbnbSafetyDisclosure] | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                guest_safety_disclosures_type_0 = []
+                _guest_safety_disclosures_type_0 = data
+                for guest_safety_disclosures_type_0_item_data in (_guest_safety_disclosures_type_0):
+                    guest_safety_disclosures_type_0_item = AirbnbSafetyDisclosure.from_dict(guest_safety_disclosures_type_0_item_data)
+
+
+
+                    guest_safety_disclosures_type_0.append(guest_safety_disclosures_type_0_item)
+
+                return guest_safety_disclosures_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(list[AirbnbSafetyDisclosure] | None | Unset, data)
+
+        guest_safety_disclosures = _parse_guest_safety_disclosures(d.pop("guestSafetyDisclosures", UNSET))
+
+
         listing_content_update_request_policies = cls(
             check_in_time_start=check_in_time_start,
             check_in_time_end=check_in_time_end,
@@ -278,6 +410,11 @@ class ListingContentUpdateRequestPolicies:
             allows_pets=allows_pets,
             allows_smoking=allows_smoking,
             allows_events=allows_events,
+            quiet_hours_start=quiet_hours_start,
+            quiet_hours_end=quiet_hours_end,
+            check_in_method=check_in_method,
+            check_in_instruction=check_in_instruction,
+            guest_safety_disclosures=guest_safety_disclosures,
         )
 
 

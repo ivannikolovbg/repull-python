@@ -34,15 +34,18 @@ class Listing:
     """ A vacation rental listing in your Repull workspace.
 
     An **inactive** listing appears only in `GET /v1/listings`, and only when `?status=` asks for it. Such a row carries
-    identity fields only — `id`, `name`, `status`, `channels` — so `address`, `thumbnailUrl`, `content`, `details`,
-    `createdAt` and `updatedAt` are absent until the listing is activated. `GET /v1/listings/{id}` and every other
-    listing endpoint answer `403 listing_inactive` for it.
+    identity fields only — `id`, `name`, `status`, `channels` — so `address`, `content`, `details`, `createdAt` and
+    `updatedAt` are absent until the listing is activated. `GET /v1/listings/{id}` and every other listing endpoint
+    answer `403 listing_inactive` for it. The one field you can add back is `thumbnailUrl`, by passing
+    `?include=thumbnail` — enough to render an activate/deactivate picker with pictures from a single request.
 
         Attributes:
             id (str | Unset): Repull listing id
             name (str | Unset):  Example: I - Stafford Apartment.
             address (ListingAddress | Unset):
-            thumbnail_url (None | str | Unset):
+            thumbnail_url (None | str | Unset): Cover photo URL. Always present on an active listing. On an **inactive** one
+                it is present only when the caller passes `?include=thumbnail`; `null` means the listing has no cover photo
+                stored, absent means the expansion was not requested.
             status (ListingStatus | Unset):
             channels (list[ListingChannel] | Unset): Channels (Airbnb, Booking, VRBO, etc.) the listing is connected to.
             amenities (list[ListingAmenity] | Unset): Amenity rows for the listing. **Only present when the caller passes

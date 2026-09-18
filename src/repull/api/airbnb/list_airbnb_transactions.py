@@ -10,22 +10,32 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.list_airbnb_transactions_response_200 import ListAirbnbTransactionsResponse200
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
-    
+    *,
+    account_id: str | Unset = UNSET,
+
 ) -> dict[str, Any]:
     
 
     
 
-    
+    params: dict[str, Any] = {}
+
+    params["account_id"] = account_id
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/v1/channels/airbnb/transactions",
+        "params": params,
     }
 
 
@@ -47,6 +57,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
         return response_401
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
 
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
@@ -73,6 +90,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ListAirbnbTransactionsResponse200]:
     """ List Airbnb transactions
@@ -88,6 +106,14 @@ def sync_detailed(
     Transactions of reservations on inactive listings are left out; payout rows, which belong to no
     listing, are always included.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
+    Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -98,7 +124,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        account_id=account_id,
+
     )
 
     response = client.get_httpx_client().request(
@@ -110,6 +137,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
 
 ) -> Error | ListAirbnbTransactionsResponse200 | None:
     """ List Airbnb transactions
@@ -124,6 +152,14 @@ def sync(
 
     Transactions of reservations on inactive listings are left out; payout rows, which belong to no
     listing, are always included.
+
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
+    Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -136,12 +172,14 @@ def sync(
 
     return sync_detailed(
         client=client,
+account_id=account_id,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ListAirbnbTransactionsResponse200]:
     """ List Airbnb transactions
@@ -157,6 +195,14 @@ async def asyncio_detailed(
     Transactions of reservations on inactive listings are left out; payout rows, which belong to no
     listing, are always included.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
+    Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -167,7 +213,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        account_id=account_id,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -179,6 +226,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
 
 ) -> Error | ListAirbnbTransactionsResponse200 | None:
     """ List Airbnb transactions
@@ -194,6 +242,14 @@ async def asyncio(
     Transactions of reservations on inactive listings are left out; payout rows, which belong to no
     listing, are always included.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
+    Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
+
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
@@ -205,5 +261,6 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+account_id=account_id,
 
     )).parsed

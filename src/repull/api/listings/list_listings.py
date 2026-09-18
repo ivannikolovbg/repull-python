@@ -135,13 +135,17 @@ def sync_detailed(
     locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
-    (which signals the expansion was not requested). Combine comma-separated, e.g.
-    `?include=content,details`. The default response stays lean; consumers must opt in.
+    (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
+    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
     for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
-    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+    activate with `PATCH /v1/listings/{id}`. The `content` and `details` expansions are not applied to
+    them. `?include=thumbnail` is the one exception: it adds `thumbnailUrl` to an inactive row so a
+    single request can render an active/inactive selection screen with pictures, instead of one follow-
+    up call per listing (which an inactive listing would answer with `403 listing_inactive` anyway).
 
     Args:
         cursor (str | Unset):
@@ -150,7 +154,7 @@ def sync_detailed(
         q (str | Unset):
         status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
-        include (str | Unset):  Example: content,details.
+        include (str | Unset):  Example: content,thumbnail.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -206,13 +210,17 @@ def sync(
     locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
-    (which signals the expansion was not requested). Combine comma-separated, e.g.
-    `?include=content,details`. The default response stays lean; consumers must opt in.
+    (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
+    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
     for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
-    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+    activate with `PATCH /v1/listings/{id}`. The `content` and `details` expansions are not applied to
+    them. `?include=thumbnail` is the one exception: it adds `thumbnailUrl` to an inactive row so a
+    single request can render an active/inactive selection screen with pictures, instead of one follow-
+    up call per listing (which an inactive listing would answer with `403 listing_inactive` anyway).
 
     Args:
         cursor (str | Unset):
@@ -221,7 +229,7 @@ def sync(
         q (str | Unset):
         status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
-        include (str | Unset):  Example: content,details.
+        include (str | Unset):  Example: content,thumbnail.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -272,13 +280,17 @@ async def asyncio_detailed(
     locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
-    (which signals the expansion was not requested). Combine comma-separated, e.g.
-    `?include=content,details`. The default response stays lean; consumers must opt in.
+    (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
+    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
     for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
-    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+    activate with `PATCH /v1/listings/{id}`. The `content` and `details` expansions are not applied to
+    them. `?include=thumbnail` is the one exception: it adds `thumbnailUrl` to an inactive row so a
+    single request can render an active/inactive selection screen with pictures, instead of one follow-
+    up call per listing (which an inactive listing would answer with `403 listing_inactive` anyway).
 
     Args:
         cursor (str | Unset):
@@ -287,7 +299,7 @@ async def asyncio_detailed(
         q (str | Unset):
         status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
-        include (str | Unset):  Example: content,details.
+        include (str | Unset):  Example: content,thumbnail.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:
@@ -343,13 +355,17 @@ async def asyncio(
     locale). Pass `?include=details` for the structural slab (bedrooms, bathrooms, person capacity,
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
-    (which signals the expansion was not requested). Combine comma-separated, e.g.
-    `?include=content,details`. The default response stays lean; consumers must opt in.
+    (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
+    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
     for inactive ones they carry only `id`, `name`, `status` and `channels` — enough to choose what to
-    activate with `PATCH /v1/listings/{id}`. `?include=` expansions are not applied to them.
+    activate with `PATCH /v1/listings/{id}`. The `content` and `details` expansions are not applied to
+    them. `?include=thumbnail` is the one exception: it adds `thumbnailUrl` to an inactive row so a
+    single request can render an active/inactive selection screen with pictures, instead of one follow-
+    up call per listing (which an inactive listing would answer with `403 listing_inactive` anyway).
 
     Args:
         cursor (str | Unset):
@@ -358,7 +374,7 @@ async def asyncio(
         q (str | Unset):
         status (ListListingsStatus | Unset):  Default: ListListingsStatus.ACTIVE.
         channel (str | Unset):  Example: airbnb.
-        include (str | Unset):  Example: content,details.
+        include (str | Unset):  Example: content,thumbnail.
         x_schema (str | Unset):  Example: my-app-schema.
 
     Raises:

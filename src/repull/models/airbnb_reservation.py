@@ -30,6 +30,10 @@ class AirbnbReservation:
         Attributes:
             confirmation_code (str | Unset):  Example: HMABC12345.
             listing_id (str | Unset):
+            account_id (None | str | Unset): Which connected Airbnb account this row belongs to — the Airbnb host id, as a
+                string (they exceed 2^53). The same value `?account_id=` accepts and `GET /v1/connect/airbnb` returns as
+                `accounts[].externalAccountId`. Example: 1772489413932732258.
+            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Pomello.
             status (AirbnbReservationStatus | Unset):  Example: accepted.
             check_in (datetime.date | Unset):
             check_out (datetime.date | Unset):
@@ -41,6 +45,8 @@ class AirbnbReservation:
 
     confirmation_code: str | Unset = UNSET
     listing_id: str | Unset = UNSET
+    account_id: None | str | Unset = UNSET
+    account_name: None | str | Unset = UNSET
     status: AirbnbReservationStatus | Unset = UNSET
     check_in: datetime.date | Unset = UNSET
     check_out: datetime.date | Unset = UNSET
@@ -58,6 +64,18 @@ class AirbnbReservation:
         confirmation_code = self.confirmation_code
 
         listing_id = self.listing_id
+
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
+
+        account_name: None | str | Unset
+        if isinstance(self.account_name, Unset):
+            account_name = UNSET
+        else:
+            account_name = self.account_name
 
         status: str | Unset = UNSET
         if not isinstance(self.status, Unset):
@@ -105,6 +123,10 @@ class AirbnbReservation:
             field_dict["confirmationCode"] = confirmation_code
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
+        if account_id is not UNSET:
+            field_dict["accountId"] = account_id
+        if account_name is not UNSET:
+            field_dict["accountName"] = account_name
         if status is not UNSET:
             field_dict["status"] = status
         if check_in is not UNSET:
@@ -130,6 +152,26 @@ class AirbnbReservation:
         confirmation_code = d.pop("confirmationCode", UNSET)
 
         listing_id = d.pop("listingId", UNSET)
+
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("accountId", UNSET))
+
+
+        def _parse_account_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_name = _parse_account_name(d.pop("accountName", UNSET))
+
 
         _status = d.pop("status", UNSET)
         status: AirbnbReservationStatus | Unset
@@ -204,6 +246,8 @@ class AirbnbReservation:
         airbnb_reservation = cls(
             confirmation_code=confirmation_code,
             listing_id=listing_id,
+            account_id=account_id,
+            account_name=account_name,
             status=status,
             check_in=check_in,
             check_out=check_out,

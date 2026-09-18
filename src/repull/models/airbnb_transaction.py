@@ -49,6 +49,9 @@ class AirbnbTransaction:
             confirmation_code (None | str | Unset): Airbnb confirmation code — links this transaction to a reservation.
             reservation_id (int | None | Unset): Resolved Vanio reservation id when the confirmation code matched a
                 reservation in this workspace; null otherwise.
+            account_id (None | str | Unset): Which connected Airbnb account this transaction belongs to — the Airbnb host
+                id, as a string (they exceed 2^53). `null` on rows that name no listing (payouts). Example: 1772489413932732258.
+            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Pomello.
             listing_id (None | str | Unset): Airbnb listing id.
             thread_id (None | str | Unset):
             nights (int | None | Unset):
@@ -78,6 +81,8 @@ class AirbnbTransaction:
     date: datetime.date | None | Unset = UNSET
     confirmation_code: None | str | Unset = UNSET
     reservation_id: int | None | Unset = UNSET
+    account_id: None | str | Unset = UNSET
+    account_name: None | str | Unset = UNSET
     listing_id: None | str | Unset = UNSET
     thread_id: None | str | Unset = UNSET
     nights: int | None | Unset = UNSET
@@ -147,6 +152,18 @@ class AirbnbTransaction:
             reservation_id = UNSET
         else:
             reservation_id = self.reservation_id
+
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
+
+        account_name: None | str | Unset
+        if isinstance(self.account_name, Unset):
+            account_name = UNSET
+        else:
+            account_name = self.account_name
 
         listing_id: None | str | Unset
         if isinstance(self.listing_id, Unset):
@@ -271,6 +288,10 @@ class AirbnbTransaction:
             field_dict["confirmation_code"] = confirmation_code
         if reservation_id is not UNSET:
             field_dict["reservation_id"] = reservation_id
+        if account_id is not UNSET:
+            field_dict["account_id"] = account_id
+        if account_name is not UNSET:
+            field_dict["account_name"] = account_name
         if listing_id is not UNSET:
             field_dict["listing_id"] = listing_id
         if thread_id is not UNSET:
@@ -394,6 +415,26 @@ class AirbnbTransaction:
             return cast(int | None | Unset, data)
 
         reservation_id = _parse_reservation_id(d.pop("reservation_id", UNSET))
+
+
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("account_id", UNSET))
+
+
+        def _parse_account_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_name = _parse_account_name(d.pop("account_name", UNSET))
 
 
         def _parse_listing_id(data: object) -> None | str | Unset:
@@ -611,6 +652,8 @@ class AirbnbTransaction:
             date=date,
             confirmation_code=confirmation_code,
             reservation_id=reservation_id,
+            account_id=account_id,
+            account_name=account_name,
             listing_id=listing_id,
             thread_id=thread_id,
             nights=nights,

@@ -60,6 +60,13 @@ class Reservation:
                 of fingerprinting individual fields.
             guest_id (str | Unset): DEPRECATED — use `primaryGuest.id`. Internal Repull guest ID. Kept populated for back-
                 compat.
+            check_in_time (None | str | Unset): Local check-in time for this stay, `HH:MM` on a 24-hour clock in the
+                **property's own timezone** — not UTC. Usually inherited from the listing policy, overridden per reservation
+                where an early check-in was agreed. `null` when unknown. This is the same field `PATCH /v1/reservations/{id}`
+                writes. Example: 16:00.
+            check_out_time (None | str | Unset): Local check-out time for this stay, `HH:MM` on a 24-hour clock in the
+                property's own timezone. Pair with `checkOut` to schedule the turnover clean. `null` when unknown. This is the
+                same field `PATCH /v1/reservations/{id}` writes. Example: 10:00.
             source (None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset):
                 Booking source / channel. Lowercase. May be null on legacy rows. Canonical name as of 2026-05; `platform` is
                 kept as an alias. Example: airbnb.
@@ -104,6 +111,8 @@ class Reservation:
     created_at: datetime.datetime
     updated_at: datetime.datetime
     guest_id: str | Unset = UNSET
+    check_in_time: None | str | Unset = UNSET
+    check_out_time: None | str | Unset = UNSET
     source: None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset = UNSET
     platform: None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset = UNSET
     primary_guest: ReservationPrimaryGuest | Unset = UNSET
@@ -142,6 +151,18 @@ class Reservation:
         updated_at = self.updated_at.isoformat()
 
         guest_id = self.guest_id
+
+        check_in_time: None | str | Unset
+        if isinstance(self.check_in_time, Unset):
+            check_in_time = UNSET
+        else:
+            check_in_time = self.check_in_time
+
+        check_out_time: None | str | Unset
+        if isinstance(self.check_out_time, Unset):
+            check_out_time = UNSET
+        else:
+            check_out_time = self.check_out_time
 
         source: None | str | Unset
         if isinstance(self.source, Unset):
@@ -216,6 +237,10 @@ class Reservation:
         })
         if guest_id is not UNSET:
             field_dict["guestId"] = guest_id
+        if check_in_time is not UNSET:
+            field_dict["checkInTime"] = check_in_time
+        if check_out_time is not UNSET:
+            field_dict["checkOutTime"] = check_out_time
         if source is not UNSET:
             field_dict["source"] = source
         if platform is not UNSET:
@@ -280,6 +305,26 @@ class Reservation:
 
 
         guest_id = d.pop("guestId", UNSET)
+
+        def _parse_check_in_time(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        check_in_time = _parse_check_in_time(d.pop("checkInTime", UNSET))
+
+
+        def _parse_check_out_time(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        check_out_time = _parse_check_out_time(d.pop("checkOutTime", UNSET))
+
 
         def _parse_source(data: object) -> None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset:
             if data is None:
@@ -445,6 +490,8 @@ class Reservation:
             created_at=created_at,
             updated_at=updated_at,
             guest_id=guest_id,
+            check_in_time=check_in_time,
+            check_out_time=check_out_time,
             source=source,
             platform=platform,
             primary_guest=primary_guest,

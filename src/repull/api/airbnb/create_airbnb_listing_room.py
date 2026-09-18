@@ -99,15 +99,18 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Create an Airbnb room
 
-     Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
-    room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
+     Create a new room on an Airbnb listing, with its sleeping arrangement. **Write-side** — calls Airbnb
+    upstream. Requires a connected Airbnb host, else `404 no_connection`.
+
+    The response is the room object as Airbnb returned it. The new room is also seeded into our own
+    copy, so the very next `GET /rooms` shows it rather than waiting for the sync.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        body (CreateAirbnbListingRoomBody): Full Airbnb room object minus `room_id`.
+        body (CreateAirbnbListingRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,15 +142,18 @@ def sync(
 ) -> Any | Error | None:
     """ Create an Airbnb room
 
-     Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
-    room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
+     Create a new room on an Airbnb listing, with its sleeping arrangement. **Write-side** — calls Airbnb
+    upstream. Requires a connected Airbnb host, else `404 no_connection`.
+
+    The response is the room object as Airbnb returned it. The new room is also seeded into our own
+    copy, so the very next `GET /rooms` shows it rather than waiting for the sync.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        body (CreateAirbnbListingRoomBody): Full Airbnb room object minus `room_id`.
+        body (CreateAirbnbListingRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -174,15 +180,18 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Create an Airbnb room
 
-     Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
-    room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
+     Create a new room on an Airbnb listing, with its sleeping arrangement. **Write-side** — calls Airbnb
+    upstream. Requires a connected Airbnb host, else `404 no_connection`.
+
+    The response is the room object as Airbnb returned it. The new room is also seeded into our own
+    copy, so the very next `GET /rooms` shows it rather than waiting for the sync.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        body (CreateAirbnbListingRoomBody): Full Airbnb room object minus `room_id`.
+        body (CreateAirbnbListingRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -214,15 +223,18 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Create an Airbnb room
 
-     Create a new room on an Airbnb listing. **Write-side** — calls Airbnb upstream. Body is the full
-    room object minus `room_id`. Requires a connected Airbnb host, else `404 no_connection`.
+     Create a new room on an Airbnb listing, with its sleeping arrangement. **Write-side** — calls Airbnb
+    upstream. Requires a connected Airbnb host, else `404 no_connection`.
+
+    The response is the room object as Airbnb returned it. The new room is also seeded into our own
+    copy, so the very next `GET /rooms` shows it rather than waiting for the sync.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        body (CreateAirbnbListingRoomBody): Full Airbnb room object minus `room_id`.
+        body (CreateAirbnbListingRoomBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

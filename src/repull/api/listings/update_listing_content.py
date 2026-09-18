@@ -11,6 +11,7 @@ from ... import errors
 from ...models.error import Error
 from ...models.listing_content_update_request import ListingContentUpdateRequest
 from ...models.listing_content_update_response import ListingContentUpdateResponse
+from ...types import UNSET, Unset
 from typing import cast
 
 
@@ -19,9 +20,13 @@ def _get_kwargs(
     id: int,
     *,
     body: ListingContentUpdateRequest,
+    idempotency_key: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
+
 
 
     
@@ -99,6 +104,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: ListingContentUpdateRequest,
+    idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | ListingContentUpdateResponse]:
     r""" Update canonical listing content
@@ -110,6 +116,10 @@ def sync_detailed(
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send
     `[]` to clear).
+
+    **Multilingual:** send `locale` to say which language this copy is in (`it`, `pt-BR`, …). Canonical
+    content is stored per locale, so each language keeps its own row instead of overwriting the English
+    one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
@@ -127,6 +137,7 @@ def sync_detailed(
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (ListingContentUpdateRequest): Canonical PMS-owned listing content. Every field is
             optional — this is a partial update, only the fields you send are written; absent fields
             are left untouched. This is a LOCAL write only: it does NOT push to Airbnb/Booking.com.
@@ -145,6 +156,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
 body=body,
+idempotency_key=idempotency_key,
 
     )
 
@@ -159,6 +171,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: ListingContentUpdateRequest,
+    idempotency_key: str | Unset = UNSET,
 
 ) -> Error | ListingContentUpdateResponse | None:
     r""" Update canonical listing content
@@ -170,6 +183,10 @@ def sync(
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send
     `[]` to clear).
+
+    **Multilingual:** send `locale` to say which language this copy is in (`it`, `pt-BR`, …). Canonical
+    content is stored per locale, so each language keeps its own row instead of overwriting the English
+    one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
@@ -187,6 +204,7 @@ def sync(
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (ListingContentUpdateRequest): Canonical PMS-owned listing content. Every field is
             optional — this is a partial update, only the fields you send are written; absent fields
             are left untouched. This is a LOCAL write only: it does NOT push to Airbnb/Booking.com.
@@ -206,6 +224,7 @@ def sync(
         id=id,
 client=client,
 body=body,
+idempotency_key=idempotency_key,
 
     ).parsed
 
@@ -214,6 +233,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: ListingContentUpdateRequest,
+    idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | ListingContentUpdateResponse]:
     r""" Update canonical listing content
@@ -225,6 +245,10 @@ async def asyncio_detailed(
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send
     `[]` to clear).
+
+    **Multilingual:** send `locale` to say which language this copy is in (`it`, `pt-BR`, …). Canonical
+    content is stored per locale, so each language keeps its own row instead of overwriting the English
+    one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
@@ -242,6 +266,7 @@ async def asyncio_detailed(
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (ListingContentUpdateRequest): Canonical PMS-owned listing content. Every field is
             optional — this is a partial update, only the fields you send are written; absent fields
             are left untouched. This is a LOCAL write only: it does NOT push to Airbnb/Booking.com.
@@ -260,6 +285,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
 body=body,
+idempotency_key=idempotency_key,
 
     )
 
@@ -274,6 +300,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: ListingContentUpdateRequest,
+    idempotency_key: str | Unset = UNSET,
 
 ) -> Error | ListingContentUpdateResponse | None:
     r""" Update canonical listing content
@@ -285,6 +312,10 @@ async def asyncio(
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send
     `[]` to clear).
+
+    **Multilingual:** send `locale` to say which language this copy is in (`it`, `pt-BR`, …). Canonical
+    content is stored per locale, so each language keeps its own row instead of overwriting the English
+    one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
@@ -302,6 +333,7 @@ async def asyncio(
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (ListingContentUpdateRequest): Canonical PMS-owned listing content. Every field is
             optional — this is a partial update, only the fields you send are written; absent fields
             are left untouched. This is a LOCAL write only: it does NOT push to Airbnb/Booking.com.
@@ -321,5 +353,6 @@ async def asyncio(
         id=id,
 client=client,
 body=body,
+idempotency_key=idempotency_key,
 
     )).parsed

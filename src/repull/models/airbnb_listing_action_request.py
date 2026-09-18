@@ -25,10 +25,13 @@ class AirbnbListingActionRequest:
     """ Body for `POST /v1/channels/airbnb/listings/{id}`.
 
         Attributes:
-            action (AirbnbListingActionRequestAction): `delete` deactivates the Repull record. `push`/`publish` push content
-                to Airbnb.
+            action (AirbnbListingActionRequestAction): `delete` deactivates the REPULL RECORD — billing and API visibility —
+                and never calls Airbnb. `push`/`publish` push content to Airbnb. `unlist` takes the LIVE AIRBNB LISTING down so
+                it stops taking bookings; `relist` puts it back up. Deactivating and unlisting are different operations with
+                different blast radii and are deliberately different action names.
             airbnb_connection_id (str | Unset): For `push`/`publish`: the Airbnb connection to update (from `GET
-                /v1/channels/airbnb/listings/{id}`). Pass this OR `hostId`.
+                /v1/channels/airbnb/listings/{id}`). Pass this OR `hostId`. REQUIRED for `unlist`/`relist`: a listing can be
+                connected to more than one Airbnb listing and the wrong one cannot be un-taken-down through this API.
             host_id (str | Unset): For `push`/`publish`: create + publish a new Airbnb listing under this host. Pass this OR
                 `airbnbConnectionId`.
             force (bool | Unset): For `push`/`publish`: re-push every field, ignoring dirty-field tracking. Default: False.

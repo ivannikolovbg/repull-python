@@ -52,6 +52,12 @@ class ErrorError:
                 Example: check_in_after.
             listing_ids (list[str] | Unset): Every inactive listing the request involved. Present on `code:
                 "listing_inactive"` (HTTP 403) — activate these ids and retry. Example: ['4118'].
+            listing_id (str | Unset): The single Repull listing the error is about. Present on `code:
+                "listing_not_api_connected"` (HTTP 403). Example: 23901.
+            airbnb_listing_id (str | Unset): Airbnb's own id for that listing, so the host can find it in Airbnb. Present on
+                `code: "listing_not_api_connected"` (HTTP 403). Example: 22616426.
+            sync_category (str | Unset): The listing's current Airbnb API sync category — why the write was refused. Present
+                on `code: "listing_not_api_connected"` (HTTP 403). Example: none.
             retry_after (int | Unset): Seconds the client should wait before retrying. Mirrors the `Retry-After` HTTP
                 header. Present on rate-limit responses and on transient upstream failures that are safe to retry. Example: 60.
             support (ErrorErrorSupport | Unset): LAST-RESORT contact handle. Only set on errors that genuinely cannot be
@@ -71,6 +77,9 @@ class ErrorError:
     endpoint: str | Unset = UNSET
     did_you_mean: str | Unset = UNSET
     listing_ids: list[str] | Unset = UNSET
+    listing_id: str | Unset = UNSET
+    airbnb_listing_id: str | Unset = UNSET
+    sync_category: str | Unset = UNSET
     retry_after: int | Unset = UNSET
     support: ErrorErrorSupport | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -117,6 +126,12 @@ class ErrorError:
 
 
 
+        listing_id = self.listing_id
+
+        airbnb_listing_id = self.airbnb_listing_id
+
+        sync_category = self.sync_category
+
         retry_after = self.retry_after
 
         support: dict[str, Any] | Unset = UNSET
@@ -147,6 +162,12 @@ class ErrorError:
             field_dict["did_you_mean"] = did_you_mean
         if listing_ids is not UNSET:
             field_dict["listing_ids"] = listing_ids
+        if listing_id is not UNSET:
+            field_dict["listing_id"] = listing_id
+        if airbnb_listing_id is not UNSET:
+            field_dict["airbnb_listing_id"] = airbnb_listing_id
+        if sync_category is not UNSET:
+            field_dict["sync_category"] = sync_category
         if retry_after is not UNSET:
             field_dict["retry_after"] = retry_after
         if support is not UNSET:
@@ -187,6 +208,12 @@ class ErrorError:
         listing_ids = cast(list[str], d.pop("listing_ids", UNSET))
 
 
+        listing_id = d.pop("listing_id", UNSET)
+
+        airbnb_listing_id = d.pop("airbnb_listing_id", UNSET)
+
+        sync_category = d.pop("sync_category", UNSET)
+
         retry_after = d.pop("retry_after", UNSET)
 
         _support = d.pop("support", UNSET)
@@ -212,6 +239,9 @@ class ErrorError:
             endpoint=endpoint,
             did_you_mean=did_you_mean,
             listing_ids=listing_ids,
+            listing_id=listing_id,
+            airbnb_listing_id=airbnb_listing_id,
+            sync_category=sync_category,
             retry_after=retry_after,
             support=support,
         )

@@ -13,6 +13,8 @@ from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.airbnb_account_freshness import AirbnbAccountFreshness
 
 
 
@@ -28,21 +30,33 @@ class AirbnbDataFreshness:
     without sprinkling per-row error envelopes through the response. The endpoint always returns 200 + DB data; this
     field is the single signal for "should I prompt the user to reconnect / wait for sync?".
 
+    A workspace can connect several Airbnb accounts, so the answer has two levels. `accounts[]` carries the verdict per
+    account; the top-level fields aggregate it. Scope a request with `?account_id=` and `accounts[]` holds exactly that
+    account, with the top-level fields mirroring it.
+
         Attributes:
-            last_synced_at (datetime.datetime | None): Most recent sync timestamp across the rows in the response. `null`
-                when nothing has ever synced for this customer.
-            stale (bool): `true` when any host is disconnected, when the local cache is empty, or when the cache hasn't been
-                refreshed in 24h+. `false` when hosts are healthy and sync is fresh.
-            reason (None | str | Unset): Why the data is stale. One of `host_disconnected_since_<iso>`, `sync_lag_>_24h`,
-                `never_synced`. Omitted when `stale` is `false`.
-            fix_url (None | str | Unset): Dashboard URL the consumer can open to resolve the staleness (typically the Airbnb
-                reconnect screen). Omitted when `stale` is `false`.
+            last_synced_at (datetime.datetime | None): The most recent Airbnb import COMPLETED by any account in scope.
+                `null` when none of them ever has. A run that failed or was rate-limited does not move it.
+            stale (bool): `true` only when EVERY connected Airbnb account is stale — nothing in this response can be trusted
+                to be current. With one account (the common case) that is the same as it has always been. With several, one
+                disconnected host no longer condemns the other's rows: `stale` stays `false` and `reason` becomes
+                `partial_account_staleness`. Read `accounts[]` for which is which.
+            reason (None | str | Unset): Why the data is stale. One of `host_disconnected_since_<iso>`,
+                `host_not_activated`, `sync_lag_>_24h`, `never_synced`, `host_disconnected`, or `partial_account_staleness`. The
+                last one appears WITH `stale: false`: the response is usable, but at least one connected account needs attention
+                — deliberately surfaced so a consumer reading only the aggregate is never told everything is fine while an
+                account is down.
+            fix_url (None | str | Unset): Dashboard URL the consumer can open to resolve the staleness (the Airbnb
+                connections screen). Present whenever `reason` is, including on `partial_account_staleness`.
+            accounts (list[AirbnbAccountFreshness] | Unset): Per-account freshness, sorted by `accountId`. Omitted on
+                responses that have no connected account to attribute (e.g. a workspace that has never connected Airbnb).
      """
 
     last_synced_at: datetime.datetime | None
     stale: bool
     reason: None | str | Unset = UNSET
     fix_url: None | str | Unset = UNSET
+    accounts: list[AirbnbAccountFreshness] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -50,6 +64,7 @@ class AirbnbDataFreshness:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.airbnb_account_freshness import AirbnbAccountFreshness
         last_synced_at: None | str
         if isinstance(self.last_synced_at, datetime.datetime):
             last_synced_at = self.last_synced_at.isoformat()
@@ -70,6 +85,15 @@ class AirbnbDataFreshness:
         else:
             fix_url = self.fix_url
 
+        accounts: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.accounts, Unset):
+            accounts = []
+            for accounts_item_data in self.accounts:
+                accounts_item = accounts_item_data.to_dict()
+                accounts.append(accounts_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -81,6 +105,8 @@ class AirbnbDataFreshness:
             field_dict["reason"] = reason
         if fix_url is not UNSET:
             field_dict["fixUrl"] = fix_url
+        if accounts is not UNSET:
+            field_dict["accounts"] = accounts
 
         return field_dict
 
@@ -88,6 +114,7 @@ class AirbnbDataFreshness:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_account_freshness import AirbnbAccountFreshness
         d = dict(src_dict)
         def _parse_last_synced_at(data: object) -> datetime.datetime | None:
             if data is None:
@@ -129,11 +156,24 @@ class AirbnbDataFreshness:
         fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
 
 
+        _accounts = d.pop("accounts", UNSET)
+        accounts: list[AirbnbAccountFreshness] | Unset = UNSET
+        if _accounts is not UNSET:
+            accounts = []
+            for accounts_item_data in _accounts:
+                accounts_item = AirbnbAccountFreshness.from_dict(accounts_item_data)
+
+
+
+                accounts.append(accounts_item)
+
+
         airbnb_data_freshness = cls(
             last_synced_at=last_synced_at,
             stale=stale,
             reason=reason,
             fix_url=fix_url,
+            accounts=accounts,
         )
 
 

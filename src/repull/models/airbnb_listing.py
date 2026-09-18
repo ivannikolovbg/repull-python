@@ -31,12 +31,15 @@ class AirbnbListing:
             listing_id (str | Unset): Vanio (Repull) listing id Example: 6248.
             name (str | Unset): Listing title Example: Oceanview Villa.
             city (None | str | Unset):  Example: Malibu.
+            thumbnail_url (None | str | Unset): Cover photo URL for the Vanio listing. **Only present when the caller passes
+                `?include=thumbnail`.** `null` when the listing has no cover photo stored — the listing is still returned.
             connections (list[AirbnbConnection] | Unset):
      """
 
     listing_id: str | Unset = UNSET
     name: str | Unset = UNSET
     city: None | str | Unset = UNSET
+    thumbnail_url: None | str | Unset = UNSET
     connections: list[AirbnbConnection] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -55,6 +58,12 @@ class AirbnbListing:
             city = UNSET
         else:
             city = self.city
+
+        thumbnail_url: None | str | Unset
+        if isinstance(self.thumbnail_url, Unset):
+            thumbnail_url = UNSET
+        else:
+            thumbnail_url = self.thumbnail_url
 
         connections: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.connections, Unset):
@@ -76,6 +85,8 @@ class AirbnbListing:
             field_dict["name"] = name
         if city is not UNSET:
             field_dict["city"] = city
+        if thumbnail_url is not UNSET:
+            field_dict["thumbnailUrl"] = thumbnail_url
         if connections is not UNSET:
             field_dict["connections"] = connections
 
@@ -101,6 +112,16 @@ class AirbnbListing:
         city = _parse_city(d.pop("city", UNSET))
 
 
+        def _parse_thumbnail_url(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        thumbnail_url = _parse_thumbnail_url(d.pop("thumbnailUrl", UNSET))
+
+
         _connections = d.pop("connections", UNSET)
         connections: list[AirbnbConnection] | Unset = UNSET
         if _connections is not UNSET:
@@ -117,6 +138,7 @@ class AirbnbListing:
             listing_id=listing_id,
             name=name,
             city=city,
+            thumbnail_url=thumbnail_url,
             connections=connections,
         )
 

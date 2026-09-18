@@ -25,7 +25,8 @@ class ListingContentUpdateResponse:
     """ 
         Attributes:
             id (str | Unset): The listing id (serialized as a string to preserve precision).
-            changed (list[str] | Unset): Content slabs that were actually written, e.g. ["title","occupancy","amenities"].
+            changed (list[str] | Unset): Content slabs that were actually written, e.g. ["title","occupancy","amenities"]. A
+                non-English write also reports `locale:<tag>` so you can see which row was written.
             deferred (list[str] | Unset): Provided-but-not-applied fields — e.g. "photos" when a non-empty photos array
                 carried no valid http(s) URL.
      """

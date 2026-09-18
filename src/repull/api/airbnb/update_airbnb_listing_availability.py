@@ -124,8 +124,10 @@ def sync_detailed(
     If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
     `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
 
-    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
-    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    **Errors:** `403 listing_not_api_connected` — Airbnb was never told to sync this listing (its
+    `syncCategory` is `none`); the host must switch API sync on for it in Airbnb, reconnecting the
+    account will not help. `403 connection_reauth_required` — Airbnb no longer accepts the connection at
+    all (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
     not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
     Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
     airbnb_error` — Airbnb outage or timeout; retry.
@@ -186,8 +188,10 @@ def sync(
     If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
     `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
 
-    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
-    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    **Errors:** `403 listing_not_api_connected` — Airbnb was never told to sync this listing (its
+    `syncCategory` is `none`); the host must switch API sync on for it in Airbnb, reconnecting the
+    account will not help. `403 connection_reauth_required` — Airbnb no longer accepts the connection at
+    all (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
     not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
     Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
     airbnb_error` — Airbnb outage or timeout; retry.
@@ -243,8 +247,10 @@ async def asyncio_detailed(
     If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
     `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
 
-    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
-    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    **Errors:** `403 listing_not_api_connected` — Airbnb was never told to sync this listing (its
+    `syncCategory` is `none`); the host must switch API sync on for it in Airbnb, reconnecting the
+    account will not help. `403 connection_reauth_required` — Airbnb no longer accepts the connection at
+    all (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
     not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
     Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
     airbnb_error` — Airbnb outage or timeout; retry.
@@ -305,8 +311,10 @@ async def asyncio(
     If an operation leaves it out, Repull sends `busy_subtype: \"BLOCKED_BY_HOST\"`; send
     `\"OUTSIDE_RESERVATION\"` for dates held by a booking made on another channel.
 
-    **Errors:** `403 connection_reauth_required` — Airbnb no longer accepts the connection for this
-    listing (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
+    **Errors:** `403 listing_not_api_connected` — Airbnb was never told to sync this listing (its
+    `syncCategory` is `none`); the host must switch API sync on for it in Airbnb, reconnecting the
+    account will not help. `403 connection_reauth_required` — Airbnb no longer accepts the connection at
+    all (reconnect; retrying won't help). `403 listing_inactive` — the listing is inactive. `404
     not_found` — no Airbnb-connected listing with this id in the workspace. `422 airbnb_rejected` —
     Airbnb refused the change; `message` carries its reason. `429 airbnb_rate_limited` — back off. `502
     airbnb_error` — Airbnb outage or timeout; retry.

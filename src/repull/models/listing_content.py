@@ -28,8 +28,10 @@ class ListingContent:
     nullable.
 
         Attributes:
-            title (None | str | Unset): Public listing title. Populated only by `generate-content`; not stored on
-                `listings_descriptions`.
+            title (None | str | Unset): Public listing title as proposed by `POST /v1/listings/{id}/generate-content`. The
+                STORED title is `name` — read that one.
+            name (None | str | Unset): The listing's stored public title, and the one a channel pull writes — after `POST
+                /v1/listings/{id}/pull/airbnb` this is the title as it stands on Airbnb.
             summary (None | str | Unset):
             description (None | str | Unset):
             space (None | str | Unset):
@@ -49,6 +51,7 @@ class ListingContent:
      """
 
     title: None | str | Unset = UNSET
+    name: None | str | Unset = UNSET
     summary: None | str | Unset = UNSET
     description: None | str | Unset = UNSET
     space: None | str | Unset = UNSET
@@ -73,6 +76,12 @@ class ListingContent:
             title = UNSET
         else:
             title = self.title
+
+        name: None | str | Unset
+        if isinstance(self.name, Unset):
+            name = UNSET
+        else:
+            name = self.name
 
         summary: None | str | Unset
         if isinstance(self.summary, Unset):
@@ -149,6 +158,8 @@ class ListingContent:
         })
         if title is not UNSET:
             field_dict["title"] = title
+        if name is not UNSET:
+            field_dict["name"] = name
         if summary is not UNSET:
             field_dict["summary"] = summary
         if description is not UNSET:
@@ -189,6 +200,16 @@ class ListingContent:
             return cast(None | str | Unset, data)
 
         title = _parse_title(d.pop("title", UNSET))
+
+
+        def _parse_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        name = _parse_name(d.pop("name", UNSET))
 
 
         def _parse_summary(data: object) -> None | str | Unset:
@@ -298,6 +319,7 @@ class ListingContent:
 
         listing_content = cls(
             title=title,
+            name=name,
             summary=summary,
             description=description,
             space=space,

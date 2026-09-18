@@ -24,9 +24,11 @@ class DeleteAirbnbListingPhotoResponse200:
     """ 
         Attributes:
             deleted (bool | Unset):  Example: True.
+            stored (bool | Unset): Whether our own copy dropped the photo too.
      """
 
     deleted: bool | Unset = UNSET
+    stored: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -36,6 +38,8 @@ class DeleteAirbnbListingPhotoResponse200:
     def to_dict(self) -> dict[str, Any]:
         deleted = self.deleted
 
+        stored = self.stored
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -43,6 +47,8 @@ class DeleteAirbnbListingPhotoResponse200:
         })
         if deleted is not UNSET:
             field_dict["deleted"] = deleted
+        if stored is not UNSET:
+            field_dict["stored"] = stored
 
         return field_dict
 
@@ -53,8 +59,11 @@ class DeleteAirbnbListingPhotoResponse200:
         d = dict(src_dict)
         deleted = d.pop("deleted", UNSET)
 
+        stored = d.pop("stored", UNSET)
+
         delete_airbnb_listing_photo_response_200 = cls(
             deleted=deleted,
+            stored=stored,
         )
 
 

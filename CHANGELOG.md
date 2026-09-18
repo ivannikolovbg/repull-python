@@ -5,6 +5,117 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.15] - 2026-09-18
+
+Regenerated against the live `https://api.repull.dev/openapi.json`
+(175 → 191 operations).
+
+### Added
+- **Airbnb listing content write surface** — 13 new operations under
+  `repull.api.airbnb` for editing an Airbnb listing's canonical content
+  directly:
+  - `GET`/`PUT .../booking-settings` (`get_airbnb_booking_settings`,
+    `update_airbnb_booking_settings`) — cancellation policy (including the
+    non-refundable option and short-stay policy), booking mode, instant book,
+    advance notice, preparation time, booking window, check-in/check-out
+    windows. Models `GetAirbnbBookingSettingsResponse200` /
+    `UpdateAirbnbBookingSettingsBody` and their nested
+    `*Cancellation`/`*CheckIn`/`*CheckOut`/`*AdvanceNotice`/`*BookingWindow`/
+    `*InstantBook`/`*PreparationTime` model families.
+  - `GET`/`PUT .../details` (`get_airbnb_listing_details`,
+    `update_airbnb_listing_details`) — property type, room type, quiet hours,
+    check-in method. Models `AirbnbListingDetailsResponse`,
+    `AirbnbListingDetailsWriteRequest` (+ `CheckInOption`,
+    `PropertyTypeGroup`, `RoomTypeCategory`, `QuietHoursItem` variants).
+  - `GET`/`PUT .../permits` (`list_airbnb_listing_permits`,
+    `update_airbnb_listing_permits`) — `AirbnbPermitsResponse` /
+    `AirbnbPermitsWriteRequest`.
+  - `GET`/`PUT .../safety-disclosures` (`list_airbnb_listing_safety_disclosures`,
+    `update_airbnb_listing_safety_disclosures`) — `AirbnbSafetyDisclosure`,
+    `AirbnbSafetyDisclosureType`, `AirbnbSafetyDisclosuresResponse` /
+    `AirbnbSafetyDisclosuresWriteRequest`.
+  - `PATCH .../photos` (`update_airbnb_listing_photo`) — per-photo caption and
+    category. `UpdateAirbnbListingPhotoBody` / `...Response200`.
+  - `PUT .../photos/order` (`reorder_airbnb_listing_photos`) —
+    `ReorderAirbnbListingPhotosBody` / `...Response200`.
+  - `PUT .../photos/cover` (`set_airbnb_listing_cover_photo`) —
+    `SetAirbnbListingCoverPhotoBody` / `...Response200`.
+  - `PUT .../rooms` (`update_airbnb_listing_room`) — bed/room-amenity
+    updates, sharing the `UpdateAirbnbListingRoomBody` model family with
+    `CreateAirbnbListingRoomBody` (beds, metadata, room amenities, room type).
+  - `PUT .../amenities` (`update_airbnb_listing_amenities`) —
+    `UpdateAirbnbListingAmenitiesBody` (`amenities`,
+    `accessibility_amenities`) / `...Response200`.
+  - `PUT .../descriptions` (`update_airbnb_listing_description`) — per-locale
+    description sections. `AirbnbDescriptionWriteRequest`.
+- `POST /v1/channels/airbnb/alterations/{id}/cancel`
+  (`cancel_airbnb_alteration`) — `CancelAirbnbAlterationBody`.
+- `POST /v1/listings/{id}/pull/airbnb` (`pull_listing_from_airbnb`) — pulls
+  the listing's current state back from Airbnb into Repull's canonical
+  content. `ListingPullAirbnbRequest`, typed `ListingPullResponse`
+  (`ListingPullResponseChannel`).
+- `unlist` and `relist` actions on `AirbnbListingActionRequestAction`
+  (existing `POST /v1/channels/airbnb/listings/{id}` action endpoint), plus
+  an optional `Idempotency-Key` header parameter on that call. Its 200
+  response is now a typed union — `AirbnbListingActionResponse200Type0`,
+  `AirbnbListingActionResponse200Type1`, or `AirbnbListingLifecycleResponse`
+  — replacing the previous untyped `Any`/`None`.
+- `Listing.thumbnail_url` and `ListingContent.name` — `?include=thumbnail`
+  on `GET /v1/listings` / `GET /v1/properties` now adds `thumbnailUrl` even
+  to reduced inactive rows; `ListingContent.name` is the stored public title
+  (as opposed to `.title`, which is only the `generate-content` proposal),
+  and after `POST /v1/listings/{id}/pull/airbnb` reflects Airbnb's own title.
+- `Reservation.check_in_time` / `.check_out_time` — local `HH:MM` stay terms
+  (property timezone), usually inherited from listing policy and overridable
+  per reservation. `ReservationWebhookObject.cancellation_policy` /
+  `.check_in_time` / `.check_out_time` carry the same three stay-terms fields
+  on `reservation.created`/`reservation.updated`/`reservation.cancelled`
+  webhook deliveries (`cancellationPolicy`, `checkInTime`, `checkOutTime` on
+  the wire) — verbatim from the source channel, `null` when the channel
+  didn't supply them, never defaulted.
+- `AirbnbAlteration` gains `account_id`, `account_name`,
+  `new_listing_id`, `new_airbnb_listing_id` — an alteration can transfer the
+  reservation to a different listing under the same or another connected
+  account.
+- New `ErrorError` fields for the `listing_not_api_connected` error code:
+  `listing_id`, `airbnb_listing_id`, `sync_category`. New error codes
+  declared across affected operations: `listing_not_api_connected`,
+  `airbnb_rejected`, `connection_reauth_required`, `airbnb_rate_limited`
+  (`403`/`422`/`429`), plus `502` on the Airbnb listing action endpoint.
+- `idempotency_key` parameter (sent as the `Idempotency-Key` header) on
+  `publish_listing_to_airbnb` and `airbnb_listing_action`.
+- `ConnectStatus`/`AirbnbDataFreshness` gain per-account scoping —
+  `dataFreshness.accounts[]` (`AirbnbAccountFreshness`) and an `?account_id=`
+  query parameter, letting a workspace with multiple connected Airbnb
+  accounts scope reads to one of them.
+- `select_connect_provider` docs now correctly reference the wire field
+  `allowedProviders` (was documented as `allowed_providers`; no code change).
+
+### Changed
+- **Publish result is now fully typed.** `publish_listing_to_airbnb`'s 200
+  response model is renamed `ListingPublishResponse` →
+  `ListingPublishAirbnbResponse` and gains `result.lockedFields` — fields
+  Airbnb refuses to change for this listing (200 response, nothing applied).
+  A `404` response was also added. See the expanded docstring on
+  `publish_listing_to_airbnb` for the per-section publish/retry semantics.
+- `create_airbnb_alteration`'s request body model is renamed
+  `CreateAirbnbAlterationBody` → `AirbnbAlterationCreateRequest`, and its
+  `201` response is now a typed `AirbnbAlteration` object (was untyped
+  `Any`/`None`). `422` and `429` error responses were also added.
+- `list_listings`/`list_properties` `?include=` gains the `thumbnail` value
+  (combinable, e.g. `?include=content,thumbnail`).
+
+### BREAKING
+- `repull.models.CreateAirbnbAlterationBody` no longer exists — use the
+  renamed `repull.models.AirbnbAlterationCreateRequest`.
+- `repull.models.ListingPublishResponse` no longer exists — use the renamed
+  `repull.models.ListingPublishAirbnbResponse`.
+
+These renames are generator-introduced by upstream OpenAPI schema-name
+changes (both operations' response semantics also changed, which is why the
+schemas were renamed rather than kept binary-compatible); update any code
+that imports these model classes by name.
+
 ## [0.2.14] - 2026-09-15
 
 Regenerated against the live `https://api.repull.dev/openapi.json`

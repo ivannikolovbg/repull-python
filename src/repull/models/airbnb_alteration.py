@@ -24,10 +24,11 @@ T = TypeVar("T", bound="AirbnbAlteration")
 
 @_attrs_define
 class AirbnbAlteration:
-    """ An Airbnb reservation alteration request (date change, guest-count change, or price change), mirrored locally in
-    `reservation_alterations`. Fields prefixed `original*` describe the reservation as it stands today; `new*` fields
-    describe the proposed change. Compare them to render a diff and decide whether to accept (`POST .../{id}/accept`) or
-    decline (`POST .../{id}/decline`).
+    """ An Airbnb reservation alteration request (date change, guest-count change, price change, or a move to another
+    listing), mirrored locally in `reservation_alterations`. Fields prefixed `original*` describe the reservation as it
+    stands today; `new*` fields describe the proposed change. Compare them to render a diff and decide whether to accept
+    (`POST .../{id}/accept`) or decline (`POST .../{id}/decline`) — or, for one you proposed yourself, to withdraw it
+    (`POST .../{id}/cancel`).
 
         Attributes:
             id (str | Unset): Internal Repull mirror-row id (not the Airbnb alteration id — use `alterationId` for the
@@ -35,6 +36,10 @@ class AirbnbAlteration:
             alteration_id (None | str | Unset): Airbnb alteration id. This is the `{id}` you pass to `GET/POST
                 /v1/channels/airbnb/alterations/{id}` and the accept / decline sub-routes.
             reservation_id (None | str | Unset): Repull reservation id the alteration belongs to.
+            account_id (None | str | Unset): Which connected Airbnb account this row belongs to — the Airbnb host id, as a
+                string (they exceed 2^53). The same value `?account_id=` accepts and `GET /v1/connect/airbnb` returns as
+                `accounts[].externalAccountId`. Example: 1772489413932732258.
+            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Pomello.
             platform (str | Unset): Always `airbnb` on this surface. Example: airbnb.
             status (None | str | Unset): Alteration lifecycle status — e.g. `pending` (awaiting a decision), `accepted`,
                 `declined`, `canceled`.
@@ -49,6 +54,12 @@ class AirbnbAlteration:
             new_check_out (datetime.datetime | None | Unset): Proposed new check-out.
             new_guest_count (int | None | Unset): Proposed new guest count.
             new_total_price (None | str | Unset): Proposed new total price (decimal string).
+            new_listing_id (None | str | Unset): Repull listing id the alteration moves the reservation to — a **listing
+                transfer**. `null` when the alteration does not change the listing, which is the usual case. Compare it with the
+                reservation's current `listingId` to render the move. Like every id on this API it is a string. Example: 4118.
+            new_airbnb_listing_id (None | str | Unset): The same transfer target as Airbnb spells it (the Airbnb listing
+                id). Present alongside `newListingId`; it is also the only one of the two that is set when the destination
+                listing has not been imported into this workspace. Example: 18871326.
             created_at (datetime.datetime | None | Unset): When the alteration was first mirrored locally.
             updated_at (datetime.datetime | None | Unset): When the alteration mirror row was last updated.
      """
@@ -56,6 +67,8 @@ class AirbnbAlteration:
     id: str | Unset = UNSET
     alteration_id: None | str | Unset = UNSET
     reservation_id: None | str | Unset = UNSET
+    account_id: None | str | Unset = UNSET
+    account_name: None | str | Unset = UNSET
     platform: str | Unset = UNSET
     status: None | str | Unset = UNSET
     initiator: None | str | Unset = UNSET
@@ -69,6 +82,8 @@ class AirbnbAlteration:
     new_check_out: datetime.datetime | None | Unset = UNSET
     new_guest_count: int | None | Unset = UNSET
     new_total_price: None | str | Unset = UNSET
+    new_listing_id: None | str | Unset = UNSET
+    new_airbnb_listing_id: None | str | Unset = UNSET
     created_at: datetime.datetime | None | Unset = UNSET
     updated_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -91,6 +106,18 @@ class AirbnbAlteration:
             reservation_id = UNSET
         else:
             reservation_id = self.reservation_id
+
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
+
+        account_name: None | str | Unset
+        if isinstance(self.account_name, Unset):
+            account_name = UNSET
+        else:
+            account_name = self.account_name
 
         platform = self.platform
 
@@ -174,6 +201,18 @@ class AirbnbAlteration:
         else:
             new_total_price = self.new_total_price
 
+        new_listing_id: None | str | Unset
+        if isinstance(self.new_listing_id, Unset):
+            new_listing_id = UNSET
+        else:
+            new_listing_id = self.new_listing_id
+
+        new_airbnb_listing_id: None | str | Unset
+        if isinstance(self.new_airbnb_listing_id, Unset):
+            new_airbnb_listing_id = UNSET
+        else:
+            new_airbnb_listing_id = self.new_airbnb_listing_id
+
         created_at: None | str | Unset
         if isinstance(self.created_at, Unset):
             created_at = UNSET
@@ -201,6 +240,10 @@ class AirbnbAlteration:
             field_dict["alterationId"] = alteration_id
         if reservation_id is not UNSET:
             field_dict["reservationId"] = reservation_id
+        if account_id is not UNSET:
+            field_dict["accountId"] = account_id
+        if account_name is not UNSET:
+            field_dict["accountName"] = account_name
         if platform is not UNSET:
             field_dict["platform"] = platform
         if status is not UNSET:
@@ -227,6 +270,10 @@ class AirbnbAlteration:
             field_dict["newGuestCount"] = new_guest_count
         if new_total_price is not UNSET:
             field_dict["newTotalPrice"] = new_total_price
+        if new_listing_id is not UNSET:
+            field_dict["newListingId"] = new_listing_id
+        if new_airbnb_listing_id is not UNSET:
+            field_dict["newAirbnbListingId"] = new_airbnb_listing_id
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
         if updated_at is not UNSET:
@@ -259,6 +306,26 @@ class AirbnbAlteration:
             return cast(None | str | Unset, data)
 
         reservation_id = _parse_reservation_id(d.pop("reservationId", UNSET))
+
+
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("accountId", UNSET))
+
+
+        def _parse_account_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_name = _parse_account_name(d.pop("accountName", UNSET))
 
 
         platform = d.pop("platform", UNSET)
@@ -423,6 +490,26 @@ class AirbnbAlteration:
         new_total_price = _parse_new_total_price(d.pop("newTotalPrice", UNSET))
 
 
+        def _parse_new_listing_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        new_listing_id = _parse_new_listing_id(d.pop("newListingId", UNSET))
+
+
+        def _parse_new_airbnb_listing_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        new_airbnb_listing_id = _parse_new_airbnb_listing_id(d.pop("newAirbnbListingId", UNSET))
+
+
         def _parse_created_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
@@ -467,6 +554,8 @@ class AirbnbAlteration:
             id=id,
             alteration_id=alteration_id,
             reservation_id=reservation_id,
+            account_id=account_id,
+            account_name=account_name,
             platform=platform,
             status=status,
             initiator=initiator,
@@ -480,6 +569,8 @@ class AirbnbAlteration:
             new_check_out=new_check_out,
             new_guest_count=new_guest_count,
             new_total_price=new_total_price,
+            new_listing_id=new_listing_id,
+            new_airbnb_listing_id=new_airbnb_listing_id,
             created_at=created_at,
             updated_at=updated_at,
         )

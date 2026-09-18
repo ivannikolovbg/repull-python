@@ -29,6 +29,10 @@ class AirbnbReview:
         Attributes:
             id (str | Unset):
             reservation_code (None | str | Unset):
+            account_id (None | str | Unset): Which connected Airbnb account this row belongs to — the Airbnb host id, as a
+                string (they exceed 2^53). The same value `?account_id=` accepts and `GET /v1/connect/airbnb` returns as
+                `accounts[].externalAccountId`. Example: 1772489413932732258.
+            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Pomello.
             rating (int | None | Unset):
             comment (None | str | Unset):
             response (None | str | Unset):
@@ -37,6 +41,8 @@ class AirbnbReview:
 
     id: str | Unset = UNSET
     reservation_code: None | str | Unset = UNSET
+    account_id: None | str | Unset = UNSET
+    account_name: None | str | Unset = UNSET
     rating: int | None | Unset = UNSET
     comment: None | str | Unset = UNSET
     response: None | str | Unset = UNSET
@@ -55,6 +61,18 @@ class AirbnbReview:
             reservation_code = UNSET
         else:
             reservation_code = self.reservation_code
+
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
+
+        account_name: None | str | Unset
+        if isinstance(self.account_name, Unset):
+            account_name = UNSET
+        else:
+            account_name = self.account_name
 
         rating: int | None | Unset
         if isinstance(self.rating, Unset):
@@ -91,6 +109,10 @@ class AirbnbReview:
             field_dict["id"] = id
         if reservation_code is not UNSET:
             field_dict["reservationCode"] = reservation_code
+        if account_id is not UNSET:
+            field_dict["accountId"] = account_id
+        if account_name is not UNSET:
+            field_dict["accountName"] = account_name
         if rating is not UNSET:
             field_dict["rating"] = rating
         if comment is not UNSET:
@@ -117,6 +139,26 @@ class AirbnbReview:
             return cast(None | str | Unset, data)
 
         reservation_code = _parse_reservation_code(d.pop("reservationCode", UNSET))
+
+
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("accountId", UNSET))
+
+
+        def _parse_account_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_name = _parse_account_name(d.pop("accountName", UNSET))
 
 
         def _parse_rating(data: object) -> int | None | Unset:
@@ -172,6 +214,8 @@ class AirbnbReview:
         airbnb_review = cls(
             id=id,
             reservation_code=reservation_code,
+            account_id=account_id,
+            account_name=account_name,
             rating=rating,
             comment=comment,
             response=response,

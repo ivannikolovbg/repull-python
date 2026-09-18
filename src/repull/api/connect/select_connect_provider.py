@@ -75,7 +75,7 @@ def sync_detailed(
     """ Bind a picker session to a provider
 
      Called by the hosted picker page once the user clicks a channel card. Validates the provider exists
-    and is permitted by the session's `allowed_providers` whitelist (if any), then returns the next-step
+    and is permitted by the session's `allowedProviders` whitelist (if any), then returns the next-step
     URL the picker should navigate to.
 
     No API key required — the session ID is the capability token. The session must still be pending and
@@ -116,7 +116,7 @@ def sync(
     """ Bind a picker session to a provider
 
      Called by the hosted picker page once the user clicks a channel card. Validates the provider exists
-    and is permitted by the session's `allowed_providers` whitelist (if any), then returns the next-step
+    and is permitted by the session's `allowedProviders` whitelist (if any), then returns the next-step
     URL the picker should navigate to.
 
     No API key required — the session ID is the capability token. The session must still be pending and
@@ -152,7 +152,7 @@ async def asyncio_detailed(
     """ Bind a picker session to a provider
 
      Called by the hosted picker page once the user clicks a channel card. Validates the provider exists
-    and is permitted by the session's `allowed_providers` whitelist (if any), then returns the next-step
+    and is permitted by the session's `allowedProviders` whitelist (if any), then returns the next-step
     URL the picker should navigate to.
 
     No API key required — the session ID is the capability token. The session must still be pending and
@@ -193,7 +193,7 @@ async def asyncio(
     """ Bind a picker session to a provider
 
      Called by the hosted picker page once the user clicks a channel card. Validates the provider exists
-    and is permitted by the session's `allowed_providers` whitelist (if any), then returns the next-step
+    and is permitted by the session's `allowedProviders` whitelist (if any), then returns the next-step
     URL the picker should navigate to.
 
     No API key required — the session ID is the capability token. The session must still be pending and

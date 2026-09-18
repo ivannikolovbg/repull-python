@@ -100,8 +100,9 @@ def sync_detailed(
 ) -> Response[Error | ListAirbnbListingRoomsResponse200]:
     """ List Airbnb rooms
 
-     List the rooms configured on an Airbnb listing, ordered by room number. **Pure DB read** from
-    `listings_airbnb_rooms`. Returns `404` when the listing has no Airbnb connection in this workspace.
+     List the rooms configured on an Airbnb listing, ordered by room number, each with its sleeping
+    arrangement in `beds`. **Pure DB read** from `listings_airbnb_rooms` + `listings_airbnb_beds`.
+    Returns `404` when the listing has no Airbnb connection in this workspace.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -137,8 +138,9 @@ def sync(
 ) -> Error | ListAirbnbListingRoomsResponse200 | None:
     """ List Airbnb rooms
 
-     List the rooms configured on an Airbnb listing, ordered by room number. **Pure DB read** from
-    `listings_airbnb_rooms`. Returns `404` when the listing has no Airbnb connection in this workspace.
+     List the rooms configured on an Airbnb listing, ordered by room number, each with its sleeping
+    arrangement in `beds`. **Pure DB read** from `listings_airbnb_rooms` + `listings_airbnb_beds`.
+    Returns `404` when the listing has no Airbnb connection in this workspace.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -169,8 +171,9 @@ async def asyncio_detailed(
 ) -> Response[Error | ListAirbnbListingRoomsResponse200]:
     """ List Airbnb rooms
 
-     List the rooms configured on an Airbnb listing, ordered by room number. **Pure DB read** from
-    `listings_airbnb_rooms`. Returns `404` when the listing has no Airbnb connection in this workspace.
+     List the rooms configured on an Airbnb listing, ordered by room number, each with its sleeping
+    arrangement in `beds`. **Pure DB read** from `listings_airbnb_rooms` + `listings_airbnb_beds`.
+    Returns `404` when the listing has no Airbnb connection in this workspace.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -206,8 +209,9 @@ async def asyncio(
 ) -> Error | ListAirbnbListingRoomsResponse200 | None:
     """ List Airbnb rooms
 
-     List the rooms configured on an Airbnb listing, ordered by room number. **Pure DB read** from
-    `listings_airbnb_rooms`. Returns `404` when the listing has no Airbnb connection in this workspace.
+     List the rooms configured on an Airbnb listing, ordered by room number, each with its sleeping
+    arrangement in `beds`. **Pure DB read** from `listings_airbnb_rooms` + `listings_airbnb_beds`.
+    Returns `404` when the listing has no Airbnb connection in this workspace.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

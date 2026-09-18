@@ -35,6 +35,15 @@ class ReservationCancelledPayload:
                 reservation webhook event. Stable across `reservation.created`, `reservation.updated`, and
                 `reservation.cancelled`. Fetch the full reservation via `GET /v1/reservations/{id}` if you need pricing, guest
                 contact info, or audit history — those are deliberately omitted to keep deliveries small.
+
+                **Stay terms are the one exception to that rule.** `cancellationPolicy`, `checkInTime` and `checkOutTime` ride
+                on every delivery, because the decisions they drive — is a refund owed, when can housekeeping turn the unit over
+                — are made at the moment the webhook lands, not on a follow-up fetch. They are operational parameters of the
+                booking, not contact or payment data. Guest email, payment method and payment reference stay off the snapshot;
+                see `GET /v1/reservations/{id}`.
+
+                All three are `null` when the source channel did not supply them. They are never defaulted: a fabricated policy
+                is worse than a missing one.
             cancelled_at (datetime.datetime | Unset): When the cancellation was recorded. Example: 2026-05-01T14:00:00.000Z.
             cancelled_by (ReservationCancelledPayloadCancelledBy | Unset): Who initiated the cancellation. Example: guest.
             reason (None | str | Unset): Free-form cancellation reason from the source channel, if available. Example:

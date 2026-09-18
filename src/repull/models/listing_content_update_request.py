@@ -15,6 +15,7 @@ from typing import cast
 if TYPE_CHECKING:
   from ..models.listing_content_update_request_address import ListingContentUpdateRequestAddress
   from ..models.listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+  from ..models.listing_content_update_request_details import ListingContentUpdateRequestDetails
   from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
   from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
   from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
@@ -35,7 +36,13 @@ class ListingContentUpdateRequest:
     (full-replace by default, or append via `photosMode`).
 
         Attributes:
-            title (None | str | Unset): Guest-facing title. Written to the listing name and the `en` description.
+            locale (str | Unset): Which language the `title` / `description` / `summary` / `policies.houseRules` in THIS
+                request are written in. Defaults to `en`. Canonical content is stored per locale — one row per (listing, locale)
+                — so sending Italian copy with `locale: "it"` creates or updates the Italian row instead of overwriting the
+                English one. Distribution of a non-primary locale to Airbnb is a separate call: `PUT
+                /v1/channels/airbnb/listings/{id}/descriptions`. Example: it.
+            title (None | str | Unset): Guest-facing title. Written to the listing name and the description row for
+                `locale`.
             name (None | str | Unset): Alias for `title`.
             description (None | str | Unset): Long-form listing description.
             summary (None | str | Unset): Short summary / tagline.
@@ -43,6 +50,10 @@ class ListingContentUpdateRequest:
                 amenity set. Accepts canonical keys as a string[] or structured rows. Omit to leave amenities untouched; send
                 `[]` to clear them.
             address (ListingContentUpdateRequestAddress | Unset): Partial address. Only provided sub-fields are written.
+            details (ListingContentUpdateRequestDetails | Unset): What KIND of property this is. The publish path reads all
+                three on every push, so setting them here is the update path for a listing that already exists — `POST
+                /v1/listings` could only set the type at creation. Airbnb may lock these on an established listing; the publish
+                response reports that in `lockedFields`.
             occupancy (ListingContentUpdateRequestOccupancy | Unset):
             policies (ListingContentUpdateRequestPolicies | Unset):
             photos (list[ListingContentUpdateRequestPhotosItemType1 | str] | Unset): Photo set — full replacement by default
@@ -55,12 +66,14 @@ class ListingContentUpdateRequest:
                 Default: ListingContentUpdateRequestPhotosMode.REPLACE.
      """
 
+    locale: str | Unset = UNSET
     title: None | str | Unset = UNSET
     name: None | str | Unset = UNSET
     description: None | str | Unset = UNSET
     summary: None | str | Unset = UNSET
     amenities: list[ListingContentUpdateRequestAmenitiesType1Item] | list[str] | Unset = UNSET
     address: ListingContentUpdateRequestAddress | Unset = UNSET
+    details: ListingContentUpdateRequestDetails | Unset = UNSET
     occupancy: ListingContentUpdateRequestOccupancy | Unset = UNSET
     policies: ListingContentUpdateRequestPolicies | Unset = UNSET
     photos: list[ListingContentUpdateRequestPhotosItemType1 | str] | Unset = UNSET
@@ -74,9 +87,12 @@ class ListingContentUpdateRequest:
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_content_update_request_address import ListingContentUpdateRequestAddress
         from ..models.listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+        from ..models.listing_content_update_request_details import ListingContentUpdateRequestDetails
         from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
         from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
         from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
+        locale = self.locale
+
         title: None | str | Unset
         if isinstance(self.title, Unset):
             title = UNSET
@@ -121,6 +137,10 @@ class ListingContentUpdateRequest:
         if not isinstance(self.address, Unset):
             address = self.address.to_dict()
 
+        details: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.details, Unset):
+            details = self.details.to_dict()
+
         occupancy: dict[str, Any] | Unset = UNSET
         if not isinstance(self.occupancy, Unset):
             occupancy = self.occupancy.to_dict()
@@ -152,6 +172,8 @@ class ListingContentUpdateRequest:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if locale is not UNSET:
+            field_dict["locale"] = locale
         if title is not UNSET:
             field_dict["title"] = title
         if name is not UNSET:
@@ -164,6 +186,8 @@ class ListingContentUpdateRequest:
             field_dict["amenities"] = amenities
         if address is not UNSET:
             field_dict["address"] = address
+        if details is not UNSET:
+            field_dict["details"] = details
         if occupancy is not UNSET:
             field_dict["occupancy"] = occupancy
         if policies is not UNSET:
@@ -181,10 +205,13 @@ class ListingContentUpdateRequest:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_content_update_request_address import ListingContentUpdateRequestAddress
         from ..models.listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+        from ..models.listing_content_update_request_details import ListingContentUpdateRequestDetails
         from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
         from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
         from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
         d = dict(src_dict)
+        locale = d.pop("locale", UNSET)
+
         def _parse_title(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -262,6 +289,16 @@ class ListingContentUpdateRequest:
 
 
 
+        _details = d.pop("details", UNSET)
+        details: ListingContentUpdateRequestDetails | Unset
+        if isinstance(_details,  Unset):
+            details = UNSET
+        else:
+            details = ListingContentUpdateRequestDetails.from_dict(_details)
+
+
+
+
         _occupancy = d.pop("occupancy", UNSET)
         occupancy: ListingContentUpdateRequestOccupancy | Unset
         if isinstance(_occupancy,  Unset):
@@ -316,12 +353,14 @@ class ListingContentUpdateRequest:
 
 
         listing_content_update_request = cls(
+            locale=locale,
             title=title,
             name=name,
             description=description,
             summary=summary,
             amenities=amenities,
             address=address,
+            details=details,
             occupancy=occupancy,
             policies=policies,
             photos=photos,

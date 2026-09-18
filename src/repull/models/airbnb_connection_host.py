@@ -31,8 +31,8 @@ class AirbnbConnectionHost:
             name (None | str): Display name (preferred form, falling back to legal first name). Null when both fields are
                 empty. Example: STR Assistance.
             is_connected (bool):
-            last_synced_at (datetime.datetime | None): When the host record was last touched (token refresh / activation /
-                restriction). Closest available proxy for "last successful sync".
+            last_synced_at (datetime.datetime | None): When this account last COMPLETED an Airbnb import. `null` when it
+                never has. A run that failed or was rate-limited does not move it, and neither does anything other than a sync.
             deactivated_at (datetime.datetime | None): When the host was last marked inactive. Null on currently-connected
                 hosts.
             last_disconnect_reason (None | str): Reason of the most recent non-backfill disconnect event. Common values:

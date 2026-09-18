@@ -122,9 +122,9 @@ def sync_detailed(
     nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
     the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
     channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
-    /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
-    (Booking.com).
+    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
+    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -184,9 +184,9 @@ def sync(
     nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
     the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
     channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
-    /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
-    (Booking.com).
+    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
+    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -241,9 +241,9 @@ async def asyncio_detailed(
     nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
     the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
     channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
-    /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
-    (Booking.com).
+    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
+    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -303,9 +303,9 @@ async def asyncio(
     nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
     the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
     channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). Availability **writes** always stay per-channel: `PUT
-    /v1/channels/airbnb/listings/{id}/availability` (Airbnb) or `PUT /v1/channels/booking/availability`
-    (Booking.com).
+    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
+    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

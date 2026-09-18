@@ -20,7 +20,9 @@ from .ai_operation_failed_payload import AiOperationFailedPayload
 from .ai_operation_failed_payload_error import AiOperationFailedPayloadError
 from .ai_operation_input import AIOperationInput
 from .ai_operation_operation import AIOperationOperation
+from .airbnb_account_freshness import AirbnbAccountFreshness
 from .airbnb_alteration import AirbnbAlteration
+from .airbnb_alteration_create_request import AirbnbAlterationCreateRequest
 from .airbnb_amenity import AirbnbAmenity
 from .airbnb_availability_write_request import AirbnbAvailabilityWriteRequest
 from .airbnb_availability_write_request_rules import AirbnbAvailabilityWriteRequestRules
@@ -35,22 +37,53 @@ from .airbnb_connection_host import AirbnbConnectionHost
 from .airbnb_connection_response import AirbnbConnectionResponse
 from .airbnb_connection_summary import AirbnbConnectionSummary
 from .airbnb_connection_summary_status import AirbnbConnectionSummaryStatus
+from .airbnb_connection_sync_category import AirbnbConnectionSyncCategory
+from .airbnb_content_write_response import AirbnbContentWriteResponse
+from .airbnb_content_write_response_result import AirbnbContentWriteResponseResult
 from .airbnb_data_freshness import AirbnbDataFreshness
+from .airbnb_description_write_request import AirbnbDescriptionWriteRequest
+from .airbnb_description_write_request_description import AirbnbDescriptionWriteRequestDescription
 from .airbnb_listing import AirbnbListing
 from .airbnb_listing_action_request import AirbnbListingActionRequest
 from .airbnb_listing_action_request_action import AirbnbListingActionRequestAction
+from .airbnb_listing_action_response_200_type_0 import AirbnbListingActionResponse200Type0
+from .airbnb_listing_action_response_200_type_1 import AirbnbListingActionResponse200Type1
+from .airbnb_listing_details_response import AirbnbListingDetailsResponse
+from .airbnb_listing_details_response_check_in_option_type_0 import AirbnbListingDetailsResponseCheckInOptionType0
+from .airbnb_listing_details_write_request import AirbnbListingDetailsWriteRequest
+from .airbnb_listing_details_write_request_check_in_option import AirbnbListingDetailsWriteRequestCheckInOption
+from .airbnb_listing_details_write_request_check_in_option_category import AirbnbListingDetailsWriteRequestCheckInOptionCategory
+from .airbnb_listing_details_write_request_property_type_group import AirbnbListingDetailsWriteRequestPropertyTypeGroup
+from .airbnb_listing_details_write_request_quiet_hours_item import AirbnbListingDetailsWriteRequestQuietHoursItem
+from .airbnb_listing_details_write_request_room_type_category import AirbnbListingDetailsWriteRequestRoomTypeCategory
+from .airbnb_listing_lifecycle_response import AirbnbListingLifecycleResponse
+from .airbnb_listing_lifecycle_response_action import AirbnbListingLifecycleResponseAction
+from .airbnb_listing_lifecycle_response_channel import AirbnbListingLifecycleResponseChannel
 from .airbnb_listing_list_response import AirbnbListingListResponse
+from .airbnb_permits_response import AirbnbPermitsResponse
+from .airbnb_permits_response_cached_item import AirbnbPermitsResponseCachedItem
+from .airbnb_permits_response_cached_item_permit_data_type_0 import AirbnbPermitsResponseCachedItemPermitDataType0
+from .airbnb_permits_response_permits_type_0_item import AirbnbPermitsResponsePermitsType0Item
+from .airbnb_permits_write_request import AirbnbPermitsWriteRequest
+from .airbnb_permits_write_request_permits_item import AirbnbPermitsWriteRequestPermitsItem
+from .airbnb_permits_write_request_permits_item_answers_item import AirbnbPermitsWriteRequestPermitsItemAnswersItem
+from .airbnb_photo_position import AirbnbPhotoPosition
 from .airbnb_pricing_write_request import AirbnbPricingWriteRequest
 from .airbnb_pricing_write_request_model_type import AirbnbPricingWriteRequestModelType
 from .airbnb_pricing_write_request_records_type_0_item import AirbnbPricingWriteRequestRecordsType0Item
 from .airbnb_pricing_write_request_rule_type_0 import AirbnbPricingWriteRequestRuleType0
 from .airbnb_pricing_write_request_settings_type_0 import AirbnbPricingWriteRequestSettingsType0
 from .airbnb_pricing_write_request_type import AirbnbPricingWriteRequestType
+from .airbnb_publish_result import AirbnbPublishResult
 from .airbnb_reservation import AirbnbReservation
 from .airbnb_reservation_list_response import AirbnbReservationListResponse
 from .airbnb_reservation_status import AirbnbReservationStatus
 from .airbnb_review import AirbnbReview
 from .airbnb_review_list_response import AirbnbReviewListResponse
+from .airbnb_safety_disclosure import AirbnbSafetyDisclosure
+from .airbnb_safety_disclosure_type import AirbnbSafetyDisclosureType
+from .airbnb_safety_disclosures_response import AirbnbSafetyDisclosuresResponse
+from .airbnb_safety_disclosures_write_request import AirbnbSafetyDisclosuresWriteRequest
 from .airbnb_thread import AirbnbThread
 from .airbnb_thread_list_response import AirbnbThreadListResponse
 from .airbnb_transaction import AirbnbTransaction
@@ -120,6 +153,7 @@ from .calendar_updated_event import CalendarUpdatedEvent
 from .calendar_updated_event_type import CalendarUpdatedEventType
 from .calendar_updated_payload import CalendarUpdatedPayload
 from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
+from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
 from .clear_kv_response_200 import ClearKvResponse200
 from .connect_host import ConnectHost
 from .connect_provider import ConnectProvider
@@ -143,8 +177,11 @@ from .conversation_list_response import ConversationListResponse
 from .conversation_message_attachment import ConversationMessageAttachment
 from .conversation_platform import ConversationPlatform
 from .conversation_status import ConversationStatus
-from .create_airbnb_alteration_body import CreateAirbnbAlterationBody
 from .create_airbnb_listing_room_body import CreateAirbnbListingRoomBody
+from .create_airbnb_listing_room_body_beds_item import CreateAirbnbListingRoomBodyBedsItem
+from .create_airbnb_listing_room_body_metadata import CreateAirbnbListingRoomBodyMetadata
+from .create_airbnb_listing_room_body_room_amenities_item import CreateAirbnbListingRoomBodyRoomAmenitiesItem
+from .create_airbnb_listing_room_body_room_type import CreateAirbnbListingRoomBodyRoomType
 from .create_airbnb_offer_body import CreateAirbnbOfferBody
 from .create_airbnb_offer_body_type import CreateAirbnbOfferBodyType
 from .create_billing_checkout_body import CreateBillingCheckoutBody
@@ -172,10 +209,26 @@ from .error import Error
 from .error_error import ErrorError
 from .error_error_support import ErrorErrorSupport
 from .get_airbnb_alteration_response_200 import GetAirbnbAlterationResponse200
+from .get_airbnb_booking_settings_response_200 import GetAirbnbBookingSettingsResponse200
+from .get_airbnb_booking_settings_response_200_data import GetAirbnbBookingSettingsResponse200Data
+from .get_airbnb_booking_settings_response_200_data_advance_notice import GetAirbnbBookingSettingsResponse200DataAdvanceNotice
+from .get_airbnb_booking_settings_response_200_data_booking_mode import GetAirbnbBookingSettingsResponse200DataBookingMode
+from .get_airbnb_booking_settings_response_200_data_booking_window import GetAirbnbBookingSettingsResponse200DataBookingWindow
+from .get_airbnb_booking_settings_response_200_data_cancellation import GetAirbnbBookingSettingsResponse200DataCancellation
+from .get_airbnb_booking_settings_response_200_data_cancellation_non_refundable import GetAirbnbBookingSettingsResponse200DataCancellationNonRefundable
+from .get_airbnb_booking_settings_response_200_data_cancellation_short_stay_policy import GetAirbnbBookingSettingsResponse200DataCancellationShortStayPolicy
+from .get_airbnb_booking_settings_response_200_data_check_in import GetAirbnbBookingSettingsResponse200DataCheckIn
+from .get_airbnb_booking_settings_response_200_data_check_in_end_type_1 import GetAirbnbBookingSettingsResponse200DataCheckInEndType1
+from .get_airbnb_booking_settings_response_200_data_check_in_start_type_1 import GetAirbnbBookingSettingsResponse200DataCheckInStartType1
+from .get_airbnb_booking_settings_response_200_data_check_out import GetAirbnbBookingSettingsResponse200DataCheckOut
+from .get_airbnb_booking_settings_response_200_data_instant_book import GetAirbnbBookingSettingsResponse200DataInstantBook
+from .get_airbnb_booking_settings_response_200_data_instant_book_guest_category import GetAirbnbBookingSettingsResponse200DataInstantBookGuestCategory
+from .get_airbnb_booking_settings_response_200_data_preparation_time import GetAirbnbBookingSettingsResponse200DataPreparationTime
 from .get_airbnb_checkin_guide_response_200 import GetAirbnbCheckinGuideResponse200
 from .get_airbnb_checkin_guide_response_200_data_item import GetAirbnbCheckinGuideResponse200DataItem
 from .get_airbnb_checkout_guide_response_200 import GetAirbnbCheckoutGuideResponse200
 from .get_airbnb_checkout_guide_response_200_data_item import GetAirbnbCheckoutGuideResponse200DataItem
+from .get_airbnb_listing_details_response_200 import GetAirbnbListingDetailsResponse200
 from .get_airbnb_listing_quality_response_200 import GetAirbnbListingQualityResponse200
 from .get_airbnb_listing_quality_type import GetAirbnbListingQualityType
 from .get_airbnb_listing_settings_response_200 import GetAirbnbListingSettingsResponse200
@@ -226,8 +279,11 @@ from .list_airbnb_listing_amenities_response_200 import ListAirbnbListingAmeniti
 from .list_airbnb_listing_amenities_response_200_data import ListAirbnbListingAmenitiesResponse200Data
 from .list_airbnb_listing_descriptions_response_200 import ListAirbnbListingDescriptionsResponse200
 from .list_airbnb_listing_descriptions_response_200_data_item import ListAirbnbListingDescriptionsResponse200DataItem
+from .list_airbnb_listing_permits_response_200 import ListAirbnbListingPermitsResponse200
+from .list_airbnb_listing_permits_source import ListAirbnbListingPermitsSource
 from .list_airbnb_listing_rooms_response_200 import ListAirbnbListingRoomsResponse200
 from .list_airbnb_listing_rooms_response_200_data_item import ListAirbnbListingRoomsResponse200DataItem
+from .list_airbnb_listing_safety_disclosures_response_200 import ListAirbnbListingSafetyDisclosuresResponse200
 from .list_airbnb_reservations_status import ListAirbnbReservationsStatus
 from .list_airbnb_transactions_response_200 import ListAirbnbTransactionsResponse200
 from .list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
@@ -262,10 +318,13 @@ from .listing_content import ListingContent
 from .listing_content_update_request import ListingContentUpdateRequest
 from .listing_content_update_request_address import ListingContentUpdateRequestAddress
 from .listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+from .listing_content_update_request_details import ListingContentUpdateRequestDetails
+from .listing_content_update_request_details_room_type_category import ListingContentUpdateRequestDetailsRoomTypeCategory
 from .listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
 from .listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
 from .listing_content_update_request_photos_mode import ListingContentUpdateRequestPhotosMode
 from .listing_content_update_request_policies import ListingContentUpdateRequestPolicies
+from .listing_content_update_request_policies_check_in_method import ListingContentUpdateRequestPoliciesCheckInMethod
 from .listing_content_update_response import ListingContentUpdateResponse
 from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
@@ -312,6 +371,8 @@ from .listing_pricing_strategy_input_day_of_week_multipliers import ListingPrici
 from .listing_pricing_strategy_input_mode import ListingPricingStrategyInputMode
 from .listing_pricing_strategy_mode import ListingPricingStrategyMode
 from .listing_publish_airbnb_request import ListingPublishAirbnbRequest
+from .listing_publish_airbnb_response import ListingPublishAirbnbResponse
+from .listing_publish_airbnb_response_channel import ListingPublishAirbnbResponseChannel
 from .listing_publish_response import ListingPublishResponse
 from .listing_publish_response_channel import ListingPublishResponseChannel
 from .listing_publish_response_result import ListingPublishResponseResult
@@ -319,6 +380,9 @@ from .listing_publish_status_channel import ListingPublishStatusChannel
 from .listing_publish_status_channel_push_status import ListingPublishStatusChannelPushStatus
 from .listing_publish_status_connection import ListingPublishStatusConnection
 from .listing_publish_status_response import ListingPublishStatusResponse
+from .listing_pull_airbnb_request import ListingPullAirbnbRequest
+from .listing_pull_response import ListingPullResponse
+from .listing_pull_response_channel import ListingPullResponseChannel
 from .listing_quality_tier import ListingQualityTier
 from .listing_quality_tier_tier import ListingQualityTierTier
 from .listing_segment import ListingSegment
@@ -391,8 +455,14 @@ from .property_availability_coverage import PropertyAvailabilityCoverage
 from .property_availability_day import PropertyAvailabilityDay
 from .property_list_response import PropertyListResponse
 from .property_status import PropertyStatus
+from .publish_section_error import PublishSectionError
+from .publish_section_error_code import PublishSectionErrorCode
+from .publish_section_error_section import PublishSectionErrorSection
 from .quote import Quote
 from .quote_pricing import QuotePricing
+from .reorder_airbnb_listing_photos_body import ReorderAirbnbListingPhotosBody
+from .reorder_airbnb_listing_photos_response_200 import ReorderAirbnbListingPhotosResponse200
+from .reorder_airbnb_listing_photos_response_200_data import ReorderAirbnbListingPhotosResponse200Data
 from .reply_booking_review_body import ReplyBookingReviewBody
 from .reply_booking_review_response_200 import ReplyBookingReviewResponse200
 from .reply_to_review_body import ReplyToReviewBody
@@ -470,6 +540,9 @@ from .send_message_request import SendMessageRequest
 from .send_message_request_channel import SendMessageRequestChannel
 from .send_message_response import SendMessageResponse
 from .send_message_response_direction import SendMessageResponseDirection
+from .set_airbnb_listing_cover_photo_body import SetAirbnbListingCoverPhotoBody
+from .set_airbnb_listing_cover_photo_response_200 import SetAirbnbListingCoverPhotoResponse200
+from .set_airbnb_listing_cover_photo_response_200_data import SetAirbnbListingCoverPhotoResponse200Data
 from .set_kv_body import SetKvBody
 from .set_kv_response_200 import SetKvResponse200
 from .submit_beds_24_credentials_body import SubmitBeds24CredentialsBody
@@ -516,6 +589,56 @@ from .sync_airbnb_transactions_body import SyncAirbnbTransactionsBody
 from .sync_airbnb_transactions_body_transaction_type import SyncAirbnbTransactionsBodyTransactionType
 from .sync_airbnb_transactions_response_200 import SyncAirbnbTransactionsResponse200
 from .test_webhook_body import TestWebhookBody
+from .update_airbnb_booking_settings_body import UpdateAirbnbBookingSettingsBody
+from .update_airbnb_booking_settings_body_advance_notice import UpdateAirbnbBookingSettingsBodyAdvanceNotice
+from .update_airbnb_booking_settings_body_booking_window import UpdateAirbnbBookingSettingsBodyBookingWindow
+from .update_airbnb_booking_settings_body_cancellation import UpdateAirbnbBookingSettingsBodyCancellation
+from .update_airbnb_booking_settings_body_cancellation_non_refundable import UpdateAirbnbBookingSettingsBodyCancellationNonRefundable
+from .update_airbnb_booking_settings_body_cancellation_short_stay_policy import UpdateAirbnbBookingSettingsBodyCancellationShortStayPolicy
+from .update_airbnb_booking_settings_body_check_in import UpdateAirbnbBookingSettingsBodyCheckIn
+from .update_airbnb_booking_settings_body_check_in_end_type_1 import UpdateAirbnbBookingSettingsBodyCheckInEndType1
+from .update_airbnb_booking_settings_body_check_in_start_type_1 import UpdateAirbnbBookingSettingsBodyCheckInStartType1
+from .update_airbnb_booking_settings_body_check_out import UpdateAirbnbBookingSettingsBodyCheckOut
+from .update_airbnb_booking_settings_body_instant_book import UpdateAirbnbBookingSettingsBodyInstantBook
+from .update_airbnb_booking_settings_body_instant_book_guest_category import UpdateAirbnbBookingSettingsBodyInstantBookGuestCategory
+from .update_airbnb_booking_settings_body_preparation_time import UpdateAirbnbBookingSettingsBodyPreparationTime
+from .update_airbnb_booking_settings_response_200 import UpdateAirbnbBookingSettingsResponse200
+from .update_airbnb_booking_settings_response_200_data import UpdateAirbnbBookingSettingsResponse200Data
+from .update_airbnb_booking_settings_response_200_data_applied_item import UpdateAirbnbBookingSettingsResponse200DataAppliedItem
+from .update_airbnb_booking_settings_response_200_data_settings import UpdateAirbnbBookingSettingsResponse200DataSettings
+from .update_airbnb_booking_settings_response_200_data_settings_advance_notice import UpdateAirbnbBookingSettingsResponse200DataSettingsAdvanceNotice
+from .update_airbnb_booking_settings_response_200_data_settings_booking_mode import UpdateAirbnbBookingSettingsResponse200DataSettingsBookingMode
+from .update_airbnb_booking_settings_response_200_data_settings_booking_window import UpdateAirbnbBookingSettingsResponse200DataSettingsBookingWindow
+from .update_airbnb_booking_settings_response_200_data_settings_cancellation import UpdateAirbnbBookingSettingsResponse200DataSettingsCancellation
+from .update_airbnb_booking_settings_response_200_data_settings_cancellation_non_refundable import UpdateAirbnbBookingSettingsResponse200DataSettingsCancellationNonRefundable
+from .update_airbnb_booking_settings_response_200_data_settings_cancellation_short_stay_policy import UpdateAirbnbBookingSettingsResponse200DataSettingsCancellationShortStayPolicy
+from .update_airbnb_booking_settings_response_200_data_settings_check_in import UpdateAirbnbBookingSettingsResponse200DataSettingsCheckIn
+from .update_airbnb_booking_settings_response_200_data_settings_check_in_end_type_1 import UpdateAirbnbBookingSettingsResponse200DataSettingsCheckInEndType1
+from .update_airbnb_booking_settings_response_200_data_settings_check_in_start_type_1 import UpdateAirbnbBookingSettingsResponse200DataSettingsCheckInStartType1
+from .update_airbnb_booking_settings_response_200_data_settings_check_out import UpdateAirbnbBookingSettingsResponse200DataSettingsCheckOut
+from .update_airbnb_booking_settings_response_200_data_settings_instant_book import UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBook
+from .update_airbnb_booking_settings_response_200_data_settings_instant_book_guest_category import UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBookGuestCategory
+from .update_airbnb_booking_settings_response_200_data_settings_preparation_time import UpdateAirbnbBookingSettingsResponse200DataSettingsPreparationTime
+from .update_airbnb_listing_amenities_body import UpdateAirbnbListingAmenitiesBody
+from .update_airbnb_listing_amenities_body_accessibility_amenities_item import UpdateAirbnbListingAmenitiesBodyAccessibilityAmenitiesItem
+from .update_airbnb_listing_amenities_body_amenities_item import UpdateAirbnbListingAmenitiesBodyAmenitiesItem
+from .update_airbnb_listing_amenities_response_200 import UpdateAirbnbListingAmenitiesResponse200
+from .update_airbnb_listing_amenities_response_200_data import UpdateAirbnbListingAmenitiesResponse200Data
+from .update_airbnb_listing_permits_response_200 import UpdateAirbnbListingPermitsResponse200
+from .update_airbnb_listing_permits_response_200_permits_item import UpdateAirbnbListingPermitsResponse200PermitsItem
+from .update_airbnb_listing_photo_body import UpdateAirbnbListingPhotoBody
+from .update_airbnb_listing_photo_body_metadata_type_0 import UpdateAirbnbListingPhotoBodyMetadataType0
+from .update_airbnb_listing_photo_response_200 import UpdateAirbnbListingPhotoResponse200
+from .update_airbnb_listing_photo_response_200_data import UpdateAirbnbListingPhotoResponse200Data
+from .update_airbnb_listing_room_body import UpdateAirbnbListingRoomBody
+from .update_airbnb_listing_room_body_beds_item import UpdateAirbnbListingRoomBodyBedsItem
+from .update_airbnb_listing_room_body_metadata import UpdateAirbnbListingRoomBodyMetadata
+from .update_airbnb_listing_room_body_room_amenities_item import UpdateAirbnbListingRoomBodyRoomAmenitiesItem
+from .update_airbnb_listing_room_body_room_type import UpdateAirbnbListingRoomBodyRoomType
+from .update_airbnb_listing_room_response_200 import UpdateAirbnbListingRoomResponse200
+from .update_airbnb_listing_room_response_200_data import UpdateAirbnbListingRoomResponse200Data
+from .update_airbnb_listing_safety_disclosures_response_200 import UpdateAirbnbListingSafetyDisclosuresResponse200
+from .update_airbnb_listing_safety_disclosures_response_200_result import UpdateAirbnbListingSafetyDisclosuresResponse200Result
 from .update_airbnb_message_body import UpdateAirbnbMessageBody
 from .update_airbnb_message_body_action import UpdateAirbnbMessageBodyAction
 from .update_booking_charges_body import UpdateBookingChargesBody
@@ -524,6 +647,10 @@ from .update_listing_pricing_strategy_response_200 import UpdateListingPricingSt
 from .update_plumguide_webhooks_body import UpdatePlumguideWebhooksBody
 from .update_webhook_body import UpdateWebhookBody
 from .update_webhook_body_status import UpdateWebhookBodyStatus
+from .upload_airbnb_listing_photos_body import UploadAirbnbListingPhotosBody
+from .upload_airbnb_listing_photos_body_photos_item import UploadAirbnbListingPhotosBodyPhotosItem
+from .upload_airbnb_listing_photos_body_photos_item_category import UploadAirbnbListingPhotosBodyPhotosItemCategory
+from .upload_airbnb_listing_photos_body_photos_item_metadata import UploadAirbnbListingPhotosBodyPhotosItemMetadata
 from .vrbo_listing import VrboListing
 from .vrbo_reservation import VrboReservation
 from .vrbo_reservation_list_response import VrboReservationListResponse
@@ -563,7 +690,9 @@ __all__ = (
     "AiOperationFailedPayloadError",
     "AIOperationInput",
     "AIOperationOperation",
+    "AirbnbAccountFreshness",
     "AirbnbAlteration",
+    "AirbnbAlterationCreateRequest",
     "AirbnbAmenity",
     "AirbnbAvailabilityWriteRequest",
     "AirbnbAvailabilityWriteRequestRules",
@@ -578,22 +707,53 @@ __all__ = (
     "AirbnbConnectionResponse",
     "AirbnbConnectionSummary",
     "AirbnbConnectionSummaryStatus",
+    "AirbnbConnectionSyncCategory",
+    "AirbnbContentWriteResponse",
+    "AirbnbContentWriteResponseResult",
     "AirbnbDataFreshness",
+    "AirbnbDescriptionWriteRequest",
+    "AirbnbDescriptionWriteRequestDescription",
     "AirbnbListing",
     "AirbnbListingActionRequest",
     "AirbnbListingActionRequestAction",
+    "AirbnbListingActionResponse200Type0",
+    "AirbnbListingActionResponse200Type1",
+    "AirbnbListingDetailsResponse",
+    "AirbnbListingDetailsResponseCheckInOptionType0",
+    "AirbnbListingDetailsWriteRequest",
+    "AirbnbListingDetailsWriteRequestCheckInOption",
+    "AirbnbListingDetailsWriteRequestCheckInOptionCategory",
+    "AirbnbListingDetailsWriteRequestPropertyTypeGroup",
+    "AirbnbListingDetailsWriteRequestQuietHoursItem",
+    "AirbnbListingDetailsWriteRequestRoomTypeCategory",
+    "AirbnbListingLifecycleResponse",
+    "AirbnbListingLifecycleResponseAction",
+    "AirbnbListingLifecycleResponseChannel",
     "AirbnbListingListResponse",
+    "AirbnbPermitsResponse",
+    "AirbnbPermitsResponseCachedItem",
+    "AirbnbPermitsResponseCachedItemPermitDataType0",
+    "AirbnbPermitsResponsePermitsType0Item",
+    "AirbnbPermitsWriteRequest",
+    "AirbnbPermitsWriteRequestPermitsItem",
+    "AirbnbPermitsWriteRequestPermitsItemAnswersItem",
+    "AirbnbPhotoPosition",
     "AirbnbPricingWriteRequest",
     "AirbnbPricingWriteRequestModelType",
     "AirbnbPricingWriteRequestRecordsType0Item",
     "AirbnbPricingWriteRequestRuleType0",
     "AirbnbPricingWriteRequestSettingsType0",
     "AirbnbPricingWriteRequestType",
+    "AirbnbPublishResult",
     "AirbnbReservation",
     "AirbnbReservationListResponse",
     "AirbnbReservationStatus",
     "AirbnbReview",
     "AirbnbReviewListResponse",
+    "AirbnbSafetyDisclosure",
+    "AirbnbSafetyDisclosuresResponse",
+    "AirbnbSafetyDisclosuresWriteRequest",
+    "AirbnbSafetyDisclosureType",
     "AirbnbThread",
     "AirbnbThreadListResponse",
     "AirbnbTransaction",
@@ -663,6 +823,7 @@ __all__ = (
     "CalendarUpdatedEventType",
     "CalendarUpdatedPayload",
     "CalendarUpdatedPayloadRange",
+    "CancelAirbnbAlterationBody",
     "ClearKvResponse200",
     "ConnectHost",
     "Connection",
@@ -686,8 +847,11 @@ __all__ = (
     "ConversationMessageAttachment",
     "ConversationPlatform",
     "ConversationStatus",
-    "CreateAirbnbAlterationBody",
     "CreateAirbnbListingRoomBody",
+    "CreateAirbnbListingRoomBodyBedsItem",
+    "CreateAirbnbListingRoomBodyMetadata",
+    "CreateAirbnbListingRoomBodyRoomAmenitiesItem",
+    "CreateAirbnbListingRoomBodyRoomType",
     "CreateAirbnbOfferBody",
     "CreateAirbnbOfferBodyType",
     "CreateBillingCheckoutBody",
@@ -715,10 +879,26 @@ __all__ = (
     "ErrorError",
     "ErrorErrorSupport",
     "GetAirbnbAlterationResponse200",
+    "GetAirbnbBookingSettingsResponse200",
+    "GetAirbnbBookingSettingsResponse200Data",
+    "GetAirbnbBookingSettingsResponse200DataAdvanceNotice",
+    "GetAirbnbBookingSettingsResponse200DataBookingMode",
+    "GetAirbnbBookingSettingsResponse200DataBookingWindow",
+    "GetAirbnbBookingSettingsResponse200DataCancellation",
+    "GetAirbnbBookingSettingsResponse200DataCancellationNonRefundable",
+    "GetAirbnbBookingSettingsResponse200DataCancellationShortStayPolicy",
+    "GetAirbnbBookingSettingsResponse200DataCheckIn",
+    "GetAirbnbBookingSettingsResponse200DataCheckInEndType1",
+    "GetAirbnbBookingSettingsResponse200DataCheckInStartType1",
+    "GetAirbnbBookingSettingsResponse200DataCheckOut",
+    "GetAirbnbBookingSettingsResponse200DataInstantBook",
+    "GetAirbnbBookingSettingsResponse200DataInstantBookGuestCategory",
+    "GetAirbnbBookingSettingsResponse200DataPreparationTime",
     "GetAirbnbCheckinGuideResponse200",
     "GetAirbnbCheckinGuideResponse200DataItem",
     "GetAirbnbCheckoutGuideResponse200",
     "GetAirbnbCheckoutGuideResponse200DataItem",
+    "GetAirbnbListingDetailsResponse200",
     "GetAirbnbListingQualityResponse200",
     "GetAirbnbListingQualityType",
     "GetAirbnbListingSettingsResponse200",
@@ -769,8 +949,11 @@ __all__ = (
     "ListAirbnbListingAmenitiesResponse200Data",
     "ListAirbnbListingDescriptionsResponse200",
     "ListAirbnbListingDescriptionsResponse200DataItem",
+    "ListAirbnbListingPermitsResponse200",
+    "ListAirbnbListingPermitsSource",
     "ListAirbnbListingRoomsResponse200",
     "ListAirbnbListingRoomsResponse200DataItem",
+    "ListAirbnbListingSafetyDisclosuresResponse200",
     "ListAirbnbReservationsStatus",
     "ListAirbnbTransactionsResponse200",
     "ListBookingReservationsResponse200Type1",
@@ -793,10 +976,13 @@ __all__ = (
     "ListingContentUpdateRequest",
     "ListingContentUpdateRequestAddress",
     "ListingContentUpdateRequestAmenitiesType1Item",
+    "ListingContentUpdateRequestDetails",
+    "ListingContentUpdateRequestDetailsRoomTypeCategory",
     "ListingContentUpdateRequestOccupancy",
     "ListingContentUpdateRequestPhotosItemType1",
     "ListingContentUpdateRequestPhotosMode",
     "ListingContentUpdateRequestPolicies",
+    "ListingContentUpdateRequestPoliciesCheckInMethod",
     "ListingContentUpdateResponse",
     "ListingCreatedEvent",
     "ListingCreatedEventType",
@@ -843,6 +1029,8 @@ __all__ = (
     "ListingPricingStrategyInputMode",
     "ListingPricingStrategyMode",
     "ListingPublishAirbnbRequest",
+    "ListingPublishAirbnbResponse",
+    "ListingPublishAirbnbResponseChannel",
     "ListingPublishResponse",
     "ListingPublishResponseChannel",
     "ListingPublishResponseResult",
@@ -850,6 +1038,9 @@ __all__ = (
     "ListingPublishStatusChannelPushStatus",
     "ListingPublishStatusConnection",
     "ListingPublishStatusResponse",
+    "ListingPullAirbnbRequest",
+    "ListingPullResponse",
+    "ListingPullResponseChannel",
     "ListingQualityTier",
     "ListingQualityTierTier",
     "ListingSegment",
@@ -934,8 +1125,14 @@ __all__ = (
     "PropertyAvailabilityDay",
     "PropertyListResponse",
     "PropertyStatus",
+    "PublishSectionError",
+    "PublishSectionErrorCode",
+    "PublishSectionErrorSection",
     "Quote",
     "QuotePricing",
+    "ReorderAirbnbListingPhotosBody",
+    "ReorderAirbnbListingPhotosResponse200",
+    "ReorderAirbnbListingPhotosResponse200Data",
     "ReplyBookingReviewBody",
     "ReplyBookingReviewResponse200",
     "ReplyToReviewBody",
@@ -1013,6 +1210,9 @@ __all__ = (
     "SendMessageRequestChannel",
     "SendMessageResponse",
     "SendMessageResponseDirection",
+    "SetAirbnbListingCoverPhotoBody",
+    "SetAirbnbListingCoverPhotoResponse200",
+    "SetAirbnbListingCoverPhotoResponse200Data",
     "SetKvBody",
     "SetKvResponse200",
     "SubmitBeds24CredentialsBody",
@@ -1059,6 +1259,56 @@ __all__ = (
     "SyncAirbnbTransactionsBodyTransactionType",
     "SyncAirbnbTransactionsResponse200",
     "TestWebhookBody",
+    "UpdateAirbnbBookingSettingsBody",
+    "UpdateAirbnbBookingSettingsBodyAdvanceNotice",
+    "UpdateAirbnbBookingSettingsBodyBookingWindow",
+    "UpdateAirbnbBookingSettingsBodyCancellation",
+    "UpdateAirbnbBookingSettingsBodyCancellationNonRefundable",
+    "UpdateAirbnbBookingSettingsBodyCancellationShortStayPolicy",
+    "UpdateAirbnbBookingSettingsBodyCheckIn",
+    "UpdateAirbnbBookingSettingsBodyCheckInEndType1",
+    "UpdateAirbnbBookingSettingsBodyCheckInStartType1",
+    "UpdateAirbnbBookingSettingsBodyCheckOut",
+    "UpdateAirbnbBookingSettingsBodyInstantBook",
+    "UpdateAirbnbBookingSettingsBodyInstantBookGuestCategory",
+    "UpdateAirbnbBookingSettingsBodyPreparationTime",
+    "UpdateAirbnbBookingSettingsResponse200",
+    "UpdateAirbnbBookingSettingsResponse200Data",
+    "UpdateAirbnbBookingSettingsResponse200DataAppliedItem",
+    "UpdateAirbnbBookingSettingsResponse200DataSettings",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsAdvanceNotice",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsBookingMode",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsBookingWindow",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsCancellation",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsCancellationNonRefundable",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsCancellationShortStayPolicy",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsCheckIn",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsCheckInEndType1",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsCheckInStartType1",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsCheckOut",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBook",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBookGuestCategory",
+    "UpdateAirbnbBookingSettingsResponse200DataSettingsPreparationTime",
+    "UpdateAirbnbListingAmenitiesBody",
+    "UpdateAirbnbListingAmenitiesBodyAccessibilityAmenitiesItem",
+    "UpdateAirbnbListingAmenitiesBodyAmenitiesItem",
+    "UpdateAirbnbListingAmenitiesResponse200",
+    "UpdateAirbnbListingAmenitiesResponse200Data",
+    "UpdateAirbnbListingPermitsResponse200",
+    "UpdateAirbnbListingPermitsResponse200PermitsItem",
+    "UpdateAirbnbListingPhotoBody",
+    "UpdateAirbnbListingPhotoBodyMetadataType0",
+    "UpdateAirbnbListingPhotoResponse200",
+    "UpdateAirbnbListingPhotoResponse200Data",
+    "UpdateAirbnbListingRoomBody",
+    "UpdateAirbnbListingRoomBodyBedsItem",
+    "UpdateAirbnbListingRoomBodyMetadata",
+    "UpdateAirbnbListingRoomBodyRoomAmenitiesItem",
+    "UpdateAirbnbListingRoomBodyRoomType",
+    "UpdateAirbnbListingRoomResponse200",
+    "UpdateAirbnbListingRoomResponse200Data",
+    "UpdateAirbnbListingSafetyDisclosuresResponse200",
+    "UpdateAirbnbListingSafetyDisclosuresResponse200Result",
     "UpdateAirbnbMessageBody",
     "UpdateAirbnbMessageBodyAction",
     "UpdateBookingChargesBody",
@@ -1067,6 +1317,10 @@ __all__ = (
     "UpdatePlumguideWebhooksBody",
     "UpdateWebhookBody",
     "UpdateWebhookBodyStatus",
+    "UploadAirbnbListingPhotosBody",
+    "UploadAirbnbListingPhotosBodyPhotosItem",
+    "UploadAirbnbListingPhotosBodyPhotosItemCategory",
+    "UploadAirbnbListingPhotosBodyPhotosItemMetadata",
     "VrboListing",
     "VrboReservation",
     "VrboReservationListResponse",

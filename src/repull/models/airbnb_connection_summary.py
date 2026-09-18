@@ -36,7 +36,7 @@ class AirbnbConnectionSummary:
             hosts (list[AirbnbConnectionHost]):
             fix_url (None | str | Unset): Self-serve recovery URL. Set whenever `status` is anything other than `connected`.
                 Points at the dashboard surface where the host re-authorizes (or initiates the first OAuth flow for
-                `never_connected` workspaces). Example: https://repull.dev/dashboard/connections/airbnb.
+                `never_connected` workspaces). Example: https://repull.dev/dashboard/connections.
      """
 
     status: AirbnbConnectionSummaryStatus

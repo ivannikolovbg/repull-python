@@ -29,6 +29,10 @@ class AirbnbThread:
         Attributes:
             id (str | Unset):
             listing_id (None | str | Unset):
+            account_id (None | str | Unset): Which connected Airbnb account this row belongs to — the Airbnb host id, as a
+                string (they exceed 2^53). The same value `?account_id=` accepts and `GET /v1/connect/airbnb` returns as
+                `accounts[].externalAccountId`. Example: 1772489413932732258.
+            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Pomello.
             guest_name (None | str | Unset):
             last_message_at (datetime.datetime | None | Unset):
             unread_count (int | None | Unset):
@@ -36,6 +40,8 @@ class AirbnbThread:
 
     id: str | Unset = UNSET
     listing_id: None | str | Unset = UNSET
+    account_id: None | str | Unset = UNSET
+    account_name: None | str | Unset = UNSET
     guest_name: None | str | Unset = UNSET
     last_message_at: datetime.datetime | None | Unset = UNSET
     unread_count: int | None | Unset = UNSET
@@ -53,6 +59,18 @@ class AirbnbThread:
             listing_id = UNSET
         else:
             listing_id = self.listing_id
+
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
+
+        account_name: None | str | Unset
+        if isinstance(self.account_name, Unset):
+            account_name = UNSET
+        else:
+            account_name = self.account_name
 
         guest_name: None | str | Unset
         if isinstance(self.guest_name, Unset):
@@ -83,6 +101,10 @@ class AirbnbThread:
             field_dict["id"] = id
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
+        if account_id is not UNSET:
+            field_dict["accountId"] = account_id
+        if account_name is not UNSET:
+            field_dict["accountName"] = account_name
         if guest_name is not UNSET:
             field_dict["guestName"] = guest_name
         if last_message_at is not UNSET:
@@ -107,6 +129,26 @@ class AirbnbThread:
             return cast(None | str | Unset, data)
 
         listing_id = _parse_listing_id(d.pop("listingId", UNSET))
+
+
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("accountId", UNSET))
+
+
+        def _parse_account_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_name = _parse_account_name(d.pop("accountName", UNSET))
 
 
         def _parse_guest_name(data: object) -> None | str | Unset:
@@ -152,6 +194,8 @@ class AirbnbThread:
         airbnb_thread = cls(
             id=id,
             listing_id=listing_id,
+            account_id=account_id,
+            account_name=account_name,
             guest_name=guest_name,
             last_message_at=last_message_at,
             unread_count=unread_count,

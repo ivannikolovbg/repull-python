@@ -103,8 +103,12 @@ def sync_detailed(
 ) -> Response[DeleteAirbnbListingPhotoResponse200 | Error]:
     """ Delete an Airbnb photo
 
-     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. Write-
-    side — calls Airbnb upstream; the local photo cache is reconciled by the sync worker afterwards.
+     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. **Write-
+    side** — calls Airbnb upstream.
+
+    The photo is proven to belong to the listing named in the path first; a photo from another listing
+    returns `404`. Airbnb refuses to delete a listing's last photo. Both stored copies drop the photo on
+    success — `stored` reports whether that succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -143,8 +147,12 @@ def sync(
 ) -> DeleteAirbnbListingPhotoResponse200 | Error | None:
     """ Delete an Airbnb photo
 
-     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. Write-
-    side — calls Airbnb upstream; the local photo cache is reconciled by the sync worker afterwards.
+     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. **Write-
+    side** — calls Airbnb upstream.
+
+    The photo is proven to belong to the listing named in the path first; a photo from another listing
+    returns `404`. Airbnb refuses to delete a listing's last photo. Both stored copies drop the photo on
+    success — `stored` reports whether that succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -178,8 +186,12 @@ async def asyncio_detailed(
 ) -> Response[DeleteAirbnbListingPhotoResponse200 | Error]:
     """ Delete an Airbnb photo
 
-     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. Write-
-    side — calls Airbnb upstream; the local photo cache is reconciled by the sync worker afterwards.
+     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. **Write-
+    side** — calls Airbnb upstream.
+
+    The photo is proven to belong to the listing named in the path first; a photo from another listing
+    returns `404`. Airbnb refuses to delete a listing's last photo. Both stored copies drop the photo on
+    success — `stored` reports whether that succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -218,8 +230,12 @@ async def asyncio(
 ) -> DeleteAirbnbListingPhotoResponse200 | Error | None:
     """ Delete an Airbnb photo
 
-     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. Write-
-    side — calls Airbnb upstream; the local photo cache is reconciled by the sync worker afterwards.
+     Remove a single photo from an Airbnb listing. Pass the Airbnb-side photo id as `?photoId=`. **Write-
+    side** — calls Airbnb upstream.
+
+    The photo is proven to belong to the listing named in the path first; a photo from another listing
+    returns `404`. Airbnb refuses to delete a listing's last photo. Both stored copies drop the photo on
+    success — `stored` reports whether that succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

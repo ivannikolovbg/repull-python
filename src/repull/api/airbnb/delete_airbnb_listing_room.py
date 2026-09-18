@@ -110,8 +110,13 @@ def sync_detailed(
 ) -> Response[DeleteAirbnbListingRoomResponse200 | Error]:
     """ Delete an Airbnb room
 
-     Delete a room from an Airbnb listing. **Write-side** — calls Airbnb upstream. Pass the Airbnb-side
-    room id as `?roomId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Delete a room from an Airbnb listing, and its beds with it. **Write-side** — calls Airbnb upstream.
+    Pass the Airbnb-side room id as `?roomId=`. Requires a connected Airbnb host, else `404
+    no_connection`.
+
+    The room is proven to belong to the listing named in the path first; a room from another listing
+    returns `404`. Both stored copies drop the room on success — `stored` reports whether that
+    succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -150,8 +155,13 @@ def sync(
 ) -> DeleteAirbnbListingRoomResponse200 | Error | None:
     """ Delete an Airbnb room
 
-     Delete a room from an Airbnb listing. **Write-side** — calls Airbnb upstream. Pass the Airbnb-side
-    room id as `?roomId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Delete a room from an Airbnb listing, and its beds with it. **Write-side** — calls Airbnb upstream.
+    Pass the Airbnb-side room id as `?roomId=`. Requires a connected Airbnb host, else `404
+    no_connection`.
+
+    The room is proven to belong to the listing named in the path first; a room from another listing
+    returns `404`. Both stored copies drop the room on success — `stored` reports whether that
+    succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -185,8 +195,13 @@ async def asyncio_detailed(
 ) -> Response[DeleteAirbnbListingRoomResponse200 | Error]:
     """ Delete an Airbnb room
 
-     Delete a room from an Airbnb listing. **Write-side** — calls Airbnb upstream. Pass the Airbnb-side
-    room id as `?roomId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Delete a room from an Airbnb listing, and its beds with it. **Write-side** — calls Airbnb upstream.
+    Pass the Airbnb-side room id as `?roomId=`. Requires a connected Airbnb host, else `404
+    no_connection`.
+
+    The room is proven to belong to the listing named in the path first; a room from another listing
+    returns `404`. Both stored copies drop the room on success — `stored` reports whether that
+    succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -225,8 +240,13 @@ async def asyncio(
 ) -> DeleteAirbnbListingRoomResponse200 | Error | None:
     """ Delete an Airbnb room
 
-     Delete a room from an Airbnb listing. **Write-side** — calls Airbnb upstream. Pass the Airbnb-side
-    room id as `?roomId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Delete a room from an Airbnb listing, and its beds with it. **Write-side** — calls Airbnb upstream.
+    Pass the Airbnb-side room id as `?roomId=`. Requires a connected Airbnb host, else `404
+    no_connection`.
+
+    The room is proven to belong to the listing named in the path first; a room from another listing
+    returns `404`. Both stored copies drop the room on success — `stored` reports whether that
+    succeeded.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

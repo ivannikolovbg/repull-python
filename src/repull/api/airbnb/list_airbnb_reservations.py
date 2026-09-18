@@ -20,6 +20,7 @@ import datetime
 
 def _get_kwargs(
     *,
+    account_id: str | Unset = UNSET,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
     limit: int | Unset = 50,
@@ -35,6 +36,8 @@ def _get_kwargs(
     
 
     params: dict[str, Any] = {}
+
+    params["account_id"] = account_id
 
     params["cursor"] = cursor
 
@@ -92,6 +95,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -110,6 +120,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
     limit: int | Unset = 50,
@@ -141,7 +152,13 @@ def sync_detailed(
     reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
     listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 50.
@@ -161,7 +178,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        cursor=cursor,
+        account_id=account_id,
+cursor=cursor,
 offset=offset,
 limit=limit,
 listing_id=listing_id,
@@ -181,6 +199,7 @@ include_total=include_total,
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
     limit: int | Unset = 50,
@@ -212,7 +231,13 @@ def sync(
     reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
     listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 50.
@@ -233,6 +258,7 @@ def sync(
 
     return sync_detailed(
         client=client,
+account_id=account_id,
 cursor=cursor,
 offset=offset,
 limit=limit,
@@ -247,6 +273,7 @@ include_total=include_total,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
     limit: int | Unset = 50,
@@ -278,7 +305,13 @@ async def asyncio_detailed(
     reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
     listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 50.
@@ -298,7 +331,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        cursor=cursor,
+        account_id=account_id,
+cursor=cursor,
 offset=offset,
 limit=limit,
 listing_id=listing_id,
@@ -318,6 +352,7 @@ include_total=include_total,
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
     limit: int | Unset = 50,
@@ -349,7 +384,13 @@ async def asyncio(
     reappear once the listing is activated. Filtering by an inactive listing (`listing_id`) returns `403
     listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 50.
@@ -370,6 +411,7 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+account_id=account_id,
 cursor=cursor,
 offset=offset,
 limit=limit,

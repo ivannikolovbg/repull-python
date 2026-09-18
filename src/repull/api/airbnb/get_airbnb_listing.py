@@ -87,6 +87,12 @@ def sync_detailed(
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
 
+    Each row carries `syncCategory` — Airbnb's own per-listing API sync decision (`sync_all`,
+    `sync_rates_and_availability`, or `none`) — and `writable`, which is `false` exactly when that
+    category is `none`, meaning Airbnb refuses every write to the listing and Repull returns `403
+    listing_not_api_connected` without sending anything. `GET /v1/channels/airbnb/listings` reports both
+    fields for the whole portfolio in one call.
+
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
@@ -128,6 +134,12 @@ def sync(
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
 
+    Each row carries `syncCategory` — Airbnb's own per-listing API sync decision (`sync_all`,
+    `sync_rates_and_availability`, or `none`) — and `writable`, which is `false` exactly when that
+    category is `none`, meaning Airbnb refuses every write to the listing and Repull returns `403
+    listing_not_api_connected` without sending anything. `GET /v1/channels/airbnb/listings` reports both
+    fields for the whole portfolio in one call.
+
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
@@ -163,6 +175,12 @@ async def asyncio_detailed(
      Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
+
+    Each row carries `syncCategory` — Airbnb's own per-listing API sync decision (`sync_all`,
+    `sync_rates_and_availability`, or `none`) — and `writable`, which is `false` exactly when that
+    category is `none`, meaning Airbnb refuses every write to the listing and Repull returns `403
+    listing_not_api_connected` without sending anything. `GET /v1/channels/airbnb/listings` reports both
+    fields for the whole portfolio in one call.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -204,6 +222,12 @@ async def asyncio(
      Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
+
+    Each row carries `syncCategory` — Airbnb's own per-listing API sync decision (`sync_all`,
+    `sync_rates_and_availability`, or `none`) — and `writable`, which is `false` exactly when that
+    category is `none`, meaning Airbnb refuses every write to the listing and Repull returns `403
+    listing_not_api_connected` without sending anything. `GET /v1/channels/airbnb/listings` reports both
+    fields for the whole portfolio in one call.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

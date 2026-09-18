@@ -18,6 +18,7 @@ from typing import cast
 
 def _get_kwargs(
     *,
+    account_id: str | Unset = UNSET,
     type_: ListAirbnbAlterationsType | Unset = ListAirbnbAlterationsType.PENDING,
     reservation_code: str | Unset = UNSET,
 
@@ -27,6 +28,8 @@ def _get_kwargs(
     
 
     params: dict[str, Any] = {}
+
+    params["account_id"] = account_id
 
     json_type_: str | Unset = UNSET
     if not isinstance(type_, Unset):
@@ -73,6 +76,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
 
@@ -98,6 +108,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     type_: ListAirbnbAlterationsType | Unset = ListAirbnbAlterationsType.PENDING,
     reservation_code: str | Unset = UNSET,
 
@@ -112,10 +123,20 @@ def sync_detailed(
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
 
+    Each row carries the proposed change in its `new*` fields. A **listing transfer** shows up as
+    `newListingId` (Repull listing id) and `newAirbnbListingId` (Airbnb's own id); both are `null` when
+    the alteration does not move the reservation.
+
     Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
     inactive listing (`reservation_code`) returns `403 listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
         reservation_code (str | Unset):
 
@@ -129,7 +150,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        type_=type_,
+        account_id=account_id,
+type_=type_,
 reservation_code=reservation_code,
 
     )
@@ -143,6 +165,7 @@ reservation_code=reservation_code,
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     type_: ListAirbnbAlterationsType | Unset = ListAirbnbAlterationsType.PENDING,
     reservation_code: str | Unset = UNSET,
 
@@ -157,10 +180,20 @@ def sync(
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
 
+    Each row carries the proposed change in its `new*` fields. A **listing transfer** shows up as
+    `newListingId` (Repull listing id) and `newAirbnbListingId` (Airbnb's own id); both are `null` when
+    the alteration does not move the reservation.
+
     Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
     inactive listing (`reservation_code`) returns `403 listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
         reservation_code (str | Unset):
 
@@ -175,6 +208,7 @@ def sync(
 
     return sync_detailed(
         client=client,
+account_id=account_id,
 type_=type_,
 reservation_code=reservation_code,
 
@@ -183,6 +217,7 @@ reservation_code=reservation_code,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     type_: ListAirbnbAlterationsType | Unset = ListAirbnbAlterationsType.PENDING,
     reservation_code: str | Unset = UNSET,
 
@@ -197,10 +232,20 @@ async def asyncio_detailed(
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
 
+    Each row carries the proposed change in its `new*` fields. A **listing transfer** shows up as
+    `newListingId` (Repull listing id) and `newAirbnbListingId` (Airbnb's own id); both are `null` when
+    the alteration does not move the reservation.
+
     Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
     inactive listing (`reservation_code`) returns `403 listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
         reservation_code (str | Unset):
 
@@ -214,7 +259,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        type_=type_,
+        account_id=account_id,
+type_=type_,
 reservation_code=reservation_code,
 
     )
@@ -228,6 +274,7 @@ reservation_code=reservation_code,
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    account_id: str | Unset = UNSET,
     type_: ListAirbnbAlterationsType | Unset = ListAirbnbAlterationsType.PENDING,
     reservation_code: str | Unset = UNSET,
 
@@ -242,10 +289,20 @@ async def asyncio(
     reservation with `?reservation_code=<confirmation code>`. Every response carries the `dataFreshness`
     envelope.
 
+    Each row carries the proposed change in its `new*` fields. A **listing transfer** shows up as
+    `newListingId` (Repull listing id) and `newAirbnbListingId` (Airbnb's own id); both are `null` when
+    the alteration does not move the reservation.
+
     Alterations of reservations on inactive listings are left out. Filtering by a reservation on an
     inactive listing (`reservation_code`) returns `403 listing_inactive`.
 
+    **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
+    connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
+    `accountId` + `accountName` either way, and `dataFreshness.accounts[]` reports each account's
+    freshness separately, so one disconnected host no longer marks the whole response stale.
+
     Args:
+        account_id (str | Unset):  Example: 1772489413932732258.
         type_ (ListAirbnbAlterationsType | Unset):  Default: ListAirbnbAlterationsType.PENDING.
         reservation_code (str | Unset):
 
@@ -260,6 +317,7 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+account_id=account_id,
 type_=type_,
 reservation_code=reservation_code,
 
