@@ -5,6 +5,31 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.16] - 2026-09-22
+
+Regenerated against the live `https://api.repull.dev/openapi.json`
+(191 → 199 operations, none removed).
+
+### Added
+- **Inquiries** — `repull.api.conversations.list_inquiries` (`GET /v1/inquiries`;
+  `status` defaults to `open`, pass `all` for every state).
+- **Pre-approval** — `repull.api.conversations.preapprove_conversation`
+  (`POST /v1/conversations/{id}/pre-approval`, optional `blockInstantBooking`).
+- **Special offers** — `repull.api.conversations.create_conversation_special_offer`,
+  `get_conversation_special_offer`, `withdraw_conversation_special_offer`
+  (`POST`/`GET`/`DELETE /v1/conversations/{id}/special-offers[/{offerId}]`),
+  plus `repull.api.airbnb.get_airbnb_offer` (`GET /v1/channels/airbnb/offers?offerId=`).
+- **Booking requests** — `repull.api.reservations.accept_reservation_request`
+  and `decline_reservation_request` (`POST /v1/reservations/{id}/accept|decline`).
+- **Message attachments** — `SendMessageRequest.attachments` (list of
+  `SendMessageAttachment`, 1–5 files by public `https://` URL) on
+  `send_conversation_message`; the response carries `SentAttachment`s.
+- **Webhooks** — `WebhookEventType` gains `reservation.request.created`,
+  `reservation.request.updated`, `inquiry.created`, `inquiry.updated`, with
+  models `ReservationRequestCreatedEvent`, `ReservationRequestUpdatedEvent`,
+  `InquiryCreatedEvent`, `InquiryUpdatedEvent` and `InquiryWebhookObject`.
+- `Reservation` gains `status_detail` (`request_expired`) and `respond_by`.
+
 ## [0.2.15] - 2026-09-18
 
 Regenerated against the live `https://api.repull.dev/openapi.json`

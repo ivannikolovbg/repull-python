@@ -43,7 +43,8 @@ class Message:
             body (str | Unset): Message body in the original language.
             translated_body (None | str | Unset): English translation when the original language is non-English and a
                 translation has been computed.
-            attachments (list[ConversationMessageAttachment] | Unset):
+            attachments (list[ConversationMessageAttachment] | Unset): Files on this message, inbound or outbound. Empty
+                array when there are none. A file-only message has an empty `body`.
             is_automated (bool | Unset): `true` when the message was sent by a Vanio automation (template, schedule, etc.).
             ai_generated (bool | Unset): `true` when the body was authored by Vanio AI (autopilot, draft).
             sent_at (datetime.datetime | Unset):

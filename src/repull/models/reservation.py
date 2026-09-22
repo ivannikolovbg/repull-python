@@ -15,6 +15,7 @@ from ..models.reservation_source_type_1 import ReservationSourceType1
 from ..models.reservation_source_type_2_type_1 import ReservationSourceType2Type1
 from ..models.reservation_source_type_3_type_1 import ReservationSourceType3Type1
 from ..models.reservation_status import ReservationStatus
+from ..models.reservation_status_detail import ReservationStatusDetail
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -50,7 +51,9 @@ class Reservation:
             check_out (datetime.date):  Example: 2026-04-20.
             status (ReservationStatus): Lifecycle status. The API normalises a multi-decade internal taxonomy down to these
                 four buckets, so the value you receive is always one of the enum constants. `completed` is derived from
-                `checkOut < today`. Example: confirmed.
+                `checkOut < today`. A `pending` booking request the channel already let lapse — Airbnb expires an unanswered
+                request 24 hours after the guest asks, and no request can be answered once its check-in has passed — is reported
+                as `cancelled` with `statusDetail: "request_expired"`, even when the channel never told us. Example: confirmed.
             confirmation_code (str): Channel-side confirmation code (Airbnb HMxxx, Booking.com numeric, etc.). Example:
                 HMXYZ123.
             created_at (datetime.datetime): When the reservation row was created in Repull (not the booking-on-channel
@@ -67,6 +70,13 @@ class Reservation:
             check_out_time (None | str | Unset): Local check-out time for this stay, `HH:MM` on a 24-hour clock in the
                 property's own timezone. Pair with `checkOut` to schedule the turnover clean. `null` when unknown. This is the
                 same field `PATCH /v1/reservations/{id}` writes. Example: 10:00.
+            status_detail (ReservationStatusDetail | Unset): Present only when `status` was derived rather than reported by
+                the channel. `request_expired` — a booking request nobody answered in time (Airbnb's 24-hour window passed, or
+                the check-in did). Absent otherwise. Example: request_expired.
+            respond_by (datetime.datetime | Unset): On a `pending` Airbnb booking request that can still be answered: when
+                it lapses (24 hours after the guest asked). Accept or decline before then with `POST
+                /v1/reservations/{id}/accept` / `/decline`. Absent on every other reservation. Example:
+                2026-09-23T09:00:00.000Z.
             source (None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset):
                 Booking source / channel. Lowercase. May be null on legacy rows. Canonical name as of 2026-05; `platform` is
                 kept as an alias. Example: airbnb.
@@ -113,6 +123,8 @@ class Reservation:
     guest_id: str | Unset = UNSET
     check_in_time: None | str | Unset = UNSET
     check_out_time: None | str | Unset = UNSET
+    status_detail: ReservationStatusDetail | Unset = UNSET
+    respond_by: datetime.datetime | Unset = UNSET
     source: None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset = UNSET
     platform: None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset = UNSET
     primary_guest: ReservationPrimaryGuest | Unset = UNSET
@@ -163,6 +175,15 @@ class Reservation:
             check_out_time = UNSET
         else:
             check_out_time = self.check_out_time
+
+        status_detail: str | Unset = UNSET
+        if not isinstance(self.status_detail, Unset):
+            status_detail = self.status_detail.value
+
+
+        respond_by: str | Unset = UNSET
+        if not isinstance(self.respond_by, Unset):
+            respond_by = self.respond_by.isoformat()
 
         source: None | str | Unset
         if isinstance(self.source, Unset):
@@ -241,6 +262,10 @@ class Reservation:
             field_dict["checkInTime"] = check_in_time
         if check_out_time is not UNSET:
             field_dict["checkOutTime"] = check_out_time
+        if status_detail is not UNSET:
+            field_dict["statusDetail"] = status_detail
+        if respond_by is not UNSET:
+            field_dict["respondBy"] = respond_by
         if source is not UNSET:
             field_dict["source"] = source
         if platform is not UNSET:
@@ -324,6 +349,26 @@ class Reservation:
             return cast(None | str | Unset, data)
 
         check_out_time = _parse_check_out_time(d.pop("checkOutTime", UNSET))
+
+
+        _status_detail = d.pop("statusDetail", UNSET)
+        status_detail: ReservationStatusDetail | Unset
+        if isinstance(_status_detail,  Unset):
+            status_detail = UNSET
+        else:
+            status_detail = ReservationStatusDetail(_status_detail)
+
+
+
+
+        _respond_by = d.pop("respondBy", UNSET)
+        respond_by: datetime.datetime | Unset
+        if isinstance(_respond_by,  Unset):
+            respond_by = UNSET
+        else:
+            respond_by = isoparse(_respond_by)
+
+
 
 
         def _parse_source(data: object) -> None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset:
@@ -492,6 +537,8 @@ class Reservation:
             guest_id=guest_id,
             check_in_time=check_in_time,
             check_out_time=check_out_time,
+            status_detail=status_detail,
+            respond_by=respond_by,
             source=source,
             platform=platform,
             primary_guest=primary_guest,

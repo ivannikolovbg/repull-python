@@ -91,6 +91,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_500
 
+    if response.status_code == 503:
+        response_503 = Error.from_dict(response.json())
+
+
+
+        return response_503
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -140,13 +147,48 @@ def sync_detailed(
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
 
+    ### Attachments
+
+    Send files with `attachments: [{ url, contentType?, filename? }]` — public `https://` URLs, up to 5
+    per request, 10 MB each. `message` may be omitted when there are attachments (except on
+    Booking.com). Repull downloads each file, reads its real type from the bytes, keeps a durable copy
+    and delivers it through the channel's own file flow. **Every file is checked before anything is
+    sent**: if one is unreachable, too large or of a type the channel refuses, the call returns 422
+    naming the file (`index`) and the guest receives nothing.
+
+    | Channel | Accepted types | Text | How it arrives |
+    |---|---|---|---|
+    | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
+    own message, then the text as a separate message |
+    | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
+    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+
+    Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
+    message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
+    after earlier ones arrived — that returns `422 message_partially_sent` with `parts` saying exactly
+    which messages reached the guest; resend only the rest.
+
+    The response's `attachments` lists each file's durable `url`, and `parts` lists every channel
+    message the send produced. Read-back (`GET /v1/conversations/{id}/messages`) shows the same files in
+    each message's `attachments`.
+
     **Inactive listings:** a conversation that belongs to an inactive listing returns `403
     listing_inactive` and no message is sent. Activate the listing first.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (SendMessageRequest):
+        body (SendMessageRequest): `message`, `attachments`, or both. Per-channel limits for
+            `attachments`:
+
+            | Channel | Accepted types | Per file | Per request | Text |
+            |---|---|---|---|---|
+            | Airbnb | JPEG, PNG, GIF, WebP (sent as JPEG), MP4, QuickTime | 10 MB | 5 | optional —
+            each file is sent as its own message, then the text |
+            | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
+            message |
+            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
+            nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -204,13 +246,48 @@ def sync(
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
 
+    ### Attachments
+
+    Send files with `attachments: [{ url, contentType?, filename? }]` — public `https://` URLs, up to 5
+    per request, 10 MB each. `message` may be omitted when there are attachments (except on
+    Booking.com). Repull downloads each file, reads its real type from the bytes, keeps a durable copy
+    and delivers it through the channel's own file flow. **Every file is checked before anything is
+    sent**: if one is unreachable, too large or of a type the channel refuses, the call returns 422
+    naming the file (`index`) and the guest receives nothing.
+
+    | Channel | Accepted types | Text | How it arrives |
+    |---|---|---|---|
+    | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
+    own message, then the text as a separate message |
+    | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
+    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+
+    Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
+    message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
+    after earlier ones arrived — that returns `422 message_partially_sent` with `parts` saying exactly
+    which messages reached the guest; resend only the rest.
+
+    The response's `attachments` lists each file's durable `url`, and `parts` lists every channel
+    message the send produced. Read-back (`GET /v1/conversations/{id}/messages`) shows the same files in
+    each message's `attachments`.
+
     **Inactive listings:** a conversation that belongs to an inactive listing returns `403
     listing_inactive` and no message is sent. Activate the listing first.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (SendMessageRequest):
+        body (SendMessageRequest): `message`, `attachments`, or both. Per-channel limits for
+            `attachments`:
+
+            | Channel | Accepted types | Per file | Per request | Text |
+            |---|---|---|---|---|
+            | Airbnb | JPEG, PNG, GIF, WebP (sent as JPEG), MP4, QuickTime | 10 MB | 5 | optional —
+            each file is sent as its own message, then the text |
+            | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
+            message |
+            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
+            nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -263,13 +340,48 @@ async def asyncio_detailed(
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
 
+    ### Attachments
+
+    Send files with `attachments: [{ url, contentType?, filename? }]` — public `https://` URLs, up to 5
+    per request, 10 MB each. `message` may be omitted when there are attachments (except on
+    Booking.com). Repull downloads each file, reads its real type from the bytes, keeps a durable copy
+    and delivers it through the channel's own file flow. **Every file is checked before anything is
+    sent**: if one is unreachable, too large or of a type the channel refuses, the call returns 422
+    naming the file (`index`) and the guest receives nothing.
+
+    | Channel | Accepted types | Text | How it arrives |
+    |---|---|---|---|
+    | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
+    own message, then the text as a separate message |
+    | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
+    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+
+    Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
+    message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
+    after earlier ones arrived — that returns `422 message_partially_sent` with `parts` saying exactly
+    which messages reached the guest; resend only the rest.
+
+    The response's `attachments` lists each file's durable `url`, and `parts` lists every channel
+    message the send produced. Read-back (`GET /v1/conversations/{id}/messages`) shows the same files in
+    each message's `attachments`.
+
     **Inactive listings:** a conversation that belongs to an inactive listing returns `403
     listing_inactive` and no message is sent. Activate the listing first.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (SendMessageRequest):
+        body (SendMessageRequest): `message`, `attachments`, or both. Per-channel limits for
+            `attachments`:
+
+            | Channel | Accepted types | Per file | Per request | Text |
+            |---|---|---|---|---|
+            | Airbnb | JPEG, PNG, GIF, WebP (sent as JPEG), MP4, QuickTime | 10 MB | 5 | optional —
+            each file is sent as its own message, then the text |
+            | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
+            message |
+            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
+            nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -327,13 +439,48 @@ async def asyncio(
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
 
+    ### Attachments
+
+    Send files with `attachments: [{ url, contentType?, filename? }]` — public `https://` URLs, up to 5
+    per request, 10 MB each. `message` may be omitted when there are attachments (except on
+    Booking.com). Repull downloads each file, reads its real type from the bytes, keeps a durable copy
+    and delivers it through the channel's own file flow. **Every file is checked before anything is
+    sent**: if one is unreachable, too large or of a type the channel refuses, the call returns 422
+    naming the file (`index`) and the guest receives nothing.
+
+    | Channel | Accepted types | Text | How it arrives |
+    |---|---|---|---|
+    | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
+    own message, then the text as a separate message |
+    | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
+    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+
+    Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
+    message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
+    after earlier ones arrived — that returns `422 message_partially_sent` with `parts` saying exactly
+    which messages reached the guest; resend only the rest.
+
+    The response's `attachments` lists each file's durable `url`, and `parts` lists every channel
+    message the send produced. Read-back (`GET /v1/conversations/{id}/messages`) shows the same files in
+    each message's `attachments`.
+
     **Inactive listings:** a conversation that belongs to an inactive listing returns `403
     listing_inactive` and no message is sent. Activate the listing first.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (SendMessageRequest):
+        body (SendMessageRequest): `message`, `attachments`, or both. Per-channel limits for
+            `attachments`:
+
+            | Channel | Accepted types | Per file | Per request | Text |
+            |---|---|---|---|---|
+            | Airbnb | JPEG, PNG, GIF, WebP (sent as JPEG), MP4, QuickTime | 10 MB | 5 | optional —
+            each file is sent as its own message, then the text |
+            | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
+            message |
+            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
+            nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

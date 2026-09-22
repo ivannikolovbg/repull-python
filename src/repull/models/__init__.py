@@ -1,6 +1,13 @@
 """ Contains all the data models used in inputs/outputs """
 
 from .accept_airbnb_alteration_body import AcceptAirbnbAlterationBody
+from .accept_reservation_request_response_200 import AcceptReservationRequestResponse200
+from .accept_reservation_request_response_200_action import AcceptReservationRequestResponse200Action
+from .accept_reservation_request_response_200_channel import AcceptReservationRequestResponse200Channel
+from .accept_reservation_request_response_200_decline_reason_type_1 import AcceptReservationRequestResponse200DeclineReasonType1
+from .accept_reservation_request_response_200_decline_reason_type_2_type_1 import AcceptReservationRequestResponse200DeclineReasonType2Type1
+from .accept_reservation_request_response_200_decline_reason_type_3_type_1 import AcceptReservationRequestResponse200DeclineReasonType3Type1
+from .accept_reservation_request_response_200_status import AcceptReservationRequestResponse200Status
 from .account_created_event import AccountCreatedEvent
 from .account_created_event_event import AccountCreatedEventEvent
 from .account_created_payload import AccountCreatedPayload
@@ -76,6 +83,10 @@ from .airbnb_pricing_write_request_settings_type_0 import AirbnbPricingWriteRequ
 from .airbnb_pricing_write_request_type import AirbnbPricingWriteRequestType
 from .airbnb_publish_result import AirbnbPublishResult
 from .airbnb_reservation import AirbnbReservation
+from .airbnb_reservation_action_body import AirbnbReservationActionBody
+from .airbnb_reservation_action_body_action import AirbnbReservationActionBodyAction
+from .airbnb_reservation_action_body_reason import AirbnbReservationActionBodyReason
+from .airbnb_reservation_action_response_200 import AirbnbReservationActionResponse200
 from .airbnb_reservation_list_response import AirbnbReservationListResponse
 from .airbnb_reservation_status import AirbnbReservationStatus
 from .airbnb_review import AirbnbReview
@@ -195,6 +206,7 @@ from .conversation_guest_contact import ConversationGuestContact
 from .conversation_host import ConversationHost
 from .conversation_list_response import ConversationListResponse
 from .conversation_message_attachment import ConversationMessageAttachment
+from .conversation_message_attachment_type import ConversationMessageAttachmentType
 from .conversation_platform import ConversationPlatform
 from .conversation_status import ConversationStatus
 from .create_airbnb_listing_room_body import CreateAirbnbListingRoomBody
@@ -203,13 +215,22 @@ from .create_airbnb_listing_room_body_metadata import CreateAirbnbListingRoomBod
 from .create_airbnb_listing_room_body_room_amenities_item import CreateAirbnbListingRoomBodyRoomAmenitiesItem
 from .create_airbnb_listing_room_body_room_type import CreateAirbnbListingRoomBodyRoomType
 from .create_airbnb_offer_body import CreateAirbnbOfferBody
+from .create_airbnb_offer_body_guest_details import CreateAirbnbOfferBodyGuestDetails
 from .create_airbnb_offer_body_type import CreateAirbnbOfferBodyType
+from .create_airbnb_offer_response_201 import CreateAirbnbOfferResponse201
+from .create_airbnb_offer_response_201_guest_details import CreateAirbnbOfferResponse201GuestDetails
+from .create_airbnb_offer_response_201_offer_type import CreateAirbnbOfferResponse201OfferType
+from .create_airbnb_offer_response_201_status import CreateAirbnbOfferResponse201Status
 from .create_billing_checkout_body import CreateBillingCheckoutBody
 from .create_billing_checkout_body_plan import CreateBillingCheckoutBodyPlan
 from .create_booking_webhook_body import CreateBookingWebhookBody
 from .create_connect_session_body import CreateConnectSessionBody
 from .create_connection_body import CreateConnectionBody
 from .create_connection_body_access_type import CreateConnectionBodyAccessType
+from .create_conversation_special_offer_body import CreateConversationSpecialOfferBody
+from .create_conversation_special_offer_body_guests import CreateConversationSpecialOfferBodyGuests
+from .create_conversation_special_offer_response_201 import CreateConversationSpecialOfferResponse201
+from .create_conversation_special_offer_response_201_guests_type_0 import CreateConversationSpecialOfferResponse201GuestsType0
 from .create_webhook_body import CreateWebhookBody
 from .cursor_pagination import CursorPagination
 from .custom_schema import CustomSchema
@@ -221,6 +242,15 @@ from .custom_schema_mappings import CustomSchemaMappings
 from .custom_schema_summary import CustomSchemaSummary
 from .custom_schema_update import CustomSchemaUpdate
 from .decline_airbnb_alteration_body import DeclineAirbnbAlterationBody
+from .decline_reservation_request_body import DeclineReservationRequestBody
+from .decline_reservation_request_body_reason import DeclineReservationRequestBodyReason
+from .decline_reservation_request_response_200 import DeclineReservationRequestResponse200
+from .decline_reservation_request_response_200_action import DeclineReservationRequestResponse200Action
+from .decline_reservation_request_response_200_channel import DeclineReservationRequestResponse200Channel
+from .decline_reservation_request_response_200_decline_reason_type_1 import DeclineReservationRequestResponse200DeclineReasonType1
+from .decline_reservation_request_response_200_decline_reason_type_2_type_1 import DeclineReservationRequestResponse200DeclineReasonType2Type1
+from .decline_reservation_request_response_200_decline_reason_type_3_type_1 import DeclineReservationRequestResponse200DeclineReasonType3Type1
+from .decline_reservation_request_response_200_status import DeclineReservationRequestResponse200Status
 from .delete_airbnb_listing_photo_response_200 import DeleteAirbnbListingPhotoResponse200
 from .delete_airbnb_listing_room_response_200 import DeleteAirbnbListingRoomResponse200
 from .delete_connection_response_200 import DeleteConnectionResponse200
@@ -253,11 +283,17 @@ from .get_airbnb_listing_quality_response_200 import GetAirbnbListingQualityResp
 from .get_airbnb_listing_quality_type import GetAirbnbListingQualityType
 from .get_airbnb_listing_settings_response_200 import GetAirbnbListingSettingsResponse200
 from .get_airbnb_listing_settings_type import GetAirbnbListingSettingsType
+from .get_airbnb_offer_response_200 import GetAirbnbOfferResponse200
+from .get_airbnb_offer_response_200_guest_details import GetAirbnbOfferResponse200GuestDetails
+from .get_airbnb_offer_response_200_offer_type import GetAirbnbOfferResponse200OfferType
+from .get_airbnb_offer_response_200_status import GetAirbnbOfferResponse200Status
 from .get_airbnb_thread_response_200 import GetAirbnbThreadResponse200
 from .get_atlas_health_response_200 import GetAtlasHealthResponse200
 from .get_auth_health_response_200 import GetAuthHealthResponse200
 from .get_channel_health_channel import GetChannelHealthChannel
 from .get_channel_health_response_200 import GetChannelHealthResponse200
+from .get_conversation_special_offer_response_200 import GetConversationSpecialOfferResponse200
+from .get_conversation_special_offer_response_200_guests_type_0 import GetConversationSpecialOfferResponse200GuestsType0
 from .get_health_response_200 import GetHealthResponse200
 from .get_kv_response_200 import GetKvResponse200
 from .get_listing_segments_level import GetListingSegmentsLevel
@@ -293,6 +329,17 @@ from .guest_list_response import GuestListResponse
 from .guest_note import GuestNote
 from .guest_profile import GuestProfile
 from .guest_reservations_summary import GuestReservationsSummary
+from .inquiry_created_event import InquiryCreatedEvent
+from .inquiry_created_event_event import InquiryCreatedEventEvent
+from .inquiry_created_payload import InquiryCreatedPayload
+from .inquiry_updated_event import InquiryUpdatedEvent
+from .inquiry_updated_event_event import InquiryUpdatedEventEvent
+from .inquiry_updated_payload import InquiryUpdatedPayload
+from .inquiry_updated_payload_previous_attributes import InquiryUpdatedPayloadPreviousAttributes
+from .inquiry_webhook_object import InquiryWebhookObject
+from .inquiry_webhook_object_expected_payout import InquiryWebhookObjectExpectedPayout
+from .inquiry_webhook_object_guests import InquiryWebhookObjectGuests
+from .inquiry_webhook_object_status import InquiryWebhookObjectStatus
 from .list_airbnb_alterations_response_200 import ListAirbnbAlterationsResponse200
 from .list_airbnb_alterations_type import ListAirbnbAlterationsType
 from .list_airbnb_listing_amenities_response_200 import ListAirbnbListingAmenitiesResponse200
@@ -305,12 +352,22 @@ from .list_airbnb_listing_rooms_response_200 import ListAirbnbListingRoomsRespon
 from .list_airbnb_listing_rooms_response_200_data_item import ListAirbnbListingRoomsResponse200DataItem
 from .list_airbnb_listing_safety_disclosures_response_200 import ListAirbnbListingSafetyDisclosuresResponse200
 from .list_airbnb_reservations_status import ListAirbnbReservationsStatus
+from .list_airbnb_thread_messages_response_200 import ListAirbnbThreadMessagesResponse200
+from .list_airbnb_thread_messages_response_200_data_freshness import ListAirbnbThreadMessagesResponse200DataFreshness
+from .list_airbnb_thread_messages_response_200_data_item import ListAirbnbThreadMessagesResponse200DataItem
+from .list_airbnb_thread_messages_response_200_pagination import ListAirbnbThreadMessagesResponse200Pagination
 from .list_airbnb_transactions_response_200 import ListAirbnbTransactionsResponse200
 from .list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
 from .list_booking_reservations_type import ListBookingReservationsType
 from .list_conversation_messages_order import ListConversationMessagesOrder
 from .list_conversations_platform import ListConversationsPlatform
 from .list_conversations_status import ListConversationsStatus
+from .list_inquiries_response_200 import ListInquiriesResponse200
+from .list_inquiries_response_200_data_item import ListInquiriesResponse200DataItem
+from .list_inquiries_response_200_data_item_expected_payout import ListInquiriesResponse200DataItemExpectedPayout
+from .list_inquiries_response_200_data_item_guests import ListInquiriesResponse200DataItemGuests
+from .list_inquiries_response_200_data_item_status import ListInquiriesResponse200DataItemStatus
+from .list_inquiries_status import ListInquiriesStatus
 from .list_kv_response_200 import ListKvResponse200
 from .list_kv_response_200_data_item import ListKvResponse200DataItem
 from .list_kv_response_200_pagination import ListKvResponse200Pagination
@@ -480,6 +537,9 @@ from .payment_webhook_object import PaymentWebhookObject
 from .payment_webhook_object_transaction_type import PaymentWebhookObjectTransactionType
 from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
+from .preapprove_conversation_body import PreapproveConversationBody
+from .preapprove_conversation_response_201 import PreapproveConversationResponse201
+from .preapprove_conversation_response_201_status import PreapproveConversationResponse201Status
 from .property_ import Property
 from .property_availability import PropertyAvailability
 from .property_availability_coverage import PropertyAvailabilityCoverage
@@ -536,10 +596,20 @@ from .reservation_platform_type_1 import ReservationPlatformType1
 from .reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
 from .reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
 from .reservation_primary_guest import ReservationPrimaryGuest
+from .reservation_request_created_event import ReservationRequestCreatedEvent
+from .reservation_request_created_event_event import ReservationRequestCreatedEventEvent
+from .reservation_request_created_payload import ReservationRequestCreatedPayload
+from .reservation_request_created_payload_request_status import ReservationRequestCreatedPayloadRequestStatus
+from .reservation_request_updated_event import ReservationRequestUpdatedEvent
+from .reservation_request_updated_event_event import ReservationRequestUpdatedEventEvent
+from .reservation_request_updated_payload import ReservationRequestUpdatedPayload
+from .reservation_request_updated_payload_previous_attributes import ReservationRequestUpdatedPayloadPreviousAttributes
+from .reservation_request_updated_payload_request_status import ReservationRequestUpdatedPayloadRequestStatus
 from .reservation_source_type_1 import ReservationSourceType1
 from .reservation_source_type_2_type_1 import ReservationSourceType2Type1
 from .reservation_source_type_3_type_1 import ReservationSourceType3Type1
 from .reservation_status import ReservationStatus
+from .reservation_status_detail import ReservationStatusDetail
 from .reservation_update_request import ReservationUpdateRequest
 from .reservation_update_response import ReservationUpdateResponse
 from .reservation_updated_event import ReservationUpdatedEvent
@@ -567,11 +637,16 @@ from .select_connect_provider_body import SelectConnectProviderBody
 from .select_provider_response import SelectProviderResponse
 from .select_provider_response_pattern import SelectProviderResponsePattern
 from .send_airbnb_message_body import SendAirbnbMessageBody
+from .send_airbnb_message_response_201_type_1 import SendAirbnbMessageResponse201Type1
 from .send_booking_message_body import SendBookingMessageBody
+from .send_message_attachment import SendMessageAttachment
+from .send_message_part import SendMessagePart
 from .send_message_request import SendMessageRequest
 from .send_message_request_channel import SendMessageRequestChannel
 from .send_message_response import SendMessageResponse
 from .send_message_response_direction import SendMessageResponseDirection
+from .sent_attachment import SentAttachment
+from .sent_attachment_type import SentAttachmentType
 from .set_airbnb_listing_cover_photo_body import SetAirbnbListingCoverPhotoBody
 from .set_airbnb_listing_cover_photo_response_200 import SetAirbnbListingCoverPhotoResponse200
 from .set_airbnb_listing_cover_photo_response_200_data import SetAirbnbListingCoverPhotoResponse200Data
@@ -706,9 +781,22 @@ from .webhook_event_type import WebhookEventType
 from .webhook_list_response import WebhookListResponse
 from .webhook_subscription import WebhookSubscription
 from .webhook_subscription_status import WebhookSubscriptionStatus
+from .withdraw_airbnb_offer_response_200 import WithdrawAirbnbOfferResponse200
+from .withdraw_airbnb_offer_response_200_guest_details import WithdrawAirbnbOfferResponse200GuestDetails
+from .withdraw_airbnb_offer_response_200_offer_type import WithdrawAirbnbOfferResponse200OfferType
+from .withdraw_airbnb_offer_response_200_status import WithdrawAirbnbOfferResponse200Status
+from .withdraw_conversation_special_offer_response_200 import WithdrawConversationSpecialOfferResponse200
+from .withdraw_conversation_special_offer_response_200_status import WithdrawConversationSpecialOfferResponse200Status
 
 __all__ = (
     "AcceptAirbnbAlterationBody",
+    "AcceptReservationRequestResponse200",
+    "AcceptReservationRequestResponse200Action",
+    "AcceptReservationRequestResponse200Channel",
+    "AcceptReservationRequestResponse200DeclineReasonType1",
+    "AcceptReservationRequestResponse200DeclineReasonType2Type1",
+    "AcceptReservationRequestResponse200DeclineReasonType3Type1",
+    "AcceptReservationRequestResponse200Status",
     "AccountCreatedEvent",
     "AccountCreatedEventEvent",
     "AccountCreatedPayload",
@@ -784,6 +872,10 @@ __all__ = (
     "AirbnbPricingWriteRequestType",
     "AirbnbPublishResult",
     "AirbnbReservation",
+    "AirbnbReservationActionBody",
+    "AirbnbReservationActionBodyAction",
+    "AirbnbReservationActionBodyReason",
+    "AirbnbReservationActionResponse200",
     "AirbnbReservationListResponse",
     "AirbnbReservationStatus",
     "AirbnbReview",
@@ -903,6 +995,7 @@ __all__ = (
     "ConversationHost",
     "ConversationListResponse",
     "ConversationMessageAttachment",
+    "ConversationMessageAttachmentType",
     "ConversationPlatform",
     "ConversationStatus",
     "CreateAirbnbListingRoomBody",
@@ -911,13 +1004,22 @@ __all__ = (
     "CreateAirbnbListingRoomBodyRoomAmenitiesItem",
     "CreateAirbnbListingRoomBodyRoomType",
     "CreateAirbnbOfferBody",
+    "CreateAirbnbOfferBodyGuestDetails",
     "CreateAirbnbOfferBodyType",
+    "CreateAirbnbOfferResponse201",
+    "CreateAirbnbOfferResponse201GuestDetails",
+    "CreateAirbnbOfferResponse201OfferType",
+    "CreateAirbnbOfferResponse201Status",
     "CreateBillingCheckoutBody",
     "CreateBillingCheckoutBodyPlan",
     "CreateBookingWebhookBody",
     "CreateConnectionBody",
     "CreateConnectionBodyAccessType",
     "CreateConnectSessionBody",
+    "CreateConversationSpecialOfferBody",
+    "CreateConversationSpecialOfferBodyGuests",
+    "CreateConversationSpecialOfferResponse201",
+    "CreateConversationSpecialOfferResponse201GuestsType0",
     "CreateWebhookBody",
     "CursorPagination",
     "CustomSchema",
@@ -929,6 +1031,15 @@ __all__ = (
     "CustomSchemaSummary",
     "CustomSchemaUpdate",
     "DeclineAirbnbAlterationBody",
+    "DeclineReservationRequestBody",
+    "DeclineReservationRequestBodyReason",
+    "DeclineReservationRequestResponse200",
+    "DeclineReservationRequestResponse200Action",
+    "DeclineReservationRequestResponse200Channel",
+    "DeclineReservationRequestResponse200DeclineReasonType1",
+    "DeclineReservationRequestResponse200DeclineReasonType2Type1",
+    "DeclineReservationRequestResponse200DeclineReasonType3Type1",
+    "DeclineReservationRequestResponse200Status",
     "DeleteAirbnbListingPhotoResponse200",
     "DeleteAirbnbListingRoomResponse200",
     "DeleteConnectionResponse200",
@@ -961,11 +1072,17 @@ __all__ = (
     "GetAirbnbListingQualityType",
     "GetAirbnbListingSettingsResponse200",
     "GetAirbnbListingSettingsType",
+    "GetAirbnbOfferResponse200",
+    "GetAirbnbOfferResponse200GuestDetails",
+    "GetAirbnbOfferResponse200OfferType",
+    "GetAirbnbOfferResponse200Status",
     "GetAirbnbThreadResponse200",
     "GetAtlasHealthResponse200",
     "GetAuthHealthResponse200",
     "GetChannelHealthChannel",
     "GetChannelHealthResponse200",
+    "GetConversationSpecialOfferResponse200",
+    "GetConversationSpecialOfferResponse200GuestsType0",
     "GetHealthResponse200",
     "GetKvResponse200",
     "GetListingSegmentsLevel",
@@ -1001,6 +1118,17 @@ __all__ = (
     "GuestNote",
     "GuestProfile",
     "GuestReservationsSummary",
+    "InquiryCreatedEvent",
+    "InquiryCreatedEventEvent",
+    "InquiryCreatedPayload",
+    "InquiryUpdatedEvent",
+    "InquiryUpdatedEventEvent",
+    "InquiryUpdatedPayload",
+    "InquiryUpdatedPayloadPreviousAttributes",
+    "InquiryWebhookObject",
+    "InquiryWebhookObjectExpectedPayout",
+    "InquiryWebhookObjectGuests",
+    "InquiryWebhookObjectStatus",
     "ListAirbnbAlterationsResponse200",
     "ListAirbnbAlterationsType",
     "ListAirbnbListingAmenitiesResponse200",
@@ -1013,6 +1141,10 @@ __all__ = (
     "ListAirbnbListingRoomsResponse200DataItem",
     "ListAirbnbListingSafetyDisclosuresResponse200",
     "ListAirbnbReservationsStatus",
+    "ListAirbnbThreadMessagesResponse200",
+    "ListAirbnbThreadMessagesResponse200DataFreshness",
+    "ListAirbnbThreadMessagesResponse200DataItem",
+    "ListAirbnbThreadMessagesResponse200Pagination",
     "ListAirbnbTransactionsResponse200",
     "ListBookingReservationsResponse200Type1",
     "ListBookingReservationsType",
@@ -1130,6 +1262,12 @@ __all__ = (
     "ListingWebhookObject",
     "ListingWebhookObjectAddress",
     "ListingWebhookObjectChannelsItem",
+    "ListInquiriesResponse200",
+    "ListInquiriesResponse200DataItem",
+    "ListInquiriesResponse200DataItemExpectedPayout",
+    "ListInquiriesResponse200DataItemGuests",
+    "ListInquiriesResponse200DataItemStatus",
+    "ListInquiriesStatus",
     "ListKvResponse200",
     "ListKvResponse200DataItem",
     "ListKvResponse200Pagination",
@@ -1188,6 +1326,9 @@ __all__ = (
     "PaymentWebhookObjectTransactionType",
     "PlumguideListing",
     "PlumguideListingListResponse",
+    "PreapproveConversationBody",
+    "PreapproveConversationResponse201",
+    "PreapproveConversationResponse201Status",
     "Property",
     "PropertyAvailability",
     "PropertyAvailabilityCoverage",
@@ -1244,10 +1385,20 @@ __all__ = (
     "ReservationPlatformType2Type1",
     "ReservationPlatformType3Type1",
     "ReservationPrimaryGuest",
+    "ReservationRequestCreatedEvent",
+    "ReservationRequestCreatedEventEvent",
+    "ReservationRequestCreatedPayload",
+    "ReservationRequestCreatedPayloadRequestStatus",
+    "ReservationRequestUpdatedEvent",
+    "ReservationRequestUpdatedEventEvent",
+    "ReservationRequestUpdatedPayload",
+    "ReservationRequestUpdatedPayloadPreviousAttributes",
+    "ReservationRequestUpdatedPayloadRequestStatus",
     "ReservationSourceType1",
     "ReservationSourceType2Type1",
     "ReservationSourceType3Type1",
     "ReservationStatus",
+    "ReservationStatusDetail",
     "ReservationUpdatedEvent",
     "ReservationUpdatedEventEvent",
     "ReservationUpdatedPayload",
@@ -1275,11 +1426,16 @@ __all__ = (
     "SelectProviderResponse",
     "SelectProviderResponsePattern",
     "SendAirbnbMessageBody",
+    "SendAirbnbMessageResponse201Type1",
     "SendBookingMessageBody",
+    "SendMessageAttachment",
+    "SendMessagePart",
     "SendMessageRequest",
     "SendMessageRequestChannel",
     "SendMessageResponse",
     "SendMessageResponseDirection",
+    "SentAttachment",
+    "SentAttachmentType",
     "SetAirbnbListingCoverPhotoBody",
     "SetAirbnbListingCoverPhotoResponse200",
     "SetAirbnbListingCoverPhotoResponse200Data",
@@ -1414,4 +1570,10 @@ __all__ = (
     "WebhookListResponse",
     "WebhookSubscription",
     "WebhookSubscriptionStatus",
+    "WithdrawAirbnbOfferResponse200",
+    "WithdrawAirbnbOfferResponse200GuestDetails",
+    "WithdrawAirbnbOfferResponse200OfferType",
+    "WithdrawAirbnbOfferResponse200Status",
+    "WithdrawConversationSpecialOfferResponse200",
+    "WithdrawConversationSpecialOfferResponse200Status",
 )

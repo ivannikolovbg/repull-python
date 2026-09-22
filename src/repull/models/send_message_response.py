@@ -12,6 +12,9 @@ from ..models.send_message_response_direction import SendMessageResponseDirectio
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.send_message_part import SendMessagePart
+  from ..models.sent_attachment import SentAttachment
 
 
 
@@ -39,6 +42,10 @@ class SendMessageResponse:
                 exactly when `contentRewritten` is true.
             status_reason (None | str | Unset): The channel's verbatim note, when it gave one — including the refusal that
                 triggered a rewrite.
+            attachments (list[SentAttachment] | Unset): The files delivered, in request order. Empty array for a text-only
+                send.
+            parts (list[SendMessagePart] | Unset): Present only when `attachments` were sent: one entry per channel message,
+                in delivery order. `id` is the text message (or the last file message when there is no text).
      """
 
     id: None | str | Unset = UNSET
@@ -51,6 +58,8 @@ class SendMessageResponse:
     submitted_content: None | str | Unset = UNSET
     delivered_content: None | str | Unset = UNSET
     status_reason: None | str | Unset = UNSET
+    attachments: list[SentAttachment] | Unset = UNSET
+    parts: list[SendMessagePart] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -58,6 +67,8 @@ class SendMessageResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.send_message_part import SendMessagePart
+        from ..models.sent_attachment import SentAttachment
         id: None | str | Unset
         if isinstance(self.id, Unset):
             id = UNSET
@@ -105,6 +116,24 @@ class SendMessageResponse:
         else:
             status_reason = self.status_reason
 
+        attachments: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.attachments, Unset):
+            attachments = []
+            for attachments_item_data in self.attachments:
+                attachments_item = attachments_item_data.to_dict()
+                attachments.append(attachments_item)
+
+
+
+        parts: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.parts, Unset):
+            parts = []
+            for parts_item_data in self.parts:
+                parts_item = parts_item_data.to_dict()
+                parts.append(parts_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -130,6 +159,10 @@ class SendMessageResponse:
             field_dict["deliveredContent"] = delivered_content
         if status_reason is not UNSET:
             field_dict["statusReason"] = status_reason
+        if attachments is not UNSET:
+            field_dict["attachments"] = attachments
+        if parts is not UNSET:
+            field_dict["parts"] = parts
 
         return field_dict
 
@@ -137,6 +170,8 @@ class SendMessageResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.send_message_part import SendMessagePart
+        from ..models.sent_attachment import SentAttachment
         d = dict(src_dict)
         def _parse_id(data: object) -> None | str | Unset:
             if data is None:
@@ -214,6 +249,30 @@ class SendMessageResponse:
         status_reason = _parse_status_reason(d.pop("statusReason", UNSET))
 
 
+        _attachments = d.pop("attachments", UNSET)
+        attachments: list[SentAttachment] | Unset = UNSET
+        if _attachments is not UNSET:
+            attachments = []
+            for attachments_item_data in _attachments:
+                attachments_item = SentAttachment.from_dict(attachments_item_data)
+
+
+
+                attachments.append(attachments_item)
+
+
+        _parts = d.pop("parts", UNSET)
+        parts: list[SendMessagePart] | Unset = UNSET
+        if _parts is not UNSET:
+            parts = []
+            for parts_item_data in _parts:
+                parts_item = SendMessagePart.from_dict(parts_item_data)
+
+
+
+                parts.append(parts_item)
+
+
         send_message_response = cls(
             id=id,
             conversation_id=conversation_id,
@@ -225,6 +284,8 @@ class SendMessageResponse:
             submitted_content=submitted_content,
             delivered_content=delivered_content,
             status_reason=status_reason,
+            attachments=attachments,
+            parts=parts,
         )
 
 

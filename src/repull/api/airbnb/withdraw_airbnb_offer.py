@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
+from ...models.withdraw_airbnb_offer_response_200 import WithdrawAirbnbOfferResponse200
 from typing import cast
 
 
@@ -41,9 +42,12 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | WithdrawAirbnbOfferResponse200 | None:
     if response.status_code == 200:
-        response_200 = cast(Any, None)
+        response_200 = WithdrawAirbnbOfferResponse200.from_dict(response.json())
+
+
+
         return response_200
 
     if response.status_code == 401:
@@ -53,12 +57,26 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
 
 
 
         return response_404
+
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+
+
+        return response_409
 
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
@@ -67,12 +85,19 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_422
 
-    if response.status_code == 500:
-        response_500 = Error.from_dict(response.json())
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
 
 
 
-        return response_500
+        return response_429
+
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -80,7 +105,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | WithdrawAirbnbOfferResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -94,11 +119,12 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     offer_id: str,
 
-) -> Response[Any | Error]:
+) -> Response[Error | WithdrawAirbnbOfferResponse200]:
     """ Withdraw Airbnb special offer
 
-     Withdraw a previously-created Airbnb special offer. **Write-side** — calls Airbnb upstream. Pass the
-    offer id as `?offerId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Withdraw a special offer the guest has not booked. **Write-side** — calls Airbnb upstream. Pass the
+    Airbnb offer id as `?offerId=`. The Repull-id equivalent is `DELETE /v1/conversations/{id}/special-
+    offers/{offerId}`.
 
     Args:
         offer_id (str):
@@ -108,7 +134,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | WithdrawAirbnbOfferResponse200]
      """
 
 
@@ -128,11 +154,12 @@ def sync(
     client: AuthenticatedClient | Client,
     offer_id: str,
 
-) -> Any | Error | None:
+) -> Error | WithdrawAirbnbOfferResponse200 | None:
     """ Withdraw Airbnb special offer
 
-     Withdraw a previously-created Airbnb special offer. **Write-side** — calls Airbnb upstream. Pass the
-    offer id as `?offerId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Withdraw a special offer the guest has not booked. **Write-side** — calls Airbnb upstream. Pass the
+    Airbnb offer id as `?offerId=`. The Repull-id equivalent is `DELETE /v1/conversations/{id}/special-
+    offers/{offerId}`.
 
     Args:
         offer_id (str):
@@ -142,7 +169,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | WithdrawAirbnbOfferResponse200
      """
 
 
@@ -157,11 +184,12 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     offer_id: str,
 
-) -> Response[Any | Error]:
+) -> Response[Error | WithdrawAirbnbOfferResponse200]:
     """ Withdraw Airbnb special offer
 
-     Withdraw a previously-created Airbnb special offer. **Write-side** — calls Airbnb upstream. Pass the
-    offer id as `?offerId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Withdraw a special offer the guest has not booked. **Write-side** — calls Airbnb upstream. Pass the
+    Airbnb offer id as `?offerId=`. The Repull-id equivalent is `DELETE /v1/conversations/{id}/special-
+    offers/{offerId}`.
 
     Args:
         offer_id (str):
@@ -171,7 +199,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | WithdrawAirbnbOfferResponse200]
      """
 
 
@@ -191,11 +219,12 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     offer_id: str,
 
-) -> Any | Error | None:
+) -> Error | WithdrawAirbnbOfferResponse200 | None:
     """ Withdraw Airbnb special offer
 
-     Withdraw a previously-created Airbnb special offer. **Write-side** — calls Airbnb upstream. Pass the
-    offer id as `?offerId=`. Requires a connected Airbnb host, else `404 no_connection`.
+     Withdraw a special offer the guest has not booked. **Write-side** — calls Airbnb upstream. Pass the
+    Airbnb offer id as `?offerId=`. The Repull-id equivalent is `DELETE /v1/conversations/{id}/special-
+    offers/{offerId}`.
 
     Args:
         offer_id (str):
@@ -205,7 +234,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | WithdrawAirbnbOfferResponse200
      """
 
 

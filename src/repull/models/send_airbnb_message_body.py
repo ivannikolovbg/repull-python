@@ -22,14 +22,18 @@ T = TypeVar("T", bound="SendAirbnbMessageBody")
 
 @_attrs_define
 class SendAirbnbMessageBody:
-    """ 
+    """ `message`, `mediaUrl`, or both.
+
         Attributes:
-            message (str): Message body to send to the guest.
-            media_url (None | str | Unset): Optional URL of an image/media attachment to send with the message.
-            media_type (None | str | Unset): Optional MIME/media type hint for `mediaUrl` (e.g. `image/jpeg`).
+            message (str | Unset): Message body to send to the guest. Optional when `mediaUrl` is set (it is then sent as a
+                separate message after the file).
+            media_url (None | str | Unset): Public https URL of one image or video to send (JPEG/PNG/GIF/WebP/MP4/QuickTime,
+                up to 10 MB). Repull uploads it to Airbnb for you.
+            media_type (None | str | Unset): Optional MIME type hint for `mediaUrl` (e.g. `image/jpeg`). The type is read
+                from the file itself; this never overrides it.
      """
 
-    message: str
+    message: str | Unset = UNSET
     media_url: None | str | Unset = UNSET
     media_type: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -57,8 +61,9 @@ class SendAirbnbMessageBody:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "message": message,
         })
+        if message is not UNSET:
+            field_dict["message"] = message
         if media_url is not UNSET:
             field_dict["mediaUrl"] = media_url
         if media_type is not UNSET:
@@ -71,7 +76,7 @@ class SendAirbnbMessageBody:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        message = d.pop("message")
+        message = d.pop("message", UNSET)
 
         def _parse_media_url(data: object) -> None | str | Unset:
             if data is None:

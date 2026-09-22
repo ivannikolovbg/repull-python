@@ -1,0 +1,330 @@
+from http import HTTPStatus
+from typing import Any, cast
+from urllib.parse import quote
+
+import httpx
+
+from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
+from ...models.decline_reservation_request_body import DeclineReservationRequestBody
+from ...models.decline_reservation_request_response_200 import DeclineReservationRequestResponse200
+from ...models.error import Error
+from ...types import UNSET, Unset
+from typing import cast
+
+
+
+def _get_kwargs(
+    id: int,
+    *,
+    body: DeclineReservationRequestBody,
+    idempotency_key: str | Unset = UNSET,
+
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
+
+
+
+    
+
+    
+
+    _kwargs: dict[str, Any] = {
+        "method": "post",
+        "url": "/v1/reservations/{id}/decline".format(id=quote(str(id), safe=""),),
+    }
+
+    _kwargs["json"] = body.to_dict()
+
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> DeclineReservationRequestResponse200 | Error | None:
+    if response.status_code == 200:
+        response_200 = DeclineReservationRequestResponse200.from_dict(response.json())
+
+
+
+        return response_200
+
+    if response.status_code == 401:
+        response_401 = Error.from_dict(response.json())
+
+
+
+        return response_401
+
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+
+
+        return response_409
+
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = Error.from_dict(response.json())
+
+
+
+        return response_500
+
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[DeclineReservationRequestResponse200 | Error]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    id: int,
+    *,
+    client: AuthenticatedClient | Client,
+    body: DeclineReservationRequestBody,
+    idempotency_key: str | Unset = UNSET,
+
+) -> Response[DeclineReservationRequestResponse200 | Error]:
+    """ Decline a booking request
+
+     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
+    /v1/reservations?status=pending`).
+
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
+    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
+    words in your mouth.
+
+    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
+    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
+    channel and status rules as `POST /v1/reservations/{id}/accept`.
+
+    Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
+    twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429
+    airbnb_rate_limited` or a `403 connection_reauth_required` is not stored — nothing was done — so
+    retrying with the same key reaches Airbnb again.
+
+    Args:
+        id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        body (DeclineReservationRequestBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[DeclineReservationRequestResponse200 | Error]
+     """
+
+
+    kwargs = _get_kwargs(
+        id=id,
+body=body,
+idempotency_key=idempotency_key,
+
+    )
+
+    response = client.get_httpx_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+def sync(
+    id: int,
+    *,
+    client: AuthenticatedClient | Client,
+    body: DeclineReservationRequestBody,
+    idempotency_key: str | Unset = UNSET,
+
+) -> DeclineReservationRequestResponse200 | Error | None:
+    """ Decline a booking request
+
+     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
+    /v1/reservations?status=pending`).
+
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
+    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
+    words in your mouth.
+
+    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
+    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
+    channel and status rules as `POST /v1/reservations/{id}/accept`.
+
+    Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
+    twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429
+    airbnb_rate_limited` or a `403 connection_reauth_required` is not stored — nothing was done — so
+    retrying with the same key reaches Airbnb again.
+
+    Args:
+        id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        body (DeclineReservationRequestBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        DeclineReservationRequestResponse200 | Error
+     """
+
+
+    return sync_detailed(
+        id=id,
+client=client,
+body=body,
+idempotency_key=idempotency_key,
+
+    ).parsed
+
+async def asyncio_detailed(
+    id: int,
+    *,
+    client: AuthenticatedClient | Client,
+    body: DeclineReservationRequestBody,
+    idempotency_key: str | Unset = UNSET,
+
+) -> Response[DeclineReservationRequestResponse200 | Error]:
+    """ Decline a booking request
+
+     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
+    /v1/reservations?status=pending`).
+
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
+    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
+    words in your mouth.
+
+    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
+    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
+    channel and status rules as `POST /v1/reservations/{id}/accept`.
+
+    Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
+    twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429
+    airbnb_rate_limited` or a `403 connection_reauth_required` is not stored — nothing was done — so
+    retrying with the same key reaches Airbnb again.
+
+    Args:
+        id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        body (DeclineReservationRequestBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[DeclineReservationRequestResponse200 | Error]
+     """
+
+
+    kwargs = _get_kwargs(
+        id=id,
+body=body,
+idempotency_key=idempotency_key,
+
+    )
+
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
+
+    return _build_response(client=client, response=response)
+
+async def asyncio(
+    id: int,
+    *,
+    client: AuthenticatedClient | Client,
+    body: DeclineReservationRequestBody,
+    idempotency_key: str | Unset = UNSET,
+
+) -> DeclineReservationRequestResponse200 | Error | None:
+    """ Decline a booking request
+
+     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
+    /v1/reservations?status=pending`).
+
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
+    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
+    words in your mouth.
+
+    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
+    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
+    channel and status rules as `POST /v1/reservations/{id}/accept`.
+
+    Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
+    twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429
+    airbnb_rate_limited` or a `403 connection_reauth_required` is not stored — nothing was done — so
+    retrying with the same key reaches Airbnb again.
+
+    Args:
+        id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        body (DeclineReservationRequestBody):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        DeclineReservationRequestResponse200 | Error
+     """
+
+
+    return (await asyncio_detailed(
+        id=id,
+client=client,
+body=body,
+idempotency_key=idempotency_key,
+
+    )).parsed

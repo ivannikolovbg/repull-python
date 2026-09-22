@@ -10,6 +10,8 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.send_airbnb_message_body import SendAirbnbMessageBody
+from ...models.send_airbnb_message_response_201_type_1 import SendAirbnbMessageResponse201Type1
+from ...models.send_message_response import SendMessageResponse
 from typing import cast
 
 
@@ -42,9 +44,29 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse | None:
     if response.status_code == 201:
-        response_201 = cast(Any, None)
+        def _parse_response_201(data: object) -> SendAirbnbMessageResponse201Type1 | SendMessageResponse:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_201_type_0 = SendMessageResponse.from_dict(data)
+
+
+
+                return response_201_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_201_type_1 = SendAirbnbMessageResponse201Type1.from_dict(data)
+
+
+
+            return response_201_type_1
+
+        response_201 = _parse_response_201(response.json())
+
         return response_201
 
     if response.status_code == 401:
@@ -68,6 +90,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
 
@@ -81,7 +110,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -96,12 +125,27 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: SendAirbnbMessageBody,
 
-) -> Response[Any | Error]:
+) -> Response[Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse]:
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
     contact info, no external URLs) — violating messages are rejected upstream and surface as
     `airbnb_error`.
+
+    ### Sending a photo or video (`mediaUrl`)
+
+    Airbnb only accepts media uploaded to a signed URL it issues, one file per message and no text on
+    the same message. With `mediaUrl`, Repull downloads the file (public `https://` only, 10 MB max),
+    reads its real type from the bytes (JPEG, PNG, GIF, WebP — converted to JPEG — or MP4/QuickTime),
+    uploads it to Airbnb and sends it; `message`, if given, follows as a separate message. This is the
+    same flow as `POST /v1/conversations/{id}/messages` with `attachments` — prefer that endpoint, which
+    also takes several files per request. The response is a `SendMessageResponse`, the send is recorded
+    in the conversation, and failures are the 422 codes documented there
+    (`attachment_type_not_supported`, `attachment_too_large`, `message_not_sent` for a pre-booking
+    thread, …). The thread must already be synced to Repull (`GET /v1/conversations` lists them),
+    otherwise `404`.
+
+    Text-only sends (no `mediaUrl`) go straight to Airbnb and return Airbnb's message object.
 
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
@@ -111,14 +155,14 @@ def sync_detailed(
 
     Args:
         thread_id (str):
-        body (SendAirbnbMessageBody):
+        body (SendAirbnbMessageBody): `message`, `mediaUrl`, or both.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse]
      """
 
 
@@ -140,12 +184,27 @@ def sync(
     client: AuthenticatedClient | Client,
     body: SendAirbnbMessageBody,
 
-) -> Any | Error | None:
+) -> Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse | None:
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
     contact info, no external URLs) — violating messages are rejected upstream and surface as
     `airbnb_error`.
+
+    ### Sending a photo or video (`mediaUrl`)
+
+    Airbnb only accepts media uploaded to a signed URL it issues, one file per message and no text on
+    the same message. With `mediaUrl`, Repull downloads the file (public `https://` only, 10 MB max),
+    reads its real type from the bytes (JPEG, PNG, GIF, WebP — converted to JPEG — or MP4/QuickTime),
+    uploads it to Airbnb and sends it; `message`, if given, follows as a separate message. This is the
+    same flow as `POST /v1/conversations/{id}/messages` with `attachments` — prefer that endpoint, which
+    also takes several files per request. The response is a `SendMessageResponse`, the send is recorded
+    in the conversation, and failures are the 422 codes documented there
+    (`attachment_type_not_supported`, `attachment_too_large`, `message_not_sent` for a pre-booking
+    thread, …). The thread must already be synced to Repull (`GET /v1/conversations` lists them),
+    otherwise `404`.
+
+    Text-only sends (no `mediaUrl`) go straight to Airbnb and return Airbnb's message object.
 
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
@@ -155,14 +214,14 @@ def sync(
 
     Args:
         thread_id (str):
-        body (SendAirbnbMessageBody):
+        body (SendAirbnbMessageBody): `message`, `mediaUrl`, or both.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse
      """
 
 
@@ -179,12 +238,27 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: SendAirbnbMessageBody,
 
-) -> Response[Any | Error]:
+) -> Response[Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse]:
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
     contact info, no external URLs) — violating messages are rejected upstream and surface as
     `airbnb_error`.
+
+    ### Sending a photo or video (`mediaUrl`)
+
+    Airbnb only accepts media uploaded to a signed URL it issues, one file per message and no text on
+    the same message. With `mediaUrl`, Repull downloads the file (public `https://` only, 10 MB max),
+    reads its real type from the bytes (JPEG, PNG, GIF, WebP — converted to JPEG — or MP4/QuickTime),
+    uploads it to Airbnb and sends it; `message`, if given, follows as a separate message. This is the
+    same flow as `POST /v1/conversations/{id}/messages` with `attachments` — prefer that endpoint, which
+    also takes several files per request. The response is a `SendMessageResponse`, the send is recorded
+    in the conversation, and failures are the 422 codes documented there
+    (`attachment_type_not_supported`, `attachment_too_large`, `message_not_sent` for a pre-booking
+    thread, …). The thread must already be synced to Repull (`GET /v1/conversations` lists them),
+    otherwise `404`.
+
+    Text-only sends (no `mediaUrl`) go straight to Airbnb and return Airbnb's message object.
 
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
@@ -194,14 +268,14 @@ async def asyncio_detailed(
 
     Args:
         thread_id (str):
-        body (SendAirbnbMessageBody):
+        body (SendAirbnbMessageBody): `message`, `mediaUrl`, or both.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse]
      """
 
 
@@ -223,12 +297,27 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: SendAirbnbMessageBody,
 
-) -> Any | Error | None:
+) -> Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse | None:
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
     contact info, no external URLs) — violating messages are rejected upstream and surface as
     `airbnb_error`.
+
+    ### Sending a photo or video (`mediaUrl`)
+
+    Airbnb only accepts media uploaded to a signed URL it issues, one file per message and no text on
+    the same message. With `mediaUrl`, Repull downloads the file (public `https://` only, 10 MB max),
+    reads its real type from the bytes (JPEG, PNG, GIF, WebP — converted to JPEG — or MP4/QuickTime),
+    uploads it to Airbnb and sends it; `message`, if given, follows as a separate message. This is the
+    same flow as `POST /v1/conversations/{id}/messages` with `attachments` — prefer that endpoint, which
+    also takes several files per request. The response is a `SendMessageResponse`, the send is recorded
+    in the conversation, and failures are the 422 codes documented there
+    (`attachment_type_not_supported`, `attachment_too_large`, `message_not_sent` for a pre-booking
+    thread, …). The thread must already be synced to Repull (`GET /v1/conversations` lists them),
+    otherwise `404`.
+
+    Text-only sends (no `mediaUrl`) go straight to Airbnb and return Airbnb's message object.
 
     The `{threadId}` is the Airbnb thread id — the `externalThreadId` field on a unified `Conversation`
     (`GET /v1/conversations`).
@@ -238,14 +327,14 @@ async def asyncio(
 
     Args:
         thread_id (str):
-        body (SendAirbnbMessageBody):
+        body (SendAirbnbMessageBody): `message`, `mediaUrl`, or both.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | SendAirbnbMessageResponse201Type1 | SendMessageResponse
      """
 
 

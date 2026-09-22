@@ -74,6 +74,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
 
@@ -104,8 +111,13 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Send Booking.com message
 
-     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
-    Airbnb.
+     Send a text message in a Booking.com conversation as the host. Booking enforces content rules
+    similar to Airbnb.
+
+    **Text only.** To send photos, use `POST /v1/conversations/{id}/messages` with `attachments` (JPEG
+    or PNG, up to 10 MB each, with message text) — it uploads the files to Booking.com and records them
+    in the conversation. Passing `attachments`, `attachment_ids` or `mediaUrl` here returns `422
+    attachments_not_supported` and sends nothing.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
@@ -145,8 +157,13 @@ def sync(
 ) -> Any | Error | None:
     """ Send Booking.com message
 
-     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
-    Airbnb.
+     Send a text message in a Booking.com conversation as the host. Booking enforces content rules
+    similar to Airbnb.
+
+    **Text only.** To send photos, use `POST /v1/conversations/{id}/messages` with `attachments` (JPEG
+    or PNG, up to 10 MB each, with message text) — it uploads the files to Booking.com and records them
+    in the conversation. Passing `attachments`, `attachment_ids` or `mediaUrl` here returns `422
+    attachments_not_supported` and sends nothing.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
@@ -181,8 +198,13 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Send Booking.com message
 
-     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
-    Airbnb.
+     Send a text message in a Booking.com conversation as the host. Booking enforces content rules
+    similar to Airbnb.
+
+    **Text only.** To send photos, use `POST /v1/conversations/{id}/messages` with `attachments` (JPEG
+    or PNG, up to 10 MB each, with message text) — it uploads the files to Booking.com and records them
+    in the conversation. Passing `attachments`, `attachment_ids` or `mediaUrl` here returns `422
+    attachments_not_supported` and sends nothing.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
@@ -222,8 +244,13 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Send Booking.com message
 
-     Send a message in a Booking.com conversation as the host. Booking enforces content rules similar to
-    Airbnb.
+     Send a text message in a Booking.com conversation as the host. Booking enforces content rules
+    similar to Airbnb.
+
+    **Text only.** To send photos, use `POST /v1/conversations/{id}/messages` with `attachments` (JPEG
+    or PNG, up to 10 MB each, with message text) — it uploads the files to Booking.com and records them
+    in the conversation. Passing `attachments`, `attachment_ids` or `mediaUrl` here returns `422
+    attachments_not_supported` and sends nothing.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different

@@ -14,6 +14,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.conversation_message_attachment import ConversationMessageAttachment
   from ..models.reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
 
 
@@ -32,8 +33,10 @@ class ReservationMessageReceivedPayload:
             reservation_id (int | Unset):  Example: 215906.
             thread_id (str | Unset):  Example: thr_01HX5XPQ2K.
             from_ (ReservationMessageReceivedPayloadFrom | Unset):
-            body (str | Unset):  Example: Hi! What time can we check in?.
+            body (str | Unset): Empty when the guest sent only a file. Example: Hi! What time can we check in?.
             sent_at (datetime.datetime | Unset):  Example: 2026-05-01T15:00:00.000Z.
+            attachments (list[ConversationMessageAttachment] | Unset): Files the guest sent (photos, videos, documents),
+                same shape as `GET /v1/conversations/{id}/messages`. Empty array when there are none.
      """
 
     reservation_id: int | Unset = UNSET
@@ -41,6 +44,7 @@ class ReservationMessageReceivedPayload:
     from_: ReservationMessageReceivedPayloadFrom | Unset = UNSET
     body: str | Unset = UNSET
     sent_at: datetime.datetime | Unset = UNSET
+    attachments: list[ConversationMessageAttachment] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -48,6 +52,7 @@ class ReservationMessageReceivedPayload:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.conversation_message_attachment import ConversationMessageAttachment
         from ..models.reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
         reservation_id = self.reservation_id
 
@@ -62,6 +67,15 @@ class ReservationMessageReceivedPayload:
         sent_at: str | Unset = UNSET
         if not isinstance(self.sent_at, Unset):
             sent_at = self.sent_at.isoformat()
+
+        attachments: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.attachments, Unset):
+            attachments = []
+            for attachments_item_data in self.attachments:
+                attachments_item = attachments_item_data.to_dict()
+                attachments.append(attachments_item)
+
+
 
 
         field_dict: dict[str, Any] = {}
@@ -78,6 +92,8 @@ class ReservationMessageReceivedPayload:
             field_dict["body"] = body
         if sent_at is not UNSET:
             field_dict["sentAt"] = sent_at
+        if attachments is not UNSET:
+            field_dict["attachments"] = attachments
 
         return field_dict
 
@@ -85,6 +101,7 @@ class ReservationMessageReceivedPayload:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.conversation_message_attachment import ConversationMessageAttachment
         from ..models.reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
         d = dict(src_dict)
         reservation_id = d.pop("reservationId", UNSET)
@@ -113,12 +130,25 @@ class ReservationMessageReceivedPayload:
 
 
 
+        _attachments = d.pop("attachments", UNSET)
+        attachments: list[ConversationMessageAttachment] | Unset = UNSET
+        if _attachments is not UNSET:
+            attachments = []
+            for attachments_item_data in _attachments:
+                attachments_item = ConversationMessageAttachment.from_dict(attachments_item_data)
+
+
+
+                attachments.append(attachments_item)
+
+
         reservation_message_received_payload = cls(
             reservation_id=reservation_id,
             thread_id=thread_id,
             from_=from_,
             body=body,
             sent_at=sent_at,
+            attachments=attachments,
         )
 
 
