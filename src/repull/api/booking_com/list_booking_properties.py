@@ -65,13 +65,23 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[list[BookingProperty]]:
-    """ List Booking.com properties
+    r""" List Booking.com properties
 
-     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
-    the connected room types.
+     List every Booking.com property this workspace holds. Each property is returned ONCE, with the
+    Repull listings mapped under it.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    A Booking.com property is a building; its rooms are what guests book, and each room is mapped to one
+    Repull listing — so one property routinely carries many listings. `listings[].roomBookingId` is the
+    Booking.com room id an ARI write takes.
+
+    A property whose rooms are not mapped yet is still listed, with `mappingStatus: \"unmapped\"` and an
+    empty `listings` array. That is a real mid-onboarding state, not an error: finish `POST
+    /v1/connect/booking/map-rooms` and the listings appear. Such a property used to be dropped silently,
+    which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
+    at all.
+
+    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
+    `GET /v1/listings?status=inactive` to find them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -97,13 +107,23 @@ def sync(
     client: AuthenticatedClient | Client,
 
 ) -> list[BookingProperty] | None:
-    """ List Booking.com properties
+    r""" List Booking.com properties
 
-     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
-    the connected room types.
+     List every Booking.com property this workspace holds. Each property is returned ONCE, with the
+    Repull listings mapped under it.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    A Booking.com property is a building; its rooms are what guests book, and each room is mapped to one
+    Repull listing — so one property routinely carries many listings. `listings[].roomBookingId` is the
+    Booking.com room id an ARI write takes.
+
+    A property whose rooms are not mapped yet is still listed, with `mappingStatus: \"unmapped\"` and an
+    empty `listings` array. That is a real mid-onboarding state, not an error: finish `POST
+    /v1/connect/booking/map-rooms` and the listings appear. Such a property used to be dropped silently,
+    which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
+    at all.
+
+    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
+    `GET /v1/listings?status=inactive` to find them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -124,13 +144,23 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[list[BookingProperty]]:
-    """ List Booking.com properties
+    r""" List Booking.com properties
 
-     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
-    the connected room types.
+     List every Booking.com property this workspace holds. Each property is returned ONCE, with the
+    Repull listings mapped under it.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    A Booking.com property is a building; its rooms are what guests book, and each room is mapped to one
+    Repull listing — so one property routinely carries many listings. `listings[].roomBookingId` is the
+    Booking.com room id an ARI write takes.
+
+    A property whose rooms are not mapped yet is still listed, with `mappingStatus: \"unmapped\"` and an
+    empty `listings` array. That is a real mid-onboarding state, not an error: finish `POST
+    /v1/connect/booking/map-rooms` and the listings appear. Such a property used to be dropped silently,
+    which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
+    at all.
+
+    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
+    `GET /v1/listings?status=inactive` to find them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,13 +186,23 @@ async def asyncio(
     client: AuthenticatedClient | Client,
 
 ) -> list[BookingProperty] | None:
-    """ List Booking.com properties
+    r""" List Booking.com properties
 
-     List Booking.com hotels claimed by this workspace. Each row includes the Booking-side hotel id and
-    the connected room types.
+     List every Booking.com property this workspace holds. Each property is returned ONCE, with the
+    Repull listings mapped under it.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    A Booking.com property is a building; its rooms are what guests book, and each room is mapped to one
+    Repull listing — so one property routinely carries many listings. `listings[].roomBookingId` is the
+    Booking.com room id an ARI write takes.
+
+    A property whose rooms are not mapped yet is still listed, with `mappingStatus: \"unmapped\"` and an
+    empty `listings` array. That is a real mid-onboarding state, not an error: finish `POST
+    /v1/connect/booking/map-rooms` and the listings appear. Such a property used to be dropped silently,
+    which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
+    at all.
+
+    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
+    `GET /v1/listings?status=inactive` to find them.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

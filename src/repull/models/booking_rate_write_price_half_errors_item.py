@@ -14,14 +14,13 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="BookingPricingUpdateResponseRaw")
+T = TypeVar("T", bound="BookingRateWritePriceHalfErrorsItem")
 
 
 
 @_attrs_define
-class BookingPricingUpdateResponseRaw:
-    """ Verbatim Booking response envelope for debugging.
-
+class BookingRateWritePriceHalfErrorsItem:
+    """ 
      """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -42,12 +41,12 @@ class BookingPricingUpdateResponseRaw:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        booking_pricing_update_response_raw = cls(
+        booking_rate_write_price_half_errors_item = cls(
         )
 
 
-        booking_pricing_update_response_raw.additional_properties = d
-        return booking_pricing_update_response_raw
+        booking_rate_write_price_half_errors_item.additional_properties = d
+        return booking_rate_write_price_half_errors_item
 
     @property
     def additional_keys(self) -> list[str]:

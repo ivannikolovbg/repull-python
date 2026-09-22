@@ -9,6 +9,7 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.booking_availability_update_request import BookingAvailabilityUpdateRequest
+from ...models.booking_pricing_update_response import BookingPricingUpdateResponse
 from ...models.error import Error
 from typing import cast
 
@@ -41,9 +42,12 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> BookingPricingUpdateResponse | Error | None:
     if response.status_code == 200:
-        response_200 = cast(Any, None)
+        response_200 = BookingPricingUpdateResponse.from_dict(response.json())
+
+
+
         return response_200
 
     if response.status_code == 400:
@@ -74,6 +78,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+
+
+        return response_429
+
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
 
@@ -81,13 +99,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_500
 
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[BookingPricingUpdateResponse | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -101,20 +126,46 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: BookingAvailabilityUpdateRequest,
 
-) -> Response[Any | Error]:
-    """ Update Booking.com rates/availability
+) -> Response[BookingPricingUpdateResponse | Error]:
+    r""" Update Booking.com rates/availability
 
-     Push availability, rates, and the full restriction set to Booking.com. `type` selects the write
-    path:
+     Write rates, availability and restrictions to a Booking.com property. `type` selects the write:
 
-    - `rates` — nightly price + length-of-stay / arrival restrictions (min/max stay, closed-to-arrival,
-    closed-to-departure, advance-reservation window).
-    - `availability` — inventory (`availableRooms`), the dedicated stop-sell flag (`closed`), and the
-    same restriction set.
+    - `rates` — nightly prices, plus any length-of-stay / arrival restrictions sent with them.
+    - `availability` — inventory (`availableRooms`), the stop-sell flag (`closed`), and restrictions.
+    Omit `availableRooms` and `closed` for a restriction-only write.
     - `derived-pricing` — occupancy-derived pricing rules.
 
-    Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
-    upstream surface as `booking_error`.
+    **Dates are inclusive at both ends.** `{ \"start\": \"2026-11-04\", \"end\": \"2026-11-04\" }` is
+    exactly one night.
+
+    **A rate amount needs an occupancy.** Booking.com stores the amount against the party size the rate
+    plan prices: sent above that number it declines the price in silence, sent below it it answers 400.
+    Send `occupancy`, or omit it and Repull resolves it from Booking.com's own data and echoes the value
+    and its `source` back in `occupancy[]`. If it cannot be resolved the write is refused with `422`
+    naming `updates[N].occupancy`.
+
+    **Restrictions are sent in the same call, on their own wire.** A price and a minimum stay are two
+    writes on Booking.com's side. Send them together and the response reports each separately: `price`
+    and `restrictions` carry their own state, their own read-back, and — when refused — Booking.com's
+    own reason. The top-level `applied` is `partial` when they disagree, so a price that landed is never
+    reported as a failure. `minStay`, `maxStay`, `minStayArrival`, `maxStayArrival`, `closedToArrival`
+    and `closedToDeparture` are written; `exactStayArrival`, `minAdvanceRes` and `maxAdvanceRes` are
+    refused with `422 restriction_not_supported` because Booking.com's notification has no element for
+    them — set those on the rate plan in the Extranet. Nothing you send is ever silently ignored.
+
+    **Inventory is not part of a rate update.** `roomsToSell` on a `rates` update returns `422
+    inventory_not_in_rate_update`; send it as `type: \"availability\"` instead.
+
+    **The response says what is known.** Booking.com acknowledges a write with no per-date status, so
+    the nights are read back — prices and restrictions out of the same read: `applied` is `verified`,
+    `mismatch`, `partial`, `rejected` or `unverified` (send `verify: false` to skip the read-back). A
+    bare acknowledgement is never reported as \"all updates applied\". Booking.com stores a 1-night
+    minimum as no minimum, so `minStay: 1` reads back as `0` and still counts as applied.
+
+    Restrictions never leak across channels — this endpoint writes only to Booking.com. When Booking.com
+    refuses a write outright, their own reason comes back as `422 booking_rejected` with `booking_ruid`;
+    a genuine outage on their side is `502 booking_error`.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
@@ -125,15 +176,15 @@ def sync_detailed(
 
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.
-            Selects one of Booking's three ARI write paths via `type` and forwards `updates` verbatim
-            to the connector.
+            `type` selects which of Booking.com's writes to perform. Date ranges are inclusive at both
+            ends everywhere in this body.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[BookingPricingUpdateResponse | Error]
      """
 
 
@@ -153,20 +204,46 @@ def sync(
     client: AuthenticatedClient | Client,
     body: BookingAvailabilityUpdateRequest,
 
-) -> Any | Error | None:
-    """ Update Booking.com rates/availability
+) -> BookingPricingUpdateResponse | Error | None:
+    r""" Update Booking.com rates/availability
 
-     Push availability, rates, and the full restriction set to Booking.com. `type` selects the write
-    path:
+     Write rates, availability and restrictions to a Booking.com property. `type` selects the write:
 
-    - `rates` — nightly price + length-of-stay / arrival restrictions (min/max stay, closed-to-arrival,
-    closed-to-departure, advance-reservation window).
-    - `availability` — inventory (`availableRooms`), the dedicated stop-sell flag (`closed`), and the
-    same restriction set.
+    - `rates` — nightly prices, plus any length-of-stay / arrival restrictions sent with them.
+    - `availability` — inventory (`availableRooms`), the stop-sell flag (`closed`), and restrictions.
+    Omit `availableRooms` and `closed` for a restriction-only write.
     - `derived-pricing` — occupancy-derived pricing rules.
 
-    Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
-    upstream surface as `booking_error`.
+    **Dates are inclusive at both ends.** `{ \"start\": \"2026-11-04\", \"end\": \"2026-11-04\" }` is
+    exactly one night.
+
+    **A rate amount needs an occupancy.** Booking.com stores the amount against the party size the rate
+    plan prices: sent above that number it declines the price in silence, sent below it it answers 400.
+    Send `occupancy`, or omit it and Repull resolves it from Booking.com's own data and echoes the value
+    and its `source` back in `occupancy[]`. If it cannot be resolved the write is refused with `422`
+    naming `updates[N].occupancy`.
+
+    **Restrictions are sent in the same call, on their own wire.** A price and a minimum stay are two
+    writes on Booking.com's side. Send them together and the response reports each separately: `price`
+    and `restrictions` carry their own state, their own read-back, and — when refused — Booking.com's
+    own reason. The top-level `applied` is `partial` when they disagree, so a price that landed is never
+    reported as a failure. `minStay`, `maxStay`, `minStayArrival`, `maxStayArrival`, `closedToArrival`
+    and `closedToDeparture` are written; `exactStayArrival`, `minAdvanceRes` and `maxAdvanceRes` are
+    refused with `422 restriction_not_supported` because Booking.com's notification has no element for
+    them — set those on the rate plan in the Extranet. Nothing you send is ever silently ignored.
+
+    **Inventory is not part of a rate update.** `roomsToSell` on a `rates` update returns `422
+    inventory_not_in_rate_update`; send it as `type: \"availability\"` instead.
+
+    **The response says what is known.** Booking.com acknowledges a write with no per-date status, so
+    the nights are read back — prices and restrictions out of the same read: `applied` is `verified`,
+    `mismatch`, `partial`, `rejected` or `unverified` (send `verify: false` to skip the read-back). A
+    bare acknowledgement is never reported as \"all updates applied\". Booking.com stores a 1-night
+    minimum as no minimum, so `minStay: 1` reads back as `0` and still counts as applied.
+
+    Restrictions never leak across channels — this endpoint writes only to Booking.com. When Booking.com
+    refuses a write outright, their own reason comes back as `422 booking_rejected` with `booking_ruid`;
+    a genuine outage on their side is `502 booking_error`.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
@@ -177,15 +254,15 @@ def sync(
 
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.
-            Selects one of Booking's three ARI write paths via `type` and forwards `updates` verbatim
-            to the connector.
+            `type` selects which of Booking.com's writes to perform. Date ranges are inclusive at both
+            ends everywhere in this body.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        BookingPricingUpdateResponse | Error
      """
 
 
@@ -200,20 +277,46 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: BookingAvailabilityUpdateRequest,
 
-) -> Response[Any | Error]:
-    """ Update Booking.com rates/availability
+) -> Response[BookingPricingUpdateResponse | Error]:
+    r""" Update Booking.com rates/availability
 
-     Push availability, rates, and the full restriction set to Booking.com. `type` selects the write
-    path:
+     Write rates, availability and restrictions to a Booking.com property. `type` selects the write:
 
-    - `rates` — nightly price + length-of-stay / arrival restrictions (min/max stay, closed-to-arrival,
-    closed-to-departure, advance-reservation window).
-    - `availability` — inventory (`availableRooms`), the dedicated stop-sell flag (`closed`), and the
-    same restriction set.
+    - `rates` — nightly prices, plus any length-of-stay / arrival restrictions sent with them.
+    - `availability` — inventory (`availableRooms`), the stop-sell flag (`closed`), and restrictions.
+    Omit `availableRooms` and `closed` for a restriction-only write.
     - `derived-pricing` — occupancy-derived pricing rules.
 
-    Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
-    upstream surface as `booking_error`.
+    **Dates are inclusive at both ends.** `{ \"start\": \"2026-11-04\", \"end\": \"2026-11-04\" }` is
+    exactly one night.
+
+    **A rate amount needs an occupancy.** Booking.com stores the amount against the party size the rate
+    plan prices: sent above that number it declines the price in silence, sent below it it answers 400.
+    Send `occupancy`, or omit it and Repull resolves it from Booking.com's own data and echoes the value
+    and its `source` back in `occupancy[]`. If it cannot be resolved the write is refused with `422`
+    naming `updates[N].occupancy`.
+
+    **Restrictions are sent in the same call, on their own wire.** A price and a minimum stay are two
+    writes on Booking.com's side. Send them together and the response reports each separately: `price`
+    and `restrictions` carry their own state, their own read-back, and — when refused — Booking.com's
+    own reason. The top-level `applied` is `partial` when they disagree, so a price that landed is never
+    reported as a failure. `minStay`, `maxStay`, `minStayArrival`, `maxStayArrival`, `closedToArrival`
+    and `closedToDeparture` are written; `exactStayArrival`, `minAdvanceRes` and `maxAdvanceRes` are
+    refused with `422 restriction_not_supported` because Booking.com's notification has no element for
+    them — set those on the rate plan in the Extranet. Nothing you send is ever silently ignored.
+
+    **Inventory is not part of a rate update.** `roomsToSell` on a `rates` update returns `422
+    inventory_not_in_rate_update`; send it as `type: \"availability\"` instead.
+
+    **The response says what is known.** Booking.com acknowledges a write with no per-date status, so
+    the nights are read back — prices and restrictions out of the same read: `applied` is `verified`,
+    `mismatch`, `partial`, `rejected` or `unverified` (send `verify: false` to skip the read-back). A
+    bare acknowledgement is never reported as \"all updates applied\". Booking.com stores a 1-night
+    minimum as no minimum, so `minStay: 1` reads back as `0` and still counts as applied.
+
+    Restrictions never leak across channels — this endpoint writes only to Booking.com. When Booking.com
+    refuses a write outright, their own reason comes back as `422 booking_rejected` with `booking_ruid`;
+    a genuine outage on their side is `502 booking_error`.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
@@ -224,15 +327,15 @@ async def asyncio_detailed(
 
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.
-            Selects one of Booking's three ARI write paths via `type` and forwards `updates` verbatim
-            to the connector.
+            `type` selects which of Booking.com's writes to perform. Date ranges are inclusive at both
+            ends everywhere in this body.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[BookingPricingUpdateResponse | Error]
      """
 
 
@@ -252,20 +355,46 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: BookingAvailabilityUpdateRequest,
 
-) -> Any | Error | None:
-    """ Update Booking.com rates/availability
+) -> BookingPricingUpdateResponse | Error | None:
+    r""" Update Booking.com rates/availability
 
-     Push availability, rates, and the full restriction set to Booking.com. `type` selects the write
-    path:
+     Write rates, availability and restrictions to a Booking.com property. `type` selects the write:
 
-    - `rates` — nightly price + length-of-stay / arrival restrictions (min/max stay, closed-to-arrival,
-    closed-to-departure, advance-reservation window).
-    - `availability` — inventory (`availableRooms`), the dedicated stop-sell flag (`closed`), and the
-    same restriction set.
+    - `rates` — nightly prices, plus any length-of-stay / arrival restrictions sent with them.
+    - `availability` — inventory (`availableRooms`), the stop-sell flag (`closed`), and restrictions.
+    Omit `availableRooms` and `closed` for a restriction-only write.
     - `derived-pricing` — occupancy-derived pricing rules.
 
-    Restrictions never leak across channels — this endpoint writes only to Booking.com. Errors from
-    upstream surface as `booking_error`.
+    **Dates are inclusive at both ends.** `{ \"start\": \"2026-11-04\", \"end\": \"2026-11-04\" }` is
+    exactly one night.
+
+    **A rate amount needs an occupancy.** Booking.com stores the amount against the party size the rate
+    plan prices: sent above that number it declines the price in silence, sent below it it answers 400.
+    Send `occupancy`, or omit it and Repull resolves it from Booking.com's own data and echoes the value
+    and its `source` back in `occupancy[]`. If it cannot be resolved the write is refused with `422`
+    naming `updates[N].occupancy`.
+
+    **Restrictions are sent in the same call, on their own wire.** A price and a minimum stay are two
+    writes on Booking.com's side. Send them together and the response reports each separately: `price`
+    and `restrictions` carry their own state, their own read-back, and — when refused — Booking.com's
+    own reason. The top-level `applied` is `partial` when they disagree, so a price that landed is never
+    reported as a failure. `minStay`, `maxStay`, `minStayArrival`, `maxStayArrival`, `closedToArrival`
+    and `closedToDeparture` are written; `exactStayArrival`, `minAdvanceRes` and `maxAdvanceRes` are
+    refused with `422 restriction_not_supported` because Booking.com's notification has no element for
+    them — set those on the rate plan in the Extranet. Nothing you send is ever silently ignored.
+
+    **Inventory is not part of a rate update.** `roomsToSell` on a `rates` update returns `422
+    inventory_not_in_rate_update`; send it as `type: \"availability\"` instead.
+
+    **The response says what is known.** Booking.com acknowledges a write with no per-date status, so
+    the nights are read back — prices and restrictions out of the same read: `applied` is `verified`,
+    `mismatch`, `partial`, `rejected` or `unverified` (send `verify: false` to skip the read-back). A
+    bare acknowledgement is never reported as \"all updates applied\". Booking.com stores a 1-night
+    minimum as no minimum, so `minStay: 1` reads back as `0` and still counts as applied.
+
+    Restrictions never leak across channels — this endpoint writes only to Booking.com. When Booking.com
+    refuses a write outright, their own reason comes back as `422 booking_rejected` with `booking_ruid`;
+    a genuine outage on their side is `502 booking_error`.
 
     `property_id` must be a Booking.com property connected to this workspace (`GET
     /v1/channels/booking/properties` lists them). Any other id — including one connected to a different
@@ -276,15 +405,15 @@ async def asyncio(
 
     Args:
         body (BookingAvailabilityUpdateRequest): Body for `PUT /v1/channels/booking/availability`.
-            Selects one of Booking's three ARI write paths via `type` and forwards `updates` verbatim
-            to the connector.
+            `type` selects which of Booking.com's writes to perform. Date ranges are inclusive at both
+            ends everywhere in this body.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        BookingPricingUpdateResponse | Error
      """
 
 

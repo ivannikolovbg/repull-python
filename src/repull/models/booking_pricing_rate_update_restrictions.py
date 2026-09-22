@@ -22,24 +22,39 @@ T = TypeVar("T", bound="BookingPricingRateUpdateRestrictions")
 
 @_attrs_define
 class BookingPricingRateUpdateRestrictions:
-    """ Optional length-of-stay / availability restrictions for one rate update. Every field here is forwarded verbatim into
-    Booking.com's rates XML (`minimumstay`, `maximumstay`, `closedonarrival`, `closedondeparture`, …) — omit a field to
-    leave that restriction untouched.
+    """ Length-of-stay and arrival restrictions for the nights in this update. Omit a field to leave that restriction
+    untouched — nothing you do not state is changed.
+
+    These are written on Booking.com's availability notification, which is the wire that carries a restriction when no
+    inventory changes hands. Sending them alongside a price is supported: the prices and the restrictions are two
+    writes, and the response reports each one separately (`price` and `restrictions`), so a half that lands is never
+    reported as a failure and a half that is refused is never reported as applied.
+
+    Three restrictions are refused with `422 restriction_not_supported` naming the field: Booking.com's notification has
+    no element for them, and dropping a restriction you stated would be worse than refusing it. Set those on the rate
+    plan in the Booking.com Extranet.
 
         Attributes:
-            min_stay (int | None | Unset): Minimum length of stay (`minimumstay`).
-            max_stay (int | None | Unset): Maximum length of stay (`maximumstay`).
-            closed_to_arrival (bool | None | Unset): Closed-to-arrival — guests may not check in on the affected dates
-                (`closedonarrival`).
-            closed_to_departure (bool | None | Unset): Closed-to-departure — guests may not check out on the affected dates
-                (`closedondeparture`).
-            min_stay_arrival (int | None | Unset): Arrival-based minimum length of stay (`minimumstay_arrival`).
-            max_stay_arrival (int | None | Unset): Arrival-based maximum length of stay (`maximumstay_arrival`).
-            exact_stay_arrival (int | None | Unset): Arrival-based exact length of stay (`exactstay_arrival`).
-            min_advance_res (None | str | Unset): Minimum advance-reservation window, format `XDY` (X days Y hours) —
-                `min_advance_res`.
-            max_advance_res (None | str | Unset): Maximum advance-reservation window, format `XDY` (X days Y hours) —
-                `max_advance_res`.
+            min_stay (int | None | Unset): Minimum length of stay. Booking.com stores a 1-night minimum as no minimum at
+                all, so `minStay: 1` reads back as `0` and is reported as applied.
+            max_stay (int | None | Unset): Maximum length of stay.
+            closed_to_arrival (bool | None | Unset): Closed-to-arrival — guests may not check in on these nights. `false`
+                clears the flag; omit the field to leave it as it is.
+            closed_to_departure (bool | None | Unset): Closed-to-departure — guests may not check out on these nights.
+                `false` clears the flag; omit the field to leave it as it is.
+            min_stay_arrival (int | None | Unset): Arrival-based minimum length of stay — applies to stays that START on
+                these nights, rather than any stay covering them.
+            max_stay_arrival (int | None | Unset): Arrival-based maximum length of stay.
+            exact_stay_arrival (int | None | Unset): Refused. Booking.com's restriction notification has no element for an
+                exact arrival-based stay length, so it cannot be written through the API; sending it returns `422
+                restriction_not_supported` naming `updates[N].restrictions.exactStayArrival`. Set it on the rate plan in the
+                Booking.com Extranet.
+            min_advance_res (None | str | Unset): Refused, for the same reason as `exactStayArrival` — returns `422
+                restriction_not_supported`. Set the minimum advance-reservation window on the rate plan in the Booking.com
+                Extranet.
+            max_advance_res (None | str | Unset): Refused, for the same reason as `exactStayArrival` — returns `422
+                restriction_not_supported`. Set the maximum advance-reservation window on the rate plan in the Booking.com
+                Extranet.
      """
 
     min_stay: int | None | Unset = UNSET

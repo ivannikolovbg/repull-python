@@ -38,6 +38,7 @@ class GetUsageSummaryResponse200:
             limits (GetUsageSummaryResponse200Limits | Unset):
             used (GetUsageSummaryResponse200Used | Unset):
             remaining (GetUsageSummaryResponse200Remaining | Unset):
+            daily_resets_at (datetime.datetime | Unset):
             resets_at (datetime.datetime | Unset):
             breakdown (list[GetUsageSummaryResponse200BreakdownItem] | Unset):
             timeline (list[GetUsageSummaryResponse200TimelineItem] | Unset):
@@ -50,6 +51,7 @@ class GetUsageSummaryResponse200:
     limits: GetUsageSummaryResponse200Limits | Unset = UNSET
     used: GetUsageSummaryResponse200Used | Unset = UNSET
     remaining: GetUsageSummaryResponse200Remaining | Unset = UNSET
+    daily_resets_at: datetime.datetime | Unset = UNSET
     resets_at: datetime.datetime | Unset = UNSET
     breakdown: list[GetUsageSummaryResponse200BreakdownItem] | Unset = UNSET
     timeline: list[GetUsageSummaryResponse200TimelineItem] | Unset = UNSET
@@ -83,6 +85,10 @@ class GetUsageSummaryResponse200:
         remaining: dict[str, Any] | Unset = UNSET
         if not isinstance(self.remaining, Unset):
             remaining = self.remaining.to_dict()
+
+        daily_resets_at: str | Unset = UNSET
+        if not isinstance(self.daily_resets_at, Unset):
+            daily_resets_at = self.daily_resets_at.isoformat()
 
         resets_at: str | Unset = UNSET
         if not isinstance(self.resets_at, Unset):
@@ -129,6 +135,8 @@ class GetUsageSummaryResponse200:
             field_dict["used"] = used
         if remaining is not UNSET:
             field_dict["remaining"] = remaining
+        if daily_resets_at is not UNSET:
+            field_dict["dailyResetsAt"] = daily_resets_at
         if resets_at is not UNSET:
             field_dict["resetsAt"] = resets_at
         if breakdown is not UNSET:
@@ -184,6 +192,16 @@ class GetUsageSummaryResponse200:
             remaining = UNSET
         else:
             remaining = GetUsageSummaryResponse200Remaining.from_dict(_remaining)
+
+
+
+
+        _daily_resets_at = d.pop("dailyResetsAt", UNSET)
+        daily_resets_at: datetime.datetime | Unset
+        if isinstance(_daily_resets_at,  Unset):
+            daily_resets_at = UNSET
+        else:
+            daily_resets_at = isoparse(_daily_resets_at)
 
 
 
@@ -249,6 +267,7 @@ class GetUsageSummaryResponse200:
             limits=limits,
             used=used,
             remaining=remaining,
+            daily_resets_at=daily_resets_at,
             resets_at=resets_at,
             breakdown=breakdown,
             timeline=timeline,

@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.booking_availability_update_request_type import BookingAvailabilityUpdateRequestType
+from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
@@ -25,22 +26,27 @@ T = TypeVar("T", bound="BookingAvailabilityUpdateRequest")
 
 @_attrs_define
 class BookingAvailabilityUpdateRequest:
-    """ Body for `PUT /v1/channels/booking/availability`. Selects one of Booking's three ARI write paths via `type` and
-    forwards `updates` verbatim to the connector.
+    """ Body for `PUT /v1/channels/booking/availability`. `type` selects which of Booking.com's writes to perform. Date
+    ranges are inclusive at both ends everywhere in this body.
 
         Attributes:
-            type_ (BookingAvailabilityUpdateRequestType): `rates` → price + restrictions (`updateRates`); `availability` →
-                inventory + stop-sell + restrictions (`updateAvailability`); `derived-pricing` → occupancy-derived pricing rules
-                (`updateDerivedPricing`).
+            type_ (BookingAvailabilityUpdateRequestType): `rates` → nightly prices (+ any restrictions sent with them),
+                written at an explicit `occupancy`; `availability` → inventory, stop-sell and restrictions; `derived-pricing` →
+                occupancy-derived pricing rules. A rates update may not carry `roomsToSell`: inventory is an `availability`
+                write.
             property_id (int | str): Booking.com hotel/property id (numeric; accepted as int or numeric string).
             updates (list[BookingAvailabilityUpdate | BookingPricingRateUpdate]): For `type: "rates"` each item is a
                 `BookingPricingRateUpdate`; for `type: "availability"` a `BookingAvailabilityUpdate`; for `type: "derived-
                 pricing"` a derived-price rule set.
+            verify (bool | None | Unset): Only for `type: "rates"`. Default `true`: after the write the affected nights are
+                read back off Booking.com so `applied` can say `verified` or `mismatch`. Send `false` to skip the read (one
+                fewer Booking.com call); the response then reports `applied: "unverified"`.
      """
 
     type_: BookingAvailabilityUpdateRequestType
     property_id: int | str
     updates: list[BookingAvailabilityUpdate | BookingPricingRateUpdate]
+    verify: bool | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -67,6 +73,12 @@ class BookingAvailabilityUpdateRequest:
 
 
 
+        verify: bool | None | Unset
+        if isinstance(self.verify, Unset):
+            verify = UNSET
+        else:
+            verify = self.verify
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -75,6 +87,8 @@ class BookingAvailabilityUpdateRequest:
             "property_id": property_id,
             "updates": updates,
         })
+        if verify is not UNSET:
+            field_dict["verify"] = verify
 
         return field_dict
 
@@ -123,10 +137,21 @@ class BookingAvailabilityUpdateRequest:
             updates.append(updates_item)
 
 
+        def _parse_verify(data: object) -> bool | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(bool | None | Unset, data)
+
+        verify = _parse_verify(d.pop("verify", UNSET))
+
+
         booking_availability_update_request = cls(
             type_=type_,
             property_id=property_id,
             updates=updates,
+            verify=verify,
         )
 
 

@@ -25,11 +25,13 @@ class GetUsageTierResponse200Limits:
     """ 
         Attributes:
             monthly_requests (int | None | Unset):
+            daily_requests (int | None | Unset):
             daily_ai_requests (int | None | Unset):
             dynamic_pricing_listings (int | None | Unset):
      """
 
     monthly_requests: int | None | Unset = UNSET
+    daily_requests: int | None | Unset = UNSET
     daily_ai_requests: int | None | Unset = UNSET
     dynamic_pricing_listings: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -44,6 +46,12 @@ class GetUsageTierResponse200Limits:
             monthly_requests = UNSET
         else:
             monthly_requests = self.monthly_requests
+
+        daily_requests: int | None | Unset
+        if isinstance(self.daily_requests, Unset):
+            daily_requests = UNSET
+        else:
+            daily_requests = self.daily_requests
 
         daily_ai_requests: int | None | Unset
         if isinstance(self.daily_ai_requests, Unset):
@@ -64,6 +72,8 @@ class GetUsageTierResponse200Limits:
         })
         if monthly_requests is not UNSET:
             field_dict["monthlyRequests"] = monthly_requests
+        if daily_requests is not UNSET:
+            field_dict["dailyRequests"] = daily_requests
         if daily_ai_requests is not UNSET:
             field_dict["dailyAiRequests"] = daily_ai_requests
         if dynamic_pricing_listings is not UNSET:
@@ -84,6 +94,16 @@ class GetUsageTierResponse200Limits:
             return cast(int | None | Unset, data)
 
         monthly_requests = _parse_monthly_requests(d.pop("monthlyRequests", UNSET))
+
+
+        def _parse_daily_requests(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        daily_requests = _parse_daily_requests(d.pop("dailyRequests", UNSET))
 
 
         def _parse_daily_ai_requests(data: object) -> int | None | Unset:
@@ -108,6 +128,7 @@ class GetUsageTierResponse200Limits:
 
         get_usage_tier_response_200_limits = cls(
             monthly_requests=monthly_requests,
+            daily_requests=daily_requests,
             daily_ai_requests=daily_ai_requests,
             dynamic_pricing_listings=dynamic_pricing_listings,
         )

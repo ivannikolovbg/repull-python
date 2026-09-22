@@ -28,11 +28,14 @@ class BookingRoomsRatesResponseRoomsItem:
         Attributes:
             room_id (None | str | Unset): Booking.com room id — use as `roomId` in an ARI update.
             room_name (None | str | Unset):
+            max_adults (int | None | Unset): Booking.com's capacity for this room, as imported. The occupancy a rate write
+                falls back to when the rate plan states no `maxPersons`. Null when Booking.com never stated one.
             rates (list[BookingRoomsRatesResponseRoomsItemRatesItem] | Unset):
      """
 
     room_id: None | str | Unset = UNSET
     room_name: None | str | Unset = UNSET
+    max_adults: int | None | Unset = UNSET
     rates: list[BookingRoomsRatesResponseRoomsItemRatesItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -54,6 +57,12 @@ class BookingRoomsRatesResponseRoomsItem:
         else:
             room_name = self.room_name
 
+        max_adults: int | None | Unset
+        if isinstance(self.max_adults, Unset):
+            max_adults = UNSET
+        else:
+            max_adults = self.max_adults
+
         rates: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.rates, Unset):
             rates = []
@@ -72,6 +81,8 @@ class BookingRoomsRatesResponseRoomsItem:
             field_dict["roomId"] = room_id
         if room_name is not UNSET:
             field_dict["roomName"] = room_name
+        if max_adults is not UNSET:
+            field_dict["maxAdults"] = max_adults
         if rates is not UNSET:
             field_dict["rates"] = rates
 
@@ -103,6 +114,16 @@ class BookingRoomsRatesResponseRoomsItem:
         room_name = _parse_room_name(d.pop("roomName", UNSET))
 
 
+        def _parse_max_adults(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        max_adults = _parse_max_adults(d.pop("maxAdults", UNSET))
+
+
         _rates = d.pop("rates", UNSET)
         rates: list[BookingRoomsRatesResponseRoomsItemRatesItem] | Unset = UNSET
         if _rates is not UNSET:
@@ -118,6 +139,7 @@ class BookingRoomsRatesResponseRoomsItem:
         booking_rooms_rates_response_rooms_item = cls(
             room_id=room_id,
             room_name=room_name,
+            max_adults=max_adults,
             rates=rates,
         )
 

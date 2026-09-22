@@ -24,10 +24,12 @@ class GetUsageSummaryResponse200Used:
     """ 
         Attributes:
             monthly (int | Unset):
+            daily (int | Unset):
             daily_ai (int | Unset):
      """
 
     monthly: int | Unset = UNSET
+    daily: int | Unset = UNSET
     daily_ai: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -38,6 +40,8 @@ class GetUsageSummaryResponse200Used:
     def to_dict(self) -> dict[str, Any]:
         monthly = self.monthly
 
+        daily = self.daily
+
         daily_ai = self.daily_ai
 
 
@@ -47,6 +51,8 @@ class GetUsageSummaryResponse200Used:
         })
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
+        if daily is not UNSET:
+            field_dict["daily"] = daily
         if daily_ai is not UNSET:
             field_dict["dailyAi"] = daily_ai
 
@@ -59,10 +65,13 @@ class GetUsageSummaryResponse200Used:
         d = dict(src_dict)
         monthly = d.pop("monthly", UNSET)
 
+        daily = d.pop("daily", UNSET)
+
         daily_ai = d.pop("dailyAi", UNSET)
 
         get_usage_summary_response_200_used = cls(
             monthly=monthly,
+            daily=daily,
             daily_ai=daily_ai,
         )
 

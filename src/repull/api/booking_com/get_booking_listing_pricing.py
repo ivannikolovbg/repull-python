@@ -24,6 +24,7 @@ def _get_kwargs(
     number_of_days: int | Unset = UNSET,
     room_id: str | Unset = UNSET,
     room_level: bool | Unset = UNSET,
+    hotel_id: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
@@ -42,6 +43,8 @@ def _get_kwargs(
     params["room_id"] = room_id
 
     params["room_level"] = room_level
+
+    params["hotel_id"] = hotel_id
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -101,6 +104,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_500
 
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -124,17 +134,23 @@ def sync_detailed(
     number_of_days: int | Unset = UNSET,
     room_id: str | Unset = UNSET,
     room_level: bool | Unset = UNSET,
+    hotel_id: str | Unset = UNSET,
 
 ) -> Response[BookingPricingResponse | Error]:
     """ Get Booking.com pricing for a listing
 
-     Resolves the Vanio listing ID to its Booking.com `hotel_id` (via the `listings_booking` mapping
-    owned by the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
+     Resolves the Repull listing id to its Booking.com `hotel_id` (via the room mapping the Connect flow
+    records for the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
     requested window. Pricing on Booking is per-room/per-rate-plan, so `room_id` and `room_level` flow
     through query params unchanged.
 
     Mirrors the per-channel `/listings/{id}/pricing` shape used by Airbnb so SDK consumers can carry a
-    Vanio listing ID across channels.
+    Repull listing id across channels. `id` is a Repull listing id, never a Booking.com hotel id — the
+    hotel-id surface is `/v1/channels/booking/availability`.
+
+    A listing can be published under several Booking.com properties. GET uses the oldest and reports the
+    rest in `otherHotelIds`; PUT refuses with `409 ambiguous_booking_mapping` rather than push rates
+    into a property it guessed at. `?hotel_id=` names the property explicitly for either.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -145,6 +161,7 @@ def sync_detailed(
         number_of_days (int | Unset):
         room_id (str | Unset):
         room_level (bool | Unset):
+        hotel_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -161,6 +178,7 @@ start_date=start_date,
 number_of_days=number_of_days,
 room_id=room_id,
 room_level=room_level,
+hotel_id=hotel_id,
 
     )
 
@@ -178,17 +196,23 @@ def sync(
     number_of_days: int | Unset = UNSET,
     room_id: str | Unset = UNSET,
     room_level: bool | Unset = UNSET,
+    hotel_id: str | Unset = UNSET,
 
 ) -> BookingPricingResponse | Error | None:
     """ Get Booking.com pricing for a listing
 
-     Resolves the Vanio listing ID to its Booking.com `hotel_id` (via the `listings_booking` mapping
-    owned by the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
+     Resolves the Repull listing id to its Booking.com `hotel_id` (via the room mapping the Connect flow
+    records for the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
     requested window. Pricing on Booking is per-room/per-rate-plan, so `room_id` and `room_level` flow
     through query params unchanged.
 
     Mirrors the per-channel `/listings/{id}/pricing` shape used by Airbnb so SDK consumers can carry a
-    Vanio listing ID across channels.
+    Repull listing id across channels. `id` is a Repull listing id, never a Booking.com hotel id — the
+    hotel-id surface is `/v1/channels/booking/availability`.
+
+    A listing can be published under several Booking.com properties. GET uses the oldest and reports the
+    rest in `otherHotelIds`; PUT refuses with `409 ambiguous_booking_mapping` rather than push rates
+    into a property it guessed at. `?hotel_id=` names the property explicitly for either.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -199,6 +223,7 @@ def sync(
         number_of_days (int | Unset):
         room_id (str | Unset):
         room_level (bool | Unset):
+        hotel_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -216,6 +241,7 @@ start_date=start_date,
 number_of_days=number_of_days,
 room_id=room_id,
 room_level=room_level,
+hotel_id=hotel_id,
 
     ).parsed
 
@@ -227,17 +253,23 @@ async def asyncio_detailed(
     number_of_days: int | Unset = UNSET,
     room_id: str | Unset = UNSET,
     room_level: bool | Unset = UNSET,
+    hotel_id: str | Unset = UNSET,
 
 ) -> Response[BookingPricingResponse | Error]:
     """ Get Booking.com pricing for a listing
 
-     Resolves the Vanio listing ID to its Booking.com `hotel_id` (via the `listings_booking` mapping
-    owned by the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
+     Resolves the Repull listing id to its Booking.com `hotel_id` (via the room mapping the Connect flow
+    records for the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
     requested window. Pricing on Booking is per-room/per-rate-plan, so `room_id` and `room_level` flow
     through query params unchanged.
 
     Mirrors the per-channel `/listings/{id}/pricing` shape used by Airbnb so SDK consumers can carry a
-    Vanio listing ID across channels.
+    Repull listing id across channels. `id` is a Repull listing id, never a Booking.com hotel id — the
+    hotel-id surface is `/v1/channels/booking/availability`.
+
+    A listing can be published under several Booking.com properties. GET uses the oldest and reports the
+    rest in `otherHotelIds`; PUT refuses with `409 ambiguous_booking_mapping` rather than push rates
+    into a property it guessed at. `?hotel_id=` names the property explicitly for either.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -248,6 +280,7 @@ async def asyncio_detailed(
         number_of_days (int | Unset):
         room_id (str | Unset):
         room_level (bool | Unset):
+        hotel_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -264,6 +297,7 @@ start_date=start_date,
 number_of_days=number_of_days,
 room_id=room_id,
 room_level=room_level,
+hotel_id=hotel_id,
 
     )
 
@@ -281,17 +315,23 @@ async def asyncio(
     number_of_days: int | Unset = UNSET,
     room_id: str | Unset = UNSET,
     room_level: bool | Unset = UNSET,
+    hotel_id: str | Unset = UNSET,
 
 ) -> BookingPricingResponse | Error | None:
     """ Get Booking.com pricing for a listing
 
-     Resolves the Vanio listing ID to its Booking.com `hotel_id` (via the `listings_booking` mapping
-    owned by the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
+     Resolves the Repull listing id to its Booking.com `hotel_id` (via the room mapping the Connect flow
+    records for the authenticated workspace), then proxies Booking's `getRoomRateAvailability` for the
     requested window. Pricing on Booking is per-room/per-rate-plan, so `room_id` and `room_level` flow
     through query params unchanged.
 
     Mirrors the per-channel `/listings/{id}/pricing` shape used by Airbnb so SDK consumers can carry a
-    Vanio listing ID across channels.
+    Repull listing id across channels. `id` is a Repull listing id, never a Booking.com hotel id — the
+    hotel-id surface is `/v1/channels/booking/availability`.
+
+    A listing can be published under several Booking.com properties. GET uses the oldest and reports the
+    rest in `otherHotelIds`; PUT refuses with `409 ambiguous_booking_mapping` rather than push rates
+    into a property it guessed at. `?hotel_id=` names the property explicitly for either.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -302,6 +342,7 @@ async def asyncio(
         number_of_days (int | Unset):
         room_id (str | Unset):
         room_level (bool | Unset):
+        hotel_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -319,5 +360,6 @@ start_date=start_date,
 number_of_days=number_of_days,
 room_id=room_id,
 room_level=room_level,
+hotel_id=hotel_id,
 
     )).parsed

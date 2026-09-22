@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.booking_rooms_rates_response_source import BookingRoomsRatesResponseSource
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -26,16 +27,29 @@ T = TypeVar("T", bound="BookingRoomsRatesResponse")
 class BookingRoomsRatesResponse:
     """ Returned by `GET /v1/channels/booking/properties/{id}/rooms`. Exposes the Booking.com room + rate-plan mapping ids
     for a listing so a caller can assemble a `PUT /v1/channels/booking/availability` restriction write (which requires
-    `roomId` + `rateId` on every update). Sourced from Booking's B.XML roomrates feed.
+    `roomId` + `rateId` on every update). Read live from Booking's B.XML roomrates feed; `source` says so, and says when
+    the answer came from the last import instead.
 
         Attributes:
-            hotel_id (str | Unset): Booking.com hotel/property id the rooms belong to.
-            listing_id (int | Unset): Vanio listing id echoed back.
-            rooms (list[BookingRoomsRatesResponseRoomsItem] | Unset):
+            hotel_id (str | Unset): Booking.com hotel/property id the rooms belong to — the one the mapping resolved to.
+            listing_id (str | Unset): Repull listing id echoed back.
+            other_hotel_ids (list[str] | Unset): Other Booking.com properties this listing is also published under. Empty in
+                the normal case. Pass one as `?hotel_id=` to read its rooms instead.
+            source (BookingRoomsRatesResponseSource | Unset): Where the rooms came from. `booking` — read live from
+                Booking.com just now. `mirror` — Booking.com returned nothing usable, so these are the rooms and rate plans
+                recorded at the last import; the ids are Booking.com's own and are safe to write against, but they can be stale
+                and `maxPersons`, `policy`, `policyId`, `pricingType` and `isChildRate` come back `null` because only the live
+                feed states them.
+            mirror_reason (None | str | Unset): Why the live read was not used. Null when `source` is `booking`.
+            rooms (list[BookingRoomsRatesResponseRoomsItem] | Unset): Empty only when Booking.com reports no rooms for this
+                property AND nothing was recorded at the last import. A failed read is never an empty list — it is an error.
      """
 
     hotel_id: str | Unset = UNSET
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
+    other_hotel_ids: list[str] | Unset = UNSET
+    source: BookingRoomsRatesResponseSource | Unset = UNSET
+    mirror_reason: None | str | Unset = UNSET
     rooms: list[BookingRoomsRatesResponseRoomsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -48,6 +62,23 @@ class BookingRoomsRatesResponse:
         hotel_id = self.hotel_id
 
         listing_id = self.listing_id
+
+        other_hotel_ids: list[str] | Unset = UNSET
+        if not isinstance(self.other_hotel_ids, Unset):
+            other_hotel_ids = self.other_hotel_ids
+
+
+
+        source: str | Unset = UNSET
+        if not isinstance(self.source, Unset):
+            source = self.source.value
+
+
+        mirror_reason: None | str | Unset
+        if isinstance(self.mirror_reason, Unset):
+            mirror_reason = UNSET
+        else:
+            mirror_reason = self.mirror_reason
 
         rooms: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.rooms, Unset):
@@ -64,9 +95,15 @@ class BookingRoomsRatesResponse:
         field_dict.update({
         })
         if hotel_id is not UNSET:
-            field_dict["hotel_id"] = hotel_id
+            field_dict["hotelId"] = hotel_id
         if listing_id is not UNSET:
-            field_dict["listing_id"] = listing_id
+            field_dict["listingId"] = listing_id
+        if other_hotel_ids is not UNSET:
+            field_dict["otherHotelIds"] = other_hotel_ids
+        if source is not UNSET:
+            field_dict["source"] = source
+        if mirror_reason is not UNSET:
+            field_dict["mirrorReason"] = mirror_reason
         if rooms is not UNSET:
             field_dict["rooms"] = rooms
 
@@ -78,9 +115,32 @@ class BookingRoomsRatesResponse:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.booking_rooms_rates_response_rooms_item import BookingRoomsRatesResponseRoomsItem
         d = dict(src_dict)
-        hotel_id = d.pop("hotel_id", UNSET)
+        hotel_id = d.pop("hotelId", UNSET)
 
-        listing_id = d.pop("listing_id", UNSET)
+        listing_id = d.pop("listingId", UNSET)
+
+        other_hotel_ids = cast(list[str], d.pop("otherHotelIds", UNSET))
+
+
+        _source = d.pop("source", UNSET)
+        source: BookingRoomsRatesResponseSource | Unset
+        if isinstance(_source,  Unset):
+            source = UNSET
+        else:
+            source = BookingRoomsRatesResponseSource(_source)
+
+
+
+
+        def _parse_mirror_reason(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        mirror_reason = _parse_mirror_reason(d.pop("mirrorReason", UNSET))
+
 
         _rooms = d.pop("rooms", UNSET)
         rooms: list[BookingRoomsRatesResponseRoomsItem] | Unset = UNSET
@@ -97,6 +157,9 @@ class BookingRoomsRatesResponse:
         booking_rooms_rates_response = cls(
             hotel_id=hotel_id,
             listing_id=listing_id,
+            other_hotel_ids=other_hotel_ids,
+            source=source,
+            mirror_reason=mirror_reason,
             rooms=rooms,
         )
 

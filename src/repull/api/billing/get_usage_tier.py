@@ -77,9 +77,13 @@ def sync_detailed(
 ) -> Response[Error | GetUsageTierResponse200]:
     """ Get tier and quota
 
-     Lightweight current-tier snapshot for status badges and quota meters — plan limits (monthly
-    requests, daily AI requests, dynamic-pricing listings), the amount used, the amount remaining, and
-    the next reset. `null` limits mean unlimited on that dimension.
+     Lightweight current-tier snapshot for status badges and quota meters — plan limits (daily requests,
+    monthly requests, daily AI requests, dynamic-pricing listings), the amount used, the amount
+    remaining, and the next reset. Two request quotas are reported and they reset at different times:
+    `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). Exceeding the daily cap returns 429 `daily_limit_exceeded`; exceeding the monthly one
+    returns 429 `rate_limit_exceeded`. `null` limits mean unlimited on that dimension.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,9 +111,13 @@ def sync(
 ) -> Error | GetUsageTierResponse200 | None:
     """ Get tier and quota
 
-     Lightweight current-tier snapshot for status badges and quota meters — plan limits (monthly
-    requests, daily AI requests, dynamic-pricing listings), the amount used, the amount remaining, and
-    the next reset. `null` limits mean unlimited on that dimension.
+     Lightweight current-tier snapshot for status badges and quota meters — plan limits (daily requests,
+    monthly requests, daily AI requests, dynamic-pricing listings), the amount used, the amount
+    remaining, and the next reset. Two request quotas are reported and they reset at different times:
+    `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). Exceeding the daily cap returns 429 `daily_limit_exceeded`; exceeding the monthly one
+    returns 429 `rate_limit_exceeded`. `null` limits mean unlimited on that dimension.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -132,9 +140,13 @@ async def asyncio_detailed(
 ) -> Response[Error | GetUsageTierResponse200]:
     """ Get tier and quota
 
-     Lightweight current-tier snapshot for status badges and quota meters — plan limits (monthly
-    requests, daily AI requests, dynamic-pricing listings), the amount used, the amount remaining, and
-    the next reset. `null` limits mean unlimited on that dimension.
+     Lightweight current-tier snapshot for status badges and quota meters — plan limits (daily requests,
+    monthly requests, daily AI requests, dynamic-pricing listings), the amount used, the amount
+    remaining, and the next reset. Two request quotas are reported and they reset at different times:
+    `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). Exceeding the daily cap returns 429 `daily_limit_exceeded`; exceeding the monthly one
+    returns 429 `rate_limit_exceeded`. `null` limits mean unlimited on that dimension.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -162,9 +174,13 @@ async def asyncio(
 ) -> Error | GetUsageTierResponse200 | None:
     """ Get tier and quota
 
-     Lightweight current-tier snapshot for status badges and quota meters — plan limits (monthly
-    requests, daily AI requests, dynamic-pricing listings), the amount used, the amount remaining, and
-    the next reset. `null` limits mean unlimited on that dimension.
+     Lightweight current-tier snapshot for status badges and quota meters — plan limits (daily requests,
+    monthly requests, daily AI requests, dynamic-pricing listings), the amount used, the amount
+    remaining, and the next reset. Two request quotas are reported and they reset at different times:
+    `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). Exceeding the daily cap returns 429 `daily_limit_exceeded`; exceeding the monthly one
+    returns 429 `rate_limit_exceeded`. `null` limits mean unlimited on that dimension.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

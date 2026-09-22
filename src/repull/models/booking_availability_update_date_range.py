@@ -23,10 +23,11 @@ T = TypeVar("T", bound="BookingAvailabilityUpdateDateRange")
 
 @_attrs_define
 class BookingAvailabilityUpdateDateRange:
-    """ 
+    """ The nights this update applies to. **Both ends are inclusive** — `start` equal to `end` is one night.
+
         Attributes:
-            start (datetime.date):
-            end (datetime.date):
+            start (datetime.date): First night, YYYY-MM-DD.
+            end (datetime.date): Last night, YYYY-MM-DD, inclusive.
      """
 
     start: datetime.date

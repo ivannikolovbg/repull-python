@@ -20,6 +20,7 @@ class WebhookEventType(str, Enum):
     RESERVATION_UPDATED = "reservation.updated"
     REVIEW_CREATED = "review.created"
     REVIEW_RESPONDED = "review.responded"
+    USAGE_QUOTA_WARNING = "usage.quota.warning"
 
     def __str__(self) -> str:
         return str(self.value)

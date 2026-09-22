@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -27,10 +28,13 @@ class BookingPricingResponse:
         Attributes:
             hotel_id (str | Unset):
             listing_id (str | Unset):
+            other_hotel_ids (list[str] | Unset): Other Booking.com properties this listing is also published under. Empty in
+                the normal case. Pass one as `?hotel_id=` to read its pricing instead.
      """
 
     hotel_id: str | Unset = UNSET
     listing_id: str | Unset = UNSET
+    other_hotel_ids: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -42,6 +46,12 @@ class BookingPricingResponse:
 
         listing_id = self.listing_id
 
+        other_hotel_ids: list[str] | Unset = UNSET
+        if not isinstance(self.other_hotel_ids, Unset):
+            other_hotel_ids = self.other_hotel_ids
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -51,6 +61,8 @@ class BookingPricingResponse:
             field_dict["hotelId"] = hotel_id
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
+        if other_hotel_ids is not UNSET:
+            field_dict["otherHotelIds"] = other_hotel_ids
 
         return field_dict
 
@@ -63,9 +75,13 @@ class BookingPricingResponse:
 
         listing_id = d.pop("listingId", UNSET)
 
+        other_hotel_ids = cast(list[str], d.pop("otherHotelIds", UNSET))
+
+
         booking_pricing_response = cls(
             hotel_id=hotel_id,
             listing_id=listing_id,
+            other_hotel_ids=other_hotel_ids,
         )
 
 

@@ -96,9 +96,17 @@ def sync_detailed(
 ) -> Response[Any | Error]:
     """ Get Booking.com connection for a listing
 
-     Return the Booking.com connection record(s) for a Vanio listing — the linked Booking hotel id, sync
-    flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
-    with no Booking.com connection returns 404.
+     Return the Booking.com connection record(s) for a Repull listing — the linked Booking hotel id, sync
+    flags, markup, sync category, suspension state, and the Booking room the mapping runs through.
+
+    `id` is a **Repull listing id**, not a Booking.com hotel id, despite the `properties` segment. (The
+    hotel-id surface is `/v1/channels/booking/availability`.) The mapping is read from wherever the
+    Connect flow recorded it — `listings_booking_rooms` for anything mapped through `POST
+    /v1/connect/booking/map-rooms`, which is essentially every live mapping.
+
+    An ARRAY, because one listing can be published under several Booking.com properties at once;
+    `mappedVia` says which record carries each mapping. A listing with no Booking.com mapping returns
+    404, and the message says which id space the path takes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -134,9 +142,17 @@ def sync(
 ) -> Any | Error | None:
     """ Get Booking.com connection for a listing
 
-     Return the Booking.com connection record(s) for a Vanio listing — the linked Booking hotel id, sync
-    flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
-    with no Booking.com connection returns 404.
+     Return the Booking.com connection record(s) for a Repull listing — the linked Booking hotel id, sync
+    flags, markup, sync category, suspension state, and the Booking room the mapping runs through.
+
+    `id` is a **Repull listing id**, not a Booking.com hotel id, despite the `properties` segment. (The
+    hotel-id surface is `/v1/channels/booking/availability`.) The mapping is read from wherever the
+    Connect flow recorded it — `listings_booking_rooms` for anything mapped through `POST
+    /v1/connect/booking/map-rooms`, which is essentially every live mapping.
+
+    An ARRAY, because one listing can be published under several Booking.com properties at once;
+    `mappedVia` says which record carries each mapping. A listing with no Booking.com mapping returns
+    404, and the message says which id space the path takes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -167,9 +183,17 @@ async def asyncio_detailed(
 ) -> Response[Any | Error]:
     """ Get Booking.com connection for a listing
 
-     Return the Booking.com connection record(s) for a Vanio listing — the linked Booking hotel id, sync
-    flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
-    with no Booking.com connection returns 404.
+     Return the Booking.com connection record(s) for a Repull listing — the linked Booking hotel id, sync
+    flags, markup, sync category, suspension state, and the Booking room the mapping runs through.
+
+    `id` is a **Repull listing id**, not a Booking.com hotel id, despite the `properties` segment. (The
+    hotel-id surface is `/v1/channels/booking/availability`.) The mapping is read from wherever the
+    Connect flow recorded it — `listings_booking_rooms` for anything mapped through `POST
+    /v1/connect/booking/map-rooms`, which is essentially every live mapping.
+
+    An ARRAY, because one listing can be published under several Booking.com properties at once;
+    `mappedVia` says which record carries each mapping. A listing with no Booking.com mapping returns
+    404, and the message says which id space the path takes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -205,9 +229,17 @@ async def asyncio(
 ) -> Any | Error | None:
     """ Get Booking.com connection for a listing
 
-     Return the Booking.com connection record(s) for a Vanio listing — the linked Booking hotel id, sync
-    flags, markup, sync category, and suspension state. Scoped to the authenticated workspace; a listing
-    with no Booking.com connection returns 404.
+     Return the Booking.com connection record(s) for a Repull listing — the linked Booking hotel id, sync
+    flags, markup, sync category, suspension state, and the Booking room the mapping runs through.
+
+    `id` is a **Repull listing id**, not a Booking.com hotel id, despite the `properties` segment. (The
+    hotel-id surface is `/v1/channels/booking/availability`.) The mapping is read from wherever the
+    Connect flow recorded it — `listings_booking_rooms` for anything mapped through `POST
+    /v1/connect/booking/map-rooms`, which is essentially every live mapping.
+
+    An ARRAY, because one listing can be published under several Booking.com properties at once;
+    `mappedVia` says which record carries each mapping. A listing with no Booking.com mapping returns
+    404, and the message says which id space the path takes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

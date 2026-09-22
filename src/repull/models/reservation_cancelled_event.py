@@ -8,7 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.reservation_cancelled_event_type import ReservationCancelledEventType
+from ..models.reservation_cancelled_event_event import ReservationCancelledEventEvent
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -17,6 +17,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.reservation_cancelled_payload import ReservationCancelledPayload
+  from ..models.webhook_event_account_type_0 import WebhookEventAccountType0
 
 
 
@@ -30,20 +31,24 @@ T = TypeVar("T", bound="ReservationCancelledEvent")
 class ReservationCancelledEvent:
     """ 
         Attributes:
-            type_ (ReservationCancelledEventType):
+            event (ReservationCancelledEventEvent): The event name. This field is `event`, not `type`.
+            event_id (UUID): Stable across every delivery and replay of this logical event — dedupe on it.
+            api_version (str):  Example: 2026-04.
+            timestamp (datetime.datetime): When this delivery was built.
             data (ReservationCancelledPayload): Payload for `reservation.cancelled`. A reservation was cancelled by the
                 guest, host, or platform. `data.object` reflects the post-cancel snapshot (status will be `cancelled`); top-
                 level fields capture cancellation metadata.
-            id (UUID | Unset):
-            created_at (datetime.datetime | Unset):
-            api_version (str | Unset):
+            account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
+                cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
+                event".
      """
 
-    type_: ReservationCancelledEventType
+    event: ReservationCancelledEventEvent
+    event_id: UUID
+    api_version: str
+    timestamp: datetime.datetime
     data: ReservationCancelledPayload
-    id: UUID | Unset = UNSET
-    created_at: datetime.datetime | Unset = UNSET
-    api_version: str | Unset = UNSET
+    account: None | Unset | WebhookEventAccountType0 = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -52,33 +57,37 @@ class ReservationCancelledEvent:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.reservation_cancelled_payload import ReservationCancelledPayload
-        type_ = self.type_.value
+        from ..models.webhook_event_account_type_0 import WebhookEventAccountType0
+        event = self.event.value
+
+        event_id = str(self.event_id)
+
+        api_version = self.api_version
+
+        timestamp = self.timestamp.isoformat()
 
         data = self.data.to_dict()
 
-        id: str | Unset = UNSET
-        if not isinstance(self.id, Unset):
-            id = str(self.id)
-
-        created_at: str | Unset = UNSET
-        if not isinstance(self.created_at, Unset):
-            created_at = self.created_at.isoformat()
-
-        api_version = self.api_version
+        account: dict[str, Any] | None | Unset
+        if isinstance(self.account, Unset):
+            account = UNSET
+        elif isinstance(self.account, WebhookEventAccountType0):
+            account = self.account.to_dict()
+        else:
+            account = self.account
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "type": type_,
+            "event": event,
+            "eventId": event_id,
+            "apiVersion": api_version,
+            "timestamp": timestamp,
             "data": data,
         })
-        if id is not UNSET:
-            field_dict["id"] = id
-        if created_at is not UNSET:
-            field_dict["createdAt"] = created_at
-        if api_version is not UNSET:
-            field_dict["apiVersion"] = api_version
+        if account is not UNSET:
+            field_dict["account"] = account
 
         return field_dict
 
@@ -87,8 +96,21 @@ class ReservationCancelledEvent:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.reservation_cancelled_payload import ReservationCancelledPayload
+        from ..models.webhook_event_account_type_0 import WebhookEventAccountType0
         d = dict(src_dict)
-        type_ = ReservationCancelledEventType(d.pop("type"))
+        event = ReservationCancelledEventEvent(d.pop("event"))
+
+
+
+
+        event_id = UUID(d.pop("eventId"))
+
+
+
+
+        api_version = d.pop("apiVersion")
+
+        timestamp = isoparse(d.pop("timestamp"))
 
 
 
@@ -98,34 +120,33 @@ class ReservationCancelledEvent:
 
 
 
-        _id = d.pop("id", UNSET)
-        id: UUID | Unset
-        if isinstance(_id,  Unset):
-            id = UNSET
-        else:
-            id = UUID(_id)
+        def _parse_account(data: object) -> None | Unset | WebhookEventAccountType0:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_account_type_0 = WebhookEventAccountType0.from_dict(data)
 
 
 
+                return componentsschemas_webhook_event_account_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | Unset | WebhookEventAccountType0, data)
 
-        _created_at = d.pop("createdAt", UNSET)
-        created_at: datetime.datetime | Unset
-        if isinstance(_created_at,  Unset):
-            created_at = UNSET
-        else:
-            created_at = isoparse(_created_at)
+        account = _parse_account(d.pop("account", UNSET))
 
-
-
-
-        api_version = d.pop("apiVersion", UNSET)
 
         reservation_cancelled_event = cls(
-            type_=type_,
-            data=data,
-            id=id,
-            created_at=created_at,
+            event=event,
+            event_id=event_id,
             api_version=api_version,
+            timestamp=timestamp,
+            data=data,
+            account=account,
         )
 
 

@@ -25,11 +25,13 @@ class GetUsageTierResponse200Remaining:
     """ 
         Attributes:
             monthly (int | None | Unset):
+            daily (int | None | Unset):
             daily_ai (int | None | Unset):
             dynamic_pricing_listings (int | None | Unset):
      """
 
     monthly: int | None | Unset = UNSET
+    daily: int | None | Unset = UNSET
     daily_ai: int | None | Unset = UNSET
     dynamic_pricing_listings: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -44,6 +46,12 @@ class GetUsageTierResponse200Remaining:
             monthly = UNSET
         else:
             monthly = self.monthly
+
+        daily: int | None | Unset
+        if isinstance(self.daily, Unset):
+            daily = UNSET
+        else:
+            daily = self.daily
 
         daily_ai: int | None | Unset
         if isinstance(self.daily_ai, Unset):
@@ -64,6 +72,8 @@ class GetUsageTierResponse200Remaining:
         })
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
+        if daily is not UNSET:
+            field_dict["daily"] = daily
         if daily_ai is not UNSET:
             field_dict["dailyAi"] = daily_ai
         if dynamic_pricing_listings is not UNSET:
@@ -84,6 +94,16 @@ class GetUsageTierResponse200Remaining:
             return cast(int | None | Unset, data)
 
         monthly = _parse_monthly(d.pop("monthly", UNSET))
+
+
+        def _parse_daily(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        daily = _parse_daily(d.pop("daily", UNSET))
 
 
         def _parse_daily_ai(data: object) -> int | None | Unset:
@@ -108,6 +128,7 @@ class GetUsageTierResponse200Remaining:
 
         get_usage_tier_response_200_remaining = cls(
             monthly=monthly,
+            daily=daily,
             daily_ai=daily_ai,
             dynamic_pricing_listings=dynamic_pricing_listings,
         )

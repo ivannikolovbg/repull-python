@@ -34,6 +34,7 @@ class GetUsageTierResponse200:
             limits (GetUsageTierResponse200Limits | Unset):
             used (GetUsageTierResponse200Used | Unset):
             remaining (GetUsageTierResponse200Remaining | Unset):
+            daily_resets_at (datetime.datetime | Unset):
             resets_at (datetime.datetime | Unset):
      """
 
@@ -41,6 +42,7 @@ class GetUsageTierResponse200:
     limits: GetUsageTierResponse200Limits | Unset = UNSET
     used: GetUsageTierResponse200Used | Unset = UNSET
     remaining: GetUsageTierResponse200Remaining | Unset = UNSET
+    daily_resets_at: datetime.datetime | Unset = UNSET
     resets_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -66,6 +68,10 @@ class GetUsageTierResponse200:
         if not isinstance(self.remaining, Unset):
             remaining = self.remaining.to_dict()
 
+        daily_resets_at: str | Unset = UNSET
+        if not isinstance(self.daily_resets_at, Unset):
+            daily_resets_at = self.daily_resets_at.isoformat()
+
         resets_at: str | Unset = UNSET
         if not isinstance(self.resets_at, Unset):
             resets_at = self.resets_at.isoformat()
@@ -83,6 +89,8 @@ class GetUsageTierResponse200:
             field_dict["used"] = used
         if remaining is not UNSET:
             field_dict["remaining"] = remaining
+        if daily_resets_at is not UNSET:
+            field_dict["dailyResetsAt"] = daily_resets_at
         if resets_at is not UNSET:
             field_dict["resetsAt"] = resets_at
 
@@ -128,6 +136,16 @@ class GetUsageTierResponse200:
 
 
 
+        _daily_resets_at = d.pop("dailyResetsAt", UNSET)
+        daily_resets_at: datetime.datetime | Unset
+        if isinstance(_daily_resets_at,  Unset):
+            daily_resets_at = UNSET
+        else:
+            daily_resets_at = isoparse(_daily_resets_at)
+
+
+
+
         _resets_at = d.pop("resetsAt", UNSET)
         resets_at: datetime.datetime | Unset
         if isinstance(_resets_at,  Unset):
@@ -143,6 +161,7 @@ class GetUsageTierResponse200:
             limits=limits,
             used=used,
             remaining=remaining,
+            daily_resets_at=daily_resets_at,
             resets_at=resets_at,
         )
 

@@ -28,7 +28,9 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
             rate_name (None | str | Unset):
             policy (None | str | Unset): Cancellation policy name.
             policy_id (None | str | Unset):
-            max_persons (int | None | Unset):
+            max_persons (int | None | Unset): The party size this rate plan prices. A rate amount must be written at this
+                number: above it Booking.com declines the price in silence, below it answers 400. Null when `source` is
+                `mirror`.
             pricing_type (None | str | Unset): Pricing model: `Standard`, `RLO`, `OBP`, or `LOS`.
             is_child_rate (bool | None | Unset): Whether this rate plan is a derived child rate.
      """

@@ -1,6 +1,6 @@
 from enum import Enum
 
-class ReviewCreatedEventType(str, Enum):
+class ReviewCreatedEventEvent(str, Enum):
     REVIEW_CREATED = "review.created"
 
     def __str__(self) -> str:

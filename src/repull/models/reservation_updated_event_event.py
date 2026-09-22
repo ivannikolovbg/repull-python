@@ -1,6 +1,6 @@
 from enum import Enum
 
-class ReservationUpdatedEventType(str, Enum):
+class ReservationUpdatedEventEvent(str, Enum):
     RESERVATION_UPDATED = "reservation.updated"
 
     def __str__(self) -> str:

@@ -1,7 +1,7 @@
 from enum import Enum
 
-class AccountCreatedEventType(str, Enum):
-    ACCOUNT_CREATED = "account.created"
+class RepullPingEventEvent(str, Enum):
+    REPULL_PING = "repull.ping"
 
     def __str__(self) -> str:
         return str(self.value)

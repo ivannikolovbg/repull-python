@@ -95,7 +95,10 @@ def sync_detailed(
 
      Aggregated usage over the requested `range` — tier + plan limits, quota used/remaining, next reset,
     a per-operation breakdown (request/error counts, error rate, avg latency), a daily timeline, status-
-    class distribution, and range totals.
+    class distribution, and range totals. Two request quotas are reported and they reset at different
+    times: `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). `null` limits mean unlimited on that dimension.
 
     Args:
         range_ (GetUsageSummaryRange | Unset):  Default: GetUsageSummaryRange.VALUE_1.
@@ -130,7 +133,10 @@ def sync(
 
      Aggregated usage over the requested `range` — tier + plan limits, quota used/remaining, next reset,
     a per-operation breakdown (request/error counts, error rate, avg latency), a daily timeline, status-
-    class distribution, and range totals.
+    class distribution, and range totals. Two request quotas are reported and they reset at different
+    times: `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). `null` limits mean unlimited on that dimension.
 
     Args:
         range_ (GetUsageSummaryRange | Unset):  Default: GetUsageSummaryRange.VALUE_1.
@@ -160,7 +166,10 @@ async def asyncio_detailed(
 
      Aggregated usage over the requested `range` — tier + plan limits, quota used/remaining, next reset,
     a per-operation breakdown (request/error counts, error rate, avg latency), a daily timeline, status-
-    class distribution, and range totals.
+    class distribution, and range totals. Two request quotas are reported and they reset at different
+    times: `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). `null` limits mean unlimited on that dimension.
 
     Args:
         range_ (GetUsageSummaryRange | Unset):  Default: GetUsageSummaryRange.VALUE_1.
@@ -195,7 +204,10 @@ async def asyncio(
 
      Aggregated usage over the requested `range` — tier + plan limits, quota used/remaining, next reset,
     a per-operation breakdown (request/error counts, error rate, avg latency), a daily timeline, status-
-    class distribution, and range totals.
+    class distribution, and range totals. Two request quotas are reported and they reset at different
+    times: `dailyRequests` is the daily circuit breaker that stops runaway client loops (resets at
+    `dailyResetsAt`, the next UTC midnight) and `monthlyRequests` is the billing quota (resets at
+    `resetsAt`). `null` limits mean unlimited on that dimension.
 
     Args:
         range_ (GetUsageSummaryRange | Unset):  Default: GetUsageSummaryRange.VALUE_1.

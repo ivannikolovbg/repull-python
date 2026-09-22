@@ -1,7 +1,7 @@
 from enum import Enum
 
-class ListingDeletedEventType(str, Enum):
-    LISTING_DELETED = "listing.deleted"
+class ListingCreatedEventEvent(str, Enum):
+    LISTING_CREATED = "listing.created"
 
     def __str__(self) -> str:
         return str(self.value)

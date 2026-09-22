@@ -25,10 +25,12 @@ class GetUsageSummaryResponse200Remaining:
     """ 
         Attributes:
             monthly (int | None | Unset):
+            daily (int | None | Unset):
             daily_ai (int | None | Unset):
      """
 
     monthly: int | None | Unset = UNSET
+    daily: int | None | Unset = UNSET
     daily_ai: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -43,6 +45,12 @@ class GetUsageSummaryResponse200Remaining:
         else:
             monthly = self.monthly
 
+        daily: int | None | Unset
+        if isinstance(self.daily, Unset):
+            daily = UNSET
+        else:
+            daily = self.daily
+
         daily_ai: int | None | Unset
         if isinstance(self.daily_ai, Unset):
             daily_ai = UNSET
@@ -56,6 +64,8 @@ class GetUsageSummaryResponse200Remaining:
         })
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
+        if daily is not UNSET:
+            field_dict["daily"] = daily
         if daily_ai is not UNSET:
             field_dict["dailyAi"] = daily_ai
 
@@ -76,6 +86,16 @@ class GetUsageSummaryResponse200Remaining:
         monthly = _parse_monthly(d.pop("monthly", UNSET))
 
 
+        def _parse_daily(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        daily = _parse_daily(d.pop("daily", UNSET))
+
+
         def _parse_daily_ai(data: object) -> int | None | Unset:
             if data is None:
                 return data
@@ -88,6 +108,7 @@ class GetUsageSummaryResponse200Remaining:
 
         get_usage_summary_response_200_remaining = cls(
             monthly=monthly,
+            daily=daily,
             daily_ai=daily_ai,
         )
 

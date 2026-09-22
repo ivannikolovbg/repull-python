@@ -2,20 +2,20 @@
 
 from .accept_airbnb_alteration_body import AcceptAirbnbAlterationBody
 from .account_created_event import AccountCreatedEvent
-from .account_created_event_type import AccountCreatedEventType
+from .account_created_event_event import AccountCreatedEventEvent
 from .account_created_payload import AccountCreatedPayload
 from .account_disconnected_event import AccountDisconnectedEvent
-from .account_disconnected_event_type import AccountDisconnectedEventType
+from .account_disconnected_event_event import AccountDisconnectedEventEvent
 from .account_disconnected_payload import AccountDisconnectedPayload
 from .account_disconnected_payload_reason import AccountDisconnectedPayloadReason
 from .acknowledge_booking_reservations_body import AcknowledgeBookingReservationsBody
 from .ai_operation import AIOperation
 from .ai_operation_completed_event import AiOperationCompletedEvent
-from .ai_operation_completed_event_type import AiOperationCompletedEventType
+from .ai_operation_completed_event_event import AiOperationCompletedEventEvent
 from .ai_operation_completed_payload import AiOperationCompletedPayload
 from .ai_operation_completed_payload_output import AiOperationCompletedPayloadOutput
 from .ai_operation_failed_event import AiOperationFailedEvent
-from .ai_operation_failed_event_type import AiOperationFailedEventType
+from .ai_operation_failed_event_event import AiOperationFailedEventEvent
 from .ai_operation_failed_payload import AiOperationFailedPayload
 from .ai_operation_failed_payload_error import AiOperationFailedPayloadError
 from .ai_operation_input import AIOperationInput
@@ -122,22 +122,42 @@ from .booking_pricing_rate_update_restrictions import BookingPricingRateUpdateRe
 from .booking_pricing_response import BookingPricingResponse
 from .booking_pricing_update_request import BookingPricingUpdateRequest
 from .booking_pricing_update_response import BookingPricingUpdateResponse
+from .booking_pricing_update_response_applied import BookingPricingUpdateResponseApplied
+from .booking_pricing_update_response_booking import BookingPricingUpdateResponseBooking
 from .booking_pricing_update_response_errors_item import BookingPricingUpdateResponseErrorsItem
-from .booking_pricing_update_response_raw import BookingPricingUpdateResponseRaw
 from .booking_property import BookingProperty
+from .booking_property_listings_item import BookingPropertyListingsItem
+from .booking_property_listings_item_mapped_via import BookingPropertyListingsItemMappedVia
+from .booking_property_mapping_status import BookingPropertyMappingStatus
+from .booking_rate_write_occupancy import BookingRateWriteOccupancy
+from .booking_rate_write_occupancy_source import BookingRateWriteOccupancySource
+from .booking_rate_write_price_half import BookingRateWritePriceHalf
+from .booking_rate_write_price_half_applied import BookingRateWritePriceHalfApplied
+from .booking_rate_write_price_half_errors_item import BookingRateWritePriceHalfErrorsItem
+from .booking_rate_write_restriction_half import BookingRateWriteRestrictionHalf
+from .booking_rate_write_restriction_half_applied import BookingRateWriteRestrictionHalfApplied
+from .booking_rate_write_restriction_half_errors_item import BookingRateWriteRestrictionHalfErrorsItem
+from .booking_rate_write_verification import BookingRateWriteVerification
+from .booking_rate_write_verification_row import BookingRateWriteVerificationRow
 from .booking_reservation import BookingReservation
 from .booking_reservation_customer import BookingReservationCustomer
 from .booking_reservation_payment_status import BookingReservationPaymentStatus
 from .booking_reservation_room import BookingReservationRoom
 from .booking_reservation_room_status import BookingReservationRoomStatus
 from .booking_reservation_status import BookingReservationStatus
+from .booking_restriction_request_row import BookingRestrictionRequestRow
+from .booking_restriction_verification import BookingRestrictionVerification
+from .booking_restriction_verification_row import BookingRestrictionVerificationRow
+from .booking_restriction_verification_row_field import BookingRestrictionVerificationRowField
 from .booking_room_mapping import BookingRoomMapping
 from .booking_rooms_rates_response import BookingRoomsRatesResponse
 from .booking_rooms_rates_response_rooms_item import BookingRoomsRatesResponseRoomsItem
 from .booking_rooms_rates_response_rooms_item_rates_item import BookingRoomsRatesResponseRoomsItemRatesItem
+from .booking_rooms_rates_response_source import BookingRoomsRatesResponseSource
 from .booking_setup_body import BookingSetupBody
 from .booking_setup_body_action import BookingSetupBodyAction
 from .booking_setup_body_contacts_item import BookingSetupBodyContactsItem
+from .booking_upstream_failure import BookingUpstreamFailure
 from .booking_verify_hotel_request import BookingVerifyHotelRequest
 from .booking_verify_hotel_response import BookingVerifyHotelResponse
 from .booking_verify_hotel_response_missing_capabilities_item import BookingVerifyHotelResponseMissingCapabilitiesItem
@@ -150,7 +170,7 @@ from .bulk_pricing_response import BulkPricingResponse
 from .calendar_day import CalendarDay
 from .calendar_response import CalendarResponse
 from .calendar_updated_event import CalendarUpdatedEvent
-from .calendar_updated_event_type import CalendarUpdatedEventType
+from .calendar_updated_event_event import CalendarUpdatedEventEvent
 from .calendar_updated_payload import CalendarUpdatedPayload
 from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
 from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
@@ -330,11 +350,11 @@ from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
 from .listing_create_response import ListingCreateResponse
 from .listing_created_event import ListingCreatedEvent
-from .listing_created_event_type import ListingCreatedEventType
+from .listing_created_event_event import ListingCreatedEventEvent
 from .listing_created_payload import ListingCreatedPayload
 from .listing_created_payload_address import ListingCreatedPayloadAddress
 from .listing_deleted_event import ListingDeletedEvent
-from .listing_deleted_event_type import ListingDeletedEventType
+from .listing_deleted_event_event import ListingDeletedEventEvent
 from .listing_deleted_payload import ListingDeletedPayload
 from .listing_details import ListingDetails
 from .listing_generate_content_request import ListingGenerateContentRequest
@@ -402,7 +422,7 @@ from .listing_status import ListingStatus
 from .listing_status_batch_request import ListingStatusBatchRequest
 from .listing_status_batch_response import ListingStatusBatchResponse
 from .listing_updated_event import ListingUpdatedEvent
-from .listing_updated_event_type import ListingUpdatedEventType
+from .listing_updated_event_event import ListingUpdatedEventEvent
 from .listing_updated_payload import ListingUpdatedPayload
 from .listing_updated_payload_changes import ListingUpdatedPayloadChanges
 from .map_airbnb_listing_request import MapAirbnbListingRequest
@@ -442,10 +462,10 @@ from .message_direction import MessageDirection
 from .message_list_response import MessageListResponse
 from .pagination import Pagination
 from .payment_completed_event import PaymentCompletedEvent
-from .payment_completed_event_type import PaymentCompletedEventType
+from .payment_completed_event_event import PaymentCompletedEventEvent
 from .payment_completed_payload import PaymentCompletedPayload
 from .payment_refunded_event import PaymentRefundedEvent
-from .payment_refunded_event_type import PaymentRefundedEventType
+from .payment_refunded_event_event import PaymentRefundedEventEvent
 from .payment_refunded_payload import PaymentRefundedPayload
 from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
@@ -463,30 +483,31 @@ from .quote_pricing import QuotePricing
 from .reorder_airbnb_listing_photos_body import ReorderAirbnbListingPhotosBody
 from .reorder_airbnb_listing_photos_response_200 import ReorderAirbnbListingPhotosResponse200
 from .reorder_airbnb_listing_photos_response_200_data import ReorderAirbnbListingPhotosResponse200Data
+from .replay_webhook_delivery_body import ReplayWebhookDeliveryBody
 from .reply_booking_review_body import ReplyBookingReviewBody
 from .reply_booking_review_response_200 import ReplyBookingReviewResponse200
 from .reply_to_review_body import ReplyToReviewBody
 from .reply_to_review_response_201 import ReplyToReviewResponse201
 from .repull_ping_event import RepullPingEvent
-from .repull_ping_event_type import RepullPingEventType
+from .repull_ping_event_event import RepullPingEventEvent
 from .repull_ping_payload import RepullPingPayload
 from .reservation import Reservation
 from .reservation_alteration_created_event import ReservationAlterationCreatedEvent
-from .reservation_alteration_created_event_type import ReservationAlterationCreatedEventType
+from .reservation_alteration_created_event_event import ReservationAlterationCreatedEventEvent
 from .reservation_alteration_created_payload import ReservationAlterationCreatedPayload
 from .reservation_alteration_created_payload_changes import ReservationAlterationCreatedPayloadChanges
 from .reservation_alteration_responded_event import ReservationAlterationRespondedEvent
-from .reservation_alteration_responded_event_type import ReservationAlterationRespondedEventType
+from .reservation_alteration_responded_event_event import ReservationAlterationRespondedEventEvent
 from .reservation_alteration_responded_payload import ReservationAlterationRespondedPayload
 from .reservation_cancelled_event import ReservationCancelledEvent
-from .reservation_cancelled_event_type import ReservationCancelledEventType
+from .reservation_cancelled_event_event import ReservationCancelledEventEvent
 from .reservation_cancelled_payload import ReservationCancelledPayload
 from .reservation_cancelled_payload_cancelled_by import ReservationCancelledPayloadCancelledBy
 from .reservation_create_request import ReservationCreateRequest
 from .reservation_create_request_platform import ReservationCreateRequestPlatform
 from .reservation_create_response import ReservationCreateResponse
 from .reservation_created_event import ReservationCreatedEvent
-from .reservation_created_event_type import ReservationCreatedEventType
+from .reservation_created_event_event import ReservationCreatedEventEvent
 from .reservation_created_payload import ReservationCreatedPayload
 from .reservation_financials import ReservationFinancials
 from .reservation_guest_details import ReservationGuestDetails
@@ -495,7 +516,7 @@ from .reservation_guest_input import ReservationGuestInput
 from .reservation_host_financials import ReservationHostFinancials
 from .reservation_list_response import ReservationListResponse
 from .reservation_message_received_event import ReservationMessageReceivedEvent
-from .reservation_message_received_event_type import ReservationMessageReceivedEventType
+from .reservation_message_received_event_event import ReservationMessageReceivedEventEvent
 from .reservation_message_received_payload import ReservationMessageReceivedPayload
 from .reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
 from .reservation_money_line import ReservationMoneyLine
@@ -511,7 +532,7 @@ from .reservation_status import ReservationStatus
 from .reservation_update_request import ReservationUpdateRequest
 from .reservation_update_response import ReservationUpdateResponse
 from .reservation_updated_event import ReservationUpdatedEvent
-from .reservation_updated_event_type import ReservationUpdatedEventType
+from .reservation_updated_event_event import ReservationUpdatedEventEvent
 from .reservation_updated_payload import ReservationUpdatedPayload
 from .reservation_updated_payload_previous_attributes import ReservationUpdatedPayloadPreviousAttributes
 from .reservation_webhook_object import ReservationWebhookObject
@@ -519,12 +540,12 @@ from .respond_airbnb_review_body import RespondAirbnbReviewBody
 from .review import Review
 from .review_category import ReviewCategory
 from .review_created_event import ReviewCreatedEvent
-from .review_created_event_type import ReviewCreatedEventType
+from .review_created_event_event import ReviewCreatedEventEvent
 from .review_created_payload import ReviewCreatedPayload
 from .review_list_response import ReviewListResponse
 from .review_platform import ReviewPlatform
 from .review_responded_event import ReviewRespondedEvent
-from .review_responded_event_type import ReviewRespondedEventType
+from .review_responded_event_event import ReviewRespondedEventEvent
 from .review_responded_payload import ReviewRespondedPayload
 from .review_response import ReviewResponse
 from .review_reviewer_role import ReviewReviewerRole
@@ -651,6 +672,11 @@ from .upload_airbnb_listing_photos_body import UploadAirbnbListingPhotosBody
 from .upload_airbnb_listing_photos_body_photos_item import UploadAirbnbListingPhotosBodyPhotosItem
 from .upload_airbnb_listing_photos_body_photos_item_category import UploadAirbnbListingPhotosBodyPhotosItemCategory
 from .upload_airbnb_listing_photos_body_photos_item_metadata import UploadAirbnbListingPhotosBodyPhotosItemMetadata
+from .usage_quota_warning_event import UsageQuotaWarningEvent
+from .usage_quota_warning_event_event import UsageQuotaWarningEventEvent
+from .usage_quota_warning_payload import UsageQuotaWarningPayload
+from .usage_quota_warning_payload_scope import UsageQuotaWarningPayloadScope
+from .usage_quota_warning_payload_top_operation_type_0 import UsageQuotaWarningPayloadTopOperationType0
 from .vrbo_listing import VrboListing
 from .vrbo_reservation import VrboReservation
 from .vrbo_reservation_list_response import VrboReservationListResponse
@@ -659,6 +685,7 @@ from .webhook_delivery_detail import WebhookDeliveryDetail
 from .webhook_delivery_detail_request_headers_type_0 import WebhookDeliveryDetailRequestHeadersType0
 from .webhook_delivery_detail_response_headers_type_0 import WebhookDeliveryDetailResponseHeadersType0
 from .webhook_delivery_list_response import WebhookDeliveryListResponse
+from .webhook_event_account_type_0 import WebhookEventAccountType0
 from .webhook_event_catalog import WebhookEventCatalog
 from .webhook_event_catalog_domains_item import WebhookEventCatalogDomainsItem
 from .webhook_event_catalog_entry import WebhookEventCatalogEntry
@@ -672,20 +699,20 @@ from .webhook_subscription_status import WebhookSubscriptionStatus
 __all__ = (
     "AcceptAirbnbAlterationBody",
     "AccountCreatedEvent",
-    "AccountCreatedEventType",
+    "AccountCreatedEventEvent",
     "AccountCreatedPayload",
     "AccountDisconnectedEvent",
-    "AccountDisconnectedEventType",
+    "AccountDisconnectedEventEvent",
     "AccountDisconnectedPayload",
     "AccountDisconnectedPayloadReason",
     "AcknowledgeBookingReservationsBody",
     "AIOperation",
     "AiOperationCompletedEvent",
-    "AiOperationCompletedEventType",
+    "AiOperationCompletedEventEvent",
     "AiOperationCompletedPayload",
     "AiOperationCompletedPayloadOutput",
     "AiOperationFailedEvent",
-    "AiOperationFailedEventType",
+    "AiOperationFailedEventEvent",
     "AiOperationFailedPayload",
     "AiOperationFailedPayloadError",
     "AIOperationInput",
@@ -792,22 +819,42 @@ __all__ = (
     "BookingPricingResponse",
     "BookingPricingUpdateRequest",
     "BookingPricingUpdateResponse",
+    "BookingPricingUpdateResponseApplied",
+    "BookingPricingUpdateResponseBooking",
     "BookingPricingUpdateResponseErrorsItem",
-    "BookingPricingUpdateResponseRaw",
     "BookingProperty",
+    "BookingPropertyListingsItem",
+    "BookingPropertyListingsItemMappedVia",
+    "BookingPropertyMappingStatus",
+    "BookingRateWriteOccupancy",
+    "BookingRateWriteOccupancySource",
+    "BookingRateWritePriceHalf",
+    "BookingRateWritePriceHalfApplied",
+    "BookingRateWritePriceHalfErrorsItem",
+    "BookingRateWriteRestrictionHalf",
+    "BookingRateWriteRestrictionHalfApplied",
+    "BookingRateWriteRestrictionHalfErrorsItem",
+    "BookingRateWriteVerification",
+    "BookingRateWriteVerificationRow",
     "BookingReservation",
     "BookingReservationCustomer",
     "BookingReservationPaymentStatus",
     "BookingReservationRoom",
     "BookingReservationRoomStatus",
     "BookingReservationStatus",
+    "BookingRestrictionRequestRow",
+    "BookingRestrictionVerification",
+    "BookingRestrictionVerificationRow",
+    "BookingRestrictionVerificationRowField",
     "BookingRoomMapping",
     "BookingRoomsRatesResponse",
     "BookingRoomsRatesResponseRoomsItem",
     "BookingRoomsRatesResponseRoomsItemRatesItem",
+    "BookingRoomsRatesResponseSource",
     "BookingSetupBody",
     "BookingSetupBodyAction",
     "BookingSetupBodyContactsItem",
+    "BookingUpstreamFailure",
     "BookingVerifyHotelRequest",
     "BookingVerifyHotelResponse",
     "BookingVerifyHotelResponseMissingCapabilitiesItem",
@@ -820,7 +867,7 @@ __all__ = (
     "CalendarDay",
     "CalendarResponse",
     "CalendarUpdatedEvent",
-    "CalendarUpdatedEventType",
+    "CalendarUpdatedEventEvent",
     "CalendarUpdatedPayload",
     "CalendarUpdatedPayloadRange",
     "CancelAirbnbAlterationBody",
@@ -985,14 +1032,14 @@ __all__ = (
     "ListingContentUpdateRequestPoliciesCheckInMethod",
     "ListingContentUpdateResponse",
     "ListingCreatedEvent",
-    "ListingCreatedEventType",
+    "ListingCreatedEventEvent",
     "ListingCreatedPayload",
     "ListingCreatedPayloadAddress",
     "ListingCreateRequest",
     "ListingCreateRequestCancellationPolicy",
     "ListingCreateResponse",
     "ListingDeletedEvent",
-    "ListingDeletedEventType",
+    "ListingDeletedEventEvent",
     "ListingDeletedPayload",
     "ListingDetails",
     "ListingGenerateContentRequest",
@@ -1060,7 +1107,7 @@ __all__ = (
     "ListingStatusBatchRequest",
     "ListingStatusBatchResponse",
     "ListingUpdatedEvent",
-    "ListingUpdatedEventType",
+    "ListingUpdatedEventEvent",
     "ListingUpdatedPayload",
     "ListingUpdatedPayloadChanges",
     "ListKvResponse200",
@@ -1112,10 +1159,10 @@ __all__ = (
     "MessageListResponse",
     "Pagination",
     "PaymentCompletedEvent",
-    "PaymentCompletedEventType",
+    "PaymentCompletedEventEvent",
     "PaymentCompletedPayload",
     "PaymentRefundedEvent",
-    "PaymentRefundedEventType",
+    "PaymentRefundedEventEvent",
     "PaymentRefundedPayload",
     "PlumguideListing",
     "PlumguideListingListResponse",
@@ -1133,27 +1180,28 @@ __all__ = (
     "ReorderAirbnbListingPhotosBody",
     "ReorderAirbnbListingPhotosResponse200",
     "ReorderAirbnbListingPhotosResponse200Data",
+    "ReplayWebhookDeliveryBody",
     "ReplyBookingReviewBody",
     "ReplyBookingReviewResponse200",
     "ReplyToReviewBody",
     "ReplyToReviewResponse201",
     "RepullPingEvent",
-    "RepullPingEventType",
+    "RepullPingEventEvent",
     "RepullPingPayload",
     "Reservation",
     "ReservationAlterationCreatedEvent",
-    "ReservationAlterationCreatedEventType",
+    "ReservationAlterationCreatedEventEvent",
     "ReservationAlterationCreatedPayload",
     "ReservationAlterationCreatedPayloadChanges",
     "ReservationAlterationRespondedEvent",
-    "ReservationAlterationRespondedEventType",
+    "ReservationAlterationRespondedEventEvent",
     "ReservationAlterationRespondedPayload",
     "ReservationCancelledEvent",
-    "ReservationCancelledEventType",
+    "ReservationCancelledEventEvent",
     "ReservationCancelledPayload",
     "ReservationCancelledPayloadCancelledBy",
     "ReservationCreatedEvent",
-    "ReservationCreatedEventType",
+    "ReservationCreatedEventEvent",
     "ReservationCreatedPayload",
     "ReservationCreateRequest",
     "ReservationCreateRequestPlatform",
@@ -1165,7 +1213,7 @@ __all__ = (
     "ReservationHostFinancials",
     "ReservationListResponse",
     "ReservationMessageReceivedEvent",
-    "ReservationMessageReceivedEventType",
+    "ReservationMessageReceivedEventEvent",
     "ReservationMessageReceivedPayload",
     "ReservationMessageReceivedPayloadFrom",
     "ReservationMoneyLine",
@@ -1179,7 +1227,7 @@ __all__ = (
     "ReservationSourceType3Type1",
     "ReservationStatus",
     "ReservationUpdatedEvent",
-    "ReservationUpdatedEventType",
+    "ReservationUpdatedEventEvent",
     "ReservationUpdatedPayload",
     "ReservationUpdatedPayloadPreviousAttributes",
     "ReservationUpdateRequest",
@@ -1189,12 +1237,12 @@ __all__ = (
     "Review",
     "ReviewCategory",
     "ReviewCreatedEvent",
-    "ReviewCreatedEventType",
+    "ReviewCreatedEventEvent",
     "ReviewCreatedPayload",
     "ReviewListResponse",
     "ReviewPlatform",
     "ReviewRespondedEvent",
-    "ReviewRespondedEventType",
+    "ReviewRespondedEventEvent",
     "ReviewRespondedPayload",
     "ReviewResponse",
     "ReviewReviewerRole",
@@ -1321,6 +1369,11 @@ __all__ = (
     "UploadAirbnbListingPhotosBodyPhotosItem",
     "UploadAirbnbListingPhotosBodyPhotosItemCategory",
     "UploadAirbnbListingPhotosBodyPhotosItemMetadata",
+    "UsageQuotaWarningEvent",
+    "UsageQuotaWarningEventEvent",
+    "UsageQuotaWarningPayload",
+    "UsageQuotaWarningPayloadScope",
+    "UsageQuotaWarningPayloadTopOperationType0",
     "VrboListing",
     "VrboReservation",
     "VrboReservationListResponse",
@@ -1329,6 +1382,7 @@ __all__ = (
     "WebhookDeliveryDetailRequestHeadersType0",
     "WebhookDeliveryDetailResponseHeadersType0",
     "WebhookDeliveryListResponse",
+    "WebhookEventAccountType0",
     "WebhookEventCatalog",
     "WebhookEventCatalogDomainsItem",
     "WebhookEventCatalogEntry",

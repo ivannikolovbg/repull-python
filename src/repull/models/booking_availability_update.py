@@ -27,25 +27,36 @@ T = TypeVar("T", bound="BookingAvailabilityUpdate")
 @_attrs_define
 class BookingAvailabilityUpdate:
     """ One (room, rate-plan, date-range) availability update. Carries inventory (`availableRooms`), the dedicated stop-sell
-    flag (`closed`), and the same length-of-stay / arrival restrictions as a rate update.
+    flag (`closed`), and length-of-stay / arrival restrictions. Omit `availableRooms` and `closed` for a restriction-
+    only write — inventory is then left untouched.
 
         Attributes:
             room_id (str): Booking.com room id.
             rate_id (str): Booking.com rate-plan id.
-            date_range (BookingAvailabilityUpdateDateRange):
-            available_rooms (int): Rooms to sell (`roomstosell`). `0` blocks the room for the range.
+            date_range (BookingAvailabilityUpdateDateRange): The nights this update applies to. **Both ends are inclusive**
+                — `start` equal to `end` is one night.
+            available_rooms (int | None | Unset): Rooms to sell (`roomstosell`). `0` blocks the room for the range. Omit it
+                to leave inventory alone — `0` is a stop-sell, not a no-op.
             status (BookingAvailabilityUpdateStatus | Unset):
             closed (bool | None | Unset): Dedicated stop-sell flag (`<closed>` in Booking's XML). `true` fully stops sale
                 for the room/date-range regardless of `availableRooms`.
-            restrictions (BookingPricingRateUpdateRestrictions | Unset): Optional length-of-stay / availability restrictions
-                for one rate update. Every field here is forwarded verbatim into Booking.com's rates XML (`minimumstay`,
-                `maximumstay`, `closedonarrival`, `closedondeparture`, …) — omit a field to leave that restriction untouched.
+            restrictions (BookingPricingRateUpdateRestrictions | Unset): Length-of-stay and arrival restrictions for the
+                nights in this update. Omit a field to leave that restriction untouched — nothing you do not state is changed.
+
+                These are written on Booking.com's availability notification, which is the wire that carries a restriction when
+                no inventory changes hands. Sending them alongside a price is supported: the prices and the restrictions are two
+                writes, and the response reports each one separately (`price` and `restrictions`), so a half that lands is never
+                reported as a failure and a half that is refused is never reported as applied.
+
+                Three restrictions are refused with `422 restriction_not_supported` naming the field: Booking.com's notification
+                has no element for them, and dropping a restriction you stated would be worse than refusing it. Set those on the
+                rate plan in the Booking.com Extranet.
      """
 
     room_id: str
     rate_id: str
     date_range: BookingAvailabilityUpdateDateRange
-    available_rooms: int
+    available_rooms: int | None | Unset = UNSET
     status: BookingAvailabilityUpdateStatus | Unset = UNSET
     closed: bool | None | Unset = UNSET
     restrictions: BookingPricingRateUpdateRestrictions | Unset = UNSET
@@ -64,7 +75,11 @@ class BookingAvailabilityUpdate:
 
         date_range = self.date_range.to_dict()
 
-        available_rooms = self.available_rooms
+        available_rooms: int | None | Unset
+        if isinstance(self.available_rooms, Unset):
+            available_rooms = UNSET
+        else:
+            available_rooms = self.available_rooms
 
         status: str | Unset = UNSET
         if not isinstance(self.status, Unset):
@@ -88,8 +103,9 @@ class BookingAvailabilityUpdate:
             "roomId": room_id,
             "rateId": rate_id,
             "dateRange": date_range,
-            "availableRooms": available_rooms,
         })
+        if available_rooms is not UNSET:
+            field_dict["availableRooms"] = available_rooms
         if status is not UNSET:
             field_dict["status"] = status
         if closed is not UNSET:
@@ -115,7 +131,15 @@ class BookingAvailabilityUpdate:
 
 
 
-        available_rooms = d.pop("availableRooms")
+        def _parse_available_rooms(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        available_rooms = _parse_available_rooms(d.pop("availableRooms", UNSET))
+
 
         _status = d.pop("status", UNSET)
         status: BookingAvailabilityUpdateStatus | Unset

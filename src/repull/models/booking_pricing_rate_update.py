@@ -25,22 +25,38 @@ T = TypeVar("T", bound="BookingPricingRateUpdate")
 
 @_attrs_define
 class BookingPricingRateUpdate:
-    """ A single (room, rate-plan, date-range) update pushed to Booking.com via the rates API.
+    """ A single (room, rate-plan, date-range) price update. The amount is written against the party size in `occupancy`,
+    for every night from `dateRange.start` to `dateRange.end` inclusive.
 
         Attributes:
-            room_id (str): Booking.com room ID for the rate plan. Comes from `listings_booking_rooms` mapping.
-            rate_id (str): Booking.com rate-plan ID.
-            date_range (BookingPricingRateUpdateDateRange):
-            price (float):
-            currency (str):  Example: USD.
-            single_price (float | None | Unset):
-            occupancy (int | None | Unset):
-            rooms_to_sell (int | None | Unset): Rooms to sell for the date range. Set to `0` to stop-sell this room/rate on
-                the rates endpoint (Booking's dedicated `<closed>` stop-sell flag lives on the availability endpoint — see
-                `BookingAvailabilityUpdate.closed`).
-            restrictions (BookingPricingRateUpdateRestrictions | Unset): Optional length-of-stay / availability restrictions
-                for one rate update. Every field here is forwarded verbatim into Booking.com's rates XML (`minimumstay`,
-                `maximumstay`, `closedonarrival`, `closedondeparture`, …) — omit a field to leave that restriction untouched.
+            room_id (str): Booking.com room id the rate plan sells. `GET /v1/channels/booking/properties/{id}/rooms` lists
+                them.
+            rate_id (str): Booking.com rate-plan id.
+            date_range (BookingPricingRateUpdateDateRange): The nights this update applies to. **Both ends are inclusive**:
+                `{ "start": "2026-11-04", "end": "2026-11-04" }` writes exactly one night.
+            price (float): Nightly amount, in `currency`, for a party of `occupancy`.
+            currency (str): Currency the rate plan is sold in. Example: EUR.
+            single_price (float | None | Unset): Optional single-occupancy amount, written alongside the main amount.
+            occupancy (int | None | Unset): The party size this rate plan prices — a key, not a preference. Booking.com
+                stores the amount against this number: above the rate plan's own maximum it declines the price in silence and
+                the night keeps its old value; below it, it answers 400 and the old price stays published. Omit it and Repull
+                resolves it from Booking.com's own data for this (room, rate plan) and echoes the value and its source back in
+                `occupancy[]`. When it cannot be resolved the write is refused with `422` naming `updates[N].occupancy` — a
+                price is never sent at a guessed party size.
+            rooms_to_sell (int | None | Unset): Refused. A rate update carries prices only; sending this returns `422
+                inventory_not_in_rate_update` naming `updates[N].roomsToSell`. Write inventory with `type: "availability"` and
+                `availableRooms` (plus `closed: true` for a stop-sell).
+            restrictions (BookingPricingRateUpdateRestrictions | Unset): Length-of-stay and arrival restrictions for the
+                nights in this update. Omit a field to leave that restriction untouched — nothing you do not state is changed.
+
+                These are written on Booking.com's availability notification, which is the wire that carries a restriction when
+                no inventory changes hands. Sending them alongside a price is supported: the prices and the restrictions are two
+                writes, and the response reports each one separately (`price` and `restrictions`), so a half that lands is never
+                reported as a failure and a half that is refused is never reported as applied.
+
+                Three restrictions are refused with `422 restriction_not_supported` naming the field: Booking.com's notification
+                has no element for them, and dropping a restriction you stated would be worse than refusing it. Set those on the
+                rate plan in the Booking.com Extranet.
      """
 
     room_id: str

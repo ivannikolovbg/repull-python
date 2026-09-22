@@ -24,11 +24,13 @@ class GetUsageTierResponse200Used:
     """ 
         Attributes:
             monthly (int | Unset):
+            daily (int | Unset):
             daily_ai (int | Unset):
             dynamic_pricing_listings (int | Unset):
      """
 
     monthly: int | Unset = UNSET
+    daily: int | Unset = UNSET
     daily_ai: int | Unset = UNSET
     dynamic_pricing_listings: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -39,6 +41,8 @@ class GetUsageTierResponse200Used:
 
     def to_dict(self) -> dict[str, Any]:
         monthly = self.monthly
+
+        daily = self.daily
 
         daily_ai = self.daily_ai
 
@@ -51,6 +55,8 @@ class GetUsageTierResponse200Used:
         })
         if monthly is not UNSET:
             field_dict["monthly"] = monthly
+        if daily is not UNSET:
+            field_dict["daily"] = daily
         if daily_ai is not UNSET:
             field_dict["dailyAi"] = daily_ai
         if dynamic_pricing_listings is not UNSET:
@@ -65,12 +71,15 @@ class GetUsageTierResponse200Used:
         d = dict(src_dict)
         monthly = d.pop("monthly", UNSET)
 
+        daily = d.pop("daily", UNSET)
+
         daily_ai = d.pop("dailyAi", UNSET)
 
         dynamic_pricing_listings = d.pop("dynamicPricingListings", UNSET)
 
         get_usage_tier_response_200_used = cls(
             monthly=monthly,
+            daily=daily,
             daily_ai=daily_ai,
             dynamic_pricing_listings=dynamic_pricing_listings,
         )
