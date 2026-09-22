@@ -20,24 +20,26 @@ if TYPE_CHECKING:
 
 
 
-T = TypeVar("T", bound="ListingDeletedPayload")
+T = TypeVar("T", bound="ListingSuspensionPayload")
 
 
 
 @_attrs_define
-class ListingDeletedPayload:
-    """ Payload for `listing.deleted`. The listing is no longer reachable on the channel — usually because the host unlinked
-    it.
+class ListingSuspensionPayload:
+    """ Payload for `listing.suspended` and `listing.reactivated`. A suspended listing keeps accepting calendar and pricing
+    writes and silently applies none of them, which is indistinguishable from an API fault unless you are told. It is
+    also the one listing change a host cannot reverse alone.
 
         Attributes:
             object_ (ListingWebhookObject): The listing, in the shape `GET /v1/listings/{id}` returns. Hydrated at delivery,
                 so a receiver gets the listing rather than a reason to fetch one.
-            deleted_at (datetime.datetime):
-            reason (None | str | Unset):  Example: unlinked.
+            occurred_at (datetime.datetime):
+            reason (None | str | Unset): The channel's stated reason, verbatim, when it gives one. Example:
+                quality_standards.
      """
 
     object_: ListingWebhookObject
-    deleted_at: datetime.datetime
+    occurred_at: datetime.datetime
     reason: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -49,7 +51,7 @@ class ListingDeletedPayload:
         from ..models.listing_webhook_object import ListingWebhookObject
         object_ = self.object_.to_dict()
 
-        deleted_at = self.deleted_at.isoformat()
+        occurred_at = self.occurred_at.isoformat()
 
         reason: None | str | Unset
         if isinstance(self.reason, Unset):
@@ -62,7 +64,7 @@ class ListingDeletedPayload:
         field_dict.update(self.additional_properties)
         field_dict.update({
             "object": object_,
-            "deletedAt": deleted_at,
+            "occurredAt": occurred_at,
         })
         if reason is not UNSET:
             field_dict["reason"] = reason
@@ -80,7 +82,7 @@ class ListingDeletedPayload:
 
 
 
-        deleted_at = isoparse(d.pop("deletedAt"))
+        occurred_at = isoparse(d.pop("occurredAt"))
 
 
 
@@ -95,15 +97,15 @@ class ListingDeletedPayload:
         reason = _parse_reason(d.pop("reason", UNSET))
 
 
-        listing_deleted_payload = cls(
+        listing_suspension_payload = cls(
             object_=object_,
-            deleted_at=deleted_at,
+            occurred_at=occurred_at,
             reason=reason,
         )
 
 
-        listing_deleted_payload.additional_properties = d
-        return listing_deleted_payload
+        listing_suspension_payload.additional_properties = d
+        return listing_suspension_payload
 
     @property
     def additional_keys(self) -> list[str]:

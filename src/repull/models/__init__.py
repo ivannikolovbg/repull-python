@@ -405,6 +405,8 @@ from .listing_pull_response import ListingPullResponse
 from .listing_pull_response_channel import ListingPullResponseChannel
 from .listing_quality_tier import ListingQualityTier
 from .listing_quality_tier_tier import ListingQualityTierTier
+from .listing_reactivated_event import ListingReactivatedEvent
+from .listing_reactivated_event_event import ListingReactivatedEventEvent
 from .listing_segment import ListingSegment
 from .listing_segment_quality_tier_type_1 import ListingSegmentQualityTierType1
 from .listing_segment_quality_tier_type_2_type_1 import ListingSegmentQualityTierType2Type1
@@ -421,10 +423,17 @@ from .listing_segments_response_scope import ListingSegmentsResponseScope
 from .listing_status import ListingStatus
 from .listing_status_batch_request import ListingStatusBatchRequest
 from .listing_status_batch_response import ListingStatusBatchResponse
+from .listing_suspended_event import ListingSuspendedEvent
+from .listing_suspended_event_event import ListingSuspendedEventEvent
+from .listing_suspension_payload import ListingSuspensionPayload
 from .listing_updated_event import ListingUpdatedEvent
 from .listing_updated_event_event import ListingUpdatedEventEvent
 from .listing_updated_payload import ListingUpdatedPayload
-from .listing_updated_payload_changes import ListingUpdatedPayloadChanges
+from .listing_updated_payload_area import ListingUpdatedPayloadArea
+from .listing_updated_payload_previous_attributes import ListingUpdatedPayloadPreviousAttributes
+from .listing_webhook_object import ListingWebhookObject
+from .listing_webhook_object_address import ListingWebhookObjectAddress
+from .listing_webhook_object_channels_item import ListingWebhookObjectChannelsItem
 from .map_airbnb_listing_request import MapAirbnbListingRequest
 from .map_airbnb_listing_response import MapAirbnbListingResponse
 from .map_connect_booking_rooms_request import MapConnectBookingRoomsRequest
@@ -467,6 +476,8 @@ from .payment_completed_payload import PaymentCompletedPayload
 from .payment_refunded_event import PaymentRefundedEvent
 from .payment_refunded_event_event import PaymentRefundedEventEvent
 from .payment_refunded_payload import PaymentRefundedPayload
+from .payment_webhook_object import PaymentWebhookObject
+from .payment_webhook_object_transaction_type import PaymentWebhookObjectTransactionType
 from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
 from .property_ import Property
@@ -1090,6 +1101,8 @@ __all__ = (
     "ListingPullResponseChannel",
     "ListingQualityTier",
     "ListingQualityTierTier",
+    "ListingReactivatedEvent",
+    "ListingReactivatedEventEvent",
     "ListingSegment",
     "ListingSegmentQualityTierType1",
     "ListingSegmentQualityTierType2Type1",
@@ -1106,10 +1119,17 @@ __all__ = (
     "ListingStatus",
     "ListingStatusBatchRequest",
     "ListingStatusBatchResponse",
+    "ListingSuspendedEvent",
+    "ListingSuspendedEventEvent",
+    "ListingSuspensionPayload",
     "ListingUpdatedEvent",
     "ListingUpdatedEventEvent",
     "ListingUpdatedPayload",
-    "ListingUpdatedPayloadChanges",
+    "ListingUpdatedPayloadArea",
+    "ListingUpdatedPayloadPreviousAttributes",
+    "ListingWebhookObject",
+    "ListingWebhookObjectAddress",
+    "ListingWebhookObjectChannelsItem",
     "ListKvResponse200",
     "ListKvResponse200DataItem",
     "ListKvResponse200Pagination",
@@ -1164,6 +1184,8 @@ __all__ = (
     "PaymentRefundedEvent",
     "PaymentRefundedEventEvent",
     "PaymentRefundedPayload",
+    "PaymentWebhookObject",
+    "PaymentWebhookObjectTransactionType",
     "PlumguideListing",
     "PlumguideListingListResponse",
     "Property",

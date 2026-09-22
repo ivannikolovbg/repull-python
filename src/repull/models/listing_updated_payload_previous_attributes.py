@@ -14,16 +14,13 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="ListingUpdatedPayloadChanges")
+T = TypeVar("T", bound="ListingUpdatedPayloadPreviousAttributes")
 
 
 
 @_attrs_define
-class ListingUpdatedPayloadChanges:
-    """ Map of `field` → `{ from, to }` pairs describing what changed.
-
-        Example:
-            {'title': {'from': 'R-Sable 1302', 'to': 'R-Sable 1302 — Radium Hot Springs'}}
+class ListingUpdatedPayloadPreviousAttributes:
+    """ Fields that changed and their prior values, when the source reports them.
 
      """
 
@@ -45,12 +42,12 @@ class ListingUpdatedPayloadChanges:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        listing_updated_payload_changes = cls(
+        listing_updated_payload_previous_attributes = cls(
         )
 
 
-        listing_updated_payload_changes.additional_properties = d
-        return listing_updated_payload_changes
+        listing_updated_payload_previous_attributes.additional_properties = d
+        return listing_updated_payload_previous_attributes
 
     @property
     def additional_keys(self) -> list[str]:

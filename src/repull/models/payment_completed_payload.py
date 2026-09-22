@@ -13,6 +13,8 @@ from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.payment_webhook_object import PaymentWebhookObject
 
 
 
@@ -24,23 +26,21 @@ T = TypeVar("T", bound="PaymentCompletedPayload")
 
 @_attrs_define
 class PaymentCompletedPayload:
-    """ Payload for `payment.completed`. A guest payment was successfully captured.
+    """ Payload for `payment.completed`. Money moved and settled — a guest charge, a host payout, a tourist-tax pass-through
+    or a resolution payout. Fires only on a completed movement; scheduled intent is not an event.
 
         Attributes:
-            id (str | Unset):  Example: pay_01HX5XPQ2K.
-            reservation_id (int | Unset):  Example: 215906.
-            amount (str | Unset):  Example: 1320.00.
-            currency (str | Unset):  Example: USD.
-            method (str | Unset):  Example: card.
-            captured_at (datetime.datetime | Unset):  Example: 2026-05-01T12:35:00.000Z.
+            object_ (PaymentWebhookObject): A money movement: a guest charge, a host payout, a refund, a tourist-tax pass-
+                through, a resolution payout, or an adjustment that claws money back.
+            completed_at (datetime.datetime | None | Unset):
+            reason (None | str | Unset):
+            revision (datetime.datetime | None | Unset):
      """
 
-    id: str | Unset = UNSET
-    reservation_id: int | Unset = UNSET
-    amount: str | Unset = UNSET
-    currency: str | Unset = UNSET
-    method: str | Unset = UNSET
-    captured_at: datetime.datetime | Unset = UNSET
+    object_: PaymentWebhookObject
+    completed_at: datetime.datetime | None | Unset = UNSET
+    reason: None | str | Unset = UNSET
+    revision: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -48,37 +48,43 @@ class PaymentCompletedPayload:
 
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        from ..models.payment_webhook_object import PaymentWebhookObject
+        object_ = self.object_.to_dict()
 
-        reservation_id = self.reservation_id
+        completed_at: None | str | Unset
+        if isinstance(self.completed_at, Unset):
+            completed_at = UNSET
+        elif isinstance(self.completed_at, datetime.datetime):
+            completed_at = self.completed_at.isoformat()
+        else:
+            completed_at = self.completed_at
 
-        amount = self.amount
+        reason: None | str | Unset
+        if isinstance(self.reason, Unset):
+            reason = UNSET
+        else:
+            reason = self.reason
 
-        currency = self.currency
-
-        method = self.method
-
-        captured_at: str | Unset = UNSET
-        if not isinstance(self.captured_at, Unset):
-            captured_at = self.captured_at.isoformat()
+        revision: None | str | Unset
+        if isinstance(self.revision, Unset):
+            revision = UNSET
+        elif isinstance(self.revision, datetime.datetime):
+            revision = self.revision.isoformat()
+        else:
+            revision = self.revision
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "object": object_,
         })
-        if id is not UNSET:
-            field_dict["id"] = id
-        if reservation_id is not UNSET:
-            field_dict["reservationId"] = reservation_id
-        if amount is not UNSET:
-            field_dict["amount"] = amount
-        if currency is not UNSET:
-            field_dict["currency"] = currency
-        if method is not UNSET:
-            field_dict["method"] = method
-        if captured_at is not UNSET:
-            field_dict["capturedAt"] = captured_at
+        if completed_at is not UNSET:
+            field_dict["completedAt"] = completed_at
+        if reason is not UNSET:
+            field_dict["reason"] = reason
+        if revision is not UNSET:
+            field_dict["revision"] = revision
 
         return field_dict
 
@@ -86,34 +92,68 @@ class PaymentCompletedPayload:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.payment_webhook_object import PaymentWebhookObject
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
-
-        reservation_id = d.pop("reservationId", UNSET)
-
-        amount = d.pop("amount", UNSET)
-
-        currency = d.pop("currency", UNSET)
-
-        method = d.pop("method", UNSET)
-
-        _captured_at = d.pop("capturedAt", UNSET)
-        captured_at: datetime.datetime | Unset
-        if isinstance(_captured_at,  Unset):
-            captured_at = UNSET
-        else:
-            captured_at = isoparse(_captured_at)
+        object_ = PaymentWebhookObject.from_dict(d.pop("object"))
 
 
+
+
+        def _parse_completed_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                completed_at_type_0 = isoparse(data)
+
+
+
+                return completed_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        completed_at = _parse_completed_at(d.pop("completedAt", UNSET))
+
+
+        def _parse_reason(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        reason = _parse_reason(d.pop("reason", UNSET))
+
+
+        def _parse_revision(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                revision_type_0 = isoparse(data)
+
+
+
+                return revision_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        revision = _parse_revision(d.pop("revision", UNSET))
 
 
         payment_completed_payload = cls(
-            id=id,
-            reservation_id=reservation_id,
-            amount=amount,
-            currency=currency,
-            method=method,
-            captured_at=captured_at,
+            object_=object_,
+            completed_at=completed_at,
+            reason=reason,
+            revision=revision,
         )
 
 

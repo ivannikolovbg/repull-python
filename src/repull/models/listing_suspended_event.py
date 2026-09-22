@@ -8,7 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.payment_refunded_event_event import PaymentRefundedEventEvent
+from ..models.listing_suspended_event_event import ListingSuspendedEventEvent
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -16,38 +16,38 @@ from uuid import UUID
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.payment_refunded_payload import PaymentRefundedPayload
+  from ..models.listing_suspension_payload import ListingSuspensionPayload
   from ..models.webhook_event_account_type_0 import WebhookEventAccountType0
 
 
 
 
 
-T = TypeVar("T", bound="PaymentRefundedEvent")
+T = TypeVar("T", bound="ListingSuspendedEvent")
 
 
 
 @_attrs_define
-class PaymentRefundedEvent:
+class ListingSuspendedEvent:
     """ 
         Attributes:
-            event (PaymentRefundedEventEvent): The event name. This field is `event`, not `type`.
+            event (ListingSuspendedEventEvent): The event name. This field is `event`, not `type`.
             event_id (UUID): Stable across every delivery and replay of this logical event — dedupe on it.
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
-            data (PaymentRefundedPayload): Payload for `payment.refunded`. Money went back. Covers both a refund-typed
-                movement and any adjustment with a negative amount — the sign on `object.amount` is preserved so the direction
-                never has to be inferred.
+            data (ListingSuspensionPayload): Payload for `listing.suspended` and `listing.reactivated`. A suspended listing
+                keeps accepting calendar and pricing writes and silently applies none of them, which is indistinguishable from
+                an API fault unless you are told. It is also the one listing change a host cannot reverse alone.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".
      """
 
-    event: PaymentRefundedEventEvent
+    event: ListingSuspendedEventEvent
     event_id: UUID
     api_version: str
     timestamp: datetime.datetime
-    data: PaymentRefundedPayload
+    data: ListingSuspensionPayload
     account: None | Unset | WebhookEventAccountType0 = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -56,7 +56,7 @@ class PaymentRefundedEvent:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.payment_refunded_payload import PaymentRefundedPayload
+        from ..models.listing_suspension_payload import ListingSuspensionPayload
         from ..models.webhook_event_account_type_0 import WebhookEventAccountType0
         event = self.event.value
 
@@ -95,10 +95,10 @@ class PaymentRefundedEvent:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.payment_refunded_payload import PaymentRefundedPayload
+        from ..models.listing_suspension_payload import ListingSuspensionPayload
         from ..models.webhook_event_account_type_0 import WebhookEventAccountType0
         d = dict(src_dict)
-        event = PaymentRefundedEventEvent(d.pop("event"))
+        event = ListingSuspendedEventEvent(d.pop("event"))
 
 
 
@@ -115,7 +115,7 @@ class PaymentRefundedEvent:
 
 
 
-        data = PaymentRefundedPayload.from_dict(d.pop("data"))
+        data = ListingSuspensionPayload.from_dict(d.pop("data"))
 
 
 
@@ -140,7 +140,7 @@ class PaymentRefundedEvent:
         account = _parse_account(d.pop("account", UNSET))
 
 
-        payment_refunded_event = cls(
+        listing_suspended_event = cls(
             event=event,
             event_id=event_id,
             api_version=api_version,
@@ -150,8 +150,8 @@ class PaymentRefundedEvent:
         )
 
 
-        payment_refunded_event.additional_properties = d
-        return payment_refunded_event
+        listing_suspended_event.additional_properties = d
+        return listing_suspended_event
 
     @property
     def additional_keys(self) -> list[str]:

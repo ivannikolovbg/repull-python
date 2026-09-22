@@ -8,6 +8,8 @@ class WebhookEventType(str, Enum):
     CALENDAR_UPDATED = "calendar.updated"
     LISTING_CREATED = "listing.created"
     LISTING_DELETED = "listing.deleted"
+    LISTING_REACTIVATED = "listing.reactivated"
+    LISTING_SUSPENDED = "listing.suspended"
     LISTING_UPDATED = "listing.updated"
     PAYMENT_COMPLETED = "payment.completed"
     PAYMENT_REFUNDED = "payment.refunded"

@@ -35,8 +35,8 @@ class ListingDeletedEvent:
             event_id (UUID): Stable across every delivery and replay of this logical event — dedupe on it.
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
-            data (ListingDeletedPayload): Payload for `listing.deleted`. A property was removed from Repull or the upstream
-                PMS.
+            data (ListingDeletedPayload): Payload for `listing.deleted`. The listing is no longer reachable on the channel —
+                usually because the host unlinked it.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".

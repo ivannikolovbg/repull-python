@@ -35,7 +35,9 @@ class PaymentCompletedEvent:
             event_id (UUID): Stable across every delivery and replay of this logical event — dedupe on it.
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
-            data (PaymentCompletedPayload): Payload for `payment.completed`. A guest payment was successfully captured.
+            data (PaymentCompletedPayload): Payload for `payment.completed`. Money moved and settled — a guest charge, a
+                host payout, a tourist-tax pass-through or a resolution payout. Fires only on a completed movement; scheduled
+                intent is not an event.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".
