@@ -29,6 +29,13 @@ Regenerated against the live `https://api.repull.dev/openapi.json`
   models `ReservationRequestCreatedEvent`, `ReservationRequestUpdatedEvent`,
   `InquiryCreatedEvent`, `InquiryUpdatedEvent` and `InquiryWebhookObject`.
 - `Reservation` gains `status_detail` (`request_expired`) and `respond_by`.
+- Optional `idempotency_key` on `create_airbnb_offer` / `airbnb_reservation_action`,
+  and `cursor` / `all_` on `list_airbnb_thread_messages`.
+
+### Changed
+- `repull.api.airbnb.airbnb_reservation_action` now takes a required
+  `body: AirbnbReservationActionBody` — the spec declares the action body the
+  API always required.
 
 ## [0.2.15] - 2026-09-18
 
