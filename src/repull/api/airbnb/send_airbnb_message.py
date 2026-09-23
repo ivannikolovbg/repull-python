@@ -97,12 +97,26 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_422
 
+    if response.status_code == 429:
+        response_429 = Error.from_dict(response.json())
+
+
+
+        return response_429
+
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
 
 
 
         return response_500
+
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -129,8 +143,10 @@ def sync_detailed(
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
-    contact info, no external URLs) — violating messages are rejected upstream and surface as
-    `airbnb_error`.
+    contact info, no external URLs) — violating messages are rejected upstream and surface as `422
+    airbnb_rejected` carrying Airbnb's own reason. Resending the same text is refused again; edit it
+    first. `502 airbnb_error` is the other answer and means something else entirely: Airbnb did not
+    complete the send, so retry it unchanged.
 
     ### Sending a photo or video (`mediaUrl`)
 
@@ -188,8 +204,10 @@ def sync(
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
-    contact info, no external URLs) — violating messages are rejected upstream and surface as
-    `airbnb_error`.
+    contact info, no external URLs) — violating messages are rejected upstream and surface as `422
+    airbnb_rejected` carrying Airbnb's own reason. Resending the same text is refused again; edit it
+    first. `502 airbnb_error` is the other answer and means something else entirely: Airbnb did not
+    complete the send, so retry it unchanged.
 
     ### Sending a photo or video (`mediaUrl`)
 
@@ -242,8 +260,10 @@ async def asyncio_detailed(
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
-    contact info, no external URLs) — violating messages are rejected upstream and surface as
-    `airbnb_error`.
+    contact info, no external URLs) — violating messages are rejected upstream and surface as `422
+    airbnb_rejected` carrying Airbnb's own reason. Resending the same text is refused again; edit it
+    first. `502 airbnb_error` is the other answer and means something else entirely: Airbnb did not
+    complete the send, so retry it unchanged.
 
     ### Sending a photo or video (`mediaUrl`)
 
@@ -301,8 +321,10 @@ async def asyncio(
     """ Send Airbnb message
 
      Send a message in an Airbnb thread as the host. Airbnb enforces content rules (no off-platform
-    contact info, no external URLs) — violating messages are rejected upstream and surface as
-    `airbnb_error`.
+    contact info, no external URLs) — violating messages are rejected upstream and surface as `422
+    airbnb_rejected` carrying Airbnb's own reason. Resending the same text is refused again; edit it
+    first. `502 airbnb_error` is the other answer and means something else entirely: Airbnb did not
+    complete the send, so retry it unchanged.
 
     ### Sending a photo or video (`mediaUrl`)
 

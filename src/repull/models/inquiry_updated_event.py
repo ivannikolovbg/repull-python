@@ -37,8 +37,8 @@ class InquiryUpdatedEvent:
             timestamp (datetime.datetime): When this delivery was built.
             data (InquiryUpdatedPayload): Payload for `inquiry.updated`. The inquiry's status, dates, guest count or the
                 reservation it became changed. `previousAttributes` holds only what moved, with prior values. Fires whether the
-                host acted through the API, the Vanio dashboard or the Airbnb app. An inquiry whose dates simply pass is
-                `expired` in `GET /v1/inquiries` but fires no event unless the channel reports it.
+                host acted through the API, a connected app or the Airbnb app. An inquiry whose dates simply pass is `expired`
+                in `GET /v1/inquiries` but fires no event unless the channel reports it.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".

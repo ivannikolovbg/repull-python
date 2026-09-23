@@ -50,6 +50,18 @@ class ErrorError:
                 consumers can match validation failures to the operation they invoked. Example: /v1/guests.
             did_you_mean (str | Unset): Suggestion for typos and near-matches. Present when the server can guess the intent.
                 Example: check_in_after.
+            previous_code (str | Unset): The `code` THIS response used to carry, for callers whose branch still matches the
+                old string. A migration aid with a deprecation window — **`code` is canonical, always match on that.**
+
+                Present only where an endpoint's classification actually changed, never as a permanent synonym, and it
+                disappears from a response as soon as the canonical code and the old one agree.
+
+                The live case: the reviews, messaging, check-in-guide, alteration-answer and Airbnb-pull endpoints used to
+                report EVERY Airbnb failure as `500 airbnb_error`, including refusals Airbnb will repeat forever. They now
+                classify the same way every other Airbnb write does — an Airbnb 4xx is `422 airbnb_rejected` (fix the request),
+                5xx and timeouts stay `502 airbnb_error` (retry with backoff), and a dead grant is `403
+                connection_reauth_required`. Those responses carry `previous_code: "airbnb_error"`. **Removed in v2** — migrate
+                your branches to `code` before then. Example: airbnb_error.
             listing_ids (list[str] | Unset): Every inactive listing the request involved. Present on `code:
                 "listing_inactive"` (HTTP 403) — activate these ids and retry. Example: ['4118'].
             listing_id (str | Unset): The single Repull listing the error is about. Present on `code:
@@ -76,6 +88,7 @@ class ErrorError:
     valid_params: list[str] | Unset = UNSET
     endpoint: str | Unset = UNSET
     did_you_mean: str | Unset = UNSET
+    previous_code: str | Unset = UNSET
     listing_ids: list[str] | Unset = UNSET
     listing_id: str | Unset = UNSET
     airbnb_listing_id: str | Unset = UNSET
@@ -120,6 +133,8 @@ class ErrorError:
 
         did_you_mean = self.did_you_mean
 
+        previous_code = self.previous_code
+
         listing_ids: list[str] | Unset = UNSET
         if not isinstance(self.listing_ids, Unset):
             listing_ids = self.listing_ids
@@ -160,6 +175,8 @@ class ErrorError:
             field_dict["endpoint"] = endpoint
         if did_you_mean is not UNSET:
             field_dict["did_you_mean"] = did_you_mean
+        if previous_code is not UNSET:
+            field_dict["previous_code"] = previous_code
         if listing_ids is not UNSET:
             field_dict["listing_ids"] = listing_ids
         if listing_id is not UNSET:
@@ -205,6 +222,8 @@ class ErrorError:
 
         did_you_mean = d.pop("did_you_mean", UNSET)
 
+        previous_code = d.pop("previous_code", UNSET)
+
         listing_ids = cast(list[str], d.pop("listing_ids", UNSET))
 
 
@@ -238,6 +257,7 @@ class ErrorError:
             valid_params=valid_params,
             endpoint=endpoint,
             did_you_mean=did_you_mean,
+            previous_code=previous_code,
             listing_ids=listing_ids,
             listing_id=listing_id,
             airbnb_listing_id=airbnb_listing_id,

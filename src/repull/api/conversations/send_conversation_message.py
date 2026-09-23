@@ -129,8 +129,8 @@ def sync_detailed(
     Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
     to force a specific one.
 
-    The message is attributed to the API, not to Vanio AI: it is recorded with `aiGenerated` false so an
-    API send is never counted as an automated reply.
+    The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
+    never counted as an automated reply.
 
     ### Airbnb rewrites links — check `contentRewritten`
 
@@ -228,8 +228,8 @@ def sync(
     Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
     to force a specific one.
 
-    The message is attributed to the API, not to Vanio AI: it is recorded with `aiGenerated` false so an
-    API send is never counted as an automated reply.
+    The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
+    never counted as an automated reply.
 
     ### Airbnb rewrites links — check `contentRewritten`
 
@@ -322,8 +322,8 @@ async def asyncio_detailed(
     Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
     to force a specific one.
 
-    The message is attributed to the API, not to Vanio AI: it is recorded with `aiGenerated` false so an
-    API send is never counted as an automated reply.
+    The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
+    never counted as an automated reply.
 
     ### Airbnb rewrites links — check `contentRewritten`
 
@@ -421,8 +421,8 @@ async def asyncio(
     Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
     to force a specific one.
 
-    The message is attributed to the API, not to Vanio AI: it is recorded with `aiGenerated` false so an
-    API send is never counted as an automated reply.
+    The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
+    never counted as an automated reply.
 
     ### Airbnb rewrites links — check `contentRewritten`
 

@@ -14,6 +14,7 @@ from typing import cast
 if TYPE_CHECKING:
   from ..models.listing_publish_status_channel import ListingPublishStatusChannel
   from ..models.listing_publish_status_connection import ListingPublishStatusConnection
+  from ..models.listing_publish_status_response_address_readiness import ListingPublishStatusResponseAddressReadiness
 
 
 
@@ -28,6 +29,16 @@ class ListingPublishStatusResponse:
     """ 
         Attributes:
             listing_id (str | Unset):
+            address_readiness (ListingPublishStatusResponseAddressReadiness | Unset): Address readiness per channel, keyed
+                by channel name (`airbnb` today). Airbnb requires `street` and `city` for every country and additionally `state`
+                and `postalCode` for a **US** property — and a listing with no `countryCode` behaves as US. Check this BEFORE
+                calling a publish endpoint: an incomplete address is refused at the create preflight and never reaches the
+                channel.
+
+                It sits here rather than inside `channels[]` because `channels` reports sync activity and is empty for a listing
+                that has never been pushed — exactly the listing whose address blocker you need to see. Repair a gap with `PUT
+                /v1/listings/{id}/content`, sending only the missing parts under `address`. An empty object means readiness was
+                not reported; it never means ready. Example: {'airbnb': {'ready': False, 'missing': ['state', 'postalCode']}}.
             channels (list[ListingPublishStatusChannel] | Unset): Sync activity per channel — empty if the listing has never
                 been pushed/pulled. Empty does NOT mean "not connected"; check `connections` for that.
             connections (list[ListingPublishStatusConnection] | Unset): Connection state per channel. Populated even when
@@ -35,6 +46,7 @@ class ListingPublishStatusResponse:
      """
 
     listing_id: str | Unset = UNSET
+    address_readiness: ListingPublishStatusResponseAddressReadiness | Unset = UNSET
     channels: list[ListingPublishStatusChannel] | Unset = UNSET
     connections: list[ListingPublishStatusConnection] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -46,7 +58,12 @@ class ListingPublishStatusResponse:
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_publish_status_channel import ListingPublishStatusChannel
         from ..models.listing_publish_status_connection import ListingPublishStatusConnection
+        from ..models.listing_publish_status_response_address_readiness import ListingPublishStatusResponseAddressReadiness
         listing_id = self.listing_id
+
+        address_readiness: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.address_readiness, Unset):
+            address_readiness = self.address_readiness.to_dict()
 
         channels: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.channels, Unset):
@@ -73,6 +90,8 @@ class ListingPublishStatusResponse:
         })
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
+        if address_readiness is not UNSET:
+            field_dict["addressReadiness"] = address_readiness
         if channels is not UNSET:
             field_dict["channels"] = channels
         if connections is not UNSET:
@@ -86,8 +105,19 @@ class ListingPublishStatusResponse:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_publish_status_channel import ListingPublishStatusChannel
         from ..models.listing_publish_status_connection import ListingPublishStatusConnection
+        from ..models.listing_publish_status_response_address_readiness import ListingPublishStatusResponseAddressReadiness
         d = dict(src_dict)
         listing_id = d.pop("listingId", UNSET)
+
+        _address_readiness = d.pop("addressReadiness", UNSET)
+        address_readiness: ListingPublishStatusResponseAddressReadiness | Unset
+        if isinstance(_address_readiness,  Unset):
+            address_readiness = UNSET
+        else:
+            address_readiness = ListingPublishStatusResponseAddressReadiness.from_dict(_address_readiness)
+
+
+
 
         _channels = d.pop("channels", UNSET)
         channels: list[ListingPublishStatusChannel] | Unset = UNSET
@@ -115,6 +145,7 @@ class ListingPublishStatusResponse:
 
         listing_publish_status_response = cls(
             listing_id=listing_id,
+            address_readiness=address_readiness,
             channels=channels,
             connections=connections,
         )

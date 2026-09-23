@@ -142,7 +142,7 @@ def sync_detailed(
     The body is validated before anything reaches Airbnb; unknown fields are refused. There is no `pre-
     approve` action: a pre-approval answers an inquiry, which has no confirmation code — use `POST
     /v1/conversations/{id}/pre-approval`. For accept/decline, `POST /v1/reservations/{id}/accept` and
-    `/decline` do the same by Repull id and also update Vanio.
+    `/decline` do the same by Repull id and keep the reservation in Repull in sync.
 
     Airbnb refusals are mapped rather than returned as a 500: a request that already moved on is `409
     request_no_longer_pending` (do not retry), an expired one `409 request_expired`, any other refusal
@@ -202,7 +202,7 @@ def sync(
     The body is validated before anything reaches Airbnb; unknown fields are refused. There is no `pre-
     approve` action: a pre-approval answers an inquiry, which has no confirmation code — use `POST
     /v1/conversations/{id}/pre-approval`. For accept/decline, `POST /v1/reservations/{id}/accept` and
-    `/decline` do the same by Repull id and also update Vanio.
+    `/decline` do the same by Repull id and keep the reservation in Repull in sync.
 
     Airbnb refusals are mapped rather than returned as a 500: a request that already moved on is `409
     request_no_longer_pending` (do not retry), an expired one `409 request_expired`, any other refusal
@@ -257,7 +257,7 @@ async def asyncio_detailed(
     The body is validated before anything reaches Airbnb; unknown fields are refused. There is no `pre-
     approve` action: a pre-approval answers an inquiry, which has no confirmation code — use `POST
     /v1/conversations/{id}/pre-approval`. For accept/decline, `POST /v1/reservations/{id}/accept` and
-    `/decline` do the same by Repull id and also update Vanio.
+    `/decline` do the same by Repull id and keep the reservation in Repull in sync.
 
     Airbnb refusals are mapped rather than returned as a 500: a request that already moved on is `409
     request_no_longer_pending` (do not retry), an expired one `409 request_expired`, any other refusal
@@ -317,7 +317,7 @@ async def asyncio(
     The body is validated before anything reaches Airbnb; unknown fields are refused. There is no `pre-
     approve` action: a pre-approval answers an inquiry, which has no confirmation code — use `POST
     /v1/conversations/{id}/pre-approval`. For accept/decline, `POST /v1/reservations/{id}/accept` and
-    `/decline` do the same by Repull id and also update Vanio.
+    `/decline` do the same by Repull id and keep the reservation in Repull in sync.
 
     Airbnb refusals are mapped rather than returned as a 500: a request that already moved on is `409
     request_no_longer_pending` (do not retry), an expired one `409 request_expired`, any other refusal

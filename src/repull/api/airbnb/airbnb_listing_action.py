@@ -87,6 +87,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 402:
+        response_402 = Error.from_dict(response.json())
+
+
+
+        return response_402
+
     if response.status_code == 403:
         response_403 = Error.from_dict(response.json())
 
@@ -149,12 +156,28 @@ def sync_detailed(
 
      Apply a state action to a listing by id. The path `id` is the canonical Repull listing id.
 
-    **Deactivating in Repull and unlisting on Airbnb are different operations.**
+    **`delete` here never touches Airbnb. Read this before you call it.**
 
-    `delete` is a **deactivate of the Repull record only** — it sets the listing inactive and KEEPS the
-    row; it does NOT touch the Airbnb listing, which stays live and keeps taking bookings. Use it to
-    exclude a listing from the API / trim back under the plan-listings cap; reactivate via `PATCH
-    /v1/listings/{id}` with `{ \"active\": true }`. Idempotent.
+    | | `action: \"delete\"` (this endpoint) | `action: \"unlist\"` (this endpoint) |
+    |---|---|---|
+    | What it changes | The Repull record | The live Airbnb listing |
+    | Calls Airbnb | **No. Never.** | Yes |
+    | The guest-facing listing | Stays live and keeps taking bookings | **Goes down** and stops taking
+    bookings |
+    | Billing and plan limits | No longer billed, no longer counts toward the cap | Unchanged |
+    | API access to the listing | `403 listing_inactive` until reactivated | Unchanged — you can still
+    read and write it |
+    | Reverse it with | `PATCH /v1/listings/{id}` `{ \"active\": true }` | `action: \"relist\"` |
+    | Data kept | Yes, and it keeps syncing | Yes |
+
+    Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
+    listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
+    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
+    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
+    names do not mean the same thing.)
+
+    `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
+    Booking.com together — use `POST /v1/listings/{id}/offline`.
 
     `unlist` calls Airbnb and **takes the live listing down**: it is deactivated with a valid
     deactivation reason and then READ BACK, so \"Airbnb accepted the call but the listing is still
@@ -162,6 +185,11 @@ def sync_detailed(
     be connected to more than one Airbnb listing, and taking down the wrong one is not undoable through
     this API. `relist` puts it back up (re-enables sync and makes the listing available again); it does
     not push content.
+
+    `relist` goes through the channel-publish billing gate and `unlist` does not, so on a workspace
+    whose subscription has lapsed a listing can be taken down and not put back until billing is sorted
+    out. That refusal comes back as `402` with the action that fixes it — never as an Airbnb error,
+    because retrying and reconnecting Airbnb do nothing for it.
 
     `push` / `publish` push the listing's content to Airbnb via the same host-side sync orchestrator as
     `POST /v1/listings/{id}/publish/airbnb` — pass `airbnbConnectionId` to update an already-mapped
@@ -213,12 +241,28 @@ def sync(
 
      Apply a state action to a listing by id. The path `id` is the canonical Repull listing id.
 
-    **Deactivating in Repull and unlisting on Airbnb are different operations.**
+    **`delete` here never touches Airbnb. Read this before you call it.**
 
-    `delete` is a **deactivate of the Repull record only** — it sets the listing inactive and KEEPS the
-    row; it does NOT touch the Airbnb listing, which stays live and keeps taking bookings. Use it to
-    exclude a listing from the API / trim back under the plan-listings cap; reactivate via `PATCH
-    /v1/listings/{id}` with `{ \"active\": true }`. Idempotent.
+    | | `action: \"delete\"` (this endpoint) | `action: \"unlist\"` (this endpoint) |
+    |---|---|---|
+    | What it changes | The Repull record | The live Airbnb listing |
+    | Calls Airbnb | **No. Never.** | Yes |
+    | The guest-facing listing | Stays live and keeps taking bookings | **Goes down** and stops taking
+    bookings |
+    | Billing and plan limits | No longer billed, no longer counts toward the cap | Unchanged |
+    | API access to the listing | `403 listing_inactive` until reactivated | Unchanged — you can still
+    read and write it |
+    | Reverse it with | `PATCH /v1/listings/{id}` `{ \"active\": true }` | `action: \"relist\"` |
+    | Data kept | Yes, and it keeps syncing | Yes |
+
+    Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
+    listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
+    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
+    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
+    names do not mean the same thing.)
+
+    `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
+    Booking.com together — use `POST /v1/listings/{id}/offline`.
 
     `unlist` calls Airbnb and **takes the live listing down**: it is deactivated with a valid
     deactivation reason and then READ BACK, so \"Airbnb accepted the call but the listing is still
@@ -226,6 +270,11 @@ def sync(
     be connected to more than one Airbnb listing, and taking down the wrong one is not undoable through
     this API. `relist` puts it back up (re-enables sync and makes the listing available again); it does
     not push content.
+
+    `relist` goes through the channel-publish billing gate and `unlist` does not, so on a workspace
+    whose subscription has lapsed a listing can be taken down and not put back until billing is sorted
+    out. That refusal comes back as `402` with the action that fixes it — never as an Airbnb error,
+    because retrying and reconnecting Airbnb do nothing for it.
 
     `push` / `publish` push the listing's content to Airbnb via the same host-side sync orchestrator as
     `POST /v1/listings/{id}/publish/airbnb` — pass `airbnbConnectionId` to update an already-mapped
@@ -272,12 +321,28 @@ async def asyncio_detailed(
 
      Apply a state action to a listing by id. The path `id` is the canonical Repull listing id.
 
-    **Deactivating in Repull and unlisting on Airbnb are different operations.**
+    **`delete` here never touches Airbnb. Read this before you call it.**
 
-    `delete` is a **deactivate of the Repull record only** — it sets the listing inactive and KEEPS the
-    row; it does NOT touch the Airbnb listing, which stays live and keeps taking bookings. Use it to
-    exclude a listing from the API / trim back under the plan-listings cap; reactivate via `PATCH
-    /v1/listings/{id}` with `{ \"active\": true }`. Idempotent.
+    | | `action: \"delete\"` (this endpoint) | `action: \"unlist\"` (this endpoint) |
+    |---|---|---|
+    | What it changes | The Repull record | The live Airbnb listing |
+    | Calls Airbnb | **No. Never.** | Yes |
+    | The guest-facing listing | Stays live and keeps taking bookings | **Goes down** and stops taking
+    bookings |
+    | Billing and plan limits | No longer billed, no longer counts toward the cap | Unchanged |
+    | API access to the listing | `403 listing_inactive` until reactivated | Unchanged — you can still
+    read and write it |
+    | Reverse it with | `PATCH /v1/listings/{id}` `{ \"active\": true }` | `action: \"relist\"` |
+    | Data kept | Yes, and it keeps syncing | Yes |
+
+    Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
+    listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
+    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
+    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
+    names do not mean the same thing.)
+
+    `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
+    Booking.com together — use `POST /v1/listings/{id}/offline`.
 
     `unlist` calls Airbnb and **takes the live listing down**: it is deactivated with a valid
     deactivation reason and then READ BACK, so \"Airbnb accepted the call but the listing is still
@@ -285,6 +350,11 @@ async def asyncio_detailed(
     be connected to more than one Airbnb listing, and taking down the wrong one is not undoable through
     this API. `relist` puts it back up (re-enables sync and makes the listing available again); it does
     not push content.
+
+    `relist` goes through the channel-publish billing gate and `unlist` does not, so on a workspace
+    whose subscription has lapsed a listing can be taken down and not put back until billing is sorted
+    out. That refusal comes back as `402` with the action that fixes it — never as an Airbnb error,
+    because retrying and reconnecting Airbnb do nothing for it.
 
     `push` / `publish` push the listing's content to Airbnb via the same host-side sync orchestrator as
     `POST /v1/listings/{id}/publish/airbnb` — pass `airbnbConnectionId` to update an already-mapped
@@ -336,12 +406,28 @@ async def asyncio(
 
      Apply a state action to a listing by id. The path `id` is the canonical Repull listing id.
 
-    **Deactivating in Repull and unlisting on Airbnb are different operations.**
+    **`delete` here never touches Airbnb. Read this before you call it.**
 
-    `delete` is a **deactivate of the Repull record only** — it sets the listing inactive and KEEPS the
-    row; it does NOT touch the Airbnb listing, which stays live and keeps taking bookings. Use it to
-    exclude a listing from the API / trim back under the plan-listings cap; reactivate via `PATCH
-    /v1/listings/{id}` with `{ \"active\": true }`. Idempotent.
+    | | `action: \"delete\"` (this endpoint) | `action: \"unlist\"` (this endpoint) |
+    |---|---|---|
+    | What it changes | The Repull record | The live Airbnb listing |
+    | Calls Airbnb | **No. Never.** | Yes |
+    | The guest-facing listing | Stays live and keeps taking bookings | **Goes down** and stops taking
+    bookings |
+    | Billing and plan limits | No longer billed, no longer counts toward the cap | Unchanged |
+    | API access to the listing | `403 listing_inactive` until reactivated | Unchanged — you can still
+    read and write it |
+    | Reverse it with | `PATCH /v1/listings/{id}` `{ \"active\": true }` | `action: \"relist\"` |
+    | Data kept | Yes, and it keeps syncing | Yes |
+
+    Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
+    listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
+    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
+    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
+    names do not mean the same thing.)
+
+    `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
+    Booking.com together — use `POST /v1/listings/{id}/offline`.
 
     `unlist` calls Airbnb and **takes the live listing down**: it is deactivated with a valid
     deactivation reason and then READ BACK, so \"Airbnb accepted the call but the listing is still
@@ -349,6 +435,11 @@ async def asyncio(
     be connected to more than one Airbnb listing, and taking down the wrong one is not undoable through
     this API. `relist` puts it back up (re-enables sync and makes the listing available again); it does
     not push content.
+
+    `relist` goes through the channel-publish billing gate and `unlist` does not, so on a workspace
+    whose subscription has lapsed a listing can be taken down and not put back until billing is sorted
+    out. That refusal comes back as `402` with the action that fixes it — never as an Airbnb error,
+    because retrying and reconnecting Airbnb do nothing for it.
 
     `push` / `publish` push the listing's content to Airbnb via the same host-side sync orchestrator as
     `POST /v1/listings/{id}/publish/airbnb` — pass `airbnbConnectionId` to update an already-mapped

@@ -32,6 +32,9 @@ class ListingPublishAirbnbResponse:
             result (AirbnbPublishResult | Unset): A publish is not one call to Airbnb: it is up to eight independent ones
                 (details, description, amenities, rooms, policies, photos, pricing, checkout_tasks), each of which can fail on
                 its own. A PARTIAL publish is normal — what succeeded stays applied; there is no rollback.
+
+                **Content landing and the listing being live are two different answers.** `published` is about content; `live`
+                is about whether the listing takes bookings. Read both.
      """
 
     listing_id: str | Unset = UNSET

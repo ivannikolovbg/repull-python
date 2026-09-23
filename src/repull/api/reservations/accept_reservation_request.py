@@ -134,9 +134,9 @@ def sync_detailed(
     without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
     the host has not answered within 24 hours.
 
-    Runs the same action as the Vanio dashboard’s Accept button. Airbnb confirms asynchronously: the
-    reservation’s status moves to confirmed, and a `reservation.updated` webhook fires, when Airbnb’s
-    notification lands (usually within seconds). The response reports what Airbnb was asked to do.
+    Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
+    `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
+    response reports what Airbnb was asked to do.
 
     **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
     step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is
@@ -188,9 +188,9 @@ def sync(
     without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
     the host has not answered within 24 hours.
 
-    Runs the same action as the Vanio dashboard’s Accept button. Airbnb confirms asynchronously: the
-    reservation’s status moves to confirmed, and a `reservation.updated` webhook fires, when Airbnb’s
-    notification lands (usually within seconds). The response reports what Airbnb was asked to do.
+    Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
+    `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
+    response reports what Airbnb was asked to do.
 
     **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
     step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is
@@ -237,9 +237,9 @@ async def asyncio_detailed(
     without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
     the host has not answered within 24 hours.
 
-    Runs the same action as the Vanio dashboard’s Accept button. Airbnb confirms asynchronously: the
-    reservation’s status moves to confirmed, and a `reservation.updated` webhook fires, when Airbnb’s
-    notification lands (usually within seconds). The response reports what Airbnb was asked to do.
+    Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
+    `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
+    response reports what Airbnb was asked to do.
 
     **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
     step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is
@@ -291,9 +291,9 @@ async def asyncio(
     without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
     the host has not answered within 24 hours.
 
-    Runs the same action as the Vanio dashboard’s Accept button. Airbnb confirms asynchronously: the
-    reservation’s status moves to confirmed, and a `reservation.updated` webhook fires, when Airbnb’s
-    notification lands (usually within seconds). The response reports what Airbnb was asked to do.
+    Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
+    `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
+    response reports what Airbnb was asked to do.
 
     **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
     step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is

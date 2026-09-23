@@ -32,12 +32,25 @@ class ListingPublishStatusConnection:
             connected (bool | Unset): True when the link is active (not disconnected/suspended).
             sync_enabled (bool | Unset): True when sync writes are enabled for this channel.
             since (datetime.datetime | None | Unset): ISO timestamp the connection was first established.
+            locked_fields (list[str] | Unset): Fields the channel will not let this listing change. **Airbnb only** —
+                present on the `airbnb` entry and absent on every other channel, because no other channel has the concept.
+
+                Airbnb does not refuse a write to a locked field: the request returns 200, reports the field as locked, and
+                applies nothing. So a write to one of these looks exactly like a write that worked. Read this before you let a
+                user edit — it is here, rather than only on `GET /v1/channels/airbnb/listings/{id}`, because this is the
+                endpoint a listing editor already calls.
+
+                Empty for a listing with nothing locked, and for one that has not synced since we began recording them — the two
+                are not distinguished, because a caller acts the same way on both. This is what Airbnb last told us, not a
+                promise: a lock can appear between syncs, which is why a publish result also reports `lockedFields`. Example:
+                ['name', 'property_type_category'].
      """
 
     channel: str | Unset = UNSET
     connected: bool | Unset = UNSET
     sync_enabled: bool | Unset = UNSET
     since: datetime.datetime | None | Unset = UNSET
+    locked_fields: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -59,6 +72,12 @@ class ListingPublishStatusConnection:
         else:
             since = self.since
 
+        locked_fields: list[str] | Unset = UNSET
+        if not isinstance(self.locked_fields, Unset):
+            locked_fields = self.locked_fields
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -72,6 +91,8 @@ class ListingPublishStatusConnection:
             field_dict["syncEnabled"] = sync_enabled
         if since is not UNSET:
             field_dict["since"] = since
+        if locked_fields is not UNSET:
+            field_dict["lockedFields"] = locked_fields
 
         return field_dict
 
@@ -106,11 +127,15 @@ class ListingPublishStatusConnection:
         since = _parse_since(d.pop("since", UNSET))
 
 
+        locked_fields = cast(list[str], d.pop("lockedFields", UNSET))
+
+
         listing_publish_status_connection = cls(
             channel=channel,
             connected=connected,
             sync_enabled=sync_enabled,
             since=since,
+            locked_fields=locked_fields,
         )
 
 

@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
+from ..models.listing_create_request_room_type_category import ListingCreateRequestRoomTypeCategory
 from ..types import UNSET, Unset
 
 
@@ -22,18 +23,43 @@ T = TypeVar("T", bound="ListingCreateRequest")
 
 @_attrs_define
 class ListingCreateRequest:
-    """ Inputs for `POST /v1/listings`. Provide enough address detail (street + city + lat/lng) for downstream Airbnb
-    publish to work.
+    """ Inputs for `POST /v1/listings`.
+
+    **Address requirements — read this before you build the payload.** Publishing to Airbnb runs a create preflight that
+    refuses the listing outright if the address is incomplete, and the refusal only surfaces later, at publish time.
+    Airbnb requires `street` and `city` for every country. For a **US** property it additionally requires `state` and
+    `postalCode`. Crucially, **omitting `countryCode` makes the listing behave as US**, so a listing created without a
+    country needs `state` and `postalCode` too. Send `countryCode` explicitly for a non-US property. `lat`/`lng` alone
+    are not enough — Airbnb rejects coordinates that are not backed by a full postal address. Use `GET
+    /v1/listings/{id}/publish-status` to see which parts are still missing before you attempt a publish.
 
         Attributes:
             name (str): Public guest-facing title Example: Sunset Loft #2.
             property_type (str | Unset):  Example: apartment.
-            street (str | Unset):  Example: 123 Main St.
-            city (str | Unset):  Example: Miami Beach.
-            state (str | Unset):  Example: FL.
-            country_code (str | Unset):  Example: US.
-            lat (float | Unset):  Example: 25.7617.
-            lng (float | Unset):  Example: -80.1918.
+            room_type_category (ListingCreateRequestRoomTypeCategory | Unset): What the guest actually gets. Airbnb refuses
+                to activate a listing that has not stated one, answering "Please specify a valid room type" — which reads like a
+                beds problem and is not. It is never defaulted: most listings are an entire home, but hundreds are a private or
+                hotel room, and publishing one of those as an entire home is a false claim about someone's property. Settable
+                later with `PUT /v1/listings/{id}/content` under `details`. Example: entire_home.
+            property_type_category (str | Unset): Airbnb's finer property-type category, when you know it. Optional.
+            street (str | Unset): Street address including the number. Required by Airbnb for every country — a publish is
+                refused without it. Example: 123 Main St.
+            city (str | Unset): City / town. Required by Airbnb for every country — a publish is refused without it.
+                Example: Miami Beach.
+            state (str | Unset): State, province or region. **Required for a US property**, and a listing with no
+                `countryCode` counts as US. Optional elsewhere, but stored and used wherever the channel carries it. Example:
+                FL.
+            postal_code (str | Unset): Postal code — ZIP in the US, postcode in the UK, and so on. **Required for a US
+                property**, and a listing with no `countryCode` counts as US. Send the complete code: Booking.com rejects a
+                partial postcode such as `SW6` where the full value is `SW6 1EP`. Alias: `zipcode`. Example: 33139.
+            zipcode (str | Unset): Alias for `postalCode`, accepted because it is the field name on the Airbnb mirror.
+                `postalCode` wins if you send both. Prefer `postalCode` — the field holds non-US postcodes too. Example: 33139.
+            country_code (str | Unset): ISO-3166 alpha-2 country code. **Send this for any non-US property.** Omitting it
+                does not mean "unknown" — the publish path treats a listing with no country as US, which then requires `state`
+                and `postalCode` and will refuse the listing when they are absent. Example: US.
+            lat (float | Unset): Latitude. Useful for map search, but never a substitute for the postal address — Airbnb
+                rejects coordinates it cannot reconcile with a full address. Example: 25.7617.
+            lng (float | Unset): Longitude. See `lat`. Example: -80.1918.
             bedrooms (int | Unset):  Example: 2.
             bathrooms (float | Unset):  Example: 1.5.
             beds (int | Unset):  Example: 2.
@@ -53,9 +79,13 @@ class ListingCreateRequest:
 
     name: str
     property_type: str | Unset = UNSET
+    room_type_category: ListingCreateRequestRoomTypeCategory | Unset = UNSET
+    property_type_category: str | Unset = UNSET
     street: str | Unset = UNSET
     city: str | Unset = UNSET
     state: str | Unset = UNSET
+    postal_code: str | Unset = UNSET
+    zipcode: str | Unset = UNSET
     country_code: str | Unset = UNSET
     lat: float | Unset = UNSET
     lng: float | Unset = UNSET
@@ -85,11 +115,22 @@ class ListingCreateRequest:
 
         property_type = self.property_type
 
+        room_type_category: str | Unset = UNSET
+        if not isinstance(self.room_type_category, Unset):
+            room_type_category = self.room_type_category.value
+
+
+        property_type_category = self.property_type_category
+
         street = self.street
 
         city = self.city
 
         state = self.state
+
+        postal_code = self.postal_code
+
+        zipcode = self.zipcode
 
         country_code = self.country_code
 
@@ -138,12 +179,20 @@ class ListingCreateRequest:
         })
         if property_type is not UNSET:
             field_dict["propertyType"] = property_type
+        if room_type_category is not UNSET:
+            field_dict["roomTypeCategory"] = room_type_category
+        if property_type_category is not UNSET:
+            field_dict["propertyTypeCategory"] = property_type_category
         if street is not UNSET:
             field_dict["street"] = street
         if city is not UNSET:
             field_dict["city"] = city
         if state is not UNSET:
             field_dict["state"] = state
+        if postal_code is not UNSET:
+            field_dict["postalCode"] = postal_code
+        if zipcode is not UNSET:
+            field_dict["zipcode"] = zipcode
         if country_code is not UNSET:
             field_dict["countryCode"] = country_code
         if lat is not UNSET:
@@ -192,11 +241,27 @@ class ListingCreateRequest:
 
         property_type = d.pop("propertyType", UNSET)
 
+        _room_type_category = d.pop("roomTypeCategory", UNSET)
+        room_type_category: ListingCreateRequestRoomTypeCategory | Unset
+        if isinstance(_room_type_category,  Unset):
+            room_type_category = UNSET
+        else:
+            room_type_category = ListingCreateRequestRoomTypeCategory(_room_type_category)
+
+
+
+
+        property_type_category = d.pop("propertyTypeCategory", UNSET)
+
         street = d.pop("street", UNSET)
 
         city = d.pop("city", UNSET)
 
         state = d.pop("state", UNSET)
+
+        postal_code = d.pop("postalCode", UNSET)
+
+        zipcode = d.pop("zipcode", UNSET)
 
         country_code = d.pop("countryCode", UNSET)
 
@@ -245,9 +310,13 @@ class ListingCreateRequest:
         listing_create_request = cls(
             name=name,
             property_type=property_type,
+            room_type_category=room_type_category,
+            property_type_category=property_type_category,
             street=street,
             city=city,
             state=state,
+            postal_code=postal_code,
+            zipcode=zipcode,
             country_code=country_code,
             lat=lat,
             lng=lng,

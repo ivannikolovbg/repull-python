@@ -1,7 +1,6 @@
 from enum import Enum
 
-class ListingPublishResponseChannel(str, Enum):
-    AIRBNB = "airbnb"
+class ListingPublishBookingResponseChannel(str, Enum):
     BOOKING = "booking"
 
     def __str__(self) -> str:

@@ -92,8 +92,18 @@ def sync_detailed(
     the publish endpoints.
 
     Args:
-        body (ListingCreateRequest): Inputs for `POST /v1/listings`. Provide enough address detail
-            (street + city + lat/lng) for downstream Airbnb publish to work.
+        body (ListingCreateRequest): Inputs for `POST /v1/listings`.
+
+            **Address requirements — read this before you build the payload.** Publishing to Airbnb
+            runs a create preflight that refuses the listing outright if the address is incomplete,
+            and the refusal only surfaces later, at publish time. Airbnb requires `street` and `city`
+            for every country. For a **US** property it additionally requires `state` and
+            `postalCode`. Crucially, **omitting `countryCode` makes the listing behave as US**, so a
+            listing created without a country needs `state` and `postalCode` too. Send `countryCode`
+            explicitly for a non-US property. `lat`/`lng` alone are not enough — Airbnb rejects
+            coordinates that are not backed by a full postal address. Use `GET
+            /v1/listings/{id}/publish-status` to see which parts are still missing before you attempt
+            a publish.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -128,8 +138,18 @@ def sync(
     the publish endpoints.
 
     Args:
-        body (ListingCreateRequest): Inputs for `POST /v1/listings`. Provide enough address detail
-            (street + city + lat/lng) for downstream Airbnb publish to work.
+        body (ListingCreateRequest): Inputs for `POST /v1/listings`.
+
+            **Address requirements — read this before you build the payload.** Publishing to Airbnb
+            runs a create preflight that refuses the listing outright if the address is incomplete,
+            and the refusal only surfaces later, at publish time. Airbnb requires `street` and `city`
+            for every country. For a **US** property it additionally requires `state` and
+            `postalCode`. Crucially, **omitting `countryCode` makes the listing behave as US**, so a
+            listing created without a country needs `state` and `postalCode` too. Send `countryCode`
+            explicitly for a non-US property. `lat`/`lng` alone are not enough — Airbnb rejects
+            coordinates that are not backed by a full postal address. Use `GET
+            /v1/listings/{id}/publish-status` to see which parts are still missing before you attempt
+            a publish.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -159,8 +179,18 @@ async def asyncio_detailed(
     the publish endpoints.
 
     Args:
-        body (ListingCreateRequest): Inputs for `POST /v1/listings`. Provide enough address detail
-            (street + city + lat/lng) for downstream Airbnb publish to work.
+        body (ListingCreateRequest): Inputs for `POST /v1/listings`.
+
+            **Address requirements — read this before you build the payload.** Publishing to Airbnb
+            runs a create preflight that refuses the listing outright if the address is incomplete,
+            and the refusal only surfaces later, at publish time. Airbnb requires `street` and `city`
+            for every country. For a **US** property it additionally requires `state` and
+            `postalCode`. Crucially, **omitting `countryCode` makes the listing behave as US**, so a
+            listing created without a country needs `state` and `postalCode` too. Send `countryCode`
+            explicitly for a non-US property. `lat`/`lng` alone are not enough — Airbnb rejects
+            coordinates that are not backed by a full postal address. Use `GET
+            /v1/listings/{id}/publish-status` to see which parts are still missing before you attempt
+            a publish.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -195,8 +225,18 @@ async def asyncio(
     the publish endpoints.
 
     Args:
-        body (ListingCreateRequest): Inputs for `POST /v1/listings`. Provide enough address detail
-            (street + city + lat/lng) for downstream Airbnb publish to work.
+        body (ListingCreateRequest): Inputs for `POST /v1/listings`.
+
+            **Address requirements — read this before you build the payload.** Publishing to Airbnb
+            runs a create preflight that refuses the listing outright if the address is incomplete,
+            and the refusal only surfaces later, at publish time. Airbnb requires `street` and `city`
+            for every country. For a **US** property it additionally requires `state` and
+            `postalCode`. Crucially, **omitting `countryCode` makes the listing behave as US**, so a
+            listing created without a country needs `state` and `postalCode` too. Send `countryCode`
+            explicitly for a non-US property. `lat`/`lng` alone are not enough — Airbnb rejects
+            coordinates that are not backed by a full postal address. Use `GET
+            /v1/listings/{id}/publish-status` to see which parts are still missing before you attempt
+            a publish.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

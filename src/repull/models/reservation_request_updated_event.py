@@ -38,7 +38,7 @@ class ReservationRequestUpdatedEvent:
             data (ReservationRequestUpdatedPayload): Payload for `reservation.request.updated`. A booking request stopped
                 waiting on the host. `requestStatus` says how; `data.object` is the reservation after the change (`status`
                 `confirmed` once accepted, `cancelled` otherwise). An accepted request also fires `reservation.created`. Fires
-                when the channel reports the outcome, whoever acted — the API, the Vanio dashboard or the channel's own app.
+                when the channel reports the outcome, whoever acted — the API, a connected app or the channel's own app.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".

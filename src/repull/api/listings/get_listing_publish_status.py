@@ -84,12 +84,24 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Error | ListingPublishStatusResponse]:
-    """ Per-channel publish status
+    r""" Per-channel publish status
 
      Returns connection state and sync activity per channel. `channels` is sync activity (empty until
     first push). `connections` is connection state (populated as soon as a channel is linked).
     Recommended polling cadence: at most once per 30s per listing — for bulk views, prefer `GET
     /v1/listings` and filter client-side.
+
+    **When a push fails, this endpoint says why.** `channels[].pushError` carries the channel's own
+    reason for the last failed push, verbatim — `\"Links and contact info can't be shared\"`, `\"Check-
+    in start time must be before end time\"`, `\"property_type_group must be one of […]\"`. It is free
+    text written by the channel, so render it next to the retry button rather than parsing it. `null`
+    when the last push succeeded or none has run; pair it with `pushStatus` to tell those two apart.
+
+    **It also says what you will not be allowed to change.** The `airbnb` entry in `connections` carries
+    `lockedFields` — attributes Airbnb has locked on this listing. Airbnb does not refuse a write to
+    one: it answers 200, reports the field as locked, and applies nothing, so a locked write is
+    indistinguishable from a successful one unless you looked first. Read it before you let someone
+    edit. Airbnb-only; no other channel has the concept, and no other entry carries the field.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -123,12 +135,24 @@ def sync(
     client: AuthenticatedClient | Client,
 
 ) -> Error | ListingPublishStatusResponse | None:
-    """ Per-channel publish status
+    r""" Per-channel publish status
 
      Returns connection state and sync activity per channel. `channels` is sync activity (empty until
     first push). `connections` is connection state (populated as soon as a channel is linked).
     Recommended polling cadence: at most once per 30s per listing — for bulk views, prefer `GET
     /v1/listings` and filter client-side.
+
+    **When a push fails, this endpoint says why.** `channels[].pushError` carries the channel's own
+    reason for the last failed push, verbatim — `\"Links and contact info can't be shared\"`, `\"Check-
+    in start time must be before end time\"`, `\"property_type_group must be one of […]\"`. It is free
+    text written by the channel, so render it next to the retry button rather than parsing it. `null`
+    when the last push succeeded or none has run; pair it with `pushStatus` to tell those two apart.
+
+    **It also says what you will not be allowed to change.** The `airbnb` entry in `connections` carries
+    `lockedFields` — attributes Airbnb has locked on this listing. Airbnb does not refuse a write to
+    one: it answers 200, reports the field as locked, and applies nothing, so a locked write is
+    indistinguishable from a successful one unless you looked first. Read it before you let someone
+    edit. Airbnb-only; no other channel has the concept, and no other entry carries the field.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -157,12 +181,24 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Error | ListingPublishStatusResponse]:
-    """ Per-channel publish status
+    r""" Per-channel publish status
 
      Returns connection state and sync activity per channel. `channels` is sync activity (empty until
     first push). `connections` is connection state (populated as soon as a channel is linked).
     Recommended polling cadence: at most once per 30s per listing — for bulk views, prefer `GET
     /v1/listings` and filter client-side.
+
+    **When a push fails, this endpoint says why.** `channels[].pushError` carries the channel's own
+    reason for the last failed push, verbatim — `\"Links and contact info can't be shared\"`, `\"Check-
+    in start time must be before end time\"`, `\"property_type_group must be one of […]\"`. It is free
+    text written by the channel, so render it next to the retry button rather than parsing it. `null`
+    when the last push succeeded or none has run; pair it with `pushStatus` to tell those two apart.
+
+    **It also says what you will not be allowed to change.** The `airbnb` entry in `connections` carries
+    `lockedFields` — attributes Airbnb has locked on this listing. Airbnb does not refuse a write to
+    one: it answers 200, reports the field as locked, and applies nothing, so a locked write is
+    indistinguishable from a successful one unless you looked first. Read it before you let someone
+    edit. Airbnb-only; no other channel has the concept, and no other entry carries the field.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -196,12 +232,24 @@ async def asyncio(
     client: AuthenticatedClient | Client,
 
 ) -> Error | ListingPublishStatusResponse | None:
-    """ Per-channel publish status
+    r""" Per-channel publish status
 
      Returns connection state and sync activity per channel. `channels` is sync activity (empty until
     first push). `connections` is connection state (populated as soon as a channel is linked).
     Recommended polling cadence: at most once per 30s per listing — for bulk views, prefer `GET
     /v1/listings` and filter client-side.
+
+    **When a push fails, this endpoint says why.** `channels[].pushError` carries the channel's own
+    reason for the last failed push, verbatim — `\"Links and contact info can't be shared\"`, `\"Check-
+    in start time must be before end time\"`, `\"property_type_group must be one of […]\"`. It is free
+    text written by the channel, so render it next to the retry button rather than parsing it. `null`
+    when the last push succeeded or none has run; pair it with `pushStatus` to tell those two apart.
+
+    **It also says what you will not be allowed to change.** The `airbnb` entry in `connections` carries
+    `lockedFields` — attributes Airbnb has locked on this listing. Airbnb does not refuse a write to
+    one: it answers 200, reports the field as locked, and applies nothing, so a locked write is
+    indistinguishable from a successful one unless you looked first. Read it before you let someone
+    edit. Airbnb-only; no other channel has the concept, and no other entry carries the field.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

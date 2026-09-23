@@ -78,12 +78,26 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 422:
+        response_422 = Error.from_dict(response.json())
+
+
+
+        return response_422
+
     if response.status_code == 500:
         response_500 = Error.from_dict(response.json())
 
 
 
         return response_500
+
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -106,25 +120,107 @@ def sync_detailed(
     body: BookingSetupBody,
 
 ) -> Response[Any | Error]:
-    """ Booking.com property setup actions
+    r""" Booking.com property setup actions
 
-     Action-router for onboarding a property onto Booking.com. Select the step with `action`:
+     Action-router for putting a property onto Booking.com — including building one from nothing. Select
+    the step with `action`.
 
-    - `create-legal-entity` — register the legal entity (returns 201).
-    - `check-legal-status` — poll legal-entity status by `leid`.
+    ## Opening a property
+
+    - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
+    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
+    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
+    validation. Returns 201.
+    - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
+    `property_id`). Returns 201.
+    - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
+    `room_id`).
+    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
+    \"XML: Being built\" stage.
+
+    ## Account and policy steps
+
+    - `create-legal-entity` — register a legal entity directly (returns 201). Not normally needed: see
+    the legal-entity rules below.
+    - `check-legal-status` — always `404`. A legal entity's details are readable for any id on the
+    connectivity-provider credentials every workspace shares, and nothing records which workspace
+    registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
+    you.
     - `check-readiness` — check whether a property is ready to open (`property_id`).
     - `open-property` — open the property for sale (`property_id`).
     - `set-contacts` — set property contacts (`property_id`, `contacts`).
     - `set-policies` — set property policies (`property_id`, plus policy fields).
 
-    Missing required fields per action return a validation error; upstream failures surface as
-    `booking_error`.
+    ## Three things about Booking.com that cost real money
+
+    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
+    validates the summary notification. `create-property` sends that notification, but it can fail on
+    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
+    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+
+    **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
+    active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
+    and never appear on the property page. If `rateId` comes back `null` from `create-property` or `add-
+    room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
+    the room again.
+
+    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
+    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
+    room.
+
+    ## The legal entity is resolved, not asked for
+
+    A property is created against the legal entity Booking.com contracts with, invoices and pays. You do
+    not normally send one:
+
+    1. If this workspace already creates properties under a legal entity, that one is reused. A second
+    is never registered.
+    2. If it has none and the request carries `legal_entity` (`company_name`, `legal_contact_name`,
+    `legal_contact_email`), one is registered and used. Booking.com emails the legal contact a contract;
+    creation only succeeds once it is signed.
+    3. If it has none and no `legal_entity`, the request is refused with `422 legal_entity_required`
+    naming the fields — a contracted company is never invented.
+
+    `legal_entity_id` overrides all of that. An id that already carries another workspace's properties
+    is refused with `403 legal_entity_not_yours` before anything is created.
+
+    ## What you do not control
+
+    Properties are created against Booking's **production** target only. A test-target property cannot
+    be sold through and there is no route back from one, so `target` is not a parameter — sending it
+    changes nothing.
+
+    These are fixed on every created property and are not parameters: property category (Apartment),
+    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
+    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
+    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
+    on the listing and do not pre-adjust it yourself.
+
+    The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
+    Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
+    back to a connected Airbnb listing. A listing with neither is created without a postal code, so set
+    `postalCode` on the listing first.
+
+    ## Guards
 
     Every action that takes a `property_id` requires a property connected to this workspace; any other
-    id returns `404 not_found`.
+    id returns `404 not_found`. Every action that takes a `listing_id` requires a listing in this
+    workspace; any other id returns `404 not_found`.
 
-    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
-    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+    `create-property` refuses a listing with no coordinates (`422 missing_coordinates`) before anything
+    is created — creating a Booking.com property cannot be undone.
+
+    `create-property` is subject to the same published-listing gate as the dashboard: no plan, or the
+    plan's listing limit reached, returns `403 billing_error` with `used` and `limit`, and nothing is
+    created.
+
+    Returns `403 listing_inactive` when the listing — or any listing mapped to the Booking.com property
+    — is inactive. An inactive listing keeps syncing, but cannot be read or changed through the API
+    until it is activated.
+
+    If a property is created and a later step fails, the response is `422 booking_create_partial`
+    carrying `property_id`. The property EXISTS. Do not retry `create-property`, which would open a
+    second one — continue with `add-room` and `advance`.
 
     Args:
         body (BookingSetupBody):
@@ -155,25 +251,107 @@ def sync(
     body: BookingSetupBody,
 
 ) -> Any | Error | None:
-    """ Booking.com property setup actions
+    r""" Booking.com property setup actions
 
-     Action-router for onboarding a property onto Booking.com. Select the step with `action`:
+     Action-router for putting a property onto Booking.com — including building one from nothing. Select
+    the step with `action`.
 
-    - `create-legal-entity` — register the legal entity (returns 201).
-    - `check-legal-status` — poll legal-entity status by `leid`.
+    ## Opening a property
+
+    - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
+    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
+    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
+    validation. Returns 201.
+    - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
+    `property_id`). Returns 201.
+    - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
+    `room_id`).
+    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
+    \"XML: Being built\" stage.
+
+    ## Account and policy steps
+
+    - `create-legal-entity` — register a legal entity directly (returns 201). Not normally needed: see
+    the legal-entity rules below.
+    - `check-legal-status` — always `404`. A legal entity's details are readable for any id on the
+    connectivity-provider credentials every workspace shares, and nothing records which workspace
+    registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
+    you.
     - `check-readiness` — check whether a property is ready to open (`property_id`).
     - `open-property` — open the property for sale (`property_id`).
     - `set-contacts` — set property contacts (`property_id`, `contacts`).
     - `set-policies` — set property policies (`property_id`, plus policy fields).
 
-    Missing required fields per action return a validation error; upstream failures surface as
-    `booking_error`.
+    ## Three things about Booking.com that cost real money
+
+    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
+    validates the summary notification. `create-property` sends that notification, but it can fail on
+    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
+    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+
+    **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
+    active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
+    and never appear on the property page. If `rateId` comes back `null` from `create-property` or `add-
+    room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
+    the room again.
+
+    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
+    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
+    room.
+
+    ## The legal entity is resolved, not asked for
+
+    A property is created against the legal entity Booking.com contracts with, invoices and pays. You do
+    not normally send one:
+
+    1. If this workspace already creates properties under a legal entity, that one is reused. A second
+    is never registered.
+    2. If it has none and the request carries `legal_entity` (`company_name`, `legal_contact_name`,
+    `legal_contact_email`), one is registered and used. Booking.com emails the legal contact a contract;
+    creation only succeeds once it is signed.
+    3. If it has none and no `legal_entity`, the request is refused with `422 legal_entity_required`
+    naming the fields — a contracted company is never invented.
+
+    `legal_entity_id` overrides all of that. An id that already carries another workspace's properties
+    is refused with `403 legal_entity_not_yours` before anything is created.
+
+    ## What you do not control
+
+    Properties are created against Booking's **production** target only. A test-target property cannot
+    be sold through and there is no route back from one, so `target` is not a parameter — sending it
+    changes nothing.
+
+    These are fixed on every created property and are not parameters: property category (Apartment),
+    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
+    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
+    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
+    on the listing and do not pre-adjust it yourself.
+
+    The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
+    Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
+    back to a connected Airbnb listing. A listing with neither is created without a postal code, so set
+    `postalCode` on the listing first.
+
+    ## Guards
 
     Every action that takes a `property_id` requires a property connected to this workspace; any other
-    id returns `404 not_found`.
+    id returns `404 not_found`. Every action that takes a `listing_id` requires a listing in this
+    workspace; any other id returns `404 not_found`.
 
-    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
-    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+    `create-property` refuses a listing with no coordinates (`422 missing_coordinates`) before anything
+    is created — creating a Booking.com property cannot be undone.
+
+    `create-property` is subject to the same published-listing gate as the dashboard: no plan, or the
+    plan's listing limit reached, returns `403 billing_error` with `used` and `limit`, and nothing is
+    created.
+
+    Returns `403 listing_inactive` when the listing — or any listing mapped to the Booking.com property
+    — is inactive. An inactive listing keeps syncing, but cannot be read or changed through the API
+    until it is activated.
+
+    If a property is created and a later step fails, the response is `422 booking_create_partial`
+    carrying `property_id`. The property EXISTS. Do not retry `create-property`, which would open a
+    second one — continue with `add-room` and `advance`.
 
     Args:
         body (BookingSetupBody):
@@ -199,25 +377,107 @@ async def asyncio_detailed(
     body: BookingSetupBody,
 
 ) -> Response[Any | Error]:
-    """ Booking.com property setup actions
+    r""" Booking.com property setup actions
 
-     Action-router for onboarding a property onto Booking.com. Select the step with `action`:
+     Action-router for putting a property onto Booking.com — including building one from nothing. Select
+    the step with `action`.
 
-    - `create-legal-entity` — register the legal entity (returns 201).
-    - `check-legal-status` — poll legal-entity status by `leid`.
+    ## Opening a property
+
+    - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
+    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
+    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
+    validation. Returns 201.
+    - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
+    `property_id`). Returns 201.
+    - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
+    `room_id`).
+    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
+    \"XML: Being built\" stage.
+
+    ## Account and policy steps
+
+    - `create-legal-entity` — register a legal entity directly (returns 201). Not normally needed: see
+    the legal-entity rules below.
+    - `check-legal-status` — always `404`. A legal entity's details are readable for any id on the
+    connectivity-provider credentials every workspace shares, and nothing records which workspace
+    registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
+    you.
     - `check-readiness` — check whether a property is ready to open (`property_id`).
     - `open-property` — open the property for sale (`property_id`).
     - `set-contacts` — set property contacts (`property_id`, `contacts`).
     - `set-policies` — set property policies (`property_id`, plus policy fields).
 
-    Missing required fields per action return a validation error; upstream failures surface as
-    `booking_error`.
+    ## Three things about Booking.com that cost real money
+
+    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
+    validates the summary notification. `create-property` sends that notification, but it can fail on
+    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
+    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+
+    **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
+    active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
+    and never appear on the property page. If `rateId` comes back `null` from `create-property` or `add-
+    room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
+    the room again.
+
+    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
+    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
+    room.
+
+    ## The legal entity is resolved, not asked for
+
+    A property is created against the legal entity Booking.com contracts with, invoices and pays. You do
+    not normally send one:
+
+    1. If this workspace already creates properties under a legal entity, that one is reused. A second
+    is never registered.
+    2. If it has none and the request carries `legal_entity` (`company_name`, `legal_contact_name`,
+    `legal_contact_email`), one is registered and used. Booking.com emails the legal contact a contract;
+    creation only succeeds once it is signed.
+    3. If it has none and no `legal_entity`, the request is refused with `422 legal_entity_required`
+    naming the fields — a contracted company is never invented.
+
+    `legal_entity_id` overrides all of that. An id that already carries another workspace's properties
+    is refused with `403 legal_entity_not_yours` before anything is created.
+
+    ## What you do not control
+
+    Properties are created against Booking's **production** target only. A test-target property cannot
+    be sold through and there is no route back from one, so `target` is not a parameter — sending it
+    changes nothing.
+
+    These are fixed on every created property and are not parameters: property category (Apartment),
+    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
+    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
+    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
+    on the listing and do not pre-adjust it yourself.
+
+    The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
+    Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
+    back to a connected Airbnb listing. A listing with neither is created without a postal code, so set
+    `postalCode` on the listing first.
+
+    ## Guards
 
     Every action that takes a `property_id` requires a property connected to this workspace; any other
-    id returns `404 not_found`.
+    id returns `404 not_found`. Every action that takes a `listing_id` requires a listing in this
+    workspace; any other id returns `404 not_found`.
 
-    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
-    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+    `create-property` refuses a listing with no coordinates (`422 missing_coordinates`) before anything
+    is created — creating a Booking.com property cannot be undone.
+
+    `create-property` is subject to the same published-listing gate as the dashboard: no plan, or the
+    plan's listing limit reached, returns `403 billing_error` with `used` and `limit`, and nothing is
+    created.
+
+    Returns `403 listing_inactive` when the listing — or any listing mapped to the Booking.com property
+    — is inactive. An inactive listing keeps syncing, but cannot be read or changed through the API
+    until it is activated.
+
+    If a property is created and a later step fails, the response is `422 booking_create_partial`
+    carrying `property_id`. The property EXISTS. Do not retry `create-property`, which would open a
+    second one — continue with `add-room` and `advance`.
 
     Args:
         body (BookingSetupBody):
@@ -248,25 +508,107 @@ async def asyncio(
     body: BookingSetupBody,
 
 ) -> Any | Error | None:
-    """ Booking.com property setup actions
+    r""" Booking.com property setup actions
 
-     Action-router for onboarding a property onto Booking.com. Select the step with `action`:
+     Action-router for putting a property onto Booking.com — including building one from nothing. Select
+    the step with `action`.
 
-    - `create-legal-entity` — register the legal entity (returns 201).
-    - `check-legal-status` — poll legal-entity status by `leid`.
+    ## Opening a property
+
+    - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
+    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
+    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
+    validation. Returns 201.
+    - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
+    `property_id`). Returns 201.
+    - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
+    `room_id`).
+    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
+    \"XML: Being built\" stage.
+
+    ## Account and policy steps
+
+    - `create-legal-entity` — register a legal entity directly (returns 201). Not normally needed: see
+    the legal-entity rules below.
+    - `check-legal-status` — always `404`. A legal entity's details are readable for any id on the
+    connectivity-provider credentials every workspace shares, and nothing records which workspace
+    registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
+    you.
     - `check-readiness` — check whether a property is ready to open (`property_id`).
     - `open-property` — open the property for sale (`property_id`).
     - `set-contacts` — set property contacts (`property_id`, `contacts`).
     - `set-policies` — set property policies (`property_id`, plus policy fields).
 
-    Missing required fields per action return a validation error; upstream failures surface as
-    `booking_error`.
+    ## Three things about Booking.com that cost real money
+
+    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
+    validates the summary notification. `create-property` sends that notification, but it can fail on
+    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
+    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+
+    **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
+    active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
+    and never appear on the property page. If `rateId` comes back `null` from `create-property` or `add-
+    room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
+    the room again.
+
+    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
+    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
+    room.
+
+    ## The legal entity is resolved, not asked for
+
+    A property is created against the legal entity Booking.com contracts with, invoices and pays. You do
+    not normally send one:
+
+    1. If this workspace already creates properties under a legal entity, that one is reused. A second
+    is never registered.
+    2. If it has none and the request carries `legal_entity` (`company_name`, `legal_contact_name`,
+    `legal_contact_email`), one is registered and used. Booking.com emails the legal contact a contract;
+    creation only succeeds once it is signed.
+    3. If it has none and no `legal_entity`, the request is refused with `422 legal_entity_required`
+    naming the fields — a contracted company is never invented.
+
+    `legal_entity_id` overrides all of that. An id that already carries another workspace's properties
+    is refused with `403 legal_entity_not_yours` before anything is created.
+
+    ## What you do not control
+
+    Properties are created against Booking's **production** target only. A test-target property cannot
+    be sold through and there is no route back from one, so `target` is not a parameter — sending it
+    changes nothing.
+
+    These are fixed on every created property and are not parameters: property category (Apartment),
+    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
+    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
+    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
+    on the listing and do not pre-adjust it yourself.
+
+    The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
+    Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
+    back to a connected Airbnb listing. A listing with neither is created without a postal code, so set
+    `postalCode` on the listing first.
+
+    ## Guards
 
     Every action that takes a `property_id` requires a property connected to this workspace; any other
-    id returns `404 not_found`.
+    id returns `404 not_found`. Every action that takes a `listing_id` requires a listing in this
+    workspace; any other id returns `404 not_found`.
 
-    Returns `403 listing_inactive` when any listing mapped to the Booking.com property is inactive. An
-    inactive listing keeps syncing, but cannot be read or changed through the API until it is activated.
+    `create-property` refuses a listing with no coordinates (`422 missing_coordinates`) before anything
+    is created — creating a Booking.com property cannot be undone.
+
+    `create-property` is subject to the same published-listing gate as the dashboard: no plan, or the
+    plan's listing limit reached, returns `403 billing_error` with `used` and `limit`, and nothing is
+    created.
+
+    Returns `403 listing_inactive` when the listing — or any listing mapped to the Booking.com property
+    — is inactive. An inactive listing keeps syncing, but cannot be read or changed through the API
+    until it is activated.
+
+    If a property is created and a later step fails, the response is `422 booking_create_partial`
+    carrying `property_id`. The property EXISTS. Do not retry `create-property`, which would open a
+    second one — continue with `add-room` and `advance`.
 
     Args:
         body (BookingSetupBody):

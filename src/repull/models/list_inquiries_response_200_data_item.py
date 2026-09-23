@@ -35,9 +35,9 @@ class ListInquiriesResponse200DataItem:
             listing_id (None | str):  Example: 23892.
             channel (str):  Example: airbnb.
             status (ListInquiriesResponse200DataItemStatus): `open` — nobody has answered and the stay is still ahead;
-                `pre_approved`; `special_offer_sent` (from the API, Vanio, or Airbnb’s own app); `booked` — the guest booked
-                (`reservationId`); `expired` — the stay has started or Airbnb expired it; `declined`; `not_possible` — Airbnb
-                says the dates cannot be booked.
+                `pre_approved`; `special_offer_sent` (from the API, a connected app, or Airbnb’s own app); `booked` — the guest
+                booked (`reservationId`); `expired` — the stay has started or Airbnb expired it; `declined`; `not_possible` —
+                Airbnb says the dates cannot be booked.
             check_in (datetime.date | None):  Example: 2026-09-23.
             check_out (datetime.date | None):  Example: 2026-10-11.
             guests (ListInquiriesResponse200DataItemGuests):

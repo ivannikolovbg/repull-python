@@ -150,8 +150,7 @@ def sync_detailed(
     on an offer.
 
     **Airbnb only**, and only for listings connected to Airbnb directly; anything else is `422
-    channel_not_supported` and nothing is sent. Runs the same action as the Vanio dashboard, so the
-    inquiry is marked `special_offer_sent`.
+    channel_not_supported` and nothing is sent. The inquiry is marked `special_offer_sent`.
 
     An offer Airbnb refuses is never a `201`: dates that are taken, a price below Airbnb’s minimum, too
     many guests and the like are `422 airbnb_rejected` with Airbnb’s own reason in `message`.
@@ -214,8 +213,7 @@ def sync(
     on an offer.
 
     **Airbnb only**, and only for listings connected to Airbnb directly; anything else is `422
-    channel_not_supported` and nothing is sent. Runs the same action as the Vanio dashboard, so the
-    inquiry is marked `special_offer_sent`.
+    channel_not_supported` and nothing is sent. The inquiry is marked `special_offer_sent`.
 
     An offer Airbnb refuses is never a `201`: dates that are taken, a price below Airbnb’s minimum, too
     many guests and the like are `422 airbnb_rejected` with Airbnb’s own reason in `message`.
@@ -273,8 +271,7 @@ async def asyncio_detailed(
     on an offer.
 
     **Airbnb only**, and only for listings connected to Airbnb directly; anything else is `422
-    channel_not_supported` and nothing is sent. Runs the same action as the Vanio dashboard, so the
-    inquiry is marked `special_offer_sent`.
+    channel_not_supported` and nothing is sent. The inquiry is marked `special_offer_sent`.
 
     An offer Airbnb refuses is never a `201`: dates that are taken, a price below Airbnb’s minimum, too
     many guests and the like are `422 airbnb_rejected` with Airbnb’s own reason in `message`.
@@ -337,8 +334,7 @@ async def asyncio(
     on an offer.
 
     **Airbnb only**, and only for listings connected to Airbnb directly; anything else is `422
-    channel_not_supported` and nothing is sent. Runs the same action as the Vanio dashboard, so the
-    inquiry is marked `special_offer_sent`.
+    channel_not_supported` and nothing is sent. The inquiry is marked `special_offer_sent`.
 
     An offer Airbnb refuses is never a `201`: dates that are taken, a price below Airbnb’s minimum, too
     many guests and the like are `422 airbnb_rejected` with Airbnb’s own reason in `message`.

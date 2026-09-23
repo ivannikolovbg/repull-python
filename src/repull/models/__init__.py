@@ -137,9 +137,17 @@ from .booking_pricing_update_response_applied import BookingPricingUpdateRespons
 from .booking_pricing_update_response_booking import BookingPricingUpdateResponseBooking
 from .booking_pricing_update_response_errors_item import BookingPricingUpdateResponseErrorsItem
 from .booking_property import BookingProperty
+from .booking_property_action_request import BookingPropertyActionRequest
+from .booking_property_action_request_action import BookingPropertyActionRequestAction
+from .booking_property_action_response import BookingPropertyActionResponse
+from .booking_property_action_response_action import BookingPropertyActionResponseAction
+from .booking_property_action_response_channel import BookingPropertyActionResponseChannel
 from .booking_property_listings_item import BookingPropertyListingsItem
 from .booking_property_listings_item_mapped_via import BookingPropertyListingsItemMappedVia
 from .booking_property_mapping_status import BookingPropertyMappingStatus
+from .booking_publish_result import BookingPublishResult
+from .booking_publish_section_error import BookingPublishSectionError
+from .booking_publish_section_error_code import BookingPublishSectionErrorCode
 from .booking_rate_write_occupancy import BookingRateWriteOccupancy
 from .booking_rate_write_occupancy_source import BookingRateWriteOccupancySource
 from .booking_rate_write_price_half import BookingRateWritePriceHalf
@@ -168,6 +176,7 @@ from .booking_rooms_rates_response_source import BookingRoomsRatesResponseSource
 from .booking_setup_body import BookingSetupBody
 from .booking_setup_body_action import BookingSetupBodyAction
 from .booking_setup_body_contacts_item import BookingSetupBodyContactsItem
+from .booking_setup_body_legal_entity import BookingSetupBodyLegalEntity
 from .booking_upstream_failure import BookingUpstreamFailure
 from .booking_verify_hotel_request import BookingVerifyHotelRequest
 from .booking_verify_hotel_response import BookingVerifyHotelResponse
@@ -185,6 +194,9 @@ from .calendar_updated_event_event import CalendarUpdatedEventEvent
 from .calendar_updated_payload import CalendarUpdatedPayload
 from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
 from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
+from .channel_market_state_item import ChannelMarketStateItem
+from .channel_market_state_item_channel import ChannelMarketStateItemChannel
+from .channel_market_state_item_state import ChannelMarketStateItemState
 from .clear_kv_response_200 import ClearKvResponse200
 from .connect_host import ConnectHost
 from .connect_provider import ConnectProvider
@@ -384,6 +396,7 @@ from .listing import Listing
 from .listing_active_request import ListingActiveRequest
 from .listing_active_response import ListingActiveResponse
 from .listing_address import ListingAddress
+from .listing_address_readiness import ListingAddressReadiness
 from .listing_amenity import ListingAmenity
 from .listing_channel import ListingChannel
 from .listing_comp import ListingComp
@@ -405,6 +418,7 @@ from .listing_content_update_request_policies_check_in_method import ListingCont
 from .listing_content_update_response import ListingContentUpdateResponse
 from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
+from .listing_create_request_room_type_category import ListingCreateRequestRoomTypeCategory
 from .listing_create_response import ListingCreateResponse
 from .listing_created_event import ListingCreatedEvent
 from .listing_created_event_event import ListingCreatedEventEvent
@@ -418,6 +432,9 @@ from .listing_generate_content_request import ListingGenerateContentRequest
 from .listing_generate_content_request_style import ListingGenerateContentRequestStyle
 from .listing_generate_content_response import ListingGenerateContentResponse
 from .listing_list_response import ListingListResponse
+from .listing_market_state_request import ListingMarketStateRequest
+from .listing_market_state_response import ListingMarketStateResponse
+from .listing_market_state_response_state import ListingMarketStateResponseState
 from .listing_photo import ListingPhoto
 from .listing_photo_delete_request import ListingPhotoDeleteRequest
 from .listing_photo_delete_response import ListingPhotoDeleteResponse
@@ -450,13 +467,14 @@ from .listing_pricing_strategy_mode import ListingPricingStrategyMode
 from .listing_publish_airbnb_request import ListingPublishAirbnbRequest
 from .listing_publish_airbnb_response import ListingPublishAirbnbResponse
 from .listing_publish_airbnb_response_channel import ListingPublishAirbnbResponseChannel
-from .listing_publish_response import ListingPublishResponse
-from .listing_publish_response_channel import ListingPublishResponseChannel
-from .listing_publish_response_result import ListingPublishResponseResult
+from .listing_publish_booking_request import ListingPublishBookingRequest
+from .listing_publish_booking_response import ListingPublishBookingResponse
+from .listing_publish_booking_response_channel import ListingPublishBookingResponseChannel
 from .listing_publish_status_channel import ListingPublishStatusChannel
 from .listing_publish_status_channel_push_status import ListingPublishStatusChannelPushStatus
 from .listing_publish_status_connection import ListingPublishStatusConnection
 from .listing_publish_status_response import ListingPublishStatusResponse
+from .listing_publish_status_response_address_readiness import ListingPublishStatusResponseAddressReadiness
 from .listing_pull_airbnb_request import ListingPullAirbnbRequest
 from .listing_pull_response import ListingPullResponse
 from .listing_pull_response_channel import ListingPullResponseChannel
@@ -926,9 +944,17 @@ __all__ = (
     "BookingPricingUpdateResponseBooking",
     "BookingPricingUpdateResponseErrorsItem",
     "BookingProperty",
+    "BookingPropertyActionRequest",
+    "BookingPropertyActionRequestAction",
+    "BookingPropertyActionResponse",
+    "BookingPropertyActionResponseAction",
+    "BookingPropertyActionResponseChannel",
     "BookingPropertyListingsItem",
     "BookingPropertyListingsItemMappedVia",
     "BookingPropertyMappingStatus",
+    "BookingPublishResult",
+    "BookingPublishSectionError",
+    "BookingPublishSectionErrorCode",
     "BookingRateWriteOccupancy",
     "BookingRateWriteOccupancySource",
     "BookingRateWritePriceHalf",
@@ -957,6 +983,7 @@ __all__ = (
     "BookingSetupBody",
     "BookingSetupBodyAction",
     "BookingSetupBodyContactsItem",
+    "BookingSetupBodyLegalEntity",
     "BookingUpstreamFailure",
     "BookingVerifyHotelRequest",
     "BookingVerifyHotelResponse",
@@ -974,6 +1001,9 @@ __all__ = (
     "CalendarUpdatedPayload",
     "CalendarUpdatedPayloadRange",
     "CancelAirbnbAlterationBody",
+    "ChannelMarketStateItem",
+    "ChannelMarketStateItemChannel",
+    "ChannelMarketStateItemState",
     "ClearKvResponse200",
     "ConnectHost",
     "Connection",
@@ -1155,6 +1185,7 @@ __all__ = (
     "ListingActiveRequest",
     "ListingActiveResponse",
     "ListingAddress",
+    "ListingAddressReadiness",
     "ListingAmenity",
     "ListingChannel",
     "ListingComp",
@@ -1180,6 +1211,7 @@ __all__ = (
     "ListingCreatedPayloadAddress",
     "ListingCreateRequest",
     "ListingCreateRequestCancellationPolicy",
+    "ListingCreateRequestRoomTypeCategory",
     "ListingCreateResponse",
     "ListingDeletedEvent",
     "ListingDeletedEventEvent",
@@ -1189,6 +1221,9 @@ __all__ = (
     "ListingGenerateContentRequestStyle",
     "ListingGenerateContentResponse",
     "ListingListResponse",
+    "ListingMarketStateRequest",
+    "ListingMarketStateResponse",
+    "ListingMarketStateResponseState",
     "ListingPhoto",
     "ListingPhotoDeleteRequest",
     "ListingPhotoDeleteResponse",
@@ -1221,13 +1256,14 @@ __all__ = (
     "ListingPublishAirbnbRequest",
     "ListingPublishAirbnbResponse",
     "ListingPublishAirbnbResponseChannel",
-    "ListingPublishResponse",
-    "ListingPublishResponseChannel",
-    "ListingPublishResponseResult",
+    "ListingPublishBookingRequest",
+    "ListingPublishBookingResponse",
+    "ListingPublishBookingResponseChannel",
     "ListingPublishStatusChannel",
     "ListingPublishStatusChannelPushStatus",
     "ListingPublishStatusConnection",
     "ListingPublishStatusResponse",
+    "ListingPublishStatusResponseAddressReadiness",
     "ListingPullAirbnbRequest",
     "ListingPullResponse",
     "ListingPullResponseChannel",

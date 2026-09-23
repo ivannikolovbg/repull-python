@@ -65,6 +65,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_400
 
+    if response.status_code == 402:
+        response_402 = Error.from_dict(response.json())
+
+
+
+        return response_402
+
     if response.status_code == 403:
         response_403 = Error.from_dict(response.json())
 
@@ -113,6 +120,20 @@ def sync_detailed(
     ones that did and `result.errors[]` carries Airbnb's own reason, per section, for the ones that did
     not. **A partial publish is normal and is not rolled back**: what succeeded stays applied. Publish
     again once you have fixed the failing sections — a re-publish of an unchanged section is harmless.
+
+    `result.live` is a different question from `result.published`. `published` is about CONTENT — every
+    attempted section landed. `live` is about whether the listing takes bookings: it is true only when
+    activation was actually performed and succeeded. A create can land all eight sections and still
+    leave the listing inactive, because activation is skipped when instant-booking cannot be confirmed
+    to be off — so `published: true` with `live: false` is a real and common outcome, and
+    `result.warnings` says why. `live` is ABSENT, not `false`, when activation was never part of the
+    operation: publishing to an already-mapped listing updates content and activates nothing. Only treat
+    a listing as not-live when `live` is present and false.
+
+    `result.warnings[]` lists steps that failed WITHOUT failing the publish — optional work the push
+    carried on past. They were previously swallowed, so the only sign of one was a listing that was
+    somehow not quite right afterwards. A publish can be `published: true` and still carry warnings;
+    read them before concluding nothing needs doing.
 
     `result.lockedFields` names the fields Airbnb will not let this listing change at all. They are not
     retryable by anyone: Airbnb answers 200 and applies nothing. `GET /v1/channels/airbnb/listings/{id}`
@@ -182,6 +203,20 @@ def sync(
     not. **A partial publish is normal and is not rolled back**: what succeeded stays applied. Publish
     again once you have fixed the failing sections — a re-publish of an unchanged section is harmless.
 
+    `result.live` is a different question from `result.published`. `published` is about CONTENT — every
+    attempted section landed. `live` is about whether the listing takes bookings: it is true only when
+    activation was actually performed and succeeded. A create can land all eight sections and still
+    leave the listing inactive, because activation is skipped when instant-booking cannot be confirmed
+    to be off — so `published: true` with `live: false` is a real and common outcome, and
+    `result.warnings` says why. `live` is ABSENT, not `false`, when activation was never part of the
+    operation: publishing to an already-mapped listing updates content and activates nothing. Only treat
+    a listing as not-live when `live` is present and false.
+
+    `result.warnings[]` lists steps that failed WITHOUT failing the publish — optional work the push
+    carried on past. They were previously swallowed, so the only sign of one was a listing that was
+    somehow not quite right afterwards. A publish can be `published: true` and still carry warnings;
+    read them before concluding nothing needs doing.
+
     `result.lockedFields` names the fields Airbnb will not let this listing change at all. They are not
     retryable by anyone: Airbnb answers 200 and applies nothing. `GET /v1/channels/airbnb/listings/{id}`
     reports the same list up front.
@@ -244,6 +279,20 @@ async def asyncio_detailed(
     ones that did and `result.errors[]` carries Airbnb's own reason, per section, for the ones that did
     not. **A partial publish is normal and is not rolled back**: what succeeded stays applied. Publish
     again once you have fixed the failing sections — a re-publish of an unchanged section is harmless.
+
+    `result.live` is a different question from `result.published`. `published` is about CONTENT — every
+    attempted section landed. `live` is about whether the listing takes bookings: it is true only when
+    activation was actually performed and succeeded. A create can land all eight sections and still
+    leave the listing inactive, because activation is skipped when instant-booking cannot be confirmed
+    to be off — so `published: true` with `live: false` is a real and common outcome, and
+    `result.warnings` says why. `live` is ABSENT, not `false`, when activation was never part of the
+    operation: publishing to an already-mapped listing updates content and activates nothing. Only treat
+    a listing as not-live when `live` is present and false.
+
+    `result.warnings[]` lists steps that failed WITHOUT failing the publish — optional work the push
+    carried on past. They were previously swallowed, so the only sign of one was a listing that was
+    somehow not quite right afterwards. A publish can be `published: true` and still carry warnings;
+    read them before concluding nothing needs doing.
 
     `result.lockedFields` names the fields Airbnb will not let this listing change at all. They are not
     retryable by anyone: Airbnb answers 200 and applies nothing. `GET /v1/channels/airbnb/listings/{id}`
@@ -312,6 +361,20 @@ async def asyncio(
     ones that did and `result.errors[]` carries Airbnb's own reason, per section, for the ones that did
     not. **A partial publish is normal and is not rolled back**: what succeeded stays applied. Publish
     again once you have fixed the failing sections — a re-publish of an unchanged section is harmless.
+
+    `result.live` is a different question from `result.published`. `published` is about CONTENT — every
+    attempted section landed. `live` is about whether the listing takes bookings: it is true only when
+    activation was actually performed and succeeded. A create can land all eight sections and still
+    leave the listing inactive, because activation is skipped when instant-booking cannot be confirmed
+    to be off — so `published: true` with `live: false` is a real and common outcome, and
+    `result.warnings` says why. `live` is ABSENT, not `false`, when activation was never part of the
+    operation: publishing to an already-mapped listing updates content and activates nothing. Only treat
+    a listing as not-live when `live` is present and false.
+
+    `result.warnings[]` lists steps that failed WITHOUT failing the publish — optional work the push
+    carried on past. They were previously swallowed, so the only sign of one was a listing that was
+    somehow not quite right afterwards. A publish can be `published: true` and still carry warnings;
+    read them before concluding nothing needs doing.
 
     `result.lockedFields` names the fields Airbnb will not let this listing change at all. They are not
     retryable by anyone: Airbnb answers 200 and applies nothing. `GET /v1/channels/airbnb/listings/{id}`

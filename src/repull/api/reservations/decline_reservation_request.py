@@ -144,9 +144,8 @@ def sync_detailed(
     guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
     words in your mouth.
 
-    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
-    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
-    channel and status rules as `POST /v1/reservations/{id}/accept`.
+    Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
+    when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.
 
     Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
     twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429
@@ -197,9 +196,8 @@ def sync(
     guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
     words in your mouth.
 
-    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
-    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
-    channel and status rules as `POST /v1/reservations/{id}/accept`.
+    Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
+    when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.
 
     Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
     twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429
@@ -245,9 +243,8 @@ async def asyncio_detailed(
     guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
     words in your mouth.
 
-    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
-    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
-    channel and status rules as `POST /v1/reservations/{id}/accept`.
+    Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
+    when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.
 
     Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
     twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429
@@ -298,9 +295,8 @@ async def asyncio(
     guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
     words in your mouth.
 
-    Runs the same action as the Vanio dashboard’s Decline button. Airbnb confirms asynchronously; the
-    reservation’s status moves, and `reservation.updated` fires, when its notification lands. Same
-    channel and status rules as `POST /v1/reservations/{id}/accept`.
+    Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
+    when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.
 
     Send `Idempotency-Key`: a repeat with the same key replays the first response instead of acting
     twice (a `409 idempotency_key_in_use` while the first is still running). A 5xx, a `429

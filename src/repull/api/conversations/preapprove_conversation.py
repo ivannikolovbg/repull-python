@@ -150,8 +150,7 @@ def sync_detailed(
     booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
     channel_not_supported` and nothing is sent.
 
-    Runs the same action as the Vanio dashboard’s Pre-approve button, so the inquiry is marked
-    `pre_approved` everywhere.
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
 
     An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a
@@ -210,8 +209,7 @@ def sync(
     booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
     channel_not_supported` and nothing is sent.
 
-    Runs the same action as the Vanio dashboard’s Pre-approve button, so the inquiry is marked
-    `pre_approved` everywhere.
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
 
     An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a
@@ -265,8 +263,7 @@ async def asyncio_detailed(
     booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
     channel_not_supported` and nothing is sent.
 
-    Runs the same action as the Vanio dashboard’s Pre-approve button, so the inquiry is marked
-    `pre_approved` everywhere.
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
 
     An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a
@@ -325,8 +322,7 @@ async def asyncio(
     booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
     channel_not_supported` and nothing is sent.
 
-    Runs the same action as the Vanio dashboard’s Pre-approve button, so the inquiry is marked
-    `pre_approved` everywhere.
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
 
     An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a

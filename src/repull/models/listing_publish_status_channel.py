@@ -25,9 +25,24 @@ T = TypeVar("T", bound="ListingPublishStatusChannel")
 
 @_attrs_define
 class ListingPublishStatusChannel:
-    """ 
+    """ Sync activity for one channel. `pushStatus` says whether the last push landed; `pushError` says why it did not.
+
         Attributes:
-            platform (str | Unset):  Example: airbnb.
+            platform (str):  Example: airbnb.
+            push_error (None | str): Why the last push failed — the channel's own reason, verbatim, sanitised for display.
+
+                This is the field to render when `pushStatus` is `error`. It carries what Airbnb or Booking.com actually
+                objected to, which is almost always something the operator can fix in the listing content: `"Airbnb error (400):
+                We can't save your info yet. Links and contact info can't be shared."`, `"Check-in start time must be before end
+                time"`, `"property_type_group must be one of [apartments, houses, …]"`, `"Rate limited by provider"`.
+
+                **Free text, not an enum.** It is written by the channel and changes without notice: show it to a human, log it,
+                put it next to the retry button — but never parse it or branch on its contents. When a push fails for several
+                reasons at once the reasons are joined with `; `.
+
+                `null` when the last push succeeded, and when no push has run yet — the two are told apart by `pushStatus` and
+                `lastPushedAt`, not by this field. Example: Airbnb error (400): property_type_group must be one of [apartments,
+                houses, secondary_units, unique_homes, bnb].
             push_status (ListingPublishStatusChannelPushStatus | Unset):
             last_pushed_at (datetime.datetime | None | Unset):
             last_pulled_at (datetime.datetime | None | Unset):
@@ -35,7 +50,8 @@ class ListingPublishStatusChannel:
             platform_has_changes (bool | Unset):
      """
 
-    platform: str | Unset = UNSET
+    platform: str
+    push_error: None | str
     push_status: ListingPublishStatusChannelPushStatus | Unset = UNSET
     last_pushed_at: datetime.datetime | None | Unset = UNSET
     last_pulled_at: datetime.datetime | None | Unset = UNSET
@@ -49,6 +65,9 @@ class ListingPublishStatusChannel:
 
     def to_dict(self) -> dict[str, Any]:
         platform = self.platform
+
+        push_error: None | str
+        push_error = self.push_error
 
         push_status: str | Unset = UNSET
         if not isinstance(self.push_status, Unset):
@@ -83,9 +102,9 @@ class ListingPublishStatusChannel:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "platform": platform,
+            "pushError": push_error,
         })
-        if platform is not UNSET:
-            field_dict["platform"] = platform
         if push_status is not UNSET:
             field_dict["pushStatus"] = push_status
         if last_pushed_at is not UNSET:
@@ -104,7 +123,15 @@ class ListingPublishStatusChannel:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        platform = d.pop("platform", UNSET)
+        platform = d.pop("platform")
+
+        def _parse_push_error(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        push_error = _parse_push_error(d.pop("pushError"))
+
 
         _push_status = d.pop("pushStatus", UNSET)
         push_status: ListingPublishStatusChannelPushStatus | Unset
@@ -163,6 +190,7 @@ class ListingPublishStatusChannel:
 
         listing_publish_status_channel = cls(
             platform=platform,
+            push_error=push_error,
             push_status=push_status,
             last_pushed_at=last_pushed_at,
             last_pulled_at=last_pulled_at,

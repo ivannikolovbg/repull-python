@@ -123,9 +123,9 @@ def sync_detailed(
 ) -> Response[Error | WithdrawConversationSpecialOfferResponse200]:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. Runs the same
-    action as the Vanio dashboard’s Withdraw offer. An offer the guest already booked cannot be
-    withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel the booking instead.
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
+    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+    the booking instead.
 
     Args:
         id (int):
@@ -161,9 +161,9 @@ def sync(
 ) -> Error | WithdrawConversationSpecialOfferResponse200 | None:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. Runs the same
-    action as the Vanio dashboard’s Withdraw offer. An offer the guest already booked cannot be
-    withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel the booking instead.
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
+    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+    the booking instead.
 
     Args:
         id (int):
@@ -194,9 +194,9 @@ async def asyncio_detailed(
 ) -> Response[Error | WithdrawConversationSpecialOfferResponse200]:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. Runs the same
-    action as the Vanio dashboard’s Withdraw offer. An offer the guest already booked cannot be
-    withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel the booking instead.
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
+    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+    the booking instead.
 
     Args:
         id (int):
@@ -232,9 +232,9 @@ async def asyncio(
 ) -> Error | WithdrawConversationSpecialOfferResponse200 | None:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. Runs the same
-    action as the Vanio dashboard’s Withdraw offer. An offer the guest already booked cannot be
-    withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel the booking instead.
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
+    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+    the booking instead.
 
     Args:
         id (int):

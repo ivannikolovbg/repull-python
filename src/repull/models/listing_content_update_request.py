@@ -49,7 +49,13 @@ class ListingContentUpdateRequest:
             amenities (list[ListingContentUpdateRequestAmenitiesType1Item] | list[str] | Unset): FULL replacement of the
                 amenity set. Accepts canonical keys as a string[] or structured rows. Omit to leave amenities untouched; send
                 `[]` to clear them.
-            address (ListingContentUpdateRequestAddress | Unset): Partial address. Only provided sub-fields are written.
+            address (ListingContentUpdateRequestAddress | Unset): Partial address. Only provided sub-fields are written; the
+                ones you omit keep their current value, and an explicit `null` clears one.
+
+                This is also the repair path for a listing that cannot be published: Airbnb requires `street` and `city` for
+                every country and additionally `state` and `postalCode` for a **US** property — and a listing with no
+                `countryCode` behaves as US. Send just the missing part, e.g. `{ "address": { "state": "FL" } }`. `GET
+                /v1/listings/{id}/publish-status` names what is missing.
             details (ListingContentUpdateRequestDetails | Unset): What KIND of property this is. The publish path reads all
                 three on every push, so setting them here is the update path for a listing that already exists — `POST
                 /v1/listings` could only set the type at creation. Airbnb may lock these on an established listing; the publish

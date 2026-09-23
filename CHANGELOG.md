@@ -5,6 +5,55 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.17] - 2026-09-23
+
+Regenerated against the live `https://api.repull.dev/openapi.json`
+(199 → 202 operations, none removed).
+
+### Added
+- **Market state** — `repull.api.listings.take_listing_online` and
+  `take_listing_offline` (`POST /v1/listings/{id}/online|offline`). Take a
+  listing off sale, or put it back, on every connected channel in one call.
+  This is *not* the same as deactivating a listing in Repull: going offline
+  stops the listing taking bookings but leaves billing, plan limits and API
+  access untouched, while `active: false` does the opposite. The answer is per
+  channel item — check each `ChannelMarketStateItem.ok`, since channels fail
+  independently and a partial result is the ordinary outcome. Models:
+  `ListingMarketStateRequest`, `ListingMarketStateResponse`,
+  `ChannelMarketStateItem`.
+- **Booking.com unlist / relist** — `repull.api.booking_com.booking_property_action`
+  (`POST /v1/channels/booking/properties/{id}`, where `id` is a Repull listing
+  id). Booking.com has no unlist, so `unlist` closes the mapped room across the
+  forward window; `relist` re-syncs the true calendar rather than opening
+  everything, so genuinely blocked dates stay blocked. Pass `hotel_id` when the
+  listing maps to several properties, or the call is refused with
+  `409 ambiguous_booking_mapping` and nothing is written. Models:
+  `BookingPropertyActionRequest`, `BookingPropertyActionResponse`.
+- **Booking.com setup actions** — `POST /v1/channels/booking/setup` gains
+  `create-property`, `add-room`, `add-unit` and `advance`.
+- **Listing address + room type on create** — `ListingCreateRequest` gains
+  `room_type_category`, `property_type_category`, `postal_code` (and the
+  `zipcode` alias). Airbnb refuses to activate a listing that has not stated a
+  room type, answering "Please specify a valid room type" — which reads like a
+  beds problem and is not. `ListingContentUpdateRequest.address` gains `state`
+  and `postal_code`.
+- **Publish diagnostics** — `ListingPublishStatusChannel.push_error` (the
+  channel's own reason for the last failed push, verbatim),
+  `ListingPublishStatusConnection.locked_fields`, and
+  `ListingPublishStatusResponse.address_readiness`
+  (`ListingAddressReadiness`).
+- **Publish results** — new `BookingPublishResult` (with
+  `BookingPublishSectionError`); `AirbnbPublishResult` gains `live` and
+  `warnings`. `published: true` with `live: false` is a real and common
+  outcome — every content section landed but the listing was never activated,
+  and `warnings` says why. **Absent is not `False`**: the field is omitted
+  when activation was never part of the operation.
+- **Errors** — the error envelope gains `previous_code`.
+
+### Changed
+- `ListingPublishResponse` is now `ListingPublishBookingResponse` (the model
+  behind `POST /v1/listings/{id}/publish/booking`); the old name is gone.
+
 ## [0.2.16] - 2026-09-22
 
 Regenerated against the live `https://api.repull.dev/openapi.json`
