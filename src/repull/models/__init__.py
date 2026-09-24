@@ -73,7 +73,8 @@ from .airbnb_permits_response_cached_item_permit_data_type_0 import AirbnbPermit
 from .airbnb_permits_response_permits_type_0_item import AirbnbPermitsResponsePermitsType0Item
 from .airbnb_permits_write_request import AirbnbPermitsWriteRequest
 from .airbnb_permits_write_request_permits_item import AirbnbPermitsWriteRequestPermitsItem
-from .airbnb_permits_write_request_permits_item_answers_item import AirbnbPermitsWriteRequestPermitsItemAnswersItem
+from .airbnb_permits_write_request_permits_item_answers import AirbnbPermitsWriteRequestPermitsItemAnswers
+from .airbnb_permits_write_request_permits_item_answers_additional_property import AirbnbPermitsWriteRequestPermitsItemAnswersAdditionalProperty
 from .airbnb_photo_position import AirbnbPhotoPosition
 from .airbnb_pricing_write_request import AirbnbPricingWriteRequest
 from .airbnb_pricing_write_request_model_type import AirbnbPricingWriteRequestModelType
@@ -197,14 +198,19 @@ from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
 from .channel_market_state_item import ChannelMarketStateItem
 from .channel_market_state_item_channel import ChannelMarketStateItemChannel
 from .channel_market_state_item_state import ChannelMarketStateItemState
+from .check_migration_cutover_body import CheckMigrationCutoverBody
+from .check_migration_cutover_body_reservations_item import CheckMigrationCutoverBodyReservationsItem
+from .check_migration_cutover_response_200 import CheckMigrationCutoverResponse200
 from .clear_kv_response_200 import ClearKvResponse200
 from .connect_host import ConnectHost
 from .connect_provider import ConnectProvider
 from .connect_provider_category import ConnectProviderCategory
 from .connect_provider_connect_pattern import ConnectProviderConnectPattern
 from .connect_provider_list_response import ConnectProviderListResponse
+from .connect_provider_migration_capabilities_type_0 import ConnectProviderMigrationCapabilitiesType0
 from .connect_provider_status import ConnectProviderStatus
 from .connect_session import ConnectSession
+from .connect_session_purpose import ConnectSessionPurpose
 from .connect_status import ConnectStatus
 from .connect_status_accounts_item import ConnectStatusAccountsItem
 from .connect_status_status import ConnectStatusStatus
@@ -237,6 +243,10 @@ from .create_billing_checkout_body import CreateBillingCheckoutBody
 from .create_billing_checkout_body_plan import CreateBillingCheckoutBodyPlan
 from .create_booking_webhook_body import CreateBookingWebhookBody
 from .create_connect_session_body import CreateConnectSessionBody
+from .create_connect_session_body_copy import CreateConnectSessionBodyCopy
+from .create_connect_session_body_purpose import CreateConnectSessionBodyPurpose
+from .create_connect_session_body_scope_item import CreateConnectSessionBodyScopeItem
+from .create_connect_session_body_workspace import CreateConnectSessionBodyWorkspace
 from .create_connection_body import CreateConnectionBody
 from .create_connection_body_access_type import CreateConnectionBodyAccessType
 from .create_conversation_special_offer_body import CreateConversationSpecialOfferBody
@@ -253,6 +263,7 @@ from .custom_schema_list_response import CustomSchemaListResponse
 from .custom_schema_mappings import CustomSchemaMappings
 from .custom_schema_summary import CustomSchemaSummary
 from .custom_schema_update import CustomSchemaUpdate
+from .cutover_migration_response_200 import CutoverMigrationResponse200
 from .decline_airbnb_alteration_body import DeclineAirbnbAlterationBody
 from .decline_reservation_request_body import DeclineReservationRequestBody
 from .decline_reservation_request_body_reason import DeclineReservationRequestBodyReason
@@ -267,6 +278,8 @@ from .delete_airbnb_listing_photo_response_200 import DeleteAirbnbListingPhotoRe
 from .delete_airbnb_listing_room_response_200 import DeleteAirbnbListingRoomResponse200
 from .delete_connection_response_200 import DeleteConnectionResponse200
 from .delete_kv_response_200 import DeleteKvResponse200
+from .delete_migration_response_200 import DeleteMigrationResponse200
+from .delete_migration_response_200_data import DeleteMigrationResponse200Data
 from .error import Error
 from .error_error import ErrorError
 from .error_error_support import ErrorErrorSupport
@@ -300,7 +313,6 @@ from .get_airbnb_offer_response_200_guest_details import GetAirbnbOfferResponse2
 from .get_airbnb_offer_response_200_offer_type import GetAirbnbOfferResponse200OfferType
 from .get_airbnb_offer_response_200_status import GetAirbnbOfferResponse200Status
 from .get_airbnb_thread_response_200 import GetAirbnbThreadResponse200
-from .get_atlas_health_response_200 import GetAtlasHealthResponse200
 from .get_auth_health_response_200 import GetAuthHealthResponse200
 from .get_channel_health_channel import GetChannelHealthChannel
 from .get_channel_health_response_200 import GetChannelHealthResponse200
@@ -310,6 +322,9 @@ from .get_health_response_200 import GetHealthResponse200
 from .get_kv_response_200 import GetKvResponse200
 from .get_listing_segments_level import GetListingSegmentsLevel
 from .get_mcp_health_response_200 import GetMcpHealthResponse200
+from .get_migration_channel_map_response_200 import GetMigrationChannelMapResponse200
+from .get_migration_report_response_200 import GetMigrationReportResponse200
+from .get_migration_response_200 import GetMigrationResponse200
 from .get_property_include import GetPropertyInclude
 from .get_usage_logs_range import GetUsageLogsRange
 from .get_usage_logs_response_200 import GetUsageLogsResponse200
@@ -385,6 +400,8 @@ from .list_kv_response_200_data_item import ListKvResponse200DataItem
 from .list_kv_response_200_pagination import ListKvResponse200Pagination
 from .list_listings_status import ListListingsStatus
 from .list_market_browse_sort import ListMarketBrowseSort
+from .list_migrations_response_200 import ListMigrationsResponse200
+from .list_migrations_response_200_pagination import ListMigrationsResponse200Pagination
 from .list_properties_channel import ListPropertiesChannel
 from .list_properties_status import ListPropertiesStatus
 from .list_reservations_status import ListReservationsStatus
@@ -415,6 +432,7 @@ from .listing_content_update_request_photos_item_type_1 import ListingContentUpd
 from .listing_content_update_request_photos_mode import ListingContentUpdateRequestPhotosMode
 from .listing_content_update_request_policies import ListingContentUpdateRequestPolicies
 from .listing_content_update_request_policies_check_in_method import ListingContentUpdateRequestPoliciesCheckInMethod
+from .listing_content_update_request_pricing import ListingContentUpdateRequestPricing
 from .listing_content_update_response import ListingContentUpdateResponse
 from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
@@ -544,6 +562,33 @@ from .markets_overview_response_totals import MarketsOverviewResponseTotals
 from .message import Message
 from .message_direction import MessageDirection
 from .message_list_response import MessageListResponse
+from .migration import Migration
+from .migration_channel_map import MigrationChannelMap
+from .migration_channel_map_listings_item import MigrationChannelMapListingsItem
+from .migration_channel_map_listings_item_airbnb_type_0 import MigrationChannelMapListingsItemAirbnbType0
+from .migration_channel_map_listings_item_booking_type_0 import MigrationChannelMapListingsItemBookingType0
+from .migration_channel_map_listings_item_vrbo_type_0 import MigrationChannelMapListingsItemVrboType0
+from .migration_channel_map_sources_item import MigrationChannelMapSourcesItem
+from .migration_completed_event import MigrationCompletedEvent
+from .migration_completed_event_event import MigrationCompletedEventEvent
+from .migration_connections_item import MigrationConnectionsItem
+from .migration_counts import MigrationCounts
+from .migration_cutover_check import MigrationCutoverCheck
+from .migration_cutover_check_mismatched_item import MigrationCutoverCheckMismatchedItem
+from .migration_failed_event import MigrationFailedEvent
+from .migration_failed_event_event import MigrationFailedEventEvent
+from .migration_import_payload import MigrationImportPayload
+from .migration_import_payload_results_item import MigrationImportPayloadResultsItem
+from .migration_import_payload_status import MigrationImportPayloadStatus
+from .migration_import_run import MigrationImportRun
+from .migration_import_run_results_type_0_item import MigrationImportRunResultsType0Item
+from .migration_import_run_status import MigrationImportRunStatus
+from .migration_report import MigrationReport
+from .migration_report_capabilities import MigrationReportCapabilities
+from .migration_report_issues_item import MigrationReportIssuesItem
+from .migration_report_issues_item_severity import MigrationReportIssuesItemSeverity
+from .migration_reservation_ref import MigrationReservationRef
+from .migration_state import MigrationState
 from .pagination import Pagination
 from .payment_completed_event import PaymentCompletedEvent
 from .payment_completed_event_event import PaymentCompletedEventEvent
@@ -651,6 +696,11 @@ from .review_reviewer_role import ReviewReviewerRole
 from .review_webhook_object import ReviewWebhookObject
 from .review_webhook_object_reviewer_role import ReviewWebhookObjectReviewerRole
 from .rotate_webhook_secret_response_200 import RotateWebhookSecretResponse200
+from .run_migration_import_body import RunMigrationImportBody
+from .run_migration_import_body_entities_item import RunMigrationImportBodyEntitiesItem
+from .run_migration_import_response_202 import RunMigrationImportResponse202
+from .run_migration_import_response_202_data import RunMigrationImportResponse202Data
+from .run_migration_import_response_202_data_queued_item import RunMigrationImportResponse202DataQueuedItem
 from .select_connect_provider_body import SelectConnectProviderBody
 from .select_provider_response import SelectProviderResponse
 from .select_provider_response_pattern import SelectProviderResponsePattern
@@ -880,7 +930,8 @@ __all__ = (
     "AirbnbPermitsResponsePermitsType0Item",
     "AirbnbPermitsWriteRequest",
     "AirbnbPermitsWriteRequestPermitsItem",
-    "AirbnbPermitsWriteRequestPermitsItemAnswersItem",
+    "AirbnbPermitsWriteRequestPermitsItemAnswers",
+    "AirbnbPermitsWriteRequestPermitsItemAnswersAdditionalProperty",
     "AirbnbPhotoPosition",
     "AirbnbPricingWriteRequest",
     "AirbnbPricingWriteRequestModelType",
@@ -1004,6 +1055,9 @@ __all__ = (
     "ChannelMarketStateItem",
     "ChannelMarketStateItemChannel",
     "ChannelMarketStateItemState",
+    "CheckMigrationCutoverBody",
+    "CheckMigrationCutoverBodyReservationsItem",
+    "CheckMigrationCutoverResponse200",
     "ClearKvResponse200",
     "ConnectHost",
     "Connection",
@@ -1013,8 +1067,10 @@ __all__ = (
     "ConnectProviderCategory",
     "ConnectProviderConnectPattern",
     "ConnectProviderListResponse",
+    "ConnectProviderMigrationCapabilitiesType0",
     "ConnectProviderStatus",
     "ConnectSession",
+    "ConnectSessionPurpose",
     "ConnectStatus",
     "ConnectStatusAccountsItem",
     "ConnectStatusStatus",
@@ -1046,6 +1102,10 @@ __all__ = (
     "CreateConnectionBody",
     "CreateConnectionBodyAccessType",
     "CreateConnectSessionBody",
+    "CreateConnectSessionBodyCopy",
+    "CreateConnectSessionBodyPurpose",
+    "CreateConnectSessionBodyScopeItem",
+    "CreateConnectSessionBodyWorkspace",
     "CreateConversationSpecialOfferBody",
     "CreateConversationSpecialOfferBodyGuests",
     "CreateConversationSpecialOfferResponse201",
@@ -1060,6 +1120,7 @@ __all__ = (
     "CustomSchemaMappings",
     "CustomSchemaSummary",
     "CustomSchemaUpdate",
+    "CutoverMigrationResponse200",
     "DeclineAirbnbAlterationBody",
     "DeclineReservationRequestBody",
     "DeclineReservationRequestBodyReason",
@@ -1074,6 +1135,8 @@ __all__ = (
     "DeleteAirbnbListingRoomResponse200",
     "DeleteConnectionResponse200",
     "DeleteKvResponse200",
+    "DeleteMigrationResponse200",
+    "DeleteMigrationResponse200Data",
     "Error",
     "ErrorError",
     "ErrorErrorSupport",
@@ -1107,7 +1170,6 @@ __all__ = (
     "GetAirbnbOfferResponse200OfferType",
     "GetAirbnbOfferResponse200Status",
     "GetAirbnbThreadResponse200",
-    "GetAtlasHealthResponse200",
     "GetAuthHealthResponse200",
     "GetChannelHealthChannel",
     "GetChannelHealthResponse200",
@@ -1117,6 +1179,9 @@ __all__ = (
     "GetKvResponse200",
     "GetListingSegmentsLevel",
     "GetMcpHealthResponse200",
+    "GetMigrationChannelMapResponse200",
+    "GetMigrationReportResponse200",
+    "GetMigrationResponse200",
     "GetPropertyInclude",
     "GetUsageLogsRange",
     "GetUsageLogsResponse200",
@@ -1204,6 +1269,7 @@ __all__ = (
     "ListingContentUpdateRequestPhotosMode",
     "ListingContentUpdateRequestPolicies",
     "ListingContentUpdateRequestPoliciesCheckInMethod",
+    "ListingContentUpdateRequestPricing",
     "ListingContentUpdateResponse",
     "ListingCreatedEvent",
     "ListingCreatedEventEvent",
@@ -1309,6 +1375,8 @@ __all__ = (
     "ListKvResponse200Pagination",
     "ListListingsStatus",
     "ListMarketBrowseSort",
+    "ListMigrationsResponse200",
+    "ListMigrationsResponse200Pagination",
     "ListPropertiesChannel",
     "ListPropertiesStatus",
     "ListReservationsStatus",
@@ -1351,6 +1419,33 @@ __all__ = (
     "Message",
     "MessageDirection",
     "MessageListResponse",
+    "Migration",
+    "MigrationChannelMap",
+    "MigrationChannelMapListingsItem",
+    "MigrationChannelMapListingsItemAirbnbType0",
+    "MigrationChannelMapListingsItemBookingType0",
+    "MigrationChannelMapListingsItemVrboType0",
+    "MigrationChannelMapSourcesItem",
+    "MigrationCompletedEvent",
+    "MigrationCompletedEventEvent",
+    "MigrationConnectionsItem",
+    "MigrationCounts",
+    "MigrationCutoverCheck",
+    "MigrationCutoverCheckMismatchedItem",
+    "MigrationFailedEvent",
+    "MigrationFailedEventEvent",
+    "MigrationImportPayload",
+    "MigrationImportPayloadResultsItem",
+    "MigrationImportPayloadStatus",
+    "MigrationImportRun",
+    "MigrationImportRunResultsType0Item",
+    "MigrationImportRunStatus",
+    "MigrationReport",
+    "MigrationReportCapabilities",
+    "MigrationReportIssuesItem",
+    "MigrationReportIssuesItemSeverity",
+    "MigrationReservationRef",
+    "MigrationState",
     "Pagination",
     "PaymentCompletedEvent",
     "PaymentCompletedEventEvent",
@@ -1458,6 +1553,11 @@ __all__ = (
     "ReviewWebhookObject",
     "ReviewWebhookObjectReviewerRole",
     "RotateWebhookSecretResponse200",
+    "RunMigrationImportBody",
+    "RunMigrationImportBodyEntitiesItem",
+    "RunMigrationImportResponse202",
+    "RunMigrationImportResponse202Data",
+    "RunMigrationImportResponse202DataQueuedItem",
     "SelectConnectProviderBody",
     "SelectProviderResponse",
     "SelectProviderResponsePattern",

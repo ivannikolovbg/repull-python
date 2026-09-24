@@ -24,9 +24,13 @@ class ListingCreateResponse:
     """ 
         Attributes:
             id (str | Unset): New listing ID — use for follow-up generate-content / publish calls
+            calendar_days_seeded (int | Unset): Nights of calendar written from the price you stated. `0` means the listing
+                has no calendar and a publish will send no availability — state `defaultDailyPrice` on the create, or set it
+                later with `PUT /v1/listings/{id}/content` under `pricing`.
      """
 
     id: str | Unset = UNSET
+    calendar_days_seeded: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -36,6 +40,8 @@ class ListingCreateResponse:
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
+        calendar_days_seeded = self.calendar_days_seeded
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -43,6 +49,8 @@ class ListingCreateResponse:
         })
         if id is not UNSET:
             field_dict["id"] = id
+        if calendar_days_seeded is not UNSET:
+            field_dict["calendarDaysSeeded"] = calendar_days_seeded
 
         return field_dict
 
@@ -53,8 +61,11 @@ class ListingCreateResponse:
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
+        calendar_days_seeded = d.pop("calendarDaysSeeded", UNSET)
+
         listing_create_response = cls(
             id=id,
+            calendar_days_seeded=calendar_days_seeded,
         )
 
 

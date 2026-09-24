@@ -19,6 +19,7 @@ if TYPE_CHECKING:
   from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
   from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
   from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
+  from ..models.listing_content_update_request_pricing import ListingContentUpdateRequestPricing
 
 
 
@@ -61,6 +62,14 @@ class ListingContentUpdateRequest:
                 /v1/listings` could only set the type at creation. Airbnb may lock these on an established listing; the publish
                 response reports that in `lockedFields`.
             occupancy (ListingContentUpdateRequestOccupancy | Unset):
+            pricing (ListingContentUpdateRequestPricing | Unset): The listing's standing rates. Partial like every other
+                section: only the fields you send are written, and `null` clears one.
+
+                Changing `defaultDailyPrice` or `weekendPrice` also moves the nights on the calendar that still carry the old
+                rate and were written by us — a night you or a channel priced yourself is never touched, and neither is a
+                blocked or reserved one. So a price change reaches the calendar without overwriting anyone's work.
+
+                This is still a local write. Publish to send the new rates to a channel.
             policies (ListingContentUpdateRequestPolicies | Unset):
             photos (list[ListingContentUpdateRequestPhotosItemType1 | str] | Unset): Photo set — full replacement by default
                 (pass `photosMode: "append"` to add after existing photos, or `[]` to clear; omit to leave untouched). Each
@@ -81,6 +90,7 @@ class ListingContentUpdateRequest:
     address: ListingContentUpdateRequestAddress | Unset = UNSET
     details: ListingContentUpdateRequestDetails | Unset = UNSET
     occupancy: ListingContentUpdateRequestOccupancy | Unset = UNSET
+    pricing: ListingContentUpdateRequestPricing | Unset = UNSET
     policies: ListingContentUpdateRequestPolicies | Unset = UNSET
     photos: list[ListingContentUpdateRequestPhotosItemType1 | str] | Unset = UNSET
     photos_mode: ListingContentUpdateRequestPhotosMode | Unset = ListingContentUpdateRequestPhotosMode.REPLACE
@@ -97,6 +107,7 @@ class ListingContentUpdateRequest:
         from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
         from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
         from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
+        from ..models.listing_content_update_request_pricing import ListingContentUpdateRequestPricing
         locale = self.locale
 
         title: None | str | Unset
@@ -151,6 +162,10 @@ class ListingContentUpdateRequest:
         if not isinstance(self.occupancy, Unset):
             occupancy = self.occupancy.to_dict()
 
+        pricing: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.pricing, Unset):
+            pricing = self.pricing.to_dict()
+
         policies: dict[str, Any] | Unset = UNSET
         if not isinstance(self.policies, Unset):
             policies = self.policies.to_dict()
@@ -196,6 +211,8 @@ class ListingContentUpdateRequest:
             field_dict["details"] = details
         if occupancy is not UNSET:
             field_dict["occupancy"] = occupancy
+        if pricing is not UNSET:
+            field_dict["pricing"] = pricing
         if policies is not UNSET:
             field_dict["policies"] = policies
         if photos is not UNSET:
@@ -215,6 +232,7 @@ class ListingContentUpdateRequest:
         from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
         from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
         from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
+        from ..models.listing_content_update_request_pricing import ListingContentUpdateRequestPricing
         d = dict(src_dict)
         locale = d.pop("locale", UNSET)
 
@@ -315,6 +333,16 @@ class ListingContentUpdateRequest:
 
 
 
+        _pricing = d.pop("pricing", UNSET)
+        pricing: ListingContentUpdateRequestPricing | Unset
+        if isinstance(_pricing,  Unset):
+            pricing = UNSET
+        else:
+            pricing = ListingContentUpdateRequestPricing.from_dict(_pricing)
+
+
+
+
         _policies = d.pop("policies", UNSET)
         policies: ListingContentUpdateRequestPolicies | Unset
         if isinstance(_policies,  Unset):
@@ -368,6 +396,7 @@ class ListingContentUpdateRequest:
             address=address,
             details=details,
             occupancy=occupancy,
+            pricing=pricing,
             policies=policies,
             photos=photos,
             photos_mode=photos_mode,

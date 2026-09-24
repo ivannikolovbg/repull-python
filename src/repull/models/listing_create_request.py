@@ -11,6 +11,7 @@ from ..types import UNSET, Unset
 from ..models.listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
 from ..models.listing_create_request_room_type_category import ListingCreateRequestRoomTypeCategory
 from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -66,7 +67,14 @@ class ListingCreateRequest:
             person_capacity (int | Unset):  Example: 4.
             summary (str | Unset):
             description (str | Unset):
-            default_daily_price (float | Unset):
+            default_daily_price (float | Unset): Nightly rate for every night that is not a weekend night. Stating it is
+                what gives the new listing a calendar: 365 nights are written from it, and that calendar is what a publish sends
+                to the channel. Without a price the listing has no availability to publish, which Booking.com refuses with "No
+                availability pushed".
+            weekend_price (float | None | Unset): Nightly rate for Saturday and Sunday nights (UTC). Omit it and those
+                nights take `defaultDailyPrice`. It is the same rate the direct-booking quoter charges for a weekend night, so
+                the calendar and a quote cannot disagree.
+            price_per_extra_guest (float | None | Unset): Charged per guest above the number included in the nightly rate.
             cleaning_fee (float | Unset):
             cancellation_policy (ListingCreateRequestCancellationPolicy | Unset):
             check_in_time_start (str | Unset):  Example: 15:00.
@@ -96,6 +104,8 @@ class ListingCreateRequest:
     summary: str | Unset = UNSET
     description: str | Unset = UNSET
     default_daily_price: float | Unset = UNSET
+    weekend_price: float | None | Unset = UNSET
+    price_per_extra_guest: float | None | Unset = UNSET
     cleaning_fee: float | Unset = UNSET
     cancellation_policy: ListingCreateRequestCancellationPolicy | Unset = UNSET
     check_in_time_start: str | Unset = UNSET
@@ -151,6 +161,18 @@ class ListingCreateRequest:
         description = self.description
 
         default_daily_price = self.default_daily_price
+
+        weekend_price: float | None | Unset
+        if isinstance(self.weekend_price, Unset):
+            weekend_price = UNSET
+        else:
+            weekend_price = self.weekend_price
+
+        price_per_extra_guest: float | None | Unset
+        if isinstance(self.price_per_extra_guest, Unset):
+            price_per_extra_guest = UNSET
+        else:
+            price_per_extra_guest = self.price_per_extra_guest
 
         cleaning_fee = self.cleaning_fee
 
@@ -213,6 +235,10 @@ class ListingCreateRequest:
             field_dict["description"] = description
         if default_daily_price is not UNSET:
             field_dict["defaultDailyPrice"] = default_daily_price
+        if weekend_price is not UNSET:
+            field_dict["weekendPrice"] = weekend_price
+        if price_per_extra_guest is not UNSET:
+            field_dict["pricePerExtraGuest"] = price_per_extra_guest
         if cleaning_fee is not UNSET:
             field_dict["cleaningFee"] = cleaning_fee
         if cancellation_policy is not UNSET:
@@ -283,6 +309,26 @@ class ListingCreateRequest:
 
         default_daily_price = d.pop("defaultDailyPrice", UNSET)
 
+        def _parse_weekend_price(data: object) -> float | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(float | None | Unset, data)
+
+        weekend_price = _parse_weekend_price(d.pop("weekendPrice", UNSET))
+
+
+        def _parse_price_per_extra_guest(data: object) -> float | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(float | None | Unset, data)
+
+        price_per_extra_guest = _parse_price_per_extra_guest(d.pop("pricePerExtraGuest", UNSET))
+
+
         cleaning_fee = d.pop("cleaningFee", UNSET)
 
         _cancellation_policy = d.pop("cancellationPolicy", UNSET)
@@ -327,6 +373,8 @@ class ListingCreateRequest:
             summary=summary,
             description=description,
             default_daily_price=default_daily_price,
+            weekend_price=weekend_price,
+            price_per_extra_guest=price_per_extra_guest,
             cleaning_fee=cleaning_fee,
             cancellation_policy=cancellation_policy,
             check_in_time_start=check_in_time_start,

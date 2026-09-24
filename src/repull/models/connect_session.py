@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.connect_session_purpose import ConnectSessionPurpose
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -34,12 +35,17 @@ class ConnectSession:
             expires_at (datetime.datetime):
             state (None | str | Unset): Echoed back from the request body for SDK consumers that pass an opaque correlation
                 token.
+            purpose (ConnectSessionPurpose | Unset): Present only on a Repull Migrate session.
+            workspace_id (str | Unset): Repull Migrate only: the workspace the property manager's data lands in. Read it
+                with `X-Workspace-Id`, track it with `GET /v1/migrations/{workspaceId}`. Example: 1204.
      """
 
     session_id: str
     url: str
     expires_at: datetime.datetime
     state: None | str | Unset = UNSET
+    purpose: ConnectSessionPurpose | Unset = UNSET
+    workspace_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -59,6 +65,13 @@ class ConnectSession:
         else:
             state = self.state
 
+        purpose: str | Unset = UNSET
+        if not isinstance(self.purpose, Unset):
+            purpose = self.purpose.value
+
+
+        workspace_id = self.workspace_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -69,6 +82,10 @@ class ConnectSession:
         })
         if state is not UNSET:
             field_dict["state"] = state
+        if purpose is not UNSET:
+            field_dict["purpose"] = purpose
+        if workspace_id is not UNSET:
+            field_dict["workspaceId"] = workspace_id
 
         return field_dict
 
@@ -96,11 +113,25 @@ class ConnectSession:
         state = _parse_state(d.pop("state", UNSET))
 
 
+        _purpose = d.pop("purpose", UNSET)
+        purpose: ConnectSessionPurpose | Unset
+        if isinstance(_purpose,  Unset):
+            purpose = UNSET
+        else:
+            purpose = ConnectSessionPurpose(_purpose)
+
+
+
+
+        workspace_id = d.pop("workspaceId", UNSET)
+
         connect_session = cls(
             session_id=session_id,
             url=url,
             expires_at=expires_at,
             state=state,
+            purpose=purpose,
+            workspace_id=workspace_id,
         )
 
 

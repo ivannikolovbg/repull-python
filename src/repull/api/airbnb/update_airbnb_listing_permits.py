@@ -133,16 +133,16 @@ def sync_detailed(
      Answer the regulatory permit questions for a listing — the licence or registration number a city
     requires to keep the listing up.
 
-    Read the questions first with `GET …/permits?source=live`: every answer is keyed by a `question_key`
-    Airbnb asks for THIS listing, and the question's `answer_type` decides which value field applies
-    (`text_value`, `date_value`, or `selected_options_value`). Answers are forwarded verbatim — nothing
-    is defaulted or inferred, because a wrong licence number can take a listing down in a regulated
-    city.
+    Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
+    `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
+    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
+    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
+    inferred, because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
 
-    Airbnb refusing the answers (an unknown question key, a malformed licence number) is `422
+    Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
 
@@ -150,8 +150,12 @@ def sync_detailed(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbPermitsWriteRequest): Answer the regulatory permit questions Airbnb asks for
-            this listing. Read them first with `?source=live` on the GET — Airbnb refuses a
-            `question_key` it did not ask for on this listing.
+            this listing, in Airbnb's Listing Permits shape. Read them first with `?source=live` on
+            the GET: each permit lists its `flows[]`, and each flow its `questions[]` with an
+            `answer_key` and a `type`. Example: {'permits': [{'regulatory_body': 'maui_county_hawaii',
+            'regulation_type': 'registration', 'regulation_context': 'initial', 'flow_slug':
+            'existing_registration', 'answers': {'attestation': {'attestation_value': True},
+            'permit_number': {'text_value': 'TMK-2-3-004-005'}}}]}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -188,16 +192,16 @@ def sync(
      Answer the regulatory permit questions for a listing — the licence or registration number a city
     requires to keep the listing up.
 
-    Read the questions first with `GET …/permits?source=live`: every answer is keyed by a `question_key`
-    Airbnb asks for THIS listing, and the question's `answer_type` decides which value field applies
-    (`text_value`, `date_value`, or `selected_options_value`). Answers are forwarded verbatim — nothing
-    is defaulted or inferred, because a wrong licence number can take a listing down in a regulated
-    city.
+    Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
+    `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
+    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
+    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
+    inferred, because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
 
-    Airbnb refusing the answers (an unknown question key, a malformed licence number) is `422
+    Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
 
@@ -205,8 +209,12 @@ def sync(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbPermitsWriteRequest): Answer the regulatory permit questions Airbnb asks for
-            this listing. Read them first with `?source=live` on the GET — Airbnb refuses a
-            `question_key` it did not ask for on this listing.
+            this listing, in Airbnb's Listing Permits shape. Read them first with `?source=live` on
+            the GET: each permit lists its `flows[]`, and each flow its `questions[]` with an
+            `answer_key` and a `type`. Example: {'permits': [{'regulatory_body': 'maui_county_hawaii',
+            'regulation_type': 'registration', 'regulation_context': 'initial', 'flow_slug':
+            'existing_registration', 'answers': {'attestation': {'attestation_value': True},
+            'permit_number': {'text_value': 'TMK-2-3-004-005'}}}]}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -238,16 +246,16 @@ async def asyncio_detailed(
      Answer the regulatory permit questions for a listing — the licence or registration number a city
     requires to keep the listing up.
 
-    Read the questions first with `GET …/permits?source=live`: every answer is keyed by a `question_key`
-    Airbnb asks for THIS listing, and the question's `answer_type` decides which value field applies
-    (`text_value`, `date_value`, or `selected_options_value`). Answers are forwarded verbatim — nothing
-    is defaulted or inferred, because a wrong licence number can take a listing down in a regulated
-    city.
+    Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
+    `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
+    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
+    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
+    inferred, because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
 
-    Airbnb refusing the answers (an unknown question key, a malformed licence number) is `422
+    Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
 
@@ -255,8 +263,12 @@ async def asyncio_detailed(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbPermitsWriteRequest): Answer the regulatory permit questions Airbnb asks for
-            this listing. Read them first with `?source=live` on the GET — Airbnb refuses a
-            `question_key` it did not ask for on this listing.
+            this listing, in Airbnb's Listing Permits shape. Read them first with `?source=live` on
+            the GET: each permit lists its `flows[]`, and each flow its `questions[]` with an
+            `answer_key` and a `type`. Example: {'permits': [{'regulatory_body': 'maui_county_hawaii',
+            'regulation_type': 'registration', 'regulation_context': 'initial', 'flow_slug':
+            'existing_registration', 'answers': {'attestation': {'attestation_value': True},
+            'permit_number': {'text_value': 'TMK-2-3-004-005'}}}]}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -293,16 +305,16 @@ async def asyncio(
      Answer the regulatory permit questions for a listing — the licence or registration number a city
     requires to keep the listing up.
 
-    Read the questions first with `GET …/permits?source=live`: every answer is keyed by a `question_key`
-    Airbnb asks for THIS listing, and the question's `answer_type` decides which value field applies
-    (`text_value`, `date_value`, or `selected_options_value`). Answers are forwarded verbatim — nothing
-    is defaulted or inferred, because a wrong licence number can take a listing down in a regulated
-    city.
+    Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
+    `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
+    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
+    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
+    inferred, because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
 
-    Airbnb refusing the answers (an unknown question key, a malformed licence number) is `422
+    Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
 
@@ -310,8 +322,12 @@ async def asyncio(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbPermitsWriteRequest): Answer the regulatory permit questions Airbnb asks for
-            this listing. Read them first with `?source=live` on the GET — Airbnb refuses a
-            `question_key` it did not ask for on this listing.
+            this listing, in Airbnb's Listing Permits shape. Read them first with `?source=live` on
+            the GET: each permit lists its `flows[]`, and each flow its `questions[]` with an
+            `answer_key` and a `type`. Example: {'permits': [{'regulatory_body': 'maui_county_hawaii',
+            'regulation_type': 'registration', 'regulation_context': 'initial', 'flow_slug':
+            'existing_registration', 'answers': {'attestation': {'attestation_value': True},
+            'permit_number': {'text_value': 'TMK-2-3-004-005'}}}]}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

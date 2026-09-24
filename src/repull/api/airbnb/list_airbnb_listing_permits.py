@@ -130,8 +130,8 @@ def sync_detailed(
 
     **`?source=live` also returns the QUESTIONS.** The mirror stores the RESULT of a permit, not what
     Airbnb asks for it, so a caller that is about to write needs `?source=live` once: it returns each
-    permit flow with the `question_key`, `answer_type` and `options` of every question, and the answers
-    already on file. Airbnb refuses a `question_key` it did not ask for on this listing, so this is not
+    permit's `flows[]` with the `answer_key`, `type` and `choices` of every question, and the answers
+    already on file. Airbnb refuses an `answer_key` it did not ask for on this listing, so this is not
     optional guesswork you can skip.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403
@@ -179,8 +179,8 @@ def sync(
 
     **`?source=live` also returns the QUESTIONS.** The mirror stores the RESULT of a permit, not what
     Airbnb asks for it, so a caller that is about to write needs `?source=live` once: it returns each
-    permit flow with the `question_key`, `answer_type` and `options` of every question, and the answers
-    already on file. Airbnb refuses a `question_key` it did not ask for on this listing, so this is not
+    permit's `flows[]` with the `answer_key`, `type` and `choices` of every question, and the answers
+    already on file. Airbnb refuses an `answer_key` it did not ask for on this listing, so this is not
     optional guesswork you can skip.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403
@@ -223,8 +223,8 @@ async def asyncio_detailed(
 
     **`?source=live` also returns the QUESTIONS.** The mirror stores the RESULT of a permit, not what
     Airbnb asks for it, so a caller that is about to write needs `?source=live` once: it returns each
-    permit flow with the `question_key`, `answer_type` and `options` of every question, and the answers
-    already on file. Airbnb refuses a `question_key` it did not ask for on this listing, so this is not
+    permit's `flows[]` with the `answer_key`, `type` and `choices` of every question, and the answers
+    already on file. Airbnb refuses an `answer_key` it did not ask for on this listing, so this is not
     optional guesswork you can skip.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403
@@ -272,8 +272,8 @@ async def asyncio(
 
     **`?source=live` also returns the QUESTIONS.** The mirror stores the RESULT of a permit, not what
     Airbnb asks for it, so a caller that is about to write needs `?source=live` once: it returns each
-    permit flow with the `question_key`, `answer_type` and `options` of every question, and the answers
-    already on file. Airbnb refuses a `question_key` it did not ask for on this listing, so this is not
+    permit's `flows[]` with the `answer_key`, `type` and `choices` of every question, and the answers
+    already on file. Airbnb refuses an `answer_key` it did not ask for on this listing, so this is not
     optional guesswork you can skip.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403

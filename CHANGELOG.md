@@ -5,6 +5,29 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.18] - 2026-09-24
+
+Regenerated against the live `https://api.repull.dev/openapi.json`
+(202 → 209 operations).
+
+### Added
+- **Repull Migrate** — `repull.api.migrate`: `list_migrations`, `get_migration`,
+  `get_migration_report`, `get_migration_channel_map`, `run_migration_import`,
+  `check_migration_cutover`, `cutover_migration`, `delete_migration`.
+- `create_connect_session` accepts `purpose="migrate"`, `workspace`, `copy`
+  and `scope`; the session returns `workspace_id`.
+- `migration.completed` / `migration.failed` webhook events; child-workspace
+  events carry `workspace_id`.
+- `ConnectProvider.migration_capabilities` — what each PMS can carry across.
+
+### Changed
+- Airbnb permits write takes Airbnb's submission shape: `flow_slug` plus
+  `answers` keyed by each question's `answer_key` (the previous shape never
+  reached Airbnb — its route returned 404).
+
+### Removed
+- `get_atlas_health` (the endpoint was retired).
+
 ## [0.2.17] - 2026-09-23
 
 Regenerated against the live `https://api.repull.dev/openapi.json`

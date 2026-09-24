@@ -14,6 +14,8 @@ from ..models.connect_provider_status import ConnectProviderStatus
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.connect_provider_migration_capabilities_type_0 import ConnectProviderMigrationCapabilitiesType0
 
 
 
@@ -44,6 +46,9 @@ class ConnectProvider:
             docs_url (str):  Example: https://repull.dev/docs/channels/airbnb.
             aliases (list[str] | None | Unset): Optional friendly aliases the picker's search box can match. Example:
                 ['airbnb', 'abnb'].
+            migration_capabilities (ConnectProviderMigrationCapabilitiesType0 | None | Unset): PMS providers: what Repull
+                Migrate can carry across, per entity — `{ read: { listings: { level, notes }, … }, write: { … } }` with `level`
+                `full` | `partial` | `none`. `null` for channels (OTAs).
      """
 
     id: str
@@ -55,6 +60,7 @@ class ConnectProvider:
     description: str
     docs_url: str
     aliases: list[str] | None | Unset = UNSET
+    migration_capabilities: ConnectProviderMigrationCapabilitiesType0 | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -62,6 +68,7 @@ class ConnectProvider:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.connect_provider_migration_capabilities_type_0 import ConnectProviderMigrationCapabilitiesType0
         id = self.id
 
         display_name = self.display_name
@@ -88,6 +95,14 @@ class ConnectProvider:
         else:
             aliases = self.aliases
 
+        migration_capabilities: dict[str, Any] | None | Unset
+        if isinstance(self.migration_capabilities, Unset):
+            migration_capabilities = UNSET
+        elif isinstance(self.migration_capabilities, ConnectProviderMigrationCapabilitiesType0):
+            migration_capabilities = self.migration_capabilities.to_dict()
+        else:
+            migration_capabilities = self.migration_capabilities
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -103,6 +118,8 @@ class ConnectProvider:
         })
         if aliases is not UNSET:
             field_dict["aliases"] = aliases
+        if migration_capabilities is not UNSET:
+            field_dict["migrationCapabilities"] = migration_capabilities
 
         return field_dict
 
@@ -110,6 +127,7 @@ class ConnectProvider:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.connect_provider_migration_capabilities_type_0 import ConnectProviderMigrationCapabilitiesType0
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -154,6 +172,26 @@ class ConnectProvider:
         aliases = _parse_aliases(d.pop("aliases", UNSET))
 
 
+        def _parse_migration_capabilities(data: object) -> ConnectProviderMigrationCapabilitiesType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                migration_capabilities_type_0 = ConnectProviderMigrationCapabilitiesType0.from_dict(data)
+
+
+
+                return migration_capabilities_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ConnectProviderMigrationCapabilitiesType0 | None | Unset, data)
+
+        migration_capabilities = _parse_migration_capabilities(d.pop("migrationCapabilities", UNSET))
+
+
         connect_provider = cls(
             id=id,
             display_name=display_name,
@@ -164,6 +202,7 @@ class ConnectProvider:
             description=description,
             docs_url=docs_url,
             aliases=aliases,
+            migration_capabilities=migration_capabilities,
         )
 
 

@@ -29,8 +29,8 @@ class AirbnbPermitsResponse:
         Attributes:
             permits (list[AirbnbPermitsResponsePermitsType0Item] | None | Unset): The live permit flows from Airbnb —
                 present only with `?source=live`, `null` otherwise. Each flow names its `regulatory_body`, `regulation_type`,
-                `status`, and the `question_key` / `answer_type` / `options` of every question you have to answer, plus the
-                answers already on file.
+                `status`, its `flows[]` with the `answer_key` / `type` / `choices` of every question you have to answer, plus
+                the answers already on file.
             cached (list[AirbnbPermitsResponseCachedItem] | Unset): Permits as last mirrored by the sync worker: body, type,
                 status, number. The RESULT of a permit, not the questions.
      """

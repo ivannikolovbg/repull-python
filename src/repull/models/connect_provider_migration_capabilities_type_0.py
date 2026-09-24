@@ -14,13 +14,15 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="GetAtlasHealthResponse200")
+T = TypeVar("T", bound="ConnectProviderMigrationCapabilitiesType0")
 
 
 
 @_attrs_define
-class GetAtlasHealthResponse200:
-    """ 
+class ConnectProviderMigrationCapabilitiesType0:
+    """ PMS providers: what Repull Migrate can carry across, per entity — `{ read: { listings: { level, notes }, … }, write:
+    { … } }` with `level` `full` | `partial` | `none`. `null` for channels (OTAs).
+
      """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -41,12 +43,12 @@ class GetAtlasHealthResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        get_atlas_health_response_200 = cls(
+        connect_provider_migration_capabilities_type_0 = cls(
         )
 
 
-        get_atlas_health_response_200.additional_properties = d
-        return get_atlas_health_response_200
+        connect_provider_migration_capabilities_type_0.additional_properties = d
+        return connect_provider_migration_capabilities_type_0
 
     @property
     def additional_keys(self) -> list[str]:

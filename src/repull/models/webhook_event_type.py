@@ -13,6 +13,8 @@ class WebhookEventType(str, Enum):
     LISTING_REACTIVATED = "listing.reactivated"
     LISTING_SUSPENDED = "listing.suspended"
     LISTING_UPDATED = "listing.updated"
+    MIGRATION_COMPLETED = "migration.completed"
+    MIGRATION_FAILED = "migration.failed"
     PAYMENT_COMPLETED = "payment.completed"
     PAYMENT_REFUNDED = "payment.refunded"
     REPULL_PING = "repull.ping"

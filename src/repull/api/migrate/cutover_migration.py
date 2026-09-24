@@ -8,13 +8,15 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.get_atlas_health_response_200 import GetAtlasHealthResponse200
+from ...models.cutover_migration_response_200 import CutoverMigrationResponse200
+from ...models.error import Error
 from typing import cast
 
 
 
 def _get_kwargs(
-    
+    workspace_id: int,
+
 ) -> dict[str, Any]:
     
 
@@ -23,8 +25,8 @@ def _get_kwargs(
     
 
     _kwargs: dict[str, Any] = {
-        "method": "get",
-        "url": "/v1/health/atlas",
+        "method": "post",
+        "url": "/v1/migrations/{workspace_id}/cutover".format(workspace_id=quote(str(workspace_id), safe=""),),
     }
 
 
@@ -32,13 +34,34 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> GetAtlasHealthResponse200 | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> CutoverMigrationResponse200 | Error | None:
     if response.status_code == 200:
-        response_200 = GetAtlasHealthResponse200.from_dict(response.json())
+        response_200 = CutoverMigrationResponse200.from_dict(response.json())
 
 
 
         return response_200
+
+    if response.status_code == 401:
+        response_401 = Error.from_dict(response.json())
+
+
+
+        return response_401
+
+    if response.status_code == 404:
+        response_404 = Error.from_dict(response.json())
+
+
+
+        return response_404
+
+    if response.status_code == 500:
+        response_500 = Error.from_dict(response.json())
+
+
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -46,7 +69,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[GetAtlasHealthResponse200]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[CutoverMigrationResponse200 | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -56,26 +79,31 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
 def sync_detailed(
+    workspace_id: int,
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[GetAtlasHealthResponse200]:
-    """ Atlas market-intelligence backend health
+) -> Response[CutoverMigrationResponse200 | Error]:
+    """ Cut over
 
-     Component-level probe. `GET /v1/health` reports the API as a whole; this reports one dependency so
-    an incident can be localised without guessing.
+     The property manager has switched: disconnect the source so it stops syncing. The imported data
+    stays readable. Idempotent.
+
+    Args:
+        workspace_id (int):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetAtlasHealthResponse200]
+        Response[CutoverMigrationResponse200 | Error]
      """
 
 
     kwargs = _get_kwargs(
-        
+        workspace_id=workspace_id,
+
     )
 
     response = client.get_httpx_client().request(
@@ -85,50 +113,60 @@ def sync_detailed(
     return _build_response(client=client, response=response)
 
 def sync(
+    workspace_id: int,
     *,
     client: AuthenticatedClient | Client,
 
-) -> GetAtlasHealthResponse200 | None:
-    """ Atlas market-intelligence backend health
+) -> CutoverMigrationResponse200 | Error | None:
+    """ Cut over
 
-     Component-level probe. `GET /v1/health` reports the API as a whole; this reports one dependency so
-    an incident can be localised without guessing.
+     The property manager has switched: disconnect the source so it stops syncing. The imported data
+    stays readable. Idempotent.
+
+    Args:
+        workspace_id (int):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetAtlasHealthResponse200
+        CutoverMigrationResponse200 | Error
      """
 
 
     return sync_detailed(
-        client=client,
+        workspace_id=workspace_id,
+client=client,
 
     ).parsed
 
 async def asyncio_detailed(
+    workspace_id: int,
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[GetAtlasHealthResponse200]:
-    """ Atlas market-intelligence backend health
+) -> Response[CutoverMigrationResponse200 | Error]:
+    """ Cut over
 
-     Component-level probe. `GET /v1/health` reports the API as a whole; this reports one dependency so
-    an incident can be localised without guessing.
+     The property manager has switched: disconnect the source so it stops syncing. The imported data
+    stays readable. Idempotent.
+
+    Args:
+        workspace_id (int):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetAtlasHealthResponse200]
+        Response[CutoverMigrationResponse200 | Error]
      """
 
 
     kwargs = _get_kwargs(
-        
+        workspace_id=workspace_id,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -138,25 +176,30 @@ async def asyncio_detailed(
     return _build_response(client=client, response=response)
 
 async def asyncio(
+    workspace_id: int,
     *,
     client: AuthenticatedClient | Client,
 
-) -> GetAtlasHealthResponse200 | None:
-    """ Atlas market-intelligence backend health
+) -> CutoverMigrationResponse200 | Error | None:
+    """ Cut over
 
-     Component-level probe. `GET /v1/health` reports the API as a whole; this reports one dependency so
-    an incident can be localised without guessing.
+     The property manager has switched: disconnect the source so it stops syncing. The imported data
+    stays readable. Idempotent.
+
+    Args:
+        workspace_id (int):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetAtlasHealthResponse200
+        CutoverMigrationResponse200 | Error
      """
 
 
     return (await asyncio_detailed(
-        client=client,
+        workspace_id=workspace_id,
+client=client,
 
     )).parsed
