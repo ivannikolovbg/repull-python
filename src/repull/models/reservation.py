@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.reservation_pending_reason import ReservationPendingReason
 from ..models.reservation_platform_type_1 import ReservationPlatformType1
 from ..models.reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
 from ..models.reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
@@ -73,9 +74,17 @@ class Reservation:
             status_detail (ReservationStatusDetail | Unset): Present only when `status` was derived rather than reported by
                 the channel. `request_expired` — a booking request nobody answered in time (Airbnb's 24-hour window passed, or
                 the check-in did). Absent otherwise. Example: request_expired.
-            respond_by (datetime.datetime | Unset): On a `pending` Airbnb booking request that can still be answered: when
-                it lapses (24 hours after the guest asked). Accept or decline before then with `POST
-                /v1/reservations/{id}/accept` / `/decline`. Absent on every other reservation. Example:
+            pending_reason (ReservationPendingReason | Unset): Why a `pending` reservation is pending — who has to act next.
+                `host_approval`: a booking request the host must accept or decline (see `respondBy`). `guest_payment`: Airbnb is
+                waiting for the guest to pay. `guest_verification`: Airbnb is holding the booking while the guest completes
+                identity verification. The last two need no action from the host, and Airbnb does not publish a deadline for
+                them. Present only while `status` is `pending`; when it changes you receive `reservation.updated` with the
+                previous raw status in `previousAttributes.status`, even if `status` stays `pending`. Example:
+                guest_verification.
+            respond_by (datetime.datetime | Unset): On a `pending` Airbnb booking request (`pendingReason: host_approval`)
+                that can still be answered: when it lapses (24 hours after the guest asked). Accept or decline before then with
+                `POST /v1/reservations/{id}/accept` / `/decline`. Absent on every other reservation, including bookings Airbnb
+                is holding for the guest's payment or verification — those have no deadline we can report. Example:
                 2026-09-23T09:00:00.000Z.
             source (None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset):
                 Booking source / channel. Lowercase. May be null on legacy rows. Canonical name as of 2026-05; `platform` is
@@ -124,6 +133,7 @@ class Reservation:
     check_in_time: None | str | Unset = UNSET
     check_out_time: None | str | Unset = UNSET
     status_detail: ReservationStatusDetail | Unset = UNSET
+    pending_reason: ReservationPendingReason | Unset = UNSET
     respond_by: datetime.datetime | Unset = UNSET
     source: None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset = UNSET
     platform: None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset = UNSET
@@ -179,6 +189,11 @@ class Reservation:
         status_detail: str | Unset = UNSET
         if not isinstance(self.status_detail, Unset):
             status_detail = self.status_detail.value
+
+
+        pending_reason: str | Unset = UNSET
+        if not isinstance(self.pending_reason, Unset):
+            pending_reason = self.pending_reason.value
 
 
         respond_by: str | Unset = UNSET
@@ -264,6 +279,8 @@ class Reservation:
             field_dict["checkOutTime"] = check_out_time
         if status_detail is not UNSET:
             field_dict["statusDetail"] = status_detail
+        if pending_reason is not UNSET:
+            field_dict["pendingReason"] = pending_reason
         if respond_by is not UNSET:
             field_dict["respondBy"] = respond_by
         if source is not UNSET:
@@ -357,6 +374,16 @@ class Reservation:
             status_detail = UNSET
         else:
             status_detail = ReservationStatusDetail(_status_detail)
+
+
+
+
+        _pending_reason = d.pop("pendingReason", UNSET)
+        pending_reason: ReservationPendingReason | Unset
+        if isinstance(_pending_reason,  Unset):
+            pending_reason = UNSET
+        else:
+            pending_reason = ReservationPendingReason(_pending_reason)
 
 
 
@@ -538,6 +565,7 @@ class Reservation:
             check_in_time=check_in_time,
             check_out_time=check_out_time,
             status_detail=status_detail,
+            pending_reason=pending_reason,
             respond_by=respond_by,
             source=source,
             platform=platform,

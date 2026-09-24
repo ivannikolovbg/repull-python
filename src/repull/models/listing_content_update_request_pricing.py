@@ -37,8 +37,11 @@ class ListingContentUpdateRequestPricing:
             cleaning_fee (float | None | Unset):
             price_per_extra_guest (float | None | Unset):
             security_deposit (float | None | Unset):
-            weekly_discount (float | None | Unset): Fraction, not a percentage: `0.1` is 10% off a stay of a week or more.
-            monthly_discount (float | None | Unset): Fraction, not a percentage.
+            weekly_discount (float | None | Unset): A percentage, not a fraction: `10` is 10% off a stay of a week or more.
+                A value between 0 and 1 is refused (it would publish as a fraction of one percent) — send `10`, not `0.1`. `0`
+                clears it.
+            monthly_discount (float | None | Unset): A percentage, not a fraction: `20` is 20% off a stay of 28 nights or
+                more. Values between 0 and 1 are refused, as for `weeklyDiscount`.
             guests_included (int | None | Unset): Guests covered by the nightly rate before `pricePerExtraGuest` applies.
             currency (None | str | Unset): ISO 4217, e.g. `USD`.
      """

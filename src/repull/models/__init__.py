@@ -314,6 +314,7 @@ from .get_airbnb_offer_response_200_offer_type import GetAirbnbOfferResponse200O
 from .get_airbnb_offer_response_200_status import GetAirbnbOfferResponse200Status
 from .get_airbnb_thread_response_200 import GetAirbnbThreadResponse200
 from .get_auth_health_response_200 import GetAuthHealthResponse200
+from .get_booking_content_type import GetBookingContentType
 from .get_channel_health_channel import GetChannelHealthChannel
 from .get_channel_health_response_200 import GetChannelHealthResponse200
 from .get_conversation_special_offer_response_200 import GetConversationSpecialOfferResponse200
@@ -425,6 +426,8 @@ from .listing_content import ListingContent
 from .listing_content_update_request import ListingContentUpdateRequest
 from .listing_content_update_request_address import ListingContentUpdateRequestAddress
 from .listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+from .listing_content_update_request_checkout_tasks_type_0_item import ListingContentUpdateRequestCheckoutTasksType0Item
+from .listing_content_update_request_checkout_tasks_type_0_item_task_type import ListingContentUpdateRequestCheckoutTasksType0ItemTaskType
 from .listing_content_update_request_details import ListingContentUpdateRequestDetails
 from .listing_content_update_request_details_room_type_category import ListingContentUpdateRequestDetailsRoomTypeCategory
 from .listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
@@ -433,6 +436,8 @@ from .listing_content_update_request_photos_mode import ListingContentUpdateRequ
 from .listing_content_update_request_policies import ListingContentUpdateRequestPolicies
 from .listing_content_update_request_policies_check_in_method import ListingContentUpdateRequestPoliciesCheckInMethod
 from .listing_content_update_request_pricing import ListingContentUpdateRequestPricing
+from .listing_content_update_request_rooms_type_0_item import ListingContentUpdateRequestRoomsType0Item
+from .listing_content_update_request_rooms_type_0_item_beds_type_0_item import ListingContentUpdateRequestRoomsType0ItemBedsType0Item
 from .listing_content_update_response import ListingContentUpdateResponse
 from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
@@ -529,6 +534,8 @@ from .listing_webhook_object_address import ListingWebhookObjectAddress
 from .listing_webhook_object_channels_item import ListingWebhookObjectChannelsItem
 from .map_airbnb_listing_request import MapAirbnbListingRequest
 from .map_airbnb_listing_response import MapAirbnbListingResponse
+from .map_booking_room_request import MapBookingRoomRequest
+from .map_booking_room_response import MapBookingRoomResponse
 from .map_connect_booking_rooms_request import MapConnectBookingRoomsRequest
 from .map_connect_booking_rooms_response import MapConnectBookingRoomsResponse
 from .market_browse_category import MarketBrowseCategory
@@ -655,6 +662,7 @@ from .reservation_message_received_payload import ReservationMessageReceivedPayl
 from .reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
 from .reservation_money_line import ReservationMoneyLine
 from .reservation_occupancy import ReservationOccupancy
+from .reservation_pending_reason import ReservationPendingReason
 from .reservation_platform_type_1 import ReservationPlatformType1
 from .reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
 from .reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
@@ -818,6 +826,14 @@ from .update_airbnb_message_body import UpdateAirbnbMessageBody
 from .update_airbnb_message_body_action import UpdateAirbnbMessageBodyAction
 from .update_booking_charges_body import UpdateBookingChargesBody
 from .update_booking_charges_body_charges_item import UpdateBookingChargesBodyChargesItem
+from .update_booking_content_body import UpdateBookingContentBody
+from .update_booking_content_body_contacts_item import UpdateBookingContentBodyContactsItem
+from .update_booking_content_body_content_data_item import UpdateBookingContentBodyContentDataItem
+from .update_booking_content_body_facilities_item import UpdateBookingContentBodyFacilitiesItem
+from .update_booking_content_body_methods_item import UpdateBookingContentBodyMethodsItem
+from .update_booking_content_body_photos_item import UpdateBookingContentBodyPhotosItem
+from .update_booking_content_body_settings import UpdateBookingContentBodySettings
+from .update_booking_content_body_type import UpdateBookingContentBodyType
 from .update_listing_pricing_strategy_response_200 import UpdateListingPricingStrategyResponse200
 from .update_plumguide_webhooks_body import UpdatePlumguideWebhooksBody
 from .update_webhook_body import UpdateWebhookBody
@@ -1171,6 +1187,7 @@ __all__ = (
     "GetAirbnbOfferResponse200Status",
     "GetAirbnbThreadResponse200",
     "GetAuthHealthResponse200",
+    "GetBookingContentType",
     "GetChannelHealthChannel",
     "GetChannelHealthResponse200",
     "GetConversationSpecialOfferResponse200",
@@ -1262,6 +1279,8 @@ __all__ = (
     "ListingContentUpdateRequest",
     "ListingContentUpdateRequestAddress",
     "ListingContentUpdateRequestAmenitiesType1Item",
+    "ListingContentUpdateRequestCheckoutTasksType0Item",
+    "ListingContentUpdateRequestCheckoutTasksType0ItemTaskType",
     "ListingContentUpdateRequestDetails",
     "ListingContentUpdateRequestDetailsRoomTypeCategory",
     "ListingContentUpdateRequestOccupancy",
@@ -1270,6 +1289,8 @@ __all__ = (
     "ListingContentUpdateRequestPolicies",
     "ListingContentUpdateRequestPoliciesCheckInMethod",
     "ListingContentUpdateRequestPricing",
+    "ListingContentUpdateRequestRoomsType0Item",
+    "ListingContentUpdateRequestRoomsType0ItemBedsType0Item",
     "ListingContentUpdateResponse",
     "ListingCreatedEvent",
     "ListingCreatedEventEvent",
@@ -1386,6 +1407,8 @@ __all__ = (
     "ListWebhookDeliveriesStatus",
     "MapAirbnbListingRequest",
     "MapAirbnbListingResponse",
+    "MapBookingRoomRequest",
+    "MapBookingRoomResponse",
     "MapConnectBookingRoomsRequest",
     "MapConnectBookingRoomsResponse",
     "MarketBrowseCategory",
@@ -1512,6 +1535,7 @@ __all__ = (
     "ReservationMessageReceivedPayloadFrom",
     "ReservationMoneyLine",
     "ReservationOccupancy",
+    "ReservationPendingReason",
     "ReservationPlatformType1",
     "ReservationPlatformType2Type1",
     "ReservationPlatformType3Type1",
@@ -1675,6 +1699,14 @@ __all__ = (
     "UpdateAirbnbMessageBodyAction",
     "UpdateBookingChargesBody",
     "UpdateBookingChargesBodyChargesItem",
+    "UpdateBookingContentBody",
+    "UpdateBookingContentBodyContactsItem",
+    "UpdateBookingContentBodyContentDataItem",
+    "UpdateBookingContentBodyFacilitiesItem",
+    "UpdateBookingContentBodyMethodsItem",
+    "UpdateBookingContentBodyPhotosItem",
+    "UpdateBookingContentBodySettings",
+    "UpdateBookingContentBodyType",
     "UpdateListingPricingStrategyResponse200",
     "UpdatePlumguideWebhooksBody",
     "UpdateWebhookBody",

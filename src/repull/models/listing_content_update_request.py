@@ -15,11 +15,13 @@ from typing import cast
 if TYPE_CHECKING:
   from ..models.listing_content_update_request_address import ListingContentUpdateRequestAddress
   from ..models.listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+  from ..models.listing_content_update_request_checkout_tasks_type_0_item import ListingContentUpdateRequestCheckoutTasksType0Item
   from ..models.listing_content_update_request_details import ListingContentUpdateRequestDetails
   from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
   from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
   from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
   from ..models.listing_content_update_request_pricing import ListingContentUpdateRequestPricing
+  from ..models.listing_content_update_request_rooms_type_0_item import ListingContentUpdateRequestRoomsType0Item
 
 
 
@@ -62,6 +64,22 @@ class ListingContentUpdateRequest:
                 /v1/listings` could only set the type at creation. Airbnb may lock these on an established listing; the publish
                 response reports that in `lockedFields`.
             occupancy (ListingContentUpdateRequestOccupancy | Unset):
+            rooms (list[ListingContentUpdateRequestRoomsType0Item] | None | Unset): The listing's rooms and the beds in each
+                — what Airbnb shows as the sleeping arrangements and needs before a listing can go live. FULL replacement: the
+                rooms you send become the whole set. Omit to leave rooms untouched; send `[]` to clear them.
+
+                Every entry is checked before anything is written, so a bad entry refuses the whole request with `422
+                invalid_params` naming it (e.g. `rooms[1].beds[0].quantity`) — a listing is never left with half its rooms.
+
+                Values use Airbnb's vocabulary, which Booking.com room mapping also reads. This is a local write; publish to
+                send it to a channel.
+            checkout_tasks (list[ListingContentUpdateRequestCheckoutTasksType0Item] | None | Unset): What the guest is asked
+                to do before leaving. FULL replacement: omit to leave untouched; send `[]` to clear. An unknown `taskType`
+                refuses the whole request with `422 invalid_params`.
+
+                Published to Airbnb, which is the only channel with checkout tasks. Airbnb accepts them only from partner apps
+                it has certified for the feature; until then the publish result reports Airbnb's own refusal for this section
+                and every other section still lands.
             pricing (ListingContentUpdateRequestPricing | Unset): The listing's standing rates. Partial like every other
                 section: only the fields you send are written, and `null` clears one.
 
@@ -90,6 +108,8 @@ class ListingContentUpdateRequest:
     address: ListingContentUpdateRequestAddress | Unset = UNSET
     details: ListingContentUpdateRequestDetails | Unset = UNSET
     occupancy: ListingContentUpdateRequestOccupancy | Unset = UNSET
+    rooms: list[ListingContentUpdateRequestRoomsType0Item] | None | Unset = UNSET
+    checkout_tasks: list[ListingContentUpdateRequestCheckoutTasksType0Item] | None | Unset = UNSET
     pricing: ListingContentUpdateRequestPricing | Unset = UNSET
     policies: ListingContentUpdateRequestPolicies | Unset = UNSET
     photos: list[ListingContentUpdateRequestPhotosItemType1 | str] | Unset = UNSET
@@ -103,11 +123,13 @@ class ListingContentUpdateRequest:
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_content_update_request_address import ListingContentUpdateRequestAddress
         from ..models.listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+        from ..models.listing_content_update_request_checkout_tasks_type_0_item import ListingContentUpdateRequestCheckoutTasksType0Item
         from ..models.listing_content_update_request_details import ListingContentUpdateRequestDetails
         from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
         from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
         from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
         from ..models.listing_content_update_request_pricing import ListingContentUpdateRequestPricing
+        from ..models.listing_content_update_request_rooms_type_0_item import ListingContentUpdateRequestRoomsType0Item
         locale = self.locale
 
         title: None | str | Unset
@@ -162,6 +184,32 @@ class ListingContentUpdateRequest:
         if not isinstance(self.occupancy, Unset):
             occupancy = self.occupancy.to_dict()
 
+        rooms: list[dict[str, Any]] | None | Unset
+        if isinstance(self.rooms, Unset):
+            rooms = UNSET
+        elif isinstance(self.rooms, list):
+            rooms = []
+            for rooms_type_0_item_data in self.rooms:
+                rooms_type_0_item = rooms_type_0_item_data.to_dict()
+                rooms.append(rooms_type_0_item)
+
+
+        else:
+            rooms = self.rooms
+
+        checkout_tasks: list[dict[str, Any]] | None | Unset
+        if isinstance(self.checkout_tasks, Unset):
+            checkout_tasks = UNSET
+        elif isinstance(self.checkout_tasks, list):
+            checkout_tasks = []
+            for checkout_tasks_type_0_item_data in self.checkout_tasks:
+                checkout_tasks_type_0_item = checkout_tasks_type_0_item_data.to_dict()
+                checkout_tasks.append(checkout_tasks_type_0_item)
+
+
+        else:
+            checkout_tasks = self.checkout_tasks
+
         pricing: dict[str, Any] | Unset = UNSET
         if not isinstance(self.pricing, Unset):
             pricing = self.pricing.to_dict()
@@ -211,6 +259,10 @@ class ListingContentUpdateRequest:
             field_dict["details"] = details
         if occupancy is not UNSET:
             field_dict["occupancy"] = occupancy
+        if rooms is not UNSET:
+            field_dict["rooms"] = rooms
+        if checkout_tasks is not UNSET:
+            field_dict["checkoutTasks"] = checkout_tasks
         if pricing is not UNSET:
             field_dict["pricing"] = pricing
         if policies is not UNSET:
@@ -228,11 +280,13 @@ class ListingContentUpdateRequest:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_content_update_request_address import ListingContentUpdateRequestAddress
         from ..models.listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
+        from ..models.listing_content_update_request_checkout_tasks_type_0_item import ListingContentUpdateRequestCheckoutTasksType0Item
         from ..models.listing_content_update_request_details import ListingContentUpdateRequestDetails
         from ..models.listing_content_update_request_occupancy import ListingContentUpdateRequestOccupancy
         from ..models.listing_content_update_request_photos_item_type_1 import ListingContentUpdateRequestPhotosItemType1
         from ..models.listing_content_update_request_policies import ListingContentUpdateRequestPolicies
         from ..models.listing_content_update_request_pricing import ListingContentUpdateRequestPricing
+        from ..models.listing_content_update_request_rooms_type_0_item import ListingContentUpdateRequestRoomsType0Item
         d = dict(src_dict)
         locale = d.pop("locale", UNSET)
 
@@ -333,6 +387,56 @@ class ListingContentUpdateRequest:
 
 
 
+        def _parse_rooms(data: object) -> list[ListingContentUpdateRequestRoomsType0Item] | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                rooms_type_0 = []
+                _rooms_type_0 = data
+                for rooms_type_0_item_data in (_rooms_type_0):
+                    rooms_type_0_item = ListingContentUpdateRequestRoomsType0Item.from_dict(rooms_type_0_item_data)
+
+
+
+                    rooms_type_0.append(rooms_type_0_item)
+
+                return rooms_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(list[ListingContentUpdateRequestRoomsType0Item] | None | Unset, data)
+
+        rooms = _parse_rooms(d.pop("rooms", UNSET))
+
+
+        def _parse_checkout_tasks(data: object) -> list[ListingContentUpdateRequestCheckoutTasksType0Item] | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                checkout_tasks_type_0 = []
+                _checkout_tasks_type_0 = data
+                for checkout_tasks_type_0_item_data in (_checkout_tasks_type_0):
+                    checkout_tasks_type_0_item = ListingContentUpdateRequestCheckoutTasksType0Item.from_dict(checkout_tasks_type_0_item_data)
+
+
+
+                    checkout_tasks_type_0.append(checkout_tasks_type_0_item)
+
+                return checkout_tasks_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(list[ListingContentUpdateRequestCheckoutTasksType0Item] | None | Unset, data)
+
+        checkout_tasks = _parse_checkout_tasks(d.pop("checkoutTasks", UNSET))
+
+
         _pricing = d.pop("pricing", UNSET)
         pricing: ListingContentUpdateRequestPricing | Unset
         if isinstance(_pricing,  Unset):
@@ -396,6 +500,8 @@ class ListingContentUpdateRequest:
             address=address,
             details=details,
             occupancy=occupancy,
+            rooms=rooms,
+            checkout_tasks=checkout_tasks,
             pricing=pricing,
             policies=policies,
             photos=photos,

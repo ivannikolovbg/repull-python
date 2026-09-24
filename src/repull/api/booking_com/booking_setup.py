@@ -128,15 +128,19 @@ def sync_detailed(
     ## Opening a property
 
     - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
-    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
-    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
-    validation. Returns 201.
+    the property, its first room with the listing's beds, a rate plan and the room-rate product that
+    makes the room sellable (under the listing's cancellation policy), sets the contact and invoice
+    details and the facilities, seeds availability and rates, syncs the calendar, then runs
+    Booking.com's readiness check and reports what still blocks opening in `warnings`. Send `contact`
+    (`name`, `email`, `phone` in international form); without it the workspace owner is used, and a
+    workspace with no usable contact is refused before anything is created. Returns 201.
     - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
     `property_id`). Returns 201.
     - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
     `room_id`).
-    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
-    \"XML: Being built\" stage.
+    - `advance` — run Booking.com's readiness check for a property (`property_id`) and, when it passes,
+    open it. Returns `checked`, `opened`, `sellable` and `blockers` — Booking.com's own reasons it
+    cannot open yet.
 
     ## Account and policy steps
 
@@ -146,17 +150,22 @@ def sync_detailed(
     connectivity-provider credentials every workspace shares, and nothing records which workspace
     registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
     you.
-    - `check-readiness` — check whether a property is ready to open (`property_id`).
-    - `open-property` — open the property for sale (`property_id`).
-    - `set-contacts` — set property contacts (`property_id`, `contacts`).
-    - `set-policies` — set property policies (`property_id`, plus policy fields).
+    - `check-readiness` — whether a property is ready to open (`property_id`): `ready` and `blockers`,
+    without trying to open it.
+    - `open-property` — open the property for sale (`property_id`). Refused with `422 booking_rejected`
+    naming the blockers when it is not ready.
+    - `set-contacts` — set property contacts (`property_id`, `contacts` in Booking.com's Contacts API
+    shape; at most one carries the `general` profile).
+    - `set-policies` — add a cancellation policy (`property_id`, `policyCode`, optional
+    `prepaymentRequired`). House rules, pets, children and the damage deposit are `POST
+    /v1/channels/booking/content` with `type: \"settings\"`.
 
     ## Three things about Booking.com that cost real money
 
-    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
-    validates the summary notification. `create-property` sends that notification, but it can fail on
-    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
-    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+    **A newly created property is NOT sellable.** Booking.com opens it only when its readiness check
+    passes, and the check names what is missing — a main photo still processing, no availability, a
+    licence the region requires. The response always reports `status: \"being_built\"` and `sellable:
+    false`, never a guess, with the reasons in `warnings`. Resolve them, then `advance`.
 
     **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
     active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
@@ -164,9 +173,9 @@ def sync_detailed(
     room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
     the room again.
 
-    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
-    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
-    room.
+    **Room names are Booking.com's.** Travellers see one of Booking.com's standard names (\"Two-Bedroom
+    Apartment\"), chosen from the listing's bedrooms. The listing's own name is kept as the operator-
+    side reference, never shown to guests.
 
     ## The legal entity is resolved, not asked for
 
@@ -190,11 +199,10 @@ def sync_detailed(
     be sold through and there is no route back from one, so `target` is not a parameter — sending it
     changes nothing.
 
-    These are fixed on every created property and are not parameters: property category (Apartment),
-    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
-    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
-    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
-    on the listing and do not pre-adjust it yourself.
+    The property category comes from the listing's property type (Apartment when it has none; Holiday
+    home, Villa or Chalet when it says so). The initial room count is 1. Latitude and longitude come
+    from the listing and are adjusted slightly to clear Booking.com's duplicate detection — send the
+    property's true position on the listing and do not pre-adjust it yourself.
 
     The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
     Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
@@ -259,15 +267,19 @@ def sync(
     ## Opening a property
 
     - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
-    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
-    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
-    validation. Returns 201.
+    the property, its first room with the listing's beds, a rate plan and the room-rate product that
+    makes the room sellable (under the listing's cancellation policy), sets the contact and invoice
+    details and the facilities, seeds availability and rates, syncs the calendar, then runs
+    Booking.com's readiness check and reports what still blocks opening in `warnings`. Send `contact`
+    (`name`, `email`, `phone` in international form); without it the workspace owner is used, and a
+    workspace with no usable contact is refused before anything is created. Returns 201.
     - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
     `property_id`). Returns 201.
     - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
     `room_id`).
-    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
-    \"XML: Being built\" stage.
+    - `advance` — run Booking.com's readiness check for a property (`property_id`) and, when it passes,
+    open it. Returns `checked`, `opened`, `sellable` and `blockers` — Booking.com's own reasons it
+    cannot open yet.
 
     ## Account and policy steps
 
@@ -277,17 +289,22 @@ def sync(
     connectivity-provider credentials every workspace shares, and nothing records which workspace
     registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
     you.
-    - `check-readiness` — check whether a property is ready to open (`property_id`).
-    - `open-property` — open the property for sale (`property_id`).
-    - `set-contacts` — set property contacts (`property_id`, `contacts`).
-    - `set-policies` — set property policies (`property_id`, plus policy fields).
+    - `check-readiness` — whether a property is ready to open (`property_id`): `ready` and `blockers`,
+    without trying to open it.
+    - `open-property` — open the property for sale (`property_id`). Refused with `422 booking_rejected`
+    naming the blockers when it is not ready.
+    - `set-contacts` — set property contacts (`property_id`, `contacts` in Booking.com's Contacts API
+    shape; at most one carries the `general` profile).
+    - `set-policies` — add a cancellation policy (`property_id`, `policyCode`, optional
+    `prepaymentRequired`). House rules, pets, children and the damage deposit are `POST
+    /v1/channels/booking/content` with `type: \"settings\"`.
 
     ## Three things about Booking.com that cost real money
 
-    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
-    validates the summary notification. `create-property` sends that notification, but it can fail on
-    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
-    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+    **A newly created property is NOT sellable.** Booking.com opens it only when its readiness check
+    passes, and the check names what is missing — a main photo still processing, no availability, a
+    licence the region requires. The response always reports `status: \"being_built\"` and `sellable:
+    false`, never a guess, with the reasons in `warnings`. Resolve them, then `advance`.
 
     **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
     active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
@@ -295,9 +312,9 @@ def sync(
     room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
     the room again.
 
-    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
-    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
-    room.
+    **Room names are Booking.com's.** Travellers see one of Booking.com's standard names (\"Two-Bedroom
+    Apartment\"), chosen from the listing's bedrooms. The listing's own name is kept as the operator-
+    side reference, never shown to guests.
 
     ## The legal entity is resolved, not asked for
 
@@ -321,11 +338,10 @@ def sync(
     be sold through and there is no route back from one, so `target` is not a parameter — sending it
     changes nothing.
 
-    These are fixed on every created property and are not parameters: property category (Apartment),
-    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
-    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
-    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
-    on the listing and do not pre-adjust it yourself.
+    The property category comes from the listing's property type (Apartment when it has none; Holiday
+    home, Villa or Chalet when it says so). The initial room count is 1. Latitude and longitude come
+    from the listing and are adjusted slightly to clear Booking.com's duplicate detection — send the
+    property's true position on the listing and do not pre-adjust it yourself.
 
     The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
     Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
@@ -385,15 +401,19 @@ async def asyncio_detailed(
     ## Opening a property
 
     - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
-    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
-    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
-    validation. Returns 201.
+    the property, its first room with the listing's beds, a rate plan and the room-rate product that
+    makes the room sellable (under the listing's cancellation policy), sets the contact and invoice
+    details and the facilities, seeds availability and rates, syncs the calendar, then runs
+    Booking.com's readiness check and reports what still blocks opening in `warnings`. Send `contact`
+    (`name`, `email`, `phone` in international form); without it the workspace owner is used, and a
+    workspace with no usable contact is refused before anything is created. Returns 201.
     - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
     `property_id`). Returns 201.
     - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
     `room_id`).
-    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
-    \"XML: Being built\" stage.
+    - `advance` — run Booking.com's readiness check for a property (`property_id`) and, when it passes,
+    open it. Returns `checked`, `opened`, `sellable` and `blockers` — Booking.com's own reasons it
+    cannot open yet.
 
     ## Account and policy steps
 
@@ -403,17 +423,22 @@ async def asyncio_detailed(
     connectivity-provider credentials every workspace shares, and nothing records which workspace
     registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
     you.
-    - `check-readiness` — check whether a property is ready to open (`property_id`).
-    - `open-property` — open the property for sale (`property_id`).
-    - `set-contacts` — set property contacts (`property_id`, `contacts`).
-    - `set-policies` — set property policies (`property_id`, plus policy fields).
+    - `check-readiness` — whether a property is ready to open (`property_id`): `ready` and `blockers`,
+    without trying to open it.
+    - `open-property` — open the property for sale (`property_id`). Refused with `422 booking_rejected`
+    naming the blockers when it is not ready.
+    - `set-contacts` — set property contacts (`property_id`, `contacts` in Booking.com's Contacts API
+    shape; at most one carries the `general` profile).
+    - `set-policies` — add a cancellation policy (`property_id`, `policyCode`, optional
+    `prepaymentRequired`). House rules, pets, children and the damage deposit are `POST
+    /v1/channels/booking/content` with `type: \"settings\"`.
 
     ## Three things about Booking.com that cost real money
 
-    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
-    validates the summary notification. `create-property` sends that notification, but it can fail on
-    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
-    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+    **A newly created property is NOT sellable.** Booking.com opens it only when its readiness check
+    passes, and the check names what is missing — a main photo still processing, no availability, a
+    licence the region requires. The response always reports `status: \"being_built\"` and `sellable:
+    false`, never a guess, with the reasons in `warnings`. Resolve them, then `advance`.
 
     **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
     active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
@@ -421,9 +446,9 @@ async def asyncio_detailed(
     room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
     the room again.
 
-    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
-    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
-    room.
+    **Room names are Booking.com's.** Travellers see one of Booking.com's standard names (\"Two-Bedroom
+    Apartment\"), chosen from the listing's bedrooms. The listing's own name is kept as the operator-
+    side reference, never shown to guests.
 
     ## The legal entity is resolved, not asked for
 
@@ -447,11 +472,10 @@ async def asyncio_detailed(
     be sold through and there is no route back from one, so `target` is not a parameter — sending it
     changes nothing.
 
-    These are fixed on every created property and are not parameters: property category (Apartment),
-    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
-    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
-    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
-    on the listing and do not pre-adjust it yourself.
+    The property category comes from the listing's property type (Apartment when it has none; Holiday
+    home, Villa or Chalet when it says so). The initial room count is 1. Latitude and longitude come
+    from the listing and are adjusted slightly to clear Booking.com's duplicate detection — send the
+    property's true position on the listing and do not pre-adjust it yourself.
 
     The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
     Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
@@ -516,15 +540,19 @@ async def asyncio(
     ## Opening a property
 
     - `create-property` — create a NEW Booking.com property for a Repull listing (`listing_id`). Creates
-    the property, its first room, a rate plan and the room-rate product that makes the room sellable,
-    seeds availability and rates, syncs the calendar, then sends the notification that starts Booking's
-    validation. Returns 201.
+    the property, its first room with the listing's beds, a rate plan and the room-rate product that
+    makes the room sellable (under the listing's cancellation policy), sets the contact and invoice
+    details and the facilities, seeds availability and rates, syncs the calendar, then runs
+    Booking.com's readiness check and reports what still blocks opening in `warnings`. Send `contact`
+    (`name`, `email`, `phone` in international form); without it the workspace owner is used, and a
+    workspace with no usable contact is refused before anything is created. Returns 201.
     - `add-room` — add another room type (and its sellable product) to a property (`listing_id`,
     `property_id`). Returns 201.
     - `add-unit` — raise the number of identical units on an existing room (`listing_id`, `property_id`,
     `room_id`).
-    - `advance` — re-send the summary notification for a property (`property_id`) to move it out of the
-    \"XML: Being built\" stage.
+    - `advance` — run Booking.com's readiness check for a property (`property_id`) and, when it passes,
+    open it. Returns `checked`, `opened`, `sellable` and `blockers` — Booking.com's own reasons it
+    cannot open yet.
 
     ## Account and policy steps
 
@@ -534,17 +562,22 @@ async def asyncio(
     connectivity-provider credentials every workspace shares, and nothing records which workspace
     registered which entity, so no entity can be shown to be yours. `create-property` resolves it for
     you.
-    - `check-readiness` — check whether a property is ready to open (`property_id`).
-    - `open-property` — open the property for sale (`property_id`).
-    - `set-contacts` — set property contacts (`property_id`, `contacts`).
-    - `set-policies` — set property policies (`property_id`, plus policy fields).
+    - `check-readiness` — whether a property is ready to open (`property_id`): `ready` and `blockers`,
+    without trying to open it.
+    - `open-property` — open the property for sale (`property_id`). Refused with `422 booking_rejected`
+    naming the blockers when it is not ready.
+    - `set-contacts` — set property contacts (`property_id`, `contacts` in Booking.com's Contacts API
+    shape; at most one carries the `general` profile).
+    - `set-policies` — add a cancellation policy (`property_id`, `policyCode`, optional
+    `prepaymentRequired`). House rules, pets, children and the damage deposit are `POST
+    /v1/channels/booking/content` with `type: \"settings\"`.
 
     ## Three things about Booking.com that cost real money
 
-    **A newly created property is NOT sellable.** Booking holds it at \"XML: Being built\" until it
-    validates the summary notification. `create-property` sends that notification, but it can fail on
-    its own after everything else succeeded — the response always reports `status: \"being_built\"` and
-    `sellable: false`, never a guess. Use `advance` to re-send it, and check the Extranet for the stage.
+    **A newly created property is NOT sellable.** Booking.com opens it only when its readiness check
+    passes, and the check names what is missing — a main photo still processing, no availability, a
+    licence the region requires. The response always reports `status: \"being_built\"` and `sellable:
+    false`, never a guess, with the reasons in `warnings`. Resolve them, then `advance`.
 
     **A room with no ACTIVE rate plan is invisible.** Booking only renders rooms that have at least one
     active product linkage (room × rate plan). A room can be created successfully, return a `roomId`,
@@ -552,9 +585,9 @@ async def asyncio(
     room`, that is exactly what happened: activate a rate plan on the property in the Extranet, then add
     the room again.
 
-    **The room name is shown to travellers.** It is taken from the listing's name and appears on the
-    Booking.com property page. Internal nicknames belong on the property's partner reference, not on the
-    room.
+    **Room names are Booking.com's.** Travellers see one of Booking.com's standard names (\"Two-Bedroom
+    Apartment\"), chosen from the listing's bedrooms. The listing's own name is kept as the operator-
+    side reference, never shown to guests.
 
     ## The legal entity is resolved, not asked for
 
@@ -578,11 +611,10 @@ async def asyncio(
     be sold through and there is no route back from one, so `target` is not a parameter — sending it
     changes nothing.
 
-    These are fixed on every created property and are not parameters: property category (Apartment),
-    initial room count (1), and the property contact record (a placeholder name, email and phone). Set
-    the real contacts afterwards with `set-contacts`. Latitude and longitude come from the listing and
-    are adjusted slightly to clear Booking.com's duplicate detection — send the property's true position
-    on the listing and do not pre-adjust it yourself.
+    The property category comes from the listing's property type (Apartment when it has none; Holiday
+    home, Villa or Chalet when it says so). The initial room count is 1. Latitude and longitude come
+    from the listing and are adjusted slightly to clear Booking.com's duplicate detection — send the
+    property's true position on the listing and do not pre-adjust it yourself.
 
     The listing's name, check-in/check-out times, currency, capacity and price come from the listing.
     Its postal code is taken from the listing's own `postalCode`; when the listing has none, it falls
