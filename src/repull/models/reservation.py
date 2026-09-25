@@ -54,7 +54,8 @@ class Reservation:
                 four buckets, so the value you receive is always one of the enum constants. `completed` is derived from
                 `checkOut < today`. A `pending` booking request the channel already let lapse — Airbnb expires an unanswered
                 request 24 hours after the guest asks, and no request can be answered once its check-in has passed — is reported
-                as `cancelled` with `statusDetail: "request_expired"`, even when the channel never told us. Example: confirmed.
+                as `cancelled` with `statusDetail: "request_expired"`, even when the channel never told us. Every `cancelled`
+                reservation says how it ended in `statusDetail` when the channel tells us. Example: confirmed.
             confirmation_code (str): Channel-side confirmation code (Airbnb HMxxx, Booking.com numeric, etc.). Example:
                 HMXYZ123.
             created_at (datetime.datetime): When the reservation row was created in Repull (not the booking-on-channel
@@ -71,9 +72,14 @@ class Reservation:
             check_out_time (None | str | Unset): Local check-out time for this stay, `HH:MM` on a 24-hour clock in the
                 property's own timezone. Pair with `checkOut` to schedule the turnover clean. `null` when unknown. This is the
                 same field `PATCH /v1/reservations/{id}` writes. Example: 10:00.
-            status_detail (ReservationStatusDetail | Unset): Present only when `status` was derived rather than reported by
-                the channel. `request_expired` — a booking request nobody answered in time (Airbnb's 24-hour window passed, or
-                the check-in did). Absent otherwise. Example: request_expired.
+            status_detail (ReservationStatusDetail | Unset): On a `cancelled` reservation: how it ended. `request_expired` —
+                a booking request nobody answered in time (Airbnb's 24-hour window passed, or the check-in did), whether the
+                channel reported it or we derived it. `declined` — the host declined the request. `request_voided` — the request
+                was withdrawn or voided before anyone answered it. `verification_failed` — the guest failed Airbnb's identity
+                verification. `hold_voided` — Airbnb voided a booking it was holding for the guest's payment or verification.
+                `cancelled_by_guest` / `cancelled_by_host` / `cancelled_by_platform` — a booking cancelled by that party
+                (`platform` is the channel itself, e.g. Airbnb support). Matches what the webhooks report for the same change.
+                Absent on every other status, and on a cancellation whose channel gives no reason. Example: declined.
             pending_reason (ReservationPendingReason | Unset): Why a `pending` reservation is pending — who has to act next.
                 `host_approval`: a booking request the host must accept or decline (see `respondBy`). `guest_payment`: Airbnb is
                 waiting for the guest to pay. `guest_verification`: Airbnb is holding the booking while the guest completes
