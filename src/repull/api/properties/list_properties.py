@@ -133,9 +133,13 @@ def sync_detailed(
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
-    """ List properties
+    """ List properties (older name for /v1/listings)
 
-     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Cursor-paginated list of properties for the authenticated workspace. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 
@@ -210,9 +214,13 @@ def sync(
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
-    """ List properties
+    """ List properties (older name for /v1/listings)
 
-     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Cursor-paginated list of properties for the authenticated workspace. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 
@@ -282,9 +290,13 @@ async def asyncio_detailed(
     include_total: bool | Unset = True,
 
 ) -> Response[Error | PropertyListResponse]:
-    """ List properties
+    """ List properties (older name for /v1/listings)
 
-     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Cursor-paginated list of properties for the authenticated workspace. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 
@@ -359,9 +371,13 @@ async def asyncio(
     include_total: bool | Unset = True,
 
 ) -> Error | PropertyListResponse | None:
-    """ List properties
+    """ List properties (older name for /v1/listings)
 
-     Cursor-paginated list of properties for the authenticated workspace. Walk pages with
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Cursor-paginated list of properties for the authenticated workspace. Walk pages with
     `?cursor=<pagination.nextCursor>`; stop when `pagination.hasMore` is `false`. Cursor is opaque
     base64 — do not parse it.
 

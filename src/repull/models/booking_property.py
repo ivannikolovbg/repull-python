@@ -38,7 +38,8 @@ class BookingProperty:
             active (bool | Unset):
             sync_enabled (bool | Unset):
             booking_url (None | str | Unset):
-            markup (None | str | Unset):
+            markup (None | str | Unset): The Booking.com markup on this property, as a fraction: "0.18" = +18%, shared by
+                every listing on the property. Read or set it as a percentage with `/v1/listings/{id}/markups`.
             sync_category (None | str | Unset):
             suspended_at (datetime.datetime | None | Unset):
             suspension_reason (None | str | Unset):

@@ -321,6 +321,9 @@ from .get_conversation_special_offer_response_200 import GetConversationSpecialO
 from .get_conversation_special_offer_response_200_guests_type_0 import GetConversationSpecialOfferResponse200GuestsType0
 from .get_health_response_200 import GetHealthResponse200
 from .get_kv_response_200 import GetKvResponse200
+from .get_listing_markups_response_200 import GetListingMarkupsResponse200
+from .get_listing_markups_response_200_airbnb_item import GetListingMarkupsResponse200AirbnbItem
+from .get_listing_markups_response_200_booking_item import GetListingMarkupsResponse200BookingItem
 from .get_listing_segments_level import GetListingSegmentsLevel
 from .get_mcp_health_response_200 import GetMcpHealthResponse200
 from .get_migration_channel_map_response_200 import GetMigrationChannelMapResponse200
@@ -728,6 +731,8 @@ from .set_airbnb_listing_cover_photo_response_200 import SetAirbnbListingCoverPh
 from .set_airbnb_listing_cover_photo_response_200_data import SetAirbnbListingCoverPhotoResponse200Data
 from .set_kv_body import SetKvBody
 from .set_kv_response_200 import SetKvResponse200
+from .set_listing_markup_body import SetListingMarkupBody
+from .set_listing_markup_body_channel import SetListingMarkupBodyChannel
 from .submit_beds_24_credentials_body import SubmitBeds24CredentialsBody
 from .submit_beds_24_credentials_body_credentials import SubmitBeds24CredentialsBodyCredentials
 from .submit_beds_24_credentials_response_200 import SubmitBeds24CredentialsResponse200
@@ -1194,6 +1199,9 @@ __all__ = (
     "GetConversationSpecialOfferResponse200GuestsType0",
     "GetHealthResponse200",
     "GetKvResponse200",
+    "GetListingMarkupsResponse200",
+    "GetListingMarkupsResponse200AirbnbItem",
+    "GetListingMarkupsResponse200BookingItem",
     "GetListingSegmentsLevel",
     "GetMcpHealthResponse200",
     "GetMigrationChannelMapResponse200",
@@ -1601,6 +1609,8 @@ __all__ = (
     "SetAirbnbListingCoverPhotoResponse200Data",
     "SetKvBody",
     "SetKvResponse200",
+    "SetListingMarkupBody",
+    "SetListingMarkupBodyChannel",
     "SubmitBeds24CredentialsBody",
     "SubmitBeds24CredentialsBodyCredentials",
     "SubmitBeds24CredentialsResponse200",

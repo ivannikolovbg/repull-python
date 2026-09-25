@@ -43,7 +43,8 @@ class AirbnbConnection:
             active (bool | Unset):
             sync_enabled (bool | Unset):
             primary (bool | Unset):
-            markup (None | str | Unset): Decimal markup (e.g. "1.10" for +10%).
+            markup (None | str | Unset): The Airbnb markup as a fraction: "0.35" = +35% on the listing's own price. Read or
+                set it as a percentage with `/v1/listings/{id}/markups`.
             sync_category (AirbnbConnectionSyncCategory | Unset): Airbnb's own API sync decision for THIS listing, as Airbnb
                 reports it. Airbnb authorises sync one listing at a time, so a connected account can still contain listings it
                 will not accept writes for.

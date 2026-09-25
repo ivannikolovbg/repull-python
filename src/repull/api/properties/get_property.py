@@ -100,9 +100,13 @@ def sync_detailed(
     include: GetPropertyInclude | Unset = UNSET,
 
 ) -> Response[Error | Property]:
-    """ Get property details
+    """ Get property details (older name for /v1/listings/{id})
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
     is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
 
     **Optional expansions:** Pass `?include=amenities` to enrich the response with the property's
@@ -144,9 +148,13 @@ def sync(
     include: GetPropertyInclude | Unset = UNSET,
 
 ) -> Error | Property | None:
-    """ Get property details
+    """ Get property details (older name for /v1/listings/{id})
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
     is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
 
     **Optional expansions:** Pass `?include=amenities` to enrich the response with the property's
@@ -183,9 +191,13 @@ async def asyncio_detailed(
     include: GetPropertyInclude | Unset = UNSET,
 
 ) -> Response[Error | Property]:
-    """ Get property details
+    """ Get property details (older name for /v1/listings/{id})
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
     is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
 
     **Optional expansions:** Pass `?include=amenities` to enrich the response with the property's
@@ -227,9 +239,13 @@ async def asyncio(
     include: GetPropertyInclude | Unset = UNSET,
 
 ) -> Error | Property | None:
-    """ Get property details
+    """ Get property details (older name for /v1/listings/{id})
 
-     Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
+     **`/v1/properties` is the older name for `/v1/listings`** — the same listings, the same ids. It
+    stays for existing integrations; new code should use `/v1/listings`, which is where create, content,
+    publishing and markups live.
+
+    Fetch a single property by Repull id. Property ids are workspace-scoped — an id from one workspace
     is not valid in another. 404 means the id does not exist OR belongs to a different workspace.
 
     **Optional expansions:** Pass `?include=amenities` to enrich the response with the property's
