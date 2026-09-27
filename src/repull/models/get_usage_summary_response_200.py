@@ -21,6 +21,7 @@ if TYPE_CHECKING:
   from ..models.get_usage_summary_response_200_timeline_item import GetUsageSummaryResponse200TimelineItem
   from ..models.get_usage_summary_response_200_totals import GetUsageSummaryResponse200Totals
   from ..models.get_usage_summary_response_200_used import GetUsageSummaryResponse200Used
+  from ..models.plan_notice import PlanNotice
 
 
 
@@ -45,6 +46,14 @@ class GetUsageSummaryResponse200:
             status_distribution (GetUsageSummaryResponse200StatusDistribution | Unset):
             totals (GetUsageSummaryResponse200Totals | Unset):
             range_ (str | Unset):
+            plan_notice (PlanNotice | Unset): Added to the body of EVERY JSON response (success or error, except bare arrays
+                and 5xx) while the workspace is connected to more listings than its plan lets it use — so a developer reading
+                any payload, or an AI assistant relaying it, sees it. Connect keeps every listing it finds, but on a capped plan
+                only as many as the plan allows are active; the rest are held back inactive and keep syncing. The same responses
+                also carry the `X-Repull-Listings-Held-Back` and `X-Repull-Active-Listing-Limit` headers. Using a held-back
+                listing answers `403 listing_inactive` with `reason: "plan_limit"`. Tell the user: they can see the held-back
+                listings with `GET /v1/listings?status=all`, choose which are active with `POST /v1/listings/status`, or
+                upgrade.
      """
 
     tier: str | Unset = UNSET
@@ -58,6 +67,7 @@ class GetUsageSummaryResponse200:
     status_distribution: GetUsageSummaryResponse200StatusDistribution | Unset = UNSET
     totals: GetUsageSummaryResponse200Totals | Unset = UNSET
     range_: str | Unset = UNSET
+    plan_notice: PlanNotice | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -72,6 +82,7 @@ class GetUsageSummaryResponse200:
         from ..models.get_usage_summary_response_200_timeline_item import GetUsageSummaryResponse200TimelineItem
         from ..models.get_usage_summary_response_200_totals import GetUsageSummaryResponse200Totals
         from ..models.get_usage_summary_response_200_used import GetUsageSummaryResponse200Used
+        from ..models.plan_notice import PlanNotice
         tier = self.tier
 
         limits: dict[str, Any] | Unset = UNSET
@@ -122,6 +133,10 @@ class GetUsageSummaryResponse200:
 
         range_ = self.range_
 
+        plan_notice: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.plan_notice, Unset):
+            plan_notice = self.plan_notice.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -149,6 +164,8 @@ class GetUsageSummaryResponse200:
             field_dict["totals"] = totals
         if range_ is not UNSET:
             field_dict["range"] = range_
+        if plan_notice is not UNSET:
+            field_dict["planNotice"] = plan_notice
 
         return field_dict
 
@@ -163,6 +180,7 @@ class GetUsageSummaryResponse200:
         from ..models.get_usage_summary_response_200_timeline_item import GetUsageSummaryResponse200TimelineItem
         from ..models.get_usage_summary_response_200_totals import GetUsageSummaryResponse200Totals
         from ..models.get_usage_summary_response_200_used import GetUsageSummaryResponse200Used
+        from ..models.plan_notice import PlanNotice
         d = dict(src_dict)
         tier = d.pop("tier", UNSET)
 
@@ -262,6 +280,16 @@ class GetUsageSummaryResponse200:
 
         range_ = d.pop("range", UNSET)
 
+        _plan_notice = d.pop("planNotice", UNSET)
+        plan_notice: PlanNotice | Unset
+        if isinstance(_plan_notice,  Unset):
+            plan_notice = UNSET
+        else:
+            plan_notice = PlanNotice.from_dict(_plan_notice)
+
+
+
+
         get_usage_summary_response_200 = cls(
             tier=tier,
             limits=limits,
@@ -274,6 +302,7 @@ class GetUsageSummaryResponse200:
             status_distribution=status_distribution,
             totals=totals,
             range_=range_,
+            plan_notice=plan_notice,
         )
 
 

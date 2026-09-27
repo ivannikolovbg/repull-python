@@ -36,7 +36,7 @@ class ConnectStatus:
             provider (str | Unset):  Example: airbnb.
             id (str | Unset): Repull-side connection ID. Stable across token refreshes. Example: 3.
             status (ConnectStatusStatus | Unset):  Example: active.
-            external_account_id (None | str | Unset): Provider-side account ID (e.g. the Airbnb host ID). Example: 23998907.
+            external_account_id (None | str | Unset): Provider-side account ID (e.g. the Airbnb host ID). Example: 10000001.
             created_at (datetime.datetime | Unset):
             host (ConnectHost | None | Unset): Host metadata, populated for Airbnb when the host row exists. Null for other
                 providers (per-provider enrichment is incremental).

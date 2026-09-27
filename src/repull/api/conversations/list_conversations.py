@@ -135,9 +135,8 @@ def sync_detailed(
 ) -> Response[ConversationListResponse | Error]:
     """ List conversations
 
-     Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
-    `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
+     Cursor-paginated list of message threads owned by the workspace. Use `pagination.nextCursor` from
+    one response as the `cursor` query param of the next request.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
@@ -195,9 +194,8 @@ def sync(
 ) -> ConversationListResponse | Error | None:
     """ List conversations
 
-     Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
-    `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
+     Cursor-paginated list of message threads owned by the workspace. Use `pagination.nextCursor` from
+    one response as the `cursor` query param of the next request.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
@@ -250,9 +248,8 @@ async def asyncio_detailed(
 ) -> Response[ConversationListResponse | Error]:
     """ List conversations
 
-     Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
-    `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
+     Cursor-paginated list of message threads owned by the workspace. Use `pagination.nextCursor` from
+    one response as the `cursor` query param of the next request.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
@@ -310,9 +307,8 @@ async def asyncio(
 ) -> ConversationListResponse | Error | None:
     """ List conversations
 
-     Cursor-paginated list of message threads owned by the workspace. Backed by main vanio's
-    `/api/threads/list` which keyset-paginates against `(last_message_at, id)` for constant per-page
-    cost. Use `pagination.nextCursor` from one response as the `cursor` query param of the next request.
+     Cursor-paginated list of message threads owned by the workspace. Use `pagination.nextCursor` from
+    one response as the `cursor` query param of the next request.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.

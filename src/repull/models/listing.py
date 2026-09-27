@@ -20,6 +20,7 @@ if TYPE_CHECKING:
   from ..models.listing_channel import ListingChannel
   from ..models.listing_content import ListingContent
   from ..models.listing_details import ListingDetails
+  from ..models.listing_units_item import ListingUnitsItem
 
 
 
@@ -40,6 +41,8 @@ class Listing:
     `?include=thumbnail` — enough to render an activate/deactivate picker with pictures from a single request.
 
         Attributes:
+            units (list[ListingUnitsItem] | Unset): `GET /v1/listings/{id}` only. The physical rooms under a hotel-model
+                listing (a Mews or Cloudbeds room type); empty for a single home. Same items as `GET /v1/listings/{id}/units`.
             id (str | Unset): Repull listing id
             name (str | Unset):  Example: I - Stafford Apartment.
             address (ListingAddress | Unset):
@@ -60,6 +63,7 @@ class Listing:
             updated_at (datetime.datetime | Unset):
      """
 
+    units: list[ListingUnitsItem] | Unset = UNSET
     id: str | Unset = UNSET
     name: str | Unset = UNSET
     address: ListingAddress | Unset = UNSET
@@ -83,6 +87,16 @@ class Listing:
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
         from ..models.listing_details import ListingDetails
+        from ..models.listing_units_item import ListingUnitsItem
+        units: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.units, Unset):
+            units = []
+            for units_item_data in self.units:
+                units_item = units_item_data.to_dict()
+                units.append(units_item)
+
+
+
         id = self.id
 
         name = self.name
@@ -149,6 +163,8 @@ class Listing:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if units is not UNSET:
+            field_dict["units"] = units
         if id is not UNSET:
             field_dict["id"] = id
         if name is not UNSET:
@@ -183,7 +199,20 @@ class Listing:
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
         from ..models.listing_details import ListingDetails
+        from ..models.listing_units_item import ListingUnitsItem
         d = dict(src_dict)
+        _units = d.pop("units", UNSET)
+        units: list[ListingUnitsItem] | Unset = UNSET
+        if _units is not UNSET:
+            units = []
+            for units_item_data in _units:
+                units_item = ListingUnitsItem.from_dict(units_item_data)
+
+
+
+                units.append(units_item)
+
+
         id = d.pop("id", UNSET)
 
         name = d.pop("name", UNSET)
@@ -303,6 +332,7 @@ class Listing:
 
 
         listing = cls(
+            units=units,
             id=id,
             name=name,
             address=address,

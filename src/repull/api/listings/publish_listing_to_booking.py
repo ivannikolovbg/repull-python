@@ -152,6 +152,9 @@ def sync_detailed(
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
+    A listing with no Booking.com room linked is refused with `409 listing_not_on_booking` and the next
+    step, rather than answered with `published: false`.
+
     Args:
         id (int):
         hotel_id (str | Unset):
@@ -220,6 +223,9 @@ def sync(
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
+    A listing with no Booking.com room linked is refused with `409 listing_not_on_booking` and the next
+    step, rather than answered with `published: false`.
+
     Args:
         id (int):
         hotel_id (str | Unset):
@@ -282,6 +288,9 @@ async def asyncio_detailed(
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
+
+    A listing with no Booking.com room linked is refused with `409 listing_not_on_booking` and the next
+    step, rather than answered with `published: false`.
 
     Args:
         id (int):
@@ -350,6 +359,9 @@ async def asyncio(
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
+
+    A listing with no Booking.com room linked is refused with `409 listing_not_on_booking` and the next
+    step, rather than answered with `published: false`.
 
     Args:
         id (int):

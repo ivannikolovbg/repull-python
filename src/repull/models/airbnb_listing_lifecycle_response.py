@@ -33,8 +33,10 @@ class AirbnbListingLifecycleResponse:
             airbnb_connection_id (str | Unset):
             live (bool | Unset): Whether the Airbnb listing is taking bookings after this call. `false` after `unlist`,
                 `true` after `relist`.
-            verified (bool | Unset): True when the result was confirmed by reading the listing back from Airbnb (done on
-                `unlist`: Airbnb accepting the call is not proof the listing came down).
+            verified (bool | Unset): True when the result was confirmed by reading the listing back from Airbnb, on `unlist`
+                and `relist` alike: Airbnb accepting the call is not proof the listing came down or went live. `false` means the
+                read-back could not run — an unknown, not a success. A read-back that shows the wrong state is returned as an
+                error, not as `verified: false`.
      """
 
     id: str | Unset = UNSET

@@ -25,13 +25,19 @@ T = TypeVar("T", bound="AirbnbTransactionPayout")
 class AirbnbTransactionPayout:
     """ 
         Attributes:
-            payout_id (None | str):
-            payout_date (datetime.date | None): Settlement date (populated on Payout-type rows).
-            paid_out_amount (float | None):
+            payout_id (None | str): The payout this line was settled in (its own id on a Payout row). `null` on an UPCOMING
+                line. Example: M-HQLLNSWKUWK7R.
+            payout_id_synthetic (bool): `true` when Airbnb sent no payout id (a payout netting to $0.00) and Repull derived
+                a stable one.
+            payout_date (datetime.date | None):
+            line_index (int | None): Position within the payout, from 1. `null` on the Payout row and on UPCOMING lines.
+            paid_out_amount (float | None): On the Payout row only: the amount paid out. Its lines sum to it.
      """
 
     payout_id: None | str
+    payout_id_synthetic: bool
     payout_date: datetime.date | None
+    line_index: int | None
     paid_out_amount: float | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -43,11 +49,16 @@ class AirbnbTransactionPayout:
         payout_id: None | str
         payout_id = self.payout_id
 
+        payout_id_synthetic = self.payout_id_synthetic
+
         payout_date: None | str
         if isinstance(self.payout_date, datetime.date):
             payout_date = self.payout_date.isoformat()
         else:
             payout_date = self.payout_date
+
+        line_index: int | None
+        line_index = self.line_index
 
         paid_out_amount: float | None
         paid_out_amount = self.paid_out_amount
@@ -56,9 +67,11 @@ class AirbnbTransactionPayout:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "payout_id": payout_id,
-            "payout_date": payout_date,
-            "paid_out_amount": paid_out_amount,
+            "payoutId": payout_id,
+            "payoutIdSynthetic": payout_id_synthetic,
+            "payoutDate": payout_date,
+            "lineIndex": line_index,
+            "paidOutAmount": paid_out_amount,
         })
 
         return field_dict
@@ -73,8 +86,10 @@ class AirbnbTransactionPayout:
                 return data
             return cast(None | str, data)
 
-        payout_id = _parse_payout_id(d.pop("payout_id"))
+        payout_id = _parse_payout_id(d.pop("payoutId"))
 
+
+        payout_id_synthetic = d.pop("payoutIdSynthetic")
 
         def _parse_payout_date(data: object) -> datetime.date | None:
             if data is None:
@@ -91,7 +106,15 @@ class AirbnbTransactionPayout:
                 pass
             return cast(datetime.date | None, data)
 
-        payout_date = _parse_payout_date(d.pop("payout_date"))
+        payout_date = _parse_payout_date(d.pop("payoutDate"))
+
+
+        def _parse_line_index(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        line_index = _parse_line_index(d.pop("lineIndex"))
 
 
         def _parse_paid_out_amount(data: object) -> float | None:
@@ -99,12 +122,14 @@ class AirbnbTransactionPayout:
                 return data
             return cast(float | None, data)
 
-        paid_out_amount = _parse_paid_out_amount(d.pop("paid_out_amount"))
+        paid_out_amount = _parse_paid_out_amount(d.pop("paidOutAmount"))
 
 
         airbnb_transaction_payout = cls(
             payout_id=payout_id,
+            payout_id_synthetic=payout_id_synthetic,
             payout_date=payout_date,
+            line_index=line_index,
             paid_out_amount=paid_out_amount,
         )
 

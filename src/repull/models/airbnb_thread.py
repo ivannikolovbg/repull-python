@@ -32,7 +32,7 @@ class AirbnbThread:
             account_id (None | str | Unset): Which connected Airbnb account this row belongs to — the Airbnb host id, as a
                 string (they exceed 2^53). The same value `?account_id=` accepts and `GET /v1/connect/airbnb` returns as
                 `accounts[].externalAccountId`. Example: 1772489413932732258.
-            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Pomello.
+            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Seaside Stays.
             guest_name (None | str | Unset):
             last_message_at (datetime.datetime | None | Unset):
             unread_count (int | None | Unset):

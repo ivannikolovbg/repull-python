@@ -26,8 +26,8 @@ class ListingPhotoUploadUrlResponse:
 
         Attributes:
             listing_id (str | Unset):
-            upload_url (str | Unset): PUT the raw file bytes here directly from the client. Not a Repull or vanio API
-                endpoint — a signed storage URL.
+            upload_url (str | Unset): PUT the raw file bytes here directly from the client. Not a Repull API endpoint — a
+                signed storage URL.
             token (str | Unset): Opaque upload token bound to this signed URL.
             path (str | Unset): Storage path the photo will live at once uploaded. Pass this to `DELETE
                 /v1/listings/{id}/photos` to remove it later.
@@ -35,6 +35,9 @@ class ListingPhotoUploadUrlResponse:
                 via `PUT /v1/listings/{id}/content` (`photos` field).
             expires_in (int | Unset): Seconds until `uploadUrl` expires. Mint a new one via a fresh POST if the upload did
                 not happen in time.
+            next_step (str | Unset): What to do after uploading. Uploading does NOT attach the photo to the listing: send
+                `publicUrl` in `photos` on `PUT /v1/listings/{id}/content` (with `photosMode: "append"` to keep existing
+                photos).
      """
 
     listing_id: str | Unset = UNSET
@@ -43,6 +46,7 @@ class ListingPhotoUploadUrlResponse:
     path: str | Unset = UNSET
     public_url: str | Unset = UNSET
     expires_in: int | Unset = UNSET
+    next_step: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -62,6 +66,8 @@ class ListingPhotoUploadUrlResponse:
 
         expires_in = self.expires_in
 
+        next_step = self.next_step
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -79,6 +85,8 @@ class ListingPhotoUploadUrlResponse:
             field_dict["publicUrl"] = public_url
         if expires_in is not UNSET:
             field_dict["expiresIn"] = expires_in
+        if next_step is not UNSET:
+            field_dict["nextStep"] = next_step
 
         return field_dict
 
@@ -99,6 +107,8 @@ class ListingPhotoUploadUrlResponse:
 
         expires_in = d.pop("expiresIn", UNSET)
 
+        next_step = d.pop("nextStep", UNSET)
+
         listing_photo_upload_url_response = cls(
             listing_id=listing_id,
             upload_url=upload_url,
@@ -106,6 +116,7 @@ class ListingPhotoUploadUrlResponse:
             path=path,
             public_url=public_url,
             expires_in=expires_in,
+            next_step=next_step,
         )
 
 

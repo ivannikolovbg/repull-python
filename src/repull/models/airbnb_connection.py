@@ -28,16 +28,16 @@ T = TypeVar("T", bound="AirbnbConnection")
 
 @_attrs_define
 class AirbnbConnection:
-    """ An Airbnb-side connection record for a Vanio listing. The same property may appear under multiple connections if it
-    has been linked from multiple Airbnb host accounts.
+    """ An Airbnb-side connection record for a listing. The same property may appear under multiple connections if it has
+    been linked from multiple Airbnb host accounts.
 
         Attributes:
             id (str | Unset): Connection row id
-            airbnb_id (str | Unset): Airbnb-side listing id Example: 1116939745194659457.
+            airbnb_id (str | Unset): Airbnb-side listing id Example: 1234567890123456789.
             account_id (None | str | Unset): Which connected Airbnb account this row belongs to — the Airbnb host id, as a
                 string (they exceed 2^53). The same value `?account_id=` accepts and `GET /v1/connect/airbnb` returns as
                 `accounts[].externalAccountId`. Example: 1772489413932732258.
-            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Pomello.
+            account_name (None | str | Unset): Display name of that connected Airbnb account. Example: Seaside Stays.
             host_id (None | str | Unset): Alias of `accountId`, kept for compatibility — same Airbnb host id, same string.
             host_name (None | str | Unset): Alias of `accountName`, kept for compatibility.
             active (bool | Unset):

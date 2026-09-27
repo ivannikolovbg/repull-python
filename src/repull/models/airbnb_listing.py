@@ -24,14 +24,14 @@ T = TypeVar("T", bound="AirbnbListing")
 
 @_attrs_define
 class AirbnbListing:
-    """ A Vanio listing paired with its Airbnb connection rows. The list endpoint groups every `listings_airbnb` row that
-    points at the same Vanio `listingId` under a single `connections[]` array.
+    """ A listing paired with its Airbnb connections. The list endpoint groups every Airbnb connection of the same
+    `listingId` under a single `connections[]` array.
 
         Attributes:
-            listing_id (str | Unset): Vanio (Repull) listing id Example: 6248.
+            listing_id (str | Unset): Repull listing id Example: 6248.
             name (str | Unset): Listing title Example: Oceanview Villa.
             city (None | str | Unset):  Example: Malibu.
-            thumbnail_url (None | str | Unset): Cover photo URL for the Vanio listing. **Only present when the caller passes
+            thumbnail_url (None | str | Unset): Cover photo URL for the listing. **Only present when the caller passes
                 `?include=thumbnail`.** `null` when the listing has no cover photo stored — the listing is still returned.
             connections (list[AirbnbConnection] | Unset):
      """

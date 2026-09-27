@@ -110,8 +110,7 @@ def sync_detailed(
     """ Get guest profile
 
      Returns the full guest profile — base list-row fields plus contacts, flags, notes, risk metadata,
-    and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
-    Repull shape so SDK consumers don't have to learn the internal schema.
+    and reservation aggregates.
 
     **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
     listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the
@@ -153,8 +152,7 @@ def sync(
     """ Get guest profile
 
      Returns the full guest profile — base list-row fields plus contacts, flags, notes, risk metadata,
-    and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
-    Repull shape so SDK consumers don't have to learn the internal schema.
+    and reservation aggregates.
 
     **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
     listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the
@@ -191,8 +189,7 @@ async def asyncio_detailed(
     """ Get guest profile
 
      Returns the full guest profile — base list-row fields plus contacts, flags, notes, risk metadata,
-    and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
-    Repull shape so SDK consumers don't have to learn the internal schema.
+    and reservation aggregates.
 
     **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
     listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the
@@ -234,8 +231,7 @@ async def asyncio(
     """ Get guest profile
 
      Returns the full guest profile — base list-row fields plus contacts, flags, notes, risk metadata,
-    and reservation aggregates. Aggregates main vanio's `GuestService.getGuestProfile()` into the public
-    Repull shape so SDK consumers don't have to learn the internal schema.
+    and reservation aggregates.
 
     **Inactive listings:** a guest whose every reservation is on an inactive listing returns `403
     listing_inactive` naming those listings (the guest is kept, so this is not a 404). Otherwise the

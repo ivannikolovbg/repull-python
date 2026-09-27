@@ -83,7 +83,7 @@ def sync_detailed(
 ) -> Response[AirbnbListing | Error]:
     """ Get Airbnb listing
 
-     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+     Fetch all Airbnb connection rows for a single Repull listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
 
@@ -130,7 +130,7 @@ def sync(
 ) -> AirbnbListing | Error | None:
     """ Get Airbnb listing
 
-     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+     Fetch all Airbnb connection rows for a single Repull listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
 
@@ -172,7 +172,7 @@ async def asyncio_detailed(
 ) -> Response[AirbnbListing | Error]:
     """ Get Airbnb listing
 
-     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+     Fetch all Airbnb connection rows for a single Repull listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
 
@@ -219,7 +219,7 @@ async def asyncio(
 ) -> AirbnbListing | Error | None:
     """ Get Airbnb listing
 
-     Fetch all Airbnb connection rows for a single Vanio listing id. A property may be linked from
+     Fetch all Airbnb connection rows for a single Repull listing id. A property may be linked from
     multiple Airbnb hosts — every match is returned. Pass `?include=amenities` to enrich each row with
     its current Airbnb amenities.
 

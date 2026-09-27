@@ -105,7 +105,9 @@ def sync_detailed(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
+    per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
+    a hotel-model listing (a Mews or Cloudbeds room type).
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
@@ -118,12 +120,12 @@ def sync_detailed(
     (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
     not exist or belongs to a different workspace.
 
-    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
-    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
-    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
-    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
-    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    This endpoint is read-only, and the projected per-date shape carries **availability, units left,
+    price, and min-nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-
+    departure (CTD), or the dedicated stop-sell flag. To read or write that full restriction set on
+    Booking.com use the channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room +
+    rate ids from `GET /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use
+    `PUT /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
     calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
@@ -167,7 +169,9 @@ def sync(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
+    per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
+    a hotel-model listing (a Mews or Cloudbeds room type).
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
@@ -180,12 +184,12 @@ def sync(
     (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
     not exist or belongs to a different workspace.
 
-    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
-    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
-    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
-    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
-    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    This endpoint is read-only, and the projected per-date shape carries **availability, units left,
+    price, and min-nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-
+    departure (CTD), or the dedicated stop-sell flag. To read or write that full restriction set on
+    Booking.com use the channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room +
+    rate ids from `GET /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use
+    `PUT /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
     calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
@@ -224,7 +228,9 @@ async def asyncio_detailed(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
+    per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
+    a hotel-model listing (a Mews or Cloudbeds room type).
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
@@ -237,12 +243,12 @@ async def asyncio_detailed(
     (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
     not exist or belongs to a different workspace.
 
-    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
-    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
-    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
-    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
-    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    This endpoint is read-only, and the projected per-date shape carries **availability, units left,
+    price, and min-nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-
+    departure (CTD), or the dedicated stop-sell flag. To read or write that full restriction set on
+    Booking.com use the channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room +
+    rate ids from `GET /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use
+    `PUT /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
     calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
@@ -286,7 +292,9 @@ async def asyncio(
     """ Get property availability
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
-    per-date shape — `{ date, available, price, minNights }` — projected from the property calendar.
+    per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
+    a hotel-model listing (a Mews or Cloudbeds room type).
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
@@ -299,12 +307,12 @@ async def asyncio(
     (`days: []`, every date in `coverage.missingDates`), never a 404 — 404 means the property id does
     not exist or belongs to a different workspace.
 
-    This endpoint is read-only, and the projected per-date shape carries **availability, price, and min-
-    nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-departure (CTD), or
-    the dedicated stop-sell flag. To read or write that full restriction set on Booking.com use the
-    channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room + rate ids from `GET
-    /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use `PUT
-    /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
+    This endpoint is read-only, and the projected per-date shape carries **availability, units left,
+    price, and min-nights only** — it does NOT expose max-stay, closed-to-arrival (CTA), closed-to-
+    departure (CTD), or the dedicated stop-sell flag. To read or write that full restriction set on
+    Booking.com use the channel routes: `GET`/`PUT /v1/channels/booking/availability` (with the room +
+    rate ids from `GET /v1/channels/booking/properties/{id}/rooms`). To **write** calendar values use
+    `PUT /v1/availability/{propertyId}` (or `PATCH /v1/availability/batch`), which updates the property
     calendar and pushes to its connected channels; channel-only settings stay on the channel routes.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but

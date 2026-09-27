@@ -8,8 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
 
 
 
@@ -26,12 +24,12 @@ class ListingPhotoUploadUrlRequest:
         Attributes:
             file_name (str): Original file name, e.g. "living-room.jpg". Example: living-room.jpg.
             file_type (str): Image MIME type. Must start with "image/". Example: image/jpeg.
-            file_size (int | None | Unset): File size in bytes, when known. Must be positive if provided.
+            file_size (int): File size in bytes. Required: the signed upload is issued for this size. Example: 453631.
      """
 
     file_name: str
     file_type: str
-    file_size: int | None | Unset = UNSET
+    file_size: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -43,11 +41,7 @@ class ListingPhotoUploadUrlRequest:
 
         file_type = self.file_type
 
-        file_size: int | None | Unset
-        if isinstance(self.file_size, Unset):
-            file_size = UNSET
-        else:
-            file_size = self.file_size
+        file_size = self.file_size
 
 
         field_dict: dict[str, Any] = {}
@@ -55,9 +49,8 @@ class ListingPhotoUploadUrlRequest:
         field_dict.update({
             "fileName": file_name,
             "fileType": file_type,
+            "fileSize": file_size,
         })
-        if file_size is not UNSET:
-            field_dict["fileSize"] = file_size
 
         return field_dict
 
@@ -70,15 +63,7 @@ class ListingPhotoUploadUrlRequest:
 
         file_type = d.pop("fileType")
 
-        def _parse_file_size(data: object) -> int | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(int | None | Unset, data)
-
-        file_size = _parse_file_size(d.pop("fileSize", UNSET))
-
+        file_size = d.pop("fileSize")
 
         listing_photo_upload_url_request = cls(
             file_name=file_name,

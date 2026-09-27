@@ -99,11 +99,9 @@ from .airbnb_safety_disclosures_write_request import AirbnbSafetyDisclosuresWrit
 from .airbnb_thread import AirbnbThread
 from .airbnb_thread_list_response import AirbnbThreadListResponse
 from .airbnb_transaction import AirbnbTransaction
-from .airbnb_transaction_guest_breakdown import AirbnbTransactionGuestBreakdown
-from .airbnb_transaction_host_breakdown import AirbnbTransactionHostBreakdown
+from .airbnb_transaction_fees import AirbnbTransactionFees
 from .airbnb_transaction_payout import AirbnbTransactionPayout
 from .airbnb_transaction_status import AirbnbTransactionStatus
-from .airbnb_transaction_type import AirbnbTransactionType
 from .alteration_change import AlterationChange
 from .alteration_webhook_object import AlterationWebhookObject
 from .alteration_webhook_object_initiator_type_1 import AlterationWebhookObjectInitiatorType1
@@ -195,6 +193,11 @@ from .calendar_updated_event_event import CalendarUpdatedEventEvent
 from .calendar_updated_payload import CalendarUpdatedPayload
 from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
 from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
+from .cancel_reservation_body import CancelReservationBody
+from .cancel_reservation_response_200 import CancelReservationResponse200
+from .cancel_reservation_response_200_pms import CancelReservationResponse200Pms
+from .cancel_reservation_response_200_pms_errors_item import CancelReservationResponse200PmsErrorsItem
+from .cancel_reservation_response_200_status import CancelReservationResponse200Status
 from .channel_market_state_item import ChannelMarketStateItem
 from .channel_market_state_item_channel import ChannelMarketStateItemChannel
 from .channel_market_state_item_state import ChannelMarketStateItemState
@@ -388,6 +391,7 @@ from .list_airbnb_thread_messages_response_200_data_freshness import ListAirbnbT
 from .list_airbnb_thread_messages_response_200_data_item import ListAirbnbThreadMessagesResponse200DataItem
 from .list_airbnb_thread_messages_response_200_pagination import ListAirbnbThreadMessagesResponse200Pagination
 from .list_airbnb_transactions_response_200 import ListAirbnbTransactionsResponse200
+from .list_airbnb_transactions_status import ListAirbnbTransactionsStatus
 from .list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
 from .list_booking_reservations_type import ListBookingReservationsType
 from .list_conversation_messages_order import ListConversationMessagesOrder
@@ -402,6 +406,8 @@ from .list_inquiries_status import ListInquiriesStatus
 from .list_kv_response_200 import ListKvResponse200
 from .list_kv_response_200_data_item import ListKvResponse200DataItem
 from .list_kv_response_200_pagination import ListKvResponse200Pagination
+from .list_listing_units_response_200 import ListListingUnitsResponse200
+from .list_listing_units_response_200_data_item import ListListingUnitsResponse200DataItem
 from .list_listings_status import ListListingsStatus
 from .list_market_browse_sort import ListMarketBrowseSort
 from .list_migrations_response_200 import ListMigrationsResponse200
@@ -527,6 +533,7 @@ from .listing_status_batch_response import ListingStatusBatchResponse
 from .listing_suspended_event import ListingSuspendedEvent
 from .listing_suspended_event_event import ListingSuspendedEventEvent
 from .listing_suspension_payload import ListingSuspensionPayload
+from .listing_units_item import ListingUnitsItem
 from .listing_updated_event import ListingUpdatedEvent
 from .listing_updated_event_event import ListingUpdatedEventEvent
 from .listing_updated_payload import ListingUpdatedPayload
@@ -608,6 +615,12 @@ from .payment_refunded_event_event import PaymentRefundedEventEvent
 from .payment_refunded_payload import PaymentRefundedPayload
 from .payment_webhook_object import PaymentWebhookObject
 from .payment_webhook_object_transaction_type import PaymentWebhookObjectTransactionType
+from .payout_completed_event import PayoutCompletedEvent
+from .payout_completed_event_event import PayoutCompletedEventEvent
+from .payout_completed_payload import PayoutCompletedPayload
+from .payout_completed_payload_channel import PayoutCompletedPayloadChannel
+from .plan_notice import PlanNotice
+from .plan_notice_code import PlanNoticeCode
 from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
 from .preapprove_conversation_body import PreapproveConversationBody
@@ -650,6 +663,9 @@ from .reservation_cancelled_payload_cancelled_by import ReservationCancelledPayl
 from .reservation_create_request import ReservationCreateRequest
 from .reservation_create_request_platform import ReservationCreateRequestPlatform
 from .reservation_create_response import ReservationCreateResponse
+from .reservation_create_response_pms import ReservationCreateResponsePms
+from .reservation_create_response_pms_errors_item import ReservationCreateResponsePmsErrorsItem
+from .reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
 from .reservation_created_event import ReservationCreatedEvent
 from .reservation_created_event_event import ReservationCreatedEventEvent
 from .reservation_created_payload import ReservationCreatedPayload
@@ -663,6 +679,17 @@ from .reservation_message_received_event import ReservationMessageReceivedEvent
 from .reservation_message_received_event_event import ReservationMessageReceivedEventEvent
 from .reservation_message_received_payload import ReservationMessageReceivedPayload
 from .reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
+from .reservation_message_sent_event import ReservationMessageSentEvent
+from .reservation_message_sent_event_event import ReservationMessageSentEventEvent
+from .reservation_message_sent_payload import ReservationMessageSentPayload
+from .reservation_message_sent_payload_direction import ReservationMessageSentPayloadDirection
+from .reservation_message_sent_payload_from import ReservationMessageSentPayloadFrom
+from .reservation_message_sent_payload_source import ReservationMessageSentPayloadSource
+from .reservation_message_updated_event import ReservationMessageUpdatedEvent
+from .reservation_message_updated_event_event import ReservationMessageUpdatedEventEvent
+from .reservation_message_updated_payload import ReservationMessageUpdatedPayload
+from .reservation_message_updated_payload_direction import ReservationMessageUpdatedPayloadDirection
+from .reservation_message_updated_payload_from import ReservationMessageUpdatedPayloadFrom
 from .reservation_money_line import ReservationMoneyLine
 from .reservation_occupancy import ReservationOccupancy
 from .reservation_pending_reason import ReservationPendingReason
@@ -684,6 +711,7 @@ from .reservation_source_type_2_type_1 import ReservationSourceType2Type1
 from .reservation_source_type_3_type_1 import ReservationSourceType3Type1
 from .reservation_status import ReservationStatus
 from .reservation_status_detail import ReservationStatusDetail
+from .reservation_unit_type_0 import ReservationUnitType0
 from .reservation_update_request import ReservationUpdateRequest
 from .reservation_update_response import ReservationUpdateResponse
 from .reservation_updated_event import ReservationUpdatedEvent
@@ -741,6 +769,11 @@ from .submit_bookingsync_credentials_body import SubmitBookingsyncCredentialsBod
 from .submit_bookingsync_credentials_body_credentials import SubmitBookingsyncCredentialsBodyCredentials
 from .submit_bookingsync_credentials_response_200 import SubmitBookingsyncCredentialsResponse200
 from .submit_bookingsync_credentials_response_200_account_info import SubmitBookingsyncCredentialsResponse200AccountInfo
+from .submit_cloudbeds_credentials_body import SubmitCloudbedsCredentialsBody
+from .submit_cloudbeds_credentials_body_credentials import SubmitCloudbedsCredentialsBodyCredentials
+from .submit_cloudbeds_credentials_response_200 import SubmitCloudbedsCredentialsResponse200
+from .submit_cloudbeds_credentials_response_200_account_info import SubmitCloudbedsCredentialsResponse200AccountInfo
+from .submit_cloudbeds_credentials_response_200_webhooks import SubmitCloudbedsCredentialsResponse200Webhooks
 from .submit_guesty_credentials_body import SubmitGuestyCredentialsBody
 from .submit_guesty_credentials_body_credentials import SubmitGuestyCredentialsBodyCredentials
 from .submit_guesty_credentials_response_200 import SubmitGuestyCredentialsResponse200
@@ -761,6 +794,12 @@ from .submit_lodgify_credentials_body import SubmitLodgifyCredentialsBody
 from .submit_lodgify_credentials_body_credentials import SubmitLodgifyCredentialsBodyCredentials
 from .submit_lodgify_credentials_response_200 import SubmitLodgifyCredentialsResponse200
 from .submit_lodgify_credentials_response_200_account_info import SubmitLodgifyCredentialsResponse200AccountInfo
+from .submit_mews_credentials_body import SubmitMewsCredentialsBody
+from .submit_mews_credentials_body_credentials import SubmitMewsCredentialsBodyCredentials
+from .submit_mews_credentials_body_credentials_environment import SubmitMewsCredentialsBodyCredentialsEnvironment
+from .submit_mews_credentials_response_200 import SubmitMewsCredentialsResponse200
+from .submit_mews_credentials_response_200_account_info import SubmitMewsCredentialsResponse200AccountInfo
+from .submit_mews_credentials_response_200_webhooks import SubmitMewsCredentialsResponse200Webhooks
 from .submit_ownerrez_credentials_body import SubmitOwnerrezCredentialsBody
 from .submit_ownerrez_credentials_body_credentials import SubmitOwnerrezCredentialsBodyCredentials
 from .submit_ownerrez_credentials_response_200 import SubmitOwnerrezCredentialsResponse200
@@ -776,6 +815,8 @@ from .submit_vrbo_credentials_response_200_account_info import SubmitVrboCredent
 from .sync_airbnb_transactions_body import SyncAirbnbTransactionsBody
 from .sync_airbnb_transactions_body_transaction_type import SyncAirbnbTransactionsBodyTransactionType
 from .sync_airbnb_transactions_response_200 import SyncAirbnbTransactionsResponse200
+from .sync_airbnb_transactions_response_200_accounts_item import SyncAirbnbTransactionsResponse200AccountsItem
+from .sync_airbnb_transactions_response_200_accounts_item_error import SyncAirbnbTransactionsResponse200AccountsItemError
 from .test_webhook_body import TestWebhookBody
 from .update_airbnb_booking_settings_body import UpdateAirbnbBookingSettingsBody
 from .update_airbnb_booking_settings_body_advance_notice import UpdateAirbnbBookingSettingsBodyAdvanceNotice
@@ -977,11 +1018,9 @@ __all__ = (
     "AirbnbThread",
     "AirbnbThreadListResponse",
     "AirbnbTransaction",
-    "AirbnbTransactionGuestBreakdown",
-    "AirbnbTransactionHostBreakdown",
+    "AirbnbTransactionFees",
     "AirbnbTransactionPayout",
     "AirbnbTransactionStatus",
-    "AirbnbTransactionType",
     "AlterationChange",
     "AlterationWebhookObject",
     "AlterationWebhookObjectInitiatorType1",
@@ -1073,6 +1112,11 @@ __all__ = (
     "CalendarUpdatedPayload",
     "CalendarUpdatedPayloadRange",
     "CancelAirbnbAlterationBody",
+    "CancelReservationBody",
+    "CancelReservationResponse200",
+    "CancelReservationResponse200Pms",
+    "CancelReservationResponse200PmsErrorsItem",
+    "CancelReservationResponse200Status",
     "ChannelMarketStateItem",
     "ChannelMarketStateItemChannel",
     "ChannelMarketStateItemState",
@@ -1266,6 +1310,7 @@ __all__ = (
     "ListAirbnbThreadMessagesResponse200DataItem",
     "ListAirbnbThreadMessagesResponse200Pagination",
     "ListAirbnbTransactionsResponse200",
+    "ListAirbnbTransactionsStatus",
     "ListBookingReservationsResponse200Type1",
     "ListBookingReservationsType",
     "ListConversationMessagesOrder",
@@ -1385,6 +1430,7 @@ __all__ = (
     "ListingSuspendedEvent",
     "ListingSuspendedEventEvent",
     "ListingSuspensionPayload",
+    "ListingUnitsItem",
     "ListingUpdatedEvent",
     "ListingUpdatedEventEvent",
     "ListingUpdatedPayload",
@@ -1403,6 +1449,8 @@ __all__ = (
     "ListKvResponse200DataItem",
     "ListKvResponse200Pagination",
     "ListListingsStatus",
+    "ListListingUnitsResponse200",
+    "ListListingUnitsResponse200DataItem",
     "ListMarketBrowseSort",
     "ListMigrationsResponse200",
     "ListMigrationsResponse200Pagination",
@@ -1486,6 +1534,12 @@ __all__ = (
     "PaymentRefundedPayload",
     "PaymentWebhookObject",
     "PaymentWebhookObjectTransactionType",
+    "PayoutCompletedEvent",
+    "PayoutCompletedEventEvent",
+    "PayoutCompletedPayload",
+    "PayoutCompletedPayloadChannel",
+    "PlanNotice",
+    "PlanNoticeCode",
     "PlumguideListing",
     "PlumguideListingListResponse",
     "PreapproveConversationBody",
@@ -1531,6 +1585,9 @@ __all__ = (
     "ReservationCreateRequest",
     "ReservationCreateRequestPlatform",
     "ReservationCreateResponse",
+    "ReservationCreateResponsePms",
+    "ReservationCreateResponsePmsErrorsItem",
+    "ReservationCreateResponseUnitType0",
     "ReservationFinancials",
     "ReservationGuestDetails",
     "ReservationGuestFinancials",
@@ -1541,6 +1598,17 @@ __all__ = (
     "ReservationMessageReceivedEventEvent",
     "ReservationMessageReceivedPayload",
     "ReservationMessageReceivedPayloadFrom",
+    "ReservationMessageSentEvent",
+    "ReservationMessageSentEventEvent",
+    "ReservationMessageSentPayload",
+    "ReservationMessageSentPayloadDirection",
+    "ReservationMessageSentPayloadFrom",
+    "ReservationMessageSentPayloadSource",
+    "ReservationMessageUpdatedEvent",
+    "ReservationMessageUpdatedEventEvent",
+    "ReservationMessageUpdatedPayload",
+    "ReservationMessageUpdatedPayloadDirection",
+    "ReservationMessageUpdatedPayloadFrom",
     "ReservationMoneyLine",
     "ReservationOccupancy",
     "ReservationPendingReason",
@@ -1562,6 +1630,7 @@ __all__ = (
     "ReservationSourceType3Type1",
     "ReservationStatus",
     "ReservationStatusDetail",
+    "ReservationUnitType0",
     "ReservationUpdatedEvent",
     "ReservationUpdatedEventEvent",
     "ReservationUpdatedPayload",
@@ -1619,6 +1688,11 @@ __all__ = (
     "SubmitBookingsyncCredentialsBodyCredentials",
     "SubmitBookingsyncCredentialsResponse200",
     "SubmitBookingsyncCredentialsResponse200AccountInfo",
+    "SubmitCloudbedsCredentialsBody",
+    "SubmitCloudbedsCredentialsBodyCredentials",
+    "SubmitCloudbedsCredentialsResponse200",
+    "SubmitCloudbedsCredentialsResponse200AccountInfo",
+    "SubmitCloudbedsCredentialsResponse200Webhooks",
     "SubmitGuestyCredentialsBody",
     "SubmitGuestyCredentialsBodyCredentials",
     "SubmitGuestyCredentialsResponse200",
@@ -1639,6 +1713,12 @@ __all__ = (
     "SubmitLodgifyCredentialsBodyCredentials",
     "SubmitLodgifyCredentialsResponse200",
     "SubmitLodgifyCredentialsResponse200AccountInfo",
+    "SubmitMewsCredentialsBody",
+    "SubmitMewsCredentialsBodyCredentials",
+    "SubmitMewsCredentialsBodyCredentialsEnvironment",
+    "SubmitMewsCredentialsResponse200",
+    "SubmitMewsCredentialsResponse200AccountInfo",
+    "SubmitMewsCredentialsResponse200Webhooks",
     "SubmitOwnerrezCredentialsBody",
     "SubmitOwnerrezCredentialsBodyCredentials",
     "SubmitOwnerrezCredentialsResponse200",
@@ -1654,6 +1734,8 @@ __all__ = (
     "SyncAirbnbTransactionsBody",
     "SyncAirbnbTransactionsBodyTransactionType",
     "SyncAirbnbTransactionsResponse200",
+    "SyncAirbnbTransactionsResponse200AccountsItem",
+    "SyncAirbnbTransactionsResponse200AccountsItemError",
     "TestWebhookBody",
     "UpdateAirbnbBookingSettingsBody",
     "UpdateAirbnbBookingSettingsBodyAdvanceNotice",

@@ -27,6 +27,7 @@ if TYPE_CHECKING:
   from ..models.reservation_guest_details import ReservationGuestDetails
   from ..models.reservation_occupancy import ReservationOccupancy
   from ..models.reservation_primary_guest import ReservationPrimaryGuest
+  from ..models.reservation_unit_type_0 import ReservationUnitType0
 
 
 
@@ -97,6 +98,9 @@ class Reservation:
                 kept as an alias. Example: airbnb.
             platform (None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 |
                 Unset): DEPRECATED alias for `source`. Same value, kept for back-compat. Example: airbnb.
+            unit (None | ReservationUnitType0 | Unset): The physical room the stay was assigned, for a hotel-model PMS
+                (Mews, Cloudbeds) where the listing is a room type. `null` when no room is assigned yet, and for every listing
+                that is a single home.
             primary_guest (ReservationPrimaryGuest | Unset): Inline guest summary resolved by JOIN-ing the `guests` table.
                 Populated for every reservation that has a linked guest row; OMITTED entirely (not null) for owner-blocks / pre-
                 arrival rows / partial-sync gaps. Always optional-chain in SDK consumers.
@@ -143,6 +147,7 @@ class Reservation:
     respond_by: datetime.datetime | Unset = UNSET
     source: None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset = UNSET
     platform: None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset = UNSET
+    unit: None | ReservationUnitType0 | Unset = UNSET
     primary_guest: ReservationPrimaryGuest | Unset = UNSET
     occupancy: ReservationOccupancy | Unset = UNSET
     financials: ReservationFinancials | Unset = UNSET
@@ -162,6 +167,7 @@ class Reservation:
         from ..models.reservation_guest_details import ReservationGuestDetails
         from ..models.reservation_occupancy import ReservationOccupancy
         from ..models.reservation_primary_guest import ReservationPrimaryGuest
+        from ..models.reservation_unit_type_0 import ReservationUnitType0
         id = self.id
 
         listing_id = self.listing_id
@@ -230,6 +236,14 @@ class Reservation:
         else:
             platform = self.platform
 
+        unit: dict[str, Any] | None | Unset
+        if isinstance(self.unit, Unset):
+            unit = UNSET
+        elif isinstance(self.unit, ReservationUnitType0):
+            unit = self.unit.to_dict()
+        else:
+            unit = self.unit
+
         primary_guest: dict[str, Any] | Unset = UNSET
         if not isinstance(self.primary_guest, Unset):
             primary_guest = self.primary_guest.to_dict()
@@ -293,6 +307,8 @@ class Reservation:
             field_dict["source"] = source
         if platform is not UNSET:
             field_dict["platform"] = platform
+        if unit is not UNSET:
+            field_dict["unit"] = unit
         if primary_guest is not UNSET:
             field_dict["primaryGuest"] = primary_guest
         if occupancy is not UNSET:
@@ -320,6 +336,7 @@ class Reservation:
         from ..models.reservation_guest_details import ReservationGuestDetails
         from ..models.reservation_occupancy import ReservationOccupancy
         from ..models.reservation_primary_guest import ReservationPrimaryGuest
+        from ..models.reservation_unit_type_0 import ReservationUnitType0
         d = dict(src_dict)
         id = d.pop("id")
 
@@ -484,6 +501,26 @@ class Reservation:
         platform = _parse_platform(d.pop("platform", UNSET))
 
 
+        def _parse_unit(data: object) -> None | ReservationUnitType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                unit_type_0 = ReservationUnitType0.from_dict(data)
+
+
+
+                return unit_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | ReservationUnitType0 | Unset, data)
+
+        unit = _parse_unit(d.pop("unit", UNSET))
+
+
         _primary_guest = d.pop("primaryGuest", UNSET)
         primary_guest: ReservationPrimaryGuest | Unset
         if isinstance(_primary_guest,  Unset):
@@ -575,6 +612,7 @@ class Reservation:
             respond_by=respond_by,
             source=source,
             platform=platform,
+            unit=unit,
             primary_guest=primary_guest,
             occupancy=occupancy,
             financials=financials,

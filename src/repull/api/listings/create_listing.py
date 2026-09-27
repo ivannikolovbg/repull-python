@@ -87,9 +87,9 @@ def sync_detailed(
 ) -> Response[Error | ListingCreateResponse]:
     """ Create a Repull listing
 
-     Create a new vacation-rental listing under the authenticated workspace. The listing is stored in the
-    canonical Vanio listings tables and can be published to multiple channels (Airbnb, Booking.com) via
-    the publish endpoints.
+     Create a new vacation-rental listing under the authenticated workspace. The listing is stored as a
+    canonical Repull listing and can be published to multiple channels (Airbnb, Booking.com) via the
+    publish endpoints.
 
     Args:
         body (ListingCreateRequest): Inputs for `POST /v1/listings`.
@@ -133,9 +133,9 @@ def sync(
 ) -> Error | ListingCreateResponse | None:
     """ Create a Repull listing
 
-     Create a new vacation-rental listing under the authenticated workspace. The listing is stored in the
-    canonical Vanio listings tables and can be published to multiple channels (Airbnb, Booking.com) via
-    the publish endpoints.
+     Create a new vacation-rental listing under the authenticated workspace. The listing is stored as a
+    canonical Repull listing and can be published to multiple channels (Airbnb, Booking.com) via the
+    publish endpoints.
 
     Args:
         body (ListingCreateRequest): Inputs for `POST /v1/listings`.
@@ -174,9 +174,9 @@ async def asyncio_detailed(
 ) -> Response[Error | ListingCreateResponse]:
     """ Create a Repull listing
 
-     Create a new vacation-rental listing under the authenticated workspace. The listing is stored in the
-    canonical Vanio listings tables and can be published to multiple channels (Airbnb, Booking.com) via
-    the publish endpoints.
+     Create a new vacation-rental listing under the authenticated workspace. The listing is stored as a
+    canonical Repull listing and can be published to multiple channels (Airbnb, Booking.com) via the
+    publish endpoints.
 
     Args:
         body (ListingCreateRequest): Inputs for `POST /v1/listings`.
@@ -220,9 +220,9 @@ async def asyncio(
 ) -> Error | ListingCreateResponse | None:
     """ Create a Repull listing
 
-     Create a new vacation-rental listing under the authenticated workspace. The listing is stored in the
-    canonical Vanio listings tables and can be published to multiple channels (Airbnb, Booking.com) via
-    the publish endpoints.
+     Create a new vacation-rental listing under the authenticated workspace. The listing is stored as a
+    canonical Repull listing and can be published to multiple channels (Airbnb, Booking.com) via the
+    publish endpoints.
 
     Args:
         body (ListingCreateRequest): Inputs for `POST /v1/listings`.

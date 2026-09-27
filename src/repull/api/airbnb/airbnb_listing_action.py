@@ -172,9 +172,6 @@ def sync_detailed(
 
     Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
     listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
-    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
-    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
-    names do not mean the same thing.)
 
     `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
     Booking.com together — use `POST /v1/listings/{id}/offline`.
@@ -257,9 +254,6 @@ def sync(
 
     Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
     listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
-    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
-    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
-    names do not mean the same thing.)
 
     `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
     Booking.com together — use `POST /v1/listings/{id}/offline`.
@@ -337,9 +331,6 @@ async def asyncio_detailed(
 
     Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
     listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
-    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
-    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
-    names do not mean the same thing.)
 
     `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
     Booking.com together — use `POST /v1/listings/{id}/offline`.
@@ -422,9 +413,6 @@ async def asyncio(
 
     Neither one deletes anything on Airbnb. **There is no endpoint on this API that deletes an Airbnb
     listing** — the word `delete` on this route means \"deactivate the Repull record\" and nothing else.
-    (Main vanio's internal listing-sync layer has a same-named action that DOES hard-delete on Airbnb;
-    it is not exposed here, by any endpoint, deliberately. If you have read that code, note that the two
-    names do not mean the same thing.)
 
     `delete` is idempotent. To take a listing off the market on every channel at once — Airbnb and
     Booking.com together — use `POST /v1/listings/{id}/offline`.

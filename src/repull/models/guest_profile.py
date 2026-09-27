@@ -46,7 +46,7 @@ class GuestProfile:
             currency (None | str | Unset):
             is_blacklisted (bool | Unset):
             blacklisted_reason (None | str | Unset):
-            risk_level (None | str | Unset): Main-vanio risk score (e.g. `low`, `medium`, `high`).
+            risk_level (None | str | Unset): Risk score (e.g. `low`, `medium`, `high`).
             verification_level (None | str | Unset):
             created_at (datetime.datetime | None | Unset):
             contacts (list[GuestContact] | Unset):

@@ -129,7 +129,7 @@ def sync_detailed(
     r""" Create Airbnb special offer or pre-approval
 
      Create a pre-approval or a special offer on an Airbnb thread, addressed by **Airbnb** ids. **Write-
-    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Vanio,
+    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Repull,
     are `POST /v1/conversations/{id}/pre-approval` and `POST /v1/conversations/{id}/special-offers` —
     prefer those unless you only hold Airbnb ids.
 
@@ -190,7 +190,7 @@ def sync(
     r""" Create Airbnb special offer or pre-approval
 
      Create a pre-approval or a special offer on an Airbnb thread, addressed by **Airbnb** ids. **Write-
-    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Vanio,
+    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Repull,
     are `POST /v1/conversations/{id}/pre-approval` and `POST /v1/conversations/{id}/special-offers` —
     prefer those unless you only hold Airbnb ids.
 
@@ -246,7 +246,7 @@ async def asyncio_detailed(
     r""" Create Airbnb special offer or pre-approval
 
      Create a pre-approval or a special offer on an Airbnb thread, addressed by **Airbnb** ids. **Write-
-    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Vanio,
+    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Repull,
     are `POST /v1/conversations/{id}/pre-approval` and `POST /v1/conversations/{id}/special-offers` —
     prefer those unless you only hold Airbnb ids.
 
@@ -307,7 +307,7 @@ async def asyncio(
     r""" Create Airbnb special offer or pre-approval
 
      Create a pre-approval or a special offer on an Airbnb thread, addressed by **Airbnb** ids. **Write-
-    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Vanio,
+    side** — calls Airbnb upstream. The Repull-id equivalents, which also update the inquiry in Repull,
     are `POST /v1/conversations/{id}/pre-approval` and `POST /v1/conversations/{id}/special-offers` —
     prefer those unless you only hold Airbnb ids.
 

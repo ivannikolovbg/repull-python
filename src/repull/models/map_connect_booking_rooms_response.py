@@ -25,20 +25,26 @@ class MapConnectBookingRoomsResponse:
     """ 
         Attributes:
             success (bool):  Example: True.
-            mapped (int): Number of rooms processed (mapped + unmapped).
+            mapped (int): Rooms now linked to a listing.
             session_id (str):
             connection_id (str):
+            unmapped (int | Unset): Rooms submitted with `listingId: null` ("don't map"), which are left without a listing.
             reservations_imported (int | None | Unset): Reservations pulled from Booking.com once the rooms were mapped.
                 Mapping triggers the same full property sync the dashboard's Sync button runs, because a reservation can only be
-                resolved to a listing through a mapped room. `null` means the sync could not be run — the connection and mapping
-                are still good, and the property can be synced from the dashboard.
+                resolved to a listing through a mapped room. `0` without a sync when no room was mapped. `null` means the sync
+                could not be run — the connection and mapping are still good, and the property can be synced from the dashboard.
+            reservations_found (int | None | Unset): How many reservations Booking.com returned for the property. Equal to
+                `reservationsImported` unless some could not be attached to a listing — so `0` here means Booking.com had none.
+                `null` when the sync could not run.
      """
 
     success: bool
     mapped: int
     session_id: str
     connection_id: str
+    unmapped: int | Unset = UNSET
     reservations_imported: int | None | Unset = UNSET
+    reservations_found: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -54,11 +60,19 @@ class MapConnectBookingRoomsResponse:
 
         connection_id = self.connection_id
 
+        unmapped = self.unmapped
+
         reservations_imported: int | None | Unset
         if isinstance(self.reservations_imported, Unset):
             reservations_imported = UNSET
         else:
             reservations_imported = self.reservations_imported
+
+        reservations_found: int | None | Unset
+        if isinstance(self.reservations_found, Unset):
+            reservations_found = UNSET
+        else:
+            reservations_found = self.reservations_found
 
 
         field_dict: dict[str, Any] = {}
@@ -69,8 +83,12 @@ class MapConnectBookingRoomsResponse:
             "sessionId": session_id,
             "connectionId": connection_id,
         })
+        if unmapped is not UNSET:
+            field_dict["unmapped"] = unmapped
         if reservations_imported is not UNSET:
             field_dict["reservationsImported"] = reservations_imported
+        if reservations_found is not UNSET:
+            field_dict["reservationsFound"] = reservations_found
 
         return field_dict
 
@@ -87,6 +105,8 @@ class MapConnectBookingRoomsResponse:
 
         connection_id = d.pop("connectionId")
 
+        unmapped = d.pop("unmapped", UNSET)
+
         def _parse_reservations_imported(data: object) -> int | None | Unset:
             if data is None:
                 return data
@@ -97,12 +117,24 @@ class MapConnectBookingRoomsResponse:
         reservations_imported = _parse_reservations_imported(d.pop("reservationsImported", UNSET))
 
 
+        def _parse_reservations_found(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        reservations_found = _parse_reservations_found(d.pop("reservationsFound", UNSET))
+
+
         map_connect_booking_rooms_response = cls(
             success=success,
             mapped=mapped,
             session_id=session_id,
             connection_id=connection_id,
+            unmapped=unmapped,
             reservations_imported=reservations_imported,
+            reservations_found=reservations_found,
         )
 
 

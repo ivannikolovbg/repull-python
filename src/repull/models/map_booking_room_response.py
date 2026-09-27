@@ -43,6 +43,9 @@ class MapBookingRoomResponse:
                 and re-sending never duplicates. Runs on every successful map, including a re-map to the same listing, so re-
                 sending retries an import that did not run. `null` means the mapping succeeded but the import could not run; the
                 room is still mapped. Absent after an unmap, when there is nothing to pull.
+            reservations_found (int | None | Unset): How many reservations Booking.com returned for the property. Equal to
+                `reservationsImported` unless some could not be attached — so `0` here means Booking.com had none. Same `null` /
+                absent rules as `reservationsImported`.
      """
 
     success: bool
@@ -55,6 +58,7 @@ class MapBookingRoomResponse:
     room_name: None | str | Unset = UNSET
     platform_link_id: None | str | Unset = UNSET
     reservations_imported: int | None | Unset = UNSET
+    reservations_found: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -100,6 +104,12 @@ class MapBookingRoomResponse:
         else:
             reservations_imported = self.reservations_imported
 
+        reservations_found: int | None | Unset
+        if isinstance(self.reservations_found, Unset):
+            reservations_found = UNSET
+        else:
+            reservations_found = self.reservations_found
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -119,6 +129,8 @@ class MapBookingRoomResponse:
             field_dict["platformLinkId"] = platform_link_id
         if reservations_imported is not UNSET:
             field_dict["reservationsImported"] = reservations_imported
+        if reservations_found is not UNSET:
+            field_dict["reservationsFound"] = reservations_found
 
         return field_dict
 
@@ -191,6 +203,16 @@ class MapBookingRoomResponse:
         reservations_imported = _parse_reservations_imported(d.pop("reservationsImported", UNSET))
 
 
+        def _parse_reservations_found(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        reservations_found = _parse_reservations_found(d.pop("reservationsFound", UNSET))
+
+
         map_booking_room_response = cls(
             success=success,
             already_mapped=already_mapped,
@@ -202,6 +224,7 @@ class MapBookingRoomResponse:
             room_name=room_name,
             platform_link_id=platform_link_id,
             reservations_imported=reservations_imported,
+            reservations_found=reservations_found,
         )
 
 

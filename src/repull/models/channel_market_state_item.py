@@ -64,9 +64,10 @@ class ChannelMarketStateItem:
             message (str | Unset): The channel's own reason, verbatim. Absent when `ok` is true.
             fix (str | Unset): What to do about it, phrased for the direction you asked for — "still live and taking
                 bookings" and "still down" call for different reactions. Absent when `ok` is true.
-            verified (bool | Unset): Airbnb only, and only when going offline: the listing was READ BACK after the
-                deactivation and confirmed down. Airbnb accepts a deactivation and leaves some listings live, so "we sent the
-                request" is a weaker claim than this one and is never reported as success.
+            verified (bool | Unset): Airbnb only: the listing was READ BACK afterwards and is in the state asked for — down
+                after `offline`, live after `online`. Airbnb can accept a deactivation and leave a listing live, or accept an
+                activation and keep it offline; either is returned as a failure, never as success. `false` means the read-back
+                could not run — an unknown, not a success.
      """
 
     channel: ChannelMarketStateItemChannel

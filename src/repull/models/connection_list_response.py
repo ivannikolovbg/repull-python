@@ -14,6 +14,7 @@ from typing import cast
 if TYPE_CHECKING:
   from ..models.connection import Connection
   from ..models.pagination import Pagination
+  from ..models.plan_notice import PlanNotice
 
 
 
@@ -27,12 +28,21 @@ T = TypeVar("T", bound="ConnectionListResponse")
 class ConnectionListResponse:
     """ 
         Attributes:
+            plan_notice (PlanNotice | Unset): Added to the body of EVERY JSON response (success or error, except bare arrays
+                and 5xx) while the workspace is connected to more listings than its plan lets it use — so a developer reading
+                any payload, or an AI assistant relaying it, sees it. Connect keeps every listing it finds, but on a capped plan
+                only as many as the plan allows are active; the rest are held back inactive and keep syncing. The same responses
+                also carry the `X-Repull-Listings-Held-Back` and `X-Repull-Active-Listing-Limit` headers. Using a held-back
+                listing answers `403 listing_inactive` with `reason: "plan_limit"`. Tell the user: they can see the held-back
+                listings with `GET /v1/listings?status=all`, choose which are active with `POST /v1/listings/status`, or
+                upgrade.
             data (list[Connection] | Unset):
             pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
                 `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
                 construct it by hand.
      """
 
+    plan_notice: PlanNotice | Unset = UNSET
     data: list[Connection] | Unset = UNSET
     pagination: Pagination | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -44,6 +54,11 @@ class ConnectionListResponse:
     def to_dict(self) -> dict[str, Any]:
         from ..models.connection import Connection
         from ..models.pagination import Pagination
+        from ..models.plan_notice import PlanNotice
+        plan_notice: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.plan_notice, Unset):
+            plan_notice = self.plan_notice.to_dict()
+
         data: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.data, Unset):
             data = []
@@ -62,6 +77,8 @@ class ConnectionListResponse:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if plan_notice is not UNSET:
+            field_dict["planNotice"] = plan_notice
         if data is not UNSET:
             field_dict["data"] = data
         if pagination is not UNSET:
@@ -75,7 +92,18 @@ class ConnectionListResponse:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.connection import Connection
         from ..models.pagination import Pagination
+        from ..models.plan_notice import PlanNotice
         d = dict(src_dict)
+        _plan_notice = d.pop("planNotice", UNSET)
+        plan_notice: PlanNotice | Unset
+        if isinstance(_plan_notice,  Unset):
+            plan_notice = UNSET
+        else:
+            plan_notice = PlanNotice.from_dict(_plan_notice)
+
+
+
+
         _data = d.pop("data", UNSET)
         data: list[Connection] | Unset = UNSET
         if _data is not UNSET:
@@ -99,6 +127,7 @@ class ConnectionListResponse:
 
 
         connection_list_response = cls(
+            plan_notice=plan_notice,
             data=data,
             pagination=pagination,
         )

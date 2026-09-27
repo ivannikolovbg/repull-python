@@ -31,8 +31,7 @@ class ListingPricingRecommendation:
 
         Attributes:
             date (datetime.date | Unset):  Example: 2026-05-14.
-            current_price (float | None | Unset): Current calendar price (from Vanio listings_calendar_days) before applying
-                the recommendation.
+            current_price (float | None | Unset): Current calendar price before applying the recommendation.
             recommended_price (float | Unset): Atlas model's recommended price.
             min_price (float | None | Unset):
             max_price (float | None | Unset):

@@ -27,9 +27,10 @@ T = TypeVar("T", bound="SyncAirbnbTransactionsBody")
 class SyncAirbnbTransactionsBody:
     """ 
         Attributes:
-            start_date (datetime.date | Unset): Inclusive lower bound on transaction date.
-            end_date (datetime.date | Unset): Inclusive upper bound on transaction date.
-            transaction_type (SyncAirbnbTransactionsBodyTransactionType | Unset):
+            start_date (datetime.date | Unset): Inclusive lower bound (YYYY-MM-DD).
+            end_date (datetime.date | Unset): Inclusive upper bound (YYYY-MM-DD).
+            transaction_type (SyncAirbnbTransactionsBodyTransactionType | Unset): Refresh only settled or only upcoming
+                lines. Both when omitted.
      """
 
     start_date: datetime.date | Unset = UNSET

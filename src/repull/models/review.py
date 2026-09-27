@@ -29,8 +29,8 @@ T = TypeVar("T", bound="Review")
 
 @_attrs_define
 class Review:
-    """ A guest or host review unified across channels. Returned by `GET /v1/reviews` and `GET /v1/reviews/{id}`. Populated
-    from main vanio's unified `reviews` table after the per-channel backfill cron has run.
+    """ A guest or host review unified across channels. Returned by `GET /v1/reviews` and `GET /v1/reviews/{id}`. Includes
+    every channel's reviews once they have been imported.
 
         Attributes:
             id (str | Unset): Internal Repull review id — pass back to `/v1/reviews/{id}`.

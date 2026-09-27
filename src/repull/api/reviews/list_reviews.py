@@ -163,8 +163,7 @@ def sync_detailed(
 ) -> Response[Error | ReviewListResponse]:
     """ List reviews
 
-     Cursor-paginated guest + host review stream for the workspace. Backed by main vanio's unified
-    `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
+     Cursor-paginated guest + host review stream for the workspace. This surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
@@ -236,8 +235,7 @@ def sync(
 ) -> Error | ReviewListResponse | None:
     """ List reviews
 
-     Cursor-paginated guest + host review stream for the workspace. Backed by main vanio's unified
-    `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
+     Cursor-paginated guest + host review stream for the workspace. This surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
@@ -304,8 +302,7 @@ async def asyncio_detailed(
 ) -> Response[Error | ReviewListResponse]:
     """ List reviews
 
-     Cursor-paginated guest + host review stream for the workspace. Backed by main vanio's unified
-    `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
+     Cursor-paginated guest + host review stream for the workspace. This surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
@@ -377,8 +374,7 @@ async def asyncio(
 ) -> Error | ReviewListResponse | None:
     """ List reviews
 
-     Cursor-paginated guest + host review stream for the workspace. Backed by main vanio's unified
-    `reviews` table (populated by per-channel backfill crons), so this surface returns the complete
+     Cursor-paginated guest + host review stream for the workspace. This surface returns the complete
     cross-channel history — separate from `/v1/channels/airbnb/reviews` which hits Airbnb live.
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`

@@ -33,7 +33,7 @@ class AirbnbAccountFreshness:
             last_synced_at (datetime.datetime | None): When this account last COMPLETED an Airbnb import. `null` when it
                 never has. A run that failed or was rate-limited does not move it.
             stale (bool): `true` when this account is disconnected, has never synced, or has not refreshed in 24h+.
-            account_name (None | str | Unset): Display name of the connected account. Example: Pomello.
+            account_name (None | str | Unset): Display name of the connected account. Example: Seaside Stays.
             reason (None | str | Unset): Why THIS account is stale. Omitted when it is fresh.
             fix_url (None | str | Unset): Where to reconnect this account. Omitted when it is fresh.
      """

@@ -24,8 +24,7 @@ T = TypeVar("T", bound="GuestFlag")
 
 @_attrs_define
 class GuestFlag:
-    """ A risk/operational flag attached to a guest profile (e.g. blacklist, do-not-host, VIP). Severity comes from main
-    vanio's flag taxonomy.
+    """ A risk/operational flag attached to a guest profile (e.g. blacklist, do-not-host, VIP).
 
         Attributes:
             type_ (str | Unset): Severity / category (e.g. `info`, `warning`, `block`).

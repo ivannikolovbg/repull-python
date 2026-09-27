@@ -34,12 +34,16 @@ class PropertyAvailabilityDay:
                 nightly price when the calendar row itself carries no price. Example: 245.
             min_nights (int): Minimum-stay requirement for a stay starting on this date. Falls back to the listing-level
                 default min-nights when the calendar row carries none. Example: 2.
+            available_units (int): Units still sellable that night. 1 or 0 for a single home. For a hotel-model listing (a
+                Mews or Cloudbeds room type) the rooms of that type left, e.g. 3 of 5 — see `GET /v1/listings/{id}/units`.
+                `available` is false whenever this is 0. Example: 1.
      """
 
     date: datetime.date
     available: bool
     price: float
     min_nights: int
+    available_units: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -55,6 +59,8 @@ class PropertyAvailabilityDay:
 
         min_nights = self.min_nights
 
+        available_units = self.available_units
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -63,6 +69,7 @@ class PropertyAvailabilityDay:
             "available": available,
             "price": price,
             "minNights": min_nights,
+            "availableUnits": available_units,
         })
 
         return field_dict
@@ -83,11 +90,14 @@ class PropertyAvailabilityDay:
 
         min_nights = d.pop("minNights")
 
+        available_units = d.pop("availableUnits")
+
         property_availability_day = cls(
             date=date,
             available=available,
             price=price,
             min_nights=min_nights,
+            available_units=available_units,
         )
 
 

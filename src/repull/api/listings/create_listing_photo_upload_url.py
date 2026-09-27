@@ -101,17 +101,17 @@ def sync_detailed(
     body: ListingPhotoUploadUrlRequest,
 
 ) -> Response[Error | ListingPhotoUploadUrlResponse]:
-    """ Mint a direct-to-storage photo upload URL
+    r""" Mint a direct-to-storage photo upload URL
 
      Mints a short-lived signed upload URL + token for a listing photo. **The client PUTs the raw file
-    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API or
-    main vanio.** This endpoint only mints the URL; do not POST the file itself here, it will not be
-    accepted.
+    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API.**
+    This endpoint only mints the URL; do not POST the file itself here, it will not be accepted.
 
-    Flow: (1) POST here with `fileName`/`fileType`/optional `fileSize` to get `{ uploadUrl, token, path,
-    publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3) `publicUrl`
-    is the durable URL for the uploaded photo — attach it to the listing via `PUT
-    /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
+    Flow: (1) POST here with `fileName`, `fileType` and `fileSize` (bytes) to get `{ uploadUrl, token,
+    path, publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3)
+    **attach it** — uploading does not put the photo on the listing: send `publicUrl` in `photos` on
+    `PUT /v1/listings/{id}/content` (with `photosMode: \"append\"` to keep existing photos). The
+    response's `nextStep` says the same.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -148,17 +148,17 @@ def sync(
     body: ListingPhotoUploadUrlRequest,
 
 ) -> Error | ListingPhotoUploadUrlResponse | None:
-    """ Mint a direct-to-storage photo upload URL
+    r""" Mint a direct-to-storage photo upload URL
 
      Mints a short-lived signed upload URL + token for a listing photo. **The client PUTs the raw file
-    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API or
-    main vanio.** This endpoint only mints the URL; do not POST the file itself here, it will not be
-    accepted.
+    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API.**
+    This endpoint only mints the URL; do not POST the file itself here, it will not be accepted.
 
-    Flow: (1) POST here with `fileName`/`fileType`/optional `fileSize` to get `{ uploadUrl, token, path,
-    publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3) `publicUrl`
-    is the durable URL for the uploaded photo — attach it to the listing via `PUT
-    /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
+    Flow: (1) POST here with `fileName`, `fileType` and `fileSize` (bytes) to get `{ uploadUrl, token,
+    path, publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3)
+    **attach it** — uploading does not put the photo on the listing: send `publicUrl` in `photos` on
+    `PUT /v1/listings/{id}/content` (with `photosMode: \"append\"` to keep existing photos). The
+    response's `nextStep` says the same.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -190,17 +190,17 @@ async def asyncio_detailed(
     body: ListingPhotoUploadUrlRequest,
 
 ) -> Response[Error | ListingPhotoUploadUrlResponse]:
-    """ Mint a direct-to-storage photo upload URL
+    r""" Mint a direct-to-storage photo upload URL
 
      Mints a short-lived signed upload URL + token for a listing photo. **The client PUTs the raw file
-    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API or
-    main vanio.** This endpoint only mints the URL; do not POST the file itself here, it will not be
-    accepted.
+    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API.**
+    This endpoint only mints the URL; do not POST the file itself here, it will not be accepted.
 
-    Flow: (1) POST here with `fileName`/`fileType`/optional `fileSize` to get `{ uploadUrl, token, path,
-    publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3) `publicUrl`
-    is the durable URL for the uploaded photo — attach it to the listing via `PUT
-    /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
+    Flow: (1) POST here with `fileName`, `fileType` and `fileSize` (bytes) to get `{ uploadUrl, token,
+    path, publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3)
+    **attach it** — uploading does not put the photo on the listing: send `publicUrl` in `photos` on
+    `PUT /v1/listings/{id}/content` (with `photosMode: \"append\"` to keep existing photos). The
+    response's `nextStep` says the same.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -237,17 +237,17 @@ async def asyncio(
     body: ListingPhotoUploadUrlRequest,
 
 ) -> Error | ListingPhotoUploadUrlResponse | None:
-    """ Mint a direct-to-storage photo upload URL
+    r""" Mint a direct-to-storage photo upload URL
 
      Mints a short-lived signed upload URL + token for a listing photo. **The client PUTs the raw file
-    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API or
-    main vanio.** This endpoint only mints the URL; do not POST the file itself here, it will not be
-    accepted.
+    bytes directly to the returned `uploadUrl` — the file bytes never pass through the Repull API.**
+    This endpoint only mints the URL; do not POST the file itself here, it will not be accepted.
 
-    Flow: (1) POST here with `fileName`/`fileType`/optional `fileSize` to get `{ uploadUrl, token, path,
-    publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3) `publicUrl`
-    is the durable URL for the uploaded photo — attach it to the listing via `PUT
-    /v1/listings/{id}/content` (`photos` field) or list it back via `GET /v1/listings/{id}/photos`.
+    Flow: (1) POST here with `fileName`, `fileType` and `fileSize` (bytes) to get `{ uploadUrl, token,
+    path, publicUrl, expiresIn }`; (2) PUT the raw file bytes to `uploadUrl` from the client; (3)
+    **attach it** — uploading does not put the photo on the listing: send `publicUrl` in `photos` on
+    `PUT /v1/listings/{id}/content` (with `photosMode: \"append\"` to keep existing photos). The
+    response's `nextStep` says the same.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.

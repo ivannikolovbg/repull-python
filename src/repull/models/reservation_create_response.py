@@ -13,6 +13,9 @@ from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.reservation_create_response_pms import ReservationCreateResponsePms
+  from ..models.reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
 
 
 
@@ -30,13 +33,18 @@ class ReservationCreateResponse:
             confirmation_code (str | Unset):  Example: DIR-8H2K4N.
             listing_id (int | Unset):  Example: 4118.
             platform (str | Unset):  Example: direct.
-            status (str | Unset):  Example: accept.
+            status (str | Unset): Same vocabulary as `GET /v1/reservations/{id}`. Example: confirmed.
             check_in (datetime.date | Unset):
             check_out (datetime.date | Unset):
             guest_id (int | None | Unset):
             total_price (float | None | Unset): The price the pricing engine derived for the stay. Reservations created
-                through this endpoint are NOT priced from the request — see the operation description.
+                through this endpoint are NOT priced from the request — see the operation description. On a Mews or Cloudbeds
+                listing, the PMS prices it from its own rate.
             currency (None | str | Unset):
+            unit (None | ReservationCreateResponseUnitType0 | Unset): Mews or Cloudbeds listings only: the room the PMS
+                assigned. Absent for every other listing.
+            pms (ReservationCreateResponsePms | Unset): Mews or Cloudbeds listings only: the booking was made in the PMS
+                first, and this is what it applied.
      """
 
     id: int | Unset = UNSET
@@ -49,6 +57,8 @@ class ReservationCreateResponse:
     guest_id: int | None | Unset = UNSET
     total_price: float | None | Unset = UNSET
     currency: None | str | Unset = UNSET
+    unit: None | ReservationCreateResponseUnitType0 | Unset = UNSET
+    pms: ReservationCreateResponsePms | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -56,6 +66,8 @@ class ReservationCreateResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.reservation_create_response_pms import ReservationCreateResponsePms
+        from ..models.reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
         id = self.id
 
         confirmation_code = self.confirmation_code
@@ -92,6 +104,18 @@ class ReservationCreateResponse:
         else:
             currency = self.currency
 
+        unit: dict[str, Any] | None | Unset
+        if isinstance(self.unit, Unset):
+            unit = UNSET
+        elif isinstance(self.unit, ReservationCreateResponseUnitType0):
+            unit = self.unit.to_dict()
+        else:
+            unit = self.unit
+
+        pms: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.pms, Unset):
+            pms = self.pms.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -117,6 +141,10 @@ class ReservationCreateResponse:
             field_dict["totalPrice"] = total_price
         if currency is not UNSET:
             field_dict["currency"] = currency
+        if unit is not UNSET:
+            field_dict["unit"] = unit
+        if pms is not UNSET:
+            field_dict["pms"] = pms
 
         return field_dict
 
@@ -124,6 +152,8 @@ class ReservationCreateResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.reservation_create_response_pms import ReservationCreateResponsePms
+        from ..models.reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -185,6 +215,36 @@ class ReservationCreateResponse:
         currency = _parse_currency(d.pop("currency", UNSET))
 
 
+        def _parse_unit(data: object) -> None | ReservationCreateResponseUnitType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                unit_type_0 = ReservationCreateResponseUnitType0.from_dict(data)
+
+
+
+                return unit_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | ReservationCreateResponseUnitType0 | Unset, data)
+
+        unit = _parse_unit(d.pop("unit", UNSET))
+
+
+        _pms = d.pop("pms", UNSET)
+        pms: ReservationCreateResponsePms | Unset
+        if isinstance(_pms,  Unset):
+            pms = UNSET
+        else:
+            pms = ReservationCreateResponsePms.from_dict(_pms)
+
+
+
+
         reservation_create_response = cls(
             id=id,
             confirmation_code=confirmation_code,
@@ -196,6 +256,8 @@ class ReservationCreateResponse:
             guest_id=guest_id,
             total_price=total_price,
             currency=currency,
+            unit=unit,
+            pms=pms,
         )
 
 
