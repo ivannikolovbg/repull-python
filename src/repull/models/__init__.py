@@ -777,6 +777,7 @@ from .submit_cloudbeds_credentials_body_credentials import SubmitCloudbedsCreden
 from .submit_cloudbeds_credentials_response_200 import SubmitCloudbedsCredentialsResponse200
 from .submit_cloudbeds_credentials_response_200_account_info import SubmitCloudbedsCredentialsResponse200AccountInfo
 from .submit_cloudbeds_credentials_response_200_webhooks import SubmitCloudbedsCredentialsResponse200Webhooks
+from .submit_guest_review_response_200 import SubmitGuestReviewResponse200
 from .submit_guesty_credentials_body import SubmitGuestyCredentialsBody
 from .submit_guesty_credentials_body_credentials import SubmitGuestyCredentialsBodyCredentials
 from .submit_guesty_credentials_response_200 import SubmitGuestyCredentialsResponse200
@@ -1699,6 +1700,7 @@ __all__ = (
     "SubmitCloudbedsCredentialsResponse200",
     "SubmitCloudbedsCredentialsResponse200AccountInfo",
     "SubmitCloudbedsCredentialsResponse200Webhooks",
+    "SubmitGuestReviewResponse200",
     "SubmitGuestyCredentialsBody",
     "SubmitGuestyCredentialsBodyCredentials",
     "SubmitGuestyCredentialsResponse200",

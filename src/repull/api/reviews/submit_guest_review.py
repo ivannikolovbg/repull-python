@@ -9,14 +9,14 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.airbnb_host_review_submit import AirbnbHostReviewSubmit
-from ...models.airbnb_review import AirbnbReview
 from ...models.error import Error
+from ...models.submit_guest_review_response_200 import SubmitGuestReviewResponse200
 from typing import cast
 
 
 
 def _get_kwargs(
-    id: str,
+    id: int,
     *,
     body: AirbnbHostReviewSubmit,
 
@@ -29,8 +29,8 @@ def _get_kwargs(
     
 
     _kwargs: dict[str, Any] = {
-        "method": "put",
-        "url": "/v1/channels/airbnb/reviews/{id}".format(id=quote(str(id), safe=""),),
+        "method": "post",
+        "url": "/v1/reviews/{id}/guest-review".format(id=quote(str(id), safe=""),),
     }
 
     _kwargs["json"] = body.to_dict()
@@ -43,9 +43,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReview | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | SubmitGuestReviewResponse200 | None:
     if response.status_code == 200:
-        response_200 = AirbnbReview.from_dict(response.json())
+        response_200 = SubmitGuestReviewResponse200.from_dict(response.json())
 
 
 
@@ -72,6 +72,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+
+
+        return response_409
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -86,13 +93,6 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_429
 
-    if response.status_code == 500:
-        response_500 = Error.from_dict(response.json())
-
-
-
-        return response_500
-
     if response.status_code == 502:
         response_502 = Error.from_dict(response.json())
 
@@ -106,7 +106,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReview | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | SubmitGuestReviewResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -116,17 +116,21 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
 def sync_detailed(
-    id: str,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
     body: AirbnbHostReviewSubmit,
 
-) -> Response[AirbnbReview | Error]:
-    r""" Submit your review of a guest (publishes, final)
+) -> Response[Error | SubmitGuestReviewResponse200]:
+    r""" Review a guest (publishes, final)
 
-     Submit your review of a guest — the review with `reviewerRole: \"host\"`. **Submitting publishes it
-    and is final:** Airbnb has no draft and does not allow edits; a second submission is `409
-    review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`).
+     Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
+    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
+    returns `422 unsupported_channel`.
+
+    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
+    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
+    (`expiresAt`); after that, `409 review_window_closed`.
 
     Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
     1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
@@ -145,13 +149,11 @@ def sync_detailed(
     ```
 
     A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    reply to it with `POST /v1/reviews/{id}/reply`. After the window closes: `409 review_window_closed`.
-
-    The same submission is available channel-neutrally as `POST /v1/reviews/{id}/guest-review`. Guide:
-    https://repull.dev/docs/reviews#review-a-guest
+    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
+    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
 
     Args:
-        id (str):
+        id (int):
         body (AirbnbHostReviewSubmit): Your review of a guest. Airbnb requires `publicReview`,
             `isRevieweeRecommended`, and a rating for each of cleanliness, communication and
             respect_house_rules — through `rating`, `categoryRatings`, or both. Submitting publishes
@@ -165,7 +167,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReview | Error]
+        Response[Error | SubmitGuestReviewResponse200]
      """
 
 
@@ -182,17 +184,21 @@ body=body,
     return _build_response(client=client, response=response)
 
 def sync(
-    id: str,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
     body: AirbnbHostReviewSubmit,
 
-) -> AirbnbReview | Error | None:
-    r""" Submit your review of a guest (publishes, final)
+) -> Error | SubmitGuestReviewResponse200 | None:
+    r""" Review a guest (publishes, final)
 
-     Submit your review of a guest — the review with `reviewerRole: \"host\"`. **Submitting publishes it
-    and is final:** Airbnb has no draft and does not allow edits; a second submission is `409
-    review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`).
+     Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
+    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
+    returns `422 unsupported_channel`.
+
+    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
+    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
+    (`expiresAt`); after that, `409 review_window_closed`.
 
     Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
     1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
@@ -211,13 +217,11 @@ def sync(
     ```
 
     A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    reply to it with `POST /v1/reviews/{id}/reply`. After the window closes: `409 review_window_closed`.
-
-    The same submission is available channel-neutrally as `POST /v1/reviews/{id}/guest-review`. Guide:
-    https://repull.dev/docs/reviews#review-a-guest
+    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
+    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
 
     Args:
-        id (str):
+        id (int):
         body (AirbnbHostReviewSubmit): Your review of a guest. Airbnb requires `publicReview`,
             `isRevieweeRecommended`, and a rating for each of cleanliness, communication and
             respect_house_rules — through `rating`, `categoryRatings`, or both. Submitting publishes
@@ -231,7 +235,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReview | Error
+        Error | SubmitGuestReviewResponse200
      """
 
 
@@ -243,17 +247,21 @@ body=body,
     ).parsed
 
 async def asyncio_detailed(
-    id: str,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
     body: AirbnbHostReviewSubmit,
 
-) -> Response[AirbnbReview | Error]:
-    r""" Submit your review of a guest (publishes, final)
+) -> Response[Error | SubmitGuestReviewResponse200]:
+    r""" Review a guest (publishes, final)
 
-     Submit your review of a guest — the review with `reviewerRole: \"host\"`. **Submitting publishes it
-    and is final:** Airbnb has no draft and does not allow edits; a second submission is `409
-    review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`).
+     Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
+    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
+    returns `422 unsupported_channel`.
+
+    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
+    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
+    (`expiresAt`); after that, `409 review_window_closed`.
 
     Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
     1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
@@ -272,13 +280,11 @@ async def asyncio_detailed(
     ```
 
     A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    reply to it with `POST /v1/reviews/{id}/reply`. After the window closes: `409 review_window_closed`.
-
-    The same submission is available channel-neutrally as `POST /v1/reviews/{id}/guest-review`. Guide:
-    https://repull.dev/docs/reviews#review-a-guest
+    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
+    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
 
     Args:
-        id (str):
+        id (int):
         body (AirbnbHostReviewSubmit): Your review of a guest. Airbnb requires `publicReview`,
             `isRevieweeRecommended`, and a rating for each of cleanliness, communication and
             respect_house_rules — through `rating`, `categoryRatings`, or both. Submitting publishes
@@ -292,7 +298,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReview | Error]
+        Response[Error | SubmitGuestReviewResponse200]
      """
 
 
@@ -309,17 +315,21 @@ body=body,
     return _build_response(client=client, response=response)
 
 async def asyncio(
-    id: str,
+    id: int,
     *,
     client: AuthenticatedClient | Client,
     body: AirbnbHostReviewSubmit,
 
-) -> AirbnbReview | Error | None:
-    r""" Submit your review of a guest (publishes, final)
+) -> Error | SubmitGuestReviewResponse200 | None:
+    r""" Review a guest (publishes, final)
 
-     Submit your review of a guest — the review with `reviewerRole: \"host\"`. **Submitting publishes it
-    and is final:** Airbnb has no draft and does not allow edits; a second submission is `409
-    review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`).
+     Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
+    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
+    returns `422 unsupported_channel`.
+
+    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
+    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
+    (`expiresAt`); after that, `409 review_window_closed`.
 
     Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
     1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
@@ -338,13 +348,11 @@ async def asyncio(
     ```
 
     A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    reply to it with `POST /v1/reviews/{id}/reply`. After the window closes: `409 review_window_closed`.
-
-    The same submission is available channel-neutrally as `POST /v1/reviews/{id}/guest-review`. Guide:
-    https://repull.dev/docs/reviews#review-a-guest
+    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
+    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
 
     Args:
-        id (str):
+        id (int):
         body (AirbnbHostReviewSubmit): Your review of a guest. Airbnb requires `publicReview`,
             `isRevieweeRecommended`, and a rating for each of cleanliness, communication and
             respect_house_rules — through `rating`, `categoryRatings`, or both. Submitting publishes
@@ -358,7 +366,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReview | Error
+        Error | SubmitGuestReviewResponse200
      """
 
 

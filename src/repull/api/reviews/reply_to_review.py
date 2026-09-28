@@ -120,8 +120,10 @@ def sync_detailed(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
-    unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
+    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+
+    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.
@@ -163,8 +165,10 @@ def sync(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
-    unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
+    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+
+    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.
@@ -201,8 +205,10 @@ async def asyncio_detailed(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
-    unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
+    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+
+    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.
@@ -244,8 +250,10 @@ async def asyncio(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies are available on Airbnb today; a review from a channel without a reply API returns `422
-    unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
+    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+
+    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.

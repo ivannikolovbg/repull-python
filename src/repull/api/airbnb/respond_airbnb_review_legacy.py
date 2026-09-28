@@ -92,8 +92,8 @@ def sync_detailed(
     r""" Respond to / submit Airbnb review (legacy)
 
      Legacy action-based shape. Body `{ action: \"respond\"|\"submit\", reviewId, response?, review? }`.
-    Kept for backwards compatibility — prefer `PUT /v1/channels/airbnb/reviews/{id}` (edit) and `POST
-    /v1/channels/airbnb/reviews/{id}/respond` (reply) for new integrations.
+    Kept for backwards compatibility — prefer `POST /v1/reviews/{id}/guest-review` (review a guest) and
+    `POST /v1/reviews/{id}/reply` (reply) for new integrations.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
     keeps syncing, but cannot be read or changed through the API until it is activated.
@@ -125,8 +125,8 @@ def sync(
     r""" Respond to / submit Airbnb review (legacy)
 
      Legacy action-based shape. Body `{ action: \"respond\"|\"submit\", reviewId, response?, review? }`.
-    Kept for backwards compatibility — prefer `PUT /v1/channels/airbnb/reviews/{id}` (edit) and `POST
-    /v1/channels/airbnb/reviews/{id}/respond` (reply) for new integrations.
+    Kept for backwards compatibility — prefer `POST /v1/reviews/{id}/guest-review` (review a guest) and
+    `POST /v1/reviews/{id}/reply` (reply) for new integrations.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
     keeps syncing, but cannot be read or changed through the API until it is activated.
@@ -153,8 +153,8 @@ async def asyncio_detailed(
     r""" Respond to / submit Airbnb review (legacy)
 
      Legacy action-based shape. Body `{ action: \"respond\"|\"submit\", reviewId, response?, review? }`.
-    Kept for backwards compatibility — prefer `PUT /v1/channels/airbnb/reviews/{id}` (edit) and `POST
-    /v1/channels/airbnb/reviews/{id}/respond` (reply) for new integrations.
+    Kept for backwards compatibility — prefer `POST /v1/reviews/{id}/guest-review` (review a guest) and
+    `POST /v1/reviews/{id}/reply` (reply) for new integrations.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
     keeps syncing, but cannot be read or changed through the API until it is activated.
@@ -186,8 +186,8 @@ async def asyncio(
     r""" Respond to / submit Airbnb review (legacy)
 
      Legacy action-based shape. Body `{ action: \"respond\"|\"submit\", reviewId, response?, review? }`.
-    Kept for backwards compatibility — prefer `PUT /v1/channels/airbnb/reviews/{id}` (edit) and `POST
-    /v1/channels/airbnb/reviews/{id}/respond` (reply) for new integrations.
+    Kept for backwards compatibility — prefer `POST /v1/reviews/{id}/guest-review` (review a guest) and
+    `POST /v1/reviews/{id}/reply` (reply) for new integrations.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
     keeps syncing, but cannot be read or changed through the API until it is activated.

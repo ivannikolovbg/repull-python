@@ -124,7 +124,10 @@ def sync_detailed(
 ) -> Response[AirbnbReview | Error]:
     """ Respond to Airbnb review
 
-     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+     **Deprecated — use `POST /v1/reviews/{id}/reply`**, which replies to a review from any channel. This
+    route keeps working unchanged.
+
+    Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
@@ -164,7 +167,10 @@ def sync(
 ) -> AirbnbReview | Error | None:
     """ Respond to Airbnb review
 
-     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+     **Deprecated — use `POST /v1/reviews/{id}/reply`**, which replies to a review from any channel. This
+    route keeps working unchanged.
+
+    Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
@@ -199,7 +205,10 @@ async def asyncio_detailed(
 ) -> Response[AirbnbReview | Error]:
     """ Respond to Airbnb review
 
-     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+     **Deprecated — use `POST /v1/reviews/{id}/reply`**, which replies to a review from any channel. This
+    route keeps working unchanged.
+
+    Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
@@ -239,7 +248,10 @@ async def asyncio(
 ) -> AirbnbReview | Error | None:
     """ Respond to Airbnb review
 
-     Post a public host response to a guest review. Airbnb allows one response per review — repeated
+     **Deprecated — use `POST /v1/reviews/{id}/reply`**, which replies to a review from any channel. This
+    route keeps working unchanged.
+
+    Post a public host response to a guest review. Airbnb allows one response per review — repeated
     POSTs return 409. Response text is capped at 1000 characters.
 
     Returns `403 listing_inactive` when the listing this resolves to is inactive. An inactive listing
