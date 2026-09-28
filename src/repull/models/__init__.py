@@ -50,6 +50,9 @@ from .airbnb_content_write_response_result import AirbnbContentWriteResponseResu
 from .airbnb_data_freshness import AirbnbDataFreshness
 from .airbnb_description_write_request import AirbnbDescriptionWriteRequest
 from .airbnb_description_write_request_description import AirbnbDescriptionWriteRequestDescription
+from .airbnb_host_review_submit import AirbnbHostReviewSubmit
+from .airbnb_host_review_submit_category_ratings_item import AirbnbHostReviewSubmitCategoryRatingsItem
+from .airbnb_host_review_submit_category_ratings_item_category import AirbnbHostReviewSubmitCategoryRatingsItemCategory
 from .airbnb_listing import AirbnbListing
 from .airbnb_listing_action_request import AirbnbListingActionRequest
 from .airbnb_listing_action_request_action import AirbnbListingActionRequestAction
@@ -969,6 +972,9 @@ __all__ = (
     "AirbnbDataFreshness",
     "AirbnbDescriptionWriteRequest",
     "AirbnbDescriptionWriteRequestDescription",
+    "AirbnbHostReviewSubmit",
+    "AirbnbHostReviewSubmitCategoryRatingsItem",
+    "AirbnbHostReviewSubmitCategoryRatingsItemCategory",
     "AirbnbListing",
     "AirbnbListingActionRequest",
     "AirbnbListingActionRequestAction",
