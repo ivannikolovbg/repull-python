@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.withdraw_conversation_special_offer_response_200_channel import WithdrawConversationSpecialOfferResponse200Channel
 from ..models.withdraw_conversation_special_offer_response_200_status import WithdrawConversationSpecialOfferResponse200Status
 
 
@@ -25,11 +26,13 @@ class WithdrawConversationSpecialOfferResponse200:
         Attributes:
             id (str):  Example: 1459920384.
             conversation_id (str):  Example: 164743.
+            channel (WithdrawConversationSpecialOfferResponse200Channel):  Example: airbnb.
             status (WithdrawConversationSpecialOfferResponse200Status):
      """
 
     id: str
     conversation_id: str
+    channel: WithdrawConversationSpecialOfferResponse200Channel
     status: WithdrawConversationSpecialOfferResponse200Status
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -42,6 +45,8 @@ class WithdrawConversationSpecialOfferResponse200:
 
         conversation_id = self.conversation_id
 
+        channel = self.channel.value
+
         status = self.status.value
 
 
@@ -50,6 +55,7 @@ class WithdrawConversationSpecialOfferResponse200:
         field_dict.update({
             "id": id,
             "conversationId": conversation_id,
+            "channel": channel,
             "status": status,
         })
 
@@ -64,6 +70,11 @@ class WithdrawConversationSpecialOfferResponse200:
 
         conversation_id = d.pop("conversationId")
 
+        channel = WithdrawConversationSpecialOfferResponse200Channel(d.pop("channel"))
+
+
+
+
         status = WithdrawConversationSpecialOfferResponse200Status(d.pop("status"))
 
 
@@ -72,6 +83,7 @@ class WithdrawConversationSpecialOfferResponse200:
         withdraw_conversation_special_offer_response_200 = cls(
             id=id,
             conversation_id=conversation_id,
+            channel=channel,
             status=status,
         )
 

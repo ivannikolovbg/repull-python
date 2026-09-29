@@ -123,8 +123,9 @@ def sync_detailed(
 ) -> Response[Error | WithdrawConversationSpecialOfferResponse200]:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
-    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked (VRBO:
+    `offerId` = `current`, the same as `DELETE /v1/conversations/{id}/pre-approval`). An offer the guest
+    already booked cannot be withdrawn — the channel refuses with `409 inquiry_no_longer_open`; cancel
     the booking instead.
 
     Args:
@@ -161,8 +162,9 @@ def sync(
 ) -> Error | WithdrawConversationSpecialOfferResponse200 | None:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
-    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked (VRBO:
+    `offerId` = `current`, the same as `DELETE /v1/conversations/{id}/pre-approval`). An offer the guest
+    already booked cannot be withdrawn — the channel refuses with `409 inquiry_no_longer_open`; cancel
     the booking instead.
 
     Args:
@@ -194,8 +196,9 @@ async def asyncio_detailed(
 ) -> Response[Error | WithdrawConversationSpecialOfferResponse200]:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
-    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked (VRBO:
+    `offerId` = `current`, the same as `DELETE /v1/conversations/{id}/pre-approval`). An offer the guest
+    already booked cannot be withdrawn — the channel refuses with `409 inquiry_no_longer_open`; cancel
     the booking instead.
 
     Args:
@@ -232,8 +235,9 @@ async def asyncio(
 ) -> Error | WithdrawConversationSpecialOfferResponse200 | None:
     """ Withdraw a special offer
 
-     Withdraw a special offer the guest has not booked yet, so it can no longer be booked. An offer the
-    guest already booked cannot be withdrawn — Airbnb refuses with `409 inquiry_no_longer_open`; cancel
+     Withdraw a special offer the guest has not booked yet, so it can no longer be booked (VRBO:
+    `offerId` = `current`, the same as `DELETE /v1/conversations/{id}/pre-approval`). An offer the guest
+    already booked cannot be withdrawn — the channel refuses with `409 inquiry_no_longer_open`; cancel
     the booking instead.
 
     Args:

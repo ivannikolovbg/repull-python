@@ -137,22 +137,27 @@ def sync_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | PreapproveConversationResponse201]:
-    """ Pre-approve an inquiry
+    """ Pre-approve an inquiry (Airbnb, VRBO)
 
-     Pre-approve the Airbnb inquiry on this conversation: the guest who asked about dates may now book
-    them at the listed price, without waiting on you. To change the dates, guests or price, send a
-    special offer instead (`POST /v1/conversations/{id}/special-offers`).
+     Pre-approve the inquiry on this conversation: the guest who asked about dates may now book them at
+    the listed price, without waiting on you. To change the dates, guests or price, send a special offer
+    instead (`POST /v1/conversations/{id}/special-offers`).
 
     Find inquiries that need an answer with `GET /v1/inquiries` (default `status=open`); each carries
     the `conversationId` to use here.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly. A Booking.com, VRBO or direct-
-    booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
-    channel_not_supported` and nothing is sent.
+    One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
+    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
+    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
+    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
 
-    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
+    `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
+    sent to the guest with a VRBO pre-approval (a friendly default otherwise).
 
-    An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving on the channel. Withdraw
+    it with `DELETE /v1/conversations/{id}/pre-approval` (VRBO).
+
+    A channel’s refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a
     booking `409 conversation_already_booked`.
 
@@ -196,22 +201,27 @@ def sync(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Error | PreapproveConversationResponse201 | None:
-    """ Pre-approve an inquiry
+    """ Pre-approve an inquiry (Airbnb, VRBO)
 
-     Pre-approve the Airbnb inquiry on this conversation: the guest who asked about dates may now book
-    them at the listed price, without waiting on you. To change the dates, guests or price, send a
-    special offer instead (`POST /v1/conversations/{id}/special-offers`).
+     Pre-approve the inquiry on this conversation: the guest who asked about dates may now book them at
+    the listed price, without waiting on you. To change the dates, guests or price, send a special offer
+    instead (`POST /v1/conversations/{id}/special-offers`).
 
     Find inquiries that need an answer with `GET /v1/inquiries` (default `status=open`); each carries
     the `conversationId` to use here.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly. A Booking.com, VRBO or direct-
-    booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
-    channel_not_supported` and nothing is sent.
+    One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
+    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
+    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
+    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
 
-    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
+    `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
+    sent to the guest with a VRBO pre-approval (a friendly default otherwise).
 
-    An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving on the channel. Withdraw
+    it with `DELETE /v1/conversations/{id}/pre-approval` (VRBO).
+
+    A channel’s refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a
     booking `409 conversation_already_booked`.
 
@@ -250,22 +260,27 @@ async def asyncio_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | PreapproveConversationResponse201]:
-    """ Pre-approve an inquiry
+    """ Pre-approve an inquiry (Airbnb, VRBO)
 
-     Pre-approve the Airbnb inquiry on this conversation: the guest who asked about dates may now book
-    them at the listed price, without waiting on you. To change the dates, guests or price, send a
-    special offer instead (`POST /v1/conversations/{id}/special-offers`).
+     Pre-approve the inquiry on this conversation: the guest who asked about dates may now book them at
+    the listed price, without waiting on you. To change the dates, guests or price, send a special offer
+    instead (`POST /v1/conversations/{id}/special-offers`).
 
     Find inquiries that need an answer with `GET /v1/inquiries` (default `status=open`); each carries
     the `conversationId` to use here.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly. A Booking.com, VRBO or direct-
-    booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
-    channel_not_supported` and nothing is sent.
+    One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
+    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
+    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
+    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
 
-    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
+    `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
+    sent to the guest with a VRBO pre-approval (a friendly default otherwise).
 
-    An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving on the channel. Withdraw
+    it with `DELETE /v1/conversations/{id}/pre-approval` (VRBO).
+
+    A channel’s refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a
     booking `409 conversation_already_booked`.
 
@@ -309,22 +324,27 @@ async def asyncio(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Error | PreapproveConversationResponse201 | None:
-    """ Pre-approve an inquiry
+    """ Pre-approve an inquiry (Airbnb, VRBO)
 
-     Pre-approve the Airbnb inquiry on this conversation: the guest who asked about dates may now book
-    them at the listed price, without waiting on you. To change the dates, guests or price, send a
-    special offer instead (`POST /v1/conversations/{id}/special-offers`).
+     Pre-approve the inquiry on this conversation: the guest who asked about dates may now book them at
+    the listed price, without waiting on you. To change the dates, guests or price, send a special offer
+    instead (`POST /v1/conversations/{id}/special-offers`).
 
     Find inquiries that need an answer with `GET /v1/inquiries` (default `status=open`); each carries
     the `conversationId` to use here.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly. A Booking.com, VRBO or direct-
-    booking conversation, or an Airbnb one relayed through a PMS (Hostaway, Guesty), returns `422
-    channel_not_supported` and nothing is sent.
+    One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
+    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
+    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
+    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
 
-    The inquiry is marked `pre_approved` everywhere, the same as pre-approving in Airbnb.
+    `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
+    sent to the guest with a VRBO pre-approval (a friendly default otherwise).
 
-    An Airbnb refusal is never reported as a success: an inquiry that already moved on is `409
+    The inquiry is marked `pre_approved` everywhere, the same as pre-approving on the channel. Withdraw
+    it with `DELETE /v1/conversations/{id}/pre-approval` (VRBO).
+
+    A channel’s refusal is never reported as a success: an inquiry that already moved on is `409
     inquiry_no_longer_open`, an expired one `409 inquiry_expired`, a conversation that already has a
     booking `409 conversation_already_booked`.
 

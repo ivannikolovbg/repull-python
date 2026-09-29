@@ -24,8 +24,8 @@ T = TypeVar("T", bound="ChannelMarketStateItem")
 
 @_attrs_define
 class ChannelMarketStateItem:
-    """ What happened on ONE channel item — one Airbnb connection, or one Booking.com property. A listing can carry several
-    Airbnb connections (a re-list, or a move between host accounts) and each gets its own entry.
+    """ What happened on ONE channel item — one Airbnb connection, one Booking.com property, or one VRBO unit. A listing can
+    carry several Airbnb connections (a re-list, or a move between host accounts) and each gets its own entry.
 
         Attributes:
             channel (ChannelMarketStateItemChannel):
@@ -41,6 +41,8 @@ class ChannelMarketStateItem:
                 /v1/channels/airbnb/listings/{id}`. Present on Airbnb items.
             hotel_id (None | str | Unset): The Booking.com property acted on. Present on Booking.com items; null when the
                 property could not be resolved.
+            platform_id (None | str | Unset): The VRBO listing number of the unit hidden or reactivated. Present on VRBO
+                items.
             code (str | Unset): Error code when `ok` is false — the SAME code the channel-specific endpoint returns for this
                 failure, so one vocabulary covers both surfaces. Absent when `ok` is true.
 
@@ -52,7 +54,10 @@ class ChannelMarketStateItem:
                 Nothing about the request needs to change: retry with backoff.
 
                 Plus `ambiguous_booking_mapping` (name the property with `hotelId`) and `payment_required` (a billing refusal,
-                which keeps its own code rather than being buried under a channel one).
+                which keeps its own code rather than being buried under a channel one). VRBO items: `vrbo_rejected` (VRBO still
+                shows the unit in the old state after the change), `vrbo_error` (VRBO did not complete it — retry),
+                `vrbo_not_ready` (the unit's VRBO details have not synced yet — retry in a few minutes), `vrbo_session_expired`
+                (reconnect the VRBO account).
             previous_code (str | Unset): The `code` this item used to carry, for callers still branching on the old string.
                 A migration aid with a deprecation window — **`code` is canonical.**
 
@@ -64,10 +69,10 @@ class ChannelMarketStateItem:
             message (str | Unset): The channel's own reason, verbatim. Absent when `ok` is true.
             fix (str | Unset): What to do about it, phrased for the direction you asked for — "still live and taking
                 bookings" and "still down" call for different reactions. Absent when `ok` is true.
-            verified (bool | Unset): Airbnb only: the listing was READ BACK afterwards and is in the state asked for — down
-                after `offline`, live after `online`. Airbnb can accept a deactivation and leave a listing live, or accept an
-                activation and keep it offline; either is returned as a failure, never as success. `false` means the read-back
-                could not run — an unknown, not a success.
+            verified (bool | Unset): Airbnb and VRBO: the listing was READ BACK afterwards and is in the state asked for —
+                down after `offline`, live after `online`. Airbnb can accept a deactivation and leave a listing live, or accept
+                an activation and keep it offline; either is returned as a failure, never as success. `false` means the read-
+                back could not run — an unknown, not a success.
      """
 
     channel: ChannelMarketStateItemChannel
@@ -75,6 +80,7 @@ class ChannelMarketStateItem:
     ok: bool
     connection_id: None | str | Unset = UNSET
     hotel_id: None | str | Unset = UNSET
+    platform_id: None | str | Unset = UNSET
     code: str | Unset = UNSET
     previous_code: str | Unset = UNSET
     message: str | Unset = UNSET
@@ -105,6 +111,12 @@ class ChannelMarketStateItem:
         else:
             hotel_id = self.hotel_id
 
+        platform_id: None | str | Unset
+        if isinstance(self.platform_id, Unset):
+            platform_id = UNSET
+        else:
+            platform_id = self.platform_id
+
         code = self.code
 
         previous_code = self.previous_code
@@ -127,6 +139,8 @@ class ChannelMarketStateItem:
             field_dict["connectionId"] = connection_id
         if hotel_id is not UNSET:
             field_dict["hotelId"] = hotel_id
+        if platform_id is not UNSET:
+            field_dict["platformId"] = platform_id
         if code is not UNSET:
             field_dict["code"] = code
         if previous_code is not UNSET:
@@ -177,6 +191,16 @@ class ChannelMarketStateItem:
         hotel_id = _parse_hotel_id(d.pop("hotelId", UNSET))
 
 
+        def _parse_platform_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        platform_id = _parse_platform_id(d.pop("platformId", UNSET))
+
+
         code = d.pop("code", UNSET)
 
         previous_code = d.pop("previousCode", UNSET)
@@ -193,6 +217,7 @@ class ChannelMarketStateItem:
             ok=ok,
             connection_id=connection_id,
             hotel_id=hotel_id,
+            platform_id=platform_id,
             code=code,
             previous_code=previous_code,
             message=message,

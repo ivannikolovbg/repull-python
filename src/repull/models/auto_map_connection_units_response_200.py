@@ -1,0 +1,127 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import Any, TypeVar, BinaryIO, TextIO, TYPE_CHECKING, Generator
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
+
+from ..types import UNSET, Unset
+from typing import cast
+
+if TYPE_CHECKING:
+  from ..models.auto_map_connection_units_response_200_results_item import AutoMapConnectionUnitsResponse200ResultsItem
+
+
+
+
+
+T = TypeVar("T", bound="AutoMapConnectionUnitsResponse200")
+
+
+
+@_attrs_define
+class AutoMapConnectionUnitsResponse200:
+    """ 
+        Attributes:
+            connection_id (str | Unset):
+            channel (str | Unset):
+            applied (bool | Unset):
+            results (list[AutoMapConnectionUnitsResponse200ResultsItem] | Unset):
+     """
+
+    connection_id: str | Unset = UNSET
+    channel: str | Unset = UNSET
+    applied: bool | Unset = UNSET
+    results: list[AutoMapConnectionUnitsResponse200ResultsItem] | Unset = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+
+
+
+
+    def to_dict(self) -> dict[str, Any]:
+        from ..models.auto_map_connection_units_response_200_results_item import AutoMapConnectionUnitsResponse200ResultsItem
+        connection_id = self.connection_id
+
+        channel = self.channel
+
+        applied = self.applied
+
+        results: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.results, Unset):
+            results = []
+            for results_item_data in self.results:
+                results_item = results_item_data.to_dict()
+                results.append(results_item)
+
+
+
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({
+        })
+        if connection_id is not UNSET:
+            field_dict["connection_id"] = connection_id
+        if channel is not UNSET:
+            field_dict["channel"] = channel
+        if applied is not UNSET:
+            field_dict["applied"] = applied
+        if results is not UNSET:
+            field_dict["results"] = results
+
+        return field_dict
+
+
+
+    @classmethod
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.auto_map_connection_units_response_200_results_item import AutoMapConnectionUnitsResponse200ResultsItem
+        d = dict(src_dict)
+        connection_id = d.pop("connection_id", UNSET)
+
+        channel = d.pop("channel", UNSET)
+
+        applied = d.pop("applied", UNSET)
+
+        _results = d.pop("results", UNSET)
+        results: list[AutoMapConnectionUnitsResponse200ResultsItem] | Unset = UNSET
+        if _results is not UNSET:
+            results = []
+            for results_item_data in _results:
+                results_item = AutoMapConnectionUnitsResponse200ResultsItem.from_dict(results_item_data)
+
+
+
+                results.append(results_item)
+
+
+        auto_map_connection_units_response_200 = cls(
+            connection_id=connection_id,
+            channel=channel,
+            applied=applied,
+            results=results,
+        )
+
+
+        auto_map_connection_units_response_200.additional_properties = d
+        return auto_map_connection_units_response_200
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

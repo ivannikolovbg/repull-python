@@ -32,7 +32,7 @@ class SendMessageRequest:
     | Airbnb | JPEG, PNG, GIF, WebP (sent as JPEG), MP4, QuickTime | 10 MB | 5 | optional — each file is sent as its own
     message, then the text |
     | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text message |
-    | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`; nothing is sent |
+    | VRBO, SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`; nothing is sent |
 
         Attributes:
             message (str | Unset): The text to send the guest. Required unless `attachments` is present. Example: Here is

@@ -8,9 +8,12 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.connect_status_accounts_item_access_type import ConnectStatusAccountsItemAccessType
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.vrbo_import_status import VrboImportStatus
 
 
 
@@ -29,6 +32,9 @@ class ConnectStatusAccountsItem:
             picture_url (None | str | Unset):
             status (None | str | Unset):  Example: active.
             connected (bool | Unset): True while the account is active and its authorization is usable. Example: True.
+            email (None | str | Unset): Vrbo only: the account email.
+            access_type (ConnectStatusAccountsItemAccessType | Unset): Vrbo only.
+            import_ (None | Unset | VrboImportStatus): Vrbo only: where the account import stands.
      """
 
     external_account_id: str | Unset = UNSET
@@ -36,6 +42,9 @@ class ConnectStatusAccountsItem:
     picture_url: None | str | Unset = UNSET
     status: None | str | Unset = UNSET
     connected: bool | Unset = UNSET
+    email: None | str | Unset = UNSET
+    access_type: ConnectStatusAccountsItemAccessType | Unset = UNSET
+    import_: None | Unset | VrboImportStatus = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -43,6 +52,7 @@ class ConnectStatusAccountsItem:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.vrbo_import_status import VrboImportStatus
         external_account_id = self.external_account_id
 
         name: None | str | Unset
@@ -65,6 +75,25 @@ class ConnectStatusAccountsItem:
 
         connected = self.connected
 
+        email: None | str | Unset
+        if isinstance(self.email, Unset):
+            email = UNSET
+        else:
+            email = self.email
+
+        access_type: str | Unset = UNSET
+        if not isinstance(self.access_type, Unset):
+            access_type = self.access_type.value
+
+
+        import_: dict[str, Any] | None | Unset
+        if isinstance(self.import_, Unset):
+            import_ = UNSET
+        elif isinstance(self.import_, VrboImportStatus):
+            import_ = self.import_.to_dict()
+        else:
+            import_ = self.import_
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -80,6 +109,12 @@ class ConnectStatusAccountsItem:
             field_dict["status"] = status
         if connected is not UNSET:
             field_dict["connected"] = connected
+        if email is not UNSET:
+            field_dict["email"] = email
+        if access_type is not UNSET:
+            field_dict["accessType"] = access_type
+        if import_ is not UNSET:
+            field_dict["import"] = import_
 
         return field_dict
 
@@ -87,6 +122,7 @@ class ConnectStatusAccountsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.vrbo_import_status import VrboImportStatus
         d = dict(src_dict)
         external_account_id = d.pop("externalAccountId", UNSET)
 
@@ -122,12 +158,55 @@ class ConnectStatusAccountsItem:
 
         connected = d.pop("connected", UNSET)
 
+        def _parse_email(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        email = _parse_email(d.pop("email", UNSET))
+
+
+        _access_type = d.pop("accessType", UNSET)
+        access_type: ConnectStatusAccountsItemAccessType | Unset
+        if isinstance(_access_type,  Unset):
+            access_type = UNSET
+        else:
+            access_type = ConnectStatusAccountsItemAccessType(_access_type)
+
+
+
+
+        def _parse_import_(data: object) -> None | Unset | VrboImportStatus:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                import_type_1 = VrboImportStatus.from_dict(data)
+
+
+
+                return import_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | Unset | VrboImportStatus, data)
+
+        import_ = _parse_import_(d.pop("import", UNSET))
+
+
         connect_status_accounts_item = cls(
             external_account_id=external_account_id,
             name=name,
             picture_url=picture_url,
             status=status,
             connected=connected,
+            email=email,
+            access_type=access_type,
+            import_=import_,
         )
 
 

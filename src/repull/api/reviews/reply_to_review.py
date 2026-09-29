@@ -120,8 +120,11 @@ def sync_detailed(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
-    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb, Booking.com and VRBO. Each channel accepts one reply per review (VRBO: a
+    second is `409 already_replied`; a review VRBO no longer takes a response to is `409
+    reply_not_allowed`). On VRBO the response is signed with a name — the connected account's host name,
+    or `name` if you send it. A review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 
@@ -165,8 +168,11 @@ def sync(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
-    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb, Booking.com and VRBO. Each channel accepts one reply per review (VRBO: a
+    second is `409 already_replied`; a review VRBO no longer takes a response to is `409
+    reply_not_allowed`). On VRBO the response is signed with a name — the connected account's host name,
+    or `name` if you send it. A review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 
@@ -205,8 +211,11 @@ async def asyncio_detailed(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
-    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb, Booking.com and VRBO. Each channel accepts one reply per review (VRBO: a
+    second is `409 already_replied`; a review VRBO no longer takes a response to is `409
+    reply_not_allowed`). On VRBO the response is signed with a name — the connected account's host name,
+    or `name` if you send it. A review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 
@@ -250,8 +259,11 @@ async def asyncio(
      Resolves the review, reads its channel and dispatches the reply. Channel-neutral: you do not need to
     know where the review came from.
 
-    Replies work on Airbnb and Booking.com. Each channel accepts one reply per review. A review from a
-    channel without a reply API returns `422 unsupported_channel` naming the channels that do work.
+    Replies work on Airbnb, Booking.com and VRBO. Each channel accepts one reply per review (VRBO: a
+    second is `409 already_replied`; a review VRBO no longer takes a response to is `409
+    reply_not_allowed`). On VRBO the response is signed with a name — the connected account's host name,
+    or `name` if you send it. A review from a channel without a reply API returns `422
+    unsupported_channel` naming the channels that do work.
 
     To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
 

@@ -126,8 +126,8 @@ def sync_detailed(
      Sends a message to the guest on this conversation and records it in the thread.
 
     Omit `channel` and the message goes out on whichever channel the conversation already uses (Airbnb,
-    Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
-    to force a specific one.
+    Booking.com, VRBO, SMS, email or the direct-booking site) — that is the right default. Pass
+    `channel` only to force a specific one.
 
     The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
     never counted as an automated reply.
@@ -161,7 +161,8 @@ def sync_detailed(
     | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
     own message, then the text as a separate message |
     | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
-    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+    | VRBO, SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent
+    |
 
     Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
     message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
@@ -187,8 +188,8 @@ def sync_detailed(
             each file is sent as its own message, then the text |
             | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
             message |
-            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
-            nothing is sent |
+            | VRBO, SMS, email, direct-booking site chat | — | — | — | `422
+            attachments_not_supported`; nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -225,8 +226,8 @@ def sync(
      Sends a message to the guest on this conversation and records it in the thread.
 
     Omit `channel` and the message goes out on whichever channel the conversation already uses (Airbnb,
-    Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
-    to force a specific one.
+    Booking.com, VRBO, SMS, email or the direct-booking site) — that is the right default. Pass
+    `channel` only to force a specific one.
 
     The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
     never counted as an automated reply.
@@ -260,7 +261,8 @@ def sync(
     | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
     own message, then the text as a separate message |
     | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
-    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+    | VRBO, SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent
+    |
 
     Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
     message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
@@ -286,8 +288,8 @@ def sync(
             each file is sent as its own message, then the text |
             | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
             message |
-            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
-            nothing is sent |
+            | VRBO, SMS, email, direct-booking site chat | — | — | — | `422
+            attachments_not_supported`; nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -319,8 +321,8 @@ async def asyncio_detailed(
      Sends a message to the guest on this conversation and records it in the thread.
 
     Omit `channel` and the message goes out on whichever channel the conversation already uses (Airbnb,
-    Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
-    to force a specific one.
+    Booking.com, VRBO, SMS, email or the direct-booking site) — that is the right default. Pass
+    `channel` only to force a specific one.
 
     The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
     never counted as an automated reply.
@@ -354,7 +356,8 @@ async def asyncio_detailed(
     | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
     own message, then the text as a separate message |
     | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
-    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+    | VRBO, SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent
+    |
 
     Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
     message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
@@ -380,8 +383,8 @@ async def asyncio_detailed(
             each file is sent as its own message, then the text |
             | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
             message |
-            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
-            nothing is sent |
+            | VRBO, SMS, email, direct-booking site chat | — | — | — | `422
+            attachments_not_supported`; nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -418,8 +421,8 @@ async def asyncio(
      Sends a message to the guest on this conversation and records it in the thread.
 
     Omit `channel` and the message goes out on whichever channel the conversation already uses (Airbnb,
-    Booking.com, SMS, email or the direct-booking site) — that is the right default. Pass `channel` only
-    to force a specific one.
+    Booking.com, VRBO, SMS, email or the direct-booking site) — that is the right default. Pass
+    `channel` only to force a specific one.
 
     The message is attributed to the API: it is recorded with `aiGenerated` false so an API send is
     never counted as an automated reply.
@@ -453,7 +456,8 @@ async def asyncio(
     | Airbnb | JPEG, PNG, GIF, WebP (converted to JPEG), MP4, QuickTime | optional | each file as its
     own message, then the text as a separate message |
     | Booking.com | JPEG, PNG | **required** | one message carrying the text and every file |
-    | SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent |
+    | VRBO, SMS, email, direct-booking site chat | — | — | `422 attachments_not_supported`, nothing sent
+    |
 
     Airbnb does not allow files in pre-booking (inquiry) conversations; that refusal comes back as `422
     message_not_sent`. Because Airbnb delivers files one message at a time, a later file can be refused
@@ -479,8 +483,8 @@ async def asyncio(
             each file is sent as its own message, then the text |
             | Booking.com | JPEG, PNG | 10 MB | 5 | **required** — all files ride on the one text
             message |
-            | SMS, email, direct-booking site chat | — | — | — | `422 attachments_not_supported`;
-            nothing is sent |
+            | VRBO, SMS, email, direct-booking site chat | — | — | — | `422
+            attachments_not_supported`; nothing is sent |
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

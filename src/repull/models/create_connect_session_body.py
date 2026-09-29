@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.create_connect_session_body_access_type import CreateConnectSessionBodyAccessType
 from ..models.create_connect_session_body_purpose import CreateConnectSessionBodyPurpose
 from ..models.create_connect_session_body_scope_item import CreateConnectSessionBodyScopeItem
 from ..types import UNSET, Unset
@@ -31,6 +32,10 @@ class CreateConnectSessionBody:
         Attributes:
             redirect_url (str): Where to send the user after they finish (or cancel). Status query params are appended.
             state (None | str | Unset): Opaque pass-through correlation token. Echoed back in the response.
+            access_type (CreateConnectSessionBodyAccessType | Unset): What the connection may do. Airbnb: the OAuth scope
+                tier. Vrbo: `messaging` (or `read_only`) imports bookings and messages and never pushes the calendar;
+                `full_access` also pushes prices and availability. Setting it locks the choice; omit it to let the host choose
+                on the hosted page (default `full_access`).
             allowed_providers (list[str] | None | Unset): Optional whitelist of provider IDs the picker should expose. Omit
                 to show every channel in the registry.
             locale (None | str | Unset): Optional UI language for the hosted Connect pages. Accepts any supported locale
@@ -52,6 +57,7 @@ class CreateConnectSessionBody:
 
     redirect_url: str
     state: None | str | Unset = UNSET
+    access_type: CreateConnectSessionBodyAccessType | Unset = UNSET
     allowed_providers: list[str] | None | Unset = UNSET
     locale: None | str | Unset = UNSET
     purpose: CreateConnectSessionBodyPurpose | Unset = CreateConnectSessionBodyPurpose.CONNECT
@@ -74,6 +80,11 @@ class CreateConnectSessionBody:
             state = UNSET
         else:
             state = self.state
+
+        access_type: str | Unset = UNSET
+        if not isinstance(self.access_type, Unset):
+            access_type = self.access_type.value
+
 
         allowed_providers: list[str] | None | Unset
         if isinstance(self.allowed_providers, Unset):
@@ -121,6 +132,8 @@ class CreateConnectSessionBody:
         })
         if state is not UNSET:
             field_dict["state"] = state
+        if access_type is not UNSET:
+            field_dict["accessType"] = access_type
         if allowed_providers is not UNSET:
             field_dict["allowedProviders"] = allowed_providers
         if locale is not UNSET:
@@ -153,6 +166,16 @@ class CreateConnectSessionBody:
             return cast(None | str | Unset, data)
 
         state = _parse_state(d.pop("state", UNSET))
+
+
+        _access_type = d.pop("accessType", UNSET)
+        access_type: CreateConnectSessionBodyAccessType | Unset
+        if isinstance(_access_type,  Unset):
+            access_type = UNSET
+        else:
+            access_type = CreateConnectSessionBodyAccessType(_access_type)
+
+
 
 
         def _parse_allowed_providers(data: object) -> list[str] | None | Unset:
@@ -228,6 +251,7 @@ class CreateConnectSessionBody:
         create_connect_session_body = cls(
             redirect_url=redirect_url,
             state=state,
+            access_type=access_type,
             allowed_providers=allowed_providers,
             locale=locale,
             purpose=purpose,

@@ -8,6 +8,9 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.listing_publish_status_connection_channel_status_type_1 import ListingPublishStatusConnectionChannelStatusType1
+from ..models.listing_publish_status_connection_channel_status_type_2_type_1 import ListingPublishStatusConnectionChannelStatusType2Type1
+from ..models.listing_publish_status_connection_channel_status_type_3_type_1 import ListingPublishStatusConnectionChannelStatusType3Type1
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -32,6 +35,16 @@ class ListingPublishStatusConnection:
             connected (bool | Unset): True when the link is active (not disconnected/suspended).
             sync_enabled (bool | Unset): True when sync writes are enabled for this channel.
             since (datetime.datetime | None | Unset): ISO timestamp the connection was first established.
+            platform_id (None | str | Unset): The listing's id on the channel — Airbnb listing id, Booking.com room/property
+                id, VRBO listing number. Example: 5121372.
+            channel_status (ListingPublishStatusConnectionChannelStatusType1 |
+                ListingPublishStatusConnectionChannelStatusType2Type1 | ListingPublishStatusConnectionChannelStatusType3Type1 |
+                None | Unset): Where the listing stands on the channel itself, when the channel reports it (VRBO): `online` —
+                live and bookable; `offline` — hidden by the owner (`POST /v1/listings/{id}/online` brings it back); `not_live`
+                — expired, new, still onboarding or deactivated by the channel (see `channelStatusDetail`). Null when not
+                reported. Example: online.
+            channel_status_detail (None | str | Unset): The channel's own status word behind `channelStatus` (VRBO: `LIVE`,
+                `InactiveByOwnerRequest`, `Expired`, `New`, …). Example: LIVE.
             locked_fields (list[str] | Unset): Fields the channel will not let this listing change. **Airbnb only** —
                 present on the `airbnb` entry and absent on every other channel, because no other channel has the concept.
 
@@ -50,6 +63,9 @@ class ListingPublishStatusConnection:
     connected: bool | Unset = UNSET
     sync_enabled: bool | Unset = UNSET
     since: datetime.datetime | None | Unset = UNSET
+    platform_id: None | str | Unset = UNSET
+    channel_status: ListingPublishStatusConnectionChannelStatusType1 | ListingPublishStatusConnectionChannelStatusType2Type1 | ListingPublishStatusConnectionChannelStatusType3Type1 | None | Unset = UNSET
+    channel_status_detail: None | str | Unset = UNSET
     locked_fields: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -72,6 +88,30 @@ class ListingPublishStatusConnection:
         else:
             since = self.since
 
+        platform_id: None | str | Unset
+        if isinstance(self.platform_id, Unset):
+            platform_id = UNSET
+        else:
+            platform_id = self.platform_id
+
+        channel_status: None | str | Unset
+        if isinstance(self.channel_status, Unset):
+            channel_status = UNSET
+        elif isinstance(self.channel_status, ListingPublishStatusConnectionChannelStatusType1):
+            channel_status = self.channel_status.value
+        elif isinstance(self.channel_status, ListingPublishStatusConnectionChannelStatusType2Type1):
+            channel_status = self.channel_status.value
+        elif isinstance(self.channel_status, ListingPublishStatusConnectionChannelStatusType3Type1):
+            channel_status = self.channel_status.value
+        else:
+            channel_status = self.channel_status
+
+        channel_status_detail: None | str | Unset
+        if isinstance(self.channel_status_detail, Unset):
+            channel_status_detail = UNSET
+        else:
+            channel_status_detail = self.channel_status_detail
+
         locked_fields: list[str] | Unset = UNSET
         if not isinstance(self.locked_fields, Unset):
             locked_fields = self.locked_fields
@@ -91,6 +131,12 @@ class ListingPublishStatusConnection:
             field_dict["syncEnabled"] = sync_enabled
         if since is not UNSET:
             field_dict["since"] = since
+        if platform_id is not UNSET:
+            field_dict["platformId"] = platform_id
+        if channel_status is not UNSET:
+            field_dict["channelStatus"] = channel_status
+        if channel_status_detail is not UNSET:
+            field_dict["channelStatusDetail"] = channel_status_detail
         if locked_fields is not UNSET:
             field_dict["lockedFields"] = locked_fields
 
@@ -127,6 +173,66 @@ class ListingPublishStatusConnection:
         since = _parse_since(d.pop("since", UNSET))
 
 
+        def _parse_platform_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        platform_id = _parse_platform_id(d.pop("platformId", UNSET))
+
+
+        def _parse_channel_status(data: object) -> ListingPublishStatusConnectionChannelStatusType1 | ListingPublishStatusConnectionChannelStatusType2Type1 | ListingPublishStatusConnectionChannelStatusType3Type1 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                channel_status_type_1 = ListingPublishStatusConnectionChannelStatusType1(data)
+
+
+
+                return channel_status_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                channel_status_type_2_type_1 = ListingPublishStatusConnectionChannelStatusType2Type1(data)
+
+
+
+                return channel_status_type_2_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                channel_status_type_3_type_1 = ListingPublishStatusConnectionChannelStatusType3Type1(data)
+
+
+
+                return channel_status_type_3_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingPublishStatusConnectionChannelStatusType1 | ListingPublishStatusConnectionChannelStatusType2Type1 | ListingPublishStatusConnectionChannelStatusType3Type1 | None | Unset, data)
+
+        channel_status = _parse_channel_status(d.pop("channelStatus", UNSET))
+
+
+        def _parse_channel_status_detail(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        channel_status_detail = _parse_channel_status_detail(d.pop("channelStatusDetail", UNSET))
+
+
         locked_fields = cast(list[str], d.pop("lockedFields", UNSET))
 
 
@@ -135,6 +241,9 @@ class ListingPublishStatusConnection:
             connected=connected,
             sync_enabled=sync_enabled,
             since=since,
+            platform_id=platform_id,
+            channel_status=channel_status,
+            channel_status_detail=channel_status_detail,
             locked_fields=locked_fields,
         )
 

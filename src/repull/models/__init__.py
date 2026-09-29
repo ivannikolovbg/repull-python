@@ -111,6 +111,13 @@ from .alteration_webhook_object_initiator_type_1 import AlterationWebhookObjectI
 from .alteration_webhook_object_initiator_type_2_type_1 import AlterationWebhookObjectInitiatorType2Type1
 from .alteration_webhook_object_initiator_type_3_type_1 import AlterationWebhookObjectInitiatorType3Type1
 from .alteration_webhook_object_status import AlterationWebhookObjectStatus
+from .apply_connection_mappings_body import ApplyConnectionMappingsBody
+from .apply_connection_mappings_body_mappings_item import ApplyConnectionMappingsBodyMappingsItem
+from .apply_connection_mappings_response_200 import ApplyConnectionMappingsResponse200
+from .apply_connection_mappings_response_200_results_item import ApplyConnectionMappingsResponse200ResultsItem
+from .auto_map_connection_units_body import AutoMapConnectionUnitsBody
+from .auto_map_connection_units_response_200 import AutoMapConnectionUnitsResponse200
+from .auto_map_connection_units_response_200_results_item import AutoMapConnectionUnitsResponse200ResultsItem
 from .availability_batch_write_request import AvailabilityBatchWriteRequest
 from .availability_write_request import AvailabilityWriteRequest
 from .availability_write_result import AvailabilityWriteResult
@@ -219,11 +226,17 @@ from .connect_session import ConnectSession
 from .connect_session_purpose import ConnectSessionPurpose
 from .connect_status import ConnectStatus
 from .connect_status_accounts_item import ConnectStatusAccountsItem
+from .connect_status_accounts_item_access_type import ConnectStatusAccountsItemAccessType
+from .connect_status_data_freshness import ConnectStatusDataFreshness
 from .connect_status_status import ConnectStatusStatus
 from .connection import Connection
 from .connection_list_response import ConnectionListResponse
 from .connection_status import ConnectionStatus
 from .conversation import Conversation
+from .conversation_capabilities import ConversationCapabilities
+from .conversation_capabilities_offer_price_type_1 import ConversationCapabilitiesOfferPriceType1
+from .conversation_capabilities_offer_price_type_2_type_1 import ConversationCapabilitiesOfferPriceType2Type1
+from .conversation_capabilities_offer_price_type_3_type_1 import ConversationCapabilitiesOfferPriceType3Type1
 from .conversation_detail import ConversationDetail
 from .conversation_guest import ConversationGuest
 from .conversation_guest_contact import ConversationGuestContact
@@ -249,6 +262,7 @@ from .create_billing_checkout_body import CreateBillingCheckoutBody
 from .create_billing_checkout_body_plan import CreateBillingCheckoutBodyPlan
 from .create_booking_webhook_body import CreateBookingWebhookBody
 from .create_connect_session_body import CreateConnectSessionBody
+from .create_connect_session_body_access_type import CreateConnectSessionBodyAccessType
 from .create_connect_session_body_copy import CreateConnectSessionBodyCopy
 from .create_connect_session_body_purpose import CreateConnectSessionBodyPurpose
 from .create_connect_session_body_scope_item import CreateConnectSessionBodyScopeItem
@@ -256,9 +270,13 @@ from .create_connect_session_body_workspace import CreateConnectSessionBodyWorks
 from .create_connection_body import CreateConnectionBody
 from .create_connection_body_access_type import CreateConnectionBodyAccessType
 from .create_conversation_special_offer_body import CreateConversationSpecialOfferBody
+from .create_conversation_special_offer_body_fees_item import CreateConversationSpecialOfferBodyFeesItem
 from .create_conversation_special_offer_body_guests import CreateConversationSpecialOfferBodyGuests
 from .create_conversation_special_offer_response_201 import CreateConversationSpecialOfferResponse201
+from .create_conversation_special_offer_response_201_channel import CreateConversationSpecialOfferResponse201Channel
+from .create_conversation_special_offer_response_201_fees_item import CreateConversationSpecialOfferResponse201FeesItem
 from .create_conversation_special_offer_response_201_guests_type_0 import CreateConversationSpecialOfferResponse201GuestsType0
+from .create_conversation_special_offer_response_201_lines_item import CreateConversationSpecialOfferResponse201LinesItem
 from .create_webhook_body import CreateWebhookBody
 from .cursor_pagination import CursorPagination
 from .custom_schema import CustomSchema
@@ -321,12 +339,28 @@ from .get_airbnb_offer_response_200_status import GetAirbnbOfferResponse200Statu
 from .get_airbnb_thread_response_200 import GetAirbnbThreadResponse200
 from .get_auth_health_response_200 import GetAuthHealthResponse200
 from .get_booking_content_type import GetBookingContentType
+from .get_booking_extranet_login_config_response_200 import GetBookingExtranetLoginConfigResponse200
+from .get_booking_extranet_login_status_response_200 import GetBookingExtranetLoginStatusResponse200
 from .get_channel_health_channel import GetChannelHealthChannel
 from .get_channel_health_response_200 import GetChannelHealthResponse200
+from .get_channel_health_response_200_status import GetChannelHealthResponse200Status
+from .get_channel_health_response_200_vrbo import GetChannelHealthResponse200Vrbo
+from .get_connect_write_policy_response_200 import GetConnectWritePolicyResponse200
 from .get_conversation_special_offer_response_200 import GetConversationSpecialOfferResponse200
+from .get_conversation_special_offer_response_200_channel import GetConversationSpecialOfferResponse200Channel
+from .get_conversation_special_offer_response_200_fees_item import GetConversationSpecialOfferResponse200FeesItem
 from .get_conversation_special_offer_response_200_guests_type_0 import GetConversationSpecialOfferResponse200GuestsType0
+from .get_conversation_special_offer_response_200_lines_item import GetConversationSpecialOfferResponse200LinesItem
 from .get_health_response_200 import GetHealthResponse200
 from .get_kv_response_200 import GetKvResponse200
+from .get_listing_calendar_sync_response_200 import GetListingCalendarSyncResponse200
+from .get_listing_calendar_sync_response_200_channels_item import GetListingCalendarSyncResponse200ChannelsItem
+from .get_listing_calendar_sync_response_200_channels_item_problems_item import GetListingCalendarSyncResponse200ChannelsItemProblemsItem
+from .get_listing_calendar_sync_response_200_channels_item_queue import GetListingCalendarSyncResponse200ChannelsItemQueue
+from .get_listing_calendar_sync_response_200_channels_item_queue_last_push_type_0 import GetListingCalendarSyncResponse200ChannelsItemQueueLastPushType0
+from .get_listing_calendar_sync_response_200_channels_item_queue_last_push_type_0_result import GetListingCalendarSyncResponse200ChannelsItemQueueLastPushType0Result
+from .get_listing_calendar_sync_response_200_channels_item_queue_state import GetListingCalendarSyncResponse200ChannelsItemQueueState
+from .get_listing_calendar_sync_response_200_channels_item_status import GetListingCalendarSyncResponse200ChannelsItemStatus
 from .get_listing_markups_response_200 import GetListingMarkupsResponse200
 from .get_listing_markups_response_200_airbnb_item import GetListingMarkupsResponse200AirbnbItem
 from .get_listing_markups_response_200_booking_item import GetListingMarkupsResponse200BookingItem
@@ -377,6 +411,8 @@ from .inquiry_webhook_object import InquiryWebhookObject
 from .inquiry_webhook_object_expected_payout import InquiryWebhookObjectExpectedPayout
 from .inquiry_webhook_object_guests import InquiryWebhookObjectGuests
 from .inquiry_webhook_object_status import InquiryWebhookObjectStatus
+from .invite_booking_extranet_user_body import InviteBookingExtranetUserBody
+from .invite_booking_extranet_user_response_200 import InviteBookingExtranetUserResponse200
 from .list_airbnb_alterations_response_200 import ListAirbnbAlterationsResponse200
 from .list_airbnb_alterations_type import ListAirbnbAlterationsType
 from .list_airbnb_listing_amenities_response_200 import ListAirbnbListingAmenitiesResponse200
@@ -397,6 +433,11 @@ from .list_airbnb_transactions_response_200 import ListAirbnbTransactionsRespons
 from .list_airbnb_transactions_status import ListAirbnbTransactionsStatus
 from .list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
 from .list_booking_reservations_type import ListBookingReservationsType
+from .list_connection_units_response_200 import ListConnectionUnitsResponse200
+from .list_connection_units_response_200_listing_options_item import ListConnectionUnitsResponse200ListingOptionsItem
+from .list_connection_units_response_200_status import ListConnectionUnitsResponse200Status
+from .list_connection_units_response_200_units_item import ListConnectionUnitsResponse200UnitsItem
+from .list_connection_units_response_200_units_item_meta import ListConnectionUnitsResponse200UnitsItemMeta
 from .list_conversation_messages_order import ListConversationMessagesOrder
 from .list_conversations_platform import ListConversationsPlatform
 from .list_conversations_status import ListConversationsStatus
@@ -508,6 +549,9 @@ from .listing_publish_booking_response_channel import ListingPublishBookingRespo
 from .listing_publish_status_channel import ListingPublishStatusChannel
 from .listing_publish_status_channel_push_status import ListingPublishStatusChannelPushStatus
 from .listing_publish_status_connection import ListingPublishStatusConnection
+from .listing_publish_status_connection_channel_status_type_1 import ListingPublishStatusConnectionChannelStatusType1
+from .listing_publish_status_connection_channel_status_type_2_type_1 import ListingPublishStatusConnectionChannelStatusType2Type1
+from .listing_publish_status_connection_channel_status_type_3_type_1 import ListingPublishStatusConnectionChannelStatusType3Type1
 from .listing_publish_status_response import ListingPublishStatusResponse
 from .listing_publish_status_response_address_readiness import ListingPublishStatusResponseAddressReadiness
 from .listing_pull_airbnb_request import ListingPullAirbnbRequest
@@ -626,9 +670,21 @@ from .plan_notice import PlanNotice
 from .plan_notice_code import PlanNoticeCode
 from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
+from .pms_write_policy import PmsWritePolicy
+from .pms_write_policy_calendar import PmsWritePolicyCalendar
+from .pms_write_policy_reservations import PmsWritePolicyReservations
 from .preapprove_conversation_body import PreapproveConversationBody
 from .preapprove_conversation_response_201 import PreapproveConversationResponse201
+from .preapprove_conversation_response_201_channel import PreapproveConversationResponse201Channel
 from .preapprove_conversation_response_201_status import PreapproveConversationResponse201Status
+from .preview_conversation_special_offer_body import PreviewConversationSpecialOfferBody
+from .preview_conversation_special_offer_body_fees_item import PreviewConversationSpecialOfferBodyFeesItem
+from .preview_conversation_special_offer_body_guests import PreviewConversationSpecialOfferBodyGuests
+from .preview_conversation_special_offer_response_200 import PreviewConversationSpecialOfferResponse200
+from .preview_conversation_special_offer_response_200_channel import PreviewConversationSpecialOfferResponse200Channel
+from .preview_conversation_special_offer_response_200_fees_item import PreviewConversationSpecialOfferResponse200FeesItem
+from .preview_conversation_special_offer_response_200_guests_type_0 import PreviewConversationSpecialOfferResponse200GuestsType0
+from .preview_conversation_special_offer_response_200_lines_item import PreviewConversationSpecialOfferResponse200LinesItem
 from .property_ import Property
 from .property_availability import PropertyAvailability
 from .property_availability_coverage import PropertyAvailabilityCoverage
@@ -743,6 +799,10 @@ from .run_migration_import_body_entities_item import RunMigrationImportBodyEntit
 from .run_migration_import_response_202 import RunMigrationImportResponse202
 from .run_migration_import_response_202_data import RunMigrationImportResponse202Data
 from .run_migration_import_response_202_data_queued_item import RunMigrationImportResponse202DataQueuedItem
+from .search_connect_session_listing_options_response_200 import SearchConnectSessionListingOptionsResponse200
+from .search_connect_session_listing_options_response_200_data_item import SearchConnectSessionListingOptionsResponse200DataItem
+from .search_connection_listing_options_response_200 import SearchConnectionListingOptionsResponse200
+from .search_connection_listing_options_response_200_data_item import SearchConnectionListingOptionsResponse200DataItem
 from .select_connect_provider_body import SelectConnectProviderBody
 from .select_provider_response import SelectProviderResponse
 from .select_provider_response_pattern import SelectProviderResponsePattern
@@ -764,6 +824,8 @@ from .set_kv_body import SetKvBody
 from .set_kv_response_200 import SetKvResponse200
 from .set_listing_markup_body import SetListingMarkupBody
 from .set_listing_markup_body_channel import SetListingMarkupBodyChannel
+from .start_booking_extranet_login_body import StartBookingExtranetLoginBody
+from .start_booking_extranet_login_response_200 import StartBookingExtranetLoginResponse200
 from .submit_beds_24_credentials_body import SubmitBeds24CredentialsBody
 from .submit_beds_24_credentials_body_credentials import SubmitBeds24CredentialsBodyCredentials
 from .submit_beds_24_credentials_response_200 import SubmitBeds24CredentialsResponse200
@@ -774,6 +836,7 @@ from .submit_bookingsync_credentials_response_200 import SubmitBookingsyncCreden
 from .submit_bookingsync_credentials_response_200_account_info import SubmitBookingsyncCredentialsResponse200AccountInfo
 from .submit_cloudbeds_credentials_body import SubmitCloudbedsCredentialsBody
 from .submit_cloudbeds_credentials_body_credentials import SubmitCloudbedsCredentialsBodyCredentials
+from .submit_cloudbeds_credentials_body_write_policy import SubmitCloudbedsCredentialsBodyWritePolicy
 from .submit_cloudbeds_credentials_response_200 import SubmitCloudbedsCredentialsResponse200
 from .submit_cloudbeds_credentials_response_200_account_info import SubmitCloudbedsCredentialsResponse200AccountInfo
 from .submit_cloudbeds_credentials_response_200_webhooks import SubmitCloudbedsCredentialsResponse200Webhooks
@@ -801,6 +864,7 @@ from .submit_lodgify_credentials_response_200_account_info import SubmitLodgifyC
 from .submit_mews_credentials_body import SubmitMewsCredentialsBody
 from .submit_mews_credentials_body_credentials import SubmitMewsCredentialsBodyCredentials
 from .submit_mews_credentials_body_credentials_environment import SubmitMewsCredentialsBodyCredentialsEnvironment
+from .submit_mews_credentials_body_write_policy import SubmitMewsCredentialsBodyWritePolicy
 from .submit_mews_credentials_response_200 import SubmitMewsCredentialsResponse200
 from .submit_mews_credentials_response_200_account_info import SubmitMewsCredentialsResponse200AccountInfo
 from .submit_mews_credentials_response_200_webhooks import SubmitMewsCredentialsResponse200Webhooks
@@ -884,6 +948,10 @@ from .update_booking_content_body_methods_item import UpdateBookingContentBodyMe
 from .update_booking_content_body_photos_item import UpdateBookingContentBodyPhotosItem
 from .update_booking_content_body_settings import UpdateBookingContentBodySettings
 from .update_booking_content_body_type import UpdateBookingContentBodyType
+from .update_connect_write_policy_body import UpdateConnectWritePolicyBody
+from .update_connect_write_policy_body_calendar import UpdateConnectWritePolicyBodyCalendar
+from .update_connect_write_policy_body_reservations import UpdateConnectWritePolicyBodyReservations
+from .update_connect_write_policy_response_200 import UpdateConnectWritePolicyResponse200
 from .update_listing_pricing_strategy_response_200 import UpdateListingPricingStrategyResponse200
 from .update_plumguide_webhooks_body import UpdatePlumguideWebhooksBody
 from .update_webhook_body import UpdateWebhookBody
@@ -897,7 +965,15 @@ from .usage_quota_warning_event_event import UsageQuotaWarningEventEvent
 from .usage_quota_warning_payload import UsageQuotaWarningPayload
 from .usage_quota_warning_payload_scope import UsageQuotaWarningPayloadScope
 from .usage_quota_warning_payload_top_operation_type_0 import UsageQuotaWarningPayloadTopOperationType0
+from .vrbo_import_status import VrboImportStatus
+from .vrbo_import_status_access_type import VrboImportStatusAccessType
+from .vrbo_import_status_state import VrboImportStatusState
 from .vrbo_listing import VrboListing
+from .vrbo_login_body import VrboLoginBody
+from .vrbo_login_body_access_type import VrboLoginBodyAccessType
+from .vrbo_login_body_action import VrboLoginBodyAction
+from .vrbo_login_response_200 import VrboLoginResponse200
+from .vrbo_login_response_200_status import VrboLoginResponse200Status
 from .vrbo_reservation import VrboReservation
 from .vrbo_reservation_list_response import VrboReservationListResponse
 from .webhook_delivery import WebhookDelivery
@@ -919,7 +995,10 @@ from .withdraw_airbnb_offer_response_200 import WithdrawAirbnbOfferResponse200
 from .withdraw_airbnb_offer_response_200_guest_details import WithdrawAirbnbOfferResponse200GuestDetails
 from .withdraw_airbnb_offer_response_200_offer_type import WithdrawAirbnbOfferResponse200OfferType
 from .withdraw_airbnb_offer_response_200_status import WithdrawAirbnbOfferResponse200Status
+from .withdraw_conversation_preapproval_response_200 import WithdrawConversationPreapprovalResponse200
+from .withdraw_conversation_preapproval_response_200_status import WithdrawConversationPreapprovalResponse200Status
 from .withdraw_conversation_special_offer_response_200 import WithdrawConversationSpecialOfferResponse200
+from .withdraw_conversation_special_offer_response_200_channel import WithdrawConversationSpecialOfferResponse200Channel
 from .withdraw_conversation_special_offer_response_200_status import WithdrawConversationSpecialOfferResponse200Status
 
 __all__ = (
@@ -1034,6 +1113,13 @@ __all__ = (
     "AlterationWebhookObjectInitiatorType2Type1",
     "AlterationWebhookObjectInitiatorType3Type1",
     "AlterationWebhookObjectStatus",
+    "ApplyConnectionMappingsBody",
+    "ApplyConnectionMappingsBodyMappingsItem",
+    "ApplyConnectionMappingsResponse200",
+    "ApplyConnectionMappingsResponse200ResultsItem",
+    "AutoMapConnectionUnitsBody",
+    "AutoMapConnectionUnitsResponse200",
+    "AutoMapConnectionUnitsResponse200ResultsItem",
     "AvailabilityBatchWriteRequest",
     "AvailabilityWriteRequest",
     "AvailabilityWriteResult",
@@ -1145,8 +1231,14 @@ __all__ = (
     "ConnectSessionPurpose",
     "ConnectStatus",
     "ConnectStatusAccountsItem",
+    "ConnectStatusAccountsItemAccessType",
+    "ConnectStatusDataFreshness",
     "ConnectStatusStatus",
     "Conversation",
+    "ConversationCapabilities",
+    "ConversationCapabilitiesOfferPriceType1",
+    "ConversationCapabilitiesOfferPriceType2Type1",
+    "ConversationCapabilitiesOfferPriceType3Type1",
     "ConversationDetail",
     "ConversationGuest",
     "ConversationGuestContact",
@@ -1174,14 +1266,19 @@ __all__ = (
     "CreateConnectionBody",
     "CreateConnectionBodyAccessType",
     "CreateConnectSessionBody",
+    "CreateConnectSessionBodyAccessType",
     "CreateConnectSessionBodyCopy",
     "CreateConnectSessionBodyPurpose",
     "CreateConnectSessionBodyScopeItem",
     "CreateConnectSessionBodyWorkspace",
     "CreateConversationSpecialOfferBody",
+    "CreateConversationSpecialOfferBodyFeesItem",
     "CreateConversationSpecialOfferBodyGuests",
     "CreateConversationSpecialOfferResponse201",
+    "CreateConversationSpecialOfferResponse201Channel",
+    "CreateConversationSpecialOfferResponse201FeesItem",
     "CreateConversationSpecialOfferResponse201GuestsType0",
+    "CreateConversationSpecialOfferResponse201LinesItem",
     "CreateWebhookBody",
     "CursorPagination",
     "CustomSchema",
@@ -1244,12 +1341,28 @@ __all__ = (
     "GetAirbnbThreadResponse200",
     "GetAuthHealthResponse200",
     "GetBookingContentType",
+    "GetBookingExtranetLoginConfigResponse200",
+    "GetBookingExtranetLoginStatusResponse200",
     "GetChannelHealthChannel",
     "GetChannelHealthResponse200",
+    "GetChannelHealthResponse200Status",
+    "GetChannelHealthResponse200Vrbo",
+    "GetConnectWritePolicyResponse200",
     "GetConversationSpecialOfferResponse200",
+    "GetConversationSpecialOfferResponse200Channel",
+    "GetConversationSpecialOfferResponse200FeesItem",
     "GetConversationSpecialOfferResponse200GuestsType0",
+    "GetConversationSpecialOfferResponse200LinesItem",
     "GetHealthResponse200",
     "GetKvResponse200",
+    "GetListingCalendarSyncResponse200",
+    "GetListingCalendarSyncResponse200ChannelsItem",
+    "GetListingCalendarSyncResponse200ChannelsItemProblemsItem",
+    "GetListingCalendarSyncResponse200ChannelsItemQueue",
+    "GetListingCalendarSyncResponse200ChannelsItemQueueLastPushType0",
+    "GetListingCalendarSyncResponse200ChannelsItemQueueLastPushType0Result",
+    "GetListingCalendarSyncResponse200ChannelsItemQueueState",
+    "GetListingCalendarSyncResponse200ChannelsItemStatus",
     "GetListingMarkupsResponse200",
     "GetListingMarkupsResponse200AirbnbItem",
     "GetListingMarkupsResponse200BookingItem",
@@ -1300,6 +1413,8 @@ __all__ = (
     "InquiryWebhookObjectExpectedPayout",
     "InquiryWebhookObjectGuests",
     "InquiryWebhookObjectStatus",
+    "InviteBookingExtranetUserBody",
+    "InviteBookingExtranetUserResponse200",
     "ListAirbnbAlterationsResponse200",
     "ListAirbnbAlterationsType",
     "ListAirbnbListingAmenitiesResponse200",
@@ -1320,6 +1435,11 @@ __all__ = (
     "ListAirbnbTransactionsStatus",
     "ListBookingReservationsResponse200Type1",
     "ListBookingReservationsType",
+    "ListConnectionUnitsResponse200",
+    "ListConnectionUnitsResponse200ListingOptionsItem",
+    "ListConnectionUnitsResponse200Status",
+    "ListConnectionUnitsResponse200UnitsItem",
+    "ListConnectionUnitsResponse200UnitsItemMeta",
     "ListConversationMessagesOrder",
     "ListConversationsPlatform",
     "ListConversationsStatus",
@@ -1409,6 +1529,9 @@ __all__ = (
     "ListingPublishStatusChannel",
     "ListingPublishStatusChannelPushStatus",
     "ListingPublishStatusConnection",
+    "ListingPublishStatusConnectionChannelStatusType1",
+    "ListingPublishStatusConnectionChannelStatusType2Type1",
+    "ListingPublishStatusConnectionChannelStatusType3Type1",
     "ListingPublishStatusResponse",
     "ListingPublishStatusResponseAddressReadiness",
     "ListingPullAirbnbRequest",
@@ -1549,9 +1672,21 @@ __all__ = (
     "PlanNoticeCode",
     "PlumguideListing",
     "PlumguideListingListResponse",
+    "PmsWritePolicy",
+    "PmsWritePolicyCalendar",
+    "PmsWritePolicyReservations",
     "PreapproveConversationBody",
     "PreapproveConversationResponse201",
+    "PreapproveConversationResponse201Channel",
     "PreapproveConversationResponse201Status",
+    "PreviewConversationSpecialOfferBody",
+    "PreviewConversationSpecialOfferBodyFeesItem",
+    "PreviewConversationSpecialOfferBodyGuests",
+    "PreviewConversationSpecialOfferResponse200",
+    "PreviewConversationSpecialOfferResponse200Channel",
+    "PreviewConversationSpecialOfferResponse200FeesItem",
+    "PreviewConversationSpecialOfferResponse200GuestsType0",
+    "PreviewConversationSpecialOfferResponse200LinesItem",
     "Property",
     "PropertyAvailability",
     "PropertyAvailabilityCoverage",
@@ -1666,6 +1801,10 @@ __all__ = (
     "RunMigrationImportResponse202",
     "RunMigrationImportResponse202Data",
     "RunMigrationImportResponse202DataQueuedItem",
+    "SearchConnectionListingOptionsResponse200",
+    "SearchConnectionListingOptionsResponse200DataItem",
+    "SearchConnectSessionListingOptionsResponse200",
+    "SearchConnectSessionListingOptionsResponse200DataItem",
     "SelectConnectProviderBody",
     "SelectProviderResponse",
     "SelectProviderResponsePattern",
@@ -1687,6 +1826,8 @@ __all__ = (
     "SetKvResponse200",
     "SetListingMarkupBody",
     "SetListingMarkupBodyChannel",
+    "StartBookingExtranetLoginBody",
+    "StartBookingExtranetLoginResponse200",
     "SubmitBeds24CredentialsBody",
     "SubmitBeds24CredentialsBodyCredentials",
     "SubmitBeds24CredentialsResponse200",
@@ -1697,6 +1838,7 @@ __all__ = (
     "SubmitBookingsyncCredentialsResponse200AccountInfo",
     "SubmitCloudbedsCredentialsBody",
     "SubmitCloudbedsCredentialsBodyCredentials",
+    "SubmitCloudbedsCredentialsBodyWritePolicy",
     "SubmitCloudbedsCredentialsResponse200",
     "SubmitCloudbedsCredentialsResponse200AccountInfo",
     "SubmitCloudbedsCredentialsResponse200Webhooks",
@@ -1724,6 +1866,7 @@ __all__ = (
     "SubmitMewsCredentialsBody",
     "SubmitMewsCredentialsBodyCredentials",
     "SubmitMewsCredentialsBodyCredentialsEnvironment",
+    "SubmitMewsCredentialsBodyWritePolicy",
     "SubmitMewsCredentialsResponse200",
     "SubmitMewsCredentialsResponse200AccountInfo",
     "SubmitMewsCredentialsResponse200Webhooks",
@@ -1807,6 +1950,10 @@ __all__ = (
     "UpdateBookingContentBodyPhotosItem",
     "UpdateBookingContentBodySettings",
     "UpdateBookingContentBodyType",
+    "UpdateConnectWritePolicyBody",
+    "UpdateConnectWritePolicyBodyCalendar",
+    "UpdateConnectWritePolicyBodyReservations",
+    "UpdateConnectWritePolicyResponse200",
     "UpdateListingPricingStrategyResponse200",
     "UpdatePlumguideWebhooksBody",
     "UpdateWebhookBody",
@@ -1820,7 +1967,15 @@ __all__ = (
     "UsageQuotaWarningPayload",
     "UsageQuotaWarningPayloadScope",
     "UsageQuotaWarningPayloadTopOperationType0",
+    "VrboImportStatus",
+    "VrboImportStatusAccessType",
+    "VrboImportStatusState",
     "VrboListing",
+    "VrboLoginBody",
+    "VrboLoginBodyAccessType",
+    "VrboLoginBodyAction",
+    "VrboLoginResponse200",
+    "VrboLoginResponse200Status",
     "VrboReservation",
     "VrboReservationListResponse",
     "WebhookDelivery",
@@ -1842,6 +1997,9 @@ __all__ = (
     "WithdrawAirbnbOfferResponse200GuestDetails",
     "WithdrawAirbnbOfferResponse200OfferType",
     "WithdrawAirbnbOfferResponse200Status",
+    "WithdrawConversationPreapprovalResponse200",
+    "WithdrawConversationPreapprovalResponse200Status",
     "WithdrawConversationSpecialOfferResponse200",
+    "WithdrawConversationSpecialOfferResponse200Channel",
     "WithdrawConversationSpecialOfferResponse200Status",
 )

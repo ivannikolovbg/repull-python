@@ -13,6 +13,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.submit_cloudbeds_credentials_body_credentials import SubmitCloudbedsCredentialsBodyCredentials
+  from ..models.submit_cloudbeds_credentials_body_write_policy import SubmitCloudbedsCredentialsBodyWritePolicy
 
 
 
@@ -29,10 +30,14 @@ class SubmitCloudbedsCredentialsBody:
             credentials (SubmitCloudbedsCredentialsBodyCredentials): A Cloudbeds API key (starts with `cbat_`).
             session_id (str | Unset): Connect session id from `POST /v1/connect/cloudbeds`. Omit when calling with your API
                 key.
+            write_policy (SubmitCloudbedsCredentialsBodyWritePolicy | Unset): Optional: what the app may change in the PMS,
+                set before the first sync. Same shape as `PATCH /v1/connect/{provider}/write-policy`; switches you leave out
+                keep the provider default (calendar off for hotel PMSs, bookings on). Example: {'calendar': {'rates': True}}.
      """
 
     credentials: SubmitCloudbedsCredentialsBodyCredentials
     session_id: str | Unset = UNSET
+    write_policy: SubmitCloudbedsCredentialsBodyWritePolicy | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,9 +46,14 @@ class SubmitCloudbedsCredentialsBody:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.submit_cloudbeds_credentials_body_credentials import SubmitCloudbedsCredentialsBodyCredentials
+        from ..models.submit_cloudbeds_credentials_body_write_policy import SubmitCloudbedsCredentialsBodyWritePolicy
         credentials = self.credentials.to_dict()
 
         session_id = self.session_id
+
+        write_policy: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.write_policy, Unset):
+            write_policy = self.write_policy.to_dict()
 
 
         field_dict: dict[str, Any] = {}
@@ -53,6 +63,8 @@ class SubmitCloudbedsCredentialsBody:
         })
         if session_id is not UNSET:
             field_dict["sessionId"] = session_id
+        if write_policy is not UNSET:
+            field_dict["writePolicy"] = write_policy
 
         return field_dict
 
@@ -61,6 +73,7 @@ class SubmitCloudbedsCredentialsBody:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.submit_cloudbeds_credentials_body_credentials import SubmitCloudbedsCredentialsBodyCredentials
+        from ..models.submit_cloudbeds_credentials_body_write_policy import SubmitCloudbedsCredentialsBodyWritePolicy
         d = dict(src_dict)
         credentials = SubmitCloudbedsCredentialsBodyCredentials.from_dict(d.pop("credentials"))
 
@@ -69,9 +82,20 @@ class SubmitCloudbedsCredentialsBody:
 
         session_id = d.pop("sessionId", UNSET)
 
+        _write_policy = d.pop("writePolicy", UNSET)
+        write_policy: SubmitCloudbedsCredentialsBodyWritePolicy | Unset
+        if isinstance(_write_policy,  Unset):
+            write_policy = UNSET
+        else:
+            write_policy = SubmitCloudbedsCredentialsBodyWritePolicy.from_dict(_write_policy)
+
+
+
+
         submit_cloudbeds_credentials_body = cls(
             credentials=credentials,
             session_id=session_id,
+            write_policy=write_policy,
         )
 
 

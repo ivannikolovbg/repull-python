@@ -16,6 +16,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.conversation_capabilities import ConversationCapabilities
   from ..models.conversation_guest import ConversationGuest
   from ..models.conversation_host import ConversationHost
 
@@ -53,6 +54,11 @@ class ConversationDetail:
             updated_at (datetime.datetime | Unset):
             host (ConversationHost | None | Unset):
             guest (ConversationGuest | None | Unset):
+            capabilities (ConversationCapabilities | Unset): What the inquiry actions can do on this conversation right now
+                — one set of endpoints for every channel, so an app shows the right actions instead of learning from a `422`.
+                All `false` / `null` when nothing applies (a booked or closed inquiry, Booking.com, direct, an Airbnb inquiry
+                relayed by a PMS). Example: {'canPreApprove': False, 'canWithdraw': True, 'canSendOffer': True, 'offerPrice':
+                'breakdown', 'canPreviewOffer': True}.
      """
 
     id: str | Unset = UNSET
@@ -70,6 +76,7 @@ class ConversationDetail:
     updated_at: datetime.datetime | Unset = UNSET
     host: ConversationHost | None | Unset = UNSET
     guest: ConversationGuest | None | Unset = UNSET
+    capabilities: ConversationCapabilities | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -77,6 +84,7 @@ class ConversationDetail:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.conversation_capabilities import ConversationCapabilities
         from ..models.conversation_guest import ConversationGuest
         from ..models.conversation_host import ConversationHost
         id = self.id
@@ -161,6 +169,10 @@ class ConversationDetail:
         else:
             guest = self.guest
 
+        capabilities: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.capabilities, Unset):
+            capabilities = self.capabilities.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -196,6 +208,8 @@ class ConversationDetail:
             field_dict["host"] = host
         if guest is not UNSET:
             field_dict["guest"] = guest
+        if capabilities is not UNSET:
+            field_dict["capabilities"] = capabilities
 
         return field_dict
 
@@ -203,6 +217,7 @@ class ConversationDetail:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.conversation_capabilities import ConversationCapabilities
         from ..models.conversation_guest import ConversationGuest
         from ..models.conversation_host import ConversationHost
         d = dict(src_dict)
@@ -370,6 +385,16 @@ class ConversationDetail:
         guest = _parse_guest(d.pop("guest", UNSET))
 
 
+        _capabilities = d.pop("capabilities", UNSET)
+        capabilities: ConversationCapabilities | Unset
+        if isinstance(_capabilities,  Unset):
+            capabilities = UNSET
+        else:
+            capabilities = ConversationCapabilities.from_dict(_capabilities)
+
+
+
+
         conversation_detail = cls(
             id=id,
             platform=platform,
@@ -386,6 +411,7 @@ class ConversationDetail:
             updated_at=updated_at,
             host=host,
             guest=guest,
+            capabilities=capabilities,
         )
 
 

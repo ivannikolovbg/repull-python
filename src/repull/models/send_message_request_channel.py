@@ -5,6 +5,7 @@ class SendMessageRequestChannel(str, Enum):
     BOOKING = "booking"
     EMAIL = "email"
     SMS = "sms"
+    VRBO = "vrbo"
     WEBSITE = "website"
 
     def __str__(self) -> str:

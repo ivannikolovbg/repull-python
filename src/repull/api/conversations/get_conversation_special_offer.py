@@ -116,9 +116,10 @@ def sync_detailed(
 ) -> Response[Error | GetConversationSpecialOfferResponse200]:
     """ Get a special offer
 
-     Read a special offer on this conversation back from Airbnb — typically to check its `status`
-    (`active` until the guest books it, it expires, or you withdraw it). Read live from Airbnb with the
-    conversation’s own Airbnb account.
+     Read a special offer on this conversation — typically to check its `status`. Airbnb: read live with
+    the conversation’s own Airbnb account (`active` until the guest books it, it expires, or you
+    withdraw it). VRBO (`offerId` = `current`): the live offer as last synced from VRBO, priced by its
+    parts with VRBO’s total.
 
     Args:
         id (int):
@@ -154,9 +155,10 @@ def sync(
 ) -> Error | GetConversationSpecialOfferResponse200 | None:
     """ Get a special offer
 
-     Read a special offer on this conversation back from Airbnb — typically to check its `status`
-    (`active` until the guest books it, it expires, or you withdraw it). Read live from Airbnb with the
-    conversation’s own Airbnb account.
+     Read a special offer on this conversation — typically to check its `status`. Airbnb: read live with
+    the conversation’s own Airbnb account (`active` until the guest books it, it expires, or you
+    withdraw it). VRBO (`offerId` = `current`): the live offer as last synced from VRBO, priced by its
+    parts with VRBO’s total.
 
     Args:
         id (int):
@@ -187,9 +189,10 @@ async def asyncio_detailed(
 ) -> Response[Error | GetConversationSpecialOfferResponse200]:
     """ Get a special offer
 
-     Read a special offer on this conversation back from Airbnb — typically to check its `status`
-    (`active` until the guest books it, it expires, or you withdraw it). Read live from Airbnb with the
-    conversation’s own Airbnb account.
+     Read a special offer on this conversation — typically to check its `status`. Airbnb: read live with
+    the conversation’s own Airbnb account (`active` until the guest books it, it expires, or you
+    withdraw it). VRBO (`offerId` = `current`): the live offer as last synced from VRBO, priced by its
+    parts with VRBO’s total.
 
     Args:
         id (int):
@@ -225,9 +228,10 @@ async def asyncio(
 ) -> Error | GetConversationSpecialOfferResponse200 | None:
     """ Get a special offer
 
-     Read a special offer on this conversation back from Airbnb — typically to check its `status`
-    (`active` until the guest books it, it expires, or you withdraw it). Read live from Airbnb with the
-    conversation’s own Airbnb account.
+     Read a special offer on this conversation — typically to check its `status`. Airbnb: read live with
+    the conversation’s own Airbnb account (`active` until the guest books it, it expires, or you
+    withdraw it). VRBO (`offerId` = `current`): the live offer as last synced from VRBO, priced by its
+    parts with VRBO’s total.
 
     Args:
         id (int):

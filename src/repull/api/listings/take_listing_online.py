@@ -125,7 +125,7 @@ def sync_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | ListingMarketStateResponse]:
-    """ Put a listing back on the market
+    r""" Put a listing back on the market
 
      Put this listing back on sale, on every channel it is connected to. The counterpart of `POST
     /v1/listings/{id}/offline`, which documents the per-item response and the difference between this
@@ -135,8 +135,10 @@ def sync_detailed(
     again; anything that changed while the listing was down is still unpublished, so follow with `POST
     /v1/listings/{id}/publish/airbnb` if the content moved. On **Booking.com** it re-syncs the true
     calendar rather than opening everything: dates that are genuinely blocked — a reservation, an owner
-    stay — stay blocked, and only the closure `offline` wrote lifts. The two directions are not mirror
-    images, and that is deliberate.
+    stay — stay blocked, and only the closure `offline` wrote lifts. On **VRBO** each hidden unit is
+    reactivated (VRBO's own \"Reactivate\") and read back; VRBO can refuse a reactivation (e.g. while it
+    is verifying the property), which comes back as that item's `message`. The two directions are not
+    mirror images, and that is deliberate.
 
     **One asymmetry worth planning for.** Taking a listing down passes no billing gate; putting it back
     up goes through the channel-publish gate. So on a workspace whose subscription has lapsed, `offline`
@@ -186,7 +188,7 @@ def sync(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Error | ListingMarketStateResponse | None:
-    """ Put a listing back on the market
+    r""" Put a listing back on the market
 
      Put this listing back on sale, on every channel it is connected to. The counterpart of `POST
     /v1/listings/{id}/offline`, which documents the per-item response and the difference between this
@@ -196,8 +198,10 @@ def sync(
     again; anything that changed while the listing was down is still unpublished, so follow with `POST
     /v1/listings/{id}/publish/airbnb` if the content moved. On **Booking.com** it re-syncs the true
     calendar rather than opening everything: dates that are genuinely blocked — a reservation, an owner
-    stay — stay blocked, and only the closure `offline` wrote lifts. The two directions are not mirror
-    images, and that is deliberate.
+    stay — stay blocked, and only the closure `offline` wrote lifts. On **VRBO** each hidden unit is
+    reactivated (VRBO's own \"Reactivate\") and read back; VRBO can refuse a reactivation (e.g. while it
+    is verifying the property), which comes back as that item's `message`. The two directions are not
+    mirror images, and that is deliberate.
 
     **One asymmetry worth planning for.** Taking a listing down passes no billing gate; putting it back
     up goes through the channel-publish gate. So on a workspace whose subscription has lapsed, `offline`
@@ -242,7 +246,7 @@ async def asyncio_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | ListingMarketStateResponse]:
-    """ Put a listing back on the market
+    r""" Put a listing back on the market
 
      Put this listing back on sale, on every channel it is connected to. The counterpart of `POST
     /v1/listings/{id}/offline`, which documents the per-item response and the difference between this
@@ -252,8 +256,10 @@ async def asyncio_detailed(
     again; anything that changed while the listing was down is still unpublished, so follow with `POST
     /v1/listings/{id}/publish/airbnb` if the content moved. On **Booking.com** it re-syncs the true
     calendar rather than opening everything: dates that are genuinely blocked — a reservation, an owner
-    stay — stay blocked, and only the closure `offline` wrote lifts. The two directions are not mirror
-    images, and that is deliberate.
+    stay — stay blocked, and only the closure `offline` wrote lifts. On **VRBO** each hidden unit is
+    reactivated (VRBO's own \"Reactivate\") and read back; VRBO can refuse a reactivation (e.g. while it
+    is verifying the property), which comes back as that item's `message`. The two directions are not
+    mirror images, and that is deliberate.
 
     **One asymmetry worth planning for.** Taking a listing down passes no billing gate; putting it back
     up goes through the channel-publish gate. So on a workspace whose subscription has lapsed, `offline`
@@ -303,7 +309,7 @@ async def asyncio(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Error | ListingMarketStateResponse | None:
-    """ Put a listing back on the market
+    r""" Put a listing back on the market
 
      Put this listing back on sale, on every channel it is connected to. The counterpart of `POST
     /v1/listings/{id}/offline`, which documents the per-item response and the difference between this
@@ -313,8 +319,10 @@ async def asyncio(
     again; anything that changed while the listing was down is still unpublished, so follow with `POST
     /v1/listings/{id}/publish/airbnb` if the content moved. On **Booking.com** it re-syncs the true
     calendar rather than opening everything: dates that are genuinely blocked — a reservation, an owner
-    stay — stay blocked, and only the closure `offline` wrote lifts. The two directions are not mirror
-    images, and that is deliberate.
+    stay — stay blocked, and only the closure `offline` wrote lifts. On **VRBO** each hidden unit is
+    reactivated (VRBO's own \"Reactivate\") and read back; VRBO can refuse a reactivation (e.g. while it
+    is verifying the property), which comes back as that item's `message`. The two directions are not
+    mirror images, and that is deliberate.
 
     **One asymmetry worth planning for.** Taking a listing down passes no billing gate; putting it back
     up goes through the channel-publish gate. So on a workspace whose subscription has lapsed, `offline`

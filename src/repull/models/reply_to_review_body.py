@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
 
 
 
@@ -23,9 +24,12 @@ class ReplyToReviewBody:
     """ 
         Attributes:
             message (str): Reply text. `response` is accepted as an alias.
+            name (str | Unset): VRBO: the name the response is signed with (the connected account's host name otherwise).
+                Ignored on other channels.
      """
 
     message: str
+    name: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -35,12 +39,16 @@ class ReplyToReviewBody:
     def to_dict(self) -> dict[str, Any]:
         message = self.message
 
+        name = self.name
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "message": message,
         })
+        if name is not UNSET:
+            field_dict["name"] = name
 
         return field_dict
 
@@ -51,8 +59,11 @@ class ReplyToReviewBody:
         d = dict(src_dict)
         message = d.pop("message")
 
+        name = d.pop("name", UNSET)
+
         reply_to_review_body = cls(
             message=message,
+            name=name,
         )
 
 

@@ -8,13 +8,16 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.create_conversation_special_offer_response_201_channel import CreateConversationSpecialOfferResponse201Channel
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.create_conversation_special_offer_response_201_fees_item import CreateConversationSpecialOfferResponse201FeesItem
   from ..models.create_conversation_special_offer_response_201_guests_type_0 import CreateConversationSpecialOfferResponse201GuestsType0
+  from ..models.create_conversation_special_offer_response_201_lines_item import CreateConversationSpecialOfferResponse201LinesItem
 
 
 
@@ -28,19 +31,34 @@ T = TypeVar("T", bound="CreateConversationSpecialOfferResponse201")
 class CreateConversationSpecialOfferResponse201:
     """ 
         Attributes:
-            id (None | str): Airbnb special-offer id. Use it to read or withdraw the offer. Example: 1459920384.
+            id (None | str): The offer id — use it to read or withdraw the offer. Airbnb’s special-offer id; on VRBO, where
+                a conversation has one live offer, `current`. Example: 1459920384.
             conversation_id (str): Repull conversation id the offer was sent on. Example: 164743.
-            status (None | str): Airbnb’s status for the offer: `active` (the guest can book it), `accepted`, `declined`,
-                `expired` or `voided` (withdrawn). Example: active.
+            status (None | str): Airbnb: its status for the offer — `active` (the guest can book it), `accepted`,
+                `declined`, `expired` or `voided` (withdrawn). VRBO: `sent` (just sent), `current` (the live offer) or `preview`
+                (recalculated, not sent). Example: active.
             check_in (datetime.date | None):  Example: 2026-10-01.
             check_out (datetime.date | None):  Example: 2026-10-05.
             nights (int | None):  Example: 4.
-            total_price (float | None): Total for the stay, in the listing’s Airbnb currency. Example: 880.
+            total_price (float | None): What the guest pays for the stay. Airbnb: the total you set. VRBO: VRBO’s own total,
+                including its taxes and service fee. Example: 880.
+            channel (CreateConversationSpecialOfferResponse201Channel | Unset): The channel the offer is on. Example:
+                airbnb.
             listing_id (None | str | Unset): Repull listing id, when known. Example: 23892.
             airbnb_listing_id (None | str | Unset): Airbnb listing id the offer is for (a string — it exceeds 2^53).
                 Example: 955656266214757921.
             guests (CreateConversationSpecialOfferResponse201GuestsType0 | None | Unset): Guests on the offer. Airbnb counts
                 adults + children as guests; infants and pets are extra.
+            currency (None | str | Unset): Currency of the amounts, when the channel states it (VRBO). Example: CAD.
+            rental_amount (float | None | Unset): VRBO: rent for the stay, excluding fees and taxes. Null on Airbnb (priced
+                by one total). Example: 4041.9.
+            discount (float | None | Unset): VRBO: its automatic stay discount on the rent, when the offer carries one.
+            fees (list[CreateConversationSpecialOfferResponse201FeesItem] | Unset): VRBO: the offer’s fees by type. Empty on
+                Airbnb.
+            damage_deposit (float | None | Unset): VRBO: refundable damage deposit; null for none. Example: 500.
+            lines (list[CreateConversationSpecialOfferResponse201LinesItem] | Unset): VRBO: its offer summary line by line,
+                in VRBO’s words (nights, fees, taxes, total traveler payment, payout).
+            message (None | str | Unset): The message sent to the guest with the offer (VRBO).
             created_at (datetime.datetime | None | Unset):
             expires_at (datetime.datetime | None | Unset): When the guest can no longer book the offer (Airbnb gives them 24
                 hours).
@@ -53,9 +71,17 @@ class CreateConversationSpecialOfferResponse201:
     check_out: datetime.date | None
     nights: int | None
     total_price: float | None
+    channel: CreateConversationSpecialOfferResponse201Channel | Unset = UNSET
     listing_id: None | str | Unset = UNSET
     airbnb_listing_id: None | str | Unset = UNSET
     guests: CreateConversationSpecialOfferResponse201GuestsType0 | None | Unset = UNSET
+    currency: None | str | Unset = UNSET
+    rental_amount: float | None | Unset = UNSET
+    discount: float | None | Unset = UNSET
+    fees: list[CreateConversationSpecialOfferResponse201FeesItem] | Unset = UNSET
+    damage_deposit: float | None | Unset = UNSET
+    lines: list[CreateConversationSpecialOfferResponse201LinesItem] | Unset = UNSET
+    message: None | str | Unset = UNSET
     created_at: datetime.datetime | None | Unset = UNSET
     expires_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -65,7 +91,9 @@ class CreateConversationSpecialOfferResponse201:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.create_conversation_special_offer_response_201_fees_item import CreateConversationSpecialOfferResponse201FeesItem
         from ..models.create_conversation_special_offer_response_201_guests_type_0 import CreateConversationSpecialOfferResponse201GuestsType0
+        from ..models.create_conversation_special_offer_response_201_lines_item import CreateConversationSpecialOfferResponse201LinesItem
         id: None | str
         id = self.id
 
@@ -92,6 +120,11 @@ class CreateConversationSpecialOfferResponse201:
         total_price: float | None
         total_price = self.total_price
 
+        channel: str | Unset = UNSET
+        if not isinstance(self.channel, Unset):
+            channel = self.channel.value
+
+
         listing_id: None | str | Unset
         if isinstance(self.listing_id, Unset):
             listing_id = UNSET
@@ -111,6 +144,54 @@ class CreateConversationSpecialOfferResponse201:
             guests = self.guests.to_dict()
         else:
             guests = self.guests
+
+        currency: None | str | Unset
+        if isinstance(self.currency, Unset):
+            currency = UNSET
+        else:
+            currency = self.currency
+
+        rental_amount: float | None | Unset
+        if isinstance(self.rental_amount, Unset):
+            rental_amount = UNSET
+        else:
+            rental_amount = self.rental_amount
+
+        discount: float | None | Unset
+        if isinstance(self.discount, Unset):
+            discount = UNSET
+        else:
+            discount = self.discount
+
+        fees: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.fees, Unset):
+            fees = []
+            for fees_item_data in self.fees:
+                fees_item = fees_item_data.to_dict()
+                fees.append(fees_item)
+
+
+
+        damage_deposit: float | None | Unset
+        if isinstance(self.damage_deposit, Unset):
+            damage_deposit = UNSET
+        else:
+            damage_deposit = self.damage_deposit
+
+        lines: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.lines, Unset):
+            lines = []
+            for lines_item_data in self.lines:
+                lines_item = lines_item_data.to_dict()
+                lines.append(lines_item)
+
+
+
+        message: None | str | Unset
+        if isinstance(self.message, Unset):
+            message = UNSET
+        else:
+            message = self.message
 
         created_at: None | str | Unset
         if isinstance(self.created_at, Unset):
@@ -140,12 +221,28 @@ class CreateConversationSpecialOfferResponse201:
             "nights": nights,
             "totalPrice": total_price,
         })
+        if channel is not UNSET:
+            field_dict["channel"] = channel
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
         if airbnb_listing_id is not UNSET:
             field_dict["airbnbListingId"] = airbnb_listing_id
         if guests is not UNSET:
             field_dict["guests"] = guests
+        if currency is not UNSET:
+            field_dict["currency"] = currency
+        if rental_amount is not UNSET:
+            field_dict["rentalAmount"] = rental_amount
+        if discount is not UNSET:
+            field_dict["discount"] = discount
+        if fees is not UNSET:
+            field_dict["fees"] = fees
+        if damage_deposit is not UNSET:
+            field_dict["damageDeposit"] = damage_deposit
+        if lines is not UNSET:
+            field_dict["lines"] = lines
+        if message is not UNSET:
+            field_dict["message"] = message
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
         if expires_at is not UNSET:
@@ -157,7 +254,9 @@ class CreateConversationSpecialOfferResponse201:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.create_conversation_special_offer_response_201_fees_item import CreateConversationSpecialOfferResponse201FeesItem
         from ..models.create_conversation_special_offer_response_201_guests_type_0 import CreateConversationSpecialOfferResponse201GuestsType0
+        from ..models.create_conversation_special_offer_response_201_lines_item import CreateConversationSpecialOfferResponse201LinesItem
         d = dict(src_dict)
         def _parse_id(data: object) -> None | str:
             if data is None:
@@ -229,6 +328,16 @@ class CreateConversationSpecialOfferResponse201:
         total_price = _parse_total_price(d.pop("totalPrice"))
 
 
+        _channel = d.pop("channel", UNSET)
+        channel: CreateConversationSpecialOfferResponse201Channel | Unset
+        if isinstance(_channel,  Unset):
+            channel = UNSET
+        else:
+            channel = CreateConversationSpecialOfferResponse201Channel(_channel)
+
+
+
+
         def _parse_listing_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -267,6 +376,80 @@ class CreateConversationSpecialOfferResponse201:
             return cast(CreateConversationSpecialOfferResponse201GuestsType0 | None | Unset, data)
 
         guests = _parse_guests(d.pop("guests", UNSET))
+
+
+        def _parse_currency(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        currency = _parse_currency(d.pop("currency", UNSET))
+
+
+        def _parse_rental_amount(data: object) -> float | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(float | None | Unset, data)
+
+        rental_amount = _parse_rental_amount(d.pop("rentalAmount", UNSET))
+
+
+        def _parse_discount(data: object) -> float | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(float | None | Unset, data)
+
+        discount = _parse_discount(d.pop("discount", UNSET))
+
+
+        _fees = d.pop("fees", UNSET)
+        fees: list[CreateConversationSpecialOfferResponse201FeesItem] | Unset = UNSET
+        if _fees is not UNSET:
+            fees = []
+            for fees_item_data in _fees:
+                fees_item = CreateConversationSpecialOfferResponse201FeesItem.from_dict(fees_item_data)
+
+
+
+                fees.append(fees_item)
+
+
+        def _parse_damage_deposit(data: object) -> float | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(float | None | Unset, data)
+
+        damage_deposit = _parse_damage_deposit(d.pop("damageDeposit", UNSET))
+
+
+        _lines = d.pop("lines", UNSET)
+        lines: list[CreateConversationSpecialOfferResponse201LinesItem] | Unset = UNSET
+        if _lines is not UNSET:
+            lines = []
+            for lines_item_data in _lines:
+                lines_item = CreateConversationSpecialOfferResponse201LinesItem.from_dict(lines_item_data)
+
+
+
+                lines.append(lines_item)
+
+
+        def _parse_message(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        message = _parse_message(d.pop("message", UNSET))
 
 
         def _parse_created_at(data: object) -> datetime.datetime | None | Unset:
@@ -317,9 +500,17 @@ class CreateConversationSpecialOfferResponse201:
             check_out=check_out,
             nights=nights,
             total_price=total_price,
+            channel=channel,
             listing_id=listing_id,
             airbnb_listing_id=airbnb_listing_id,
             guests=guests,
+            currency=currency,
+            rental_amount=rental_amount,
+            discount=discount,
+            fees=fees,
+            damage_deposit=damage_deposit,
+            lines=lines,
+            message=message,
             created_at=created_at,
             expires_at=expires_at,
         )

@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.preapprove_conversation_response_201_channel import PreapproveConversationResponse201Channel
 from ..models.preapprove_conversation_response_201_status import PreapproveConversationResponse201Status
 from dateutil.parser import isoparse
 from typing import cast
@@ -27,16 +28,20 @@ class PreapproveConversationResponse201:
     """ 
         Attributes:
             conversation_id (str):  Example: 164743.
+            channel (PreapproveConversationResponse201Channel):  Example: airbnb.
             status (PreapproveConversationResponse201Status):
             block_instant_booking (bool):
-            expires_at (datetime.datetime | None): When the guest can no longer book on the pre-approval, if Airbnb reported
-                it.
+            expires_at (datetime.datetime | None): When the guest can no longer book on the pre-approval, if the channel
+                reported it.
+            message (None | str): The message sent to the guest with the pre-approval (VRBO).
      """
 
     conversation_id: str
+    channel: PreapproveConversationResponse201Channel
     status: PreapproveConversationResponse201Status
     block_instant_booking: bool
     expires_at: datetime.datetime | None
+    message: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -45,6 +50,8 @@ class PreapproveConversationResponse201:
 
     def to_dict(self) -> dict[str, Any]:
         conversation_id = self.conversation_id
+
+        channel = self.channel.value
 
         status = self.status.value
 
@@ -56,14 +63,19 @@ class PreapproveConversationResponse201:
         else:
             expires_at = self.expires_at
 
+        message: None | str
+        message = self.message
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
             "conversationId": conversation_id,
+            "channel": channel,
             "status": status,
             "blockInstantBooking": block_instant_booking,
             "expiresAt": expires_at,
+            "message": message,
         })
 
         return field_dict
@@ -74,6 +86,11 @@ class PreapproveConversationResponse201:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         conversation_id = d.pop("conversationId")
+
+        channel = PreapproveConversationResponse201Channel(d.pop("channel"))
+
+
+
 
         status = PreapproveConversationResponse201Status(d.pop("status"))
 
@@ -100,11 +117,21 @@ class PreapproveConversationResponse201:
         expires_at = _parse_expires_at(d.pop("expiresAt"))
 
 
+        def _parse_message(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        message = _parse_message(d.pop("message"))
+
+
         preapprove_conversation_response_201 = cls(
             conversation_id=conversation_id,
+            channel=channel,
             status=status,
             block_instant_booking=block_instant_booking,
             expires_at=expires_at,
+            message=message,
         )
 
 

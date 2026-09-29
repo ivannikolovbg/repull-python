@@ -12,6 +12,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.pms_write_policy import PmsWritePolicy
   from ..models.submit_cloudbeds_credentials_response_200_account_info import SubmitCloudbedsCredentialsResponse200AccountInfo
   from ..models.submit_cloudbeds_credentials_response_200_webhooks import SubmitCloudbedsCredentialsResponse200Webhooks
 
@@ -29,6 +30,10 @@ class SubmitCloudbedsCredentialsResponse200:
         Attributes:
             provider (str | Unset):  Example: cloudbeds.
             connected (bool | Unset):
+            write_policy (PmsWritePolicy | Unset): What the app may change in a connected PMS. Hotel PMSs (Cloudbeds, Mews)
+                start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
+                everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
+                True, 'restrictions': False}, 'reservations': {'website': True, 'dashboard': True, 'api': True}}.
             pms_connection_id (str | Unset): Id of the stored connection.
             created (bool | Unset): False when an existing connection was updated.
             session_id (None | str | Unset):
@@ -38,6 +43,7 @@ class SubmitCloudbedsCredentialsResponse200:
 
     provider: str | Unset = UNSET
     connected: bool | Unset = UNSET
+    write_policy: PmsWritePolicy | Unset = UNSET
     pms_connection_id: str | Unset = UNSET
     created: bool | Unset = UNSET
     session_id: None | str | Unset = UNSET
@@ -50,11 +56,16 @@ class SubmitCloudbedsCredentialsResponse200:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.pms_write_policy import PmsWritePolicy
         from ..models.submit_cloudbeds_credentials_response_200_account_info import SubmitCloudbedsCredentialsResponse200AccountInfo
         from ..models.submit_cloudbeds_credentials_response_200_webhooks import SubmitCloudbedsCredentialsResponse200Webhooks
         provider = self.provider
 
         connected = self.connected
+
+        write_policy: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.write_policy, Unset):
+            write_policy = self.write_policy.to_dict()
 
         pms_connection_id = self.pms_connection_id
 
@@ -83,6 +94,8 @@ class SubmitCloudbedsCredentialsResponse200:
             field_dict["provider"] = provider
         if connected is not UNSET:
             field_dict["connected"] = connected
+        if write_policy is not UNSET:
+            field_dict["writePolicy"] = write_policy
         if pms_connection_id is not UNSET:
             field_dict["pmsConnectionId"] = pms_connection_id
         if created is not UNSET:
@@ -100,12 +113,23 @@ class SubmitCloudbedsCredentialsResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.pms_write_policy import PmsWritePolicy
         from ..models.submit_cloudbeds_credentials_response_200_account_info import SubmitCloudbedsCredentialsResponse200AccountInfo
         from ..models.submit_cloudbeds_credentials_response_200_webhooks import SubmitCloudbedsCredentialsResponse200Webhooks
         d = dict(src_dict)
         provider = d.pop("provider", UNSET)
 
         connected = d.pop("connected", UNSET)
+
+        _write_policy = d.pop("writePolicy", UNSET)
+        write_policy: PmsWritePolicy | Unset
+        if isinstance(_write_policy,  Unset):
+            write_policy = UNSET
+        else:
+            write_policy = PmsWritePolicy.from_dict(_write_policy)
+
+
+
 
         pms_connection_id = d.pop("pmsConnectionId", UNSET)
 
@@ -144,6 +168,7 @@ class SubmitCloudbedsCredentialsResponse200:
         submit_cloudbeds_credentials_response_200 = cls(
             provider=provider,
             connected=connected,
+            write_policy=write_policy,
             pms_connection_id=pms_connection_id,
             created=created,
             session_id=session_id,

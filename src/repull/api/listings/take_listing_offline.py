@@ -133,7 +133,9 @@ def sync_detailed(
     live listing is deactivated with a valid deactivation reason and then READ BACK — Airbnb accepts
     some deactivations and leaves the listing up, so \"we sent the request\" is never reported as
     success. On **Booking.com** there is no unlist at all; the equivalent is closing the room's
-    availability across the whole forward window, which is what happens.
+    availability across the whole forward window, which is what happens. On **VRBO** each mapped unit is
+    hidden (VRBO's own \"Hide listing\") and read back — a hidden unit is out of VRBO search and cannot
+    be booked; its item carries the VRBO listing number as `platformId`.
 
     **This is not the same as deactivating the listing in Repull.** The two get confused because both
     sound like removal, and they have opposite consequences:
@@ -213,7 +215,9 @@ def sync(
     live listing is deactivated with a valid deactivation reason and then READ BACK — Airbnb accepts
     some deactivations and leaves the listing up, so \"we sent the request\" is never reported as
     success. On **Booking.com** there is no unlist at all; the equivalent is closing the room's
-    availability across the whole forward window, which is what happens.
+    availability across the whole forward window, which is what happens. On **VRBO** each mapped unit is
+    hidden (VRBO's own \"Hide listing\") and read back — a hidden unit is out of VRBO search and cannot
+    be booked; its item carries the VRBO listing number as `platformId`.
 
     **This is not the same as deactivating the listing in Repull.** The two get confused because both
     sound like removal, and they have opposite consequences:
@@ -288,7 +292,9 @@ async def asyncio_detailed(
     live listing is deactivated with a valid deactivation reason and then READ BACK — Airbnb accepts
     some deactivations and leaves the listing up, so \"we sent the request\" is never reported as
     success. On **Booking.com** there is no unlist at all; the equivalent is closing the room's
-    availability across the whole forward window, which is what happens.
+    availability across the whole forward window, which is what happens. On **VRBO** each mapped unit is
+    hidden (VRBO's own \"Hide listing\") and read back — a hidden unit is out of VRBO search and cannot
+    be booked; its item carries the VRBO listing number as `platformId`.
 
     **This is not the same as deactivating the listing in Repull.** The two get confused because both
     sound like removal, and they have opposite consequences:
@@ -368,7 +374,9 @@ async def asyncio(
     live listing is deactivated with a valid deactivation reason and then READ BACK — Airbnb accepts
     some deactivations and leaves the listing up, so \"we sent the request\" is never reported as
     success. On **Booking.com** there is no unlist at all; the equivalent is closing the room's
-    availability across the whole forward window, which is what happens.
+    availability across the whole forward window, which is what happens. On **VRBO** each mapped unit is
+    hidden (VRBO's own \"Hide listing\") and read back — a hidden unit is out of VRBO search and cannot
+    be booked; its item carries the VRBO listing number as `platformId`.
 
     **This is not the same as deactivating the listing in Repull.** The two get confused because both
     sound like removal, and they have opposite consequences:

@@ -1,0 +1,9 @@
+from enum import Enum
+
+class CreateConnectSessionBodyAccessType(str, Enum):
+    FULL_ACCESS = "full_access"
+    MESSAGING = "messaging"
+    READ_ONLY = "read_only"
+
+    def __str__(self) -> str:
+        return str(self.value)

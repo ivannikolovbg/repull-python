@@ -23,11 +23,13 @@ T = TypeVar("T", bound="PreapproveConversationBody")
 class PreapproveConversationBody:
     """ 
         Attributes:
-            block_instant_booking (bool | Unset): When `true`, the guest cannot Instant Book the listing and must book
-                through this pre-approval. Leave `false` unless you need that. Default: False.
+            block_instant_booking (bool | Unset): Airbnb: when `true`, the guest cannot Instant Book the listing and must
+                book through this pre-approval. Leave `false` unless you need that. Default: False.
+            message (str | Unset): VRBO: the message sent to the guest with the pre-approval (a friendly default otherwise).
      """
 
     block_instant_booking: bool | Unset = False
+    message: str | Unset = UNSET
 
 
 
@@ -36,6 +38,8 @@ class PreapproveConversationBody:
     def to_dict(self) -> dict[str, Any]:
         block_instant_booking = self.block_instant_booking
 
+        message = self.message
+
 
         field_dict: dict[str, Any] = {}
 
@@ -43,6 +47,8 @@ class PreapproveConversationBody:
         })
         if block_instant_booking is not UNSET:
             field_dict["blockInstantBooking"] = block_instant_booking
+        if message is not UNSET:
+            field_dict["message"] = message
 
         return field_dict
 
@@ -53,8 +59,11 @@ class PreapproveConversationBody:
         d = dict(src_dict)
         block_instant_booking = d.pop("blockInstantBooking", UNSET)
 
+        message = d.pop("message", UNSET)
+
         preapprove_conversation_body = cls(
             block_instant_booking=block_instant_booking,
+            message=message,
         )
 
         return preapprove_conversation_body

@@ -17,6 +17,8 @@ import datetime
 if TYPE_CHECKING:
   from ..models.connect_host import ConnectHost
   from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
+  from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
+  from ..models.pms_write_policy import PmsWritePolicy
 
 
 
@@ -40,9 +42,17 @@ class ConnectStatus:
             created_at (datetime.datetime | Unset):
             host (ConnectHost | None | Unset): Host metadata, populated for Airbnb when the host row exists. Null for other
                 providers (per-provider enrichment is incremental).
-            accounts (list[ConnectStatusAccountsItem] | Unset): Airbnb only: every Airbnb account this workspace has
-                connected, including ones since disconnected. Pass `externalAccountId` as `accountId` to `DELETE
-                /v1/connect/airbnb` to disconnect one account.
+            accounts (list[ConnectStatusAccountsItem] | Unset): Airbnb: every Airbnb account this workspace has connected,
+                including ones since disconnected. Pass `externalAccountId` as `accountId` to `DELETE /v1/connect/airbnb` to
+                disconnect one account. Vrbo (`GET /v1/connect/vrbo-login`): every signed-in Vrbo account, each with
+                `accessType` and `import` (a `VrboImportStatus`), plus a top-level `dataFreshness`.
+            write_policy (PmsWritePolicy | Unset): What the app may change in a connected PMS. Hotel PMSs (Cloudbeds, Mews)
+                start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
+                everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
+                True, 'restrictions': False}, 'reservations': {'website': True, 'dashboard': True, 'api': True}}.
+            data_freshness (ConnectStatusDataFreshness | Unset): Vrbo only: the same freshness envelope the Airbnb read
+                endpoints return, per account and in aggregate. Its reason is never_synced until a mapping is confirmed and
+                importing while upcoming bookings come in.
      """
 
     connected: bool | Unset = UNSET
@@ -53,6 +63,8 @@ class ConnectStatus:
     created_at: datetime.datetime | Unset = UNSET
     host: ConnectHost | None | Unset = UNSET
     accounts: list[ConnectStatusAccountsItem] | Unset = UNSET
+    write_policy: PmsWritePolicy | Unset = UNSET
+    data_freshness: ConnectStatusDataFreshness | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -62,6 +74,8 @@ class ConnectStatus:
     def to_dict(self) -> dict[str, Any]:
         from ..models.connect_host import ConnectHost
         from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
+        from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
+        from ..models.pms_write_policy import PmsWritePolicy
         connected = self.connected
 
         provider = self.provider
@@ -100,6 +114,14 @@ class ConnectStatus:
 
 
 
+        write_policy: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.write_policy, Unset):
+            write_policy = self.write_policy.to_dict()
+
+        data_freshness: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.data_freshness, Unset):
+            data_freshness = self.data_freshness.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -121,6 +143,10 @@ class ConnectStatus:
             field_dict["host"] = host
         if accounts is not UNSET:
             field_dict["accounts"] = accounts
+        if write_policy is not UNSET:
+            field_dict["writePolicy"] = write_policy
+        if data_freshness is not UNSET:
+            field_dict["dataFreshness"] = data_freshness
 
         return field_dict
 
@@ -130,6 +156,8 @@ class ConnectStatus:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.connect_host import ConnectHost
         from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
+        from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
+        from ..models.pms_write_policy import PmsWritePolicy
         d = dict(src_dict)
         connected = d.pop("connected", UNSET)
 
@@ -199,6 +227,26 @@ class ConnectStatus:
                 accounts.append(accounts_item)
 
 
+        _write_policy = d.pop("writePolicy", UNSET)
+        write_policy: PmsWritePolicy | Unset
+        if isinstance(_write_policy,  Unset):
+            write_policy = UNSET
+        else:
+            write_policy = PmsWritePolicy.from_dict(_write_policy)
+
+
+
+
+        _data_freshness = d.pop("dataFreshness", UNSET)
+        data_freshness: ConnectStatusDataFreshness | Unset
+        if isinstance(_data_freshness,  Unset):
+            data_freshness = UNSET
+        else:
+            data_freshness = ConnectStatusDataFreshness.from_dict(_data_freshness)
+
+
+
+
         connect_status = cls(
             connected=connected,
             provider=provider,
@@ -208,6 +256,8 @@ class ConnectStatus:
             created_at=created_at,
             host=host,
             accounts=accounts,
+            write_policy=write_policy,
+            data_freshness=data_freshness,
         )
 
 
