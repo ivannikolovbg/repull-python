@@ -19,6 +19,7 @@ if TYPE_CHECKING:
   from ..models.conversation_capabilities import ConversationCapabilities
   from ..models.conversation_guest import ConversationGuest
   from ..models.conversation_host import ConversationHost
+  from ..models.record_account_type_0 import RecordAccountType0
 
 
 
@@ -34,6 +35,9 @@ class ConversationDetail:
     blocks so SDK consumers can render thread headers without an extra round-trip.
 
         Attributes:
+            account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
+                webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
+                and events to the same user. `null` when it cannot be resolved (never guessed).
             id (str | Unset):
             platform (ConversationPlatform | Unset):  Example: airbnb.
             external_thread_id (None | str | Unset): The source channel's own thread id (Airbnb thread id, Booking
@@ -61,6 +65,7 @@ class ConversationDetail:
                 'breakdown', 'canPreviewOffer': True}.
      """
 
+    account: None | RecordAccountType0 | Unset = UNSET
     id: str | Unset = UNSET
     platform: ConversationPlatform | Unset = UNSET
     external_thread_id: None | str | Unset = UNSET
@@ -87,6 +92,15 @@ class ConversationDetail:
         from ..models.conversation_capabilities import ConversationCapabilities
         from ..models.conversation_guest import ConversationGuest
         from ..models.conversation_host import ConversationHost
+        from ..models.record_account_type_0 import RecordAccountType0
+        account: dict[str, Any] | None | Unset
+        if isinstance(self.account, Unset):
+            account = UNSET
+        elif isinstance(self.account, RecordAccountType0):
+            account = self.account.to_dict()
+        else:
+            account = self.account
+
         id = self.id
 
         platform: str | Unset = UNSET
@@ -178,6 +192,8 @@ class ConversationDetail:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if account is not UNSET:
+            field_dict["account"] = account
         if id is not UNSET:
             field_dict["id"] = id
         if platform is not UNSET:
@@ -220,7 +236,28 @@ class ConversationDetail:
         from ..models.conversation_capabilities import ConversationCapabilities
         from ..models.conversation_guest import ConversationGuest
         from ..models.conversation_host import ConversationHost
+        from ..models.record_account_type_0 import RecordAccountType0
         d = dict(src_dict)
+        def _parse_account(data: object) -> None | RecordAccountType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_record_account_type_0 = RecordAccountType0.from_dict(data)
+
+
+
+                return componentsschemas_record_account_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | RecordAccountType0 | Unset, data)
+
+        account = _parse_account(d.pop("account", UNSET))
+
+
         id = d.pop("id", UNSET)
 
         _platform = d.pop("platform", UNSET)
@@ -396,6 +433,7 @@ class ConversationDetail:
 
 
         conversation_detail = cls(
+            account=account,
             id=id,
             platform=platform,
             external_thread_id=external_thread_id,

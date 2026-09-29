@@ -20,6 +20,7 @@ import datetime
 
 def _get_kwargs(
     *,
+    account: str | Unset = UNSET,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
@@ -50,6 +51,8 @@ def _get_kwargs(
     
 
     params: dict[str, Any] = {}
+
+    params["account"] = account
 
     params["limit"] = limit
 
@@ -180,6 +183,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account: str | Unset = UNSET,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
@@ -225,6 +229,7 @@ def sync_detailed(
     listing_inactive`.
 
     Args:
+        account (str | Unset):  Example: airbnb:79730216.
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -255,7 +260,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        limit=limit,
+        account=account,
+limit=limit,
 cursor=cursor,
 offset=offset,
 platform=platform,
@@ -286,6 +292,7 @@ x_schema=x_schema,
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    account: str | Unset = UNSET,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
@@ -331,6 +338,7 @@ def sync(
     listing_inactive`.
 
     Args:
+        account (str | Unset):  Example: airbnb:79730216.
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -362,6 +370,7 @@ def sync(
 
     return sync_detailed(
         client=client,
+account=account,
 limit=limit,
 cursor=cursor,
 offset=offset,
@@ -387,6 +396,7 @@ x_schema=x_schema,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    account: str | Unset = UNSET,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
@@ -432,6 +442,7 @@ async def asyncio_detailed(
     listing_inactive`.
 
     Args:
+        account (str | Unset):  Example: airbnb:79730216.
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -462,7 +473,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        limit=limit,
+        account=account,
+limit=limit,
 cursor=cursor,
 offset=offset,
 platform=platform,
@@ -493,6 +505,7 @@ x_schema=x_schema,
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    account: str | Unset = UNSET,
     limit: int | Unset = 50,
     cursor: str | Unset = UNSET,
     offset: int | Unset = 0,
@@ -538,6 +551,7 @@ async def asyncio(
     listing_inactive`.
 
     Args:
+        account (str | Unset):  Example: airbnb:79730216.
         limit (int | Unset):  Default: 50.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
@@ -569,6 +583,7 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+account=account,
 limit=limit,
 cursor=cursor,
 offset=offset,

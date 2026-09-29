@@ -223,6 +223,10 @@ from .connect_provider_list_response import ConnectProviderListResponse
 from .connect_provider_migration_capabilities_type_0 import ConnectProviderMigrationCapabilitiesType0
 from .connect_provider_status import ConnectProviderStatus
 from .connect_session import ConnectSession
+from .connect_session_completed_event import ConnectSessionCompletedEvent
+from .connect_session_completed_event_event import ConnectSessionCompletedEventEvent
+from .connect_session_completed_payload import ConnectSessionCompletedPayload
+from .connect_session_completed_payload_purpose import ConnectSessionCompletedPayloadPurpose
 from .connect_session_purpose import ConnectSessionPurpose
 from .connect_status import ConnectStatus
 from .connect_status_accounts_item import ConnectStatusAccountsItem
@@ -696,6 +700,7 @@ from .publish_section_error_code import PublishSectionErrorCode
 from .publish_section_error_section import PublishSectionErrorSection
 from .quote import Quote
 from .quote_pricing import QuotePricing
+from .record_account_type_0 import RecordAccountType0
 from .reorder_airbnb_listing_photos_body import ReorderAirbnbListingPhotosBody
 from .reorder_airbnb_listing_photos_response_200 import ReorderAirbnbListingPhotosResponse200
 from .reorder_airbnb_listing_photos_response_200_data import ReorderAirbnbListingPhotosResponse200Data
@@ -1228,6 +1233,10 @@ __all__ = (
     "ConnectProviderMigrationCapabilitiesType0",
     "ConnectProviderStatus",
     "ConnectSession",
+    "ConnectSessionCompletedEvent",
+    "ConnectSessionCompletedEventEvent",
+    "ConnectSessionCompletedPayload",
+    "ConnectSessionCompletedPayloadPurpose",
     "ConnectSessionPurpose",
     "ConnectStatus",
     "ConnectStatusAccountsItem",
@@ -1698,6 +1707,7 @@ __all__ = (
     "PublishSectionErrorSection",
     "Quote",
     "QuotePricing",
+    "RecordAccountType0",
     "ReorderAirbnbListingPhotosBody",
     "ReorderAirbnbListingPhotosResponse200",
     "ReorderAirbnbListingPhotosResponse200Data",

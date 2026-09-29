@@ -67,8 +67,8 @@ def sync_detailed(
 ) -> Response[list[VrboListing]]:
     """ List VRBO listings
 
-     List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
-    iCal/HTTP feeds.
+     List the Vrbo units linked to this workspace's listings, from the host's connected Vrbo account
+    (host sign-in, beta).
 
     Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
     /v1/listings?status=inactive` to find them.
@@ -99,8 +99,8 @@ def sync(
 ) -> list[VrboListing] | None:
     """ List VRBO listings
 
-     List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
-    iCal/HTTP feeds.
+     List the Vrbo units linked to this workspace's listings, from the host's connected Vrbo account
+    (host sign-in, beta).
 
     Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
     /v1/listings?status=inactive` to find them.
@@ -126,8 +126,8 @@ async def asyncio_detailed(
 ) -> Response[list[VrboListing]]:
     """ List VRBO listings
 
-     List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
-    iCal/HTTP feeds.
+     List the Vrbo units linked to this workspace's listings, from the host's connected Vrbo account
+    (host sign-in, beta).
 
     Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
     /v1/listings?status=inactive` to find them.
@@ -158,8 +158,8 @@ async def asyncio(
 ) -> list[VrboListing] | None:
     """ List VRBO listings
 
-     List VRBO listings this workspace owns. VRBO is agency-model — Repull reads listings via the public
-    iCal/HTTP feeds.
+     List the Vrbo units linked to this workspace's listings, from the host's connected Vrbo account
+    (host sign-in, beta).
 
     Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
     /v1/listings?status=inactive` to find them.

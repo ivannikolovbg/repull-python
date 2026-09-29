@@ -23,6 +23,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.record_account_type_0 import RecordAccountType0
   from ..models.reservation_financials import ReservationFinancials
   from ..models.reservation_guest_details import ReservationGuestDetails
   from ..models.reservation_occupancy import ReservationOccupancy
@@ -64,6 +65,9 @@ class Reservation:
             updated_at (datetime.datetime): Last time this reservation was modified (dates, status, price, or guest
                 details). Advances on every amendment or cancellation — poll or compare this value to reconcile changes instead
                 of fingerprinting individual fields.
+            account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
+                webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
+                and events to the same user. `null` when it cannot be resolved (never guessed).
             guest_id (str | Unset): DEPRECATED — use `primaryGuest.id`. Internal Repull guest ID. Kept populated for back-
                 compat.
             check_in_time (None | str | Unset): Local check-in time for this stay, `HH:MM` on a 24-hour clock in the
@@ -139,6 +143,7 @@ class Reservation:
     confirmation_code: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
+    account: None | RecordAccountType0 | Unset = UNSET
     guest_id: str | Unset = UNSET
     check_in_time: None | str | Unset = UNSET
     check_out_time: None | str | Unset = UNSET
@@ -163,6 +168,7 @@ class Reservation:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.record_account_type_0 import RecordAccountType0
         from ..models.reservation_financials import ReservationFinancials
         from ..models.reservation_guest_details import ReservationGuestDetails
         from ..models.reservation_occupancy import ReservationOccupancy
@@ -183,6 +189,14 @@ class Reservation:
         created_at = self.created_at.isoformat()
 
         updated_at = self.updated_at.isoformat()
+
+        account: dict[str, Any] | None | Unset
+        if isinstance(self.account, Unset):
+            account = UNSET
+        elif isinstance(self.account, RecordAccountType0):
+            account = self.account.to_dict()
+        else:
+            account = self.account
 
         guest_id = self.guest_id
 
@@ -291,6 +305,8 @@ class Reservation:
             "createdAt": created_at,
             "updatedAt": updated_at,
         })
+        if account is not UNSET:
+            field_dict["account"] = account
         if guest_id is not UNSET:
             field_dict["guestId"] = guest_id
         if check_in_time is not UNSET:
@@ -332,6 +348,7 @@ class Reservation:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.record_account_type_0 import RecordAccountType0
         from ..models.reservation_financials import ReservationFinancials
         from ..models.reservation_guest_details import ReservationGuestDetails
         from ..models.reservation_occupancy import ReservationOccupancy
@@ -367,6 +384,26 @@ class Reservation:
         updated_at = isoparse(d.pop("updatedAt"))
 
 
+
+
+        def _parse_account(data: object) -> None | RecordAccountType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_record_account_type_0 = RecordAccountType0.from_dict(data)
+
+
+
+                return componentsschemas_record_account_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | RecordAccountType0 | Unset, data)
+
+        account = _parse_account(d.pop("account", UNSET))
 
 
         guest_id = d.pop("guestId", UNSET)
@@ -604,6 +641,7 @@ class Reservation:
             confirmation_code=confirmation_code,
             created_at=created_at,
             updated_at=updated_at,
+            account=account,
             guest_id=guest_id,
             check_in_time=check_in_time,
             check_out_time=check_out_time,

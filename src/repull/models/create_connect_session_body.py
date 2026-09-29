@@ -31,7 +31,9 @@ class CreateConnectSessionBody:
     """ 
         Attributes:
             redirect_url (str): Where to send the user after they finish (or cancel). Status query params are appended.
-            state (None | str | Unset): Opaque pass-through correlation token. Echoed back in the response.
+            state (None | str | Unset): Your own correlation token, e.g. your user id (at most 500 characters). Echoed in
+                this response, on the redirect back (`&state=`), in the popup message, and in the `connect.session.completed`
+                webhook.
             access_type (CreateConnectSessionBodyAccessType | Unset): What the connection may do. Airbnb: the OAuth scope
                 tier. Vrbo: `messaging` (or `read_only`) imports bookings and messages and never pushes the calendar;
                 `full_access` also pushes prices and availability. Setting it locks the choice; omit it to let the host choose

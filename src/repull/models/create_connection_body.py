@@ -35,7 +35,8 @@ class CreateConnectionBody:
                 app per Airbnb account can hold it). The hosted consent screen normally lets the host pick a tier; passing
                 `accessType` explicitly fixes the tier and hides that choice, so the host can only continue with the tier you
                 requested. Omit it to let the host choose. Default: CreateConnectionBodyAccessType.FULL_ACCESS.
-            api_key (str | Unset): PMS providers — API key.
+            state (str | Unset): Airbnb + Booking.com — your own correlation token, e.g. your user id (at most 500
+                characters). Echoed on the redirect back (`&state=`) and in the `connect.session.completed` webhook.
             client_id (str | Unset): Plumguide — client ID.
             client_secret (str | Unset): Plumguide — client secret.
             locale (None | str | Unset): Airbnb only — optional UI language for the hosted Connect pages. Accepts any
@@ -45,7 +46,7 @@ class CreateConnectionBody:
 
     redirect_url: str | Unset = UNSET
     access_type: CreateConnectionBodyAccessType | Unset = CreateConnectionBodyAccessType.FULL_ACCESS
-    api_key: str | Unset = UNSET
+    state: str | Unset = UNSET
     client_id: str | Unset = UNSET
     client_secret: str | Unset = UNSET
     locale: None | str | Unset = UNSET
@@ -63,7 +64,7 @@ class CreateConnectionBody:
             access_type = self.access_type.value
 
 
-        api_key = self.api_key
+        state = self.state
 
         client_id = self.client_id
 
@@ -84,8 +85,8 @@ class CreateConnectionBody:
             field_dict["redirectUrl"] = redirect_url
         if access_type is not UNSET:
             field_dict["accessType"] = access_type
-        if api_key is not UNSET:
-            field_dict["apiKey"] = api_key
+        if state is not UNSET:
+            field_dict["state"] = state
         if client_id is not UNSET:
             field_dict["clientId"] = client_id
         if client_secret is not UNSET:
@@ -112,7 +113,7 @@ class CreateConnectionBody:
 
 
 
-        api_key = d.pop("apiKey", UNSET)
+        state = d.pop("state", UNSET)
 
         client_id = d.pop("clientId", UNSET)
 
@@ -131,7 +132,7 @@ class CreateConnectionBody:
         create_connection_body = cls(
             redirect_url=redirect_url,
             access_type=access_type,
-            api_key=api_key,
+            state=state,
             client_id=client_id,
             client_secret=client_secret,
             locale=locale,

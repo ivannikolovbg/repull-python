@@ -6,6 +6,7 @@ class WebhookEventType(str, Enum):
     AI_OPERATION_COMPLETED = "ai.operation.completed"
     AI_OPERATION_FAILED = "ai.operation.failed"
     CALENDAR_UPDATED = "calendar.updated"
+    CONNECT_SESSION_COMPLETED = "connect.session.completed"
     INQUIRY_CREATED = "inquiry.created"
     INQUIRY_UPDATED = "inquiry.updated"
     LISTING_CREATED = "listing.created"

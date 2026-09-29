@@ -16,6 +16,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.listing_amenity import ListingAmenity
+  from ..models.record_account_type_0 import RecordAccountType0
 
 
 
@@ -37,10 +38,12 @@ class Property:
 
     An **inactive** property (`status: inactive`) appears only in the list endpoint, and only when
     `?status=inactive|all` asks for it. Such a row carries identity fields only — `id`, `name`, `status`,
-    `lifecycleStatus`, `channels`, `updatedAt` — so every other field is absent until the property is activated. Every
-    other endpoint answers `403 listing_inactive` for it.
+    `lifecycleStatus`, `channels`, `accounts`, `updatedAt` — so every other field is absent until the property is
+    activated. Every other endpoint answers `403 listing_inactive` for it.
 
         Attributes:
+            accounts (list[None | RecordAccountType0] | Unset): The connected account the property belongs to on each
+                channel it is on. List endpoint.
             id (str | Unset): Internal Repull property ID. Equal to the listing id (`listings.id`); the same integer is used
                 as `listingId` on reservations and `propertyId` on availability.
             name (str | Unset): Property name Example: Oceanview Suite #3.
@@ -61,6 +64,7 @@ class Property:
                 present when the caller passes `?include=amenities`.** Empty array (`[]`) when the property has no amenity rows.
      """
 
+    accounts: list[None | RecordAccountType0] | Unset = UNSET
     id: str | Unset = UNSET
     name: str | Unset = UNSET
     address: None | str | Unset = UNSET
@@ -82,6 +86,20 @@ class Property:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_amenity import ListingAmenity
+        from ..models.record_account_type_0 import RecordAccountType0
+        accounts: list[dict[str, Any] | None] | Unset = UNSET
+        if not isinstance(self.accounts, Unset):
+            accounts = []
+            for accounts_item_data in self.accounts:
+                accounts_item: dict[str, Any] | None
+                if isinstance(accounts_item_data, RecordAccountType0):
+                    accounts_item = accounts_item_data.to_dict()
+                else:
+                    accounts_item = accounts_item_data
+                accounts.append(accounts_item)
+
+
+
         id = self.id
 
         name = self.name
@@ -155,6 +173,8 @@ class Property:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if accounts is not UNSET:
+            field_dict["accounts"] = accounts
         if id is not UNSET:
             field_dict["id"] = id
         if name is not UNSET:
@@ -189,7 +209,33 @@ class Property:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_amenity import ListingAmenity
+        from ..models.record_account_type_0 import RecordAccountType0
         d = dict(src_dict)
+        _accounts = d.pop("accounts", UNSET)
+        accounts: list[None | RecordAccountType0] | Unset = UNSET
+        if _accounts is not UNSET:
+            accounts = []
+            for accounts_item_data in _accounts:
+                def _parse_accounts_item(data: object) -> None | RecordAccountType0:
+                    if data is None:
+                        return data
+                    try:
+                        if not isinstance(data, dict):
+                            raise TypeError()
+                        componentsschemas_record_account_type_0 = RecordAccountType0.from_dict(data)
+
+
+
+                        return componentsschemas_record_account_type_0
+                    except (TypeError, ValueError, AttributeError, KeyError):
+                        pass
+                    return cast(None | RecordAccountType0, data)
+
+                accounts_item = _parse_accounts_item(accounts_item_data)
+
+                accounts.append(accounts_item)
+
+
         id = d.pop("id", UNSET)
 
         name = d.pop("name", UNSET)
@@ -300,6 +346,7 @@ class Property:
 
 
         property_ = cls(
+            accounts=accounts,
             id=id,
             name=name,
             address=address,

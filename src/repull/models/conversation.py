@@ -15,6 +15,8 @@ from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.record_account_type_0 import RecordAccountType0
 
 
 
@@ -30,6 +32,9 @@ class Conversation:
     `id` is the internal Repull thread id (integer) — pass it back as the `{id}` path param on detail / messages calls.
 
         Attributes:
+            account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
+                webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
+                and events to the same user. `null` when it cannot be resolved (never guessed).
             id (str | Unset):
             platform (ConversationPlatform | Unset):  Example: airbnb.
             external_thread_id (None | str | Unset): The source channel's own thread id (Airbnb thread id, Booking
@@ -50,6 +55,7 @@ class Conversation:
             updated_at (datetime.datetime | Unset):
      """
 
+    account: None | RecordAccountType0 | Unset = UNSET
     id: str | Unset = UNSET
     platform: ConversationPlatform | Unset = UNSET
     external_thread_id: None | str | Unset = UNSET
@@ -70,6 +76,15 @@ class Conversation:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.record_account_type_0 import RecordAccountType0
+        account: dict[str, Any] | None | Unset
+        if isinstance(self.account, Unset):
+            account = UNSET
+        elif isinstance(self.account, RecordAccountType0):
+            account = self.account.to_dict()
+        else:
+            account = self.account
+
         id = self.id
 
         platform: str | Unset = UNSET
@@ -141,6 +156,8 @@ class Conversation:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if account is not UNSET:
+            field_dict["account"] = account
         if id is not UNSET:
             field_dict["id"] = id
         if platform is not UNSET:
@@ -174,7 +191,28 @@ class Conversation:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.record_account_type_0 import RecordAccountType0
         d = dict(src_dict)
+        def _parse_account(data: object) -> None | RecordAccountType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_record_account_type_0 = RecordAccountType0.from_dict(data)
+
+
+
+                return componentsschemas_record_account_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | RecordAccountType0 | Unset, data)
+
+        account = _parse_account(d.pop("account", UNSET))
+
+
         id = d.pop("id", UNSET)
 
         _platform = d.pop("platform", UNSET)
@@ -300,6 +338,7 @@ class Conversation:
 
 
         conversation = cls(
+            account=account,
             id=id,
             platform=platform,
             external_thread_id=external_thread_id,

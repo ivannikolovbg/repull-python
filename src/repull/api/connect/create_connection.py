@@ -91,7 +91,9 @@ def sync_detailed(
     user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
     response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
+    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
+    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
+    /v1/connect`.
 
     Args:
         provider (str):
@@ -142,7 +144,9 @@ def sync(
     user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
     response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
+    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
+    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
+    /v1/connect`.
 
     Args:
         provider (str):
@@ -188,7 +192,9 @@ async def asyncio_detailed(
     user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
     response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
+    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
+    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
+    /v1/connect`.
 
     Args:
         provider (str):
@@ -239,7 +245,9 @@ async def asyncio(
     user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
     response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    PMS providers (api-key based) pass `apiKey` instead; Plumguide passes `clientId`/`clientSecret`.
+    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
+    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
+    /v1/connect`.
 
     Args:
         provider (str):

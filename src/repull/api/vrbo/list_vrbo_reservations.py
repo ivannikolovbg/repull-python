@@ -85,8 +85,9 @@ def sync_detailed(
 ) -> Response[VrboReservationListResponse]:
     """ List VRBO reservations
 
-     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
-    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+     Cursor-paginated list of Vrbo reservations imported from the host's connected Vrbo account (host
+    sign-in, beta). The full normalised record — guest, price breakdown, policy — is on `GET
+    /v1/reservations?platform=vrbo`. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
 
     Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
@@ -132,8 +133,9 @@ def sync(
 ) -> VrboReservationListResponse | None:
     """ List VRBO reservations
 
-     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
-    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+     Cursor-paginated list of Vrbo reservations imported from the host's connected Vrbo account (host
+    sign-in, beta). The full normalised record — guest, price breakdown, policy — is on `GET
+    /v1/reservations?platform=vrbo`. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
 
     Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
@@ -174,8 +176,9 @@ async def asyncio_detailed(
 ) -> Response[VrboReservationListResponse]:
     """ List VRBO reservations
 
-     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
-    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+     Cursor-paginated list of Vrbo reservations imported from the host's connected Vrbo account (host
+    sign-in, beta). The full normalised record — guest, price breakdown, policy — is on `GET
+    /v1/reservations?platform=vrbo`. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
 
     Reservations on inactive listings are left out (counts and cursors included); they keep syncing and
@@ -221,8 +224,9 @@ async def asyncio(
 ) -> VrboReservationListResponse | None:
     """ List VRBO reservations
 
-     Cursor-paginated list of VRBO reservations sourced from the public booking feed. Lag is typically
-    5-10 minutes vs. Airbnb / Booking.com. `?offset=` is accepted as a first-class alias for `?cursor=`
+     Cursor-paginated list of Vrbo reservations imported from the host's connected Vrbo account (host
+    sign-in, beta). The full normalised record — guest, price breakdown, policy — is on `GET
+    /v1/reservations?platform=vrbo`. `?offset=` is accepted as a first-class alias for `?cursor=`
     (mutually exclusive; offset capped at 10000).
 
     Reservations on inactive listings are left out (counts and cursors included); they keep syncing and

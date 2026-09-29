@@ -16,6 +16,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.record_account_type_0 import RecordAccountType0
   from ..models.review_category import ReviewCategory
   from ..models.review_response import ReviewResponse
 
@@ -33,6 +34,9 @@ class Review:
     every channel's reviews once they have been imported.
 
         Attributes:
+            account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
+                webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
+                and events to the same user. `null` when it cannot be resolved (never guessed).
             id (str | Unset): Internal Repull review id — pass back to `/v1/reviews/{id}`.
             external_id (str | Unset): ID in the source channel (Airbnb review id, Booking review id, etc.). Pass as
                 `review_id` to the provider reply endpoint.
@@ -66,6 +70,7 @@ class Review:
             language (None | str | Unset): Detected language (ISO 639-1) of the review body.
      """
 
+    account: None | RecordAccountType0 | Unset = UNSET
     id: str | Unset = UNSET
     external_id: str | Unset = UNSET
     platform: ReviewPlatform | Unset = UNSET
@@ -95,8 +100,17 @@ class Review:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.record_account_type_0 import RecordAccountType0
         from ..models.review_category import ReviewCategory
         from ..models.review_response import ReviewResponse
+        account: dict[str, Any] | None | Unset
+        if isinstance(self.account, Unset):
+            account = UNSET
+        elif isinstance(self.account, RecordAccountType0):
+            account = self.account.to_dict()
+        else:
+            account = self.account
+
         id = self.id
 
         external_id = self.external_id
@@ -231,6 +245,8 @@ class Review:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if account is not UNSET:
+            field_dict["account"] = account
         if id is not UNSET:
             field_dict["id"] = id
         if external_id is not UNSET:
@@ -282,9 +298,30 @@ class Review:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.record_account_type_0 import RecordAccountType0
         from ..models.review_category import ReviewCategory
         from ..models.review_response import ReviewResponse
         d = dict(src_dict)
+        def _parse_account(data: object) -> None | RecordAccountType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_record_account_type_0 = RecordAccountType0.from_dict(data)
+
+
+
+                return componentsschemas_record_account_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | RecordAccountType0 | Unset, data)
+
+        account = _parse_account(d.pop("account", UNSET))
+
+
         id = d.pop("id", UNSET)
 
         external_id = d.pop("externalId", UNSET)
@@ -524,6 +561,7 @@ class Review:
 
 
         review = cls(
+            account=account,
             id=id,
             external_id=external_id,
             platform=platform,
