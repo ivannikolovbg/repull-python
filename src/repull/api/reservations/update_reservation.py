@@ -21,11 +21,15 @@ def _get_kwargs(
     *,
     body: ReservationUpdateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(idempotency_key, Unset):
         headers["Idempotency-Key"] = idempotency_key
+
+    if not isinstance(x_account_id, Unset):
+        headers["X-Account-Id"] = x_account_id
 
 
 
@@ -77,6 +81,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+
+
+        return response_409
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -90,6 +101,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
         return response_500
+
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -112,14 +130,27 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: ReservationUpdateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ReservationUpdateResponse]:
     """ Update a reservation
 
-     Changes the dates, the occupancy, or the unit. Drives the same command path the dashboard does, so
-    the side effects come with it: the change audit is appended, bound task due dates re-sync, the old
-    calendar dates unblock and the new ones block, the conversation's cached listing is invalidated, and
-    `reservation.updated` fires — which is what revokes and re-issues the door code.
+     Changes the dates, the occupancy, or the unit.
+
+    **A stay managed in a connected PMS is changed in the PMS first**, then Repull's copy is refreshed
+    from the PMS's record — changing only Repull's copy would be reverted by the next sync. On such a
+    stay, `checkIn`, `checkOut` and `guestCount` are changed; moving it to another listing and changing
+    its check-in/check-out times are done in the PMS (`422 pms_write_unsupported`), as is anything the
+    PMS's API cannot change (for example dates on Smoobu). A channel booking that came in through the
+    PMS (Airbnb, Booking.com, …) is changed on the channel (`409 reservation_owned_by_channel`). The PMS
+    checks availability: taken dates answer `409 pms_unavailable`. The PMS's outcome comes back as
+    `pms`. `GET /v1/listings/{id}` → `capabilities.reservations.modify` says whether a listing's PMS
+    supports changes.
+
+    **Any other stay** drives the same command path the dashboard does, so the side effects come with
+    it: the change audit is appended, bound task due dates re-sync, the old calendar dates unblock and
+    the new ones block, the conversation's cached listing is invalidated, and `reservation.updated`
+    fires — which is what revokes and re-issues the door code.
 
     Supply at least one field; an empty body returns 422 rather than a 200 that changed nothing.
 
@@ -142,15 +173,17 @@ def sync_detailed(
     | `platform` | Immutable: it records where the booking actually originated. |
     | `notes` | `internal_notes` is an append-only audit trail the system writes on every change. |
 
-    **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
-    `GET /v1/availability/{propertyId}` first if that matters.
+    **Availability is NOT checked for stays outside a PMS.** A date change that overlaps another booking
+    will be written. Call `GET /v1/availability/{propertyId}` first if that matters.
 
+    `X-Account-Id` restricts the reservation (and a listing it is moved to) to one connected account.
     Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
     move targets one; nothing is changed.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (ReservationUpdateRequest): At least one field is required. Guest identity, pricing,
             `status`, `platform` and notes are rejected by name — see the operation description for
             why each is excluded.
@@ -168,6 +201,7 @@ def sync_detailed(
         id=id,
 body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )
 
@@ -183,14 +217,27 @@ def sync(
     client: AuthenticatedClient | Client,
     body: ReservationUpdateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Error | ReservationUpdateResponse | None:
     """ Update a reservation
 
-     Changes the dates, the occupancy, or the unit. Drives the same command path the dashboard does, so
-    the side effects come with it: the change audit is appended, bound task due dates re-sync, the old
-    calendar dates unblock and the new ones block, the conversation's cached listing is invalidated, and
-    `reservation.updated` fires — which is what revokes and re-issues the door code.
+     Changes the dates, the occupancy, or the unit.
+
+    **A stay managed in a connected PMS is changed in the PMS first**, then Repull's copy is refreshed
+    from the PMS's record — changing only Repull's copy would be reverted by the next sync. On such a
+    stay, `checkIn`, `checkOut` and `guestCount` are changed; moving it to another listing and changing
+    its check-in/check-out times are done in the PMS (`422 pms_write_unsupported`), as is anything the
+    PMS's API cannot change (for example dates on Smoobu). A channel booking that came in through the
+    PMS (Airbnb, Booking.com, …) is changed on the channel (`409 reservation_owned_by_channel`). The PMS
+    checks availability: taken dates answer `409 pms_unavailable`. The PMS's outcome comes back as
+    `pms`. `GET /v1/listings/{id}` → `capabilities.reservations.modify` says whether a listing's PMS
+    supports changes.
+
+    **Any other stay** drives the same command path the dashboard does, so the side effects come with
+    it: the change audit is appended, bound task due dates re-sync, the old calendar dates unblock and
+    the new ones block, the conversation's cached listing is invalidated, and `reservation.updated`
+    fires — which is what revokes and re-issues the door code.
 
     Supply at least one field; an empty body returns 422 rather than a 200 that changed nothing.
 
@@ -213,15 +260,17 @@ def sync(
     | `platform` | Immutable: it records where the booking actually originated. |
     | `notes` | `internal_notes` is an append-only audit trail the system writes on every change. |
 
-    **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
-    `GET /v1/availability/{propertyId}` first if that matters.
+    **Availability is NOT checked for stays outside a PMS.** A date change that overlaps another booking
+    will be written. Call `GET /v1/availability/{propertyId}` first if that matters.
 
+    `X-Account-Id` restricts the reservation (and a listing it is moved to) to one connected account.
     Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
     move targets one; nothing is changed.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (ReservationUpdateRequest): At least one field is required. Guest identity, pricing,
             `status`, `platform` and notes are rejected by name — see the operation description for
             why each is excluded.
@@ -240,6 +289,7 @@ def sync(
 client=client,
 body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     ).parsed
 
@@ -249,14 +299,27 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: ReservationUpdateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ReservationUpdateResponse]:
     """ Update a reservation
 
-     Changes the dates, the occupancy, or the unit. Drives the same command path the dashboard does, so
-    the side effects come with it: the change audit is appended, bound task due dates re-sync, the old
-    calendar dates unblock and the new ones block, the conversation's cached listing is invalidated, and
-    `reservation.updated` fires — which is what revokes and re-issues the door code.
+     Changes the dates, the occupancy, or the unit.
+
+    **A stay managed in a connected PMS is changed in the PMS first**, then Repull's copy is refreshed
+    from the PMS's record — changing only Repull's copy would be reverted by the next sync. On such a
+    stay, `checkIn`, `checkOut` and `guestCount` are changed; moving it to another listing and changing
+    its check-in/check-out times are done in the PMS (`422 pms_write_unsupported`), as is anything the
+    PMS's API cannot change (for example dates on Smoobu). A channel booking that came in through the
+    PMS (Airbnb, Booking.com, …) is changed on the channel (`409 reservation_owned_by_channel`). The PMS
+    checks availability: taken dates answer `409 pms_unavailable`. The PMS's outcome comes back as
+    `pms`. `GET /v1/listings/{id}` → `capabilities.reservations.modify` says whether a listing's PMS
+    supports changes.
+
+    **Any other stay** drives the same command path the dashboard does, so the side effects come with
+    it: the change audit is appended, bound task due dates re-sync, the old calendar dates unblock and
+    the new ones block, the conversation's cached listing is invalidated, and `reservation.updated`
+    fires — which is what revokes and re-issues the door code.
 
     Supply at least one field; an empty body returns 422 rather than a 200 that changed nothing.
 
@@ -279,15 +342,17 @@ async def asyncio_detailed(
     | `platform` | Immutable: it records where the booking actually originated. |
     | `notes` | `internal_notes` is an append-only audit trail the system writes on every change. |
 
-    **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
-    `GET /v1/availability/{propertyId}` first if that matters.
+    **Availability is NOT checked for stays outside a PMS.** A date change that overlaps another booking
+    will be written. Call `GET /v1/availability/{propertyId}` first if that matters.
 
+    `X-Account-Id` restricts the reservation (and a listing it is moved to) to one connected account.
     Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
     move targets one; nothing is changed.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (ReservationUpdateRequest): At least one field is required. Guest identity, pricing,
             `status`, `platform` and notes are rejected by name — see the operation description for
             why each is excluded.
@@ -305,6 +370,7 @@ async def asyncio_detailed(
         id=id,
 body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )
 
@@ -320,14 +386,27 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: ReservationUpdateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Error | ReservationUpdateResponse | None:
     """ Update a reservation
 
-     Changes the dates, the occupancy, or the unit. Drives the same command path the dashboard does, so
-    the side effects come with it: the change audit is appended, bound task due dates re-sync, the old
-    calendar dates unblock and the new ones block, the conversation's cached listing is invalidated, and
-    `reservation.updated` fires — which is what revokes and re-issues the door code.
+     Changes the dates, the occupancy, or the unit.
+
+    **A stay managed in a connected PMS is changed in the PMS first**, then Repull's copy is refreshed
+    from the PMS's record — changing only Repull's copy would be reverted by the next sync. On such a
+    stay, `checkIn`, `checkOut` and `guestCount` are changed; moving it to another listing and changing
+    its check-in/check-out times are done in the PMS (`422 pms_write_unsupported`), as is anything the
+    PMS's API cannot change (for example dates on Smoobu). A channel booking that came in through the
+    PMS (Airbnb, Booking.com, …) is changed on the channel (`409 reservation_owned_by_channel`). The PMS
+    checks availability: taken dates answer `409 pms_unavailable`. The PMS's outcome comes back as
+    `pms`. `GET /v1/listings/{id}` → `capabilities.reservations.modify` says whether a listing's PMS
+    supports changes.
+
+    **Any other stay** drives the same command path the dashboard does, so the side effects come with
+    it: the change audit is appended, bound task due dates re-sync, the old calendar dates unblock and
+    the new ones block, the conversation's cached listing is invalidated, and `reservation.updated`
+    fires — which is what revokes and re-issues the door code.
 
     Supply at least one field; an empty body returns 422 rather than a 200 that changed nothing.
 
@@ -350,15 +429,17 @@ async def asyncio(
     | `platform` | Immutable: it records where the booking actually originated. |
     | `notes` | `internal_notes` is an append-only audit trail the system writes on every change. |
 
-    **Availability is NOT checked.** A date change that overlaps another booking will be written. Call
-    `GET /v1/availability/{propertyId}` first if that matters.
+    **Availability is NOT checked for stays outside a PMS.** A date change that overlaps another booking
+    will be written. Call `GET /v1/availability/{propertyId}` first if that matters.
 
+    `X-Account-Id` restricts the reservation (and a listing it is moved to) to one connected account.
     Returns `403 listing_inactive` when the reservation is on an inactive listing, or when a `listingId`
     move targets one; nothing is changed.
 
     Args:
         id (int):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (ReservationUpdateRequest): At least one field is required. Guest identity, pricing,
             `status`, `platform` and notes are rejected by name — see the operation description for
             why each is excluded.
@@ -377,5 +458,6 @@ async def asyncio(
 client=client,
 body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )).parsed

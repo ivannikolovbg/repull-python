@@ -9,7 +9,8 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.error import Error
-from ...types import UNSET, Unset
+from ...models.update_airbnb_checkin_guide_body import UpdateAirbnbCheckinGuideBody
+from ...models.update_airbnb_checkin_guide_response_200 import UpdateAirbnbCheckinGuideResponse200
 from typing import cast
 
 
@@ -17,35 +18,37 @@ from typing import cast
 def _get_kwargs(
     id: str,
     *,
-    locale: str | Unset = 'en',
+    body: UpdateAirbnbCheckinGuideBody,
 
 ) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+
+
     
 
     
-
-    params: dict[str, Any] = {}
-
-    params["locale"] = locale
-
-
-    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
-
 
     _kwargs: dict[str, Any] = {
         "method": "put",
         "url": "/v1/channels/airbnb/listings/{id}/checkin-guide".format(id=quote(str(id), safe=""),),
-        "params": params,
     }
 
+    _kwargs["json"] = body.to_dict()
 
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
     return _kwargs
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Error | UpdateAirbnbCheckinGuideResponse200 | None:
     if response.status_code == 200:
-        response_200 = cast(Any, None)
+        response_200 = UpdateAirbnbCheckinGuideResponse200.from_dict(response.json())
+
+
+
         return response_200
 
     if response.status_code == 401:
@@ -103,7 +106,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Error | UpdateAirbnbCheckinGuideResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -116,35 +119,45 @@ def sync_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    locale: str | Unset = 'en',
+    body: UpdateAirbnbCheckinGuideBody,
 
-) -> Response[Any | Error]:
-    """ Upsert Airbnb check-in guide
+) -> Response[Error | UpdateAirbnbCheckinGuideResponse200]:
+    r""" Replace the steps of an Airbnb check-in guide
 
-     Upsert the check-in guide for one locale on an Airbnb listing. **Write-side** — calls Airbnb
-    upstream; the DB mirror is reconciled by the sync worker once the upstream call returns. Target the
-    locale with `?locale=en` (defaults to `en`). Requires a connected Airbnb host, else `404
-    no_connection`.
+     Write the check-in guide guests see before arrival: an ordered list of text steps. **Replaces**
+    every existing step, so send the whole guide; `{\"steps\": []}` removes them all. The response is
+    the guide re-read from Airbnb after the write.
+
+    If the listing has no guide yet, one is created in `locale` (default: the existing guide's, else
+    `en`).
+
+    Safe on failure: the new steps are created before the old ones are removed, and if a create fails
+    the steps this call added are removed again, so the guide is never left emptier than it was.
+
+    Text steps only. Steps with photos need Airbnb's media upload and are not supported here yet. For
+    the other arrival details use `PUT /v1/channels/airbnb/listings/{id}/details`:
+    `check_in_option.instruction` (arrival instructions), `house_manual`, `directions`, `wifi_network`,
+    `wifi_password`.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        locale (str | Unset):  Default: 'en'.
+        body (UpdateAirbnbCheckinGuideBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | UpdateAirbnbCheckinGuideResponse200]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
-locale=locale,
+body=body,
 
     )
 
@@ -158,36 +171,46 @@ def sync(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    locale: str | Unset = 'en',
+    body: UpdateAirbnbCheckinGuideBody,
 
-) -> Any | Error | None:
-    """ Upsert Airbnb check-in guide
+) -> Error | UpdateAirbnbCheckinGuideResponse200 | None:
+    r""" Replace the steps of an Airbnb check-in guide
 
-     Upsert the check-in guide for one locale on an Airbnb listing. **Write-side** — calls Airbnb
-    upstream; the DB mirror is reconciled by the sync worker once the upstream call returns. Target the
-    locale with `?locale=en` (defaults to `en`). Requires a connected Airbnb host, else `404
-    no_connection`.
+     Write the check-in guide guests see before arrival: an ordered list of text steps. **Replaces**
+    every existing step, so send the whole guide; `{\"steps\": []}` removes them all. The response is
+    the guide re-read from Airbnb after the write.
+
+    If the listing has no guide yet, one is created in `locale` (default: the existing guide's, else
+    `en`).
+
+    Safe on failure: the new steps are created before the old ones are removed, and if a create fails
+    the steps this call added are removed again, so the guide is never left emptier than it was.
+
+    Text steps only. Steps with photos need Airbnb's media upload and are not supported here yet. For
+    the other arrival details use `PUT /v1/channels/airbnb/listings/{id}/details`:
+    `check_in_option.instruction` (arrival instructions), `house_manual`, `directions`, `wifi_network`,
+    `wifi_password`.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        locale (str | Unset):  Default: 'en'.
+        body (UpdateAirbnbCheckinGuideBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | UpdateAirbnbCheckinGuideResponse200
      """
 
 
     return sync_detailed(
         id=id,
 client=client,
-locale=locale,
+body=body,
 
     ).parsed
 
@@ -195,35 +218,45 @@ async def asyncio_detailed(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    locale: str | Unset = 'en',
+    body: UpdateAirbnbCheckinGuideBody,
 
-) -> Response[Any | Error]:
-    """ Upsert Airbnb check-in guide
+) -> Response[Error | UpdateAirbnbCheckinGuideResponse200]:
+    r""" Replace the steps of an Airbnb check-in guide
 
-     Upsert the check-in guide for one locale on an Airbnb listing. **Write-side** — calls Airbnb
-    upstream; the DB mirror is reconciled by the sync worker once the upstream call returns. Target the
-    locale with `?locale=en` (defaults to `en`). Requires a connected Airbnb host, else `404
-    no_connection`.
+     Write the check-in guide guests see before arrival: an ordered list of text steps. **Replaces**
+    every existing step, so send the whole guide; `{\"steps\": []}` removes them all. The response is
+    the guide re-read from Airbnb after the write.
+
+    If the listing has no guide yet, one is created in `locale` (default: the existing guide's, else
+    `en`).
+
+    Safe on failure: the new steps are created before the old ones are removed, and if a create fails
+    the steps this call added are removed again, so the guide is never left emptier than it was.
+
+    Text steps only. Steps with photos need Airbnb's media upload and are not supported here yet. For
+    the other arrival details use `PUT /v1/channels/airbnb/listings/{id}/details`:
+    `check_in_option.instruction` (arrival instructions), `house_manual`, `directions`, `wifi_network`,
+    `wifi_password`.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        locale (str | Unset):  Default: 'en'.
+        body (UpdateAirbnbCheckinGuideBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | Error]
+        Response[Error | UpdateAirbnbCheckinGuideResponse200]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
-locale=locale,
+body=body,
 
     )
 
@@ -237,35 +270,45 @@ async def asyncio(
     id: str,
     *,
     client: AuthenticatedClient | Client,
-    locale: str | Unset = 'en',
+    body: UpdateAirbnbCheckinGuideBody,
 
-) -> Any | Error | None:
-    """ Upsert Airbnb check-in guide
+) -> Error | UpdateAirbnbCheckinGuideResponse200 | None:
+    r""" Replace the steps of an Airbnb check-in guide
 
-     Upsert the check-in guide for one locale on an Airbnb listing. **Write-side** — calls Airbnb
-    upstream; the DB mirror is reconciled by the sync worker once the upstream call returns. Target the
-    locale with `?locale=en` (defaults to `en`). Requires a connected Airbnb host, else `404
-    no_connection`.
+     Write the check-in guide guests see before arrival: an ordered list of text steps. **Replaces**
+    every existing step, so send the whole guide; `{\"steps\": []}` removes them all. The response is
+    the guide re-read from Airbnb after the write.
+
+    If the listing has no guide yet, one is created in `locale` (default: the existing guide's, else
+    `en`).
+
+    Safe on failure: the new steps are created before the old ones are removed, and if a create fails
+    the steps this call added are removed again, so the guide is never left emptier than it was.
+
+    Text steps only. Steps with photos need Airbnb's media upload and are not supported here yet. For
+    the other arrival details use `PUT /v1/channels/airbnb/listings/{id}/details`:
+    `check_in_option.instruction` (arrival instructions), `house_manual`, `directions`, `wifi_network`,
+    `wifi_password`.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
     Args:
         id (str):
-        locale (str | Unset):  Default: 'en'.
+        body (UpdateAirbnbCheckinGuideBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | Error
+        Error | UpdateAirbnbCheckinGuideResponse200
      """
 
 
     return (await asyncio_detailed(
         id=id,
 client=client,
-locale=locale,
+body=body,
 
     )).parsed

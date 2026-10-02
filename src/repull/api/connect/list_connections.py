@@ -60,9 +60,28 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[ConnectionListResponse]:
-    """ List PMS/OTA connections
+    r""" List PMS/OTA connections
 
-     Returns all active connections to PMS and OTA platforms.
+     Returns every PMS and OTA connection in the workspace, each with its `status`.
+
+    **Spot connections that need attention.** A connection whose `status` is not `active` may need the
+    host to do something before it works — most commonly a Booking.com Extranet connection where the
+    invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
+    still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
+    `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
+    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
+    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
+    screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
+    dashboard.
+
+    **Self-serve repair:** when `action.required` is true, surface a \"Fix\" button that opens `fixUrl`
+    in a new tab (or embed it). The host resolves the issue (e.g. grants the user full access in
+    Booking.com) and clicks Re-check; the import finishes on its own and the connection flips back to
+    `active` — no re-invite, no support ticket. Poll this endpoint (or read it after the host returns)
+    to confirm `action` has cleared.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,9 +107,28 @@ def sync(
     client: AuthenticatedClient | Client,
 
 ) -> ConnectionListResponse | None:
-    """ List PMS/OTA connections
+    r""" List PMS/OTA connections
 
-     Returns all active connections to PMS and OTA platforms.
+     Returns every PMS and OTA connection in the workspace, each with its `status`.
+
+    **Spot connections that need attention.** A connection whose `status` is not `active` may need the
+    host to do something before it works — most commonly a Booking.com Extranet connection where the
+    invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
+    still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
+    `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
+    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
+    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
+    screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
+    dashboard.
+
+    **Self-serve repair:** when `action.required` is true, surface a \"Fix\" button that opens `fixUrl`
+    in a new tab (or embed it). The host resolves the issue (e.g. grants the user full access in
+    Booking.com) and clicks Re-check; the import finishes on its own and the connection flips back to
+    `active` — no re-invite, no support ticket. Poll this endpoint (or read it after the host returns)
+    to confirm `action` has cleared.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -111,9 +149,28 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[ConnectionListResponse]:
-    """ List PMS/OTA connections
+    r""" List PMS/OTA connections
 
-     Returns all active connections to PMS and OTA platforms.
+     Returns every PMS and OTA connection in the workspace, each with its `status`.
+
+    **Spot connections that need attention.** A connection whose `status` is not `active` may need the
+    host to do something before it works — most commonly a Booking.com Extranet connection where the
+    invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
+    still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
+    `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
+    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
+    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
+    screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
+    dashboard.
+
+    **Self-serve repair:** when `action.required` is true, surface a \"Fix\" button that opens `fixUrl`
+    in a new tab (or embed it). The host resolves the issue (e.g. grants the user full access in
+    Booking.com) and clicks Re-check; the import finishes on its own and the connection flips back to
+    `active` — no re-invite, no support ticket. Poll this endpoint (or read it after the host returns)
+    to confirm `action` has cleared.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,9 +196,28 @@ async def asyncio(
     client: AuthenticatedClient | Client,
 
 ) -> ConnectionListResponse | None:
-    """ List PMS/OTA connections
+    r""" List PMS/OTA connections
 
-     Returns all active connections to PMS and OTA platforms.
+     Returns every PMS and OTA connection in the workspace, each with its `status`.
+
+    **Spot connections that need attention.** A connection whose `status` is not `active` may need the
+    host to do something before it works — most commonly a Booking.com Extranet connection where the
+    invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
+    still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
+    `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
+    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
+    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
+    screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
+    dashboard.
+
+    **Self-serve repair:** when `action.required` is true, surface a \"Fix\" button that opens `fixUrl`
+    in a new tab (or embed it). The host resolves the issue (e.g. grants the user full access in
+    Booking.com) and clicks Re-check; the import finishes on its own and the connection flips back to
+    `active` — no re-invite, no support ticket. Poll this endpoint (or read it after the host returns)
+    to confirm `action` has cleared.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

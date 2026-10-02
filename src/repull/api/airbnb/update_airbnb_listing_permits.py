@@ -135,9 +135,10 @@ def sync_detailed(
 
     Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
     `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
-    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
-    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
-    inferred, because a wrong licence number can take a listing down in a regulated city.
+    let the question's `type` decide the value field — `<type>_value`: `text_value`,
+    `attestation_value`, `radio_value`, `dropdown_value`, `email_value`, `future_date_value`,
+    `file_upload_value`, and so on. Answers are forwarded verbatim — nothing is defaulted or inferred,
+    because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
@@ -145,6 +146,13 @@ def sync_detailed(
     Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
+
+    **Changing and removing answers.** Airbnb has no call that deletes or withdraws a submitted
+    registration, so neither does Repull, and at least one permit is required. To change an answer
+    Airbnb marks `answer_editable`, submit the flow again with the new answers — the latest submission
+    replaces the previous one. When a submission fails with status `failed_recoverable`, fix it and
+    submit again; `failed` cannot be resubmitted. Hosts can also manage this at airbnb.com/verify-
+    listing/{listing_id}.
 
     Args:
         id (str):
@@ -194,9 +202,10 @@ def sync(
 
     Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
     `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
-    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
-    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
-    inferred, because a wrong licence number can take a listing down in a regulated city.
+    let the question's `type` decide the value field — `<type>_value`: `text_value`,
+    `attestation_value`, `radio_value`, `dropdown_value`, `email_value`, `future_date_value`,
+    `file_upload_value`, and so on. Answers are forwarded verbatim — nothing is defaulted or inferred,
+    because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
@@ -204,6 +213,13 @@ def sync(
     Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
+
+    **Changing and removing answers.** Airbnb has no call that deletes or withdraws a submitted
+    registration, so neither does Repull, and at least one permit is required. To change an answer
+    Airbnb marks `answer_editable`, submit the flow again with the new answers — the latest submission
+    replaces the previous one. When a submission fails with status `failed_recoverable`, fix it and
+    submit again; `failed` cannot be resubmitted. Hosts can also manage this at airbnb.com/verify-
+    listing/{listing_id}.
 
     Args:
         id (str):
@@ -248,9 +264,10 @@ async def asyncio_detailed(
 
     Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
     `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
-    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
-    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
-    inferred, because a wrong licence number can take a listing down in a regulated city.
+    let the question's `type` decide the value field — `<type>_value`: `text_value`,
+    `attestation_value`, `radio_value`, `dropdown_value`, `email_value`, `future_date_value`,
+    `file_upload_value`, and so on. Answers are forwarded verbatim — nothing is defaulted or inferred,
+    because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
@@ -258,6 +275,13 @@ async def asyncio_detailed(
     Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
+
+    **Changing and removing answers.** Airbnb has no call that deletes or withdraws a submitted
+    registration, so neither does Repull, and at least one permit is required. To change an answer
+    Airbnb marks `answer_editable`, submit the flow again with the new answers — the latest submission
+    replaces the previous one. When a submission fails with status `failed_recoverable`, fix it and
+    submit again; `failed` cannot be resubmitted. Hosts can also manage this at airbnb.com/verify-
+    listing/{listing_id}.
 
     Args:
         id (str):
@@ -307,9 +331,10 @@ async def asyncio(
 
     Read the questions first with `GET …/permits?source=live`. For each permit, pick one of its
     `flows[]` and send its `slug` as `flow_slug`; key every answer by the question's `answer_key`, and
-    let the question's `type` decide the value field (`text_value`, `attestation_value`, `radio_value`,
-    `date_value` or `selected_options_value`). Answers are forwarded verbatim — nothing is defaulted or
-    inferred, because a wrong licence number can take a listing down in a regulated city.
+    let the question's `type` decide the value field — `<type>_value`: `text_value`,
+    `attestation_value`, `radio_value`, `dropdown_value`, `email_value`, `future_date_value`,
+    `file_upload_value`, and so on. Answers are forwarded verbatim — nothing is defaulted or inferred,
+    because a wrong licence number can take a listing down in a regulated city.
 
     Send `Idempotency-Key`: a timeout here leaves you unable to tell \"never arrived\" from \"arrived,
     response lost\", and this is a compliance filing.
@@ -317,6 +342,13 @@ async def asyncio(
     Airbnb refusing the answers (an unknown `answer_key`, a malformed licence number) is `422
     airbnb_rejected` carrying Airbnb's own reason. An expired or revoked Airbnb connection is `403
     connection_reauth_required`.
+
+    **Changing and removing answers.** Airbnb has no call that deletes or withdraws a submitted
+    registration, so neither does Repull, and at least one permit is required. To change an answer
+    Airbnb marks `answer_editable`, submit the flow again with the new answers — the latest submission
+    replaces the previous one. When a submission fails with status `failed_recoverable`, fix it and
+    submit again; `failed` cannot be resubmitted. Hosts can also manage this at airbnb.com/verify-
+    listing/{listing_id}.
 
     Args:
         id (str):

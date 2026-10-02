@@ -14,8 +14,8 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.reservation_create_response_pms import ReservationCreateResponsePms
   from ..models.reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
+  from ..models.reservation_pms_outcome import ReservationPmsOutcome
 
 
 
@@ -29,36 +29,38 @@ T = TypeVar("T", bound="ReservationCreateResponse")
 class ReservationCreateResponse:
     """ 
         Attributes:
-            id (int | Unset): Pass to `GET /v1/reservations/{id}` for the full record. Example: 215708.
+            id (str | Unset): Pass to `GET /v1/reservations/{id}` for the full record. A string, like every id in API
+                responses. Example: 215708.
             confirmation_code (str | Unset):  Example: DIR-8H2K4N.
-            listing_id (int | Unset):  Example: 4118.
+            listing_id (str | Unset):  Example: 4118.
             platform (str | Unset):  Example: direct.
             status (str | Unset): Same vocabulary as `GET /v1/reservations/{id}`. Example: confirmed.
             check_in (datetime.date | Unset):
             check_out (datetime.date | Unset):
-            guest_id (int | None | Unset):
-            total_price (float | None | Unset): The price the pricing engine derived for the stay. Reservations created
-                through this endpoint are NOT priced from the request — see the operation description. On a Mews or Cloudbeds
-                listing, the PMS prices it from its own rate.
+            guest_id (None | str | Unset):  Example: 91234.
+            total_price (float | None | Unset): The total the booking was recorded at. On a PMS listing: the PMS's total
+                (your `totalPrice` where the PMS honours one, else the PMS's own price). On any other listing: the price the
+                rate engine derived (`0` when the listing has no rates for the range).
             currency (None | str | Unset):
-            unit (None | ReservationCreateResponseUnitType0 | Unset): Mews or Cloudbeds listings only: the room the PMS
-                assigned. Absent for every other listing.
-            pms (ReservationCreateResponsePms | Unset): Mews or Cloudbeds listings only: the booking was made in the PMS
-                first, and this is what it applied.
+            unit (None | ReservationCreateResponseUnitType0 | Unset): PMS listings: the unit the PMS assigned (hotel-model
+                PMSs), or null. Absent for direct bookings.
+            pms (ReservationPmsOutcome | Unset): Present when the write was made in a PMS: what the PMS applied. `partial:
+                true` means the booking exists in the PMS but the steps in `failedSections` (e.g. notes, a tentative state) did
+                not apply — do not create it again.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     confirmation_code: str | Unset = UNSET
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     platform: str | Unset = UNSET
     status: str | Unset = UNSET
     check_in: datetime.date | Unset = UNSET
     check_out: datetime.date | Unset = UNSET
-    guest_id: int | None | Unset = UNSET
+    guest_id: None | str | Unset = UNSET
     total_price: float | None | Unset = UNSET
     currency: None | str | Unset = UNSET
     unit: None | ReservationCreateResponseUnitType0 | Unset = UNSET
-    pms: ReservationCreateResponsePms | Unset = UNSET
+    pms: ReservationPmsOutcome | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -66,8 +68,8 @@ class ReservationCreateResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.reservation_create_response_pms import ReservationCreateResponsePms
         from ..models.reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
+        from ..models.reservation_pms_outcome import ReservationPmsOutcome
         id = self.id
 
         confirmation_code = self.confirmation_code
@@ -86,7 +88,7 @@ class ReservationCreateResponse:
         if not isinstance(self.check_out, Unset):
             check_out = self.check_out.isoformat()
 
-        guest_id: int | None | Unset
+        guest_id: None | str | Unset
         if isinstance(self.guest_id, Unset):
             guest_id = UNSET
         else:
@@ -152,8 +154,8 @@ class ReservationCreateResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.reservation_create_response_pms import ReservationCreateResponsePms
         from ..models.reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
+        from ..models.reservation_pms_outcome import ReservationPmsOutcome
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -185,12 +187,12 @@ class ReservationCreateResponse:
 
 
 
-        def _parse_guest_id(data: object) -> int | None | Unset:
+        def _parse_guest_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         guest_id = _parse_guest_id(d.pop("guestId", UNSET))
 
@@ -236,11 +238,11 @@ class ReservationCreateResponse:
 
 
         _pms = d.pop("pms", UNSET)
-        pms: ReservationCreateResponsePms | Unset
+        pms: ReservationPmsOutcome | Unset
         if isinstance(_pms,  Unset):
             pms = UNSET
         else:
-            pms = ReservationCreateResponsePms.from_dict(_pms)
+            pms = ReservationPmsOutcome.from_dict(_pms)
 
 
 

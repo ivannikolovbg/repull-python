@@ -27,8 +27,9 @@ T = TypeVar("T", bound="AirbnbListingDetailsWriteRequest")
 
 @_attrs_define
 class AirbnbListingDetailsWriteRequest:
-    """ Update what kind of property this is, when the quiet hours are, or how the guest gets in. At least one field
-    required. These are among the attributes Airbnb locks on established listings — see `blockedFields` on the response.
+    """ Update what kind of property this is, when the quiet hours are, how the guest gets in, the house manual, directions
+    or Wi-Fi details. At least one field required. These are among the attributes Airbnb locks on established listings —
+    see `blockedFields` on the response.
 
         Attributes:
             property_type_group (AirbnbListingDetailsWriteRequestPropertyTypeGroup | Unset): The coarse building family.
@@ -40,7 +41,11 @@ class AirbnbListingDetailsWriteRequest:
             quiet_hours (list[AirbnbListingDetailsWriteRequestQuietHoursItem] | Unset): Whole hours on a 24h clock, as
                 strings.
             check_in_option (AirbnbListingDetailsWriteRequestCheckInOption | Unset): How the guest lets themselves in —
-                Airbnb's `check_in_option`.
+                Airbnb's `check_in_option`. `instruction` is the arrival instructions the guest sees.
+            house_manual (None | str | Unset): The house manual guests see after booking.
+            directions (None | str | Unset): Directions to the property, shown to booked guests.
+            wifi_network (None | str | Unset): Wi-Fi network name.
+            wifi_password (None | str | Unset): Wi-Fi password.
      """
 
     property_type_group: AirbnbListingDetailsWriteRequestPropertyTypeGroup | Unset = UNSET
@@ -48,6 +53,10 @@ class AirbnbListingDetailsWriteRequest:
     room_type_category: AirbnbListingDetailsWriteRequestRoomTypeCategory | Unset = UNSET
     quiet_hours: list[AirbnbListingDetailsWriteRequestQuietHoursItem] | Unset = UNSET
     check_in_option: AirbnbListingDetailsWriteRequestCheckInOption | Unset = UNSET
+    house_manual: None | str | Unset = UNSET
+    directions: None | str | Unset = UNSET
+    wifi_network: None | str | Unset = UNSET
+    wifi_password: None | str | Unset = UNSET
 
 
 
@@ -81,6 +90,30 @@ class AirbnbListingDetailsWriteRequest:
         if not isinstance(self.check_in_option, Unset):
             check_in_option = self.check_in_option.to_dict()
 
+        house_manual: None | str | Unset
+        if isinstance(self.house_manual, Unset):
+            house_manual = UNSET
+        else:
+            house_manual = self.house_manual
+
+        directions: None | str | Unset
+        if isinstance(self.directions, Unset):
+            directions = UNSET
+        else:
+            directions = self.directions
+
+        wifi_network: None | str | Unset
+        if isinstance(self.wifi_network, Unset):
+            wifi_network = UNSET
+        else:
+            wifi_network = self.wifi_network
+
+        wifi_password: None | str | Unset
+        if isinstance(self.wifi_password, Unset):
+            wifi_password = UNSET
+        else:
+            wifi_password = self.wifi_password
+
 
         field_dict: dict[str, Any] = {}
 
@@ -96,6 +129,14 @@ class AirbnbListingDetailsWriteRequest:
             field_dict["quiet_hours"] = quiet_hours
         if check_in_option is not UNSET:
             field_dict["check_in_option"] = check_in_option
+        if house_manual is not UNSET:
+            field_dict["house_manual"] = house_manual
+        if directions is not UNSET:
+            field_dict["directions"] = directions
+        if wifi_network is not UNSET:
+            field_dict["wifi_network"] = wifi_network
+        if wifi_password is not UNSET:
+            field_dict["wifi_password"] = wifi_password
 
         return field_dict
 
@@ -150,12 +191,56 @@ class AirbnbListingDetailsWriteRequest:
 
 
 
+        def _parse_house_manual(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        house_manual = _parse_house_manual(d.pop("house_manual", UNSET))
+
+
+        def _parse_directions(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        directions = _parse_directions(d.pop("directions", UNSET))
+
+
+        def _parse_wifi_network(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        wifi_network = _parse_wifi_network(d.pop("wifi_network", UNSET))
+
+
+        def _parse_wifi_password(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        wifi_password = _parse_wifi_password(d.pop("wifi_password", UNSET))
+
+
         airbnb_listing_details_write_request = cls(
             property_type_group=property_type_group,
             property_type_category=property_type_category,
             room_type_category=room_type_category,
             quiet_hours=quiet_hours,
             check_in_option=check_in_option,
+            house_manual=house_manual,
+            directions=directions,
+            wifi_network=wifi_network,
+            wifi_password=wifi_password,
         )
 
         return airbnb_listing_details_write_request

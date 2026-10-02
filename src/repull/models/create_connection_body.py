@@ -35,6 +35,9 @@ class CreateConnectionBody:
                 app per Airbnb account can hold it). The hosted consent screen normally lets the host pick a tier; passing
                 `accessType` explicitly fixes the tier and hides that choice, so the host can only continue with the tier you
                 requested. Omit it to let the host choose. Default: CreateConnectionBodyAccessType.FULL_ACCESS.
+            reservation_history_months (int | Unset): Airbnb — how many months of past reservations the first import pulls
+                (1–60). Omit it for the default window. Upcoming stays are always imported. A wider window takes longer to
+                import, because every extra month is more stays to fetch. Example: 24.
             state (str | Unset): Airbnb + Booking.com — your own correlation token, e.g. your user id (at most 500
                 characters). Echoed on the redirect back (`&state=`) and in the `connect.session.completed` webhook.
             client_id (str | Unset): Plumguide — client ID.
@@ -46,6 +49,7 @@ class CreateConnectionBody:
 
     redirect_url: str | Unset = UNSET
     access_type: CreateConnectionBodyAccessType | Unset = CreateConnectionBodyAccessType.FULL_ACCESS
+    reservation_history_months: int | Unset = UNSET
     state: str | Unset = UNSET
     client_id: str | Unset = UNSET
     client_secret: str | Unset = UNSET
@@ -63,6 +67,8 @@ class CreateConnectionBody:
         if not isinstance(self.access_type, Unset):
             access_type = self.access_type.value
 
+
+        reservation_history_months = self.reservation_history_months
 
         state = self.state
 
@@ -85,6 +91,8 @@ class CreateConnectionBody:
             field_dict["redirectUrl"] = redirect_url
         if access_type is not UNSET:
             field_dict["accessType"] = access_type
+        if reservation_history_months is not UNSET:
+            field_dict["reservationHistoryMonths"] = reservation_history_months
         if state is not UNSET:
             field_dict["state"] = state
         if client_id is not UNSET:
@@ -113,6 +121,8 @@ class CreateConnectionBody:
 
 
 
+        reservation_history_months = d.pop("reservationHistoryMonths", UNSET)
+
         state = d.pop("state", UNSET)
 
         client_id = d.pop("clientId", UNSET)
@@ -132,6 +142,7 @@ class CreateConnectionBody:
         create_connection_body = cls(
             redirect_url=redirect_url,
             access_type=access_type,
+            reservation_history_months=reservation_history_months,
             state=state,
             client_id=client_id,
             client_secret=client_secret,

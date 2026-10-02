@@ -9,22 +9,37 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.booking_property import BookingProperty
+from ...models.list_booking_properties_status import ListBookingPropertiesStatus
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
-    
+    *,
+    status: ListBookingPropertiesStatus | Unset = ListBookingPropertiesStatus.ACTIVE,
+
 ) -> dict[str, Any]:
     
 
     
 
-    
+    params: dict[str, Any] = {}
+
+    json_status: str | Unset = UNSET
+    if not isinstance(status, Unset):
+        json_status = status.value
+
+    params["status"] = json_status
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/v1/channels/booking/properties",
+        "params": params,
     }
 
 
@@ -63,6 +78,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    status: ListBookingPropertiesStatus | Unset = ListBookingPropertiesStatus.ACTIVE,
 
 ) -> Response[list[BookingProperty]]:
     r""" List Booking.com properties
@@ -80,8 +96,14 @@ def sync_detailed(
     which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
     at all.
 
-    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
-    `GET /v1/listings?status=inactive` to find them.
+    Inactive listings are left out of `listings` unless `?status=inactive|all` asks for them; they then
+    appear with identity fields only (`listingId`, `name`, `city`, `status`, `inactiveReason`, room).
+    `mappingStatus` counts every mapped listing, inactive ones included, so a property whose listings
+    are all inactive is still `mapped`.
+
+    Args:
+        status (ListBookingPropertiesStatus | Unset):  Default:
+            ListBookingPropertiesStatus.ACTIVE.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -93,7 +115,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        status=status,
+
     )
 
     response = client.get_httpx_client().request(
@@ -105,6 +128,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    status: ListBookingPropertiesStatus | Unset = ListBookingPropertiesStatus.ACTIVE,
 
 ) -> list[BookingProperty] | None:
     r""" List Booking.com properties
@@ -122,8 +146,14 @@ def sync(
     which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
     at all.
 
-    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
-    `GET /v1/listings?status=inactive` to find them.
+    Inactive listings are left out of `listings` unless `?status=inactive|all` asks for them; they then
+    appear with identity fields only (`listingId`, `name`, `city`, `status`, `inactiveReason`, room).
+    `mappingStatus` counts every mapped listing, inactive ones included, so a property whose listings
+    are all inactive is still `mapped`.
+
+    Args:
+        status (ListBookingPropertiesStatus | Unset):  Default:
+            ListBookingPropertiesStatus.ACTIVE.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -136,12 +166,14 @@ def sync(
 
     return sync_detailed(
         client=client,
+status=status,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    status: ListBookingPropertiesStatus | Unset = ListBookingPropertiesStatus.ACTIVE,
 
 ) -> Response[list[BookingProperty]]:
     r""" List Booking.com properties
@@ -159,8 +191,14 @@ async def asyncio_detailed(
     which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
     at all.
 
-    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
-    `GET /v1/listings?status=inactive` to find them.
+    Inactive listings are left out of `listings` unless `?status=inactive|all` asks for them; they then
+    appear with identity fields only (`listingId`, `name`, `city`, `status`, `inactiveReason`, room).
+    `mappingStatus` counts every mapped listing, inactive ones included, so a property whose listings
+    are all inactive is still `mapped`.
+
+    Args:
+        status (ListBookingPropertiesStatus | Unset):  Default:
+            ListBookingPropertiesStatus.ACTIVE.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -172,7 +210,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        status=status,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -184,6 +223,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    status: ListBookingPropertiesStatus | Unset = ListBookingPropertiesStatus.ACTIVE,
 
 ) -> list[BookingProperty] | None:
     r""" List Booking.com properties
@@ -201,8 +241,14 @@ async def asyncio(
     which made a mapped-but-unreadable workspace indistinguishable from one with no Booking connection
     at all.
 
-    Inactive listings are left out of `listings`; they keep syncing and reappear once activated. Use
-    `GET /v1/listings?status=inactive` to find them.
+    Inactive listings are left out of `listings` unless `?status=inactive|all` asks for them; they then
+    appear with identity fields only (`listingId`, `name`, `city`, `status`, `inactiveReason`, room).
+    `mappingStatus` counts every mapped listing, inactive ones included, so a property whose listings
+    are all inactive is still `mapped`.
+
+    Args:
+        status (ListBookingPropertiesStatus | Unset):  Default:
+            ListBookingPropertiesStatus.ACTIVE.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -215,5 +261,6 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+status=status,
 
     )).parsed

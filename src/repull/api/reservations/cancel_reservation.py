@@ -20,9 +20,17 @@ def _get_kwargs(
     id: int,
     *,
     body: CancelReservationBody | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
+    if not isinstance(idempotency_key, Unset):
+        headers["Idempotency-Key"] = idempotency_key
+
+    if not isinstance(x_account_id, Unset):
+        headers["X-Account-Id"] = x_account_id
+
 
 
     
@@ -46,7 +54,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Any | CancelReservationResponse200 | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> CancelReservationResponse200 | Error | None:
     if response.status_code == 200:
         response_200 = CancelReservationResponse200.from_dict(response.json())
 
@@ -54,12 +62,26 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 400:
+        response_400 = Error.from_dict(response.json())
+
+
+
+        return response_400
+
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
 
 
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = Error.from_dict(response.json())
+
+
+
+        return response_403
 
     if response.status_code == 404:
         response_404 = Error.from_dict(response.json())
@@ -69,7 +91,10 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return response_404
 
     if response.status_code == 409:
-        response_409 = cast(Any, None)
+        response_409 = Error.from_dict(response.json())
+
+
+
         return response_409
 
     if response.status_code == 422:
@@ -79,13 +104,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_422
 
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Any | CancelReservationResponse200 | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[CancelReservationResponse200 | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -99,26 +131,38 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: CancelReservationBody | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
-) -> Response[Any | CancelReservationResponse200 | Error]:
+) -> Response[CancelReservationResponse200 | Error]:
     """ Cancel a reservation
 
      Cancels a reservation where it lives.
 
-    - **Mews or Cloudbeds** (hotel-model PMS): cancelled in the PMS, then read back, so Repull and the
-    PMS agree. No cancellation fee is charged.
+    - **A booking managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS): cancelled in the PMS, then read back, so Repull and the PMS
+    agree. No cancellation fee is charged. Lodgify *declines* the booking rather than deleting it.
+    **OwnerRez's API cannot cancel** — `422 pms_write_unsupported`; cancel it in OwnerRez. `GET
+    /v1/listings/{id}` → `capabilities.reservations.cancel` says which applies.
     - **Direct, website or owner bookings**: cancelled in Repull — the nights are released and
     `reservation.cancelled` fires.
-    - **A channel booking** (Airbnb, Booking.com, VRBO) or a booking owned by another PMS: `409
-    reservation_owned_by_channel`. Cancel it there; the cancellation reaches Repull with the next sync.
+    - **A channel booking** (Airbnb, Booking.com, VRBO), including one that came in through a PMS: `409
+    reservation_owned_by_channel`. Cancel it on the channel; the cancellation reaches Repull with the
+    next sync.
 
     Cancelling an already-cancelled reservation is not an error: the response carries `alreadyCancelled:
     true`.
 
-    Returns `403 listing_inactive` when the listing is inactive.
+    PMS integrations other than Mews and Cloudbeds are verified against the vendor's API documentation
+    only.
+
+    `X-Account-Id` restricts the reservation to one connected account. Returns `403 listing_inactive`
+    when the listing is inactive.
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (CancelReservationBody | Unset):
 
     Raises:
@@ -126,13 +170,15 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | CancelReservationResponse200 | Error]
+        Response[CancelReservationResponse200 | Error]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
 body=body,
+idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )
 
@@ -147,26 +193,38 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: CancelReservationBody | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
-) -> Any | CancelReservationResponse200 | Error | None:
+) -> CancelReservationResponse200 | Error | None:
     """ Cancel a reservation
 
      Cancels a reservation where it lives.
 
-    - **Mews or Cloudbeds** (hotel-model PMS): cancelled in the PMS, then read back, so Repull and the
-    PMS agree. No cancellation fee is charged.
+    - **A booking managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS): cancelled in the PMS, then read back, so Repull and the PMS
+    agree. No cancellation fee is charged. Lodgify *declines* the booking rather than deleting it.
+    **OwnerRez's API cannot cancel** — `422 pms_write_unsupported`; cancel it in OwnerRez. `GET
+    /v1/listings/{id}` → `capabilities.reservations.cancel` says which applies.
     - **Direct, website or owner bookings**: cancelled in Repull — the nights are released and
     `reservation.cancelled` fires.
-    - **A channel booking** (Airbnb, Booking.com, VRBO) or a booking owned by another PMS: `409
-    reservation_owned_by_channel`. Cancel it there; the cancellation reaches Repull with the next sync.
+    - **A channel booking** (Airbnb, Booking.com, VRBO), including one that came in through a PMS: `409
+    reservation_owned_by_channel`. Cancel it on the channel; the cancellation reaches Repull with the
+    next sync.
 
     Cancelling an already-cancelled reservation is not an error: the response carries `alreadyCancelled:
     true`.
 
-    Returns `403 listing_inactive` when the listing is inactive.
+    PMS integrations other than Mews and Cloudbeds are verified against the vendor's API documentation
+    only.
+
+    `X-Account-Id` restricts the reservation to one connected account. Returns `403 listing_inactive`
+    when the listing is inactive.
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (CancelReservationBody | Unset):
 
     Raises:
@@ -174,7 +232,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | CancelReservationResponse200 | Error
+        CancelReservationResponse200 | Error
      """
 
 
@@ -182,6 +240,8 @@ def sync(
         id=id,
 client=client,
 body=body,
+idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     ).parsed
 
@@ -190,26 +250,38 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: CancelReservationBody | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
-) -> Response[Any | CancelReservationResponse200 | Error]:
+) -> Response[CancelReservationResponse200 | Error]:
     """ Cancel a reservation
 
      Cancels a reservation where it lives.
 
-    - **Mews or Cloudbeds** (hotel-model PMS): cancelled in the PMS, then read back, so Repull and the
-    PMS agree. No cancellation fee is charged.
+    - **A booking managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS): cancelled in the PMS, then read back, so Repull and the PMS
+    agree. No cancellation fee is charged. Lodgify *declines* the booking rather than deleting it.
+    **OwnerRez's API cannot cancel** — `422 pms_write_unsupported`; cancel it in OwnerRez. `GET
+    /v1/listings/{id}` → `capabilities.reservations.cancel` says which applies.
     - **Direct, website or owner bookings**: cancelled in Repull — the nights are released and
     `reservation.cancelled` fires.
-    - **A channel booking** (Airbnb, Booking.com, VRBO) or a booking owned by another PMS: `409
-    reservation_owned_by_channel`. Cancel it there; the cancellation reaches Repull with the next sync.
+    - **A channel booking** (Airbnb, Booking.com, VRBO), including one that came in through a PMS: `409
+    reservation_owned_by_channel`. Cancel it on the channel; the cancellation reaches Repull with the
+    next sync.
 
     Cancelling an already-cancelled reservation is not an error: the response carries `alreadyCancelled:
     true`.
 
-    Returns `403 listing_inactive` when the listing is inactive.
+    PMS integrations other than Mews and Cloudbeds are verified against the vendor's API documentation
+    only.
+
+    `X-Account-Id` restricts the reservation to one connected account. Returns `403 listing_inactive`
+    when the listing is inactive.
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (CancelReservationBody | Unset):
 
     Raises:
@@ -217,13 +289,15 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Any | CancelReservationResponse200 | Error]
+        Response[CancelReservationResponse200 | Error]
      """
 
 
     kwargs = _get_kwargs(
         id=id,
 body=body,
+idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )
 
@@ -238,26 +312,38 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: CancelReservationBody | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
-) -> Any | CancelReservationResponse200 | Error | None:
+) -> CancelReservationResponse200 | Error | None:
     """ Cancel a reservation
 
      Cancels a reservation where it lives.
 
-    - **Mews or Cloudbeds** (hotel-model PMS): cancelled in the PMS, then read back, so Repull and the
-    PMS agree. No cancellation fee is charged.
+    - **A booking managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS): cancelled in the PMS, then read back, so Repull and the PMS
+    agree. No cancellation fee is charged. Lodgify *declines* the booking rather than deleting it.
+    **OwnerRez's API cannot cancel** — `422 pms_write_unsupported`; cancel it in OwnerRez. `GET
+    /v1/listings/{id}` → `capabilities.reservations.cancel` says which applies.
     - **Direct, website or owner bookings**: cancelled in Repull — the nights are released and
     `reservation.cancelled` fires.
-    - **A channel booking** (Airbnb, Booking.com, VRBO) or a booking owned by another PMS: `409
-    reservation_owned_by_channel`. Cancel it there; the cancellation reaches Repull with the next sync.
+    - **A channel booking** (Airbnb, Booking.com, VRBO), including one that came in through a PMS: `409
+    reservation_owned_by_channel`. Cancel it on the channel; the cancellation reaches Repull with the
+    next sync.
 
     Cancelling an already-cancelled reservation is not an error: the response carries `alreadyCancelled:
     true`.
 
-    Returns `403 listing_inactive` when the listing is inactive.
+    PMS integrations other than Mews and Cloudbeds are verified against the vendor's API documentation
+    only.
+
+    `X-Account-Id` restricts the reservation to one connected account. Returns `403 listing_inactive`
+    when the listing is inactive.
 
     Args:
         id (int):
+        idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
+        x_account_id (str | Unset):  Example: 126.
         body (CancelReservationBody | Unset):
 
     Raises:
@@ -265,7 +351,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Any | CancelReservationResponse200 | Error
+        CancelReservationResponse200 | Error
      """
 
 
@@ -273,5 +359,7 @@ async def asyncio(
         id=id,
 client=client,
 body=body,
+idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )).parsed

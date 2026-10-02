@@ -29,7 +29,10 @@ class AirbnbListing:
 
         Attributes:
             listing_id (str | Unset): Repull listing id Example: 6248.
-            name (str | Unset): Listing title Example: Oceanview Villa.
+            name (str | Unset): The host's internal nickname for the listing. Example: Oceanview Villa.
+            public_name (None | str | Unset): The title guests see on the channel (e.g. the Airbnb listing title). `name` is
+                the host's internal nickname for the listing; show `publicName` in anything a guest or end user reads. Present
+                on inactive rows too. Example: Centre Oxford bright single room D.
             city (None | str | Unset):  Example: Malibu.
             thumbnail_url (None | str | Unset): Cover photo URL for the listing. **Only present when the caller passes
                 `?include=thumbnail`.** `null` when the listing has no cover photo stored — the listing is still returned.
@@ -38,6 +41,7 @@ class AirbnbListing:
 
     listing_id: str | Unset = UNSET
     name: str | Unset = UNSET
+    public_name: None | str | Unset = UNSET
     city: None | str | Unset = UNSET
     thumbnail_url: None | str | Unset = UNSET
     connections: list[AirbnbConnection] | Unset = UNSET
@@ -52,6 +56,12 @@ class AirbnbListing:
         listing_id = self.listing_id
 
         name = self.name
+
+        public_name: None | str | Unset
+        if isinstance(self.public_name, Unset):
+            public_name = UNSET
+        else:
+            public_name = self.public_name
 
         city: None | str | Unset
         if isinstance(self.city, Unset):
@@ -83,6 +93,8 @@ class AirbnbListing:
             field_dict["listingId"] = listing_id
         if name is not UNSET:
             field_dict["name"] = name
+        if public_name is not UNSET:
+            field_dict["publicName"] = public_name
         if city is not UNSET:
             field_dict["city"] = city
         if thumbnail_url is not UNSET:
@@ -101,6 +113,16 @@ class AirbnbListing:
         listing_id = d.pop("listingId", UNSET)
 
         name = d.pop("name", UNSET)
+
+        def _parse_public_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        public_name = _parse_public_name(d.pop("publicName", UNSET))
+
 
         def _parse_city(data: object) -> None | str | Unset:
             if data is None:
@@ -137,6 +159,7 @@ class AirbnbListing:
         airbnb_listing = cls(
             listing_id=listing_id,
             name=name,
+            public_name=public_name,
             city=city,
             thumbnail_url=thumbnail_url,
             connections=connections,

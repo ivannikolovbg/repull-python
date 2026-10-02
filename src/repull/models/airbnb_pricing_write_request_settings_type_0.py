@@ -20,7 +20,9 @@ T = TypeVar("T", bound="AirbnbPricingWriteRequestSettingsType0")
 
 @_attrs_define
 class AirbnbPricingWriteRequestSettingsType0:
-    """ Required for `type: "standard" | "rate-plan" | "fees"` — the pricing-settings object to PUT.
+    """ Required for `type: "standard" | "rate-plan"` — the pricing-settings object to PUT. With `type: "fees"` it is the
+    raw alternative to `fees`: `{"standard_fees": [...]}` **replaces every fee** on the listing (Airbnb does not merge),
+    so send the complete list. Prefer `fees`.
 
      """
 

@@ -37,16 +37,21 @@ class Property:
     /v1/properties/{id}`) only. `amenities` requires `?include=amenities`.
 
     An **inactive** property (`status: inactive`) appears only in the list endpoint, and only when
-    `?status=inactive|all` asks for it. Such a row carries identity fields only — `id`, `name`, `status`,
-    `lifecycleStatus`, `channels`, `accounts`, `updatedAt` — so every other field is absent until the property is
-    activated. Every other endpoint answers `403 listing_inactive` for it.
+    `?status=inactive|all` asks for it. Such a row carries identity fields only — `id`, `name`, `city`, `status`,
+    `inactiveReason`, `lifecycleStatus`, `channels`, `accounts`, `updatedAt` — so every other field is absent until the
+    property is activated. `inactiveReason` is `plan_limit` (held back by the plan; activating needs a free slot or an
+    upgrade), `unlisted_on_airbnb`, or `deactivated` (switched off by you). Every other endpoint answers `403
+    listing_inactive` for it.
 
         Attributes:
             accounts (list[None | RecordAccountType0] | Unset): The connected account the property belongs to on each
                 channel it is on. List endpoint.
             id (str | Unset): Internal Repull property ID. Equal to the listing id (`listings.id`); the same integer is used
                 as `listingId` on reservations and `propertyId` on availability.
-            name (str | Unset): Property name Example: Oceanview Suite #3.
+            name (str | Unset): Property name — the host's internal nickname. Example: Oceanview Suite #3.
+            public_name (None | str | Unset): The title guests see on the channel (e.g. the Airbnb listing title). `name` is
+                the host's internal nickname for the listing; show `publicName` in anything a guest or end user reads. Present
+                on inactive rows too. Example: Centre Oxford bright single room D.
             address (None | str | Unset): Street address (from the listing's `street` field).
             city (None | str | Unset):  Example: Miami Beach.
             latitude (None | str | Unset): Detail endpoint only. Decimal degrees, as a string. Example: 25.7617.
@@ -67,6 +72,7 @@ class Property:
     accounts: list[None | RecordAccountType0] | Unset = UNSET
     id: str | Unset = UNSET
     name: str | Unset = UNSET
+    public_name: None | str | Unset = UNSET
     address: None | str | Unset = UNSET
     city: None | str | Unset = UNSET
     latitude: None | str | Unset = UNSET
@@ -103,6 +109,12 @@ class Property:
         id = self.id
 
         name = self.name
+
+        public_name: None | str | Unset
+        if isinstance(self.public_name, Unset):
+            public_name = UNSET
+        else:
+            public_name = self.public_name
 
         address: None | str | Unset
         if isinstance(self.address, Unset):
@@ -179,6 +191,8 @@ class Property:
             field_dict["id"] = id
         if name is not UNSET:
             field_dict["name"] = name
+        if public_name is not UNSET:
+            field_dict["publicName"] = public_name
         if address is not UNSET:
             field_dict["address"] = address
         if city is not UNSET:
@@ -239,6 +253,16 @@ class Property:
         id = d.pop("id", UNSET)
 
         name = d.pop("name", UNSET)
+
+        def _parse_public_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        public_name = _parse_public_name(d.pop("publicName", UNSET))
+
 
         def _parse_address(data: object) -> None | str | Unset:
             if data is None:
@@ -349,6 +373,7 @@ class Property:
             accounts=accounts,
             id=id,
             name=name,
+            public_name=public_name,
             address=address,
             city=city,
             latitude=latitude,

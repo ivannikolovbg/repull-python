@@ -13,6 +13,8 @@ from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.reservation_pms_outcome import ReservationPmsOutcome
 
 
 
@@ -26,9 +28,9 @@ T = TypeVar("T", bound="ReservationUpdateResponse")
 class ReservationUpdateResponse:
     """ 
         Attributes:
-            id (int | Unset):
+            id (str | Unset): A string, like every id in API responses.
             confirmation_code (None | str | Unset):
-            listing_id (int | None | Unset):
+            listing_id (None | str | Unset):
             check_in (datetime.date | None | Unset):
             check_out (datetime.date | None | Unset):
             check_in_time (None | str | Unset):
@@ -37,11 +39,14 @@ class ReservationUpdateResponse:
                 assuming it is unchanged.
             updated_at (datetime.datetime | None | Unset):
             changed (list[str] | Unset): The fields this request actually changed. Example: ['checkOut'].
+            pms (ReservationPmsOutcome | Unset): Present when the write was made in a PMS: what the PMS applied. `partial:
+                true` means the booking exists in the PMS but the steps in `failedSections` (e.g. notes, a tentative state) did
+                not apply — do not create it again.
      """
 
-    id: int | Unset = UNSET
+    id: str | Unset = UNSET
     confirmation_code: None | str | Unset = UNSET
-    listing_id: int | None | Unset = UNSET
+    listing_id: None | str | Unset = UNSET
     check_in: datetime.date | None | Unset = UNSET
     check_out: datetime.date | None | Unset = UNSET
     check_in_time: None | str | Unset = UNSET
@@ -49,6 +54,7 @@ class ReservationUpdateResponse:
     status: None | str | Unset = UNSET
     updated_at: datetime.datetime | None | Unset = UNSET
     changed: list[str] | Unset = UNSET
+    pms: ReservationPmsOutcome | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -56,6 +62,7 @@ class ReservationUpdateResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.reservation_pms_outcome import ReservationPmsOutcome
         id = self.id
 
         confirmation_code: None | str | Unset
@@ -64,7 +71,7 @@ class ReservationUpdateResponse:
         else:
             confirmation_code = self.confirmation_code
 
-        listing_id: int | None | Unset
+        listing_id: None | str | Unset
         if isinstance(self.listing_id, Unset):
             listing_id = UNSET
         else:
@@ -118,6 +125,10 @@ class ReservationUpdateResponse:
 
 
 
+        pms: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.pms, Unset):
+            pms = self.pms.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -143,6 +154,8 @@ class ReservationUpdateResponse:
             field_dict["updatedAt"] = updated_at
         if changed is not UNSET:
             field_dict["changed"] = changed
+        if pms is not UNSET:
+            field_dict["pms"] = pms
 
         return field_dict
 
@@ -150,6 +163,7 @@ class ReservationUpdateResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.reservation_pms_outcome import ReservationPmsOutcome
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -163,12 +177,12 @@ class ReservationUpdateResponse:
         confirmation_code = _parse_confirmation_code(d.pop("confirmationCode", UNSET))
 
 
-        def _parse_listing_id(data: object) -> int | None | Unset:
+        def _parse_listing_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
         listing_id = _parse_listing_id(d.pop("listingId", UNSET))
 
@@ -266,6 +280,16 @@ class ReservationUpdateResponse:
         changed = cast(list[str], d.pop("changed", UNSET))
 
 
+        _pms = d.pop("pms", UNSET)
+        pms: ReservationPmsOutcome | Unset
+        if isinstance(_pms,  Unset):
+            pms = UNSET
+        else:
+            pms = ReservationPmsOutcome.from_dict(_pms)
+
+
+
+
         reservation_update_response = cls(
             id=id,
             confirmation_code=confirmation_code,
@@ -277,6 +301,7 @@ class ReservationUpdateResponse:
             status=status,
             updated_at=updated_at,
             changed=changed,
+            pms=pms,
         )
 
 

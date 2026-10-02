@@ -17,6 +17,7 @@ import datetime
 if TYPE_CHECKING:
   from ..models.listing_address import ListingAddress
   from ..models.listing_amenity import ListingAmenity
+  from ..models.listing_capabilities import ListingCapabilities
   from ..models.listing_channel import ListingChannel
   from ..models.listing_content import ListingContent
   from ..models.listing_details import ListingDetails
@@ -35,16 +36,22 @@ class Listing:
     """ A vacation rental listing in your Repull workspace.
 
     An **inactive** listing appears only in `GET /v1/listings`, and only when `?status=` asks for it. Such a row carries
-    identity fields only — `id`, `name`, `status`, `channels` — so `address`, `content`, `details`, `createdAt` and
-    `updatedAt` are absent until the listing is activated. `GET /v1/listings/{id}` and every other listing endpoint
-    answer `403 listing_inactive` for it. The one field you can add back is `thumbnailUrl`, by passing
-    `?include=thumbnail` — enough to render an activate/deactivate picker with pictures from a single request.
+    identity fields only — `id`, `name`, `status`, `inactiveReason`, `address.city`, `channels` — so the street,
+    `content`, `details`, `createdAt` and `updatedAt` are absent until the listing is activated. `inactiveReason` is
+    `plan_limit` (held back by the plan; activating needs a free slot or an upgrade), `unlisted_on_airbnb`, or
+    `deactivated` (switched off by you). `GET /v1/listings/{id}` and every other listing endpoint answer `403
+    listing_inactive` for it. The one field you can add back is `thumbnailUrl`, by passing `?include=thumbnail` — enough
+    to render an activate/deactivate picker with pictures from a single request.
 
         Attributes:
+            capabilities (ListingCapabilities | Unset): `GET /v1/listings/{id}` only. What the API can do with this listing.
             units (list[ListingUnitsItem] | Unset): `GET /v1/listings/{id}` only. The physical rooms under a hotel-model
                 listing (a Mews or Cloudbeds room type); empty for a single home. Same items as `GET /v1/listings/{id}/units`.
             id (str | Unset): Repull listing id
-            name (str | Unset):  Example: I - Stafford Apartment.
+            name (str | Unset): The host's internal nickname for the listing. Example: I - Stafford Apartment.
+            public_name (None | str | Unset): The title guests see on the channel (e.g. the Airbnb listing title). `name` is
+                the host's internal nickname for the listing; show `publicName` in anything a guest or end user reads. Present
+                on inactive rows too. Example: Centre Oxford bright single room D.
             address (ListingAddress | Unset):
             thumbnail_url (None | str | Unset): Cover photo URL. Always present on an active listing. On an **inactive** one
                 it is present only when the caller passes `?include=thumbnail`; `null` means the listing has no cover photo
@@ -63,9 +70,11 @@ class Listing:
             updated_at (datetime.datetime | Unset):
      """
 
+    capabilities: ListingCapabilities | Unset = UNSET
     units: list[ListingUnitsItem] | Unset = UNSET
     id: str | Unset = UNSET
     name: str | Unset = UNSET
+    public_name: None | str | Unset = UNSET
     address: ListingAddress | Unset = UNSET
     thumbnail_url: None | str | Unset = UNSET
     status: ListingStatus | Unset = UNSET
@@ -84,10 +93,15 @@ class Listing:
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_address import ListingAddress
         from ..models.listing_amenity import ListingAmenity
+        from ..models.listing_capabilities import ListingCapabilities
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
         from ..models.listing_details import ListingDetails
         from ..models.listing_units_item import ListingUnitsItem
+        capabilities: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.capabilities, Unset):
+            capabilities = self.capabilities.to_dict()
+
         units: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.units, Unset):
             units = []
@@ -100,6 +114,12 @@ class Listing:
         id = self.id
 
         name = self.name
+
+        public_name: None | str | Unset
+        if isinstance(self.public_name, Unset):
+            public_name = UNSET
+        else:
+            public_name = self.public_name
 
         address: dict[str, Any] | Unset = UNSET
         if not isinstance(self.address, Unset):
@@ -163,12 +183,16 @@ class Listing:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if capabilities is not UNSET:
+            field_dict["capabilities"] = capabilities
         if units is not UNSET:
             field_dict["units"] = units
         if id is not UNSET:
             field_dict["id"] = id
         if name is not UNSET:
             field_dict["name"] = name
+        if public_name is not UNSET:
+            field_dict["publicName"] = public_name
         if address is not UNSET:
             field_dict["address"] = address
         if thumbnail_url is not UNSET:
@@ -196,11 +220,22 @@ class Listing:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_address import ListingAddress
         from ..models.listing_amenity import ListingAmenity
+        from ..models.listing_capabilities import ListingCapabilities
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
         from ..models.listing_details import ListingDetails
         from ..models.listing_units_item import ListingUnitsItem
         d = dict(src_dict)
+        _capabilities = d.pop("capabilities", UNSET)
+        capabilities: ListingCapabilities | Unset
+        if isinstance(_capabilities,  Unset):
+            capabilities = UNSET
+        else:
+            capabilities = ListingCapabilities.from_dict(_capabilities)
+
+
+
+
         _units = d.pop("units", UNSET)
         units: list[ListingUnitsItem] | Unset = UNSET
         if _units is not UNSET:
@@ -216,6 +251,16 @@ class Listing:
         id = d.pop("id", UNSET)
 
         name = d.pop("name", UNSET)
+
+        def _parse_public_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        public_name = _parse_public_name(d.pop("publicName", UNSET))
+
 
         _address = d.pop("address", UNSET)
         address: ListingAddress | Unset
@@ -332,9 +377,11 @@ class Listing:
 
 
         listing = cls(
+            capabilities=capabilities,
             units=units,
             id=id,
             name=name,
+            public_name=public_name,
             address=address,
             thumbnail_url=thumbnail_url,
             status=status,

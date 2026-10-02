@@ -26,7 +26,8 @@ T = TypeVar("T", bound="SubmitSmoobuCredentialsBody")
 class SubmitSmoobuCredentialsBody:
     """ 
         Attributes:
-            credentials (SubmitSmoobuCredentialsBodyCredentials): API key from Smoobu → Settings → For developers.
+            credentials (SubmitSmoobuCredentialsBodyCredentials): HMAC API key + secret from Smoobu → Settings → Advanced →
+                API Keys.
             session_id (str | Unset): Connect session id from `POST /v1/connect/smoobu`.
      """
 

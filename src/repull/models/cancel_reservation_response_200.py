@@ -15,7 +15,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.cancel_reservation_response_200_pms import CancelReservationResponse200Pms
+  from ..models.reservation_pms_outcome import ReservationPmsOutcome
 
 
 
@@ -37,7 +37,9 @@ class CancelReservationResponse200:
             check_out (datetime.date | None | Unset):
             updated_at (None | str | Unset):
             already_cancelled (bool | Unset): Present and true when the reservation was already cancelled.
-            pms (CancelReservationResponse200Pms | Unset): Present when the cancellation was made in a PMS.
+            pms (ReservationPmsOutcome | Unset): Present when the write was made in a PMS: what the PMS applied. `partial:
+                true` means the booking exists in the PMS but the steps in `failedSections` (e.g. notes, a tentative state) did
+                not apply — do not create it again.
      """
 
     id: str | Unset = UNSET
@@ -48,7 +50,7 @@ class CancelReservationResponse200:
     check_out: datetime.date | None | Unset = UNSET
     updated_at: None | str | Unset = UNSET
     already_cancelled: bool | Unset = UNSET
-    pms: CancelReservationResponse200Pms | Unset = UNSET
+    pms: ReservationPmsOutcome | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -56,7 +58,7 @@ class CancelReservationResponse200:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.cancel_reservation_response_200_pms import CancelReservationResponse200Pms
+        from ..models.reservation_pms_outcome import ReservationPmsOutcome
         id = self.id
 
         confirmation_code: None | str | Unset
@@ -134,7 +136,7 @@ class CancelReservationResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.cancel_reservation_response_200_pms import CancelReservationResponse200Pms
+        from ..models.reservation_pms_outcome import ReservationPmsOutcome
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -221,11 +223,11 @@ class CancelReservationResponse200:
         already_cancelled = d.pop("alreadyCancelled", UNSET)
 
         _pms = d.pop("pms", UNSET)
-        pms: CancelReservationResponse200Pms | Unset
+        pms: ReservationPmsOutcome | Unset
         if isinstance(_pms,  Unset):
             pms = UNSET
         else:
-            pms = CancelReservationResponse200Pms.from_dict(_pms)
+            pms = ReservationPmsOutcome.from_dict(_pms)
 
 
 

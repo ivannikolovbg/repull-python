@@ -23,7 +23,8 @@ T = TypeVar("T", bound="AirbnbListingDetailsWriteRequestCheckInOption")
 
 @_attrs_define
 class AirbnbListingDetailsWriteRequestCheckInOption:
-    """ How the guest lets themselves in — Airbnb's `check_in_option`.
+    """ How the guest lets themselves in — Airbnb's `check_in_option`. `instruction` is the arrival instructions the guest
+    sees.
 
         Attributes:
             category (AirbnbListingDetailsWriteRequestCheckInOptionCategory):

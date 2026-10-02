@@ -23,7 +23,7 @@ T = TypeVar("T", bound="GetBookingExtranetLoginStatusResponse200")
 class GetBookingExtranetLoginStatusResponse200:
     """ 
         Attributes:
-            account_id (int | Unset):
+            account_id (str | Unset): The connection id (numeric string, like every `*Id` on the wire).
             status (str | Unset):
             error_message (str | Unset):
             friendly_error (str | Unset):
@@ -31,7 +31,7 @@ class GetBookingExtranetLoginStatusResponse200:
             awaiting_mapping (bool | Unset):
      """
 
-    account_id: int | Unset = UNSET
+    account_id: str | Unset = UNSET
     status: str | Unset = UNSET
     error_message: str | Unset = UNSET
     friendly_error: str | Unset = UNSET

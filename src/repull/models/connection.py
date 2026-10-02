@@ -16,6 +16,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.connect_host import ConnectHost
+  from ..models.connection_action import ConnectionAction
 
 
 
@@ -31,11 +32,19 @@ class Connection:
         Attributes:
             id (str | Unset):
             provider (str | Unset):  Example: hostaway.
-            status (ConnectionStatus | Unset):  Example: active.
+            status (ConnectionStatus | Unset): `active` — connected and working. `pending` — still settling.
+                `needs_permissions` — connected but the host must grant more access before it works (see `action`/`fixUrl`). An
+                `active` connection can also carry an `action` (e.g. a Smoobu legacy API key that must be replaced with a key +
+                secret before October 31, 2026). `error` — the last operation failed. `disconnected` — revoked or superseded.
+                Example: active.
             external_account_id (None | str | Unset):
             created_at (datetime.datetime | Unset):
             host (ConnectHost | None | Unset): Host metadata for the linked account. Currently populated for Airbnb only;
                 null for other providers.
+            action (ConnectionAction | None | Unset): Set when the host must do something before the connection works (e.g.
+                grant the invited Booking.com Extranet user full access). `null` when no action is pending.
+            fix_url (None | str | Unset): Durable link that reopens the hosted Connect flow bound to this account on the fix
+                screen — send the host here to resolve `action`. Present only when `action.required` is true; `null` otherwise.
      """
 
     id: str | Unset = UNSET
@@ -44,6 +53,8 @@ class Connection:
     external_account_id: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     host: ConnectHost | None | Unset = UNSET
+    action: ConnectionAction | None | Unset = UNSET
+    fix_url: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -52,6 +63,7 @@ class Connection:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.connect_host import ConnectHost
+        from ..models.connection_action import ConnectionAction
         id = self.id
 
         provider = self.provider
@@ -79,6 +91,20 @@ class Connection:
         else:
             host = self.host
 
+        action: dict[str, Any] | None | Unset
+        if isinstance(self.action, Unset):
+            action = UNSET
+        elif isinstance(self.action, ConnectionAction):
+            action = self.action.to_dict()
+        else:
+            action = self.action
+
+        fix_url: None | str | Unset
+        if isinstance(self.fix_url, Unset):
+            fix_url = UNSET
+        else:
+            fix_url = self.fix_url
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -96,6 +122,10 @@ class Connection:
             field_dict["createdAt"] = created_at
         if host is not UNSET:
             field_dict["host"] = host
+        if action is not UNSET:
+            field_dict["action"] = action
+        if fix_url is not UNSET:
+            field_dict["fixUrl"] = fix_url
 
         return field_dict
 
@@ -104,6 +134,7 @@ class Connection:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.connect_host import ConnectHost
+        from ..models.connection_action import ConnectionAction
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -159,6 +190,36 @@ class Connection:
         host = _parse_host(d.pop("host", UNSET))
 
 
+        def _parse_action(data: object) -> ConnectionAction | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                action_type_1 = ConnectionAction.from_dict(data)
+
+
+
+                return action_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ConnectionAction | None | Unset, data)
+
+        action = _parse_action(d.pop("action", UNSET))
+
+
+        def _parse_fix_url(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
+
+
         connection = cls(
             id=id,
             provider=provider,
@@ -166,6 +227,8 @@ class Connection:
             external_account_id=external_account_id,
             created_at=created_at,
             host=host,
+            action=action,
+            fix_url=fix_url,
         )
 
 

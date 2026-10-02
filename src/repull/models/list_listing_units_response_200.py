@@ -26,12 +26,12 @@ T = TypeVar("T", bound="ListListingUnitsResponse200")
 class ListListingUnitsResponse200:
     """ 
         Attributes:
-            listing_id (int | Unset):
+            listing_id (str | Unset): Repull listing id (numeric string, like every `*Id` on the wire).
             total (int | Unset):
             data (list[ListListingUnitsResponse200DataItem] | Unset):
      """
 
-    listing_id: int | Unset = UNSET
+    listing_id: str | Unset = UNSET
     total: int | Unset = UNSET
     data: list[ListListingUnitsResponse200DataItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

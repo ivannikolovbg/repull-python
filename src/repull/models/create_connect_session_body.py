@@ -34,6 +34,9 @@ class CreateConnectSessionBody:
             state (None | str | Unset): Your own correlation token, e.g. your user id (at most 500 characters). Echoed in
                 this response, on the redirect back (`&state=`), in the popup message, and in the `connect.session.completed`
                 webhook.
+            reservation_history_months (int | Unset): Airbnb — how many months of past reservations the first import pulls
+                (1–60). Omit it for the default window. Upcoming stays are always imported. A wider window takes longer to
+                import, because every extra month is more stays to fetch. Example: 24.
             access_type (CreateConnectSessionBodyAccessType | Unset): What the connection may do. Airbnb: the OAuth scope
                 tier. Vrbo: `messaging` (or `read_only`) imports bookings and messages and never pushes the calendar;
                 `full_access` also pushes prices and availability. Setting it locks the choice; omit it to let the host choose
@@ -59,6 +62,7 @@ class CreateConnectSessionBody:
 
     redirect_url: str
     state: None | str | Unset = UNSET
+    reservation_history_months: int | Unset = UNSET
     access_type: CreateConnectSessionBodyAccessType | Unset = UNSET
     allowed_providers: list[str] | None | Unset = UNSET
     locale: None | str | Unset = UNSET
@@ -82,6 +86,8 @@ class CreateConnectSessionBody:
             state = UNSET
         else:
             state = self.state
+
+        reservation_history_months = self.reservation_history_months
 
         access_type: str | Unset = UNSET
         if not isinstance(self.access_type, Unset):
@@ -134,6 +140,8 @@ class CreateConnectSessionBody:
         })
         if state is not UNSET:
             field_dict["state"] = state
+        if reservation_history_months is not UNSET:
+            field_dict["reservationHistoryMonths"] = reservation_history_months
         if access_type is not UNSET:
             field_dict["accessType"] = access_type
         if allowed_providers is not UNSET:
@@ -169,6 +177,8 @@ class CreateConnectSessionBody:
 
         state = _parse_state(d.pop("state", UNSET))
 
+
+        reservation_history_months = d.pop("reservationHistoryMonths", UNSET)
 
         _access_type = d.pop("accessType", UNSET)
         access_type: CreateConnectSessionBodyAccessType | Unset
@@ -253,6 +263,7 @@ class CreateConnectSessionBody:
         create_connect_session_body = cls(
             redirect_url=redirect_url,
             state=state,
+            reservation_history_months=reservation_history_months,
             access_type=access_type,
             allowed_providers=allowed_providers,
             locale=locale,

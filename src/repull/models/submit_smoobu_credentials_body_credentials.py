@@ -20,10 +20,15 @@ T = TypeVar("T", bound="SubmitSmoobuCredentialsBodyCredentials")
 
 @_attrs_define
 class SubmitSmoobuCredentialsBodyCredentials:
-    """ API key from Smoobu → Settings → For developers.
+    """ HMAC API key + secret from Smoobu → Settings → Advanced → API Keys.
 
+        Attributes:
+            api_key (str): Smoobu API key.
+            api_secret (str): Smoobu API secret (shown once when generated).
      """
 
+    api_key: str
+    api_secret: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -31,9 +36,17 @@ class SubmitSmoobuCredentialsBodyCredentials:
 
 
     def to_dict(self) -> dict[str, Any]:
-        
+        api_key = self.api_key
+
+        api_secret = self.api_secret
+
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
+        field_dict.update({
+            "apiKey": api_key,
+            "apiSecret": api_secret,
+        })
 
         return field_dict
 
@@ -42,7 +55,13 @@ class SubmitSmoobuCredentialsBodyCredentials:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
+        api_key = d.pop("apiKey")
+
+        api_secret = d.pop("apiSecret")
+
         submit_smoobu_credentials_body_credentials = cls(
+            api_key=api_key,
+            api_secret=api_secret,
         )
 
 

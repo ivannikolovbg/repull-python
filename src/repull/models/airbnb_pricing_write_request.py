@@ -15,6 +15,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.airbnb_calendar_operation import AirbnbCalendarOperation
+  from ..models.airbnb_pricing_write_request_fees_type_0_item import AirbnbPricingWriteRequestFeesType0Item
   from ..models.airbnb_pricing_write_request_records_type_0_item import AirbnbPricingWriteRequestRecordsType0Item
   from ..models.airbnb_pricing_write_request_rule_type_0 import AirbnbPricingWriteRequestRuleType0
   from ..models.airbnb_pricing_write_request_settings_type_0 import AirbnbPricingWriteRequestSettingsType0
@@ -39,8 +40,22 @@ class AirbnbPricingWriteRequest:
                 restriction operations.
             model_type (AirbnbPricingWriteRequestModelType | Unset): Required when `type: "model"` — the pricing-
                 availability model to switch the listing to.
-            settings (AirbnbPricingWriteRequestSettingsType0 | None | Unset): Required for `type: "standard" | "rate-plan" |
-                "fees"` — the pricing-settings object to PUT.
+            settings (AirbnbPricingWriteRequestSettingsType0 | None | Unset): Required for `type: "standard" | "rate-plan"`
+                — the pricing-settings object to PUT. With `type: "fees"` it is the raw alternative to `fees`:
+                `{"standard_fees": [...]}` **replaces every fee** on the listing (Airbnb does not merge), so send the complete
+                list. Prefer `fees`.
+            fees (list[AirbnbPricingWriteRequestFeesType0Item] | None | Unset): With `type: "fees"` — the fee changes to
+                apply. **Merged by `fee_type`**: fees you do not mention are kept, the ones you send are set, and `amount: null`
+                removes that fee. (Airbnb itself replaces the whole fee list on every write, so Repull reads the listing's
+                current fees, applies your changes and writes the full set.) The response is the listing's fees as Airbnb holds
+                them afterwards.
+
+                **Units — the same as `GET …/pricing` returns:** a `flat` fee is the amount in the listing currency × 1,000,000
+                (`160000000` = 160.00); a `percent` fee is a whole percent of the rent (`10` = 10%).
+
+                Example — add a 10% management fee and keep everything else:
+                `{"type":"fees","fees":[{"fee_type":"PASS_THROUGH_MANAGEMENT_FEE","amount":10,"amount_type":"percent"}]}`.
+                Remove the pet fee: `{"type":"fees","fees":[{"fee_type":"PASS_THROUGH_PET_FEE","amount":null}]}`.
             records (list[AirbnbPricingWriteRequestRecordsType0Item] | None | Unset): Required for `type: "los"` — length-
                 of-stay records.
             currency (None | str | Unset): Required for `type: "currency"` — ISO 4217 code in capitals, e.g. `USD`.
@@ -52,6 +67,7 @@ class AirbnbPricingWriteRequest:
     operations: list[AirbnbCalendarOperation] | Unset = UNSET
     model_type: AirbnbPricingWriteRequestModelType | Unset = UNSET
     settings: AirbnbPricingWriteRequestSettingsType0 | None | Unset = UNSET
+    fees: list[AirbnbPricingWriteRequestFeesType0Item] | None | Unset = UNSET
     records: list[AirbnbPricingWriteRequestRecordsType0Item] | None | Unset = UNSET
     currency: None | str | Unset = UNSET
     rule: AirbnbPricingWriteRequestRuleType0 | None | Unset = UNSET
@@ -63,6 +79,7 @@ class AirbnbPricingWriteRequest:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.airbnb_calendar_operation import AirbnbCalendarOperation
+        from ..models.airbnb_pricing_write_request_fees_type_0_item import AirbnbPricingWriteRequestFeesType0Item
         from ..models.airbnb_pricing_write_request_records_type_0_item import AirbnbPricingWriteRequestRecordsType0Item
         from ..models.airbnb_pricing_write_request_rule_type_0 import AirbnbPricingWriteRequestRuleType0
         from ..models.airbnb_pricing_write_request_settings_type_0 import AirbnbPricingWriteRequestSettingsType0
@@ -89,6 +106,19 @@ class AirbnbPricingWriteRequest:
             settings = self.settings.to_dict()
         else:
             settings = self.settings
+
+        fees: list[dict[str, Any]] | None | Unset
+        if isinstance(self.fees, Unset):
+            fees = UNSET
+        elif isinstance(self.fees, list):
+            fees = []
+            for fees_type_0_item_data in self.fees:
+                fees_type_0_item = fees_type_0_item_data.to_dict()
+                fees.append(fees_type_0_item)
+
+
+        else:
+            fees = self.fees
 
         records: list[dict[str, Any]] | None | Unset
         if isinstance(self.records, Unset):
@@ -129,6 +159,8 @@ class AirbnbPricingWriteRequest:
             field_dict["modelType"] = model_type
         if settings is not UNSET:
             field_dict["settings"] = settings
+        if fees is not UNSET:
+            field_dict["fees"] = fees
         if records is not UNSET:
             field_dict["records"] = records
         if currency is not UNSET:
@@ -143,6 +175,7 @@ class AirbnbPricingWriteRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.airbnb_calendar_operation import AirbnbCalendarOperation
+        from ..models.airbnb_pricing_write_request_fees_type_0_item import AirbnbPricingWriteRequestFeesType0Item
         from ..models.airbnb_pricing_write_request_records_type_0_item import AirbnbPricingWriteRequestRecordsType0Item
         from ..models.airbnb_pricing_write_request_rule_type_0 import AirbnbPricingWriteRequestRuleType0
         from ..models.airbnb_pricing_write_request_settings_type_0 import AirbnbPricingWriteRequestSettingsType0
@@ -192,6 +225,31 @@ class AirbnbPricingWriteRequest:
             return cast(AirbnbPricingWriteRequestSettingsType0 | None | Unset, data)
 
         settings = _parse_settings(d.pop("settings", UNSET))
+
+
+        def _parse_fees(data: object) -> list[AirbnbPricingWriteRequestFeesType0Item] | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                fees_type_0 = []
+                _fees_type_0 = data
+                for fees_type_0_item_data in (_fees_type_0):
+                    fees_type_0_item = AirbnbPricingWriteRequestFeesType0Item.from_dict(fees_type_0_item_data)
+
+
+
+                    fees_type_0.append(fees_type_0_item)
+
+                return fees_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(list[AirbnbPricingWriteRequestFeesType0Item] | None | Unset, data)
+
+        fees = _parse_fees(d.pop("fees", UNSET))
 
 
         def _parse_records(data: object) -> list[AirbnbPricingWriteRequestRecordsType0Item] | None | Unset:
@@ -254,6 +312,7 @@ class AirbnbPricingWriteRequest:
             operations=operations,
             model_type=model_type,
             settings=settings,
+            fees=fees,
             records=records,
             currency=currency,
             rule=rule,

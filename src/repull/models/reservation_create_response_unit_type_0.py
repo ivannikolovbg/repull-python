@@ -22,7 +22,7 @@ T = TypeVar("T", bound="ReservationCreateResponseUnitType0")
 
 @_attrs_define
 class ReservationCreateResponseUnitType0:
-    """ Mews or Cloudbeds listings only: the room the PMS assigned. Absent for every other listing.
+    """ PMS listings: the unit the PMS assigned (hotel-model PMSs), or null. Absent for direct bookings.
 
         Attributes:
             id (str | Unset):

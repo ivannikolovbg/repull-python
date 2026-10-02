@@ -9,28 +9,27 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from typing import cast
+
+if TYPE_CHECKING:
+  from ..models.update_airbnb_checkin_guide_response_200_data import UpdateAirbnbCheckinGuideResponse200Data
 
 
 
 
 
-
-T = TypeVar("T", bound="CancelReservationResponse200PmsErrorsItem")
+T = TypeVar("T", bound="UpdateAirbnbCheckinGuideResponse200")
 
 
 
 @_attrs_define
-class CancelReservationResponse200PmsErrorsItem:
+class UpdateAirbnbCheckinGuideResponse200:
     """ 
         Attributes:
-            section (str | Unset):
-            message (str | Unset):
-            code (str | Unset):
+            data (UpdateAirbnbCheckinGuideResponse200Data | Unset):
      """
 
-    section: str | Unset = UNSET
-    message: str | Unset = UNSET
-    code: str | Unset = UNSET
+    data: UpdateAirbnbCheckinGuideResponse200Data | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,23 +37,18 @@ class CancelReservationResponse200PmsErrorsItem:
 
 
     def to_dict(self) -> dict[str, Any]:
-        section = self.section
-
-        message = self.message
-
-        code = self.code
+        from ..models.update_airbnb_checkin_guide_response_200_data import UpdateAirbnbCheckinGuideResponse200Data
+        data: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.data, Unset):
+            data = self.data.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
-        if section is not UNSET:
-            field_dict["section"] = section
-        if message is not UNSET:
-            field_dict["message"] = message
-        if code is not UNSET:
-            field_dict["code"] = code
+        if data is not UNSET:
+            field_dict["data"] = data
 
         return field_dict
 
@@ -62,22 +56,25 @@ class CancelReservationResponse200PmsErrorsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.update_airbnb_checkin_guide_response_200_data import UpdateAirbnbCheckinGuideResponse200Data
         d = dict(src_dict)
-        section = d.pop("section", UNSET)
+        _data = d.pop("data", UNSET)
+        data: UpdateAirbnbCheckinGuideResponse200Data | Unset
+        if isinstance(_data,  Unset):
+            data = UNSET
+        else:
+            data = UpdateAirbnbCheckinGuideResponse200Data.from_dict(_data)
 
-        message = d.pop("message", UNSET)
 
-        code = d.pop("code", UNSET)
 
-        cancel_reservation_response_200_pms_errors_item = cls(
-            section=section,
-            message=message,
-            code=code,
+
+        update_airbnb_checkin_guide_response_200 = cls(
+            data=data,
         )
 
 
-        cancel_reservation_response_200_pms_errors_item.additional_properties = d
-        return cancel_reservation_response_200_pms_errors_item
+        update_airbnb_checkin_guide_response_200.additional_properties = d
+        return update_airbnb_checkin_guide_response_200
 
     @property
     def additional_keys(self) -> list[str]:

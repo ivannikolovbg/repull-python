@@ -8,8 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
-from typing import cast
 
 
 
@@ -22,55 +20,20 @@ T = TypeVar("T", bound="AirbnbPermitsWriteRequestPermitsItemAnswersAdditionalPro
 
 @_attrs_define
 class AirbnbPermitsWriteRequestPermitsItemAnswersAdditionalProperty:
-    """ 
-        Attributes:
-            text_value (str | Unset):
-            attestation_value (bool | Unset):
-            radio_value (str | Unset):
-            date_value (str | Unset): ISO date, YYYY-MM-DD.
-            selected_options_value (list[str] | Unset):
+    """ Exactly one `<type>_value` field.
+
      """
 
-    text_value: str | Unset = UNSET
-    attestation_value: bool | Unset = UNSET
-    radio_value: str | Unset = UNSET
-    date_value: str | Unset = UNSET
-    selected_options_value: list[str] | Unset = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
 
 
 
     def to_dict(self) -> dict[str, Any]:
-        text_value = self.text_value
-
-        attestation_value = self.attestation_value
-
-        radio_value = self.radio_value
-
-        date_value = self.date_value
-
-        selected_options_value: list[str] | Unset = UNSET
-        if not isinstance(self.selected_options_value, Unset):
-            selected_options_value = self.selected_options_value
-
-
-
-
+        
         field_dict: dict[str, Any] = {}
-
-        field_dict.update({
-        })
-        if text_value is not UNSET:
-            field_dict["text_value"] = text_value
-        if attestation_value is not UNSET:
-            field_dict["attestation_value"] = attestation_value
-        if radio_value is not UNSET:
-            field_dict["radio_value"] = radio_value
-        if date_value is not UNSET:
-            field_dict["date_value"] = date_value
-        if selected_options_value is not UNSET:
-            field_dict["selected_options_value"] = selected_options_value
+        field_dict.update(self.additional_properties)
 
         return field_dict
 
@@ -79,24 +42,25 @@ class AirbnbPermitsWriteRequestPermitsItemAnswersAdditionalProperty:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        text_value = d.pop("text_value", UNSET)
-
-        attestation_value = d.pop("attestation_value", UNSET)
-
-        radio_value = d.pop("radio_value", UNSET)
-
-        date_value = d.pop("date_value", UNSET)
-
-        selected_options_value = cast(list[str], d.pop("selected_options_value", UNSET))
-
-
         airbnb_permits_write_request_permits_item_answers_additional_property = cls(
-            text_value=text_value,
-            attestation_value=attestation_value,
-            radio_value=radio_value,
-            date_value=date_value,
-            selected_options_value=selected_options_value,
         )
 
+
+        airbnb_permits_write_request_permits_item_answers_additional_property.additional_properties = d
         return airbnb_permits_write_request_permits_item_answers_additional_property
 
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

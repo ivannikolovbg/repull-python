@@ -8,29 +8,27 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
+from typing import cast
 
 
 
 
 
 
-T = TypeVar("T", bound="ReservationCreateResponsePmsErrorsItem")
+T = TypeVar("T", bound="ErrorErrorListingsItem")
 
 
 
 @_attrs_define
-class ReservationCreateResponsePmsErrorsItem:
+class ErrorErrorListingsItem:
     """ 
         Attributes:
-            section (str | Unset):
-            message (str | Unset):
-            code (str | Unset):
+            id (str):  Example: 4118.
+            name (None | str):  Example: R-Sable 1302.
      """
 
-    section: str | Unset = UNSET
-    message: str | Unset = UNSET
-    code: str | Unset = UNSET
+    id: str
+    name: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,23 +36,18 @@ class ReservationCreateResponsePmsErrorsItem:
 
 
     def to_dict(self) -> dict[str, Any]:
-        section = self.section
+        id = self.id
 
-        message = self.message
-
-        code = self.code
+        name: None | str
+        name = self.name
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
+            "id": id,
+            "name": name,
         })
-        if section is not UNSET:
-            field_dict["section"] = section
-        if message is not UNSET:
-            field_dict["message"] = message
-        if code is not UNSET:
-            field_dict["code"] = code
 
         return field_dict
 
@@ -63,21 +56,24 @@ class ReservationCreateResponsePmsErrorsItem:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        section = d.pop("section", UNSET)
+        id = d.pop("id")
 
-        message = d.pop("message", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        code = d.pop("code", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        reservation_create_response_pms_errors_item = cls(
-            section=section,
-            message=message,
-            code=code,
+
+        error_error_listings_item = cls(
+            id=id,
+            name=name,
         )
 
 
-        reservation_create_response_pms_errors_item.additional_properties = d
-        return reservation_create_response_pms_errors_item
+        error_error_listings_item.additional_properties = d
+        return error_error_listings_item
 
     @property
     def additional_keys(self) -> list[str]:

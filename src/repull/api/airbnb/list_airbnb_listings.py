@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.airbnb_listing_list_response import AirbnbListingListResponse
 from ...models.error import Error
+from ...models.list_airbnb_listings_status import ListAirbnbListingsStatus
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -17,6 +18,7 @@ from typing import cast
 
 def _get_kwargs(
     *,
+    status: ListAirbnbListingsStatus | Unset = ListAirbnbListingsStatus.ACTIVE,
     account_id: str | Unset = UNSET,
     include: str | Unset = UNSET,
 
@@ -26,6 +28,12 @@ def _get_kwargs(
     
 
     params: dict[str, Any] = {}
+
+    json_status: str | Unset = UNSET
+    if not isinstance(status, Unset):
+        json_status = status.value
+
+    params["status"] = json_status
 
     params["account_id"] = account_id
 
@@ -86,6 +94,7 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    status: ListAirbnbListingsStatus | Unset = ListAirbnbListingsStatus.ACTIVE,
     account_id: str | Unset = UNSET,
     include: str | Unset = UNSET,
 
@@ -114,8 +123,10 @@ def sync_detailed(
     does not change it (the host must switch the listing on in Airbnb). Check `writable` here before a
     portfolio-wide push instead of discovering it one 403 at a time.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    Inactive listings are left out unless `?status=inactive|all` asks for them; they then come back with
+    identity fields only — `listingId`, `name`, `city`, `status`, `inactiveReason` (`plan_limit`,
+    `unlisted_on_airbnb` or `deactivated`) and each connection's ids and account — so you can show the
+    user what to activate. They keep syncing and are complete again once activated.
 
     **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
     connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
@@ -123,6 +134,7 @@ def sync_detailed(
     freshness separately, so one disconnected host no longer marks the whole response stale.
 
     Args:
+        status (ListAirbnbListingsStatus | Unset):  Default: ListAirbnbListingsStatus.ACTIVE.
         account_id (str | Unset):  Example: 1772489413932732258.
         include (str | Unset):  Example: amenities,thumbnail.
 
@@ -136,7 +148,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        account_id=account_id,
+        status=status,
+account_id=account_id,
 include=include,
 
     )
@@ -150,6 +163,7 @@ include=include,
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    status: ListAirbnbListingsStatus | Unset = ListAirbnbListingsStatus.ACTIVE,
     account_id: str | Unset = UNSET,
     include: str | Unset = UNSET,
 
@@ -178,8 +192,10 @@ def sync(
     does not change it (the host must switch the listing on in Airbnb). Check `writable` here before a
     portfolio-wide push instead of discovering it one 403 at a time.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    Inactive listings are left out unless `?status=inactive|all` asks for them; they then come back with
+    identity fields only — `listingId`, `name`, `city`, `status`, `inactiveReason` (`plan_limit`,
+    `unlisted_on_airbnb` or `deactivated`) and each connection's ids and account — so you can show the
+    user what to activate. They keep syncing and are complete again once activated.
 
     **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
     connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
@@ -187,6 +203,7 @@ def sync(
     freshness separately, so one disconnected host no longer marks the whole response stale.
 
     Args:
+        status (ListAirbnbListingsStatus | Unset):  Default: ListAirbnbListingsStatus.ACTIVE.
         account_id (str | Unset):  Example: 1772489413932732258.
         include (str | Unset):  Example: amenities,thumbnail.
 
@@ -201,6 +218,7 @@ def sync(
 
     return sync_detailed(
         client=client,
+status=status,
 account_id=account_id,
 include=include,
 
@@ -209,6 +227,7 @@ include=include,
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    status: ListAirbnbListingsStatus | Unset = ListAirbnbListingsStatus.ACTIVE,
     account_id: str | Unset = UNSET,
     include: str | Unset = UNSET,
 
@@ -237,8 +256,10 @@ async def asyncio_detailed(
     does not change it (the host must switch the listing on in Airbnb). Check `writable` here before a
     portfolio-wide push instead of discovering it one 403 at a time.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    Inactive listings are left out unless `?status=inactive|all` asks for them; they then come back with
+    identity fields only — `listingId`, `name`, `city`, `status`, `inactiveReason` (`plan_limit`,
+    `unlisted_on_airbnb` or `deactivated`) and each connection's ids and account — so you can show the
+    user what to activate. They keep syncing and are complete again once activated.
 
     **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
     connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
@@ -246,6 +267,7 @@ async def asyncio_detailed(
     freshness separately, so one disconnected host no longer marks the whole response stale.
 
     Args:
+        status (ListAirbnbListingsStatus | Unset):  Default: ListAirbnbListingsStatus.ACTIVE.
         account_id (str | Unset):  Example: 1772489413932732258.
         include (str | Unset):  Example: amenities,thumbnail.
 
@@ -259,7 +281,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        account_id=account_id,
+        status=status,
+account_id=account_id,
 include=include,
 
     )
@@ -273,6 +296,7 @@ include=include,
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    status: ListAirbnbListingsStatus | Unset = ListAirbnbListingsStatus.ACTIVE,
     account_id: str | Unset = UNSET,
     include: str | Unset = UNSET,
 
@@ -301,8 +325,10 @@ async def asyncio(
     does not change it (the host must switch the listing on in Airbnb). Check `writable` here before a
     portfolio-wide push instead of discovering it one 403 at a time.
 
-    Inactive listings are left out; they keep syncing and reappear once activated. Use `GET
-    /v1/listings?status=inactive` to find them.
+    Inactive listings are left out unless `?status=inactive|all` asks for them; they then come back with
+    identity fields only — `listingId`, `name`, `city`, `status`, `inactiveReason` (`plan_limit`,
+    `unlisted_on_airbnb` or `deactivated`) and each connection's ids and account — so you can show the
+    user what to activate. They keep syncing and are complete again once activated.
 
     **Several Airbnb accounts?** A workspace can connect more than one. By default this returns every
     connected account's rows; pass `?account_id=<airbnb host id>` to scope to one. Every row carries
@@ -310,6 +336,7 @@ async def asyncio(
     freshness separately, so one disconnected host no longer marks the whole response stale.
 
     Args:
+        status (ListAirbnbListingsStatus | Unset):  Default: ListAirbnbListingsStatus.ACTIVE.
         account_id (str | Unset):  Example: 1772489413932732258.
         include (str | Unset):  Example: amenities,thumbnail.
 
@@ -324,6 +351,7 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+status=status,
 account_id=account_id,
 include=include,
 

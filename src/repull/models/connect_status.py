@@ -17,7 +17,9 @@ import datetime
 if TYPE_CHECKING:
   from ..models.connect_host import ConnectHost
   from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
+  from ..models.connect_status_capabilities import ConnectStatusCapabilities
   from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
+  from ..models.connection_action import ConnectionAction
   from ..models.pms_write_policy import PmsWritePolicy
 
 
@@ -50,9 +52,18 @@ class ConnectStatus:
                 start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
                 everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
                 True, 'restrictions': False}, 'reservations': {'website': True, 'dashboard': True, 'api': True}}.
+            capabilities (ConnectStatusCapabilities | Unset): PMS providers only. `reservations`: which reservation writes
+                the API performs on this connection's listings — the connector's support combined with `writePolicy`. When
+                `connected` is false, what the connector supports once connected.
             data_freshness (ConnectStatusDataFreshness | Unset): Vrbo only: the same freshness envelope the Airbnb read
                 endpoints return, per account and in aggregate. Its reason is never_synced until a mapping is confirmed and
                 importing while upcoming bookings come in.
+            action (ConnectionAction | None | Unset): Smoobu only: set to `{ required: true, reason: "reauth_required",
+                message }` when the connection still uses a legacy single API key, which Smoobu stops accepting on October 31,
+                2026. `null` once it is on an API key + secret.
+            fix_url (None | str | Unset): Smoobu only: durable link to the hosted Smoobu form where the host pastes a new
+                API key + secret. Submitting it updates this same connection (`id` unchanged). Present only when
+                `action.required` is true.
      """
 
     connected: bool | Unset = UNSET
@@ -64,7 +75,10 @@ class ConnectStatus:
     host: ConnectHost | None | Unset = UNSET
     accounts: list[ConnectStatusAccountsItem] | Unset = UNSET
     write_policy: PmsWritePolicy | Unset = UNSET
+    capabilities: ConnectStatusCapabilities | Unset = UNSET
     data_freshness: ConnectStatusDataFreshness | Unset = UNSET
+    action: ConnectionAction | None | Unset = UNSET
+    fix_url: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -74,7 +88,9 @@ class ConnectStatus:
     def to_dict(self) -> dict[str, Any]:
         from ..models.connect_host import ConnectHost
         from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
+        from ..models.connect_status_capabilities import ConnectStatusCapabilities
         from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
+        from ..models.connection_action import ConnectionAction
         from ..models.pms_write_policy import PmsWritePolicy
         connected = self.connected
 
@@ -118,9 +134,27 @@ class ConnectStatus:
         if not isinstance(self.write_policy, Unset):
             write_policy = self.write_policy.to_dict()
 
+        capabilities: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.capabilities, Unset):
+            capabilities = self.capabilities.to_dict()
+
         data_freshness: dict[str, Any] | Unset = UNSET
         if not isinstance(self.data_freshness, Unset):
             data_freshness = self.data_freshness.to_dict()
+
+        action: dict[str, Any] | None | Unset
+        if isinstance(self.action, Unset):
+            action = UNSET
+        elif isinstance(self.action, ConnectionAction):
+            action = self.action.to_dict()
+        else:
+            action = self.action
+
+        fix_url: None | str | Unset
+        if isinstance(self.fix_url, Unset):
+            fix_url = UNSET
+        else:
+            fix_url = self.fix_url
 
 
         field_dict: dict[str, Any] = {}
@@ -145,8 +179,14 @@ class ConnectStatus:
             field_dict["accounts"] = accounts
         if write_policy is not UNSET:
             field_dict["writePolicy"] = write_policy
+        if capabilities is not UNSET:
+            field_dict["capabilities"] = capabilities
         if data_freshness is not UNSET:
             field_dict["dataFreshness"] = data_freshness
+        if action is not UNSET:
+            field_dict["action"] = action
+        if fix_url is not UNSET:
+            field_dict["fixUrl"] = fix_url
 
         return field_dict
 
@@ -156,7 +196,9 @@ class ConnectStatus:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.connect_host import ConnectHost
         from ..models.connect_status_accounts_item import ConnectStatusAccountsItem
+        from ..models.connect_status_capabilities import ConnectStatusCapabilities
         from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
+        from ..models.connection_action import ConnectionAction
         from ..models.pms_write_policy import PmsWritePolicy
         d = dict(src_dict)
         connected = d.pop("connected", UNSET)
@@ -237,6 +279,16 @@ class ConnectStatus:
 
 
 
+        _capabilities = d.pop("capabilities", UNSET)
+        capabilities: ConnectStatusCapabilities | Unset
+        if isinstance(_capabilities,  Unset):
+            capabilities = UNSET
+        else:
+            capabilities = ConnectStatusCapabilities.from_dict(_capabilities)
+
+
+
+
         _data_freshness = d.pop("dataFreshness", UNSET)
         data_freshness: ConnectStatusDataFreshness | Unset
         if isinstance(_data_freshness,  Unset):
@@ -245,6 +297,36 @@ class ConnectStatus:
             data_freshness = ConnectStatusDataFreshness.from_dict(_data_freshness)
 
 
+
+
+        def _parse_action(data: object) -> ConnectionAction | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                action_type_1 = ConnectionAction.from_dict(data)
+
+
+
+                return action_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ConnectionAction | None | Unset, data)
+
+        action = _parse_action(d.pop("action", UNSET))
+
+
+        def _parse_fix_url(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
 
 
         connect_status = cls(
@@ -257,7 +339,10 @@ class ConnectStatus:
             host=host,
             accounts=accounts,
             write_policy=write_policy,
+            capabilities=capabilities,
             data_freshness=data_freshness,
+            action=action,
+            fix_url=fix_url,
         )
 
 

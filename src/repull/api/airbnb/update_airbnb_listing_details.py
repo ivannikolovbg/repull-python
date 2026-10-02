@@ -128,22 +128,23 @@ def sync_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[AirbnbContentWriteResponse | Error]:
-    """ Update property type, room type, quiet hours or check-in method
+    """ Update property type, quiet hours, check-in method, house manual, directions or Wi-Fi
 
-     Change what kind of property the Airbnb listing is, when its quiet hours are, or how the guest gets
-    in. Partial: only the fields you send are written. At least one required; an unknown field is
-    refused by name rather than dropped.
+     Change what kind of property the Airbnb listing is, when its quiet hours are, how the guest gets in
+    (`check_in_option.instruction` is the arrival instructions), the house manual, directions to the
+    property, or the Wi-Fi network and password. Partial: only the fields you send are written. At least
+    one required; an unknown field is refused by name rather than dropped.
 
     This is the UPDATE path for fields that previously had none. `POST /v1/listings` accepts a
     `propertyType` when a listing is CREATED and nothing could change it afterwards, so a listing mis-
     typed at import stayed mis-typed; the check-in method was mirrored and never exposed at all.
 
     **A 200 does not by itself mean the change was applied.** `property_type_category`,
-    `property_type_group` and `check_in_option` are among the attributes Airbnb locks on established
-    listings: the write returns 200, and Airbnb applies nothing for the locked ones. The response
-    reports `blockedFields` — the fields YOU sent that Airbnb dropped — and `blockedFields: []` is what
-    a landed write looks like. `GET …/details` reports the same list as `lockedFields` so you can check
-    first.
+    `property_type_group`, `check_in_option`, `house_manual`, `directions`, `wifi_network` and
+    `wifi_password` are among the attributes Airbnb locks on some listings: the write returns 200, and
+    Airbnb applies nothing for the locked ones. The response reports `blockedFields` — the fields YOU
+    sent that Airbnb dropped — and `blockedFields: []` is what a landed write looks like. `GET
+    …/details` reports the same list as `lockedFields` so you can check first.
 
     Canonical property type (the value Repull keeps and republishes) is set with `PUT
     /v1/listings/{id}/content` under `details`; this endpoint writes straight to Airbnb.
@@ -154,8 +155,9 @@ def sync_detailed(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbListingDetailsWriteRequest): Update what kind of property this is, when the
-            quiet hours are, or how the guest gets in. At least one field required. These are among
-            the attributes Airbnb locks on established listings — see `blockedFields` on the response.
+            quiet hours are, how the guest gets in, the house manual, directions or Wi-Fi details. At
+            least one field required. These are among the attributes Airbnb locks on established
+            listings — see `blockedFields` on the response.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -187,22 +189,23 @@ def sync(
     idempotency_key: str | Unset = UNSET,
 
 ) -> AirbnbContentWriteResponse | Error | None:
-    """ Update property type, room type, quiet hours or check-in method
+    """ Update property type, quiet hours, check-in method, house manual, directions or Wi-Fi
 
-     Change what kind of property the Airbnb listing is, when its quiet hours are, or how the guest gets
-    in. Partial: only the fields you send are written. At least one required; an unknown field is
-    refused by name rather than dropped.
+     Change what kind of property the Airbnb listing is, when its quiet hours are, how the guest gets in
+    (`check_in_option.instruction` is the arrival instructions), the house manual, directions to the
+    property, or the Wi-Fi network and password. Partial: only the fields you send are written. At least
+    one required; an unknown field is refused by name rather than dropped.
 
     This is the UPDATE path for fields that previously had none. `POST /v1/listings` accepts a
     `propertyType` when a listing is CREATED and nothing could change it afterwards, so a listing mis-
     typed at import stayed mis-typed; the check-in method was mirrored and never exposed at all.
 
     **A 200 does not by itself mean the change was applied.** `property_type_category`,
-    `property_type_group` and `check_in_option` are among the attributes Airbnb locks on established
-    listings: the write returns 200, and Airbnb applies nothing for the locked ones. The response
-    reports `blockedFields` — the fields YOU sent that Airbnb dropped — and `blockedFields: []` is what
-    a landed write looks like. `GET …/details` reports the same list as `lockedFields` so you can check
-    first.
+    `property_type_group`, `check_in_option`, `house_manual`, `directions`, `wifi_network` and
+    `wifi_password` are among the attributes Airbnb locks on some listings: the write returns 200, and
+    Airbnb applies nothing for the locked ones. The response reports `blockedFields` — the fields YOU
+    sent that Airbnb dropped — and `blockedFields: []` is what a landed write looks like. `GET
+    …/details` reports the same list as `lockedFields` so you can check first.
 
     Canonical property type (the value Repull keeps and republishes) is set with `PUT
     /v1/listings/{id}/content` under `details`; this endpoint writes straight to Airbnb.
@@ -213,8 +216,9 @@ def sync(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbListingDetailsWriteRequest): Update what kind of property this is, when the
-            quiet hours are, or how the guest gets in. At least one field required. These are among
-            the attributes Airbnb locks on established listings — see `blockedFields` on the response.
+            quiet hours are, how the guest gets in, the house manual, directions or Wi-Fi details. At
+            least one field required. These are among the attributes Airbnb locks on established
+            listings — see `blockedFields` on the response.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -241,22 +245,23 @@ async def asyncio_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[AirbnbContentWriteResponse | Error]:
-    """ Update property type, room type, quiet hours or check-in method
+    """ Update property type, quiet hours, check-in method, house manual, directions or Wi-Fi
 
-     Change what kind of property the Airbnb listing is, when its quiet hours are, or how the guest gets
-    in. Partial: only the fields you send are written. At least one required; an unknown field is
-    refused by name rather than dropped.
+     Change what kind of property the Airbnb listing is, when its quiet hours are, how the guest gets in
+    (`check_in_option.instruction` is the arrival instructions), the house manual, directions to the
+    property, or the Wi-Fi network and password. Partial: only the fields you send are written. At least
+    one required; an unknown field is refused by name rather than dropped.
 
     This is the UPDATE path for fields that previously had none. `POST /v1/listings` accepts a
     `propertyType` when a listing is CREATED and nothing could change it afterwards, so a listing mis-
     typed at import stayed mis-typed; the check-in method was mirrored and never exposed at all.
 
     **A 200 does not by itself mean the change was applied.** `property_type_category`,
-    `property_type_group` and `check_in_option` are among the attributes Airbnb locks on established
-    listings: the write returns 200, and Airbnb applies nothing for the locked ones. The response
-    reports `blockedFields` — the fields YOU sent that Airbnb dropped — and `blockedFields: []` is what
-    a landed write looks like. `GET …/details` reports the same list as `lockedFields` so you can check
-    first.
+    `property_type_group`, `check_in_option`, `house_manual`, `directions`, `wifi_network` and
+    `wifi_password` are among the attributes Airbnb locks on some listings: the write returns 200, and
+    Airbnb applies nothing for the locked ones. The response reports `blockedFields` — the fields YOU
+    sent that Airbnb dropped — and `blockedFields: []` is what a landed write looks like. `GET
+    …/details` reports the same list as `lockedFields` so you can check first.
 
     Canonical property type (the value Repull keeps and republishes) is set with `PUT
     /v1/listings/{id}/content` under `details`; this endpoint writes straight to Airbnb.
@@ -267,8 +272,9 @@ async def asyncio_detailed(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbListingDetailsWriteRequest): Update what kind of property this is, when the
-            quiet hours are, or how the guest gets in. At least one field required. These are among
-            the attributes Airbnb locks on established listings — see `blockedFields` on the response.
+            quiet hours are, how the guest gets in, the house manual, directions or Wi-Fi details. At
+            least one field required. These are among the attributes Airbnb locks on established
+            listings — see `blockedFields` on the response.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -300,22 +306,23 @@ async def asyncio(
     idempotency_key: str | Unset = UNSET,
 
 ) -> AirbnbContentWriteResponse | Error | None:
-    """ Update property type, room type, quiet hours or check-in method
+    """ Update property type, quiet hours, check-in method, house manual, directions or Wi-Fi
 
-     Change what kind of property the Airbnb listing is, when its quiet hours are, or how the guest gets
-    in. Partial: only the fields you send are written. At least one required; an unknown field is
-    refused by name rather than dropped.
+     Change what kind of property the Airbnb listing is, when its quiet hours are, how the guest gets in
+    (`check_in_option.instruction` is the arrival instructions), the house manual, directions to the
+    property, or the Wi-Fi network and password. Partial: only the fields you send are written. At least
+    one required; an unknown field is refused by name rather than dropped.
 
     This is the UPDATE path for fields that previously had none. `POST /v1/listings` accepts a
     `propertyType` when a listing is CREATED and nothing could change it afterwards, so a listing mis-
     typed at import stayed mis-typed; the check-in method was mirrored and never exposed at all.
 
     **A 200 does not by itself mean the change was applied.** `property_type_category`,
-    `property_type_group` and `check_in_option` are among the attributes Airbnb locks on established
-    listings: the write returns 200, and Airbnb applies nothing for the locked ones. The response
-    reports `blockedFields` — the fields YOU sent that Airbnb dropped — and `blockedFields: []` is what
-    a landed write looks like. `GET …/details` reports the same list as `lockedFields` so you can check
-    first.
+    `property_type_group`, `check_in_option`, `house_manual`, `directions`, `wifi_network` and
+    `wifi_password` are among the attributes Airbnb locks on some listings: the write returns 200, and
+    Airbnb applies nothing for the locked ones. The response reports `blockedFields` — the fields YOU
+    sent that Airbnb dropped — and `blockedFields: []` is what a landed write looks like. `GET
+    …/details` reports the same list as `lockedFields` so you can check first.
 
     Canonical property type (the value Repull keeps and republishes) is set with `PUT
     /v1/listings/{id}/content` under `details`; this endpoint writes straight to Airbnb.
@@ -326,8 +333,9 @@ async def asyncio(
         id (str):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
         body (AirbnbListingDetailsWriteRequest): Update what kind of property this is, when the
-            quiet hours are, or how the guest gets in. At least one field required. These are among
-            the attributes Airbnb locks on established listings — see `blockedFields` on the response.
+            quiet hours are, how the guest gets in, the house manual, directions or Wi-Fi details. At
+            least one field required. These are among the attributes Airbnb locks on established
+            listings — see `blockedFields` on the response.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

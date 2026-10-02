@@ -80,6 +80,10 @@ from .airbnb_permits_write_request_permits_item_answers import AirbnbPermitsWrit
 from .airbnb_permits_write_request_permits_item_answers_additional_property import AirbnbPermitsWriteRequestPermitsItemAnswersAdditionalProperty
 from .airbnb_photo_position import AirbnbPhotoPosition
 from .airbnb_pricing_write_request import AirbnbPricingWriteRequest
+from .airbnb_pricing_write_request_fees_type_0_item import AirbnbPricingWriteRequestFeesType0Item
+from .airbnb_pricing_write_request_fees_type_0_item_amount_type import AirbnbPricingWriteRequestFeesType0ItemAmountType
+from .airbnb_pricing_write_request_fees_type_0_item_charge_period import AirbnbPricingWriteRequestFeesType0ItemChargePeriod
+from .airbnb_pricing_write_request_fees_type_0_item_charge_type import AirbnbPricingWriteRequestFeesType0ItemChargeType
 from .airbnb_pricing_write_request_model_type import AirbnbPricingWriteRequestModelType
 from .airbnb_pricing_write_request_records_type_0_item import AirbnbPricingWriteRequestRecordsType0Item
 from .airbnb_pricing_write_request_rule_type_0 import AirbnbPricingWriteRequestRuleType0
@@ -152,7 +156,9 @@ from .booking_property_action_response import BookingPropertyActionResponse
 from .booking_property_action_response_action import BookingPropertyActionResponseAction
 from .booking_property_action_response_channel import BookingPropertyActionResponseChannel
 from .booking_property_listings_item import BookingPropertyListingsItem
+from .booking_property_listings_item_inactive_reason import BookingPropertyListingsItemInactiveReason
 from .booking_property_listings_item_mapped_via import BookingPropertyListingsItemMappedVia
+from .booking_property_listings_item_status import BookingPropertyListingsItemStatus
 from .booking_property_mapping_status import BookingPropertyMappingStatus
 from .booking_publish_result import BookingPublishResult
 from .booking_publish_section_error import BookingPublishSectionError
@@ -205,8 +211,6 @@ from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
 from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
 from .cancel_reservation_body import CancelReservationBody
 from .cancel_reservation_response_200 import CancelReservationResponse200
-from .cancel_reservation_response_200_pms import CancelReservationResponse200Pms
-from .cancel_reservation_response_200_pms_errors_item import CancelReservationResponse200PmsErrorsItem
 from .cancel_reservation_response_200_status import CancelReservationResponse200Status
 from .channel_market_state_item import ChannelMarketStateItem
 from .channel_market_state_item_channel import ChannelMarketStateItemChannel
@@ -231,9 +235,11 @@ from .connect_session_purpose import ConnectSessionPurpose
 from .connect_status import ConnectStatus
 from .connect_status_accounts_item import ConnectStatusAccountsItem
 from .connect_status_accounts_item_access_type import ConnectStatusAccountsItemAccessType
+from .connect_status_capabilities import ConnectStatusCapabilities
 from .connect_status_data_freshness import ConnectStatusDataFreshness
 from .connect_status_status import ConnectStatusStatus
 from .connection import Connection
+from .connection_action import ConnectionAction
 from .connection_list_response import ConnectionListResponse
 from .connection_status import ConnectionStatus
 from .conversation import Conversation
@@ -310,6 +316,7 @@ from .delete_migration_response_200 import DeleteMigrationResponse200
 from .delete_migration_response_200_data import DeleteMigrationResponse200Data
 from .error import Error
 from .error_error import ErrorError
+from .error_error_listings_item import ErrorErrorListingsItem
 from .error_error_support import ErrorErrorSupport
 from .get_airbnb_alteration_response_200 import GetAirbnbAlterationResponse200
 from .get_airbnb_booking_settings_response_200 import GetAirbnbBookingSettingsResponse200
@@ -428,6 +435,7 @@ from .list_airbnb_listing_permits_source import ListAirbnbListingPermitsSource
 from .list_airbnb_listing_rooms_response_200 import ListAirbnbListingRoomsResponse200
 from .list_airbnb_listing_rooms_response_200_data_item import ListAirbnbListingRoomsResponse200DataItem
 from .list_airbnb_listing_safety_disclosures_response_200 import ListAirbnbListingSafetyDisclosuresResponse200
+from .list_airbnb_listings_status import ListAirbnbListingsStatus
 from .list_airbnb_reservations_status import ListAirbnbReservationsStatus
 from .list_airbnb_thread_messages_response_200 import ListAirbnbThreadMessagesResponse200
 from .list_airbnb_thread_messages_response_200_data_freshness import ListAirbnbThreadMessagesResponse200DataFreshness
@@ -435,6 +443,7 @@ from .list_airbnb_thread_messages_response_200_data_item import ListAirbnbThread
 from .list_airbnb_thread_messages_response_200_pagination import ListAirbnbThreadMessagesResponse200Pagination
 from .list_airbnb_transactions_response_200 import ListAirbnbTransactionsResponse200
 from .list_airbnb_transactions_status import ListAirbnbTransactionsStatus
+from .list_booking_properties_status import ListBookingPropertiesStatus
 from .list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
 from .list_booking_reservations_type import ListBookingReservationsType
 from .list_connection_units_response_200 import ListConnectionUnitsResponse200
@@ -466,6 +475,7 @@ from .list_reservations_status import ListReservationsStatus
 from .list_reviews_platform import ListReviewsPlatform
 from .list_reviews_reviewer_role import ListReviewsReviewerRole
 from .list_reviews_status import ListReviewsStatus
+from .list_vrbo_listings_status import ListVrboListingsStatus
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
 from .listing import Listing
 from .listing_active_request import ListingActiveRequest
@@ -473,6 +483,7 @@ from .listing_active_response import ListingActiveResponse
 from .listing_address import ListingAddress
 from .listing_address_readiness import ListingAddressReadiness
 from .listing_amenity import ListingAmenity
+from .listing_capabilities import ListingCapabilities
 from .listing_channel import ListingChannel
 from .listing_comp import ListingComp
 from .listing_comp_nightly import ListingCompNightly
@@ -724,11 +735,13 @@ from .reservation_cancelled_event import ReservationCancelledEvent
 from .reservation_cancelled_event_event import ReservationCancelledEventEvent
 from .reservation_cancelled_payload import ReservationCancelledPayload
 from .reservation_cancelled_payload_cancelled_by import ReservationCancelledPayloadCancelledBy
+from .reservation_capabilities import ReservationCapabilities
+from .reservation_capabilities_managed_by import ReservationCapabilitiesManagedBy
+from .reservation_capabilities_verified_against import ReservationCapabilitiesVerifiedAgainst
 from .reservation_create_request import ReservationCreateRequest
 from .reservation_create_request_platform import ReservationCreateRequestPlatform
+from .reservation_create_request_status import ReservationCreateRequestStatus
 from .reservation_create_response import ReservationCreateResponse
-from .reservation_create_response_pms import ReservationCreateResponsePms
-from .reservation_create_response_pms_errors_item import ReservationCreateResponsePmsErrorsItem
 from .reservation_create_response_unit_type_0 import ReservationCreateResponseUnitType0
 from .reservation_created_event import ReservationCreatedEvent
 from .reservation_created_event_event import ReservationCreatedEventEvent
@@ -760,7 +773,13 @@ from .reservation_pending_reason import ReservationPendingReason
 from .reservation_platform_type_1 import ReservationPlatformType1
 from .reservation_platform_type_2_type_1 import ReservationPlatformType2Type1
 from .reservation_platform_type_3_type_1 import ReservationPlatformType3Type1
+from .reservation_pms_outcome import ReservationPmsOutcome
+from .reservation_pms_outcome_quote import ReservationPmsOutcomeQuote
+from .reservation_pms_section_error import ReservationPmsSectionError
 from .reservation_primary_guest import ReservationPrimaryGuest
+from .reservation_quote_request import ReservationQuoteRequest
+from .reservation_quote_response import ReservationQuoteResponse
+from .reservation_quote_response_breakdown_type_0 import ReservationQuoteResponseBreakdownType0
 from .reservation_request_created_event import ReservationRequestCreatedEvent
 from .reservation_request_created_event_event import ReservationRequestCreatedEventEvent
 from .reservation_request_created_payload import ReservationRequestCreatedPayload
@@ -921,6 +940,11 @@ from .update_airbnb_booking_settings_response_200_data_settings_check_out import
 from .update_airbnb_booking_settings_response_200_data_settings_instant_book import UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBook
 from .update_airbnb_booking_settings_response_200_data_settings_instant_book_guest_category import UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBookGuestCategory
 from .update_airbnb_booking_settings_response_200_data_settings_preparation_time import UpdateAirbnbBookingSettingsResponse200DataSettingsPreparationTime
+from .update_airbnb_checkin_guide_body import UpdateAirbnbCheckinGuideBody
+from .update_airbnb_checkin_guide_body_steps_item import UpdateAirbnbCheckinGuideBodyStepsItem
+from .update_airbnb_checkin_guide_response_200 import UpdateAirbnbCheckinGuideResponse200
+from .update_airbnb_checkin_guide_response_200_data import UpdateAirbnbCheckinGuideResponse200Data
+from .update_airbnb_checkin_guide_response_200_data_steps_item import UpdateAirbnbCheckinGuideResponse200DataStepsItem
 from .update_airbnb_listing_amenities_body import UpdateAirbnbListingAmenitiesBody
 from .update_airbnb_listing_amenities_body_accessibility_amenities_item import UpdateAirbnbListingAmenitiesBodyAccessibilityAmenitiesItem
 from .update_airbnb_listing_amenities_body_amenities_item import UpdateAirbnbListingAmenitiesBodyAmenitiesItem
@@ -1087,6 +1111,10 @@ __all__ = (
     "AirbnbPermitsWriteRequestPermitsItemAnswersAdditionalProperty",
     "AirbnbPhotoPosition",
     "AirbnbPricingWriteRequest",
+    "AirbnbPricingWriteRequestFeesType0Item",
+    "AirbnbPricingWriteRequestFeesType0ItemAmountType",
+    "AirbnbPricingWriteRequestFeesType0ItemChargePeriod",
+    "AirbnbPricingWriteRequestFeesType0ItemChargeType",
     "AirbnbPricingWriteRequestModelType",
     "AirbnbPricingWriteRequestRecordsType0Item",
     "AirbnbPricingWriteRequestRuleType0",
@@ -1159,7 +1187,9 @@ __all__ = (
     "BookingPropertyActionResponseAction",
     "BookingPropertyActionResponseChannel",
     "BookingPropertyListingsItem",
+    "BookingPropertyListingsItemInactiveReason",
     "BookingPropertyListingsItemMappedVia",
+    "BookingPropertyListingsItemStatus",
     "BookingPropertyMappingStatus",
     "BookingPublishResult",
     "BookingPublishSectionError",
@@ -1212,8 +1242,6 @@ __all__ = (
     "CancelAirbnbAlterationBody",
     "CancelReservationBody",
     "CancelReservationResponse200",
-    "CancelReservationResponse200Pms",
-    "CancelReservationResponse200PmsErrorsItem",
     "CancelReservationResponse200Status",
     "ChannelMarketStateItem",
     "ChannelMarketStateItemChannel",
@@ -1224,6 +1252,7 @@ __all__ = (
     "ClearKvResponse200",
     "ConnectHost",
     "Connection",
+    "ConnectionAction",
     "ConnectionListResponse",
     "ConnectionStatus",
     "ConnectProvider",
@@ -1241,6 +1270,7 @@ __all__ = (
     "ConnectStatus",
     "ConnectStatusAccountsItem",
     "ConnectStatusAccountsItemAccessType",
+    "ConnectStatusCapabilities",
     "ConnectStatusDataFreshness",
     "ConnectStatusStatus",
     "Conversation",
@@ -1317,6 +1347,7 @@ __all__ = (
     "DeleteMigrationResponse200Data",
     "Error",
     "ErrorError",
+    "ErrorErrorListingsItem",
     "ErrorErrorSupport",
     "GetAirbnbAlterationResponse200",
     "GetAirbnbBookingSettingsResponse200",
@@ -1435,6 +1466,7 @@ __all__ = (
     "ListAirbnbListingRoomsResponse200",
     "ListAirbnbListingRoomsResponse200DataItem",
     "ListAirbnbListingSafetyDisclosuresResponse200",
+    "ListAirbnbListingsStatus",
     "ListAirbnbReservationsStatus",
     "ListAirbnbThreadMessagesResponse200",
     "ListAirbnbThreadMessagesResponse200DataFreshness",
@@ -1442,6 +1474,7 @@ __all__ = (
     "ListAirbnbThreadMessagesResponse200Pagination",
     "ListAirbnbTransactionsResponse200",
     "ListAirbnbTransactionsStatus",
+    "ListBookingPropertiesStatus",
     "ListBookingReservationsResponse200Type1",
     "ListBookingReservationsType",
     "ListConnectionUnitsResponse200",
@@ -1458,6 +1491,7 @@ __all__ = (
     "ListingAddress",
     "ListingAddressReadiness",
     "ListingAmenity",
+    "ListingCapabilities",
     "ListingChannel",
     "ListingComp",
     "ListingCompNightly",
@@ -1599,6 +1633,7 @@ __all__ = (
     "ListReviewsPlatform",
     "ListReviewsReviewerRole",
     "ListReviewsStatus",
+    "ListVrboListingsStatus",
     "ListWebhookDeliveriesStatus",
     "MapAirbnbListingRequest",
     "MapAirbnbListingResponse",
@@ -1731,14 +1766,16 @@ __all__ = (
     "ReservationCancelledEventEvent",
     "ReservationCancelledPayload",
     "ReservationCancelledPayloadCancelledBy",
+    "ReservationCapabilities",
+    "ReservationCapabilitiesManagedBy",
+    "ReservationCapabilitiesVerifiedAgainst",
     "ReservationCreatedEvent",
     "ReservationCreatedEventEvent",
     "ReservationCreatedPayload",
     "ReservationCreateRequest",
     "ReservationCreateRequestPlatform",
+    "ReservationCreateRequestStatus",
     "ReservationCreateResponse",
-    "ReservationCreateResponsePms",
-    "ReservationCreateResponsePmsErrorsItem",
     "ReservationCreateResponseUnitType0",
     "ReservationFinancials",
     "ReservationGuestDetails",
@@ -1767,7 +1804,13 @@ __all__ = (
     "ReservationPlatformType1",
     "ReservationPlatformType2Type1",
     "ReservationPlatformType3Type1",
+    "ReservationPmsOutcome",
+    "ReservationPmsOutcomeQuote",
+    "ReservationPmsSectionError",
     "ReservationPrimaryGuest",
+    "ReservationQuoteRequest",
+    "ReservationQuoteResponse",
+    "ReservationQuoteResponseBreakdownType0",
     "ReservationRequestCreatedEvent",
     "ReservationRequestCreatedEventEvent",
     "ReservationRequestCreatedPayload",
@@ -1928,6 +1971,11 @@ __all__ = (
     "UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBook",
     "UpdateAirbnbBookingSettingsResponse200DataSettingsInstantBookGuestCategory",
     "UpdateAirbnbBookingSettingsResponse200DataSettingsPreparationTime",
+    "UpdateAirbnbCheckinGuideBody",
+    "UpdateAirbnbCheckinGuideBodyStepsItem",
+    "UpdateAirbnbCheckinGuideResponse200",
+    "UpdateAirbnbCheckinGuideResponse200Data",
+    "UpdateAirbnbCheckinGuideResponse200DataStepsItem",
     "UpdateAirbnbListingAmenitiesBody",
     "UpdateAirbnbListingAmenitiesBodyAccessibilityAmenitiesItem",
     "UpdateAirbnbListingAmenitiesBodyAmenitiesItem",

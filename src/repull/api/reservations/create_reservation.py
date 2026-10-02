@@ -20,11 +20,15 @@ def _get_kwargs(
     *,
     body: ReservationCreateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(idempotency_key, Unset):
         headers["Idempotency-Key"] = idempotency_key
+
+    if not isinstance(x_account_id, Unset):
+        headers["X-Account-Id"] = x_account_id
 
 
 
@@ -55,6 +59,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_201
 
+    if response.status_code == 400:
+        response_400 = Error.from_dict(response.json())
+
+
+
+        return response_400
+
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
 
@@ -76,6 +87,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_404
 
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+
+
+        return response_409
+
     if response.status_code == 422:
         response_422 = Error.from_dict(response.json())
 
@@ -89,6 +107,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 
         return response_500
+
+    if response.status_code == 502:
+        response_502 = Error.from_dict(response.json())
+
+
+
+        return response_502
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -110,40 +135,105 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: ReservationCreateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ReservationCreateResponse]:
     """ Create a reservation
 
-     Creates a reservation and everything that hangs off one: the guest, the conversation thread, the
-    dashboard item, the calendar block, and the `reservation.created` fan-out that issues the door code
-    and starts the messaging automations.
+     Creates a reservation — in the listing's PMS when it has one, otherwise as a direct booking in
+    Repull.
 
-    **Platform is restricted to `direct`, `website` and `owner`.** Reservations on Airbnb, Booking.com
-    and Vrbo are owned by the channel and arrive through sync — creating one here would mint a local
-    booking the channel has never heard of, which then fights the next sync. Create those on the
+    ### Where the booking is made
+
+    - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez): the booking is created **in the PMS first**, then
+    recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation code
+    and nothing is duplicated. A booking is **never** created only in Repull for such a listing — the
+    PMS would keep selling the dates. What the PMS cannot do is refused (`422 pms_write_unsupported`),
+    never faked. The PMS checks availability: taken dates answer `409 pms_unavailable`.
+    - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
+    guest, the conversation, the calendar block and the `reservation.created` fan-out that issues the
+    door code and starts the messaging automations. Priced by the listing's own rates; **availability is
+    NOT checked** (call `GET /v1/availability/{propertyId}` first if that matters).
+
+    `GET /v1/listings/{id}` → `capabilities.reservations` says which applies to a listing and exactly
+    what it supports (`create`, `modify`, `cancel`, `quote`, `customPrice`, plus `notes`).
+
+    ### Fields by listing kind
+
+    | Field | PMS listing | Direct-booking listing |
+    |---|---|---|
+    | `listingId`, `checkIn`, `checkOut`, `guest`, `guestCount`, `adults`, `children` | ✓ | ✓ |
+    | `status` | `confirmed` (default) or `tentative` | ✓ |
+    | `totalPrice` | ✓ where `capabilities.reservations.customPrice`; otherwise the PMS prices the stay
+    | `422 unsupported_field` (priced from the listing's rates) |
+    | `notes`, `unitId`, `sendConfirmationEmail` | ✓ | `422 unsupported_field` |
+    | `checkInTime`, `checkOutTime`, `currency`, `guestId` | `422 unsupported_field` (the PMS's own
+    settings apply) | ✓ |
+    | `platform` | `direct` or `website` (`owner` → `422 pms_write_unsupported`; block owner stays in
+    the PMS) | `direct`, `website` or `owner` |
+
+    A field a listing cannot take is refused by name, never silently dropped. `platform` never accepts
+    `airbnb` / `booking` / `vrbo`: those reservations are owned by the channel and arrive through sync.
+
+    ### Per-PMS limits
+
+    | PMS | create | change | cancel | quote | `totalPrice` | Limits |
+    |---|---|---|---|---|---|---|
+    | Mews | ✓ | ✓ | ✓ | – | ✓ | — |
+    | Cloudbeds | ✓ | ✓ | ✓ | – | – | Books at the rate plan's price; group bookings supported. |
+    | Hostaway | ✓ | ✓ | ✓ | ✓ | ✓ | Direct-channel bookings only; a specific unit is refused; a date
+    change keeps the booked total. |
+    | Guesty | ✓ | ✓ | ✓ | ✓ | ✓ | Cancels direct and Vrbo bookings; other channel bookings are
+    cancelled on the channel. |
+    | Beds24 | ✓ | ✓ | ✓ | ✓ | ✓ | Needs the `write:bookings` scope; a multi-room property needs
+    `unitId`. |
+    | BookingSync | ✓ | ✓ | ✓ | ✓ | ✓ | Needs `bookings_write`; fees and taxes are not itemized; no
+    guest email. |
+    | Lodgify | ✓ | ✓ | ✓ (declines) | ✓ | ✓ | Cancel declines the booking; single-room bookings. |
+    | Smoobu | ✓ | ✓ (no dates) | ✓ | ✓ | ✓ | Dates cannot be changed through Smoobu's API — cancel and
+    rebook, or change them in Smoobu. |
+    | Hospitable | ✓ | ✓ | ✓ | ✓ (Direct plan) | ✓ | Manual reservations only; needs
+    `reservation:write`; adds no fees or taxes. |
+    | iGMS | ✓ | ✓ | ✓ | – | ✓ (required) | iGMS direct bookings only; a price is required; no tentative
+    holds. |
+    | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
+    rates; needs the `full` scope. |
+
+    Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
+    or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
     channel.
 
-    **Dates are validated** (`YYYY-MM-DD`, and `checkOut` must be after `checkIn`), and an unrecognised
-    field is rejected by name rather than silently ignored.
+    **Verification.** Mews and Cloudbeds were run end to end on their vendors' sandboxes. Every other
+    PMS is **verified against the vendor's API documentation only** — no live account has been written
+    to yet. `capabilities.reservations.verifiedAgainst` says which.
 
-    **This endpoint does not set the price.** There is no `totalPrice` field: the reservation pipeline
-    derives the price breakdown from the property's own rates and overwrites anything supplied, so
-    accepting a total would be taking a value and discarding it. A reservation created here is priced by
-    that engine (`0` when the property has no rates for the range). `currency` IS honoured. Quote a stay
-    with `GET /v1/quotes` before booking if you need the figure up front.
+    ### Idempotency
 
-    **Availability is NOT checked.** This creates the reservation you asked for even if the dates
-    overlap an existing booking. Call `GET /v1/availability/{propertyId}` first if that matters.
+    **Send `Idempotency-Key`.** A network timeout here is exactly the case it exists for. The key is
+    also sent to the PMS as the booking's reference, so even a retry that reaches the PMS again finds
+    the booking instead of making a second one (`409 pms_duplicate` with `existing`, or the existing
+    booking returned). A completed answer is replayed with `Idempotency-Status: cached` and the PMS is
+    not called again. `502 pms_error` (the PMS could not be reached) is NOT stored — retry with the same
+    key. `502 reservation_created_in_pms_only` IS stored, unlike every other 5xx: the booking exists in
+    the PMS and arrives with the next sync, so a retry replays that answer rather than booking twice.
 
-    Send `Idempotency-Key` — a network timeout here is exactly the case it exists for: without it, a
-    retry books the guest twice.
+    ### Partial success
 
-    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
-    cannot be read or changed through the API until it is activated.
+    When the PMS created the booking but a follow-up step did not apply (for example the notes, or a
+    tentative state), the response is still `201`, with `pms.partial: true` and the steps in
+    `pms.failedSections`. The booking exists — do not create it again.
+
+    `X-Account-Id` restricts the listing to one connected account. Returns `403 listing_inactive` when
+    the listing is inactive.
 
     Args:
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (ReservationCreateRequest):
+        x_account_id (str | Unset):  Example: 126.
+        body (ReservationCreateRequest): Which fields a listing takes depends on whether it is
+            managed in a PMS — see the operation description and `GET /v1/listings/{id}` →
+            `capabilities.reservations`. A field the listing cannot take is refused by name (`422
+            unsupported_field`), never dropped.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -157,6 +247,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )
 
@@ -171,40 +262,105 @@ def sync(
     client: AuthenticatedClient | Client,
     body: ReservationCreateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Error | ReservationCreateResponse | None:
     """ Create a reservation
 
-     Creates a reservation and everything that hangs off one: the guest, the conversation thread, the
-    dashboard item, the calendar block, and the `reservation.created` fan-out that issues the door code
-    and starts the messaging automations.
+     Creates a reservation — in the listing's PMS when it has one, otherwise as a direct booking in
+    Repull.
 
-    **Platform is restricted to `direct`, `website` and `owner`.** Reservations on Airbnb, Booking.com
-    and Vrbo are owned by the channel and arrive through sync — creating one here would mint a local
-    booking the channel has never heard of, which then fights the next sync. Create those on the
+    ### Where the booking is made
+
+    - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez): the booking is created **in the PMS first**, then
+    recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation code
+    and nothing is duplicated. A booking is **never** created only in Repull for such a listing — the
+    PMS would keep selling the dates. What the PMS cannot do is refused (`422 pms_write_unsupported`),
+    never faked. The PMS checks availability: taken dates answer `409 pms_unavailable`.
+    - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
+    guest, the conversation, the calendar block and the `reservation.created` fan-out that issues the
+    door code and starts the messaging automations. Priced by the listing's own rates; **availability is
+    NOT checked** (call `GET /v1/availability/{propertyId}` first if that matters).
+
+    `GET /v1/listings/{id}` → `capabilities.reservations` says which applies to a listing and exactly
+    what it supports (`create`, `modify`, `cancel`, `quote`, `customPrice`, plus `notes`).
+
+    ### Fields by listing kind
+
+    | Field | PMS listing | Direct-booking listing |
+    |---|---|---|
+    | `listingId`, `checkIn`, `checkOut`, `guest`, `guestCount`, `adults`, `children` | ✓ | ✓ |
+    | `status` | `confirmed` (default) or `tentative` | ✓ |
+    | `totalPrice` | ✓ where `capabilities.reservations.customPrice`; otherwise the PMS prices the stay
+    | `422 unsupported_field` (priced from the listing's rates) |
+    | `notes`, `unitId`, `sendConfirmationEmail` | ✓ | `422 unsupported_field` |
+    | `checkInTime`, `checkOutTime`, `currency`, `guestId` | `422 unsupported_field` (the PMS's own
+    settings apply) | ✓ |
+    | `platform` | `direct` or `website` (`owner` → `422 pms_write_unsupported`; block owner stays in
+    the PMS) | `direct`, `website` or `owner` |
+
+    A field a listing cannot take is refused by name, never silently dropped. `platform` never accepts
+    `airbnb` / `booking` / `vrbo`: those reservations are owned by the channel and arrive through sync.
+
+    ### Per-PMS limits
+
+    | PMS | create | change | cancel | quote | `totalPrice` | Limits |
+    |---|---|---|---|---|---|---|
+    | Mews | ✓ | ✓ | ✓ | – | ✓ | — |
+    | Cloudbeds | ✓ | ✓ | ✓ | – | – | Books at the rate plan's price; group bookings supported. |
+    | Hostaway | ✓ | ✓ | ✓ | ✓ | ✓ | Direct-channel bookings only; a specific unit is refused; a date
+    change keeps the booked total. |
+    | Guesty | ✓ | ✓ | ✓ | ✓ | ✓ | Cancels direct and Vrbo bookings; other channel bookings are
+    cancelled on the channel. |
+    | Beds24 | ✓ | ✓ | ✓ | ✓ | ✓ | Needs the `write:bookings` scope; a multi-room property needs
+    `unitId`. |
+    | BookingSync | ✓ | ✓ | ✓ | ✓ | ✓ | Needs `bookings_write`; fees and taxes are not itemized; no
+    guest email. |
+    | Lodgify | ✓ | ✓ | ✓ (declines) | ✓ | ✓ | Cancel declines the booking; single-room bookings. |
+    | Smoobu | ✓ | ✓ (no dates) | ✓ | ✓ | ✓ | Dates cannot be changed through Smoobu's API — cancel and
+    rebook, or change them in Smoobu. |
+    | Hospitable | ✓ | ✓ | ✓ | ✓ (Direct plan) | ✓ | Manual reservations only; needs
+    `reservation:write`; adds no fees or taxes. |
+    | iGMS | ✓ | ✓ | ✓ | – | ✓ (required) | iGMS direct bookings only; a price is required; no tentative
+    holds. |
+    | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
+    rates; needs the `full` scope. |
+
+    Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
+    or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
     channel.
 
-    **Dates are validated** (`YYYY-MM-DD`, and `checkOut` must be after `checkIn`), and an unrecognised
-    field is rejected by name rather than silently ignored.
+    **Verification.** Mews and Cloudbeds were run end to end on their vendors' sandboxes. Every other
+    PMS is **verified against the vendor's API documentation only** — no live account has been written
+    to yet. `capabilities.reservations.verifiedAgainst` says which.
 
-    **This endpoint does not set the price.** There is no `totalPrice` field: the reservation pipeline
-    derives the price breakdown from the property's own rates and overwrites anything supplied, so
-    accepting a total would be taking a value and discarding it. A reservation created here is priced by
-    that engine (`0` when the property has no rates for the range). `currency` IS honoured. Quote a stay
-    with `GET /v1/quotes` before booking if you need the figure up front.
+    ### Idempotency
 
-    **Availability is NOT checked.** This creates the reservation you asked for even if the dates
-    overlap an existing booking. Call `GET /v1/availability/{propertyId}` first if that matters.
+    **Send `Idempotency-Key`.** A network timeout here is exactly the case it exists for. The key is
+    also sent to the PMS as the booking's reference, so even a retry that reaches the PMS again finds
+    the booking instead of making a second one (`409 pms_duplicate` with `existing`, or the existing
+    booking returned). A completed answer is replayed with `Idempotency-Status: cached` and the PMS is
+    not called again. `502 pms_error` (the PMS could not be reached) is NOT stored — retry with the same
+    key. `502 reservation_created_in_pms_only` IS stored, unlike every other 5xx: the booking exists in
+    the PMS and arrives with the next sync, so a retry replays that answer rather than booking twice.
 
-    Send `Idempotency-Key` — a network timeout here is exactly the case it exists for: without it, a
-    retry books the guest twice.
+    ### Partial success
 
-    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
-    cannot be read or changed through the API until it is activated.
+    When the PMS created the booking but a follow-up step did not apply (for example the notes, or a
+    tentative state), the response is still `201`, with `pms.partial: true` and the steps in
+    `pms.failedSections`. The booking exists — do not create it again.
+
+    `X-Account-Id` restricts the listing to one connected account. Returns `403 listing_inactive` when
+    the listing is inactive.
 
     Args:
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (ReservationCreateRequest):
+        x_account_id (str | Unset):  Example: 126.
+        body (ReservationCreateRequest): Which fields a listing takes depends on whether it is
+            managed in a PMS — see the operation description and `GET /v1/listings/{id}` →
+            `capabilities.reservations`. A field the listing cannot take is refused by name (`422
+            unsupported_field`), never dropped.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -219,6 +375,7 @@ def sync(
         client=client,
 body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     ).parsed
 
@@ -227,40 +384,105 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: ReservationCreateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ReservationCreateResponse]:
     """ Create a reservation
 
-     Creates a reservation and everything that hangs off one: the guest, the conversation thread, the
-    dashboard item, the calendar block, and the `reservation.created` fan-out that issues the door code
-    and starts the messaging automations.
+     Creates a reservation — in the listing's PMS when it has one, otherwise as a direct booking in
+    Repull.
 
-    **Platform is restricted to `direct`, `website` and `owner`.** Reservations on Airbnb, Booking.com
-    and Vrbo are owned by the channel and arrive through sync — creating one here would mint a local
-    booking the channel has never heard of, which then fights the next sync. Create those on the
+    ### Where the booking is made
+
+    - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez): the booking is created **in the PMS first**, then
+    recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation code
+    and nothing is duplicated. A booking is **never** created only in Repull for such a listing — the
+    PMS would keep selling the dates. What the PMS cannot do is refused (`422 pms_write_unsupported`),
+    never faked. The PMS checks availability: taken dates answer `409 pms_unavailable`.
+    - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
+    guest, the conversation, the calendar block and the `reservation.created` fan-out that issues the
+    door code and starts the messaging automations. Priced by the listing's own rates; **availability is
+    NOT checked** (call `GET /v1/availability/{propertyId}` first if that matters).
+
+    `GET /v1/listings/{id}` → `capabilities.reservations` says which applies to a listing and exactly
+    what it supports (`create`, `modify`, `cancel`, `quote`, `customPrice`, plus `notes`).
+
+    ### Fields by listing kind
+
+    | Field | PMS listing | Direct-booking listing |
+    |---|---|---|
+    | `listingId`, `checkIn`, `checkOut`, `guest`, `guestCount`, `adults`, `children` | ✓ | ✓ |
+    | `status` | `confirmed` (default) or `tentative` | ✓ |
+    | `totalPrice` | ✓ where `capabilities.reservations.customPrice`; otherwise the PMS prices the stay
+    | `422 unsupported_field` (priced from the listing's rates) |
+    | `notes`, `unitId`, `sendConfirmationEmail` | ✓ | `422 unsupported_field` |
+    | `checkInTime`, `checkOutTime`, `currency`, `guestId` | `422 unsupported_field` (the PMS's own
+    settings apply) | ✓ |
+    | `platform` | `direct` or `website` (`owner` → `422 pms_write_unsupported`; block owner stays in
+    the PMS) | `direct`, `website` or `owner` |
+
+    A field a listing cannot take is refused by name, never silently dropped. `platform` never accepts
+    `airbnb` / `booking` / `vrbo`: those reservations are owned by the channel and arrive through sync.
+
+    ### Per-PMS limits
+
+    | PMS | create | change | cancel | quote | `totalPrice` | Limits |
+    |---|---|---|---|---|---|---|
+    | Mews | ✓ | ✓ | ✓ | – | ✓ | — |
+    | Cloudbeds | ✓ | ✓ | ✓ | – | – | Books at the rate plan's price; group bookings supported. |
+    | Hostaway | ✓ | ✓ | ✓ | ✓ | ✓ | Direct-channel bookings only; a specific unit is refused; a date
+    change keeps the booked total. |
+    | Guesty | ✓ | ✓ | ✓ | ✓ | ✓ | Cancels direct and Vrbo bookings; other channel bookings are
+    cancelled on the channel. |
+    | Beds24 | ✓ | ✓ | ✓ | ✓ | ✓ | Needs the `write:bookings` scope; a multi-room property needs
+    `unitId`. |
+    | BookingSync | ✓ | ✓ | ✓ | ✓ | ✓ | Needs `bookings_write`; fees and taxes are not itemized; no
+    guest email. |
+    | Lodgify | ✓ | ✓ | ✓ (declines) | ✓ | ✓ | Cancel declines the booking; single-room bookings. |
+    | Smoobu | ✓ | ✓ (no dates) | ✓ | ✓ | ✓ | Dates cannot be changed through Smoobu's API — cancel and
+    rebook, or change them in Smoobu. |
+    | Hospitable | ✓ | ✓ | ✓ | ✓ (Direct plan) | ✓ | Manual reservations only; needs
+    `reservation:write`; adds no fees or taxes. |
+    | iGMS | ✓ | ✓ | ✓ | – | ✓ (required) | iGMS direct bookings only; a price is required; no tentative
+    holds. |
+    | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
+    rates; needs the `full` scope. |
+
+    Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
+    or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
     channel.
 
-    **Dates are validated** (`YYYY-MM-DD`, and `checkOut` must be after `checkIn`), and an unrecognised
-    field is rejected by name rather than silently ignored.
+    **Verification.** Mews and Cloudbeds were run end to end on their vendors' sandboxes. Every other
+    PMS is **verified against the vendor's API documentation only** — no live account has been written
+    to yet. `capabilities.reservations.verifiedAgainst` says which.
 
-    **This endpoint does not set the price.** There is no `totalPrice` field: the reservation pipeline
-    derives the price breakdown from the property's own rates and overwrites anything supplied, so
-    accepting a total would be taking a value and discarding it. A reservation created here is priced by
-    that engine (`0` when the property has no rates for the range). `currency` IS honoured. Quote a stay
-    with `GET /v1/quotes` before booking if you need the figure up front.
+    ### Idempotency
 
-    **Availability is NOT checked.** This creates the reservation you asked for even if the dates
-    overlap an existing booking. Call `GET /v1/availability/{propertyId}` first if that matters.
+    **Send `Idempotency-Key`.** A network timeout here is exactly the case it exists for. The key is
+    also sent to the PMS as the booking's reference, so even a retry that reaches the PMS again finds
+    the booking instead of making a second one (`409 pms_duplicate` with `existing`, or the existing
+    booking returned). A completed answer is replayed with `Idempotency-Status: cached` and the PMS is
+    not called again. `502 pms_error` (the PMS could not be reached) is NOT stored — retry with the same
+    key. `502 reservation_created_in_pms_only` IS stored, unlike every other 5xx: the booking exists in
+    the PMS and arrives with the next sync, so a retry replays that answer rather than booking twice.
 
-    Send `Idempotency-Key` — a network timeout here is exactly the case it exists for: without it, a
-    retry books the guest twice.
+    ### Partial success
 
-    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
-    cannot be read or changed through the API until it is activated.
+    When the PMS created the booking but a follow-up step did not apply (for example the notes, or a
+    tentative state), the response is still `201`, with `pms.partial: true` and the steps in
+    `pms.failedSections`. The booking exists — do not create it again.
+
+    `X-Account-Id` restricts the listing to one connected account. Returns `403 listing_inactive` when
+    the listing is inactive.
 
     Args:
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (ReservationCreateRequest):
+        x_account_id (str | Unset):  Example: 126.
+        body (ReservationCreateRequest): Which fields a listing takes depends on whether it is
+            managed in a PMS — see the operation description and `GET /v1/listings/{id}` →
+            `capabilities.reservations`. A field the listing cannot take is refused by name (`422
+            unsupported_field`), never dropped.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -274,6 +496,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )
 
@@ -288,40 +511,105 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: ReservationCreateRequest,
     idempotency_key: str | Unset = UNSET,
+    x_account_id: str | Unset = UNSET,
 
 ) -> Error | ReservationCreateResponse | None:
     """ Create a reservation
 
-     Creates a reservation and everything that hangs off one: the guest, the conversation thread, the
-    dashboard item, the calendar block, and the `reservation.created` fan-out that issues the door code
-    and starts the messaging automations.
+     Creates a reservation — in the listing's PMS when it has one, otherwise as a direct booking in
+    Repull.
 
-    **Platform is restricted to `direct`, `website` and `owner`.** Reservations on Airbnb, Booking.com
-    and Vrbo are owned by the channel and arrive through sync — creating one here would mint a local
-    booking the channel has never heard of, which then fights the next sync. Create those on the
+    ### Where the booking is made
+
+    - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez): the booking is created **in the PMS first**, then
+    recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation code
+    and nothing is duplicated. A booking is **never** created only in Repull for such a listing — the
+    PMS would keep selling the dates. What the PMS cannot do is refused (`422 pms_write_unsupported`),
+    never faked. The PMS checks availability: taken dates answer `409 pms_unavailable`.
+    - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
+    guest, the conversation, the calendar block and the `reservation.created` fan-out that issues the
+    door code and starts the messaging automations. Priced by the listing's own rates; **availability is
+    NOT checked** (call `GET /v1/availability/{propertyId}` first if that matters).
+
+    `GET /v1/listings/{id}` → `capabilities.reservations` says which applies to a listing and exactly
+    what it supports (`create`, `modify`, `cancel`, `quote`, `customPrice`, plus `notes`).
+
+    ### Fields by listing kind
+
+    | Field | PMS listing | Direct-booking listing |
+    |---|---|---|
+    | `listingId`, `checkIn`, `checkOut`, `guest`, `guestCount`, `adults`, `children` | ✓ | ✓ |
+    | `status` | `confirmed` (default) or `tentative` | ✓ |
+    | `totalPrice` | ✓ where `capabilities.reservations.customPrice`; otherwise the PMS prices the stay
+    | `422 unsupported_field` (priced from the listing's rates) |
+    | `notes`, `unitId`, `sendConfirmationEmail` | ✓ | `422 unsupported_field` |
+    | `checkInTime`, `checkOutTime`, `currency`, `guestId` | `422 unsupported_field` (the PMS's own
+    settings apply) | ✓ |
+    | `platform` | `direct` or `website` (`owner` → `422 pms_write_unsupported`; block owner stays in
+    the PMS) | `direct`, `website` or `owner` |
+
+    A field a listing cannot take is refused by name, never silently dropped. `platform` never accepts
+    `airbnb` / `booking` / `vrbo`: those reservations are owned by the channel and arrive through sync.
+
+    ### Per-PMS limits
+
+    | PMS | create | change | cancel | quote | `totalPrice` | Limits |
+    |---|---|---|---|---|---|---|
+    | Mews | ✓ | ✓ | ✓ | – | ✓ | — |
+    | Cloudbeds | ✓ | ✓ | ✓ | – | – | Books at the rate plan's price; group bookings supported. |
+    | Hostaway | ✓ | ✓ | ✓ | ✓ | ✓ | Direct-channel bookings only; a specific unit is refused; a date
+    change keeps the booked total. |
+    | Guesty | ✓ | ✓ | ✓ | ✓ | ✓ | Cancels direct and Vrbo bookings; other channel bookings are
+    cancelled on the channel. |
+    | Beds24 | ✓ | ✓ | ✓ | ✓ | ✓ | Needs the `write:bookings` scope; a multi-room property needs
+    `unitId`. |
+    | BookingSync | ✓ | ✓ | ✓ | ✓ | ✓ | Needs `bookings_write`; fees and taxes are not itemized; no
+    guest email. |
+    | Lodgify | ✓ | ✓ | ✓ (declines) | ✓ | ✓ | Cancel declines the booking; single-room bookings. |
+    | Smoobu | ✓ | ✓ (no dates) | ✓ | ✓ | ✓ | Dates cannot be changed through Smoobu's API — cancel and
+    rebook, or change them in Smoobu. |
+    | Hospitable | ✓ | ✓ | ✓ | ✓ (Direct plan) | ✓ | Manual reservations only; needs
+    `reservation:write`; adds no fees or taxes. |
+    | iGMS | ✓ | ✓ | ✓ | – | ✓ (required) | iGMS direct bookings only; a price is required; no tentative
+    holds. |
+    | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
+    rates; needs the `full` scope. |
+
+    Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
+    or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
     channel.
 
-    **Dates are validated** (`YYYY-MM-DD`, and `checkOut` must be after `checkIn`), and an unrecognised
-    field is rejected by name rather than silently ignored.
+    **Verification.** Mews and Cloudbeds were run end to end on their vendors' sandboxes. Every other
+    PMS is **verified against the vendor's API documentation only** — no live account has been written
+    to yet. `capabilities.reservations.verifiedAgainst` says which.
 
-    **This endpoint does not set the price.** There is no `totalPrice` field: the reservation pipeline
-    derives the price breakdown from the property's own rates and overwrites anything supplied, so
-    accepting a total would be taking a value and discarding it. A reservation created here is priced by
-    that engine (`0` when the property has no rates for the range). `currency` IS honoured. Quote a stay
-    with `GET /v1/quotes` before booking if you need the figure up front.
+    ### Idempotency
 
-    **Availability is NOT checked.** This creates the reservation you asked for even if the dates
-    overlap an existing booking. Call `GET /v1/availability/{propertyId}` first if that matters.
+    **Send `Idempotency-Key`.** A network timeout here is exactly the case it exists for. The key is
+    also sent to the PMS as the booking's reference, so even a retry that reaches the PMS again finds
+    the booking instead of making a second one (`409 pms_duplicate` with `existing`, or the existing
+    booking returned). A completed answer is replayed with `Idempotency-Status: cached` and the PMS is
+    not called again. `502 pms_error` (the PMS could not be reached) is NOT stored — retry with the same
+    key. `502 reservation_created_in_pms_only` IS stored, unlike every other 5xx: the booking exists in
+    the PMS and arrives with the next sync, so a retry replays that answer rather than booking twice.
 
-    Send `Idempotency-Key` — a network timeout here is exactly the case it exists for: without it, a
-    retry books the guest twice.
+    ### Partial success
 
-    Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
-    cannot be read or changed through the API until it is activated.
+    When the PMS created the booking but a follow-up step did not apply (for example the notes, or a
+    tentative state), the response is still `201`, with `pms.partial: true` and the steps in
+    `pms.failedSections`. The booking exists — do not create it again.
+
+    `X-Account-Id` restricts the listing to one connected account. Returns `403 listing_inactive` when
+    the listing is inactive.
 
     Args:
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (ReservationCreateRequest):
+        x_account_id (str | Unset):  Example: 126.
+        body (ReservationCreateRequest): Which fields a listing takes depends on whether it is
+            managed in a PMS — see the operation description and `GET /v1/listings/{id}` →
+            `capabilities.reservations`. A field the listing cannot take is refused by name (`422
+            unsupported_field`), never dropped.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -336,5 +624,6 @@ async def asyncio(
         client=client,
 body=body,
 idempotency_key=idempotency_key,
+x_account_id=x_account_id,
 
     )).parsed

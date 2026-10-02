@@ -101,8 +101,13 @@ def sync_detailed(
 ) -> Response[Error | SubmitSmoobuCredentialsResponse200]:
     """ Submit Smoobu credentials for a Connect session
 
-     Completes a credentials-pattern connection for Smoobu. API key from Smoobu → Settings → For
-    developers.
+     Completes a credentials-pattern connection for Smoobu with an HMAC API key + API secret, created in
+    Smoobu → Settings → Advanced → API Keys (Create API Key, then Generate Secret — the secret is shown
+    only once). Smoobu retires single legacy API keys on October 31, 2026, so `apiSecret` is required; a
+    request with only `apiKey` returns `invalid_params`.
+
+    Reconnecting replaces the stored credentials on the workspace's existing Smoobu connection — the
+    `pmsConnectionId` stays the same.
 
     The credentials are validated against Smoobu before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the
@@ -141,8 +146,13 @@ def sync(
 ) -> Error | SubmitSmoobuCredentialsResponse200 | None:
     """ Submit Smoobu credentials for a Connect session
 
-     Completes a credentials-pattern connection for Smoobu. API key from Smoobu → Settings → For
-    developers.
+     Completes a credentials-pattern connection for Smoobu with an HMAC API key + API secret, created in
+    Smoobu → Settings → Advanced → API Keys (Create API Key, then Generate Secret — the secret is shown
+    only once). Smoobu retires single legacy API keys on October 31, 2026, so `apiSecret` is required; a
+    request with only `apiKey` returns `invalid_params`.
+
+    Reconnecting replaces the stored credentials on the workspace's existing Smoobu connection — the
+    `pmsConnectionId` stays the same.
 
     The credentials are validated against Smoobu before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the
@@ -176,8 +186,13 @@ async def asyncio_detailed(
 ) -> Response[Error | SubmitSmoobuCredentialsResponse200]:
     """ Submit Smoobu credentials for a Connect session
 
-     Completes a credentials-pattern connection for Smoobu. API key from Smoobu → Settings → For
-    developers.
+     Completes a credentials-pattern connection for Smoobu with an HMAC API key + API secret, created in
+    Smoobu → Settings → Advanced → API Keys (Create API Key, then Generate Secret — the secret is shown
+    only once). Smoobu retires single legacy API keys on October 31, 2026, so `apiSecret` is required; a
+    request with only `apiKey` returns `invalid_params`.
+
+    Reconnecting replaces the stored credentials on the workspace's existing Smoobu connection — the
+    `pmsConnectionId` stays the same.
 
     The credentials are validated against Smoobu before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the
@@ -216,8 +231,13 @@ async def asyncio(
 ) -> Error | SubmitSmoobuCredentialsResponse200 | None:
     """ Submit Smoobu credentials for a Connect session
 
-     Completes a credentials-pattern connection for Smoobu. API key from Smoobu → Settings → For
-    developers.
+     Completes a credentials-pattern connection for Smoobu with an HMAC API key + API secret, created in
+    Smoobu → Settings → Advanced → API Keys (Create API Key, then Generate Secret — the secret is shown
+    only once). Smoobu retires single legacy API keys on October 31, 2026, so `apiSecret` is required; a
+    request with only `apiKey` returns `invalid_params`.
+
+    Reconnecting replaces the stored credentials on the workspace's existing Smoobu connection — the
+    `pmsConnectionId` stays the same.
 
     The credentials are validated against Smoobu before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the

@@ -12,6 +12,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.error_error_listings_item import ErrorErrorListingsItem
   from ..models.error_error_support import ErrorErrorSupport
 
 
@@ -64,6 +65,9 @@ class ErrorError:
                 your branches to `code` before then. Example: airbnb_error.
             listing_ids (list[str] | Unset): Every inactive listing the request involved. Present on `code:
                 "listing_inactive"` (HTTP 403) — activate these ids and retry. Example: ['4118'].
+            listings (list[ErrorErrorListingsItem] | Unset): The same inactive listings with their names, so you can show
+                the user which ones to activate. Present on `code: "listing_inactive"` (HTTP 403). `name` is null only when the
+                request did not resolve it.
             listing_id (str | Unset): The single Repull listing the error is about. Present on `code:
                 "listing_not_api_connected"` (HTTP 403). Example: 23901.
             airbnb_listing_id (str | Unset): Airbnb's own id for that listing, so the host can find it in Airbnb. Present on
@@ -90,6 +94,7 @@ class ErrorError:
     did_you_mean: str | Unset = UNSET
     previous_code: str | Unset = UNSET
     listing_ids: list[str] | Unset = UNSET
+    listings: list[ErrorErrorListingsItem] | Unset = UNSET
     listing_id: str | Unset = UNSET
     airbnb_listing_id: str | Unset = UNSET
     sync_category: str | Unset = UNSET
@@ -102,6 +107,7 @@ class ErrorError:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.error_error_listings_item import ErrorErrorListingsItem
         from ..models.error_error_support import ErrorErrorSupport
         code = self.code
 
@@ -138,6 +144,15 @@ class ErrorError:
         listing_ids: list[str] | Unset = UNSET
         if not isinstance(self.listing_ids, Unset):
             listing_ids = self.listing_ids
+
+
+
+        listings: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.listings, Unset):
+            listings = []
+            for listings_item_data in self.listings:
+                listings_item = listings_item_data.to_dict()
+                listings.append(listings_item)
 
 
 
@@ -179,6 +194,8 @@ class ErrorError:
             field_dict["previous_code"] = previous_code
         if listing_ids is not UNSET:
             field_dict["listing_ids"] = listing_ids
+        if listings is not UNSET:
+            field_dict["listings"] = listings
         if listing_id is not UNSET:
             field_dict["listing_id"] = listing_id
         if airbnb_listing_id is not UNSET:
@@ -196,6 +213,7 @@ class ErrorError:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.error_error_listings_item import ErrorErrorListingsItem
         from ..models.error_error_support import ErrorErrorSupport
         d = dict(src_dict)
         code = d.pop("code")
@@ -225,6 +243,18 @@ class ErrorError:
         previous_code = d.pop("previous_code", UNSET)
 
         listing_ids = cast(list[str], d.pop("listing_ids", UNSET))
+
+
+        _listings = d.pop("listings", UNSET)
+        listings: list[ErrorErrorListingsItem] | Unset = UNSET
+        if _listings is not UNSET:
+            listings = []
+            for listings_item_data in _listings:
+                listings_item = ErrorErrorListingsItem.from_dict(listings_item_data)
+
+
+
+                listings.append(listings_item)
 
 
         listing_id = d.pop("listing_id", UNSET)
@@ -259,6 +289,7 @@ class ErrorError:
             did_you_mean=did_you_mean,
             previous_code=previous_code,
             listing_ids=listing_ids,
+            listings=listings,
             listing_id=listing_id,
             airbnb_listing_id=airbnb_listing_id,
             sync_category=sync_category,
