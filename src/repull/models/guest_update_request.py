@@ -15,34 +15,26 @@ from ..types import UNSET, Unset
 
 
 
-T = TypeVar("T", bound="GuestCreateRequest")
+T = TypeVar("T", bound="GuestUpdateRequest")
 
 
 
 @_attrs_define
-class GuestCreateRequest:
+class GuestUpdateRequest:
     """ 
         Attributes:
-            first_name (str):  Example: Ada.
-            last_name (str | Unset):  Example: Lovelace.
-            email (str | Unset):  Example: ada@example.com.
-            phone (str | Unset): E.164 preferred. Stored normalised. Example: +14035551234.
-            language (str | Unset): BCP-47 tag. Example: en-GB.
-            currency (str | Unset):  Example: GBP.
-            is_business_traveler (bool | Unset):  Default: False.
-            provider (str | Unset): A connected PMS to create the guest in as well. The guest is created there FIRST; a PMS
-                that cannot create guest profiles returns `422 pms_write_unsupported` and nothing is created. The PMS's guest id
-                comes back as `pms.externalId`, and later `PATCH /v1/guests/{id}` changes reach it. Example: guesty.
+            first_name (str | Unset):
+            last_name (str | Unset):
+            email (str | Unset): Added as the guest's newest email; earlier ones are kept.
+            phone (str | Unset): E.164 preferred. Added as the guest's newest phone; earlier ones are kept.
+            language (str | Unset): BCP-47 tag.
      """
 
-    first_name: str
+    first_name: str | Unset = UNSET
     last_name: str | Unset = UNSET
     email: str | Unset = UNSET
     phone: str | Unset = UNSET
     language: str | Unset = UNSET
-    currency: str | Unset = UNSET
-    is_business_traveler: bool | Unset = False
-    provider: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -60,18 +52,13 @@ class GuestCreateRequest:
 
         language = self.language
 
-        currency = self.currency
-
-        is_business_traveler = self.is_business_traveler
-
-        provider = self.provider
-
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "firstName": first_name,
         })
+        if first_name is not UNSET:
+            field_dict["firstName"] = first_name
         if last_name is not UNSET:
             field_dict["lastName"] = last_name
         if email is not UNSET:
@@ -80,12 +67,6 @@ class GuestCreateRequest:
             field_dict["phone"] = phone
         if language is not UNSET:
             field_dict["language"] = language
-        if currency is not UNSET:
-            field_dict["currency"] = currency
-        if is_business_traveler is not UNSET:
-            field_dict["isBusinessTraveler"] = is_business_traveler
-        if provider is not UNSET:
-            field_dict["provider"] = provider
 
         return field_dict
 
@@ -94,7 +75,7 @@ class GuestCreateRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        first_name = d.pop("firstName")
+        first_name = d.pop("firstName", UNSET)
 
         last_name = d.pop("lastName", UNSET)
 
@@ -104,26 +85,17 @@ class GuestCreateRequest:
 
         language = d.pop("language", UNSET)
 
-        currency = d.pop("currency", UNSET)
-
-        is_business_traveler = d.pop("isBusinessTraveler", UNSET)
-
-        provider = d.pop("provider", UNSET)
-
-        guest_create_request = cls(
+        guest_update_request = cls(
             first_name=first_name,
             last_name=last_name,
             email=email,
             phone=phone,
             language=language,
-            currency=currency,
-            is_business_traveler=is_business_traveler,
-            provider=provider,
         )
 
 
-        guest_create_request.additional_properties = d
-        return guest_create_request
+        guest_update_request.additional_properties = d
+        return guest_update_request
 
     @property
     def additional_keys(self) -> list[str]:

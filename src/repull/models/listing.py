@@ -45,6 +45,7 @@ class Listing:
 
         Attributes:
             capabilities (ListingCapabilities | Unset): `GET /v1/listings/{id}` only. What the API can do with this listing.
+                `pms` is present when a connected PMS manages it.
             units (list[ListingUnitsItem] | Unset): `GET /v1/listings/{id}` only. The physical rooms under a hotel-model
                 listing (a Mews or Cloudbeds room type); empty for a single home. Same items as `GET /v1/listings/{id}/units`.
             id (str | Unset): Repull listing id

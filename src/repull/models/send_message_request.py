@@ -8,7 +8,6 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.send_message_request_channel import SendMessageRequestChannel
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -37,13 +36,19 @@ class SendMessageRequest:
         Attributes:
             message (str | Unset): The text to send the guest. Required unless `attachments` is present. Example: Here is
                 the parking map — the gate code is 4821..
-            channel (SendMessageRequestChannel | Unset): Force a channel. Omit to send on whichever channel the conversation
-                already uses, which is the right default.
-            attachments (list[SendMessageAttachment] | Unset): Files to send. See the per-channel table above.
+            channel (str | Unset): Force a channel. Omit to send on whichever channel the conversation already uses, which
+                is the right default. One of `airbnb`, `booking`, `vrbo`, `sms`, `email`, `website` — except on a conversation a
+                connected PMS relays (Guesty, Hostaway, …), where the message is sent through the PMS and `channel` is passed to
+                it: the PMS's own channel/module name (Guesty `airbnb2`, `bookingCom`, `email`, `sms`, …) or one of Repull's
+                names, which the PMS maps. A PMS that cannot choose a channel returns `422 pms_write_unsupported`; `GET
+                /v1/connect/{provider}` → `capabilities.pms.conversations.channelSelect` says so beforehand. Example: email.
+            attachments (list[SendMessageAttachment] | Unset): Files to send. See the per-channel table above. On a
+                conversation a connected PMS relays, files go through the PMS — `422 pms_write_unsupported` when its API cannot
+                send them (`capabilities.pms.conversations.attachments` on `GET /v1/connect/{provider}`).
      """
 
     message: str | Unset = UNSET
-    channel: SendMessageRequestChannel | Unset = UNSET
+    channel: str | Unset = UNSET
     attachments: list[SendMessageAttachment] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -55,10 +60,7 @@ class SendMessageRequest:
         from ..models.send_message_attachment import SendMessageAttachment
         message = self.message
 
-        channel: str | Unset = UNSET
-        if not isinstance(self.channel, Unset):
-            channel = self.channel.value
-
+        channel = self.channel
 
         attachments: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.attachments, Unset):
@@ -91,15 +93,7 @@ class SendMessageRequest:
         d = dict(src_dict)
         message = d.pop("message", UNSET)
 
-        _channel = d.pop("channel", UNSET)
-        channel: SendMessageRequestChannel | Unset
-        if isinstance(_channel,  Unset):
-            channel = UNSET
-        else:
-            channel = SendMessageRequestChannel(_channel)
-
-
-
+        channel = d.pop("channel", UNSET)
 
         _attachments = d.pop("attachments", UNSET)
         attachments: list[SendMessageAttachment] | Unset = UNSET

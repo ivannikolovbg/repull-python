@@ -53,8 +53,9 @@ class ConnectStatus:
                 everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
                 True, 'restrictions': False}, 'reservations': {'website': True, 'dashboard': True, 'api': True}}.
             capabilities (ConnectStatusCapabilities | Unset): PMS providers only. `reservations`: which reservation writes
-                the API performs on this connection's listings — the connector's support combined with `writePolicy`. When
-                `connected` is false, what the connector supports once connected.
+                the API performs on this connection's listings — the connector's support combined with `writePolicy`. `pms`:
+                everything else the API does through this PMS (review replies, request answers, listing content, guests, message
+                channel/attachments, calendar). When `connected` is false, what the connector supports once connected.
             data_freshness (ConnectStatusDataFreshness | Unset): Vrbo only: the same freshness envelope the Airbnb read
                 endpoints return, per account and in aggregate. Its reason is never_synced until a mapping is confirmed and
                 importing while upcoming bookings come in.

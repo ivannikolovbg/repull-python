@@ -138,10 +138,14 @@ def sync_detailed(
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
-    step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is
-    contacted (`409 reservation_not_pending`); one Airbnb says already moved on is `409
-    request_no_longer_pending`. Neither is worth retrying.
+    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
+    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
+    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
+    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
+    reservation that is not pending is refused before Airbnb is contacted (`409
+    reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.
+    Neither is worth retrying.
 
     Takes no body.
 
@@ -192,10 +196,14 @@ def sync(
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
-    step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is
-    contacted (`409 reservation_not_pending`); one Airbnb says already moved on is `409
-    request_no_longer_pending`. Neither is worth retrying.
+    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
+    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
+    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
+    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
+    reservation that is not pending is refused before Airbnb is contacted (`409
+    reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.
+    Neither is worth retrying.
 
     Takes no body.
 
@@ -241,10 +249,14 @@ async def asyncio_detailed(
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
-    step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is
-    contacted (`409 reservation_not_pending`); one Airbnb says already moved on is `409
-    request_no_longer_pending`. Neither is worth retrying.
+    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
+    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
+    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
+    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
+    reservation that is not pending is refused before Airbnb is contacted (`409
+    reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.
+    Neither is worth retrying.
 
     Takes no body.
 
@@ -295,10 +307,14 @@ async def asyncio(
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb only**, and only for listings connected to Airbnb directly: other channels have no request
-    step (`422 channel_not_supported`). A reservation that is not pending is refused before Airbnb is
-    contacted (`409 reservation_not_pending`); one Airbnb says already moved on is `409
-    request_no_longer_pending`. Neither is worth retrying.
+    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
+    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
+    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
+    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
+    reservation that is not pending is refused before Airbnb is contacted (`409
+    reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.
+    Neither is worth retrying.
 
     Takes no body.
 

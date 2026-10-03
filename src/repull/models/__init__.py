@@ -406,11 +406,17 @@ from .guest_create_request import GuestCreateRequest
 from .guest_create_response import GuestCreateResponse
 from .guest_create_response_contacts_item import GuestCreateResponseContactsItem
 from .guest_create_response_contacts_item_type import GuestCreateResponseContactsItemType
+from .guest_create_response_pms_type_0 import GuestCreateResponsePmsType0
 from .guest_flag import GuestFlag
 from .guest_list_response import GuestListResponse
 from .guest_note import GuestNote
 from .guest_profile import GuestProfile
 from .guest_reservations_summary import GuestReservationsSummary
+from .guest_update_request import GuestUpdateRequest
+from .guest_update_response import GuestUpdateResponse
+from .guest_update_response_contacts_item import GuestUpdateResponseContactsItem
+from .guest_update_response_contacts_item_type import GuestUpdateResponseContactsItemType
+from .guest_update_response_pms_item import GuestUpdateResponsePmsItem
 from .inquiry_created_event import InquiryCreatedEvent
 from .inquiry_created_event_event import InquiryCreatedEventEvent
 from .inquiry_created_payload import InquiryCreatedPayload
@@ -507,6 +513,9 @@ from .listing_content_update_request_pricing import ListingContentUpdateRequestP
 from .listing_content_update_request_rooms_type_0_item import ListingContentUpdateRequestRoomsType0Item
 from .listing_content_update_request_rooms_type_0_item_beds_type_0_item import ListingContentUpdateRequestRoomsType0ItemBedsType0Item
 from .listing_content_update_response import ListingContentUpdateResponse
+from .listing_content_update_response_pms_type_0 import ListingContentUpdateResponsePmsType0
+from .listing_content_update_response_pms_type_0_errors_item import ListingContentUpdateResponsePmsType0ErrorsItem
+from .listing_content_update_response_pms_type_0_errors_item_code import ListingContentUpdateResponsePmsType0ErrorsItemCode
 from .listing_create_request import ListingCreateRequest
 from .listing_create_request_cancellation_policy import ListingCreateRequestCancellationPolicy
 from .listing_create_request_room_type_category import ListingCreateRequestRoomTypeCategory
@@ -685,6 +694,16 @@ from .plan_notice import PlanNotice
 from .plan_notice_code import PlanNoticeCode
 from .plumguide_listing import PlumguideListing
 from .plumguide_listing_list_response import PlumguideListingListResponse
+from .pms_capabilities import PmsCapabilities
+from .pms_capabilities_calendar import PmsCapabilitiesCalendar
+from .pms_capabilities_conversations import PmsCapabilitiesConversations
+from .pms_capabilities_guests import PmsCapabilitiesGuests
+from .pms_capabilities_listings import PmsCapabilitiesListings
+from .pms_capabilities_notes import PmsCapabilitiesNotes
+from .pms_capabilities_payments import PmsCapabilitiesPayments
+from .pms_capabilities_reservations import PmsCapabilitiesReservations
+from .pms_capabilities_reviews import PmsCapabilitiesReviews
+from .pms_capabilities_tasks import PmsCapabilitiesTasks
 from .pms_write_policy import PmsWritePolicy
 from .pms_write_policy_calendar import PmsWritePolicyCalendar
 from .pms_write_policy_reservations import PmsWritePolicyReservations
@@ -842,7 +861,6 @@ from .send_booking_message_body import SendBookingMessageBody
 from .send_message_attachment import SendMessageAttachment
 from .send_message_part import SendMessagePart
 from .send_message_request import SendMessageRequest
-from .send_message_request_channel import SendMessageRequestChannel
 from .send_message_response import SendMessageResponse
 from .send_message_response_direction import SendMessageResponseDirection
 from .sent_attachment import SentAttachment
@@ -1453,11 +1471,17 @@ __all__ = (
     "GuestCreateResponse",
     "GuestCreateResponseContactsItem",
     "GuestCreateResponseContactsItemType",
+    "GuestCreateResponsePmsType0",
     "GuestFlag",
     "GuestListResponse",
     "GuestNote",
     "GuestProfile",
     "GuestReservationsSummary",
+    "GuestUpdateRequest",
+    "GuestUpdateResponse",
+    "GuestUpdateResponseContactsItem",
+    "GuestUpdateResponseContactsItemType",
+    "GuestUpdateResponsePmsItem",
     "InquiryCreatedEvent",
     "InquiryCreatedEventEvent",
     "InquiryCreatedPayload",
@@ -1531,6 +1555,9 @@ __all__ = (
     "ListingContentUpdateRequestRoomsType0Item",
     "ListingContentUpdateRequestRoomsType0ItemBedsType0Item",
     "ListingContentUpdateResponse",
+    "ListingContentUpdateResponsePmsType0",
+    "ListingContentUpdateResponsePmsType0ErrorsItem",
+    "ListingContentUpdateResponsePmsType0ErrorsItemCode",
     "ListingCreatedEvent",
     "ListingCreatedEventEvent",
     "ListingCreatedPayload",
@@ -1732,6 +1759,16 @@ __all__ = (
     "PlanNoticeCode",
     "PlumguideListing",
     "PlumguideListingListResponse",
+    "PmsCapabilities",
+    "PmsCapabilitiesCalendar",
+    "PmsCapabilitiesConversations",
+    "PmsCapabilitiesGuests",
+    "PmsCapabilitiesListings",
+    "PmsCapabilitiesNotes",
+    "PmsCapabilitiesPayments",
+    "PmsCapabilitiesReservations",
+    "PmsCapabilitiesReviews",
+    "PmsCapabilitiesTasks",
     "PmsWritePolicy",
     "PmsWritePolicyCalendar",
     "PmsWritePolicyReservations",
@@ -1889,7 +1926,6 @@ __all__ = (
     "SendMessageAttachment",
     "SendMessagePart",
     "SendMessageRequest",
-    "SendMessageRequestChannel",
     "SendMessageResponse",
     "SendMessageResponseDirection",
     "SentAttachment",

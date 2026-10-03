@@ -14,46 +14,38 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
-  from ..models.guest_create_response_contacts_item import GuestCreateResponseContactsItem
-  from ..models.guest_create_response_pms_type_0 import GuestCreateResponsePmsType0
+  from ..models.guest_update_response_contacts_item import GuestUpdateResponseContactsItem
+  from ..models.guest_update_response_pms_item import GuestUpdateResponsePmsItem
 
 
 
 
 
-T = TypeVar("T", bound="GuestCreateResponse")
+T = TypeVar("T", bound="GuestUpdateResponse")
 
 
 
 @_attrs_define
-class GuestCreateResponse:
+class GuestUpdateResponse:
     """ 
         Attributes:
-            id (int | Unset): Pass to `GET /v1/guests/{id}` for the full profile. Example: 91234.
-            created (bool | Unset): `true` when a new guest was written, `false` when an existing guest matched on
-                email/phone plus name. Read this rather than assuming a 2xx means a new record.
+            id (int | Unset):
             first_name (str | Unset):
             last_name (None | str | Unset):
             language (None | str | Unset):
-            currency (None | str | Unset):
-            is_business_traveler (bool | Unset):
-            contacts (list[GuestCreateResponseContactsItem] | Unset): One entry per stored contact. Email and phone are
-                separate records.
-            created_at (datetime.datetime | Unset):
-            pms (GuestCreateResponsePmsType0 | None | Unset): Set when `provider` was sent: the PMS the guest was also
-                created in, and its id there.
+            contacts (list[GuestUpdateResponseContactsItem] | Unset):
+            updated_at (datetime.datetime | None | Unset):
+            pms (list[GuestUpdateResponsePmsItem] | Unset): Each PMS the change was written to first (the guest's linked
+                PMSs), with the sections it applied.
      """
 
     id: int | Unset = UNSET
-    created: bool | Unset = UNSET
     first_name: str | Unset = UNSET
     last_name: None | str | Unset = UNSET
     language: None | str | Unset = UNSET
-    currency: None | str | Unset = UNSET
-    is_business_traveler: bool | Unset = UNSET
-    contacts: list[GuestCreateResponseContactsItem] | Unset = UNSET
-    created_at: datetime.datetime | Unset = UNSET
-    pms: GuestCreateResponsePmsType0 | None | Unset = UNSET
+    contacts: list[GuestUpdateResponseContactsItem] | Unset = UNSET
+    updated_at: datetime.datetime | None | Unset = UNSET
+    pms: list[GuestUpdateResponsePmsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -61,11 +53,9 @@ class GuestCreateResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.guest_create_response_contacts_item import GuestCreateResponseContactsItem
-        from ..models.guest_create_response_pms_type_0 import GuestCreateResponsePmsType0
+        from ..models.guest_update_response_contacts_item import GuestUpdateResponseContactsItem
+        from ..models.guest_update_response_pms_item import GuestUpdateResponsePmsItem
         id = self.id
-
-        created = self.created
 
         first_name = self.first_name
 
@@ -81,14 +71,6 @@ class GuestCreateResponse:
         else:
             language = self.language
 
-        currency: None | str | Unset
-        if isinstance(self.currency, Unset):
-            currency = UNSET
-        else:
-            currency = self.currency
-
-        is_business_traveler = self.is_business_traveler
-
         contacts: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.contacts, Unset):
             contacts = []
@@ -98,17 +80,22 @@ class GuestCreateResponse:
 
 
 
-        created_at: str | Unset = UNSET
-        if not isinstance(self.created_at, Unset):
-            created_at = self.created_at.isoformat()
-
-        pms: dict[str, Any] | None | Unset
-        if isinstance(self.pms, Unset):
-            pms = UNSET
-        elif isinstance(self.pms, GuestCreateResponsePmsType0):
-            pms = self.pms.to_dict()
+        updated_at: None | str | Unset
+        if isinstance(self.updated_at, Unset):
+            updated_at = UNSET
+        elif isinstance(self.updated_at, datetime.datetime):
+            updated_at = self.updated_at.isoformat()
         else:
-            pms = self.pms
+            updated_at = self.updated_at
+
+        pms: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.pms, Unset):
+            pms = []
+            for pms_item_data in self.pms:
+                pms_item = pms_item_data.to_dict()
+                pms.append(pms_item)
+
+
 
 
         field_dict: dict[str, Any] = {}
@@ -117,22 +104,16 @@ class GuestCreateResponse:
         })
         if id is not UNSET:
             field_dict["id"] = id
-        if created is not UNSET:
-            field_dict["created"] = created
         if first_name is not UNSET:
             field_dict["firstName"] = first_name
         if last_name is not UNSET:
             field_dict["lastName"] = last_name
         if language is not UNSET:
             field_dict["language"] = language
-        if currency is not UNSET:
-            field_dict["currency"] = currency
-        if is_business_traveler is not UNSET:
-            field_dict["isBusinessTraveler"] = is_business_traveler
         if contacts is not UNSET:
             field_dict["contacts"] = contacts
-        if created_at is not UNSET:
-            field_dict["createdAt"] = created_at
+        if updated_at is not UNSET:
+            field_dict["updatedAt"] = updated_at
         if pms is not UNSET:
             field_dict["pms"] = pms
 
@@ -142,12 +123,10 @@ class GuestCreateResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.guest_create_response_contacts_item import GuestCreateResponseContactsItem
-        from ..models.guest_create_response_pms_type_0 import GuestCreateResponsePmsType0
+        from ..models.guest_update_response_contacts_item import GuestUpdateResponseContactsItem
+        from ..models.guest_update_response_pms_item import GuestUpdateResponsePmsItem
         d = dict(src_dict)
         id = d.pop("id", UNSET)
-
-        created = d.pop("created", UNSET)
 
         first_name = d.pop("firstName", UNSET)
 
@@ -171,76 +150,63 @@ class GuestCreateResponse:
         language = _parse_language(d.pop("language", UNSET))
 
 
-        def _parse_currency(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        currency = _parse_currency(d.pop("currency", UNSET))
-
-
-        is_business_traveler = d.pop("isBusinessTraveler", UNSET)
-
         _contacts = d.pop("contacts", UNSET)
-        contacts: list[GuestCreateResponseContactsItem] | Unset = UNSET
+        contacts: list[GuestUpdateResponseContactsItem] | Unset = UNSET
         if _contacts is not UNSET:
             contacts = []
             for contacts_item_data in _contacts:
-                contacts_item = GuestCreateResponseContactsItem.from_dict(contacts_item_data)
+                contacts_item = GuestUpdateResponseContactsItem.from_dict(contacts_item_data)
 
 
 
                 contacts.append(contacts_item)
 
 
-        _created_at = d.pop("createdAt", UNSET)
-        created_at: datetime.datetime | Unset
-        if isinstance(_created_at,  Unset):
-            created_at = UNSET
-        else:
-            created_at = isoparse(_created_at)
-
-
-
-
-        def _parse_pms(data: object) -> GuestCreateResponsePmsType0 | None | Unset:
+        def _parse_updated_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             try:
-                if not isinstance(data, dict):
+                if not isinstance(data, str):
                     raise TypeError()
-                pms_type_0 = GuestCreateResponsePmsType0.from_dict(data)
+                updated_at_type_0 = isoparse(data)
 
 
 
-                return pms_type_0
+                return updated_at_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(GuestCreateResponsePmsType0 | None | Unset, data)
+            return cast(datetime.datetime | None | Unset, data)
 
-        pms = _parse_pms(d.pop("pms", UNSET))
+        updated_at = _parse_updated_at(d.pop("updatedAt", UNSET))
 
 
-        guest_create_response = cls(
+        _pms = d.pop("pms", UNSET)
+        pms: list[GuestUpdateResponsePmsItem] | Unset = UNSET
+        if _pms is not UNSET:
+            pms = []
+            for pms_item_data in _pms:
+                pms_item = GuestUpdateResponsePmsItem.from_dict(pms_item_data)
+
+
+
+                pms.append(pms_item)
+
+
+        guest_update_response = cls(
             id=id,
-            created=created,
             first_name=first_name,
             last_name=last_name,
             language=language,
-            currency=currency,
-            is_business_traveler=is_business_traveler,
             contacts=contacts,
-            created_at=created_at,
+            updated_at=updated_at,
             pms=pms,
         )
 
 
-        guest_create_response.additional_properties = d
-        return guest_create_response
+        guest_update_response.additional_properties = d
+        return guest_update_response
 
     @property
     def additional_keys(self) -> list[str]:

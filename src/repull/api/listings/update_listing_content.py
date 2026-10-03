@@ -113,6 +113,17 @@ def sync_detailed(
     policies — into a Repull listing, making it the source of truth. This is the flagship \"the PMS owns
     listing content, Repull distributes it\" enabler.
 
+    **Listings managed in a connected PMS** (Guesty, Hostaway, …): the PMS owns their content, so title,
+    descriptions, check-in/out times, capacity, amenities, house rules, address and added photos are
+    written to the PMS first; Repull keeps only what it accepted (refused sections are in `deferred`,
+    its per-section outcome in `pms`). A section that PMS cannot write returns `422
+    pms_write_unsupported` naming it when nothing was applied (or is listed in `deferred` when other
+    sections were); `GET /v1/listings/{id}` → `capabilities.pms.listings` says which sections it takes.
+    A PMS whose connector writes no listing content at all (Mews, Cloudbeds, Lodgify, …) keeps today's
+    behaviour: the content is written to Repull only. Send photos with `photosMode: \"append\"` —
+    replacing a PMS listing's photo set needs the PMS's own photo ids. A revoked PMS connection is `403
+    connection_reauth_required`.
+
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send
     `[]` to clear).
@@ -180,6 +191,17 @@ def sync(
     policies — into a Repull listing, making it the source of truth. This is the flagship \"the PMS owns
     listing content, Repull distributes it\" enabler.
 
+    **Listings managed in a connected PMS** (Guesty, Hostaway, …): the PMS owns their content, so title,
+    descriptions, check-in/out times, capacity, amenities, house rules, address and added photos are
+    written to the PMS first; Repull keeps only what it accepted (refused sections are in `deferred`,
+    its per-section outcome in `pms`). A section that PMS cannot write returns `422
+    pms_write_unsupported` naming it when nothing was applied (or is listed in `deferred` when other
+    sections were); `GET /v1/listings/{id}` → `capabilities.pms.listings` says which sections it takes.
+    A PMS whose connector writes no listing content at all (Mews, Cloudbeds, Lodgify, …) keeps today's
+    behaviour: the content is written to Repull only. Send photos with `photosMode: \"append\"` —
+    replacing a PMS listing's photo set needs the PMS's own photo ids. A revoked PMS connection is `403
+    connection_reauth_required`.
+
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send
     `[]` to clear).
@@ -241,6 +263,17 @@ async def asyncio_detailed(
      Write your PMS's canonical listing content — title, description, amenities, address, occupancy, and
     policies — into a Repull listing, making it the source of truth. This is the flagship \"the PMS owns
     listing content, Repull distributes it\" enabler.
+
+    **Listings managed in a connected PMS** (Guesty, Hostaway, …): the PMS owns their content, so title,
+    descriptions, check-in/out times, capacity, amenities, house rules, address and added photos are
+    written to the PMS first; Repull keeps only what it accepted (refused sections are in `deferred`,
+    its per-section outcome in `pms`). A section that PMS cannot write returns `422
+    pms_write_unsupported` naming it when nothing was applied (or is listed in `deferred` when other
+    sections were); `GET /v1/listings/{id}` → `capabilities.pms.listings` says which sections it takes.
+    A PMS whose connector writes no listing content at all (Mews, Cloudbeds, Lodgify, …) keeps today's
+    behaviour: the content is written to Repull only. Send photos with `photosMode: \"append\"` —
+    replacing a PMS listing's photo set needs the PMS's own photo ids. A revoked PMS connection is `403
+    connection_reauth_required`.
 
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send
@@ -308,6 +341,17 @@ async def asyncio(
      Write your PMS's canonical listing content — title, description, amenities, address, occupancy, and
     policies — into a Repull listing, making it the source of truth. This is the flagship \"the PMS owns
     listing content, Repull distributes it\" enabler.
+
+    **Listings managed in a connected PMS** (Guesty, Hostaway, …): the PMS owns their content, so title,
+    descriptions, check-in/out times, capacity, amenities, house rules, address and added photos are
+    written to the PMS first; Repull keeps only what it accepted (refused sections are in `deferred`,
+    its per-section outcome in `pms`). A section that PMS cannot write returns `422
+    pms_write_unsupported` naming it when nothing was applied (or is listed in `deferred` when other
+    sections were); `GET /v1/listings/{id}` → `capabilities.pms.listings` says which sections it takes.
+    A PMS whose connector writes no listing content at all (Mews, Cloudbeds, Lodgify, …) keeps today's
+    behaviour: the content is written to Repull only. Send photos with `photosMode: \"append\"` —
+    replacing a PMS listing's photo set needs the PMS's own photo ids. A revoked PMS connection is `403
+    connection_reauth_required`.
 
     **Partial update:** every field is optional. Only the fields you send are written; absent fields are
     left untouched. `amenities` is a FULL replacement of the amenity set (omit to leave untouched, send

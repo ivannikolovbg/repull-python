@@ -12,6 +12,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.pms_capabilities import PmsCapabilities
   from ..models.reservation_capabilities import ReservationCapabilities
 
 
@@ -24,15 +25,19 @@ T = TypeVar("T", bound="ListingCapabilities")
 
 @_attrs_define
 class ListingCapabilities:
-    """ `GET /v1/listings/{id}` only. What the API can do with this listing.
+    """ `GET /v1/listings/{id}` only. What the API can do with this listing. `pms` is present when a connected PMS manages
+    it.
 
         Attributes:
             reservations (ReservationCapabilities | Unset): Which reservation writes the API performs for this listing (or,
                 on `GET /v1/connect/{provider}`, for any listing of that connection). Derived from the PMS connector, the
                 connection, and its write policy — a flag is true only when all three allow it.
+            pms (PmsCapabilities | Unset): What the API does through a connected PMS beyond reservation writes, read from
+                the same connector table the router uses — a `false` flag is a `422 pms_write_unsupported` naming the PMS.
      """
 
     reservations: ReservationCapabilities | Unset = UNSET
+    pms: PmsCapabilities | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -40,10 +45,15 @@ class ListingCapabilities:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.pms_capabilities import PmsCapabilities
         from ..models.reservation_capabilities import ReservationCapabilities
         reservations: dict[str, Any] | Unset = UNSET
         if not isinstance(self.reservations, Unset):
             reservations = self.reservations.to_dict()
+
+        pms: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.pms, Unset):
+            pms = self.pms.to_dict()
 
 
         field_dict: dict[str, Any] = {}
@@ -52,6 +62,8 @@ class ListingCapabilities:
         })
         if reservations is not UNSET:
             field_dict["reservations"] = reservations
+        if pms is not UNSET:
+            field_dict["pms"] = pms
 
         return field_dict
 
@@ -59,6 +71,7 @@ class ListingCapabilities:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.pms_capabilities import PmsCapabilities
         from ..models.reservation_capabilities import ReservationCapabilities
         d = dict(src_dict)
         _reservations = d.pop("reservations", UNSET)
@@ -71,8 +84,19 @@ class ListingCapabilities:
 
 
 
+        _pms = d.pop("pms", UNSET)
+        pms: PmsCapabilities | Unset
+        if isinstance(_pms,  Unset):
+            pms = UNSET
+        else:
+            pms = PmsCapabilities.from_dict(_pms)
+
+
+
+
         listing_capabilities = cls(
             reservations=reservations,
+            pms=pms,
         )
 
 

@@ -119,6 +119,11 @@ def sync_detailed(
     Field names are camelCase, and an unrecognised field is rejected by name rather than silently
     dropped.
 
+    **Creating the guest in a connected PMS too:** send `provider` (e.g. `guesty`). The guest is created
+    in the PMS first and its id there comes back as `pms.externalId`; a PMS whose API cannot create
+    guest profiles returns `422 pms_write_unsupported` naming it (Hostaway today) and nothing is
+    created. `GET /v1/connect/{provider}` → `capabilities.pms.guests.create` says so beforehand.
+
     Send `Idempotency-Key` to make a retry safe.
 
     Args:
@@ -167,6 +172,11 @@ def sync(
     Field names are camelCase, and an unrecognised field is rejected by name rather than silently
     dropped.
 
+    **Creating the guest in a connected PMS too:** send `provider` (e.g. `guesty`). The guest is created
+    in the PMS first and its id there comes back as `pms.externalId`; a PMS whose API cannot create
+    guest profiles returns `422 pms_write_unsupported` naming it (Hostaway today) and nothing is
+    created. `GET /v1/connect/{provider}` → `capabilities.pms.guests.create` says so beforehand.
+
     Send `Idempotency-Key` to make a retry safe.
 
     Args:
@@ -209,6 +219,11 @@ async def asyncio_detailed(
 
     Field names are camelCase, and an unrecognised field is rejected by name rather than silently
     dropped.
+
+    **Creating the guest in a connected PMS too:** send `provider` (e.g. `guesty`). The guest is created
+    in the PMS first and its id there comes back as `pms.externalId`; a PMS whose API cannot create
+    guest profiles returns `422 pms_write_unsupported` naming it (Hostaway today) and nothing is
+    created. `GET /v1/connect/{provider}` → `capabilities.pms.guests.create` says so beforehand.
 
     Send `Idempotency-Key` to make a retry safe.
 
@@ -257,6 +272,11 @@ async def asyncio(
 
     Field names are camelCase, and an unrecognised field is rejected by name rather than silently
     dropped.
+
+    **Creating the guest in a connected PMS too:** send `provider` (e.g. `guesty`). The guest is created
+    in the PMS first and its id there comes back as `pms.externalId`; a PMS whose API cannot create
+    guest profiles returns `422 pms_write_unsupported` naming it (Hostaway today) and nothing is
+    created. `GET /v1/connect/{provider}` → `capabilities.pms.guests.create` says so beforehand.
 
     Send `Idempotency-Key` to make a retry safe.
 

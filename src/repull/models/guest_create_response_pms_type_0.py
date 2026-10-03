@@ -16,24 +16,21 @@ from typing import cast
 
 
 
-T = TypeVar("T", bound="ReplyToReviewResponse201")
+T = TypeVar("T", bound="GuestCreateResponsePmsType0")
 
 
 
 @_attrs_define
-class ReplyToReviewResponse201:
-    """ 
+class GuestCreateResponsePmsType0:
+    """ Set when `provider` was sent: the PMS the guest was also created in, and its id there.
+
         Attributes:
-            id (str | Unset):
-            platform (str | Unset):
-            pms (None | str | Unset): The PMS the reply went through, when the review came from one.
-            response (str | Unset):
+            provider (str | Unset):
+            external_id (None | str | Unset):
      """
 
-    id: str | Unset = UNSET
-    platform: str | Unset = UNSET
-    pms: None | str | Unset = UNSET
-    response: str | Unset = UNSET
+    provider: str | Unset = UNSET
+    external_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,31 +38,23 @@ class ReplyToReviewResponse201:
 
 
     def to_dict(self) -> dict[str, Any]:
-        id = self.id
+        provider = self.provider
 
-        platform = self.platform
-
-        pms: None | str | Unset
-        if isinstance(self.pms, Unset):
-            pms = UNSET
+        external_id: None | str | Unset
+        if isinstance(self.external_id, Unset):
+            external_id = UNSET
         else:
-            pms = self.pms
-
-        response = self.response
+            external_id = self.external_id
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
-        if id is not UNSET:
-            field_dict["id"] = id
-        if platform is not UNSET:
-            field_dict["platform"] = platform
-        if pms is not UNSET:
-            field_dict["pms"] = pms
-        if response is not UNSET:
-            field_dict["response"] = response
+        if provider is not UNSET:
+            field_dict["provider"] = provider
+        if external_id is not UNSET:
+            field_dict["externalId"] = external_id
 
         return field_dict
 
@@ -74,32 +63,26 @@ class ReplyToReviewResponse201:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        provider = d.pop("provider", UNSET)
 
-        platform = d.pop("platform", UNSET)
-
-        def _parse_pms(data: object) -> None | str | Unset:
+        def _parse_external_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        pms = _parse_pms(d.pop("pms", UNSET))
+        external_id = _parse_external_id(d.pop("externalId", UNSET))
 
 
-        response = d.pop("response", UNSET)
-
-        reply_to_review_response_201 = cls(
-            id=id,
-            platform=platform,
-            pms=pms,
-            response=response,
+        guest_create_response_pms_type_0 = cls(
+            provider=provider,
+            external_id=external_id,
         )
 
 
-        reply_to_review_response_201.additional_properties = d
-        return reply_to_review_response_201
+        guest_create_response_pms_type_0.additional_properties = d
+        return guest_create_response_pms_type_0
 
     @property
     def additional_keys(self) -> list[str]:

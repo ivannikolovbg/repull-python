@@ -147,9 +147,12 @@ def sync_detailed(
     the `conversationId` to use here.
 
     One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
-    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
-    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
-    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+    **VRBO**. A Booking.com or direct-booking conversation returns `422 channel_not_supported` and
+    nothing is sent — `GET /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+
+    **An inquiry relayed by a PMS** (Guesty, Hostaway, …) is pre-approved in that PMS. A PMS whose API
+    cannot returns `422 pms_write_unsupported` naming it (Hostaway today); `GET /v1/connect/{provider}`
+    → `capabilities.pms.reservations.preapprove` says so beforehand. The response then carries `pms`.
 
     `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
     sent to the guest with a VRBO pre-approval (a friendly default otherwise).
@@ -211,9 +214,12 @@ def sync(
     the `conversationId` to use here.
 
     One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
-    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
-    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
-    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+    **VRBO**. A Booking.com or direct-booking conversation returns `422 channel_not_supported` and
+    nothing is sent — `GET /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+
+    **An inquiry relayed by a PMS** (Guesty, Hostaway, …) is pre-approved in that PMS. A PMS whose API
+    cannot returns `422 pms_write_unsupported` naming it (Hostaway today); `GET /v1/connect/{provider}`
+    → `capabilities.pms.reservations.preapprove` says so beforehand. The response then carries `pms`.
 
     `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
     sent to the guest with a VRBO pre-approval (a friendly default otherwise).
@@ -270,9 +276,12 @@ async def asyncio_detailed(
     the `conversationId` to use here.
 
     One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
-    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
-    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
-    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+    **VRBO**. A Booking.com or direct-booking conversation returns `422 channel_not_supported` and
+    nothing is sent — `GET /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+
+    **An inquiry relayed by a PMS** (Guesty, Hostaway, …) is pre-approved in that PMS. A PMS whose API
+    cannot returns `422 pms_write_unsupported` naming it (Hostaway today); `GET /v1/connect/{provider}`
+    → `capabilities.pms.reservations.preapprove` says so beforehand. The response then carries `pms`.
 
     `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
     sent to the guest with a VRBO pre-approval (a friendly default otherwise).
@@ -334,9 +343,12 @@ async def asyncio(
     the `conversationId` to use here.
 
     One endpoint for every channel with pre-approvals: **Airbnb** (listings connected directly) and
-    **VRBO**. A Booking.com or direct-booking conversation, or an Airbnb one relayed through a PMS
-    (Hostaway, Guesty), returns `422 channel_not_supported` and nothing is sent — `GET
-    /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+    **VRBO**. A Booking.com or direct-booking conversation returns `422 channel_not_supported` and
+    nothing is sent — `GET /v1/conversations/{id}` → `capabilities.canPreApprove` says where it works.
+
+    **An inquiry relayed by a PMS** (Guesty, Hostaway, …) is pre-approved in that PMS. A PMS whose API
+    cannot returns `422 pms_write_unsupported` naming it (Hostaway today); `GET /v1/connect/{provider}`
+    → `capabilities.pms.reservations.preapprove` says so beforehand. The response then carries `pms`.
 
     `blockInstantBooking` is Airbnb only (VRBO has no such switch: `422 invalid_params`). `message` is
     sent to the guest with a VRBO pre-approval (a friendly default otherwise).

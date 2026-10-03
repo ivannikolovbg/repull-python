@@ -41,6 +41,10 @@ class Review:
             external_id (str | Unset): ID in the source channel (Airbnb review id, Booking review id, etc.). Pass as
                 `review_id` to the provider reply endpoint.
             platform (ReviewPlatform | Unset):
+            pms (None | str | Unset): The PMS this review was read from (`guesty`, `hostaway`, …) when it came through one —
+                `platform` is still the channel the guest wrote it on. A reply (`POST /v1/reviews/{id}/reply`) goes through this
+                PMS; `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says whether it can. `null` for a review
+                from a directly connected channel. Example: guesty.
             listing_id (None | str | Unset): Internal Repull listing id the review is attached to.
             provider_property_id (None | str | Unset): The source channel's own listing/property id for this review
                 (Booking.com hotel/property id, Airbnb listing id, …). Pass this as `property_id` to `POST
@@ -74,6 +78,7 @@ class Review:
     id: str | Unset = UNSET
     external_id: str | Unset = UNSET
     platform: ReviewPlatform | Unset = UNSET
+    pms: None | str | Unset = UNSET
     listing_id: None | str | Unset = UNSET
     provider_property_id: None | str | Unset = UNSET
     reservation_id: None | str | Unset = UNSET
@@ -119,6 +124,12 @@ class Review:
         if not isinstance(self.platform, Unset):
             platform = self.platform.value
 
+
+        pms: None | str | Unset
+        if isinstance(self.pms, Unset):
+            pms = UNSET
+        else:
+            pms = self.pms
 
         listing_id: None | str | Unset
         if isinstance(self.listing_id, Unset):
@@ -253,6 +264,8 @@ class Review:
             field_dict["externalId"] = external_id
         if platform is not UNSET:
             field_dict["platform"] = platform
+        if pms is not UNSET:
+            field_dict["pms"] = pms
         if listing_id is not UNSET:
             field_dict["listingId"] = listing_id
         if provider_property_id is not UNSET:
@@ -334,6 +347,16 @@ class Review:
             platform = ReviewPlatform(_platform)
 
 
+
+
+        def _parse_pms(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        pms = _parse_pms(d.pop("pms", UNSET))
 
 
         def _parse_listing_id(data: object) -> None | str | Unset:
@@ -565,6 +588,7 @@ class Review:
             id=id,
             external_id=external_id,
             platform=platform,
+            pms=pms,
             listing_id=listing_id,
             provider_property_id=provider_property_id,
             reservation_id=reservation_id,
