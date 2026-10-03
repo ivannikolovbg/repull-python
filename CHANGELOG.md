@@ -5,6 +5,14 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.28] - 2026-10-03
+
+Regenerated against the live `https://api.repull.dev/openapi.json`:
+
+- New `repull.api.connect.submit_track_credentials` (`POST /v1/connect/track/credentials`, with `SubmitTrackCredentialsBody` / `SubmitTrackCredentialsBodyCredentials`): connect a Track (TRACK Hospitality Software) account with `domain`, `api_key`, `api_secret` and optional `key_type` (`server` / `channel`), `auth_mode` (`hmac` / `basic`), `hmac_realm`, `secret_is_base64`, `payment_type_id`, `move_reason_id`.
+- New `repull.api.connect.recheck_booking_extranet_login` (`POST /v1/connect/booking-extranet-login/recheck`) and `repull.api.connect.resume_connect` (`GET /v1/connect/resume`).
+- Track listed in the per-PMS reservation write tables.
+
 ## [0.2.27] - 2026-10-02
 
 Regenerated against the live `https://api.repull.dev/openapi.json`:

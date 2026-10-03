@@ -126,7 +126,7 @@ def sync_detailed(
     x_account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ReservationQuoteResponse]:
-    """ Quote a reservation in the PMS
+    r""" Quote a reservation in the PMS
 
      Prices a stay and checks its availability **in the PMS that manages the listing**, without booking
     anything. It is the same check `POST /v1/reservations` makes before booking when no `totalPrice` is
@@ -166,6 +166,9 @@ def sync_detailed(
     holds. |
     | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
     rates; needs the `full` scope. |
+    | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
+    set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
+    connection; a date change re-prices at Track's current rates. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -210,7 +213,7 @@ def sync(
     x_account_id: str | Unset = UNSET,
 
 ) -> Error | ReservationQuoteResponse | None:
-    """ Quote a reservation in the PMS
+    r""" Quote a reservation in the PMS
 
      Prices a stay and checks its availability **in the PMS that manages the listing**, without booking
     anything. It is the same check `POST /v1/reservations` makes before booking when no `totalPrice` is
@@ -250,6 +253,9 @@ def sync(
     holds. |
     | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
     rates; needs the `full` scope. |
+    | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
+    set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
+    connection; a date change re-prices at Track's current rates. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -289,7 +295,7 @@ async def asyncio_detailed(
     x_account_id: str | Unset = UNSET,
 
 ) -> Response[Error | ReservationQuoteResponse]:
-    """ Quote a reservation in the PMS
+    r""" Quote a reservation in the PMS
 
      Prices a stay and checks its availability **in the PMS that manages the listing**, without booking
     anything. It is the same check `POST /v1/reservations` makes before booking when no `totalPrice` is
@@ -329,6 +335,9 @@ async def asyncio_detailed(
     holds. |
     | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
     rates; needs the `full` scope. |
+    | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
+    set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
+    connection; a date change re-prices at Track's current rates. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -373,7 +382,7 @@ async def asyncio(
     x_account_id: str | Unset = UNSET,
 
 ) -> Error | ReservationQuoteResponse | None:
-    """ Quote a reservation in the PMS
+    r""" Quote a reservation in the PMS
 
      Prices a stay and checks its availability **in the PMS that manages the listing**, without booking
     anything. It is the same check `POST /v1/reservations` makes before booking when no `totalPrice` is
@@ -413,6 +422,9 @@ async def asyncio(
     holds. |
     | OwnerRez | ✓ | ✓ | – | ✓ | – | No cancel through OwnerRez's API; priced by the property's own
     rates; needs the `full` scope. |
+    | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
+    set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
+    connection; a date change re-prices at Track's current rates. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
