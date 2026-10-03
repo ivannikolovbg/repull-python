@@ -36,7 +36,7 @@ class ListingWebhookObject:
             channel (None | str | Unset):  Example: airbnb.
             external_listing_id (None | str | Unset): The channel's own listing id. Airbnb's exceed 2^53, so always a
                 string. Example: 1234567890123456789.
-            name (None | str | Unset):  Example: R-Sable 1302 — Radium Hot Springs.
+            name (None | str | Unset):  Example: Lakeview Loft — Example City.
             active (bool | Unset):  Example: True.
             status (str | Unset):  Example: active.
             address (ListingWebhookObjectAddress | Unset):

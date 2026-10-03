@@ -35,7 +35,7 @@ class AirbnbAlterationCreateRequest:
 
         Attributes:
             confirmation_code (str): Airbnb confirmation code of the reservation to alter. `GET
-                /v1/channels/airbnb/reservations` lists them. Example: HMX4CMA2X9.
+                /v1/channels/airbnb/reservations` lists them. Example: HMEXAMPLE1.
             check_in (datetime.date | Unset): New check-in date, `YYYY-MM-DD`. Example: 2026-08-02.
             check_out (datetime.date | Unset): New check-out date, `YYYY-MM-DD`. Must be after `check_in` when both are
                 sent. Example: 2026-08-06.

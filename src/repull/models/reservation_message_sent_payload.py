@@ -34,7 +34,7 @@ class ReservationMessageSentPayload:
 
         Attributes:
             reservation_id (int | None | Unset):  Example: 235970.
-            thread_id (str | Unset):  Example: 161347.
+            thread_id (str | Unset):  Example: 900301.
             message_id (str | Unset): Repull message id, as `GET /v1/conversations/{id}/messages` returns it. Example:
                 1854462.
             external_message_id (None | str | Unset): The channel's own message id. Dedupe on it. Example: 32877308873.

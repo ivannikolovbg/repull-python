@@ -32,7 +32,7 @@ class ReservationMessageUpdatedPayload:
 
         Attributes:
             reservation_id (int | None | Unset):  Example: 235970.
-            thread_id (str | Unset):  Example: 161347.
+            thread_id (str | Unset):  Example: 900301.
             message_id (str | Unset):  Example: 1854462.
             external_message_id (None | str | Unset):  Example: 32877308873.
             channel (str | Unset):  Example: airbnb.

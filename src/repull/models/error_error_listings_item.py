@@ -24,7 +24,7 @@ class ErrorErrorListingsItem:
     """ 
         Attributes:
             id (str):  Example: 4118.
-            name (None | str):  Example: R-Sable 1302.
+            name (None | str):  Example: Lakeview Loft.
      """
 
     id: str

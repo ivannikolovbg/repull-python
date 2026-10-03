@@ -39,9 +39,9 @@ class ReservationWebhookObject:
     worse than a missing one.
 
         Attributes:
-            id (int): Repull-internal reservation id. Pass to `GET /v1/reservations/{id}`. Example: 212605.
+            id (int): Repull-internal reservation id. Pass to `GET /v1/reservations/{id}`. Example: 900001.
             uid (str): Channel-side confirmation code (Airbnb HM-prefixed, Booking.com numeric, etc.). Stable across the
-                lifetime of the reservation. Example: HMX4CMA2X9.
+                lifetime of the reservation. Example: HMEXAMPLE1.
             channel (str): Source channel — `airbnb`, `booking`, `vrbo`, `direct`, `owner`, `mid_stay_clean`, etc. Example:
                 airbnb.
             listing_id (int): Repull listing id this reservation is on. Example: 5668.

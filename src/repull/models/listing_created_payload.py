@@ -30,7 +30,7 @@ class ListingCreatedPayload:
 
         Attributes:
             id (int | Unset):  Example: 6250.
-            title (str | Unset):  Example: R-Sable 1302 — Radium Hot Springs.
+            title (str | Unset):  Example: Lakeview Loft — Example City.
             address (ListingCreatedPayloadAddress | Unset):
             bedrooms (int | Unset):  Example: 2.
             bathrooms (float | Unset):  Example: 2.

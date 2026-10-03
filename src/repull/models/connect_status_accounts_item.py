@@ -28,7 +28,7 @@ class ConnectStatusAccountsItem:
     """ 
         Attributes:
             external_account_id (str | Unset): Airbnb host ID, as a string (it can exceed 2^53). Example: 79730216.
-            name (None | str | Unset):  Example: Raiden.
+            name (None | str | Unset):  Example: Casey.
             picture_url (None | str | Unset):
             status (None | str | Unset):  Example: active.
             connected (bool | Unset): True while the account is active and its authorization is usable. Example: True.
