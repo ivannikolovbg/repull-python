@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.listing_kind import ListingKind
 from ..models.listing_status import ListingStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
@@ -21,6 +22,7 @@ if TYPE_CHECKING:
   from ..models.listing_channel import ListingChannel
   from ..models.listing_content import ListingContent
   from ..models.listing_details import ListingDetails
+  from ..models.listing_hotel_type_0 import ListingHotelType0
   from ..models.listing_units_item import ListingUnitsItem
 
 
@@ -46,6 +48,14 @@ class Listing:
         Attributes:
             capabilities (ListingCapabilities | Unset): `GET /v1/listings/{id}` only. What the API can do with this listing.
                 `pms` is present when a connected PMS manages it.
+            kind (ListingKind | Unset): `room_type` when the listing sells several identical units (a hotel room type:
+                `unitCount` > 1) or is a hotel PMS room type; `home` otherwise. See the Hotels & multi-unit guide.
+            hotel (ListingHotelType0 | None | Unset): The hotel the listing belongs to: a hotel PMS hotel (Cloudbeds, Mews)
+                or a Booking.com property with several room types or rooms. `null` for a standalone home. `GET /v1/hotels/{id}`
+                lists its room types.
+            unit_count (int | Unset): How many identical units (rooms) this listing sells: the hotel PMS rooms of the room
+                type, the room count on Booking.com, or 1 for a home. Rooms left per night are `availableUnits` on `GET
+                /v1/availability/{propertyId}`.
             units (list[ListingUnitsItem] | Unset): `GET /v1/listings/{id}` only. The physical rooms under a hotel-model
                 listing (a Mews or Cloudbeds room type); empty for a single home. Same items as `GET /v1/listings/{id}/units`.
             id (str | Unset): Repull listing id
@@ -72,6 +82,9 @@ class Listing:
      """
 
     capabilities: ListingCapabilities | Unset = UNSET
+    kind: ListingKind | Unset = UNSET
+    hotel: ListingHotelType0 | None | Unset = UNSET
+    unit_count: int | Unset = UNSET
     units: list[ListingUnitsItem] | Unset = UNSET
     id: str | Unset = UNSET
     name: str | Unset = UNSET
@@ -98,10 +111,26 @@ class Listing:
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
         from ..models.listing_details import ListingDetails
+        from ..models.listing_hotel_type_0 import ListingHotelType0
         from ..models.listing_units_item import ListingUnitsItem
         capabilities: dict[str, Any] | Unset = UNSET
         if not isinstance(self.capabilities, Unset):
             capabilities = self.capabilities.to_dict()
+
+        kind: str | Unset = UNSET
+        if not isinstance(self.kind, Unset):
+            kind = self.kind.value
+
+
+        hotel: dict[str, Any] | None | Unset
+        if isinstance(self.hotel, Unset):
+            hotel = UNSET
+        elif isinstance(self.hotel, ListingHotelType0):
+            hotel = self.hotel.to_dict()
+        else:
+            hotel = self.hotel
+
+        unit_count = self.unit_count
 
         units: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.units, Unset):
@@ -186,6 +215,12 @@ class Listing:
         })
         if capabilities is not UNSET:
             field_dict["capabilities"] = capabilities
+        if kind is not UNSET:
+            field_dict["kind"] = kind
+        if hotel is not UNSET:
+            field_dict["hotel"] = hotel
+        if unit_count is not UNSET:
+            field_dict["unitCount"] = unit_count
         if units is not UNSET:
             field_dict["units"] = units
         if id is not UNSET:
@@ -225,6 +260,7 @@ class Listing:
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
         from ..models.listing_details import ListingDetails
+        from ..models.listing_hotel_type_0 import ListingHotelType0
         from ..models.listing_units_item import ListingUnitsItem
         d = dict(src_dict)
         _capabilities = d.pop("capabilities", UNSET)
@@ -236,6 +272,38 @@ class Listing:
 
 
 
+
+        _kind = d.pop("kind", UNSET)
+        kind: ListingKind | Unset
+        if isinstance(_kind,  Unset):
+            kind = UNSET
+        else:
+            kind = ListingKind(_kind)
+
+
+
+
+        def _parse_hotel(data: object) -> ListingHotelType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                hotel_type_0 = ListingHotelType0.from_dict(data)
+
+
+
+                return hotel_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingHotelType0 | None | Unset, data)
+
+        hotel = _parse_hotel(d.pop("hotel", UNSET))
+
+
+        unit_count = d.pop("unitCount", UNSET)
 
         _units = d.pop("units", UNSET)
         units: list[ListingUnitsItem] | Unset = UNSET
@@ -379,6 +447,9 @@ class Listing:
 
         listing = cls(
             capabilities=capabilities,
+            kind=kind,
+            hotel=hotel,
+            unit_count=unit_count,
             units=units,
             id=id,
             name=name,

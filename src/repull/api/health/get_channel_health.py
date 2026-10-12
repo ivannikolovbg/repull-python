@@ -73,10 +73,11 @@ def sync_detailed(
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
     inbox sync is late (`degraded`), and the calendar push queue backlog and its oldest wait (`degraded`
-    past 3 hours). Its rate is failed calendar pushes over finished ones in the last 3 hours
-    (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for VRBO),
-    judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in bursts, so a
-    day-long window would keep reporting a problem already fixed.
+    past 3 hours). Its rate is calendar pushes VRBO refused over finished ones in the last 3 hours;
+    failures inside Repull's own connector are reported apart as `vrbo.connector_errors` and do not
+    count (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for
+    VRBO), judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in
+    bursts, so a day-long window would keep reporting a problem already fixed.
 
     Args:
         channel (GetChannelHealthChannel):
@@ -117,10 +118,11 @@ def sync(
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
     inbox sync is late (`degraded`), and the calendar push queue backlog and its oldest wait (`degraded`
-    past 3 hours). Its rate is failed calendar pushes over finished ones in the last 3 hours
-    (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for VRBO),
-    judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in bursts, so a
-    day-long window would keep reporting a problem already fixed.
+    past 3 hours). Its rate is calendar pushes VRBO refused over finished ones in the last 3 hours;
+    failures inside Repull's own connector are reported apart as `vrbo.connector_errors` and do not
+    count (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for
+    VRBO), judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in
+    bursts, so a day-long window would keep reporting a problem already fixed.
 
     Args:
         channel (GetChannelHealthChannel):
@@ -156,10 +158,11 @@ async def asyncio_detailed(
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
     inbox sync is late (`degraded`), and the calendar push queue backlog and its oldest wait (`degraded`
-    past 3 hours). Its rate is failed calendar pushes over finished ones in the last 3 hours
-    (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for VRBO),
-    judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in bursts, so a
-    day-long window would keep reporting a problem already fixed.
+    past 3 hours). Its rate is calendar pushes VRBO refused over finished ones in the last 3 hours;
+    failures inside Repull's own connector are reported apart as `vrbo.connector_errors` and do not
+    count (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for
+    VRBO), judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in
+    bursts, so a day-long window would keep reporting a problem already fixed.
 
     Args:
         channel (GetChannelHealthChannel):
@@ -200,10 +203,11 @@ async def asyncio(
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
     inbox sync is late (`degraded`), and the calendar push queue backlog and its oldest wait (`degraded`
-    past 3 hours). Its rate is failed calendar pushes over finished ones in the last 3 hours
-    (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for VRBO),
-    judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in bursts, so a
-    day-long window would keep reporting a problem already fixed.
+    past 3 hours). Its rate is calendar pushes VRBO refused over finished ones in the last 3 hours;
+    failures inside Repull's own connector are reported apart as `vrbo.connector_errors` and do not
+    count (`vrbo.window_hours`; `refresh_attempts_24h` / `refresh_rejections_24h` count that window for
+    VRBO), judged only once at least 50 pushes finished and at least 5 failed — VRBO pushes run in
+    bursts, so a day-long window would keep reporting a problem already fixed.
 
     Args:
         channel (GetChannelHealthChannel):

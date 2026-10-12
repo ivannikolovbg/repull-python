@@ -33,11 +33,14 @@ class RecordAccountType0:
                 Extranet login, Vrbo account, or the PMS account. Example: 79730216.
             connection_id (None | str | Unset): Repull connection id (`X-Account-Id`), when the account has one. A string,
                 like every id in API responses. Example: 126.
+            hotel_id (str | Unset): Booking.com only: the hotel (property) id the record belongs to. On a `booking_extranet`
+                account, `externalAccountId` is the login, which can cover several hotels. Example: 10433861.
      """
 
     provider: str | Unset = UNSET
     external_account_id: str | Unset = UNSET
     connection_id: None | str | Unset = UNSET
+    hotel_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -55,6 +58,8 @@ class RecordAccountType0:
         else:
             connection_id = self.connection_id
 
+        hotel_id = self.hotel_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -66,6 +71,8 @@ class RecordAccountType0:
             field_dict["externalAccountId"] = external_account_id
         if connection_id is not UNSET:
             field_dict["connectionId"] = connection_id
+        if hotel_id is not UNSET:
+            field_dict["hotelId"] = hotel_id
 
         return field_dict
 
@@ -88,10 +95,13 @@ class RecordAccountType0:
         connection_id = _parse_connection_id(d.pop("connectionId", UNSET))
 
 
+        hotel_id = d.pop("hotelId", UNSET)
+
         record_account_type_0 = cls(
             provider=provider,
             external_account_id=external_account_id,
             connection_id=connection_id,
+            hotel_id=hotel_id,
         )
 
 

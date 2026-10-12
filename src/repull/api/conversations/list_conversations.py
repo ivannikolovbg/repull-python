@@ -13,7 +13,9 @@ from ...models.error import Error
 from ...models.list_conversations_platform import ListConversationsPlatform
 from ...models.list_conversations_status import ListConversationsStatus
 from ...types import UNSET, Unset
+from dateutil.parser import isoparse
 from typing import cast
+import datetime
 
 
 
@@ -24,6 +26,7 @@ def _get_kwargs(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -51,6 +54,11 @@ def _get_kwargs(
         json_platform = platform.value
 
     params["platform"] = json_platform
+
+    json_updated_since: str | Unset = UNSET
+    if not isinstance(updated_since, Unset):
+        json_updated_since = updated_since.isoformat()
+    params["updated_since"] = json_updated_since
 
     json_status: str | Unset = UNSET
     if not isinstance(status, Unset):
@@ -133,6 +141,7 @@ def sync_detailed(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -152,12 +161,21 @@ def sync_detailed(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
+    **Order:** newest conversation first (by when the conversation started), unless you pass
+    `updated_since`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
+    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
+    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
+    your next watermark. A cursor from one kind of walk is refused on the other.
+
     Args:
         account (str | Unset):  Example: airbnb:79730216.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
+        updated_since (datetime.datetime | Unset):
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -176,6 +194,7 @@ cursor=cursor,
 offset=offset,
 limit=limit,
 platform=platform,
+updated_since=updated_since,
 status=status,
 x_schema=x_schema,
 
@@ -195,6 +214,7 @@ def sync(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -214,12 +234,21 @@ def sync(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
+    **Order:** newest conversation first (by when the conversation started), unless you pass
+    `updated_since`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
+    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
+    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
+    your next watermark. A cursor from one kind of walk is refused on the other.
+
     Args:
         account (str | Unset):  Example: airbnb:79730216.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
+        updated_since (datetime.datetime | Unset):
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -239,6 +268,7 @@ cursor=cursor,
 offset=offset,
 limit=limit,
 platform=platform,
+updated_since=updated_since,
 status=status,
 x_schema=x_schema,
 
@@ -252,6 +282,7 @@ async def asyncio_detailed(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -271,12 +302,21 @@ async def asyncio_detailed(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
+    **Order:** newest conversation first (by when the conversation started), unless you pass
+    `updated_since`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
+    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
+    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
+    your next watermark. A cursor from one kind of walk is refused on the other.
+
     Args:
         account (str | Unset):  Example: airbnb:79730216.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
+        updated_since (datetime.datetime | Unset):
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -295,6 +335,7 @@ cursor=cursor,
 offset=offset,
 limit=limit,
 platform=platform,
+updated_since=updated_since,
 status=status,
 x_schema=x_schema,
 
@@ -314,6 +355,7 @@ async def asyncio(
     offset: int | Unset = 0,
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
+    updated_since: datetime.datetime | Unset = UNSET,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -333,12 +375,21 @@ async def asyncio(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
+    **Order:** newest conversation first (by when the conversation started), unless you pass
+    `updated_since`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
+    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
+    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
+    your next watermark. A cursor from one kind of walk is refused on the other.
+
     Args:
         account (str | Unset):  Example: airbnb:79730216.
         cursor (str | Unset):
         offset (int | Unset):  Default: 0.
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
+        updated_since (datetime.datetime | Unset):
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -358,6 +409,7 @@ cursor=cursor,
 offset=offset,
 limit=limit,
 platform=platform,
+updated_since=updated_since,
 status=status,
 x_schema=x_schema,
 

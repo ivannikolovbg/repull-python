@@ -36,8 +36,11 @@ class ConnectSession:
             state (None | str | Unset): Echoed back from the request body for SDK consumers that pass an opaque correlation
                 token.
             purpose (ConnectSessionPurpose | Unset): Present only on a Repull Migrate session.
-            workspace_id (str | Unset): Repull Migrate only: the workspace the property manager's data lands in. Read it
-                with `X-Workspace-Id`, track it with `GET /v1/migrations/{workspaceId}`. Example: 1204.
+            include_request_only (bool | Unset): Present (`true`) when the session also lists PMSes Repull doesn't connect
+                yet.
+            workspace_id (str | Unset): Present when the session lands on a sub-workspace (`workspace` or `X-Workspace-Id`
+                on the request): the workspace the connection lands in. Read and write it with `X-Workspace-Id`; on a migrate
+                session, track the import with `GET /v1/migrations/{workspaceId}`. Example: 1204.
      """
 
     session_id: str
@@ -45,6 +48,7 @@ class ConnectSession:
     expires_at: datetime.datetime
     state: None | str | Unset = UNSET
     purpose: ConnectSessionPurpose | Unset = UNSET
+    include_request_only: bool | Unset = UNSET
     workspace_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -70,6 +74,8 @@ class ConnectSession:
             purpose = self.purpose.value
 
 
+        include_request_only = self.include_request_only
+
         workspace_id = self.workspace_id
 
 
@@ -84,6 +90,8 @@ class ConnectSession:
             field_dict["state"] = state
         if purpose is not UNSET:
             field_dict["purpose"] = purpose
+        if include_request_only is not UNSET:
+            field_dict["includeRequestOnly"] = include_request_only
         if workspace_id is not UNSET:
             field_dict["workspaceId"] = workspace_id
 
@@ -123,6 +131,8 @@ class ConnectSession:
 
 
 
+        include_request_only = d.pop("includeRequestOnly", UNSET)
+
         workspace_id = d.pop("workspaceId", UNSET)
 
         connect_session = cls(
@@ -131,6 +141,7 @@ class ConnectSession:
             expires_at=expires_at,
             state=state,
             purpose=purpose,
+            include_request_only=include_request_only,
             workspace_id=workspace_id,
         )
 

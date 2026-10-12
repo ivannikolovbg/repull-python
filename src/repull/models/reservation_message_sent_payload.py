@@ -33,6 +33,9 @@ class ReservationMessageSentPayload:
     `reservation.message.received`, plus `source`.
 
         Attributes:
+            hotel_id (None | str | Unset): Booking.com only: the hotel (property) id of the conversation's listing. Absent
+                on other channels. A Booking.com Extranet login can cover several hotels, so use this to route the message.
+                Example: 10433861.
             reservation_id (int | None | Unset):  Example: 235970.
             thread_id (str | Unset):  Example: 900301.
             message_id (str | Unset): Repull message id, as `GET /v1/conversations/{id}/messages` returns it. Example:
@@ -50,6 +53,7 @@ class ReservationMessageSentPayload:
             attachments (list[ConversationMessageAttachment] | Unset):
      """
 
+    hotel_id: None | str | Unset = UNSET
     reservation_id: int | None | Unset = UNSET
     thread_id: str | Unset = UNSET
     message_id: str | Unset = UNSET
@@ -72,6 +76,12 @@ class ReservationMessageSentPayload:
     def to_dict(self) -> dict[str, Any]:
         from ..models.conversation_message_attachment import ConversationMessageAttachment
         from ..models.reservation_message_sent_payload_from import ReservationMessageSentPayloadFrom
+        hotel_id: None | str | Unset
+        if isinstance(self.hotel_id, Unset):
+            hotel_id = UNSET
+        else:
+            hotel_id = self.hotel_id
+
         reservation_id: int | None | Unset
         if isinstance(self.reservation_id, Unset):
             reservation_id = UNSET
@@ -128,6 +138,8 @@ class ReservationMessageSentPayload:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
+        if hotel_id is not UNSET:
+            field_dict["hotelId"] = hotel_id
         if reservation_id is not UNSET:
             field_dict["reservationId"] = reservation_id
         if thread_id is not UNSET:
@@ -164,6 +176,16 @@ class ReservationMessageSentPayload:
         from ..models.conversation_message_attachment import ConversationMessageAttachment
         from ..models.reservation_message_sent_payload_from import ReservationMessageSentPayloadFrom
         d = dict(src_dict)
+        def _parse_hotel_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        hotel_id = _parse_hotel_id(d.pop("hotelId", UNSET))
+
+
         def _parse_reservation_id(data: object) -> int | None | Unset:
             if data is None:
                 return data
@@ -249,6 +271,7 @@ class ReservationMessageSentPayload:
 
 
         reservation_message_sent_payload = cls(
+            hotel_id=hotel_id,
             reservation_id=reservation_id,
             thread_id=thread_id,
             message_id=message_id,

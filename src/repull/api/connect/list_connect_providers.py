@@ -9,22 +9,32 @@ from ...types import Response, UNSET
 from ... import errors
 
 from ...models.connect_provider_list_response import ConnectProviderListResponse
+from ...types import UNSET, Unset
 from typing import cast
 
 
 
 def _get_kwargs(
-    
+    *,
+    include_request_only: bool | Unset = False,
+
 ) -> dict[str, Any]:
     
 
     
 
-    
+    params: dict[str, Any] = {}
+
+    params["includeRequestOnly"] = include_request_only
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/v1/connect/providers",
+        "params": params,
     }
 
 
@@ -58,12 +68,16 @@ def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
+    include_request_only: bool | Unset = False,
 
 ) -> Response[ConnectProviderListResponse]:
     """ List Connect channels
 
      Returns the public registry of every channel the picker supports. No customer-specific data —
     display metadata only. Cached for 5 minutes at the edge.
+
+    Args:
+        include_request_only (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -75,7 +89,8 @@ def sync_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        include_request_only=include_request_only,
+
     )
 
     response = client.get_httpx_client().request(
@@ -87,12 +102,16 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient | Client,
+    include_request_only: bool | Unset = False,
 
 ) -> ConnectProviderListResponse | None:
     """ List Connect channels
 
      Returns the public registry of every channel the picker supports. No customer-specific data —
     display metadata only. Cached for 5 minutes at the edge.
+
+    Args:
+        include_request_only (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -105,18 +124,23 @@ def sync(
 
     return sync_detailed(
         client=client,
+include_request_only=include_request_only,
 
     ).parsed
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
+    include_request_only: bool | Unset = False,
 
 ) -> Response[ConnectProviderListResponse]:
     """ List Connect channels
 
      Returns the public registry of every channel the picker supports. No customer-specific data —
     display metadata only. Cached for 5 minutes at the edge.
+
+    Args:
+        include_request_only (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -128,7 +152,8 @@ async def asyncio_detailed(
 
 
     kwargs = _get_kwargs(
-        
+        include_request_only=include_request_only,
+
     )
 
     response = await client.get_async_httpx_client().request(
@@ -140,12 +165,16 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient | Client,
+    include_request_only: bool | Unset = False,
 
 ) -> ConnectProviderListResponse | None:
     """ List Connect channels
 
      Returns the public registry of every channel the picker supports. No customer-specific data —
     display metadata only. Cached for 5 minutes at the edge.
+
+    Args:
+        include_request_only (bool | Unset):  Default: False.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -158,5 +187,6 @@ async def asyncio(
 
     return (await asyncio_detailed(
         client=client,
+include_request_only=include_request_only,
 
     )).parsed

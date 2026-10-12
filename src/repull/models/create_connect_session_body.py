@@ -43,6 +43,11 @@ class CreateConnectSessionBody:
                 on the hosted page (default `full_access`).
             allowed_providers (list[str] | None | Unset): Optional whitelist of provider IDs the picker should expose. Omit
                 to show every channel in the registry.
+            include_request_only (bool | Unset): Also list PMSes Repull doesn't connect yet (`status: request-only` in `GET
+                /v1/connect/providers?includeRequestOnly=true`), plus an Other PMS card. Picking one opens a form that collects
+                the host's contact and access details for the Repull team and ends with "A team member will contact you". No
+                connection is made: the redirect carries `status=requested&provider=<id>`, and no `connect.session.completed`
+                webhook fires. Naming a request-only id in `allowedProviders` offers it without this flag. Default: False.
             locale (None | str | Unset): Optional UI language for the hosted Connect pages. Accepts any supported locale
                 code (currently `en`, `fr`). When set it pins the language for the whole flow, overriding the workspace
                 `default_language`. Unknown codes are ignored and the page falls back to the workspace default, then `Accept-
@@ -52,8 +57,10 @@ class CreateConnectSessionBody:
                 manager connects their current PMS (or channel) and their data is copied into a new workspace of theirs, which
                 you read with `X-Workspace-Id`. The hosted pages use migration wording, and after connecting they show the
                 import's progress. Default: CreateConnectSessionBodyPurpose.CONNECT.
-            workspace (CreateConnectSessionBodyWorkspace | Unset): Migrate only — the property manager being moved. Required
-                unless you send `X-Workspace-Id` to reconnect an existing migration.
+            workspace (CreateConnectSessionBodyWorkspace | Unset): Opens a new sub-workspace for this customer of yours and
+                lands the connection there; the response returns its `workspaceId`, which you then send as `X-Workspace-Id`.
+                Works with both purposes: a plain `connect` keeps the normal onboarding pages. Required for `migrate` unless you
+                send `X-Workspace-Id` to reconnect an existing one. Don't send it together with `X-Workspace-Id`.
             copy (CreateConnectSessionBodyCopy | Unset): Migrate only — your wording for the hosted pages. Anything you
                 leave out uses Repull's localized migration copy.
             scope (list[CreateConnectSessionBodyScopeItem] | Unset): Migrate only — what you want brought across, listed to
@@ -65,6 +72,7 @@ class CreateConnectSessionBody:
     reservation_history_months: int | Unset = UNSET
     access_type: CreateConnectSessionBodyAccessType | Unset = UNSET
     allowed_providers: list[str] | None | Unset = UNSET
+    include_request_only: bool | Unset = False
     locale: None | str | Unset = UNSET
     purpose: CreateConnectSessionBodyPurpose | Unset = CreateConnectSessionBodyPurpose.CONNECT
     workspace: CreateConnectSessionBodyWorkspace | Unset = UNSET
@@ -103,6 +111,8 @@ class CreateConnectSessionBody:
 
         else:
             allowed_providers = self.allowed_providers
+
+        include_request_only = self.include_request_only
 
         locale: None | str | Unset
         if isinstance(self.locale, Unset):
@@ -146,6 +156,8 @@ class CreateConnectSessionBody:
             field_dict["accessType"] = access_type
         if allowed_providers is not UNSET:
             field_dict["allowedProviders"] = allowed_providers
+        if include_request_only is not UNSET:
+            field_dict["includeRequestOnly"] = include_request_only
         if locale is not UNSET:
             field_dict["locale"] = locale
         if purpose is not UNSET:
@@ -208,6 +220,8 @@ class CreateConnectSessionBody:
         allowed_providers = _parse_allowed_providers(d.pop("allowedProviders", UNSET))
 
 
+        include_request_only = d.pop("includeRequestOnly", UNSET)
+
         def _parse_locale(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -266,6 +280,7 @@ class CreateConnectSessionBody:
             reservation_history_months=reservation_history_months,
             access_type=access_type,
             allowed_providers=allowed_providers,
+            include_request_only=include_request_only,
             locale=locale,
             purpose=purpose,
             workspace=workspace,

@@ -28,6 +28,8 @@ class GetChannelHealthResponse200Vrbo:
             accounts_signed_out (int | Unset): Accounts VRBO signed out; `status` is `down` while any is.
             inbox_sync_late (int | Unset): Accounts whose last full inbox sync is older than 30 minutes (it runs every 5).
             calendar_queue_backlog (int | Unset): Listings with a calendar push waiting.
+            connector_errors (int | Unset): Failed pushes in the window caused by Repull's own VRBO connector (a timeout, a
+                browser session in use), not by VRBO. They are retried and never set `status`.
             calendar_oldest_wait_minutes (int | Unset):
             window_hours (int | Unset): Hours the push failure rate is judged over.
      """
@@ -36,6 +38,7 @@ class GetChannelHealthResponse200Vrbo:
     accounts_signed_out: int | Unset = UNSET
     inbox_sync_late: int | Unset = UNSET
     calendar_queue_backlog: int | Unset = UNSET
+    connector_errors: int | Unset = UNSET
     calendar_oldest_wait_minutes: int | Unset = UNSET
     window_hours: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -52,6 +55,8 @@ class GetChannelHealthResponse200Vrbo:
         inbox_sync_late = self.inbox_sync_late
 
         calendar_queue_backlog = self.calendar_queue_backlog
+
+        connector_errors = self.connector_errors
 
         calendar_oldest_wait_minutes = self.calendar_oldest_wait_minutes
 
@@ -70,6 +75,8 @@ class GetChannelHealthResponse200Vrbo:
             field_dict["inbox_sync_late"] = inbox_sync_late
         if calendar_queue_backlog is not UNSET:
             field_dict["calendar_queue_backlog"] = calendar_queue_backlog
+        if connector_errors is not UNSET:
+            field_dict["connector_errors"] = connector_errors
         if calendar_oldest_wait_minutes is not UNSET:
             field_dict["calendar_oldest_wait_minutes"] = calendar_oldest_wait_minutes
         if window_hours is not UNSET:
@@ -90,6 +97,8 @@ class GetChannelHealthResponse200Vrbo:
 
         calendar_queue_backlog = d.pop("calendar_queue_backlog", UNSET)
 
+        connector_errors = d.pop("connector_errors", UNSET)
+
         calendar_oldest_wait_minutes = d.pop("calendar_oldest_wait_minutes", UNSET)
 
         window_hours = d.pop("window_hours", UNSET)
@@ -99,6 +108,7 @@ class GetChannelHealthResponse200Vrbo:
             accounts_signed_out=accounts_signed_out,
             inbox_sync_late=inbox_sync_late,
             calendar_queue_backlog=calendar_queue_backlog,
+            connector_errors=connector_errors,
             calendar_oldest_wait_minutes=calendar_oldest_wait_minutes,
             window_hours=window_hours,
         )

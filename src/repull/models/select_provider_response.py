@@ -29,8 +29,8 @@ class SelectProviderResponse:
             session_id (str | Unset):
             provider (str | Unset):  Example: airbnb.
             pattern (SelectProviderResponsePattern | Unset):
-            next_url (str | Unset): Where to send the user next — OAuth consent, credentials form, activation checklist, or
-                claim form.
+            next_url (str | Unset): Where to send the user next — OAuth consent, credentials form, activation checklist,
+                claim form, or (for a `request-only` PMS) the request form.
      """
 
     session_id: str | Unset = UNSET

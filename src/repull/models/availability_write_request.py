@@ -31,6 +31,9 @@ class AvailabilityWriteRequest:
             price (float | Unset): Nightly base price.
             min_nights (int | Unset):
             max_nights (int | Unset):
+            available_units (int | Unset): Rooms to sell on these dates, for a listing that sells several identical rooms
+                (`unitCount` > 1, e.g. a Booking.com room type). Up to the listing's `unitCount`. Refused with `409
+                managed_by_pms` on a hotel PMS room type (Cloudbeds, Mews) — its PMS owns the room count.
      """
 
     dates: list[datetime.date]
@@ -38,6 +41,7 @@ class AvailabilityWriteRequest:
     price: float | Unset = UNSET
     min_nights: int | Unset = UNSET
     max_nights: int | Unset = UNSET
+    available_units: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -60,6 +64,8 @@ class AvailabilityWriteRequest:
 
         max_nights = self.max_nights
 
+        available_units = self.available_units
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -74,6 +80,8 @@ class AvailabilityWriteRequest:
             field_dict["minNights"] = min_nights
         if max_nights is not UNSET:
             field_dict["maxNights"] = max_nights
+        if available_units is not UNSET:
+            field_dict["availableUnits"] = available_units
 
         return field_dict
 
@@ -100,12 +108,15 @@ class AvailabilityWriteRequest:
 
         max_nights = d.pop("maxNights", UNSET)
 
+        available_units = d.pop("availableUnits", UNSET)
+
         availability_write_request = cls(
             dates=dates,
             available=available,
             price=price,
             min_nights=min_nights,
             max_nights=max_nights,
+            available_units=available_units,
         )
 
 

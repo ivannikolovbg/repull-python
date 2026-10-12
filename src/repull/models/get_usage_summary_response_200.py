@@ -15,6 +15,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.get_usage_summary_response_200_breakdown_item import GetUsageSummaryResponse200BreakdownItem
+  from ..models.get_usage_summary_response_200_credits import GetUsageSummaryResponse200Credits
   from ..models.get_usage_summary_response_200_limits import GetUsageSummaryResponse200Limits
   from ..models.get_usage_summary_response_200_remaining import GetUsageSummaryResponse200Remaining
   from ..models.get_usage_summary_response_200_status_distribution import GetUsageSummaryResponse200StatusDistribution
@@ -39,6 +40,9 @@ class GetUsageSummaryResponse200:
             limits (GetUsageSummaryResponse200Limits | Unset):
             used (GetUsageSummaryResponse200Used | Unset):
             remaining (GetUsageSummaryResponse200Remaining | Unset):
+            credits_ (GetUsageSummaryResponse200Credits | Unset): Pay-as-you-go wallet. Requests beyond your plan's monthly
+                quota keep being served while `active`, billed at `usdPer1000Requests`. Top up at
+                https://repull.dev/dashboard/billing.
             daily_resets_at (datetime.datetime | Unset):
             resets_at (datetime.datetime | Unset):
             breakdown (list[GetUsageSummaryResponse200BreakdownItem] | Unset):
@@ -60,6 +64,7 @@ class GetUsageSummaryResponse200:
     limits: GetUsageSummaryResponse200Limits | Unset = UNSET
     used: GetUsageSummaryResponse200Used | Unset = UNSET
     remaining: GetUsageSummaryResponse200Remaining | Unset = UNSET
+    credits_: GetUsageSummaryResponse200Credits | Unset = UNSET
     daily_resets_at: datetime.datetime | Unset = UNSET
     resets_at: datetime.datetime | Unset = UNSET
     breakdown: list[GetUsageSummaryResponse200BreakdownItem] | Unset = UNSET
@@ -76,6 +81,7 @@ class GetUsageSummaryResponse200:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.get_usage_summary_response_200_breakdown_item import GetUsageSummaryResponse200BreakdownItem
+        from ..models.get_usage_summary_response_200_credits import GetUsageSummaryResponse200Credits
         from ..models.get_usage_summary_response_200_limits import GetUsageSummaryResponse200Limits
         from ..models.get_usage_summary_response_200_remaining import GetUsageSummaryResponse200Remaining
         from ..models.get_usage_summary_response_200_status_distribution import GetUsageSummaryResponse200StatusDistribution
@@ -96,6 +102,10 @@ class GetUsageSummaryResponse200:
         remaining: dict[str, Any] | Unset = UNSET
         if not isinstance(self.remaining, Unset):
             remaining = self.remaining.to_dict()
+
+        credits_: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.credits_, Unset):
+            credits_ = self.credits_.to_dict()
 
         daily_resets_at: str | Unset = UNSET
         if not isinstance(self.daily_resets_at, Unset):
@@ -150,6 +160,8 @@ class GetUsageSummaryResponse200:
             field_dict["used"] = used
         if remaining is not UNSET:
             field_dict["remaining"] = remaining
+        if credits_ is not UNSET:
+            field_dict["credits"] = credits_
         if daily_resets_at is not UNSET:
             field_dict["dailyResetsAt"] = daily_resets_at
         if resets_at is not UNSET:
@@ -174,6 +186,7 @@ class GetUsageSummaryResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.get_usage_summary_response_200_breakdown_item import GetUsageSummaryResponse200BreakdownItem
+        from ..models.get_usage_summary_response_200_credits import GetUsageSummaryResponse200Credits
         from ..models.get_usage_summary_response_200_limits import GetUsageSummaryResponse200Limits
         from ..models.get_usage_summary_response_200_remaining import GetUsageSummaryResponse200Remaining
         from ..models.get_usage_summary_response_200_status_distribution import GetUsageSummaryResponse200StatusDistribution
@@ -210,6 +223,16 @@ class GetUsageSummaryResponse200:
             remaining = UNSET
         else:
             remaining = GetUsageSummaryResponse200Remaining.from_dict(_remaining)
+
+
+
+
+        _credits_ = d.pop("credits", UNSET)
+        credits_: GetUsageSummaryResponse200Credits | Unset
+        if isinstance(_credits_,  Unset):
+            credits_ = UNSET
+        else:
+            credits_ = GetUsageSummaryResponse200Credits.from_dict(_credits_)
 
 
 
@@ -295,6 +318,7 @@ class GetUsageSummaryResponse200:
             limits=limits,
             used=used,
             remaining=remaining,
+            credits_=credits_,
             daily_resets_at=daily_resets_at,
             resets_at=resets_at,
             breakdown=breakdown,
