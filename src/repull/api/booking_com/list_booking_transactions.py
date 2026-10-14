@@ -1,0 +1,268 @@
+from http import HTTPStatus
+from typing import Any, cast
+from urllib.parse import quote
+
+import httpx
+
+from ...client import AuthenticatedClient, Client
+from ...types import Response, UNSET
+from ... import errors
+
+from ...models.list_booking_transactions_response_200 import ListBookingTransactionsResponse200
+from ...types import UNSET, Unset
+from typing import cast
+
+
+
+def _get_kwargs(
+    *,
+    type_: str | Unset = UNSET,
+    status: str | Unset = UNSET,
+    is_payout: bool | Unset = UNSET,
+    limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+
+) -> dict[str, Any]:
+    
+
+    
+
+    params: dict[str, Any] = {}
+
+    params["type"] = type_
+
+    params["status"] = status
+
+    params["is_payout"] = is_payout
+
+    params["limit"] = limit
+
+    params["cursor"] = cursor
+
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
+
+    _kwargs: dict[str, Any] = {
+        "method": "get",
+        "url": "/v1/channels/booking/transactions",
+        "params": params,
+    }
+
+
+    return _kwargs
+
+
+
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ListBookingTransactionsResponse200 | None:
+    if response.status_code == 200:
+        response_200 = ListBookingTransactionsResponse200.from_dict(response.json())
+
+
+
+        return response_200
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ListBookingTransactionsResponse200]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    type_: str | Unset = UNSET,
+    status: str | Unset = UNSET,
+    is_payout: bool | Unset = UNSET,
+    limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+
+) -> Response[ListBookingTransactionsResponse200]:
+    """ List Booking.com transactions (settlement ledger)
+
+     The Booking.com settlement ledger for this workspace: every payout (Payments by Booking.com → bank
+    transfer) and reservation charge, with the gross the guest paid, Booking's commission and payments
+    service fee, and the net paid out, each tied to its reservation. Official Connectivity-API and
+    extranet-connected accounts are returned together as one Booking.com — there is no
+    `booking_extranet` distinction and nothing extra to request. Cursor-paginated, newest first. (For
+    all channels at once, use `/v1/transactions`.)
+
+    Args:
+        type_ (str | Unset):
+        status (str | Unset):
+        is_payout (bool | Unset):
+        limit (int | Unset):
+        cursor (str | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[ListBookingTransactionsResponse200]
+     """
+
+
+    kwargs = _get_kwargs(
+        type_=type_,
+status=status,
+is_payout=is_payout,
+limit=limit,
+cursor=cursor,
+
+    )
+
+    response = client.get_httpx_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+def sync(
+    *,
+    client: AuthenticatedClient | Client,
+    type_: str | Unset = UNSET,
+    status: str | Unset = UNSET,
+    is_payout: bool | Unset = UNSET,
+    limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+
+) -> ListBookingTransactionsResponse200 | None:
+    """ List Booking.com transactions (settlement ledger)
+
+     The Booking.com settlement ledger for this workspace: every payout (Payments by Booking.com → bank
+    transfer) and reservation charge, with the gross the guest paid, Booking's commission and payments
+    service fee, and the net paid out, each tied to its reservation. Official Connectivity-API and
+    extranet-connected accounts are returned together as one Booking.com — there is no
+    `booking_extranet` distinction and nothing extra to request. Cursor-paginated, newest first. (For
+    all channels at once, use `/v1/transactions`.)
+
+    Args:
+        type_ (str | Unset):
+        status (str | Unset):
+        is_payout (bool | Unset):
+        limit (int | Unset):
+        cursor (str | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        ListBookingTransactionsResponse200
+     """
+
+
+    return sync_detailed(
+        client=client,
+type_=type_,
+status=status,
+is_payout=is_payout,
+limit=limit,
+cursor=cursor,
+
+    ).parsed
+
+async def asyncio_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    type_: str | Unset = UNSET,
+    status: str | Unset = UNSET,
+    is_payout: bool | Unset = UNSET,
+    limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+
+) -> Response[ListBookingTransactionsResponse200]:
+    """ List Booking.com transactions (settlement ledger)
+
+     The Booking.com settlement ledger for this workspace: every payout (Payments by Booking.com → bank
+    transfer) and reservation charge, with the gross the guest paid, Booking's commission and payments
+    service fee, and the net paid out, each tied to its reservation. Official Connectivity-API and
+    extranet-connected accounts are returned together as one Booking.com — there is no
+    `booking_extranet` distinction and nothing extra to request. Cursor-paginated, newest first. (For
+    all channels at once, use `/v1/transactions`.)
+
+    Args:
+        type_ (str | Unset):
+        status (str | Unset):
+        is_payout (bool | Unset):
+        limit (int | Unset):
+        cursor (str | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[ListBookingTransactionsResponse200]
+     """
+
+
+    kwargs = _get_kwargs(
+        type_=type_,
+status=status,
+is_payout=is_payout,
+limit=limit,
+cursor=cursor,
+
+    )
+
+    response = await client.get_async_httpx_client().request(
+        **kwargs
+    )
+
+    return _build_response(client=client, response=response)
+
+async def asyncio(
+    *,
+    client: AuthenticatedClient | Client,
+    type_: str | Unset = UNSET,
+    status: str | Unset = UNSET,
+    is_payout: bool | Unset = UNSET,
+    limit: int | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+
+) -> ListBookingTransactionsResponse200 | None:
+    """ List Booking.com transactions (settlement ledger)
+
+     The Booking.com settlement ledger for this workspace: every payout (Payments by Booking.com → bank
+    transfer) and reservation charge, with the gross the guest paid, Booking's commission and payments
+    service fee, and the net paid out, each tied to its reservation. Official Connectivity-API and
+    extranet-connected accounts are returned together as one Booking.com — there is no
+    `booking_extranet` distinction and nothing extra to request. Cursor-paginated, newest first. (For
+    all channels at once, use `/v1/transactions`.)
+
+    Args:
+        type_ (str | Unset):
+        status (str | Unset):
+        is_payout (bool | Unset):
+        limit (int | Unset):
+        cursor (str | Unset):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        ListBookingTransactionsResponse200
+     """
+
+
+    return (await asyncio_detailed(
+        client=client,
+type_=type_,
+status=status,
+is_payout=is_payout,
+limit=limit,
+cursor=cursor,
+
+    )).parsed

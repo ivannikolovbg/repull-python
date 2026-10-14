@@ -64,6 +64,18 @@ class ReservationWebhookObject:
                 where the channel or an agreed early check-in overrides it. `null` when unknown. Example: 16:00.
             check_out_time (None | str | Unset): Local check-out time, `HH:MM` on a 24-hour clock in the property's own
                 timezone. Pair it with `checkoutDate` to schedule the turnover. `null` when unknown. Example: 10:00.
+            guest_notes (None | str | Unset): What the guest wrote with the booking — on Booking.com, the estimated arrival
+                time and special requests. Free text. `null` when there were none. Example: Approximate time of arrival: between
+                15:00 and 16:00.
+            conversation_id (None | str | Unset): The conversation with this guest — pass it to `GET /v1/conversations/{id}`
+                and `/v1/conversations/{id}/messages`. It is the same conversation from inquiry through pre-approval to the
+                confirmed booking, and the same id the message webhooks carry, so a booking links straight to the messages that
+                led to it. `null` when the channel has no conversation for this booking. Example: 164743.
+            external_thread_id (None | str | Unset): The channel's own id for that conversation (Airbnb thread id,
+                Booking.com conversation id, …). `null` when there is none. Example: 2680544213.
+            inquiry_id (None | str | Unset): The inquiry this booking came from (`GET /v1/inquiries`), when the guest asked
+                before booking. When an inquiry turns into a booking, `inquiry.updated` fires with `status: "booked"` and this
+                reservation's id. `null` for bookings with no inquiry. Example: 25173.
      """
 
     id: int
@@ -77,6 +89,10 @@ class ReservationWebhookObject:
     cancellation_policy: None | str | Unset = UNSET
     check_in_time: None | str | Unset = UNSET
     check_out_time: None | str | Unset = UNSET
+    guest_notes: None | str | Unset = UNSET
+    conversation_id: None | str | Unset = UNSET
+    external_thread_id: None | str | Unset = UNSET
+    inquiry_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -118,6 +134,30 @@ class ReservationWebhookObject:
         else:
             check_out_time = self.check_out_time
 
+        guest_notes: None | str | Unset
+        if isinstance(self.guest_notes, Unset):
+            guest_notes = UNSET
+        else:
+            guest_notes = self.guest_notes
+
+        conversation_id: None | str | Unset
+        if isinstance(self.conversation_id, Unset):
+            conversation_id = UNSET
+        else:
+            conversation_id = self.conversation_id
+
+        external_thread_id: None | str | Unset
+        if isinstance(self.external_thread_id, Unset):
+            external_thread_id = UNSET
+        else:
+            external_thread_id = self.external_thread_id
+
+        inquiry_id: None | str | Unset
+        if isinstance(self.inquiry_id, Unset):
+            inquiry_id = UNSET
+        else:
+            inquiry_id = self.inquiry_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -137,6 +177,14 @@ class ReservationWebhookObject:
             field_dict["checkInTime"] = check_in_time
         if check_out_time is not UNSET:
             field_dict["checkOutTime"] = check_out_time
+        if guest_notes is not UNSET:
+            field_dict["guestNotes"] = guest_notes
+        if conversation_id is not UNSET:
+            field_dict["conversationId"] = conversation_id
+        if external_thread_id is not UNSET:
+            field_dict["externalThreadId"] = external_thread_id
+        if inquiry_id is not UNSET:
+            field_dict["inquiryId"] = inquiry_id
 
         return field_dict
 
@@ -197,6 +245,46 @@ class ReservationWebhookObject:
         check_out_time = _parse_check_out_time(d.pop("checkOutTime", UNSET))
 
 
+        def _parse_guest_notes(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        guest_notes = _parse_guest_notes(d.pop("guestNotes", UNSET))
+
+
+        def _parse_conversation_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        conversation_id = _parse_conversation_id(d.pop("conversationId", UNSET))
+
+
+        def _parse_external_thread_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        external_thread_id = _parse_external_thread_id(d.pop("externalThreadId", UNSET))
+
+
+        def _parse_inquiry_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        inquiry_id = _parse_inquiry_id(d.pop("inquiryId", UNSET))
+
+
         reservation_webhook_object = cls(
             id=id,
             uid=uid,
@@ -209,6 +297,10 @@ class ReservationWebhookObject:
             cancellation_policy=cancellation_policy,
             check_in_time=check_in_time,
             check_out_time=check_out_time,
+            guest_notes=guest_notes,
+            conversation_id=conversation_id,
+            external_thread_id=external_thread_id,
+            inquiry_id=inquiry_id,
         )
 
 

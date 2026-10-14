@@ -77,6 +77,18 @@ class Reservation:
             check_out_time (None | str | Unset): Local check-out time for this stay, `HH:MM` on a 24-hour clock in the
                 property's own timezone. Pair with `checkOut` to schedule the turnover clean. `null` when unknown. This is the
                 same field `PATCH /v1/reservations/{id}` writes. Example: 10:00.
+            guest_notes (None | str | Unset): What the guest wrote with the booking, as the channel sent it. Booking.com
+                puts the estimated arrival time and special requests here. Free text, never parsed. `null` when the guest left
+                none. Example: Approximate time of arrival: between 15:00 and 16:00.
+            conversation_id (None | str | Unset): The conversation with this guest — pass it to `GET /v1/conversations/{id}`
+                and `/v1/conversations/{id}/messages`. It is the same conversation from inquiry through pre-approval to the
+                confirmed booking, and the same id the message webhooks carry, so a booking links straight to the messages that
+                led to it. `null` when the channel has no conversation for this booking. Example: 164743.
+            external_thread_id (None | str | Unset): The channel's own id for that conversation (Airbnb thread id,
+                Booking.com conversation id, …). `null` when there is none. Example: 2680544213.
+            inquiry_id (None | str | Unset): The inquiry this booking came from (`GET /v1/inquiries`), when the guest asked
+                before booking. When an inquiry turns into a booking, `inquiry.updated` fires with `status: "booked"` and this
+                reservation's id. `null` for bookings with no inquiry. Example: 25173.
             status_detail (ReservationStatusDetail | Unset): On a `cancelled` reservation: how it ended. `request_expired` —
                 a booking request nobody answered in time (Airbnb's 24-hour window passed, or the check-in did), whether the
                 channel reported it or we derived it. `declined` — the host declined the request. `request_voided` — the request
@@ -147,6 +159,10 @@ class Reservation:
     guest_id: str | Unset = UNSET
     check_in_time: None | str | Unset = UNSET
     check_out_time: None | str | Unset = UNSET
+    guest_notes: None | str | Unset = UNSET
+    conversation_id: None | str | Unset = UNSET
+    external_thread_id: None | str | Unset = UNSET
+    inquiry_id: None | str | Unset = UNSET
     status_detail: ReservationStatusDetail | Unset = UNSET
     pending_reason: ReservationPendingReason | Unset = UNSET
     respond_by: datetime.datetime | Unset = UNSET
@@ -211,6 +227,30 @@ class Reservation:
             check_out_time = UNSET
         else:
             check_out_time = self.check_out_time
+
+        guest_notes: None | str | Unset
+        if isinstance(self.guest_notes, Unset):
+            guest_notes = UNSET
+        else:
+            guest_notes = self.guest_notes
+
+        conversation_id: None | str | Unset
+        if isinstance(self.conversation_id, Unset):
+            conversation_id = UNSET
+        else:
+            conversation_id = self.conversation_id
+
+        external_thread_id: None | str | Unset
+        if isinstance(self.external_thread_id, Unset):
+            external_thread_id = UNSET
+        else:
+            external_thread_id = self.external_thread_id
+
+        inquiry_id: None | str | Unset
+        if isinstance(self.inquiry_id, Unset):
+            inquiry_id = UNSET
+        else:
+            inquiry_id = self.inquiry_id
 
         status_detail: str | Unset = UNSET
         if not isinstance(self.status_detail, Unset):
@@ -313,6 +353,14 @@ class Reservation:
             field_dict["checkInTime"] = check_in_time
         if check_out_time is not UNSET:
             field_dict["checkOutTime"] = check_out_time
+        if guest_notes is not UNSET:
+            field_dict["guestNotes"] = guest_notes
+        if conversation_id is not UNSET:
+            field_dict["conversationId"] = conversation_id
+        if external_thread_id is not UNSET:
+            field_dict["externalThreadId"] = external_thread_id
+        if inquiry_id is not UNSET:
+            field_dict["inquiryId"] = inquiry_id
         if status_detail is not UNSET:
             field_dict["statusDetail"] = status_detail
         if pending_reason is not UNSET:
@@ -426,6 +474,46 @@ class Reservation:
             return cast(None | str | Unset, data)
 
         check_out_time = _parse_check_out_time(d.pop("checkOutTime", UNSET))
+
+
+        def _parse_guest_notes(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        guest_notes = _parse_guest_notes(d.pop("guestNotes", UNSET))
+
+
+        def _parse_conversation_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        conversation_id = _parse_conversation_id(d.pop("conversationId", UNSET))
+
+
+        def _parse_external_thread_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        external_thread_id = _parse_external_thread_id(d.pop("externalThreadId", UNSET))
+
+
+        def _parse_inquiry_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        inquiry_id = _parse_inquiry_id(d.pop("inquiryId", UNSET))
 
 
         _status_detail = d.pop("statusDetail", UNSET)
@@ -645,6 +733,10 @@ class Reservation:
             guest_id=guest_id,
             check_in_time=check_in_time,
             check_out_time=check_out_time,
+            guest_notes=guest_notes,
+            conversation_id=conversation_id,
+            external_thread_id=external_thread_id,
+            inquiry_id=inquiry_id,
             status_detail=status_detail,
             pending_reason=pending_reason,
             respond_by=respond_by,

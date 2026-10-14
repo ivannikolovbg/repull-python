@@ -460,6 +460,7 @@ from .list_airbnb_transactions_status import ListAirbnbTransactionsStatus
 from .list_booking_properties_status import ListBookingPropertiesStatus
 from .list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
 from .list_booking_reservations_type import ListBookingReservationsType
+from .list_booking_transactions_response_200 import ListBookingTransactionsResponse200
 from .list_connection_units_response_200 import ListConnectionUnitsResponse200
 from .list_connection_units_response_200_listing_options_item import ListConnectionUnitsResponse200ListingOptionsItem
 from .list_connection_units_response_200_status import ListConnectionUnitsResponse200Status
@@ -493,6 +494,8 @@ from .list_reservations_status import ListReservationsStatus
 from .list_reviews_platform import ListReviewsPlatform
 from .list_reviews_reviewer_role import ListReviewsReviewerRole
 from .list_reviews_status import ListReviewsStatus
+from .list_transactions_platform import ListTransactionsPlatform
+from .list_transactions_response_200 import ListTransactionsResponse200
 from .list_vrbo_listings_status import ListVrboListingsStatus
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
 from .list_workspaces_response_200 import ListWorkspacesResponse200
@@ -961,6 +964,9 @@ from .sync_airbnb_transactions_response_200 import SyncAirbnbTransactionsRespons
 from .sync_airbnb_transactions_response_200_accounts_item import SyncAirbnbTransactionsResponse200AccountsItem
 from .sync_airbnb_transactions_response_200_accounts_item_error import SyncAirbnbTransactionsResponse200AccountsItemError
 from .test_webhook_body import TestWebhookBody
+from .transaction import Transaction
+from .transaction_fees import TransactionFees
+from .transaction_payout import TransactionPayout
 from .update_airbnb_booking_settings_body import UpdateAirbnbBookingSettingsBody
 from .update_airbnb_booking_settings_body_advance_notice import UpdateAirbnbBookingSettingsBodyAdvanceNotice
 from .update_airbnb_booking_settings_body_booking_window import UpdateAirbnbBookingSettingsBodyBookingWindow
@@ -1544,6 +1550,7 @@ __all__ = (
     "ListBookingPropertiesStatus",
     "ListBookingReservationsResponse200Type1",
     "ListBookingReservationsType",
+    "ListBookingTransactionsResponse200",
     "ListConnectionUnitsResponse200",
     "ListConnectionUnitsResponse200ListingOptionsItem",
     "ListConnectionUnitsResponse200Status",
@@ -1710,6 +1717,8 @@ __all__ = (
     "ListReviewsPlatform",
     "ListReviewsReviewerRole",
     "ListReviewsStatus",
+    "ListTransactionsPlatform",
+    "ListTransactionsResponse200",
     "ListVrboListingsStatus",
     "ListWebhookDeliveriesStatus",
     "ListWorkspacesResponse200",
@@ -2045,6 +2054,9 @@ __all__ = (
     "SyncAirbnbTransactionsResponse200AccountsItem",
     "SyncAirbnbTransactionsResponse200AccountsItemError",
     "TestWebhookBody",
+    "Transaction",
+    "TransactionFees",
+    "TransactionPayout",
     "UpdateAirbnbBookingSettingsBody",
     "UpdateAirbnbBookingSettingsBodyAdvanceNotice",
     "UpdateAirbnbBookingSettingsBodyBookingWindow",
