@@ -172,4 +172,4 @@ MIT — see [`LICENSE`](LICENSE). The Python client is a thin auto-generated wra
 
 ---
 
-Powered by [Repull](https://repull.dev). AI features powered by [Vanio AI](https://vanio.ai).
+Powered by [Repull](https://repull.dev).

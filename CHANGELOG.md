@@ -435,7 +435,7 @@ Regenerated against the live `https://api.repull.dev/openapi.json`.
   `amenities[]` array of `ListingAmenity` rows.
 - New Airbnb connection + KV operations surfaced by the spec.
 
-Refs: vanio-repull-api #59, #61.
+Refs: repull-api #59, #61.
 
 ## [0.2.0] - 2026-05-03
 
