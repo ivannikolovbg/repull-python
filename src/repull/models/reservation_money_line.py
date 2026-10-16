@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.reservation_money_line_promotion_type import ReservationMoneyLinePromotionType
 from ..types import UNSET, Unset
 
 
@@ -36,6 +37,9 @@ class ReservationMoneyLine:
                 Example: Extra guest fee for 1 additional guest(s).
             quantity (float | Unset): Units billed, when the channel reports a quantity (Booking.com add-ons). Example: 1.
             vat (float | Unset): VAT charged on top of this line, when the channel splits it out separately.
+            promotion_type (ReservationMoneyLinePromotionType | Unset): Discount lines only: the listing promotion that
+                produced the discount, named as in `GET /v1/listings/{id}/promotions` (Airbnb reports each applied promotion as
+                its own line). `custom` is an Airbnb Custom promotion.
      """
 
     amount: float
@@ -44,6 +48,7 @@ class ReservationMoneyLine:
     description: str | Unset = UNSET
     quantity: float | Unset = UNSET
     vat: float | Unset = UNSET
+    promotion_type: ReservationMoneyLinePromotionType | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -63,6 +68,11 @@ class ReservationMoneyLine:
 
         vat = self.vat
 
+        promotion_type: str | Unset = UNSET
+        if not isinstance(self.promotion_type, Unset):
+            promotion_type = self.promotion_type.value
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -79,6 +89,8 @@ class ReservationMoneyLine:
             field_dict["quantity"] = quantity
         if vat is not UNSET:
             field_dict["vat"] = vat
+        if promotion_type is not UNSET:
+            field_dict["promotionType"] = promotion_type
 
         return field_dict
 
@@ -99,6 +111,16 @@ class ReservationMoneyLine:
 
         vat = d.pop("vat", UNSET)
 
+        _promotion_type = d.pop("promotionType", UNSET)
+        promotion_type: ReservationMoneyLinePromotionType | Unset
+        if isinstance(_promotion_type,  Unset):
+            promotion_type = UNSET
+        else:
+            promotion_type = ReservationMoneyLinePromotionType(_promotion_type)
+
+
+
+
         reservation_money_line = cls(
             amount=amount,
             name=name,
@@ -106,6 +128,7 @@ class ReservationMoneyLine:
             description=description,
             quantity=quantity,
             vat=vat,
+            promotion_type=promotion_type,
         )
 
 

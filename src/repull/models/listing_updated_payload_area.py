@@ -5,6 +5,7 @@ class ListingUpdatedPayloadArea(str, Enum):
     BOOKING_SETTINGS = "booking_settings"
     CONTENT = "content"
     PRICING = "pricing"
+    PROMOTIONS = "promotions"
     RULES = "rules"
     SYNC_SETTINGS = "sync_settings"
 

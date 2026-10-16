@@ -36,7 +36,7 @@ class ListingUpdatedEvent:
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
             data (ListingUpdatedPayload): Payload for `listing.updated`. Something about the listing changed on the channel
-                — content, pricing, booking settings, house rules, availability or sync settings.
+                — content, pricing, booking settings, house rules, availability, sync settings or promotions.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".

@@ -5,6 +5,13 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.35] - 2026-10-16
+
+### Added
+- Listing promotions — Airbnb and Booking.com in one model: `list_listing_promotions`, `create_listing_promotion`, `get_listing_promotion`, `update_listing_promotion`, `delete_listing_promotion`, `refresh_listing_promotions`, `get_listing_promotion_catalog` and `bulk_listing_promotions` (`Promotion`, `PromotionCatalog`, `PromotionRules`, …). Guide: https://repull.dev/docs/promotions
+- `listing.updated` area `promotions`.
+- `ReservationMoneyLine.promotion_type` on discount lines produced by an Airbnb promotion.
+
 ## [0.2.34] - 2026-10-16
 
 ### Added

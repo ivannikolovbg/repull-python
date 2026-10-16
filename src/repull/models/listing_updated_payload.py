@@ -29,13 +29,14 @@ T = TypeVar("T", bound="ListingUpdatedPayload")
 @_attrs_define
 class ListingUpdatedPayload:
     """ Payload for `listing.updated`. Something about the listing changed on the channel — content, pricing, booking
-    settings, house rules, availability or sync settings.
+    settings, house rules, availability, sync settings or promotions.
 
         Attributes:
             object_ (ListingWebhookObject): The listing, in the shape `GET /v1/listings/{id}` returns. Hydrated at delivery,
                 so a receiver gets the listing rather than a reason to fetch one.
             area (ListingUpdatedPayloadArea | Unset): Which part moved. Airbnb sends one notification per area rather than a
-                diff, so this is the signal for what to re-read. Example: content.
+                diff, so this is the signal for what to re-read. `promotions`: the listing’s Airbnb or Booking.com promotions
+                changed — re-read `GET /v1/listings/{id}/promotions`. Example: content.
             previous_attributes (ListingUpdatedPayloadPreviousAttributes | Unset): Fields that changed and their prior
                 values, when the source reports them.
             revision (datetime.datetime | None | Unset):

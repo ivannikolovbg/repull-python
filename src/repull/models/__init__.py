@@ -761,6 +761,49 @@ from .preview_conversation_special_offer_response_200_channel import PreviewConv
 from .preview_conversation_special_offer_response_200_fees_item import PreviewConversationSpecialOfferResponse200FeesItem
 from .preview_conversation_special_offer_response_200_guests_type_0 import PreviewConversationSpecialOfferResponse200GuestsType0
 from .preview_conversation_special_offer_response_200_lines_item import PreviewConversationSpecialOfferResponse200LinesItem
+from .promotion import Promotion
+from .promotion_applies_to_type_0 import PromotionAppliesToType0
+from .promotion_bulk_request import PromotionBulkRequest
+from .promotion_bulk_request_action import PromotionBulkRequestAction
+from .promotion_bulk_response import PromotionBulkResponse
+from .promotion_bulk_response_data_item import PromotionBulkResponseDataItem
+from .promotion_bulk_response_data_item_error import PromotionBulkResponseDataItemError
+from .promotion_bulk_response_summary import PromotionBulkResponseSummary
+from .promotion_catalog import PromotionCatalog
+from .promotion_catalog_channels_item import PromotionCatalogChannelsItem
+from .promotion_catalog_channels_item_channel import PromotionCatalogChannelsItemChannel
+from .promotion_catalog_entry import PromotionCatalogEntry
+from .promotion_catalog_entry_channel import PromotionCatalogEntryChannel
+from .promotion_catalog_entry_fields import PromotionCatalogEntryFields
+from .promotion_catalog_field import PromotionCatalogField
+from .promotion_catalog_field_options_item import PromotionCatalogFieldOptionsItem
+from .promotion_catalog_response import PromotionCatalogResponse
+from .promotion_channel import PromotionChannel
+from .promotion_create_request import PromotionCreateRequest
+from .promotion_delete_response import PromotionDeleteResponse
+from .promotion_delete_response_data import PromotionDeleteResponseData
+from .promotion_discount import PromotionDiscount
+from .promotion_discount_set_by import PromotionDiscountSetBy
+from .promotion_input import PromotionInput
+from .promotion_input_channel import PromotionInputChannel
+from .promotion_list_response import PromotionListResponse
+from .promotion_managed_by import PromotionManagedBy
+from .promotion_managed_key import PromotionManagedKey
+from .promotion_refresh_response import PromotionRefreshResponse
+from .promotion_response import PromotionResponse
+from .promotion_rules import PromotionRules
+from .promotion_rules_blackout_dates_quota import PromotionRulesBlackoutDatesQuota
+from .promotion_rules_booking_window import PromotionRulesBookingWindow
+from .promotion_rules_last_minute import PromotionRulesLastMinute
+from .promotion_rules_last_minute_unit import PromotionRulesLastMinuteUnit
+from .promotion_rules_stay_window import PromotionRulesStayWindow
+from .promotion_rules_stay_window_weekdays_item import PromotionRulesStayWindowWeekdaysItem
+from .promotion_status import PromotionStatus
+from .promotion_type import PromotionType
+from .promotion_update_request import PromotionUpdateRequest
+from .promotion_usage_type_0 import PromotionUsageType0
+from .promotion_usage_type_0_last_applied_amount import PromotionUsageType0LastAppliedAmount
+from .promotion_usage_type_0_revenue import PromotionUsageType0Revenue
 from .property_ import Property
 from .property_availability import PropertyAvailability
 from .property_availability_coverage import PropertyAvailabilityCoverage
@@ -836,6 +879,7 @@ from .reservation_message_updated_payload import ReservationMessageUpdatedPayloa
 from .reservation_message_updated_payload_direction import ReservationMessageUpdatedPayloadDirection
 from .reservation_message_updated_payload_from import ReservationMessageUpdatedPayloadFrom
 from .reservation_money_line import ReservationMoneyLine
+from .reservation_money_line_promotion_type import ReservationMoneyLinePromotionType
 from .reservation_occupancy import ReservationOccupancy
 from .reservation_pending_reason import ReservationPendingReason
 from .reservation_platform_type_1 import ReservationPlatformType1
@@ -1881,6 +1925,49 @@ __all__ = (
     "PreviewConversationSpecialOfferResponse200FeesItem",
     "PreviewConversationSpecialOfferResponse200GuestsType0",
     "PreviewConversationSpecialOfferResponse200LinesItem",
+    "Promotion",
+    "PromotionAppliesToType0",
+    "PromotionBulkRequest",
+    "PromotionBulkRequestAction",
+    "PromotionBulkResponse",
+    "PromotionBulkResponseDataItem",
+    "PromotionBulkResponseDataItemError",
+    "PromotionBulkResponseSummary",
+    "PromotionCatalog",
+    "PromotionCatalogChannelsItem",
+    "PromotionCatalogChannelsItemChannel",
+    "PromotionCatalogEntry",
+    "PromotionCatalogEntryChannel",
+    "PromotionCatalogEntryFields",
+    "PromotionCatalogField",
+    "PromotionCatalogFieldOptionsItem",
+    "PromotionCatalogResponse",
+    "PromotionChannel",
+    "PromotionCreateRequest",
+    "PromotionDeleteResponse",
+    "PromotionDeleteResponseData",
+    "PromotionDiscount",
+    "PromotionDiscountSetBy",
+    "PromotionInput",
+    "PromotionInputChannel",
+    "PromotionListResponse",
+    "PromotionManagedBy",
+    "PromotionManagedKey",
+    "PromotionRefreshResponse",
+    "PromotionResponse",
+    "PromotionRules",
+    "PromotionRulesBlackoutDatesQuota",
+    "PromotionRulesBookingWindow",
+    "PromotionRulesLastMinute",
+    "PromotionRulesLastMinuteUnit",
+    "PromotionRulesStayWindow",
+    "PromotionRulesStayWindowWeekdaysItem",
+    "PromotionStatus",
+    "PromotionType",
+    "PromotionUpdateRequest",
+    "PromotionUsageType0",
+    "PromotionUsageType0LastAppliedAmount",
+    "PromotionUsageType0Revenue",
     "Property",
     "PropertyAvailability",
     "PropertyAvailabilityCoverage",
@@ -1956,6 +2043,7 @@ __all__ = (
     "ReservationMessageUpdatedPayloadDirection",
     "ReservationMessageUpdatedPayloadFrom",
     "ReservationMoneyLine",
+    "ReservationMoneyLinePromotionType",
     "ReservationOccupancy",
     "ReservationPendingReason",
     "ReservationPlatformType1",
