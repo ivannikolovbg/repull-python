@@ -3,6 +3,9 @@ from enum import Enum
 class WebhookEventType(str, Enum):
     ACCOUNT_CREATED = "account.created"
     ACCOUNT_DISCONNECTED = "account.disconnected"
+    ACCOUNT_IMPORT_COMPLETED = "account.import.completed"
+    ACCOUNT_IMPORT_FAILED = "account.import.failed"
+    ACCOUNT_IMPORT_STARTED = "account.import.started"
     AI_OPERATION_COMPLETED = "ai.operation.completed"
     AI_OPERATION_FAILED = "ai.operation.failed"
     CALENDAR_UPDATED = "calendar.updated"

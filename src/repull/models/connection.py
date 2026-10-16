@@ -15,6 +15,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.account_import import AccountImport
   from ..models.connect_host import ConnectHost
   from ..models.connection_action import ConnectionAction
 
@@ -45,6 +46,9 @@ class Connection:
                 grant the invited Booking.com Extranet user full access). `null` when no action is pending.
             fix_url (None | str | Unset): Durable link that reopens the hosted Connect flow bound to this account on the fix
                 screen — send the host here to resolve `action`. Present only when `action.required` is true; `null` otherwise.
+            import_ (AccountImport | None | Unset): The account's latest import — `status: running` while the first sync (or
+                a later one) is going, then `completed` or `failed`. `null` when no import has been recorded. The same run is
+                announced by the `account.import.*` webhooks; the history is on `GET /v1/connections/{id}/imports`.
      """
 
     id: str | Unset = UNSET
@@ -55,6 +59,7 @@ class Connection:
     host: ConnectHost | None | Unset = UNSET
     action: ConnectionAction | None | Unset = UNSET
     fix_url: None | str | Unset = UNSET
+    import_: AccountImport | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -62,6 +67,7 @@ class Connection:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.account_import import AccountImport
         from ..models.connect_host import ConnectHost
         from ..models.connection_action import ConnectionAction
         id = self.id
@@ -105,6 +111,14 @@ class Connection:
         else:
             fix_url = self.fix_url
 
+        import_: dict[str, Any] | None | Unset
+        if isinstance(self.import_, Unset):
+            import_ = UNSET
+        elif isinstance(self.import_, AccountImport):
+            import_ = self.import_.to_dict()
+        else:
+            import_ = self.import_
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -126,6 +140,8 @@ class Connection:
             field_dict["action"] = action
         if fix_url is not UNSET:
             field_dict["fixUrl"] = fix_url
+        if import_ is not UNSET:
+            field_dict["import"] = import_
 
         return field_dict
 
@@ -133,6 +149,7 @@ class Connection:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.account_import import AccountImport
         from ..models.connect_host import ConnectHost
         from ..models.connection_action import ConnectionAction
         d = dict(src_dict)
@@ -220,6 +237,26 @@ class Connection:
         fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
 
 
+        def _parse_import_(data: object) -> AccountImport | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                import_type_1 = AccountImport.from_dict(data)
+
+
+
+                return import_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(AccountImport | None | Unset, data)
+
+        import_ = _parse_import_(d.pop("import", UNSET))
+
+
         connection = cls(
             id=id,
             provider=provider,
@@ -229,6 +266,7 @@ class Connection:
             host=host,
             action=action,
             fix_url=fix_url,
+            import_=import_,
         )
 
 

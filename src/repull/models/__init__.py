@@ -15,6 +15,24 @@ from .account_disconnected_event import AccountDisconnectedEvent
 from .account_disconnected_event_event import AccountDisconnectedEventEvent
 from .account_disconnected_payload import AccountDisconnectedPayload
 from .account_disconnected_payload_reason import AccountDisconnectedPayloadReason
+from .account_import import AccountImport
+from .account_import_completed_event import AccountImportCompletedEvent
+from .account_import_completed_event_event import AccountImportCompletedEventEvent
+from .account_import_counts import AccountImportCounts
+from .account_import_failed_event import AccountImportFailedEvent
+from .account_import_failed_event_event import AccountImportFailedEventEvent
+from .account_import_finished_payload import AccountImportFinishedPayload
+from .account_import_finished_payload_outcome import AccountImportFinishedPayloadOutcome
+from .account_import_finished_payload_status import AccountImportFinishedPayloadStatus
+from .account_import_finished_payload_trigger import AccountImportFinishedPayloadTrigger
+from .account_import_outcome import AccountImportOutcome
+from .account_import_stage import AccountImportStage
+from .account_import_started_event import AccountImportStartedEvent
+from .account_import_started_event_event import AccountImportStartedEventEvent
+from .account_import_started_payload import AccountImportStartedPayload
+from .account_import_started_payload_trigger import AccountImportStartedPayloadTrigger
+from .account_import_status import AccountImportStatus
+from .account_import_trigger import AccountImportTrigger
 from .acknowledge_booking_reservations_body import AcknowledgeBookingReservationsBody
 from .ai_operation import AIOperation
 from .ai_operation_completed_event import AiOperationCompletedEvent
@@ -388,6 +406,7 @@ from .get_migration_channel_map_response_200 import GetMigrationChannelMapRespon
 from .get_migration_report_response_200 import GetMigrationReportResponse200
 from .get_migration_response_200 import GetMigrationResponse200
 from .get_property_include import GetPropertyInclude
+from .get_transaction_statement_format import GetTransactionStatementFormat
 from .get_usage_logs_range import GetUsageLogsRange
 from .get_usage_logs_response_200 import GetUsageLogsResponse200
 from .get_usage_logs_response_200_data_item import GetUsageLogsResponse200DataItem
@@ -451,6 +470,8 @@ from .list_airbnb_listing_rooms_response_200_data_item import ListAirbnbListingR
 from .list_airbnb_listing_safety_disclosures_response_200 import ListAirbnbListingSafetyDisclosuresResponse200
 from .list_airbnb_listings_status import ListAirbnbListingsStatus
 from .list_airbnb_reservations_status import ListAirbnbReservationsStatus
+from .list_airbnb_resolutions_response_200 import ListAirbnbResolutionsResponse200
+from .list_airbnb_resolutions_status import ListAirbnbResolutionsStatus
 from .list_airbnb_thread_messages_response_200 import ListAirbnbThreadMessagesResponse200
 from .list_airbnb_thread_messages_response_200_data_freshness import ListAirbnbThreadMessagesResponse200DataFreshness
 from .list_airbnb_thread_messages_response_200_data_item import ListAirbnbThreadMessagesResponse200DataItem
@@ -461,6 +482,7 @@ from .list_booking_properties_status import ListBookingPropertiesStatus
 from .list_booking_reservations_response_200_type_1 import ListBookingReservationsResponse200Type1
 from .list_booking_reservations_type import ListBookingReservationsType
 from .list_booking_transactions_response_200 import ListBookingTransactionsResponse200
+from .list_connection_imports_response_200 import ListConnectionImportsResponse200
 from .list_connection_units_response_200 import ListConnectionUnitsResponse200
 from .list_connection_units_response_200_listing_options_item import ListConnectionUnitsResponse200ListingOptionsItem
 from .list_connection_units_response_200_status import ListConnectionUnitsResponse200Status
@@ -753,6 +775,11 @@ from .quote_pricing import QuotePricing
 from .recheck_booking_extranet_login_body import RecheckBookingExtranetLoginBody
 from .recheck_booking_extranet_login_response_200 import RecheckBookingExtranetLoginResponse200
 from .record_account_type_0 import RecordAccountType0
+from .refresh_airbnb_resolutions_body import RefreshAirbnbResolutionsBody
+from .refresh_airbnb_resolutions_body_status import RefreshAirbnbResolutionsBodyStatus
+from .refresh_airbnb_resolutions_response_200 import RefreshAirbnbResolutionsResponse200
+from .refresh_airbnb_resolutions_response_200_accounts_item import RefreshAirbnbResolutionsResponse200AccountsItem
+from .refresh_airbnb_resolutions_response_200_accounts_item_error_type_0 import RefreshAirbnbResolutionsResponse200AccountsItemErrorType0
 from .reorder_airbnb_listing_photos_body import ReorderAirbnbListingPhotosBody
 from .reorder_airbnb_listing_photos_response_200 import ReorderAirbnbListingPhotosResponse200
 from .reorder_airbnb_listing_photos_response_200_data import ReorderAirbnbListingPhotosResponse200Data
@@ -843,6 +870,9 @@ from .reservation_updated_event_event import ReservationUpdatedEventEvent
 from .reservation_updated_payload import ReservationUpdatedPayload
 from .reservation_updated_payload_previous_attributes import ReservationUpdatedPayloadPreviousAttributes
 from .reservation_webhook_object import ReservationWebhookObject
+from .resolution import Resolution
+from .resolution_initiator_type_0 import ResolutionInitiatorType0
+from .resolution_responder_type_0 import ResolutionResponderType0
 from .respond_airbnb_review_body import RespondAirbnbReviewBody
 from .resume_connect_response_400 import ResumeConnectResponse400
 from .resume_connect_response_400_error import ResumeConnectResponse400Error
@@ -1105,6 +1135,24 @@ __all__ = (
     "AccountDisconnectedEventEvent",
     "AccountDisconnectedPayload",
     "AccountDisconnectedPayloadReason",
+    "AccountImport",
+    "AccountImportCompletedEvent",
+    "AccountImportCompletedEventEvent",
+    "AccountImportCounts",
+    "AccountImportFailedEvent",
+    "AccountImportFailedEventEvent",
+    "AccountImportFinishedPayload",
+    "AccountImportFinishedPayloadOutcome",
+    "AccountImportFinishedPayloadStatus",
+    "AccountImportFinishedPayloadTrigger",
+    "AccountImportOutcome",
+    "AccountImportStage",
+    "AccountImportStartedEvent",
+    "AccountImportStartedEventEvent",
+    "AccountImportStartedPayload",
+    "AccountImportStartedPayloadTrigger",
+    "AccountImportStatus",
+    "AccountImportTrigger",
     "AcknowledgeBookingReservationsBody",
     "AIOperation",
     "AiOperationCompletedEvent",
@@ -1478,6 +1526,7 @@ __all__ = (
     "GetMigrationReportResponse200",
     "GetMigrationResponse200",
     "GetPropertyInclude",
+    "GetTransactionStatementFormat",
     "GetUsageLogsRange",
     "GetUsageLogsResponse200",
     "GetUsageLogsResponse200DataItem",
@@ -1541,6 +1590,8 @@ __all__ = (
     "ListAirbnbListingSafetyDisclosuresResponse200",
     "ListAirbnbListingsStatus",
     "ListAirbnbReservationsStatus",
+    "ListAirbnbResolutionsResponse200",
+    "ListAirbnbResolutionsStatus",
     "ListAirbnbThreadMessagesResponse200",
     "ListAirbnbThreadMessagesResponse200DataFreshness",
     "ListAirbnbThreadMessagesResponse200DataItem",
@@ -1551,6 +1602,7 @@ __all__ = (
     "ListBookingReservationsResponse200Type1",
     "ListBookingReservationsType",
     "ListBookingTransactionsResponse200",
+    "ListConnectionImportsResponse200",
     "ListConnectionUnitsResponse200",
     "ListConnectionUnitsResponse200ListingOptionsItem",
     "ListConnectionUnitsResponse200Status",
@@ -1843,6 +1895,11 @@ __all__ = (
     "RecheckBookingExtranetLoginBody",
     "RecheckBookingExtranetLoginResponse200",
     "RecordAccountType0",
+    "RefreshAirbnbResolutionsBody",
+    "RefreshAirbnbResolutionsBodyStatus",
+    "RefreshAirbnbResolutionsResponse200",
+    "RefreshAirbnbResolutionsResponse200AccountsItem",
+    "RefreshAirbnbResolutionsResponse200AccountsItemErrorType0",
     "ReorderAirbnbListingPhotosBody",
     "ReorderAirbnbListingPhotosResponse200",
     "ReorderAirbnbListingPhotosResponse200Data",
@@ -1933,6 +1990,9 @@ __all__ = (
     "ReservationUpdateRequest",
     "ReservationUpdateResponse",
     "ReservationWebhookObject",
+    "Resolution",
+    "ResolutionInitiatorType0",
+    "ResolutionResponderType0",
     "RespondAirbnbReviewBody",
     "ResumeConnectResponse400",
     "ResumeConnectResponse400Error",
