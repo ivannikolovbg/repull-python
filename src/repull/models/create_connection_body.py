@@ -29,19 +29,19 @@ class CreateConnectionBody:
             redirect_url (str | Unset): Airbnb + Booking.com — where to redirect the user after they finish the hosted
                 connect flow.
             access_type (CreateConnectionBodyAccessType | Unset): Airbnb only — selects the OAuth scope set. 'read_only'
-                grants read-only scopes; 'messaging' grants read scopes plus message read/send but NOT property management, so
-                it can coexist with another app (e.g. an existing PMS) that already holds property management on the same Airbnb
-                account; 'full_access' (default) grants full host scopes including the exclusive property management (only one
-                app per Airbnb account can hold it). The hosted consent screen normally lets the host pick a tier; passing
-                `accessType` explicitly fixes the tier and hides that choice, so the host can only continue with the tier you
-                requested. Omit it to let the host choose. Default: CreateConnectionBodyAccessType.FULL_ACCESS.
+                grants read-only scopes; 'messaging' (shown to hosts as "Messaging & reviews") grants read scopes plus message
+                read/send and review writes (reply to guest reviews, submit host reviews — Airbnb's reviews_write) but NOT
+                property management, so it can coexist with another app (e.g. an existing PMS) that already holds property
+                management on the same Airbnb account; 'full_access' (default) grants full host scopes including the exclusive
+                property management (only one app per Airbnb account can hold it). The hosted consent screen normally lets the
+                host pick a tier; passing `accessType` explicitly fixes the tier and hides that choice, so the host can only
+                continue with the tier you requested. Omit it to let the host choose. Default:
+                CreateConnectionBodyAccessType.FULL_ACCESS.
             reservation_history_months (int | Unset): Airbnb — how many months of past reservations the first import pulls
                 (1–60). Omit it for the default window. Upcoming stays are always imported. A wider window takes longer to
                 import, because every extra month is more stays to fetch. Example: 24.
             state (str | Unset): Airbnb + Booking.com — your own correlation token, e.g. your user id (at most 500
                 characters). Echoed on the redirect back (`&state=`) and in the `connect.session.completed` webhook.
-            client_id (str | Unset): Plumguide — client ID.
-            client_secret (str | Unset): Plumguide — client secret.
             locale (None | str | Unset): Airbnb only — optional UI language for the hosted Connect pages. Accepts any
                 supported locale code (currently `en`, `fr`); unknown codes are ignored and resolution falls back to the
                 workspace `default_language`, then `Accept-Language`, then `en`. Example: fr.
@@ -51,8 +51,6 @@ class CreateConnectionBody:
     access_type: CreateConnectionBodyAccessType | Unset = CreateConnectionBodyAccessType.FULL_ACCESS
     reservation_history_months: int | Unset = UNSET
     state: str | Unset = UNSET
-    client_id: str | Unset = UNSET
-    client_secret: str | Unset = UNSET
     locale: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -71,10 +69,6 @@ class CreateConnectionBody:
         reservation_history_months = self.reservation_history_months
 
         state = self.state
-
-        client_id = self.client_id
-
-        client_secret = self.client_secret
 
         locale: None | str | Unset
         if isinstance(self.locale, Unset):
@@ -95,10 +89,6 @@ class CreateConnectionBody:
             field_dict["reservationHistoryMonths"] = reservation_history_months
         if state is not UNSET:
             field_dict["state"] = state
-        if client_id is not UNSET:
-            field_dict["clientId"] = client_id
-        if client_secret is not UNSET:
-            field_dict["clientSecret"] = client_secret
         if locale is not UNSET:
             field_dict["locale"] = locale
 
@@ -125,10 +115,6 @@ class CreateConnectionBody:
 
         state = d.pop("state", UNSET)
 
-        client_id = d.pop("clientId", UNSET)
-
-        client_secret = d.pop("clientSecret", UNSET)
-
         def _parse_locale(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -144,8 +130,6 @@ class CreateConnectionBody:
             access_type=access_type,
             reservation_history_months=reservation_history_months,
             state=state,
-            client_id=client_id,
-            client_secret=client_secret,
             locale=locale,
         )
 

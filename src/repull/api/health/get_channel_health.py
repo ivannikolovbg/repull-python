@@ -65,10 +65,9 @@ def sync_detailed(
 ) -> Response[GetChannelHealthResponse200]:
     r""" Per-channel connectivity health
 
-     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`, `plumguide`). Use
-    it to tell \"the channel is down\" apart from \"this workspace's connection expired\". `200` when
-    `status` is `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and
-    why).
+     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
+    \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
+    `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
@@ -110,10 +109,9 @@ def sync(
 ) -> GetChannelHealthResponse200 | None:
     r""" Per-channel connectivity health
 
-     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`, `plumguide`). Use
-    it to tell \"the channel is down\" apart from \"this workspace's connection expired\". `200` when
-    `status` is `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and
-    why).
+     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
+    \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
+    `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
@@ -150,10 +148,9 @@ async def asyncio_detailed(
 ) -> Response[GetChannelHealthResponse200]:
     r""" Per-channel connectivity health
 
-     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`, `plumguide`). Use
-    it to tell \"the channel is down\" apart from \"this workspace's connection expired\". `200` when
-    `status` is `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and
-    why).
+     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
+    \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
+    `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
@@ -195,10 +192,9 @@ async def asyncio(
 ) -> GetChannelHealthResponse200 | None:
     r""" Per-channel connectivity health
 
-     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`, `plumguide`). Use
-    it to tell \"the channel is down\" apart from \"this workspace's connection expired\". `200` when
-    `status` is `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and
-    why).
+     Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
+    \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
+    `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose

@@ -20,7 +20,10 @@ T = TypeVar("T", bound="ListConnectionUnitsResponse200UnitsItemMeta")
 
 @_attrs_define
 class ListConnectionUnitsResponse200UnitsItemMeta:
-    """ 
+    """ Channel details that identify the unit. Booking.com Extranet: `hotel` (property name), `hotelId` (Booking.com
+    property ID), `roomId` (Booking.com room ID), `city`. Vrbo: `headline`, `address`, `vrboStatus`; the Vrbo listing ID
+    is `unit_id`.
+
      """
 
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)

@@ -31,6 +31,10 @@ class ListConnectionUnitsResponse200:
             connection_id (str | Unset):
             channel (str | Unset):
             status (ListConnectionUnitsResponse200Status | Unset):
+            notification_email (None | str | Unset): Vrbo only. Ask the host to add this address on Vrbo as a secondary
+                email, with message and reservation notifications on. It is how new bookings, inquiries and guest messages reach
+                Repull within a minute; without it they arrive at the next scheduled check. Hosted Connect asks for it on its
+                mapping screen, so show it in your own flow when you map with `mapping: "api"`.
             units (list[ListConnectionUnitsResponse200UnitsItem] | Unset):
             listing_options (list[ListConnectionUnitsResponse200ListingOptionsItem] | Unset):
             missing_capabilities (list[str] | Unset):
@@ -40,6 +44,7 @@ class ListConnectionUnitsResponse200:
     connection_id: str | Unset = UNSET
     channel: str | Unset = UNSET
     status: ListConnectionUnitsResponse200Status | Unset = UNSET
+    notification_email: None | str | Unset = UNSET
     units: list[ListConnectionUnitsResponse200UnitsItem] | Unset = UNSET
     listing_options: list[ListConnectionUnitsResponse200ListingOptionsItem] | Unset = UNSET
     missing_capabilities: list[str] | Unset = UNSET
@@ -61,6 +66,12 @@ class ListConnectionUnitsResponse200:
         if not isinstance(self.status, Unset):
             status = self.status.value
 
+
+        notification_email: None | str | Unset
+        if isinstance(self.notification_email, Unset):
+            notification_email = UNSET
+        else:
+            notification_email = self.notification_email
 
         units: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.units, Unset):
@@ -99,6 +110,8 @@ class ListConnectionUnitsResponse200:
             field_dict["channel"] = channel
         if status is not UNSET:
             field_dict["status"] = status
+        if notification_email is not UNSET:
+            field_dict["notification_email"] = notification_email
         if units is not UNSET:
             field_dict["units"] = units
         if listing_options is not UNSET:
@@ -129,6 +142,16 @@ class ListConnectionUnitsResponse200:
             status = ListConnectionUnitsResponse200Status(_status)
 
 
+
+
+        def _parse_notification_email(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        notification_email = _parse_notification_email(d.pop("notification_email", UNSET))
 
 
         _units = d.pop("units", UNSET)
@@ -164,6 +187,7 @@ class ListConnectionUnitsResponse200:
             connection_id=connection_id,
             channel=channel,
             status=status,
+            notification_email=notification_email,
             units=units,
             listing_options=listing_options,
             missing_capabilities=missing_capabilities,

@@ -16,6 +16,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.listing_amenity import ListingAmenity
+  from ..models.postal_address import PostalAddress
   from ..models.record_account_type_0 import RecordAccountType0
 
 
@@ -52,8 +53,16 @@ class Property:
             public_name (None | str | Unset): The title guests see on the channel (e.g. the Airbnb listing title). `name` is
                 the host's internal nickname for the listing; show `publicName` in anything a guest or end user reads. Present
                 on inactive rows too. Example: Centre Oxford bright single room D.
-            address (None | str | Unset): Street address (from the listing's `street` field).
-            city (None | str | Unset):  Example: Miami Beach.
+            address (None | str | Unset): Street line only, as stored on the listing — no unit, state or postal code. Kept
+                for existing integrations; read `addressDetails` for the full postal address. Example: 2700 Northwest 2nd
+                Avenue.
+            city (None | str | Unset): City as stored on the listing. Kept for existing integrations; `addressDetails.city`
+                is the resolved city. Example: Miami.
+            address_details (PostalAddress | Unset): The full postal address, unit included. Returned on every active row of
+                `GET /v1/properties`, `GET /v1/properties/{id}`, `GET /v1/listings` and `GET /v1/listings/{id}` (on listings,
+                these fields sit inside `address`). Each part is read from the listing first, then from the connected channels
+                (Airbnb, Vrbo, Booking.com), so `line2` carries the apartment or unit number that tells units in the same
+                building apart. A part nobody has stored is `null`.
             latitude (None | str | Unset): Detail endpoint only. Decimal degrees, as a string. Example: 25.7617.
             longitude (None | str | Unset): Detail endpoint only. Decimal degrees, as a string. Example: -80.1918.
             currency (None | str | Unset): ISO 4217 currency code for this property's pricing. Example: USD.
@@ -75,6 +84,7 @@ class Property:
     public_name: None | str | Unset = UNSET
     address: None | str | Unset = UNSET
     city: None | str | Unset = UNSET
+    address_details: PostalAddress | Unset = UNSET
     latitude: None | str | Unset = UNSET
     longitude: None | str | Unset = UNSET
     currency: None | str | Unset = UNSET
@@ -92,6 +102,7 @@ class Property:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.listing_amenity import ListingAmenity
+        from ..models.postal_address import PostalAddress
         from ..models.record_account_type_0 import RecordAccountType0
         accounts: list[dict[str, Any] | None] | Unset = UNSET
         if not isinstance(self.accounts, Unset):
@@ -127,6 +138,10 @@ class Property:
             city = UNSET
         else:
             city = self.city
+
+        address_details: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.address_details, Unset):
+            address_details = self.address_details.to_dict()
 
         latitude: None | str | Unset
         if isinstance(self.latitude, Unset):
@@ -197,6 +212,8 @@ class Property:
             field_dict["address"] = address
         if city is not UNSET:
             field_dict["city"] = city
+        if address_details is not UNSET:
+            field_dict["addressDetails"] = address_details
         if latitude is not UNSET:
             field_dict["latitude"] = latitude
         if longitude is not UNSET:
@@ -223,6 +240,7 @@ class Property:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.listing_amenity import ListingAmenity
+        from ..models.postal_address import PostalAddress
         from ..models.record_account_type_0 import RecordAccountType0
         d = dict(src_dict)
         _accounts = d.pop("accounts", UNSET)
@@ -282,6 +300,16 @@ class Property:
             return cast(None | str | Unset, data)
 
         city = _parse_city(d.pop("city", UNSET))
+
+
+        _address_details = d.pop("addressDetails", UNSET)
+        address_details: PostalAddress | Unset
+        if isinstance(_address_details,  Unset):
+            address_details = UNSET
+        else:
+            address_details = PostalAddress.from_dict(_address_details)
+
+
 
 
         def _parse_latitude(data: object) -> None | str | Unset:
@@ -376,6 +404,7 @@ class Property:
             public_name=public_name,
             address=address,
             city=city,
+            address_details=address_details,
             latitude=latitude,
             longitude=longitude,
             currency=currency,

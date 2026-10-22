@@ -32,8 +32,8 @@ class ConnectSessionCompletedPayload:
         Attributes:
             session_id (str | Unset):  Example: cs_abc123.
             state (None | str | Unset): The `state` you passed when creating the session. Example: user_8421.
-            provider (None | str | Unset): Channel or PMS: airbnb, booking, booking_extranet, vrbo, plumguide, hostaway, …
-                Example: vrbo.
+            provider (None | str | Unset): Channel or PMS: airbnb, booking, booking_extranet, vrbo, hostaway, … Example:
+                vrbo.
             external_account_id (None | str | Unset): The provider's own account id — Airbnb host id, Booking.com hotel id,
                 Vrbo account id, or the PMS account. Example: 36.
             connection_id (int | None | Unset): Repull connection id, when the account has one (the `X-Account-Id` value).
