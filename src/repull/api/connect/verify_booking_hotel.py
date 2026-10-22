@@ -123,8 +123,8 @@ def sync_detailed(
     """ Verify a Booking.com hotel ID for a Connect session
 
      Manual-paste fallback that closes the Booking.com claim flow. Call this after the customer completes
-    Stage 1 designation in their Booking Extranet (ticking FantasticStay/Repull as their connectivity
-    provider) and pastes their Hotel ID into the hosted picker.
+    Stage 1 designation in their Booking Extranet (selecting our connectivity provider, named on the
+    hosted Connect page) and pastes their Hotel ID into the hosted picker.
 
     Validates the hotel against Booking's property API, persists the `pms_connections` row, kicks off
     the room import, and transitions the Connect session to `awaiting_room_mapping`.
@@ -166,8 +166,8 @@ def sync(
     """ Verify a Booking.com hotel ID for a Connect session
 
      Manual-paste fallback that closes the Booking.com claim flow. Call this after the customer completes
-    Stage 1 designation in their Booking Extranet (ticking FantasticStay/Repull as their connectivity
-    provider) and pastes their Hotel ID into the hosted picker.
+    Stage 1 designation in their Booking Extranet (selecting our connectivity provider, named on the
+    hosted Connect page) and pastes their Hotel ID into the hosted picker.
 
     Validates the hotel against Booking's property API, persists the `pms_connections` row, kicks off
     the room import, and transitions the Connect session to `awaiting_room_mapping`.
@@ -204,8 +204,8 @@ async def asyncio_detailed(
     """ Verify a Booking.com hotel ID for a Connect session
 
      Manual-paste fallback that closes the Booking.com claim flow. Call this after the customer completes
-    Stage 1 designation in their Booking Extranet (ticking FantasticStay/Repull as their connectivity
-    provider) and pastes their Hotel ID into the hosted picker.
+    Stage 1 designation in their Booking Extranet (selecting our connectivity provider, named on the
+    hosted Connect page) and pastes their Hotel ID into the hosted picker.
 
     Validates the hotel against Booking's property API, persists the `pms_connections` row, kicks off
     the room import, and transitions the Connect session to `awaiting_room_mapping`.
@@ -247,8 +247,8 @@ async def asyncio(
     """ Verify a Booking.com hotel ID for a Connect session
 
      Manual-paste fallback that closes the Booking.com claim flow. Call this after the customer completes
-    Stage 1 designation in their Booking Extranet (ticking FantasticStay/Repull as their connectivity
-    provider) and pastes their Hotel ID into the hosted picker.
+    Stage 1 designation in their Booking Extranet (selecting our connectivity provider, named on the
+    hosted Connect page) and pastes their Hotel ID into the hosted picker.
 
     Validates the hotel against Booking's property API, persists the `pms_connections` row, kicks off
     the room import, and transitions the Connect session to `awaiting_room_mapping`.

@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.message_direction import MessageDirection
+from ..models.message_status import MessageStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -35,6 +36,11 @@ class Message:
             external_message_id (None | str | Unset): ID assigned by the source channel (Airbnb message id, Booking message
                 id, etc.). Stable across syncs.
             direction (MessageDirection | Unset):
+            status (MessageStatus | Unset): Delivery state. Inbound messages are `received`. An outbound message is
+                `sending` while it is queued to the channel, `sent` once the channel accepted it, or `failed`. Only `sent` (or
+                `received`) means the guest can see it.
+            status_reason (None | str | Unset): Why a message is still `sending` or `failed`, in plain words. `null`
+                otherwise.
             sender_type (None | str | Unset): Free-form sender role from the channel (e.g. `guest`, `host`, `system`,
                 `airbnb`). Use `direction` for binary inbound/outbound logic.
             sender_name (str | Unset):
@@ -48,13 +54,16 @@ class Message:
             is_automated (bool | Unset): `true` when the message was sent by an automation (template, schedule, etc.).
             ai_generated (bool | Unset): `true` when the body was written by AI (autopilot, draft).
             sent_at (datetime.datetime | Unset):
-            delivered_at (datetime.datetime | Unset):
+            delivered_at (datetime.datetime | None | Unset): When the message reached the channel. `null` while it is
+                `sending` or when it `failed`.
             read_at (datetime.datetime | None | Unset):
      """
 
     id: str | Unset = UNSET
     external_message_id: None | str | Unset = UNSET
     direction: MessageDirection | Unset = UNSET
+    status: MessageStatus | Unset = UNSET
+    status_reason: None | str | Unset = UNSET
     sender_type: None | str | Unset = UNSET
     sender_name: str | Unset = UNSET
     sender_avatar: None | str | Unset = UNSET
@@ -65,7 +74,7 @@ class Message:
     is_automated: bool | Unset = UNSET
     ai_generated: bool | Unset = UNSET
     sent_at: datetime.datetime | Unset = UNSET
-    delivered_at: datetime.datetime | Unset = UNSET
+    delivered_at: datetime.datetime | None | Unset = UNSET
     read_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -87,6 +96,17 @@ class Message:
         if not isinstance(self.direction, Unset):
             direction = self.direction.value
 
+
+        status: str | Unset = UNSET
+        if not isinstance(self.status, Unset):
+            status = self.status.value
+
+
+        status_reason: None | str | Unset
+        if isinstance(self.status_reason, Unset):
+            status_reason = UNSET
+        else:
+            status_reason = self.status_reason
 
         sender_type: None | str | Unset
         if isinstance(self.sender_type, Unset):
@@ -133,9 +153,13 @@ class Message:
         if not isinstance(self.sent_at, Unset):
             sent_at = self.sent_at.isoformat()
 
-        delivered_at: str | Unset = UNSET
-        if not isinstance(self.delivered_at, Unset):
+        delivered_at: None | str | Unset
+        if isinstance(self.delivered_at, Unset):
+            delivered_at = UNSET
+        elif isinstance(self.delivered_at, datetime.datetime):
             delivered_at = self.delivered_at.isoformat()
+        else:
+            delivered_at = self.delivered_at
 
         read_at: None | str | Unset
         if isinstance(self.read_at, Unset):
@@ -156,6 +180,10 @@ class Message:
             field_dict["externalMessageId"] = external_message_id
         if direction is not UNSET:
             field_dict["direction"] = direction
+        if status is not UNSET:
+            field_dict["status"] = status
+        if status_reason is not UNSET:
+            field_dict["statusReason"] = status_reason
         if sender_type is not UNSET:
             field_dict["senderType"] = sender_type
         if sender_name is not UNSET:
@@ -209,6 +237,26 @@ class Message:
             direction = MessageDirection(_direction)
 
 
+
+
+        _status = d.pop("status", UNSET)
+        status: MessageStatus | Unset
+        if isinstance(_status,  Unset):
+            status = UNSET
+        else:
+            status = MessageStatus(_status)
+
+
+
+
+        def _parse_status_reason(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        status_reason = _parse_status_reason(d.pop("statusReason", UNSET))
 
 
         def _parse_sender_type(data: object) -> None | str | Unset:
@@ -281,14 +329,24 @@ class Message:
 
 
 
-        _delivered_at = d.pop("deliveredAt", UNSET)
-        delivered_at: datetime.datetime | Unset
-        if isinstance(_delivered_at,  Unset):
-            delivered_at = UNSET
-        else:
-            delivered_at = isoparse(_delivered_at)
+        def _parse_delivered_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                delivered_at_type_0 = isoparse(data)
 
 
+
+                return delivered_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        delivered_at = _parse_delivered_at(d.pop("deliveredAt", UNSET))
 
 
         def _parse_read_at(data: object) -> datetime.datetime | None | Unset:
@@ -315,6 +373,8 @@ class Message:
             id=id,
             external_message_id=external_message_id,
             direction=direction,
+            status=status,
+            status_reason=status_reason,
             sender_type=sender_type,
             sender_name=sender_name,
             sender_avatar=sender_avatar,

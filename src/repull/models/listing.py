@@ -63,7 +63,9 @@ class Listing:
             public_name (None | str | Unset): The title guests see on the channel (e.g. the Airbnb listing title). `name` is
                 the host's internal nickname for the listing; show `publicName` in anything a guest or end user reads. Present
                 on inactive rows too. Example: Centre Oxford bright single room D.
-            address (ListingAddress | Unset):
+            address (ListingAddress | Unset): The listing's postal address, unit included. Each part is read from the
+                listing first, then from the connected channels (Airbnb, Vrbo, Booking.com). On an inactive row only `city` is
+                present.
             thumbnail_url (None | str | Unset): Cover photo URL. Always present on an active listing. On an **inactive** one
                 it is present only when the caller passes `?include=thumbnail`; `null` means the listing has no cover photo
                 stored, absent means the expansion was not requested.

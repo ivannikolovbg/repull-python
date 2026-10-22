@@ -31,7 +31,9 @@ class ListConnectionUnitsResponse200UnitsItem:
             grain (str | Unset):
             current_listing_id (int | None | Unset):
             suggested_listing_id (int | None | Unset):
-            meta (ListConnectionUnitsResponse200UnitsItemMeta | Unset):
+            meta (ListConnectionUnitsResponse200UnitsItemMeta | Unset): Channel details that identify the unit. Booking.com
+                Extranet: `hotel` (property name), `hotelId` (Booking.com property ID), `roomId` (Booking.com room ID), `city`.
+                Vrbo: `headline`, `address`, `vrboStatus`; the Vrbo listing ID is `unit_id`.
      """
 
     unit_id: str | Unset = UNSET

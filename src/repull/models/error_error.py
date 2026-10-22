@@ -43,7 +43,7 @@ class ErrorError:
             value_received (Any | Unset): Echo of the offending value (truncated to 200 chars). Useful for debugging — helps
                 callers see what the server actually parsed. Example: garbage.
             valid_values (list[str] | Unset): Allowed values when the error is enum-related (e.g. unknown `provider`,
-                unknown `status`). Example: ['airbnb', 'booking', 'vrbo', 'plumguide'].
+                unknown `status`). Example: ['airbnb', 'booking', 'vrbo'].
             valid_params (list[str] | Unset): Sorted list of every query param this endpoint accepts. Present on `code:
                 "unknown_params"` (HTTP 422) so SDK consumers can self-correct without reading docs. Example: ['cursor',
                 'has_reservation', 'include_total', 'limit', 'listingId', 'q'].

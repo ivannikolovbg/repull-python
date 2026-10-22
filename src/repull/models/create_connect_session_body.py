@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.create_connect_session_body_access_type import CreateConnectSessionBodyAccessType
+from ..models.create_connect_session_body_mapping import CreateConnectSessionBodyMapping
 from ..models.create_connect_session_body_purpose import CreateConnectSessionBodyPurpose
 from ..models.create_connect_session_body_scope_item import CreateConnectSessionBodyScopeItem
 from ..types import UNSET, Unset
@@ -37,6 +38,13 @@ class CreateConnectSessionBody:
             reservation_history_months (int | Unset): Airbnb — how many months of past reservations the first import pulls
                 (1–60). Omit it for the default window. Upcoming stays are always imported. A wider window takes longer to
                 import, because every extra month is more stays to fetch. Example: 24.
+            mapping (CreateConnectSessionBodyMapping | Unset): Where the channel's units get linked to listings. `hosted`
+                (default): after a Vrbo or Booking.com Extranet sign-in, Connect shows a mapping step and returns to
+                `redirectUrl` when it's confirmed. `api`: Connect skips that step and finishes right after sign-in. The
+                connection reaches you in the `connect.session.completed` webhook (and as `connectionId` in the popup message),
+                its handle is `vrbo:{connectionId}` or `booking_extranet:{connectionId}`; you list the units with `GET
+                /v1/connections/{id}/units` and link them with `POST /v1/connections/{id}/mappings`. Nothing is imported until
+                you post the mappings. Other providers ignore it. Default: CreateConnectSessionBodyMapping.HOSTED.
             access_type (CreateConnectSessionBodyAccessType | Unset): What the connection may do. Airbnb: the OAuth scope
                 tier. Vrbo: `messaging` (or `read_only`) imports bookings and messages and never pushes the calendar;
                 `full_access` also pushes prices and availability. Setting it locks the choice; omit it to let the host choose
@@ -70,6 +78,7 @@ class CreateConnectSessionBody:
     redirect_url: str
     state: None | str | Unset = UNSET
     reservation_history_months: int | Unset = UNSET
+    mapping: CreateConnectSessionBodyMapping | Unset = CreateConnectSessionBodyMapping.HOSTED
     access_type: CreateConnectSessionBodyAccessType | Unset = UNSET
     allowed_providers: list[str] | None | Unset = UNSET
     include_request_only: bool | Unset = False
@@ -96,6 +105,11 @@ class CreateConnectSessionBody:
             state = self.state
 
         reservation_history_months = self.reservation_history_months
+
+        mapping: str | Unset = UNSET
+        if not isinstance(self.mapping, Unset):
+            mapping = self.mapping.value
+
 
         access_type: str | Unset = UNSET
         if not isinstance(self.access_type, Unset):
@@ -152,6 +166,8 @@ class CreateConnectSessionBody:
             field_dict["state"] = state
         if reservation_history_months is not UNSET:
             field_dict["reservationHistoryMonths"] = reservation_history_months
+        if mapping is not UNSET:
+            field_dict["mapping"] = mapping
         if access_type is not UNSET:
             field_dict["accessType"] = access_type
         if allowed_providers is not UNSET:
@@ -191,6 +207,16 @@ class CreateConnectSessionBody:
 
 
         reservation_history_months = d.pop("reservationHistoryMonths", UNSET)
+
+        _mapping = d.pop("mapping", UNSET)
+        mapping: CreateConnectSessionBodyMapping | Unset
+        if isinstance(_mapping,  Unset):
+            mapping = UNSET
+        else:
+            mapping = CreateConnectSessionBodyMapping(_mapping)
+
+
+
 
         _access_type = d.pop("accessType", UNSET)
         access_type: CreateConnectSessionBodyAccessType | Unset
@@ -278,6 +304,7 @@ class CreateConnectSessionBody:
             redirect_url=redirect_url,
             state=state,
             reservation_history_months=reservation_history_months,
+            mapping=mapping,
             access_type=access_type,
             allowed_providers=allowed_providers,
             include_request_only=include_request_only,

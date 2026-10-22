@@ -222,10 +222,6 @@ from .bulk_pricing_request_action import BulkPricingRequestAction
 from .bulk_pricing_response import BulkPricingResponse
 from .calendar_day import CalendarDay
 from .calendar_response import CalendarResponse
-from .calendar_updated_event import CalendarUpdatedEvent
-from .calendar_updated_event_event import CalendarUpdatedEventEvent
-from .calendar_updated_payload import CalendarUpdatedPayload
-from .calendar_updated_payload_range import CalendarUpdatedPayloadRange
 from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
 from .cancel_reservation_body import CancelReservationBody
 from .cancel_reservation_response_200 import CancelReservationResponse200
@@ -293,6 +289,7 @@ from .create_booking_webhook_body import CreateBookingWebhookBody
 from .create_connect_session_body import CreateConnectSessionBody
 from .create_connect_session_body_access_type import CreateConnectSessionBodyAccessType
 from .create_connect_session_body_copy import CreateConnectSessionBodyCopy
+from .create_connect_session_body_mapping import CreateConnectSessionBodyMapping
 from .create_connect_session_body_purpose import CreateConnectSessionBodyPurpose
 from .create_connect_session_body_scope_item import CreateConnectSessionBodyScopeItem
 from .create_connect_session_body_workspace import CreateConnectSessionBodyWorkspace
@@ -692,6 +689,7 @@ from .markets_overview_response_totals import MarketsOverviewResponseTotals
 from .message import Message
 from .message_direction import MessageDirection
 from .message_list_response import MessageListResponse
+from .message_status import MessageStatus
 from .migration import Migration
 from .migration_channel_map import MigrationChannelMap
 from .migration_channel_map_listings_item import MigrationChannelMapListingsItem
@@ -734,8 +732,6 @@ from .payout_completed_payload import PayoutCompletedPayload
 from .payout_completed_payload_channel import PayoutCompletedPayloadChannel
 from .plan_notice import PlanNotice
 from .plan_notice_code import PlanNoticeCode
-from .plumguide_listing import PlumguideListing
-from .plumguide_listing_list_response import PlumguideListingListResponse
 from .pms_capabilities import PmsCapabilities
 from .pms_capabilities_calendar import PmsCapabilitiesCalendar
 from .pms_capabilities_conversations import PmsCapabilitiesConversations
@@ -749,6 +745,7 @@ from .pms_capabilities_tasks import PmsCapabilitiesTasks
 from .pms_write_policy import PmsWritePolicy
 from .pms_write_policy_calendar import PmsWritePolicyCalendar
 from .pms_write_policy_reservations import PmsWritePolicyReservations
+from .postal_address import PostalAddress
 from .preapprove_conversation_body import PreapproveConversationBody
 from .preapprove_conversation_response_201 import PreapproveConversationResponse201
 from .preapprove_conversation_response_201_channel import PreapproveConversationResponse201Channel
@@ -1113,7 +1110,6 @@ from .update_connect_write_policy_body_calendar import UpdateConnectWritePolicyB
 from .update_connect_write_policy_body_reservations import UpdateConnectWritePolicyBodyReservations
 from .update_connect_write_policy_response_200 import UpdateConnectWritePolicyResponse200
 from .update_listing_pricing_strategy_response_200 import UpdateListingPricingStrategyResponse200
-from .update_plumguide_webhooks_body import UpdatePlumguideWebhooksBody
 from .update_webhook_body import UpdateWebhookBody
 from .update_webhook_body_status import UpdateWebhookBodyStatus
 from .upload_airbnb_listing_photos_body import UploadAirbnbListingPhotosBody
@@ -1386,10 +1382,6 @@ __all__ = (
     "BulkPricingResponse",
     "CalendarDay",
     "CalendarResponse",
-    "CalendarUpdatedEvent",
-    "CalendarUpdatedEventEvent",
-    "CalendarUpdatedPayload",
-    "CalendarUpdatedPayloadRange",
     "CancelAirbnbAlterationBody",
     "CancelReservationBody",
     "CancelReservationResponse200",
@@ -1459,6 +1451,7 @@ __all__ = (
     "CreateConnectSessionBody",
     "CreateConnectSessionBodyAccessType",
     "CreateConnectSessionBodyCopy",
+    "CreateConnectSessionBodyMapping",
     "CreateConnectSessionBodyPurpose",
     "CreateConnectSessionBodyScopeItem",
     "CreateConnectSessionBodyWorkspace",
@@ -1856,6 +1849,7 @@ __all__ = (
     "Message",
     "MessageDirection",
     "MessageListResponse",
+    "MessageStatus",
     "Migration",
     "MigrationChannelMap",
     "MigrationChannelMapListingsItem",
@@ -1898,8 +1892,6 @@ __all__ = (
     "PayoutCompletedPayloadChannel",
     "PlanNotice",
     "PlanNoticeCode",
-    "PlumguideListing",
-    "PlumguideListingListResponse",
     "PmsCapabilities",
     "PmsCapabilitiesCalendar",
     "PmsCapabilitiesConversations",
@@ -1913,6 +1905,7 @@ __all__ = (
     "PmsWritePolicy",
     "PmsWritePolicyCalendar",
     "PmsWritePolicyReservations",
+    "PostalAddress",
     "PreapproveConversationBody",
     "PreapproveConversationResponse201",
     "PreapproveConversationResponse201Channel",
@@ -2277,7 +2270,6 @@ __all__ = (
     "UpdateConnectWritePolicyBodyReservations",
     "UpdateConnectWritePolicyResponse200",
     "UpdateListingPricingStrategyResponse200",
-    "UpdatePlumguideWebhooksBody",
     "UpdateWebhookBody",
     "UpdateWebhookBodyStatus",
     "UploadAirbnbListingPhotosBody",

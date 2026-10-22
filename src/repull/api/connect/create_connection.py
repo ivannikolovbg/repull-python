@@ -75,25 +75,26 @@ def sync_detailed(
     body: CreateConnectionBody | Unset = UNSET,
 
 ) -> Response[Connection]:
-    """ Connect to PMS/OTA provider
+    r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
-    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
-    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
-    — grants full host scopes including the exclusive property management (only one app per Airbnb
-    account can hold it). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` (shown to hosts as
+    \"Messaging & reviews\") grants read scopes plus message read/send and review writes (reply to guest
+    reviews, submit host reviews — Airbnb's `reviews_write`) but NOT property management, so it can
+    coexist with another app (e.g. an existing PMS) that already holds property management on the same
+    Airbnb account; `full_access` — the default — grants full host scopes including the exclusive
+    property management (only one app per Airbnb account can hold it). The response returns a hosted
+    `url` to redirect the user to.
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
-    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
-    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
-    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
-    /v1/connect`.
+    PMS providers are not connected by this call: send their credentials to `POST
+    /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
 
     Args:
         provider (str):
@@ -128,25 +129,26 @@ def sync(
     body: CreateConnectionBody | Unset = UNSET,
 
 ) -> Connection | None:
-    """ Connect to PMS/OTA provider
+    r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
-    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
-    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
-    — grants full host scopes including the exclusive property management (only one app per Airbnb
-    account can hold it). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` (shown to hosts as
+    \"Messaging & reviews\") grants read scopes plus message read/send and review writes (reply to guest
+    reviews, submit host reviews — Airbnb's `reviews_write`) but NOT property management, so it can
+    coexist with another app (e.g. an existing PMS) that already holds property management on the same
+    Airbnb account; `full_access` — the default — grants full host scopes including the exclusive
+    property management (only one app per Airbnb account can hold it). The response returns a hosted
+    `url` to redirect the user to.
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
-    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
-    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
-    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
-    /v1/connect`.
+    PMS providers are not connected by this call: send their credentials to `POST
+    /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
 
     Args:
         provider (str):
@@ -176,25 +178,26 @@ async def asyncio_detailed(
     body: CreateConnectionBody | Unset = UNSET,
 
 ) -> Response[Connection]:
-    """ Connect to PMS/OTA provider
+    r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
-    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
-    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
-    — grants full host scopes including the exclusive property management (only one app per Airbnb
-    account can hold it). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` (shown to hosts as
+    \"Messaging & reviews\") grants read scopes plus message read/send and review writes (reply to guest
+    reviews, submit host reviews — Airbnb's `reviews_write`) but NOT property management, so it can
+    coexist with another app (e.g. an existing PMS) that already holds property management on the same
+    Airbnb account; `full_access` — the default — grants full host scopes including the exclusive
+    property management (only one app per Airbnb account can hold it). The response returns a hosted
+    `url` to redirect the user to.
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
-    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
-    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
-    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
-    /v1/connect`.
+    PMS providers are not connected by this call: send their credentials to `POST
+    /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
 
     Args:
         provider (str):
@@ -229,25 +232,26 @@ async def asyncio(
     body: CreateConnectionBody | Unset = UNSET,
 
 ) -> Connection | None:
-    """ Connect to PMS/OTA provider
+    r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
     provider.
 
     Airbnb-specific: pass `redirectUrl` (where to send the user after consent) and optionally
-    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` grants read scopes plus
-    message read/send but NOT property management, so it can coexist with another app (e.g. an existing
-    PMS) that already holds property management on the same Airbnb account; `full_access` — the default
-    — grants full host scopes including the exclusive property management (only one app per Airbnb
-    account can hold it). The response returns a hosted `url` to redirect the user to.
+    `accessType`. Three tiers: `read_only` grants read-only scopes; `messaging` (shown to hosts as
+    \"Messaging & reviews\") grants read scopes plus message read/send and review writes (reply to guest
+    reviews, submit host reviews — Airbnb's `reviews_write`) but NOT property management, so it can
+    coexist with another app (e.g. an existing PMS) that already holds property management on the same
+    Airbnb account; `full_access` — the default — grants full host scopes including the exclusive
+    property management (only one app per Airbnb account can hold it). The response returns a hosted
+    `url` to redirect the user to.
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
-    user there to designate FantasticStay in their Booking.com Extranet and paste their Hotel ID. Same
-    response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
 
-    Plumguide passes `clientId`/`clientSecret`. PMS providers are not connected by this call: send their
-    credentials to `POST /v1/connect/{provider}/credentials`, or start a hosted session with `POST
-    /v1/connect`.
+    PMS providers are not connected by this call: send their credentials to `POST
+    /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
 
     Args:
         provider (str):

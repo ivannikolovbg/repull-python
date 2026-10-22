@@ -34,6 +34,11 @@ class ConnectStatusAccountsItem:
             connected (bool | Unset): True while the account is active and its authorization is usable. Example: True.
             email (None | str | Unset): Vrbo only: the account email.
             access_type (ConnectStatusAccountsItemAccessType | Unset): Vrbo only.
+            notification_email (None | str | Unset): Vrbo only. The address the host can add on Vrbo as a secondary email
+                (with message and reservation notifications on) so new bookings, inquiries and messages arrive within a minute
+                instead of at the scheduled check. Ask every host to add it: notifications are how Vrbo updates reach Repull,
+                the scheduled check is the backup. Hosted Connect shows it on its mapping screen; show it in your own app when
+                you create sessions with `mapping: "api"`.
             import_ (None | Unset | VrboImportStatus): Vrbo only: where the account import stands.
      """
 
@@ -44,6 +49,7 @@ class ConnectStatusAccountsItem:
     connected: bool | Unset = UNSET
     email: None | str | Unset = UNSET
     access_type: ConnectStatusAccountsItemAccessType | Unset = UNSET
+    notification_email: None | str | Unset = UNSET
     import_: None | Unset | VrboImportStatus = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -86,6 +92,12 @@ class ConnectStatusAccountsItem:
             access_type = self.access_type.value
 
 
+        notification_email: None | str | Unset
+        if isinstance(self.notification_email, Unset):
+            notification_email = UNSET
+        else:
+            notification_email = self.notification_email
+
         import_: dict[str, Any] | None | Unset
         if isinstance(self.import_, Unset):
             import_ = UNSET
@@ -113,6 +125,8 @@ class ConnectStatusAccountsItem:
             field_dict["email"] = email
         if access_type is not UNSET:
             field_dict["accessType"] = access_type
+        if notification_email is not UNSET:
+            field_dict["notificationEmail"] = notification_email
         if import_ is not UNSET:
             field_dict["import"] = import_
 
@@ -178,6 +192,16 @@ class ConnectStatusAccountsItem:
 
 
 
+        def _parse_notification_email(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        notification_email = _parse_notification_email(d.pop("notificationEmail", UNSET))
+
+
         def _parse_import_(data: object) -> None | Unset | VrboImportStatus:
             if data is None:
                 return data
@@ -206,6 +230,7 @@ class ConnectStatusAccountsItem:
             connected=connected,
             email=email,
             access_type=access_type,
+            notification_email=notification_email,
             import_=import_,
         )
 
