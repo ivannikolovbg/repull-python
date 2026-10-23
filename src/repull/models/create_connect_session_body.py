@@ -41,8 +41,9 @@ class CreateConnectSessionBody:
             mapping (CreateConnectSessionBodyMapping | Unset): Where the channel's units get linked to listings. `hosted`
                 (default): after a Vrbo or Booking.com Extranet sign-in, Connect shows a mapping step and returns to
                 `redirectUrl` when it's confirmed. `api`: Connect skips that step and finishes right after sign-in. The
-                connection reaches you in the `connect.session.completed` webhook (and as `connectionId` in the popup message),
-                its handle is `vrbo:{connectionId}` or `booking_extranet:{connectionId}`; you list the units with `GET
+                connection reaches you in the `connect.session.completed` webhook as `account.externalAccountId` (its
+                `connectionId` is null for these two), and as `connectionId` in the popup message and `accountId` on the
+                redirect, all the same id; its handle is `vrbo:{id}` or `booking_extranet:{id}`; you list the units with `GET
                 /v1/connections/{id}/units` and link them with `POST /v1/connections/{id}/mappings`. Nothing is imported until
                 you post the mappings. Other providers ignore it. Default: CreateConnectSessionBodyMapping.HOSTED.
             access_type (CreateConnectSessionBodyAccessType | Unset): What the connection may do. Airbnb: the OAuth scope
@@ -57,10 +58,10 @@ class CreateConnectSessionBody:
                 connection is made: the redirect carries `status=requested&provider=<id>`, and no `connect.session.completed`
                 webhook fires. Naming a request-only id in `allowedProviders` offers it without this flag. Default: False.
             locale (None | str | Unset): Optional UI language for the hosted Connect pages. Accepts any supported locale
-                code (currently `en`, `fr`). When set it pins the language for the whole flow, overriding the workspace
-                `default_language`. Unknown codes are ignored and the page falls back to the workspace default, then `Accept-
-                Language`, then `en`. The end user can still override per-visit with a `?locale=` query param on the hosted
-                page. Example: fr.
+                code (currently `en`, `fr`, `de`, `es`, `it`, `nl`). When set it pins the language for the whole flow,
+                overriding the workspace `default_language`. Unknown codes are ignored and the page falls back to the workspace
+                default, then `Accept-Language`, then `en`. The end user can still override per-visit with a `?locale=` query
+                param on the hosted page. Example: fr.
             purpose (CreateConnectSessionBodyPurpose | Unset): `migrate` starts a Repull Migrate session: the property
                 manager connects their current PMS (or channel) and their data is copied into a new workspace of theirs, which
                 you read with `X-Workspace-Id`. The hosted pages use migration wording, and after connecting they show the

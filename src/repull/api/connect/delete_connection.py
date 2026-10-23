@@ -104,14 +104,15 @@ def sync_detailed(
 ) -> Response[DeleteConnectionResponse200 | Error]:
     """ Disconnect provider
 
-     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb` and
-    `booking`.
+     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
+    `booking` and `vrbo-login`.
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
-    `GET /v1/connect/airbnb`), for Booking.com the hotel id. It is optional only when the workspace has
-    exactly one account for the provider. With several and no `accountId`, the call returns `422` with
-    the account ids in `valid_values` instead of guessing. An `accountId` that is not connected to this
-    workspace returns `404`. Disconnecting one account leaves the others connected.
+    `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
+    `accounts[].externalAccountId` from `GET /v1/connect/vrbo-login`. It is optional only when the
+    workspace has exactly one account for the provider. With several and no `accountId`, the call
+    returns `422` with the account ids in `valid_values` instead of guessing. An `accountId` that is not
+    connected to this workspace returns `404`. Disconnecting one account leaves the others connected.
 
     **What happens.** The account's stored authorization is removed and it stops syncing. Its listings
     are **deactivated**, not deleted: they stop counting toward your plan's listing limit, their data is
@@ -163,14 +164,15 @@ def sync(
 ) -> DeleteConnectionResponse200 | Error | None:
     """ Disconnect provider
 
-     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb` and
-    `booking`.
+     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
+    `booking` and `vrbo-login`.
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
-    `GET /v1/connect/airbnb`), for Booking.com the hotel id. It is optional only when the workspace has
-    exactly one account for the provider. With several and no `accountId`, the call returns `422` with
-    the account ids in `valid_values` instead of guessing. An `accountId` that is not connected to this
-    workspace returns `404`. Disconnecting one account leaves the others connected.
+    `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
+    `accounts[].externalAccountId` from `GET /v1/connect/vrbo-login`. It is optional only when the
+    workspace has exactly one account for the provider. With several and no `accountId`, the call
+    returns `422` with the account ids in `valid_values` instead of guessing. An `accountId` that is not
+    connected to this workspace returns `404`. Disconnecting one account leaves the others connected.
 
     **What happens.** The account's stored authorization is removed and it stops syncing. Its listings
     are **deactivated**, not deleted: they stop counting toward your plan's listing limit, their data is
@@ -217,14 +219,15 @@ async def asyncio_detailed(
 ) -> Response[DeleteConnectionResponse200 | Error]:
     """ Disconnect provider
 
-     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb` and
-    `booking`.
+     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
+    `booking` and `vrbo-login`.
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
-    `GET /v1/connect/airbnb`), for Booking.com the hotel id. It is optional only when the workspace has
-    exactly one account for the provider. With several and no `accountId`, the call returns `422` with
-    the account ids in `valid_values` instead of guessing. An `accountId` that is not connected to this
-    workspace returns `404`. Disconnecting one account leaves the others connected.
+    `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
+    `accounts[].externalAccountId` from `GET /v1/connect/vrbo-login`. It is optional only when the
+    workspace has exactly one account for the provider. With several and no `accountId`, the call
+    returns `422` with the account ids in `valid_values` instead of guessing. An `accountId` that is not
+    connected to this workspace returns `404`. Disconnecting one account leaves the others connected.
 
     **What happens.** The account's stored authorization is removed and it stops syncing. Its listings
     are **deactivated**, not deleted: they stop counting toward your plan's listing limit, their data is
@@ -276,14 +279,15 @@ async def asyncio(
 ) -> DeleteConnectionResponse200 | Error | None:
     """ Disconnect provider
 
-     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb` and
-    `booking`.
+     Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
+    `booking` and `vrbo-login`.
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
-    `GET /v1/connect/airbnb`), for Booking.com the hotel id. It is optional only when the workspace has
-    exactly one account for the provider. With several and no `accountId`, the call returns `422` with
-    the account ids in `valid_values` instead of guessing. An `accountId` that is not connected to this
-    workspace returns `404`. Disconnecting one account leaves the others connected.
+    `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
+    `accounts[].externalAccountId` from `GET /v1/connect/vrbo-login`. It is optional only when the
+    workspace has exactly one account for the provider. With several and no `accountId`, the call
+    returns `422` with the account ids in `valid_values` instead of guessing. An `accountId` that is not
+    connected to this workspace returns `404`. Disconnecting one account leaves the others connected.
 
     **What happens.** The account's stored authorization is removed and it stops syncing. Its listings
     are **deactivated**, not deleted: they stop counting toward your plan's listing limit, their data is

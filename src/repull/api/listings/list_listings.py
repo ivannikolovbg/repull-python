@@ -136,8 +136,10 @@ def sync_detailed(
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
     (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
-    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
-    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Pass `rooms`,
+    `policies`, `rules`, `pricing`, `fees`, `taxes` or `photos` for the same sections as `GET
+    /v1/listings/{id}`, loaded for the whole page in one go. Combine comma-separated, e.g.
+    `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
@@ -211,8 +213,10 @@ def sync(
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
     (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
-    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
-    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Pass `rooms`,
+    `policies`, `rules`, `pricing`, `fees`, `taxes` or `photos` for the same sections as `GET
+    /v1/listings/{id}`, loaded for the whole page in one go. Combine comma-separated, e.g.
+    `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
@@ -281,8 +285,10 @@ async def asyncio_detailed(
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
     (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
-    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
-    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Pass `rooms`,
+    `policies`, `rules`, `pricing`, `fees`, `taxes` or `photos` for the same sections as `GET
+    /v1/listings/{id}`, loaded for the whole page in one go. Combine comma-separated, e.g.
+    `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks
@@ -356,8 +362,10 @@ async def asyncio(
     check-in window, wifi, house manual, etc.). Both default to `null` per row when the underlying
     `listings_descriptions` / `listings_details` row is missing — distinct from the field being absent
     (which signals the expansion was not requested). Pass `?include=thumbnail` to guarantee
-    `thumbnailUrl` on every returned row — including the reduced inactive ones. Combine comma-separated,
-    e.g. `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
+    `thumbnailUrl` on every returned row — including the reduced inactive ones. Pass `rooms`,
+    `policies`, `rules`, `pricing`, `fees`, `taxes` or `photos` for the same sections as `GET
+    /v1/listings/{id}`, loaded for the whole page in one go. Combine comma-separated, e.g.
+    `?include=content,thumbnail`. The default response stays lean; consumers must opt in.
 
     **Inactive listings:** by default only active listings are returned. An inactive listing keeps
     syncing, but cannot be read or changed through the API until it is activated, so when `status` asks

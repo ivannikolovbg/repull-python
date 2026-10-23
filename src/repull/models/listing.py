@@ -21,8 +21,15 @@ if TYPE_CHECKING:
   from ..models.listing_capabilities import ListingCapabilities
   from ..models.listing_channel import ListingChannel
   from ..models.listing_content import ListingContent
+  from ..models.listing_content_photo import ListingContentPhoto
   from ..models.listing_details import ListingDetails
+  from ..models.listing_fee import ListingFee
   from ..models.listing_hotel_type_0 import ListingHotelType0
+  from ..models.listing_policies import ListingPolicies
+  from ..models.listing_pricing_settings import ListingPricingSettings
+  from ..models.listing_room import ListingRoom
+  from ..models.listing_rules import ListingRules
+  from ..models.listing_tax import ListingTax
   from ..models.listing_units_item import ListingUnitsItem
 
 
@@ -79,6 +86,20 @@ class Listing:
             details (ListingDetails | None | Unset): **Only present when the caller passes `?include=details`.** Sourced
                 from `listings_details`. `null` when the listing has no details row stored (vs the field being absent — that
                 signals the caller did not opt into the expansion).
+            rooms (list[ListingRoom] | Unset): **Only present with `?include=rooms`.** Each room and its beds. `[]` when
+                none are stored.
+            policies (ListingPolicies | None | Unset): **Only present with `?include=policies`.** Cancellation, house rules,
+                check-in and check-out, pets/smoking/events/children, quiet hours, deposit.
+            rules (ListingRules | None | Unset): **Only present with `?include=rules`.** Stay rules: min/max nights, booking
+                window, advance notice, preparation time, and whether booking requests are allowed.
+            pricing (ListingPricingSettings | None | Unset): **Only present with `?include=pricing`.** Standing prices: base
+                and weekend rate, cleaning and extra-guest fees, deposit, weekly/monthly discounts. `null` when none are stored.
+            fees (list[ListingFee] | Unset): **Only present with `?include=fees`.** Every fee, the cleaning fee included,
+                whatever channel or PMS it came from. `[]` when none.
+            taxes (list[ListingTax] | Unset): **Only present with `?include=taxes`.** Taxes charged to the guest. `[]` when
+                none.
+            photos (list[ListingContentPhoto] | Unset): **Only present with `?include=photos`.** The listing photos in
+                display order.
             created_at (datetime.datetime | Unset):
             updated_at (datetime.datetime | Unset):
      """
@@ -98,6 +119,13 @@ class Listing:
     amenities: list[ListingAmenity] | Unset = UNSET
     content: ListingContent | None | Unset = UNSET
     details: ListingDetails | None | Unset = UNSET
+    rooms: list[ListingRoom] | Unset = UNSET
+    policies: ListingPolicies | None | Unset = UNSET
+    rules: ListingRules | None | Unset = UNSET
+    pricing: ListingPricingSettings | None | Unset = UNSET
+    fees: list[ListingFee] | Unset = UNSET
+    taxes: list[ListingTax] | Unset = UNSET
+    photos: list[ListingContentPhoto] | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     updated_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -112,8 +140,15 @@ class Listing:
         from ..models.listing_capabilities import ListingCapabilities
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
+        from ..models.listing_content_photo import ListingContentPhoto
         from ..models.listing_details import ListingDetails
+        from ..models.listing_fee import ListingFee
         from ..models.listing_hotel_type_0 import ListingHotelType0
+        from ..models.listing_policies import ListingPolicies
+        from ..models.listing_pricing_settings import ListingPricingSettings
+        from ..models.listing_room import ListingRoom
+        from ..models.listing_rules import ListingRules
+        from ..models.listing_tax import ListingTax
         from ..models.listing_units_item import ListingUnitsItem
         capabilities: dict[str, Any] | Unset = UNSET
         if not isinstance(self.capabilities, Unset):
@@ -202,6 +237,66 @@ class Listing:
         else:
             details = self.details
 
+        rooms: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.rooms, Unset):
+            rooms = []
+            for rooms_item_data in self.rooms:
+                rooms_item = rooms_item_data.to_dict()
+                rooms.append(rooms_item)
+
+
+
+        policies: dict[str, Any] | None | Unset
+        if isinstance(self.policies, Unset):
+            policies = UNSET
+        elif isinstance(self.policies, ListingPolicies):
+            policies = self.policies.to_dict()
+        else:
+            policies = self.policies
+
+        rules: dict[str, Any] | None | Unset
+        if isinstance(self.rules, Unset):
+            rules = UNSET
+        elif isinstance(self.rules, ListingRules):
+            rules = self.rules.to_dict()
+        else:
+            rules = self.rules
+
+        pricing: dict[str, Any] | None | Unset
+        if isinstance(self.pricing, Unset):
+            pricing = UNSET
+        elif isinstance(self.pricing, ListingPricingSettings):
+            pricing = self.pricing.to_dict()
+        else:
+            pricing = self.pricing
+
+        fees: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.fees, Unset):
+            fees = []
+            for fees_item_data in self.fees:
+                fees_item = fees_item_data.to_dict()
+                fees.append(fees_item)
+
+
+
+        taxes: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.taxes, Unset):
+            taxes = []
+            for taxes_item_data in self.taxes:
+                taxes_item = taxes_item_data.to_dict()
+                taxes.append(taxes_item)
+
+
+
+        photos: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.photos, Unset):
+            photos = []
+            for photos_item_data in self.photos:
+                photos_item = photos_item_data.to_dict()
+                photos.append(photos_item)
+
+
+
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
             created_at = self.created_at.isoformat()
@@ -245,6 +340,20 @@ class Listing:
             field_dict["content"] = content
         if details is not UNSET:
             field_dict["details"] = details
+        if rooms is not UNSET:
+            field_dict["rooms"] = rooms
+        if policies is not UNSET:
+            field_dict["policies"] = policies
+        if rules is not UNSET:
+            field_dict["rules"] = rules
+        if pricing is not UNSET:
+            field_dict["pricing"] = pricing
+        if fees is not UNSET:
+            field_dict["fees"] = fees
+        if taxes is not UNSET:
+            field_dict["taxes"] = taxes
+        if photos is not UNSET:
+            field_dict["photos"] = photos
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
         if updated_at is not UNSET:
@@ -261,8 +370,15 @@ class Listing:
         from ..models.listing_capabilities import ListingCapabilities
         from ..models.listing_channel import ListingChannel
         from ..models.listing_content import ListingContent
+        from ..models.listing_content_photo import ListingContentPhoto
         from ..models.listing_details import ListingDetails
+        from ..models.listing_fee import ListingFee
         from ..models.listing_hotel_type_0 import ListingHotelType0
+        from ..models.listing_policies import ListingPolicies
+        from ..models.listing_pricing_settings import ListingPricingSettings
+        from ..models.listing_room import ListingRoom
+        from ..models.listing_rules import ListingRules
+        from ..models.listing_tax import ListingTax
         from ..models.listing_units_item import ListingUnitsItem
         d = dict(src_dict)
         _capabilities = d.pop("capabilities", UNSET)
@@ -427,6 +543,114 @@ class Listing:
         details = _parse_details(d.pop("details", UNSET))
 
 
+        _rooms = d.pop("rooms", UNSET)
+        rooms: list[ListingRoom] | Unset = UNSET
+        if _rooms is not UNSET:
+            rooms = []
+            for rooms_item_data in _rooms:
+                rooms_item = ListingRoom.from_dict(rooms_item_data)
+
+
+
+                rooms.append(rooms_item)
+
+
+        def _parse_policies(data: object) -> ListingPolicies | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                policies_type_1 = ListingPolicies.from_dict(data)
+
+
+
+                return policies_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingPolicies | None | Unset, data)
+
+        policies = _parse_policies(d.pop("policies", UNSET))
+
+
+        def _parse_rules(data: object) -> ListingRules | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                rules_type_1 = ListingRules.from_dict(data)
+
+
+
+                return rules_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingRules | None | Unset, data)
+
+        rules = _parse_rules(d.pop("rules", UNSET))
+
+
+        def _parse_pricing(data: object) -> ListingPricingSettings | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                pricing_type_1 = ListingPricingSettings.from_dict(data)
+
+
+
+                return pricing_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingPricingSettings | None | Unset, data)
+
+        pricing = _parse_pricing(d.pop("pricing", UNSET))
+
+
+        _fees = d.pop("fees", UNSET)
+        fees: list[ListingFee] | Unset = UNSET
+        if _fees is not UNSET:
+            fees = []
+            for fees_item_data in _fees:
+                fees_item = ListingFee.from_dict(fees_item_data)
+
+
+
+                fees.append(fees_item)
+
+
+        _taxes = d.pop("taxes", UNSET)
+        taxes: list[ListingTax] | Unset = UNSET
+        if _taxes is not UNSET:
+            taxes = []
+            for taxes_item_data in _taxes:
+                taxes_item = ListingTax.from_dict(taxes_item_data)
+
+
+
+                taxes.append(taxes_item)
+
+
+        _photos = d.pop("photos", UNSET)
+        photos: list[ListingContentPhoto] | Unset = UNSET
+        if _photos is not UNSET:
+            photos = []
+            for photos_item_data in _photos:
+                photos_item = ListingContentPhoto.from_dict(photos_item_data)
+
+
+
+                photos.append(photos_item)
+
+
         _created_at = d.pop("createdAt", UNSET)
         created_at: datetime.datetime | Unset
         if isinstance(_created_at,  Unset):
@@ -463,6 +687,13 @@ class Listing:
             amenities=amenities,
             content=content,
             details=details,
+            rooms=rooms,
+            policies=policies,
+            rules=rules,
+            pricing=pricing,
+            fees=fees,
+            taxes=taxes,
+            photos=photos,
             created_at=created_at,
             updated_at=updated_at,
         )

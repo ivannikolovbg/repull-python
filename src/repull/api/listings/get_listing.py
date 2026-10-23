@@ -119,8 +119,12 @@ def sync_detailed(
     rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
     description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
     `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
-    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
-    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Pass
+    `?include=rooms` for rooms and beds, `policies` for cancellation, house rules, check-in/out and
+    guest rules, `rules` for stay rules (min/max nights, booking window, notice, preparation time),
+    `pricing` for standing prices and discounts, `fees` and `taxes` for every fee and tax in one shape
+    whatever channel or PMS the listing comes from, and `photos`. Combine comma-separated, e.g.
+    `?include=content,details,rooms,policies,pricing,fees,taxes`. The default response stays lean;
     consumers must opt in.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
@@ -171,8 +175,12 @@ def sync(
     rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
     description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
     `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
-    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
-    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Pass
+    `?include=rooms` for rooms and beds, `policies` for cancellation, house rules, check-in/out and
+    guest rules, `rules` for stay rules (min/max nights, booking window, notice, preparation time),
+    `pricing` for standing prices and discounts, `fees` and `taxes` for every fee and tax in one shape
+    whatever channel or PMS the listing comes from, and `photos`. Combine comma-separated, e.g.
+    `?include=content,details,rooms,policies,pricing,fees,taxes`. The default response stays lean;
     consumers must opt in.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
@@ -218,8 +226,12 @@ async def asyncio_detailed(
     rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
     description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
     `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
-    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
-    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Pass
+    `?include=rooms` for rooms and beds, `policies` for cancellation, house rules, check-in/out and
+    guest rules, `rules` for stay rules (min/max nights, booking window, notice, preparation time),
+    `pricing` for standing prices and discounts, `fees` and `taxes` for every fee and tax in one shape
+    whatever channel or PMS the listing comes from, and `photos`. Combine comma-separated, e.g.
+    `?include=content,details,rooms,policies,pricing,fees,taxes`. The default response stays lean;
     consumers must opt in.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
@@ -270,8 +282,12 @@ async def asyncio(
     rows (`[]` when the listing has none). Pass `?include=content` for the rich content slab (summary,
     description, space, house rules, etc. — sourced from `listings_descriptions` for the `en` locale;
     `null` when no row is stored). Pass `?include=details` for the structural slab (bedrooms, bathrooms,
-    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Combine
-    comma-separated, e.g. `?include=amenities,content,details`. The default response stays lean;
+    person capacity, check-in window, wifi, house manual, etc.; `null` when no row is stored). Pass
+    `?include=rooms` for rooms and beds, `policies` for cancellation, house rules, check-in/out and
+    guest rules, `rules` for stay rules (min/max nights, booking window, notice, preparation time),
+    `pricing` for standing prices and discounts, `fees` and `taxes` for every fee and tax in one shape
+    whatever channel or PMS the listing comes from, and `photos`. Combine comma-separated, e.g.
+    `?include=content,details,rooms,policies,pricing,fees,taxes`. The default response stays lean;
     consumers must opt in.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but

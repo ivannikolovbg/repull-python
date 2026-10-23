@@ -5,6 +5,14 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.37] - 2026-10-23
+
+### Added
+- Listing expansions on `list_listings` / `get_listing`: pass `include="rooms,policies,rules,pricing,fees,taxes,photos"` (comma-separated, combinable with `content` / `details`). `Listing` gains `rooms` (`ListingRoom`), `policies` (`ListingPolicies`), `rules` (`ListingRules`), `pricing` (`ListingPricingSettings`), `fees` (`ListingFee`), `taxes` (`ListingTax`) and `photos` (`ListingContentPhoto`). Fees and taxes carry `charged_per` (`ChargePer`: `stay`, `night`, `guest`, `guest_night`); rules carry `allows_booking_requests` and `instant_book`.
+
+### Changed
+- Regenerated from the live spec (also picks up `POST /v1/migrations/channex` and the `booking.unacknowledged`, `channel.degraded`, `channel.sync.failed` and `reservation.thread.assigned` webhook events).
+
 ## [0.2.36] - 2026-10-22
 
 ### Added

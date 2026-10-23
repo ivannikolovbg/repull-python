@@ -42,9 +42,9 @@ class CreateConnectionBody:
                 import, because every extra month is more stays to fetch. Example: 24.
             state (str | Unset): Airbnb + Booking.com — your own correlation token, e.g. your user id (at most 500
                 characters). Echoed on the redirect back (`&state=`) and in the `connect.session.completed` webhook.
-            locale (None | str | Unset): Airbnb only — optional UI language for the hosted Connect pages. Accepts any
-                supported locale code (currently `en`, `fr`); unknown codes are ignored and resolution falls back to the
-                workspace `default_language`, then `Accept-Language`, then `en`. Example: fr.
+            locale (None | str | Unset): Airbnb and Booking.com — optional UI language for the hosted Connect pages. Accepts
+                any supported locale code (currently `en`, `fr`, `de`, `es`, `it`, `nl`); unknown codes are ignored and
+                resolution falls back to the workspace `default_language`, then `Accept-Language`, then `en`. Example: fr.
      """
 
     redirect_url: str | Unset = UNSET

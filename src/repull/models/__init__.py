@@ -210,6 +210,9 @@ from .booking_setup_body import BookingSetupBody
 from .booking_setup_body_action import BookingSetupBodyAction
 from .booking_setup_body_contacts_item import BookingSetupBodyContactsItem
 from .booking_setup_body_legal_entity import BookingSetupBodyLegalEntity
+from .booking_unacknowledged_event import BookingUnacknowledgedEvent
+from .booking_unacknowledged_event_event import BookingUnacknowledgedEventEvent
+from .booking_unacknowledged_payload import BookingUnacknowledgedPayload
 from .booking_upstream_failure import BookingUpstreamFailure
 from .booking_verify_hotel_request import BookingVerifyHotelRequest
 from .booking_verify_hotel_response import BookingVerifyHotelResponse
@@ -226,9 +229,22 @@ from .cancel_airbnb_alteration_body import CancelAirbnbAlterationBody
 from .cancel_reservation_body import CancelReservationBody
 from .cancel_reservation_response_200 import CancelReservationResponse200
 from .cancel_reservation_response_200_status import CancelReservationResponse200Status
+from .channel_degraded_event import ChannelDegradedEvent
+from .channel_degraded_event_event import ChannelDegradedEventEvent
+from .channel_degraded_payload import ChannelDegradedPayload
+from .channel_degraded_payload_object import ChannelDegradedPayloadObject
+from .channel_degraded_payload_object_status import ChannelDegradedPayloadObjectStatus
 from .channel_market_state_item import ChannelMarketStateItem
 from .channel_market_state_item_channel import ChannelMarketStateItemChannel
 from .channel_market_state_item_state import ChannelMarketStateItemState
+from .channel_sync_failed_event import ChannelSyncFailedEvent
+from .channel_sync_failed_event_event import ChannelSyncFailedEventEvent
+from .channel_sync_failure_payload import ChannelSyncFailurePayload
+from .channel_sync_failure_payload_failures_item import ChannelSyncFailurePayloadFailuresItem
+from .channel_sync_failure_payload_failures_item_kind import ChannelSyncFailurePayloadFailuresItemKind
+from .channel_sync_failure_payload_object import ChannelSyncFailurePayloadObject
+from .channel_sync_failure_payload_object_operation import ChannelSyncFailurePayloadObjectOperation
+from .charge_per import ChargePer
 from .check_migration_cutover_body import CheckMigrationCutoverBody
 from .check_migration_cutover_body_reservations_item import CheckMigrationCutoverBodyReservationsItem
 from .check_migration_cutover_response_200 import CheckMigrationCutoverResponse200
@@ -441,6 +457,56 @@ from .guest_update_response import GuestUpdateResponse
 from .guest_update_response_contacts_item import GuestUpdateResponseContactsItem
 from .guest_update_response_contacts_item_type import GuestUpdateResponseContactsItemType
 from .guest_update_response_pms_item import GuestUpdateResponsePmsItem
+from .import_from_channex_body import ImportFromChannexBody
+from .import_from_channex_body_environment import ImportFromChannexBodyEnvironment
+from .import_from_channex_response_200 import ImportFromChannexResponse200
+from .import_from_channex_response_200_data import ImportFromChannexResponse200Data
+from .import_from_channex_response_200_data_channels_item import ImportFromChannexResponse200DataChannelsItem
+from .import_from_channex_response_200_data_channels_item_provider_switch import ImportFromChannexResponse200DataChannelsItemProviderSwitch
+from .import_from_channex_response_200_data_channels_item_status import ImportFromChannexResponse200DataChannelsItemStatus
+from .import_from_channex_response_200_data_environment import ImportFromChannexResponse200DataEnvironment
+from .import_from_channex_response_200_data_properties_item import ImportFromChannexResponse200DataPropertiesItem
+from .import_from_channex_response_200_data_properties_item_status import ImportFromChannexResponse200DataPropertiesItemStatus
+from .import_from_channex_response_200_data_rate_plans_item import ImportFromChannexResponse200DataRatePlansItem
+from .import_from_channex_response_200_data_rate_plans_item_status import ImportFromChannexResponse200DataRatePlansItemStatus
+from .import_from_channex_response_200_data_room_types_item import ImportFromChannexResponse200DataRoomTypesItem
+from .import_from_channex_response_200_data_room_types_item_status import ImportFromChannexResponse200DataRoomTypesItemStatus
+from .import_from_channex_response_200_data_signing_keys_item import ImportFromChannexResponse200DataSigningKeysItem
+from .import_from_channex_response_200_data_signing_keys_item_status import ImportFromChannexResponse200DataSigningKeysItemStatus
+from .import_from_channex_response_200_data_summary import ImportFromChannexResponse200DataSummary
+from .import_from_channex_response_200_data_summary_bookings import ImportFromChannexResponse200DataSummaryBookings
+from .import_from_channex_response_200_data_summary_channels import ImportFromChannexResponse200DataSummaryChannels
+from .import_from_channex_response_200_data_summary_properties import ImportFromChannexResponse200DataSummaryProperties
+from .import_from_channex_response_200_data_summary_rate_plans import ImportFromChannexResponse200DataSummaryRatePlans
+from .import_from_channex_response_200_data_summary_room_types import ImportFromChannexResponse200DataSummaryRoomTypes
+from .import_from_channex_response_200_data_summary_signing_keys import ImportFromChannexResponse200DataSummarySigningKeys
+from .import_from_channex_response_200_data_summary_webhooks import ImportFromChannexResponse200DataSummaryWebhooks
+from .import_from_channex_response_200_data_webhooks_item import ImportFromChannexResponse200DataWebhooksItem
+from .import_from_channex_response_200_data_webhooks_item_status import ImportFromChannexResponse200DataWebhooksItemStatus
+from .import_from_channex_response_201 import ImportFromChannexResponse201
+from .import_from_channex_response_201_data import ImportFromChannexResponse201Data
+from .import_from_channex_response_201_data_channels_item import ImportFromChannexResponse201DataChannelsItem
+from .import_from_channex_response_201_data_channels_item_provider_switch import ImportFromChannexResponse201DataChannelsItemProviderSwitch
+from .import_from_channex_response_201_data_channels_item_status import ImportFromChannexResponse201DataChannelsItemStatus
+from .import_from_channex_response_201_data_environment import ImportFromChannexResponse201DataEnvironment
+from .import_from_channex_response_201_data_properties_item import ImportFromChannexResponse201DataPropertiesItem
+from .import_from_channex_response_201_data_properties_item_status import ImportFromChannexResponse201DataPropertiesItemStatus
+from .import_from_channex_response_201_data_rate_plans_item import ImportFromChannexResponse201DataRatePlansItem
+from .import_from_channex_response_201_data_rate_plans_item_status import ImportFromChannexResponse201DataRatePlansItemStatus
+from .import_from_channex_response_201_data_room_types_item import ImportFromChannexResponse201DataRoomTypesItem
+from .import_from_channex_response_201_data_room_types_item_status import ImportFromChannexResponse201DataRoomTypesItemStatus
+from .import_from_channex_response_201_data_signing_keys_item import ImportFromChannexResponse201DataSigningKeysItem
+from .import_from_channex_response_201_data_signing_keys_item_status import ImportFromChannexResponse201DataSigningKeysItemStatus
+from .import_from_channex_response_201_data_summary import ImportFromChannexResponse201DataSummary
+from .import_from_channex_response_201_data_summary_bookings import ImportFromChannexResponse201DataSummaryBookings
+from .import_from_channex_response_201_data_summary_channels import ImportFromChannexResponse201DataSummaryChannels
+from .import_from_channex_response_201_data_summary_properties import ImportFromChannexResponse201DataSummaryProperties
+from .import_from_channex_response_201_data_summary_rate_plans import ImportFromChannexResponse201DataSummaryRatePlans
+from .import_from_channex_response_201_data_summary_room_types import ImportFromChannexResponse201DataSummaryRoomTypes
+from .import_from_channex_response_201_data_summary_signing_keys import ImportFromChannexResponse201DataSummarySigningKeys
+from .import_from_channex_response_201_data_summary_webhooks import ImportFromChannexResponse201DataSummaryWebhooks
+from .import_from_channex_response_201_data_webhooks_item import ImportFromChannexResponse201DataWebhooksItem
+from .import_from_channex_response_201_data_webhooks_item_status import ImportFromChannexResponse201DataWebhooksItemStatus
 from .inquiry_created_event import InquiryCreatedEvent
 from .inquiry_created_event_event import InquiryCreatedEventEvent
 from .inquiry_created_payload import InquiryCreatedPayload
@@ -533,6 +599,7 @@ from .listing_comp_ratings import ListingCompRatings
 from .listing_comps_response import ListingCompsResponse
 from .listing_comps_response_date_range import ListingCompsResponseDateRange
 from .listing_content import ListingContent
+from .listing_content_photo import ListingContentPhoto
 from .listing_content_update_request import ListingContentUpdateRequest
 from .listing_content_update_request_address import ListingContentUpdateRequestAddress
 from .listing_content_update_request_amenities_type_1_item import ListingContentUpdateRequestAmenitiesType1Item
@@ -564,6 +631,8 @@ from .listing_deleted_event import ListingDeletedEvent
 from .listing_deleted_event_event import ListingDeletedEventEvent
 from .listing_deleted_payload import ListingDeletedPayload
 from .listing_details import ListingDetails
+from .listing_fee import ListingFee
+from .listing_fee_amount_type import ListingFeeAmountType
 from .listing_generate_content_request import ListingGenerateContentRequest
 from .listing_generate_content_request_style import ListingGenerateContentRequestStyle
 from .listing_generate_content_response import ListingGenerateContentResponse
@@ -580,6 +649,10 @@ from .listing_photo_delete_response import ListingPhotoDeleteResponse
 from .listing_photo_upload_url_request import ListingPhotoUploadUrlRequest
 from .listing_photo_upload_url_response import ListingPhotoUploadUrlResponse
 from .listing_photos_response import ListingPhotosResponse
+from .listing_policies import ListingPolicies
+from .listing_policies_check_in import ListingPoliciesCheckIn
+from .listing_policies_check_out import ListingPoliciesCheckOut
+from .listing_policies_quiet_hours_type_0 import ListingPoliciesQuietHoursType0
 from .listing_pricing_apply_request import ListingPricingApplyRequest
 from .listing_pricing_apply_request_action import ListingPricingApplyRequestAction
 from .listing_pricing_apply_response import ListingPricingApplyResponse
@@ -595,6 +668,7 @@ from .listing_pricing_response_comp_summary_type_0 import ListingPricingResponse
 from .listing_pricing_response_date_range import ListingPricingResponseDateRange
 from .listing_pricing_response_listing_type_0 import ListingPricingResponseListingType0
 from .listing_pricing_response_listing_type_0_ai_base_price_factors_type_0 import ListingPricingResponseListingType0AiBasePriceFactorsType0
+from .listing_pricing_settings import ListingPricingSettings
 from .listing_pricing_strategy import ListingPricingStrategy
 from .listing_pricing_strategy_comp_position_target import ListingPricingStrategyCompPositionTarget
 from .listing_pricing_strategy_day_of_week_multipliers import ListingPricingStrategyDayOfWeekMultipliers
@@ -624,6 +698,9 @@ from .listing_quality_tier import ListingQualityTier
 from .listing_quality_tier_tier import ListingQualityTierTier
 from .listing_reactivated_event import ListingReactivatedEvent
 from .listing_reactivated_event_event import ListingReactivatedEventEvent
+from .listing_room import ListingRoom
+from .listing_room_beds_item import ListingRoomBedsItem
+from .listing_rules import ListingRules
 from .listing_segment import ListingSegment
 from .listing_segment_quality_tier_type_1 import ListingSegmentQualityTierType1
 from .listing_segment_quality_tier_type_2_type_1 import ListingSegmentQualityTierType2Type1
@@ -643,6 +720,8 @@ from .listing_status_batch_response import ListingStatusBatchResponse
 from .listing_suspended_event import ListingSuspendedEvent
 from .listing_suspended_event_event import ListingSuspendedEventEvent
 from .listing_suspension_payload import ListingSuspensionPayload
+from .listing_tax import ListingTax
+from .listing_tax_amount_type import ListingTaxAmountType
 from .listing_units_item import ListingUnitsItem
 from .listing_updated_event import ListingUpdatedEvent
 from .listing_updated_event_event import ListingUpdatedEventEvent
@@ -903,6 +982,10 @@ from .reservation_source_type_2_type_1 import ReservationSourceType2Type1
 from .reservation_source_type_3_type_1 import ReservationSourceType3Type1
 from .reservation_status import ReservationStatus
 from .reservation_status_detail import ReservationStatusDetail
+from .reservation_thread_assigned_event import ReservationThreadAssignedEvent
+from .reservation_thread_assigned_event_event import ReservationThreadAssignedEventEvent
+from .reservation_thread_assigned_payload import ReservationThreadAssignedPayload
+from .reservation_thread_assigned_payload_object import ReservationThreadAssignedPayloadObject
 from .reservation_unit_type_0 import ReservationUnitType0
 from .reservation_update_request import ReservationUpdateRequest
 from .reservation_update_response import ReservationUpdateResponse
@@ -1370,6 +1453,9 @@ __all__ = (
     "BookingSetupBodyAction",
     "BookingSetupBodyContactsItem",
     "BookingSetupBodyLegalEntity",
+    "BookingUnacknowledgedEvent",
+    "BookingUnacknowledgedEventEvent",
+    "BookingUnacknowledgedPayload",
     "BookingUpstreamFailure",
     "BookingVerifyHotelRequest",
     "BookingVerifyHotelResponse",
@@ -1386,9 +1472,22 @@ __all__ = (
     "CancelReservationBody",
     "CancelReservationResponse200",
     "CancelReservationResponse200Status",
+    "ChannelDegradedEvent",
+    "ChannelDegradedEventEvent",
+    "ChannelDegradedPayload",
+    "ChannelDegradedPayloadObject",
+    "ChannelDegradedPayloadObjectStatus",
     "ChannelMarketStateItem",
     "ChannelMarketStateItemChannel",
     "ChannelMarketStateItemState",
+    "ChannelSyncFailedEvent",
+    "ChannelSyncFailedEventEvent",
+    "ChannelSyncFailurePayload",
+    "ChannelSyncFailurePayloadFailuresItem",
+    "ChannelSyncFailurePayloadFailuresItemKind",
+    "ChannelSyncFailurePayloadObject",
+    "ChannelSyncFailurePayloadObjectOperation",
+    "ChargePer",
     "CheckMigrationCutoverBody",
     "CheckMigrationCutoverBodyReservationsItem",
     "CheckMigrationCutoverResponse200",
@@ -1601,6 +1700,56 @@ __all__ = (
     "GuestUpdateResponseContactsItem",
     "GuestUpdateResponseContactsItemType",
     "GuestUpdateResponsePmsItem",
+    "ImportFromChannexBody",
+    "ImportFromChannexBodyEnvironment",
+    "ImportFromChannexResponse200",
+    "ImportFromChannexResponse200Data",
+    "ImportFromChannexResponse200DataChannelsItem",
+    "ImportFromChannexResponse200DataChannelsItemProviderSwitch",
+    "ImportFromChannexResponse200DataChannelsItemStatus",
+    "ImportFromChannexResponse200DataEnvironment",
+    "ImportFromChannexResponse200DataPropertiesItem",
+    "ImportFromChannexResponse200DataPropertiesItemStatus",
+    "ImportFromChannexResponse200DataRatePlansItem",
+    "ImportFromChannexResponse200DataRatePlansItemStatus",
+    "ImportFromChannexResponse200DataRoomTypesItem",
+    "ImportFromChannexResponse200DataRoomTypesItemStatus",
+    "ImportFromChannexResponse200DataSigningKeysItem",
+    "ImportFromChannexResponse200DataSigningKeysItemStatus",
+    "ImportFromChannexResponse200DataSummary",
+    "ImportFromChannexResponse200DataSummaryBookings",
+    "ImportFromChannexResponse200DataSummaryChannels",
+    "ImportFromChannexResponse200DataSummaryProperties",
+    "ImportFromChannexResponse200DataSummaryRatePlans",
+    "ImportFromChannexResponse200DataSummaryRoomTypes",
+    "ImportFromChannexResponse200DataSummarySigningKeys",
+    "ImportFromChannexResponse200DataSummaryWebhooks",
+    "ImportFromChannexResponse200DataWebhooksItem",
+    "ImportFromChannexResponse200DataWebhooksItemStatus",
+    "ImportFromChannexResponse201",
+    "ImportFromChannexResponse201Data",
+    "ImportFromChannexResponse201DataChannelsItem",
+    "ImportFromChannexResponse201DataChannelsItemProviderSwitch",
+    "ImportFromChannexResponse201DataChannelsItemStatus",
+    "ImportFromChannexResponse201DataEnvironment",
+    "ImportFromChannexResponse201DataPropertiesItem",
+    "ImportFromChannexResponse201DataPropertiesItemStatus",
+    "ImportFromChannexResponse201DataRatePlansItem",
+    "ImportFromChannexResponse201DataRatePlansItemStatus",
+    "ImportFromChannexResponse201DataRoomTypesItem",
+    "ImportFromChannexResponse201DataRoomTypesItemStatus",
+    "ImportFromChannexResponse201DataSigningKeysItem",
+    "ImportFromChannexResponse201DataSigningKeysItemStatus",
+    "ImportFromChannexResponse201DataSummary",
+    "ImportFromChannexResponse201DataSummaryBookings",
+    "ImportFromChannexResponse201DataSummaryChannels",
+    "ImportFromChannexResponse201DataSummaryProperties",
+    "ImportFromChannexResponse201DataSummaryRatePlans",
+    "ImportFromChannexResponse201DataSummaryRoomTypes",
+    "ImportFromChannexResponse201DataSummarySigningKeys",
+    "ImportFromChannexResponse201DataSummaryWebhooks",
+    "ImportFromChannexResponse201DataWebhooksItem",
+    "ImportFromChannexResponse201DataWebhooksItemStatus",
     "InquiryCreatedEvent",
     "InquiryCreatedEventEvent",
     "InquiryCreatedPayload",
@@ -1666,6 +1815,7 @@ __all__ = (
     "ListingCompsResponse",
     "ListingCompsResponseDateRange",
     "ListingContent",
+    "ListingContentPhoto",
     "ListingContentUpdateRequest",
     "ListingContentUpdateRequestAddress",
     "ListingContentUpdateRequestAmenitiesType1Item",
@@ -1697,6 +1847,8 @@ __all__ = (
     "ListingDeletedEventEvent",
     "ListingDeletedPayload",
     "ListingDetails",
+    "ListingFee",
+    "ListingFeeAmountType",
     "ListingGenerateContentRequest",
     "ListingGenerateContentRequestStyle",
     "ListingGenerateContentResponse",
@@ -1713,6 +1865,10 @@ __all__ = (
     "ListingPhotosResponse",
     "ListingPhotoUploadUrlRequest",
     "ListingPhotoUploadUrlResponse",
+    "ListingPolicies",
+    "ListingPoliciesCheckIn",
+    "ListingPoliciesCheckOut",
+    "ListingPoliciesQuietHoursType0",
     "ListingPricingApplyRequest",
     "ListingPricingApplyRequestAction",
     "ListingPricingApplyResponse",
@@ -1728,6 +1884,7 @@ __all__ = (
     "ListingPricingResponseDateRange",
     "ListingPricingResponseListingType0",
     "ListingPricingResponseListingType0AiBasePriceFactorsType0",
+    "ListingPricingSettings",
     "ListingPricingStrategy",
     "ListingPricingStrategyCompPositionTarget",
     "ListingPricingStrategyDayOfWeekMultipliers",
@@ -1757,6 +1914,9 @@ __all__ = (
     "ListingQualityTierTier",
     "ListingReactivatedEvent",
     "ListingReactivatedEventEvent",
+    "ListingRoom",
+    "ListingRoomBedsItem",
+    "ListingRules",
     "ListingSegment",
     "ListingSegmentQualityTierType1",
     "ListingSegmentQualityTierType2Type1",
@@ -1776,6 +1936,8 @@ __all__ = (
     "ListingSuspendedEvent",
     "ListingSuspendedEventEvent",
     "ListingSuspensionPayload",
+    "ListingTax",
+    "ListingTaxAmountType",
     "ListingUnitsItem",
     "ListingUpdatedEvent",
     "ListingUpdatedEventEvent",
@@ -2063,6 +2225,10 @@ __all__ = (
     "ReservationSourceType3Type1",
     "ReservationStatus",
     "ReservationStatusDetail",
+    "ReservationThreadAssignedEvent",
+    "ReservationThreadAssignedEventEvent",
+    "ReservationThreadAssignedPayload",
+    "ReservationThreadAssignedPayloadObject",
     "ReservationUnitType0",
     "ReservationUpdatedEvent",
     "ReservationUpdatedEventEvent",
