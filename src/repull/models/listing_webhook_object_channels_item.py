@@ -11,6 +11,8 @@ from ..types import UNSET, Unset
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.record_account_type_0 import RecordAccountType0
 
 
 
@@ -29,6 +31,9 @@ class ListingWebhookObjectChannelsItem:
             active (bool | Unset):
             sync_enabled (bool | Unset):
             sync_category (None | str | Unset):  Example: sync_all.
+            account (None | RecordAccountType0 | Unset): The connected account this listing belongs to on this channel — for
+                Airbnb the host account (`externalAccountId` is the Airbnb host id). The same account `account.disconnected`
+                names, so a disconnect can be matched to its listings. Null when it cannot be resolved.
      """
 
     platform: str | Unset = UNSET
@@ -36,6 +41,7 @@ class ListingWebhookObjectChannelsItem:
     active: bool | Unset = UNSET
     sync_enabled: bool | Unset = UNSET
     sync_category: None | str | Unset = UNSET
+    account: None | RecordAccountType0 | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -43,6 +49,7 @@ class ListingWebhookObjectChannelsItem:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.record_account_type_0 import RecordAccountType0
         platform = self.platform
 
         external_id = self.external_id
@@ -56,6 +63,14 @@ class ListingWebhookObjectChannelsItem:
             sync_category = UNSET
         else:
             sync_category = self.sync_category
+
+        account: dict[str, Any] | None | Unset
+        if isinstance(self.account, Unset):
+            account = UNSET
+        elif isinstance(self.account, RecordAccountType0):
+            account = self.account.to_dict()
+        else:
+            account = self.account
 
 
         field_dict: dict[str, Any] = {}
@@ -72,6 +87,8 @@ class ListingWebhookObjectChannelsItem:
             field_dict["syncEnabled"] = sync_enabled
         if sync_category is not UNSET:
             field_dict["syncCategory"] = sync_category
+        if account is not UNSET:
+            field_dict["account"] = account
 
         return field_dict
 
@@ -79,6 +96,7 @@ class ListingWebhookObjectChannelsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.record_account_type_0 import RecordAccountType0
         d = dict(src_dict)
         platform = d.pop("platform", UNSET)
 
@@ -98,12 +116,33 @@ class ListingWebhookObjectChannelsItem:
         sync_category = _parse_sync_category(d.pop("syncCategory", UNSET))
 
 
+        def _parse_account(data: object) -> None | RecordAccountType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_record_account_type_0 = RecordAccountType0.from_dict(data)
+
+
+
+                return componentsschemas_record_account_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | RecordAccountType0 | Unset, data)
+
+        account = _parse_account(d.pop("account", UNSET))
+
+
         listing_webhook_object_channels_item = cls(
             platform=platform,
             external_id=external_id,
             active=active,
             sync_enabled=sync_enabled,
             sync_category=sync_category,
+            account=account,
         )
 
 

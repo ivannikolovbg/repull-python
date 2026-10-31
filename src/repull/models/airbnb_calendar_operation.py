@@ -41,8 +41,10 @@ class AirbnbCalendarOperation:
             busy_subtype (AirbnbCalendarOperationBusySubtype | Unset): Why a blocked date is blocked. Airbnb requires it
                 whenever `availability` is `unavailable`; when you leave it out, Repull sends **`BLOCKED_BY_HOST`**. Use
                 `OUTSIDE_RESERVATION` for a date held by a booking made on another channel.
-            min_nights (int | None | Unset): Minimum length of stay for the date(s).
-            max_nights (int | None | Unset): Maximum length of stay for the date(s); no lower than `min_nights`.
+            min_nights (int | None | Unset): Minimum length of stay for the date(s), 1–1125. Send `-1` to drop the date's
+                own minimum so it follows the listing default again (`default_min_nights`). `0` and `null` do not clear it.
+            max_nights (int | None | Unset): Maximum length of stay for the date(s), 1–1125 and no lower than `min_nights`.
+                Send `-1` to drop the date's own maximum so it follows the listing default again (`default_max_nights`).
             closed_to_arrival (bool | None | Unset): Closed-to-arrival — no check-ins on the affected date(s).
             closed_to_departure (bool | None | Unset): Closed-to-departure — no check-outs on the affected date(s).
             notes (None | str | Unset):

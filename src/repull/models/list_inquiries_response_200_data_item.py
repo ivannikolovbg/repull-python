@@ -15,6 +15,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.list_inquiries_response_200_data_item_expected_payout import ListInquiriesResponse200DataItemExpectedPayout
+  from ..models.list_inquiries_response_200_data_item_guest import ListInquiriesResponse200DataItemGuest
   from ..models.list_inquiries_response_200_data_item_guests import ListInquiriesResponse200DataItemGuests
 
 
@@ -40,6 +41,8 @@ class ListInquiriesResponse200DataItem:
                 Airbnb says the dates cannot be booked.
             check_in (datetime.date | None):  Example: 2026-09-23.
             check_out (datetime.date | None):  Example: 2026-10-11.
+            guest (ListInquiriesResponse200DataItemGuest): Who asked. Airbnb shares only the guest’s first name before they
+                book; the last name and phone number arrive on the reservation (`GET /v1/reservations/{id}`) once they do.
             guests (ListInquiriesResponse200DataItemGuests):
             expected_payout (ListInquiriesResponse200DataItemExpectedPayout): What Airbnb quoted the host for the stay the
                 guest asked about.
@@ -59,6 +62,7 @@ class ListInquiriesResponse200DataItem:
     status: ListInquiriesResponse200DataItemStatus
     check_in: datetime.date | None
     check_out: datetime.date | None
+    guest: ListInquiriesResponse200DataItemGuest
     guests: ListInquiriesResponse200DataItemGuests
     expected_payout: ListInquiriesResponse200DataItemExpectedPayout
     reservation_id: None | str
@@ -75,6 +79,7 @@ class ListInquiriesResponse200DataItem:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.list_inquiries_response_200_data_item_expected_payout import ListInquiriesResponse200DataItemExpectedPayout
+        from ..models.list_inquiries_response_200_data_item_guest import ListInquiriesResponse200DataItemGuest
         from ..models.list_inquiries_response_200_data_item_guests import ListInquiriesResponse200DataItemGuests
         id = self.id
 
@@ -99,6 +104,8 @@ class ListInquiriesResponse200DataItem:
             check_out = self.check_out.isoformat()
         else:
             check_out = self.check_out
+
+        guest = self.guest.to_dict()
 
         guests = self.guests.to_dict()
 
@@ -145,6 +152,7 @@ class ListInquiriesResponse200DataItem:
             "status": status,
             "checkIn": check_in,
             "checkOut": check_out,
+            "guest": guest,
             "guests": guests,
             "expectedPayout": expected_payout,
             "reservationId": reservation_id,
@@ -162,6 +170,7 @@ class ListInquiriesResponse200DataItem:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.list_inquiries_response_200_data_item_expected_payout import ListInquiriesResponse200DataItemExpectedPayout
+        from ..models.list_inquiries_response_200_data_item_guest import ListInquiriesResponse200DataItemGuest
         from ..models.list_inquiries_response_200_data_item_guests import ListInquiriesResponse200DataItemGuests
         d = dict(src_dict)
         id = d.pop("id")
@@ -223,6 +232,11 @@ class ListInquiriesResponse200DataItem:
             return cast(datetime.date | None, data)
 
         check_out = _parse_check_out(d.pop("checkOut"))
+
+
+        guest = ListInquiriesResponse200DataItemGuest.from_dict(d.pop("guest"))
+
+
 
 
         guests = ListInquiriesResponse200DataItemGuests.from_dict(d.pop("guests"))
@@ -331,6 +345,7 @@ class ListInquiriesResponse200DataItem:
             status=status,
             check_in=check_in,
             check_out=check_out,
+            guest=guest,
             guests=guests,
             expected_payout=expected_payout,
             reservation_id=reservation_id,

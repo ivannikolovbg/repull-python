@@ -5,6 +5,17 @@ All notable changes to the `repull` Python SDK are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.38] - 2026-10-31
+
+### Added
+- `Reservation.access_codes` (`ReservationAccessCode`): door codes from the PMS's lock manager (Guesty Locks Manager) — `code`, `type_` (`guest` / `backup` / `other`), `status`, `valid_from`, `valid_until`, `locks`, `source`, `updated_at`. `None` when codes are not read for the reservation.
+- `Reservation.pms_reservation_id`: the PMS's own reservation id (e.g. Guesty `_id`).
+- `ListingChannel.account`: which connected account each listing channel belongs to; `account.disconnected` payloads carry the account's `listings`.
+- `submit_ciirus_credentials` (`POST /v1/connect/ciirus`).
+
+### Changed
+- Regenerated from the live spec.
+
 ## [0.2.37] - 2026-10-23
 
 ### Added

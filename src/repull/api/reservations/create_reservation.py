@@ -146,10 +146,10 @@ def sync_detailed(
     ### Where the booking is made
 
     - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
-    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track): the booking is created **in the PMS first**,
-    then recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation
-    code and nothing is duplicated. A booking is **never** created only in Repull for such a listing —
-    the PMS would keep selling the dates. What the PMS cannot do is refused (`422
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track, CiiRUS): the booking is created **in the PMS
+    first**, then recorded in Repull from the PMS's own record, so the next sync lands on the same
+    confirmation code and nothing is duplicated. A booking is **never** created only in Repull for such
+    a listing — the PMS would keep selling the dates. What the PMS cannot do is refused (`422
     pms_write_unsupported`), never faked. The PMS checks availability: taken dates answer `409
     pms_unavailable`.
     - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
@@ -203,6 +203,8 @@ def sync_detailed(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -277,10 +279,10 @@ def sync(
     ### Where the booking is made
 
     - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
-    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track): the booking is created **in the PMS first**,
-    then recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation
-    code and nothing is duplicated. A booking is **never** created only in Repull for such a listing —
-    the PMS would keep selling the dates. What the PMS cannot do is refused (`422
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track, CiiRUS): the booking is created **in the PMS
+    first**, then recorded in Repull from the PMS's own record, so the next sync lands on the same
+    confirmation code and nothing is duplicated. A booking is **never** created only in Repull for such
+    a listing — the PMS would keep selling the dates. What the PMS cannot do is refused (`422
     pms_write_unsupported`), never faked. The PMS checks availability: taken dates answer `409
     pms_unavailable`.
     - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
@@ -334,6 +336,8 @@ def sync(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -403,10 +407,10 @@ async def asyncio_detailed(
     ### Where the booking is made
 
     - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
-    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track): the booking is created **in the PMS first**,
-    then recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation
-    code and nothing is duplicated. A booking is **never** created only in Repull for such a listing —
-    the PMS would keep selling the dates. What the PMS cannot do is refused (`422
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track, CiiRUS): the booking is created **in the PMS
+    first**, then recorded in Repull from the PMS's own record, so the next sync lands on the same
+    confirmation code and nothing is duplicated. A booking is **never** created only in Repull for such
+    a listing — the PMS would keep selling the dates. What the PMS cannot do is refused (`422
     pms_write_unsupported`), never faked. The PMS checks availability: taken dates answer `409
     pms_unavailable`.
     - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
@@ -460,6 +464,8 @@ async def asyncio_detailed(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -534,10 +540,10 @@ async def asyncio(
     ### Where the booking is made
 
     - **A listing managed in a connected PMS** (Mews, Cloudbeds, Hostaway, Guesty, Beds24, BookingSync,
-    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track): the booking is created **in the PMS first**,
-    then recorded in Repull from the PMS's own record, so the next sync lands on the same confirmation
-    code and nothing is duplicated. A booking is **never** created only in Repull for such a listing —
-    the PMS would keep selling the dates. What the PMS cannot do is refused (`422
+    Lodgify, Smoobu, Hospitable, iGMS, OwnerRez, Track, CiiRUS): the booking is created **in the PMS
+    first**, then recorded in Repull from the PMS's own record, so the next sync lands on the same
+    confirmation code and nothing is duplicated. A booking is **never** created only in Repull for such
+    a listing — the PMS would keep selling the dates. What the PMS cannot do is refused (`422
     pms_write_unsupported`), never faked. The PMS checks availability: taken dates answer `409
     pms_unavailable`.
     - **Any other listing**: a direct booking made in Repull, with everything that hangs off one — the
@@ -591,6 +597,8 @@ async def asyncio(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the

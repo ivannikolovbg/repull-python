@@ -9,7 +9,10 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.record_account_type_0 import RecordAccountType0
 
 
 
@@ -28,12 +31,16 @@ class ListingChannel:
             external_id (str | Unset): ID in the platform (Airbnb listing id, Booking room id, etc.)
             active (bool | Unset):
             sync_enabled (bool | Unset):
+            account (None | RecordAccountType0 | Unset): The connected account this listing belongs to on this channel — for
+                Airbnb the host account (`externalAccountId` is the Airbnb host id). The same account `account.disconnected`
+                names, so a disconnect can be matched to its listings. Null when it cannot be resolved.
      """
 
     platform: str | Unset = UNSET
     external_id: str | Unset = UNSET
     active: bool | Unset = UNSET
     sync_enabled: bool | Unset = UNSET
+    account: None | RecordAccountType0 | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -41,6 +48,7 @@ class ListingChannel:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.record_account_type_0 import RecordAccountType0
         platform = self.platform
 
         external_id = self.external_id
@@ -48,6 +56,14 @@ class ListingChannel:
         active = self.active
 
         sync_enabled = self.sync_enabled
+
+        account: dict[str, Any] | None | Unset
+        if isinstance(self.account, Unset):
+            account = UNSET
+        elif isinstance(self.account, RecordAccountType0):
+            account = self.account.to_dict()
+        else:
+            account = self.account
 
 
         field_dict: dict[str, Any] = {}
@@ -62,6 +78,8 @@ class ListingChannel:
             field_dict["active"] = active
         if sync_enabled is not UNSET:
             field_dict["syncEnabled"] = sync_enabled
+        if account is not UNSET:
+            field_dict["account"] = account
 
         return field_dict
 
@@ -69,6 +87,7 @@ class ListingChannel:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.record_account_type_0 import RecordAccountType0
         d = dict(src_dict)
         platform = d.pop("platform", UNSET)
 
@@ -78,11 +97,32 @@ class ListingChannel:
 
         sync_enabled = d.pop("syncEnabled", UNSET)
 
+        def _parse_account(data: object) -> None | RecordAccountType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_record_account_type_0 = RecordAccountType0.from_dict(data)
+
+
+
+                return componentsschemas_record_account_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | RecordAccountType0 | Unset, data)
+
+        account = _parse_account(d.pop("account", UNSET))
+
+
         listing_channel = cls(
             platform=platform,
             external_id=external_id,
             active=active,
             sync_enabled=sync_enabled,
+            account=account,
         )
 
 

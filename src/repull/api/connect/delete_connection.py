@@ -105,7 +105,7 @@ def sync_detailed(
     """ Disconnect provider
 
      Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
-    `booking` and `vrbo-login`.
+    `booking`, `vrbo-login` and every PMS (`guesty`, `hostaway`, `hospitable`, …).
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
     `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
@@ -123,6 +123,12 @@ def sync_detailed(
     The change is all or nothing. For Airbnb, the host can also revoke access on Airbnb's side (Account
     → Privacy & sharing → Connected apps); that alone does not update this workspace, so call this
     endpoint as well.
+
+    **PMS.** A workspace has one connection per PMS, so no `accountId` is needed. Disconnecting stops
+    syncing, clears the stored credentials and deactivates the connection's listings; nothing is
+    deleted, and reservations and messages stay. The response also carries `connectionId`. The PMS's own
+    webhook subscription is left in place, because the same PMS account can be connected to another
+    workspace (such as a Repull Migrate workspace). Reconnect with a new Connect session.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
     side. That answer depends only on the provider, not on your workspace: an unsupported provider
@@ -165,7 +171,7 @@ def sync(
     """ Disconnect provider
 
      Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
-    `booking` and `vrbo-login`.
+    `booking`, `vrbo-login` and every PMS (`guesty`, `hostaway`, `hospitable`, …).
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
     `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
@@ -183,6 +189,12 @@ def sync(
     The change is all or nothing. For Airbnb, the host can also revoke access on Airbnb's side (Account
     → Privacy & sharing → Connected apps); that alone does not update this workspace, so call this
     endpoint as well.
+
+    **PMS.** A workspace has one connection per PMS, so no `accountId` is needed. Disconnecting stops
+    syncing, clears the stored credentials and deactivates the connection's listings; nothing is
+    deleted, and reservations and messages stay. The response also carries `connectionId`. The PMS's own
+    webhook subscription is left in place, because the same PMS account can be connected to another
+    workspace (such as a Repull Migrate workspace). Reconnect with a new Connect session.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
     side. That answer depends only on the provider, not on your workspace: an unsupported provider
@@ -220,7 +232,7 @@ async def asyncio_detailed(
     """ Disconnect provider
 
      Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
-    `booking` and `vrbo-login`.
+    `booking`, `vrbo-login` and every PMS (`guesty`, `hostaway`, `hospitable`, …).
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
     `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
@@ -238,6 +250,12 @@ async def asyncio_detailed(
     The change is all or nothing. For Airbnb, the host can also revoke access on Airbnb's side (Account
     → Privacy & sharing → Connected apps); that alone does not update this workspace, so call this
     endpoint as well.
+
+    **PMS.** A workspace has one connection per PMS, so no `accountId` is needed. Disconnecting stops
+    syncing, clears the stored credentials and deactivates the connection's listings; nothing is
+    deleted, and reservations and messages stay. The response also carries `connectionId`. The PMS's own
+    webhook subscription is left in place, because the same PMS account can be connected to another
+    workspace (such as a Repull Migrate workspace). Reconnect with a new Connect session.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
     side. That answer depends only on the provider, not on your workspace: an unsupported provider
@@ -280,7 +298,7 @@ async def asyncio(
     """ Disconnect provider
 
      Disconnect ONE connected account of a provider from this workspace. Supported for `airbnb`,
-    `booking` and `vrbo-login`.
+    `booking`, `vrbo-login` and every PMS (`guesty`, `hostaway`, `hospitable`, …).
 
     **Which account.** Pass `accountId` — for Airbnb the host id (`accounts[].externalAccountId` from
     `GET /v1/connect/airbnb`), for Booking.com the hotel id, for `vrbo-login` the sign-in's
@@ -298,6 +316,12 @@ async def asyncio(
     The change is all or nothing. For Airbnb, the host can also revoke access on Airbnb's side (Account
     → Privacy & sharing → Connected apps); that alone does not update this workspace, so call this
     endpoint as well.
+
+    **PMS.** A workspace has one connection per PMS, so no `accountId` is needed. Disconnecting stops
+    syncing, clears the stored credentials and deactivates the connection's listings; nothing is
+    deleted, and reservations and messages stay. The response also carries `connectionId`. The PMS's own
+    webhook subscription is left in place, because the same PMS account can be connected to another
+    workspace (such as a Repull Migrate workspace). Reconnect with a new Connect session.
 
     Other providers return `501 not_implemented` with instructions for disconnecting on the provider's
     side. That answer depends only on the provider, not on your workspace: an unsupported provider

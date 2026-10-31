@@ -24,6 +24,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.record_account_type_0 import RecordAccountType0
+  from ..models.reservation_access_code import ReservationAccessCode
   from ..models.reservation_financials import ReservationFinancials
   from ..models.reservation_guest_details import ReservationGuestDetails
   from ..models.reservation_occupancy import ReservationOccupancy
@@ -117,6 +118,13 @@ class Reservation:
             unit (None | ReservationUnitType0 | Unset): The physical room the stay was assigned, for a hotel-model PMS
                 (Mews, Cloudbeds) where the listing is a room type. `null` when no room is assigned yet, and for every listing
                 that is a single home.
+            pms_reservation_id (None | str | Unset): The PMS's own id for this reservation (for example Guesty's reservation
+                `_id`), so you can look it up in the PMS. `null` when the reservation did not come from a PMS. Example:
+                6a0374cd5eeb88f1381f9ac1.
+            access_codes (list[ReservationAccessCode] | None | Unset): Door codes for the stay from the PMS's lock manager
+                (today: Guesty Locks Manager), refreshed about every 30 minutes for stays checking in within 14 days that have
+                not checked out. `null` when the reservation's codes are not read from a PMS. `[]` when they are and there is
+                none yet, and for a cancelled stay.
             primary_guest (ReservationPrimaryGuest | Unset): Inline guest summary resolved by JOIN-ing the `guests` table.
                 Populated for every reservation that has a linked guest row; OMITTED entirely (not null) for owner-blocks / pre-
                 arrival rows / partial-sync gaps. Always optional-chain in SDK consumers.
@@ -169,6 +177,8 @@ class Reservation:
     source: None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset = UNSET
     platform: None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 | Unset = UNSET
     unit: None | ReservationUnitType0 | Unset = UNSET
+    pms_reservation_id: None | str | Unset = UNSET
+    access_codes: list[ReservationAccessCode] | None | Unset = UNSET
     primary_guest: ReservationPrimaryGuest | Unset = UNSET
     occupancy: ReservationOccupancy | Unset = UNSET
     financials: ReservationFinancials | Unset = UNSET
@@ -185,6 +195,7 @@ class Reservation:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.record_account_type_0 import RecordAccountType0
+        from ..models.reservation_access_code import ReservationAccessCode
         from ..models.reservation_financials import ReservationFinancials
         from ..models.reservation_guest_details import ReservationGuestDetails
         from ..models.reservation_occupancy import ReservationOccupancy
@@ -298,6 +309,25 @@ class Reservation:
         else:
             unit = self.unit
 
+        pms_reservation_id: None | str | Unset
+        if isinstance(self.pms_reservation_id, Unset):
+            pms_reservation_id = UNSET
+        else:
+            pms_reservation_id = self.pms_reservation_id
+
+        access_codes: list[dict[str, Any]] | None | Unset
+        if isinstance(self.access_codes, Unset):
+            access_codes = UNSET
+        elif isinstance(self.access_codes, list):
+            access_codes = []
+            for access_codes_type_0_item_data in self.access_codes:
+                access_codes_type_0_item = access_codes_type_0_item_data.to_dict()
+                access_codes.append(access_codes_type_0_item)
+
+
+        else:
+            access_codes = self.access_codes
+
         primary_guest: dict[str, Any] | Unset = UNSET
         if not isinstance(self.primary_guest, Unset):
             primary_guest = self.primary_guest.to_dict()
@@ -373,6 +403,10 @@ class Reservation:
             field_dict["platform"] = platform
         if unit is not UNSET:
             field_dict["unit"] = unit
+        if pms_reservation_id is not UNSET:
+            field_dict["pmsReservationId"] = pms_reservation_id
+        if access_codes is not UNSET:
+            field_dict["accessCodes"] = access_codes
         if primary_guest is not UNSET:
             field_dict["primaryGuest"] = primary_guest
         if occupancy is not UNSET:
@@ -397,6 +431,7 @@ class Reservation:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.record_account_type_0 import RecordAccountType0
+        from ..models.reservation_access_code import ReservationAccessCode
         from ..models.reservation_financials import ReservationFinancials
         from ..models.reservation_guest_details import ReservationGuestDetails
         from ..models.reservation_occupancy import ReservationOccupancy
@@ -646,6 +681,41 @@ class Reservation:
         unit = _parse_unit(d.pop("unit", UNSET))
 
 
+        def _parse_pms_reservation_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        pms_reservation_id = _parse_pms_reservation_id(d.pop("pmsReservationId", UNSET))
+
+
+        def _parse_access_codes(data: object) -> list[ReservationAccessCode] | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                access_codes_type_0 = []
+                _access_codes_type_0 = data
+                for access_codes_type_0_item_data in (_access_codes_type_0):
+                    access_codes_type_0_item = ReservationAccessCode.from_dict(access_codes_type_0_item_data)
+
+
+
+                    access_codes_type_0.append(access_codes_type_0_item)
+
+                return access_codes_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(list[ReservationAccessCode] | None | Unset, data)
+
+        access_codes = _parse_access_codes(d.pop("accessCodes", UNSET))
+
+
         _primary_guest = d.pop("primaryGuest", UNSET)
         primary_guest: ReservationPrimaryGuest | Unset
         if isinstance(_primary_guest,  Unset):
@@ -743,6 +813,8 @@ class Reservation:
             source=source,
             platform=platform,
             unit=unit,
+            pms_reservation_id=pms_reservation_id,
+            access_codes=access_codes,
             primary_guest=primary_guest,
             occupancy=occupancy,
             financials=financials,

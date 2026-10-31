@@ -169,6 +169,8 @@ def sync_detailed(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -256,6 +258,8 @@ def sync(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -338,6 +342,8 @@ async def asyncio_detailed(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the
@@ -425,6 +431,8 @@ async def asyncio(
     | Track | ✓ | ✓ | ✓ | ✓ | ✓ | Track decides Hold vs Confirmed from the property's channel mode; a
     set price on a Channel Key needs \"Allow Custom Pricing\"; a unit change needs `moveReasonId` on the
     connection; a date change re-prices at Track's current rates. |
+    | CiiRUS | ✓ | ✓ | ✓ | ✓ | ✓ | A set price is the rent, with CiiRUS adding its taxes; no tentative
+    holds. |
 
     Every PMS except Cloudbeds refuses group bookings, and every vacation-rental PMS refuses to change
     or cancel a booking that came from a channel (Airbnb, Booking.com, Vrbo…) — that is done on the

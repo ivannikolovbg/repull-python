@@ -15,6 +15,8 @@ from typing import cast
 from uuid import UUID
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.account_disconnected_payload_listings_item import AccountDisconnectedPayloadListingsItem
 
 
 
@@ -39,6 +41,9 @@ class AccountDisconnectedPayload:
                 upstream OAuth refresh endpoint returned a hard rejection. `manual_disconnect` — host/admin disconnected via the
                 dashboard. `auth_expired` — credentials aged out without ever being used. `revoked_upstream` — provider notified
                 us the user revoked access. Example: refresh_token_rejected.
+            listings (list[AccountDisconnectedPayloadListingsItem] | Unset): The listings this account holds in your
+                workspace — the ones that stop syncing until it is reconnected. Identity only; inactive listings included.
+                Matches `channels[].account` on `GET /v1/listings`. Empty when the account has no listings here.
      """
 
     workspace_id: UUID | Unset = UNSET
@@ -47,6 +52,7 @@ class AccountDisconnectedPayload:
     provider: str | Unset = UNSET
     disconnected_at: datetime.datetime | Unset = UNSET
     reason: AccountDisconnectedPayloadReason | Unset = UNSET
+    listings: list[AccountDisconnectedPayloadListingsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -54,6 +60,7 @@ class AccountDisconnectedPayload:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.account_disconnected_payload_listings_item import AccountDisconnectedPayloadListingsItem
         workspace_id: str | Unset = UNSET
         if not isinstance(self.workspace_id, Unset):
             workspace_id = str(self.workspace_id)
@@ -77,6 +84,15 @@ class AccountDisconnectedPayload:
             reason = self.reason.value
 
 
+        listings: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.listings, Unset):
+            listings = []
+            for listings_item_data in self.listings:
+                listings_item = listings_item_data.to_dict()
+                listings.append(listings_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -94,6 +110,8 @@ class AccountDisconnectedPayload:
             field_dict["disconnectedAt"] = disconnected_at
         if reason is not UNSET:
             field_dict["reason"] = reason
+        if listings is not UNSET:
+            field_dict["listings"] = listings
 
         return field_dict
 
@@ -101,6 +119,7 @@ class AccountDisconnectedPayload:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.account_disconnected_payload_listings_item import AccountDisconnectedPayloadListingsItem
         d = dict(src_dict)
         _workspace_id = d.pop("workspaceId", UNSET)
         workspace_id: UUID | Unset
@@ -146,6 +165,18 @@ class AccountDisconnectedPayload:
 
 
 
+        _listings = d.pop("listings", UNSET)
+        listings: list[AccountDisconnectedPayloadListingsItem] | Unset = UNSET
+        if _listings is not UNSET:
+            listings = []
+            for listings_item_data in _listings:
+                listings_item = AccountDisconnectedPayloadListingsItem.from_dict(listings_item_data)
+
+
+
+                listings.append(listings_item)
+
+
         account_disconnected_payload = cls(
             workspace_id=workspace_id,
             account_id=account_id,
@@ -153,6 +184,7 @@ class AccountDisconnectedPayload:
             provider=provider,
             disconnected_at=disconnected_at,
             reason=reason,
+            listings=listings,
         )
 
 

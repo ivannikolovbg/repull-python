@@ -16,6 +16,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.inquiry_webhook_object_expected_payout import InquiryWebhookObjectExpectedPayout
+  from ..models.inquiry_webhook_object_guest import InquiryWebhookObjectGuest
   from ..models.inquiry_webhook_object_guests import InquiryWebhookObjectGuests
 
 
@@ -41,6 +42,7 @@ class InquiryWebhookObject:
             channel (str | Unset):  Example: airbnb.
             check_in (datetime.date | None | Unset):  Example: 2026-10-23.
             check_out (datetime.date | None | Unset):  Example: 2026-11-11.
+            guest (InquiryWebhookObjectGuest | Unset): Who asked. Airbnb shares only the first name before the guest books.
             guests (InquiryWebhookObjectGuests | Unset):
             expected_payout (InquiryWebhookObjectExpectedPayout | Unset):
             reservation_id (None | str | Unset): The reservation the inquiry became, once booked.
@@ -58,6 +60,7 @@ class InquiryWebhookObject:
     channel: str | Unset = UNSET
     check_in: datetime.date | None | Unset = UNSET
     check_out: datetime.date | None | Unset = UNSET
+    guest: InquiryWebhookObjectGuest | Unset = UNSET
     guests: InquiryWebhookObjectGuests | Unset = UNSET
     expected_payout: InquiryWebhookObjectExpectedPayout | Unset = UNSET
     reservation_id: None | str | Unset = UNSET
@@ -74,6 +77,7 @@ class InquiryWebhookObject:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.inquiry_webhook_object_expected_payout import InquiryWebhookObjectExpectedPayout
+        from ..models.inquiry_webhook_object_guest import InquiryWebhookObjectGuest
         from ..models.inquiry_webhook_object_guests import InquiryWebhookObjectGuests
         id = self.id
 
@@ -108,6 +112,10 @@ class InquiryWebhookObject:
             check_out = self.check_out.isoformat()
         else:
             check_out = self.check_out
+
+        guest: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.guest, Unset):
+            guest = self.guest.to_dict()
 
         guests: dict[str, Any] | Unset = UNSET
         if not isinstance(self.guests, Unset):
@@ -178,6 +186,8 @@ class InquiryWebhookObject:
             field_dict["checkIn"] = check_in
         if check_out is not UNSET:
             field_dict["checkOut"] = check_out
+        if guest is not UNSET:
+            field_dict["guest"] = guest
         if guests is not UNSET:
             field_dict["guests"] = guests
         if expected_payout is not UNSET:
@@ -202,6 +212,7 @@ class InquiryWebhookObject:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.inquiry_webhook_object_expected_payout import InquiryWebhookObjectExpectedPayout
+        from ..models.inquiry_webhook_object_guest import InquiryWebhookObjectGuest
         from ..models.inquiry_webhook_object_guests import InquiryWebhookObjectGuests
         d = dict(src_dict)
         id = d.pop("id")
@@ -271,6 +282,16 @@ class InquiryWebhookObject:
             return cast(datetime.date | None | Unset, data)
 
         check_out = _parse_check_out(d.pop("checkOut", UNSET))
+
+
+        _guest = d.pop("guest", UNSET)
+        guest: InquiryWebhookObjectGuest | Unset
+        if isinstance(_guest,  Unset):
+            guest = UNSET
+        else:
+            guest = InquiryWebhookObjectGuest.from_dict(_guest)
+
+
 
 
         _guests = d.pop("guests", UNSET)
@@ -401,6 +422,7 @@ class InquiryWebhookObject:
             channel=channel,
             check_in=check_in,
             check_out=check_out,
+            guest=guest,
             guests=guests,
             expected_payout=expected_payout,
             reservation_id=reservation_id,

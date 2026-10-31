@@ -14,6 +14,7 @@ from .account_created_payload import AccountCreatedPayload
 from .account_disconnected_event import AccountDisconnectedEvent
 from .account_disconnected_event_event import AccountDisconnectedEventEvent
 from .account_disconnected_payload import AccountDisconnectedPayload
+from .account_disconnected_payload_listings_item import AccountDisconnectedPayloadListingsItem
 from .account_disconnected_payload_reason import AccountDisconnectedPayloadReason
 from .account_import import AccountImport
 from .account_import_completed_event import AccountImportCompletedEvent
@@ -516,6 +517,7 @@ from .inquiry_updated_payload import InquiryUpdatedPayload
 from .inquiry_updated_payload_previous_attributes import InquiryUpdatedPayloadPreviousAttributes
 from .inquiry_webhook_object import InquiryWebhookObject
 from .inquiry_webhook_object_expected_payout import InquiryWebhookObjectExpectedPayout
+from .inquiry_webhook_object_guest import InquiryWebhookObjectGuest
 from .inquiry_webhook_object_guests import InquiryWebhookObjectGuests
 from .inquiry_webhook_object_status import InquiryWebhookObjectStatus
 from .invite_booking_extranet_user_body import InviteBookingExtranetUserBody
@@ -561,6 +563,7 @@ from .list_hotels_response_200_pagination import ListHotelsResponse200Pagination
 from .list_inquiries_response_200 import ListInquiriesResponse200
 from .list_inquiries_response_200_data_item import ListInquiriesResponse200DataItem
 from .list_inquiries_response_200_data_item_expected_payout import ListInquiriesResponse200DataItemExpectedPayout
+from .list_inquiries_response_200_data_item_guest import ListInquiriesResponse200DataItemGuest
 from .list_inquiries_response_200_data_item_guests import ListInquiriesResponse200DataItemGuests
 from .list_inquiries_response_200_data_item_status import ListInquiriesResponse200DataItemStatus
 from .list_inquiries_status import ListInquiriesStatus
@@ -911,6 +914,9 @@ from .repull_ping_event import RepullPingEvent
 from .repull_ping_event_event import RepullPingEventEvent
 from .repull_ping_payload import RepullPingPayload
 from .reservation import Reservation
+from .reservation_access_code import ReservationAccessCode
+from .reservation_access_code_locks_item import ReservationAccessCodeLocksItem
+from .reservation_access_code_type import ReservationAccessCodeType
 from .reservation_alteration_created_event import ReservationAlterationCreatedEvent
 from .reservation_alteration_created_event_event import ReservationAlterationCreatedEventEvent
 from .reservation_alteration_created_payload import ReservationAlterationCreatedPayload
@@ -1056,6 +1062,12 @@ from .submit_bookingsync_credentials_body import SubmitBookingsyncCredentialsBod
 from .submit_bookingsync_credentials_body_credentials import SubmitBookingsyncCredentialsBodyCredentials
 from .submit_bookingsync_credentials_response_200 import SubmitBookingsyncCredentialsResponse200
 from .submit_bookingsync_credentials_response_200_account_info import SubmitBookingsyncCredentialsResponse200AccountInfo
+from .submit_ciirus_credentials_body import SubmitCiirusCredentialsBody
+from .submit_ciirus_credentials_body_credentials import SubmitCiirusCredentialsBodyCredentials
+from .submit_ciirus_credentials_body_write_policy import SubmitCiirusCredentialsBodyWritePolicy
+from .submit_ciirus_credentials_response_200 import SubmitCiirusCredentialsResponse200
+from .submit_ciirus_credentials_response_200_account_info import SubmitCiirusCredentialsResponse200AccountInfo
+from .submit_ciirus_credentials_response_200_first_sync import SubmitCiirusCredentialsResponse200FirstSync
 from .submit_cloudbeds_credentials_body import SubmitCloudbedsCredentialsBody
 from .submit_cloudbeds_credentials_body_credentials import SubmitCloudbedsCredentialsBodyCredentials
 from .submit_cloudbeds_credentials_body_write_policy import SubmitCloudbedsCredentialsBodyWritePolicy
@@ -1257,6 +1269,7 @@ __all__ = (
     "AccountDisconnectedEvent",
     "AccountDisconnectedEventEvent",
     "AccountDisconnectedPayload",
+    "AccountDisconnectedPayloadListingsItem",
     "AccountDisconnectedPayloadReason",
     "AccountImport",
     "AccountImportCompletedEvent",
@@ -1759,6 +1772,7 @@ __all__ = (
     "InquiryUpdatedPayloadPreviousAttributes",
     "InquiryWebhookObject",
     "InquiryWebhookObjectExpectedPayout",
+    "InquiryWebhookObjectGuest",
     "InquiryWebhookObjectGuests",
     "InquiryWebhookObjectStatus",
     "InviteBookingExtranetUserBody",
@@ -1950,6 +1964,7 @@ __all__ = (
     "ListInquiriesResponse200",
     "ListInquiriesResponse200DataItem",
     "ListInquiriesResponse200DataItemExpectedPayout",
+    "ListInquiriesResponse200DataItemGuest",
     "ListInquiriesResponse200DataItemGuests",
     "ListInquiriesResponse200DataItemStatus",
     "ListInquiriesStatus",
@@ -2154,6 +2169,9 @@ __all__ = (
     "RepullPingEventEvent",
     "RepullPingPayload",
     "Reservation",
+    "ReservationAccessCode",
+    "ReservationAccessCodeLocksItem",
+    "ReservationAccessCodeType",
     "ReservationAlterationCreatedEvent",
     "ReservationAlterationCreatedEventEvent",
     "ReservationAlterationCreatedPayload",
@@ -2299,6 +2317,12 @@ __all__ = (
     "SubmitBookingsyncCredentialsBodyCredentials",
     "SubmitBookingsyncCredentialsResponse200",
     "SubmitBookingsyncCredentialsResponse200AccountInfo",
+    "SubmitCiirusCredentialsBody",
+    "SubmitCiirusCredentialsBodyCredentials",
+    "SubmitCiirusCredentialsBodyWritePolicy",
+    "SubmitCiirusCredentialsResponse200",
+    "SubmitCiirusCredentialsResponse200AccountInfo",
+    "SubmitCiirusCredentialsResponse200FirstSync",
     "SubmitCloudbedsCredentialsBody",
     "SubmitCloudbedsCredentialsBodyCredentials",
     "SubmitCloudbedsCredentialsBodyWritePolicy",
