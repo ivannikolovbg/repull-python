@@ -24,13 +24,15 @@ T = TypeVar("T", bound="ListingUnitsItem")
 class ListingUnitsItem:
     """ 
         Attributes:
-            id (str | Unset):
+            id (str | Unset): Unit id — what `reservation.unit.id` and the per-night `units[].id` on availability refer to.
             name (str | Unset):
             active (bool | Unset):
             parent_id (None | str | Unset):
             housekeeping_status (None | str | Unset):
             floor (None | str | Unset):
-            source (str | Unset):
+            source (str | Unset): The PMS the unit comes from: `cloudbeds`, `mews`, `guesty`, …
+            listing_id (None | str | Unset): The unit's own Repull listing id when the unit is a listing too (a Guesty
+                multi-unit listing's units, each with its own calendar), else `null`.
      """
 
     id: str | Unset = UNSET
@@ -40,6 +42,7 @@ class ListingUnitsItem:
     housekeeping_status: None | str | Unset = UNSET
     floor: None | str | Unset = UNSET
     source: str | Unset = UNSET
+    listing_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -73,6 +76,12 @@ class ListingUnitsItem:
 
         source = self.source
 
+        listing_id: None | str | Unset
+        if isinstance(self.listing_id, Unset):
+            listing_id = UNSET
+        else:
+            listing_id = self.listing_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -92,6 +101,8 @@ class ListingUnitsItem:
             field_dict["floor"] = floor
         if source is not UNSET:
             field_dict["source"] = source
+        if listing_id is not UNSET:
+            field_dict["listingId"] = listing_id
 
         return field_dict
 
@@ -138,6 +149,16 @@ class ListingUnitsItem:
 
         source = d.pop("source", UNSET)
 
+        def _parse_listing_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        listing_id = _parse_listing_id(d.pop("listingId", UNSET))
+
+
         listing_units_item = cls(
             id=id,
             name=name,
@@ -146,6 +167,7 @@ class ListingUnitsItem:
             housekeeping_status=housekeeping_status,
             floor=floor,
             source=source,
+            listing_id=listing_id,
         )
 
 

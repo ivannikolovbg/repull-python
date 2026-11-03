@@ -646,6 +646,7 @@ from .listing_list_response import ListingListResponse
 from .listing_market_state_request import ListingMarketStateRequest
 from .listing_market_state_response import ListingMarketStateResponse
 from .listing_market_state_response_state import ListingMarketStateResponseState
+from .listing_parent_type_0 import ListingParentType0
 from .listing_photo import ListingPhoto
 from .listing_photo_delete_request import ListingPhotoDeleteRequest
 from .listing_photo_delete_response import ListingPhotoDeleteResponse
@@ -887,6 +888,7 @@ from .property_ import Property
 from .property_availability import PropertyAvailability
 from .property_availability_coverage import PropertyAvailabilityCoverage
 from .property_availability_day import PropertyAvailabilityDay
+from .property_availability_unit import PropertyAvailabilityUnit
 from .property_list_response import PropertyListResponse
 from .property_status import PropertyStatus
 from .publish_section_error import PublishSectionError
@@ -1873,6 +1875,7 @@ __all__ = (
     "ListingMarketStateRequest",
     "ListingMarketStateResponse",
     "ListingMarketStateResponseState",
+    "ListingParentType0",
     "ListingPhoto",
     "ListingPhotoDeleteRequest",
     "ListingPhotoDeleteResponse",
@@ -2142,6 +2145,7 @@ __all__ = (
     "PropertyAvailability",
     "PropertyAvailabilityCoverage",
     "PropertyAvailabilityDay",
+    "PropertyAvailabilityUnit",
     "PropertyListResponse",
     "PropertyStatus",
     "PublishSectionError",

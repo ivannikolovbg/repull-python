@@ -84,13 +84,19 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Error | ListListingUnitsResponse200]:
-    """ List a listing's units (rooms)
+    """ List a listing's units
 
-     The physical rooms under a listing. For a hotel-model PMS (Mews, Cloudbeds) a listing is a room
-    type: prices, restrictions and availability are set on the room type, and each reservation is
+     The units under a listing.
+
+    - **Hotel-model PMS (Mews, Cloudbeds):** the listing is a room type and these are its physical
+    rooms. Prices, restrictions and availability are set on the room type, and each reservation is
     assigned one of these rooms (`reservation.unit.id`). A room can belong to more than one room type.
+    - **Guesty multi-unit listing:** the listing is the parent channels sell, and these are its units.
+    Each unit is also a listing of its own (`listingId`), with its own calendar and stays; a stay on a
+    unit carries `reservation.unit`.
 
-    Any other listing is a single home, which is its own unit, and returns an empty list.
+    Which unit is free on which night: `units` per day on `GET /v1/availability/{propertyId}`. Any other
+    listing is a single home, which is its own unit, and returns an empty list.
 
     Args:
         id (int):
@@ -121,13 +127,19 @@ def sync(
     client: AuthenticatedClient | Client,
 
 ) -> Error | ListListingUnitsResponse200 | None:
-    """ List a listing's units (rooms)
+    """ List a listing's units
 
-     The physical rooms under a listing. For a hotel-model PMS (Mews, Cloudbeds) a listing is a room
-    type: prices, restrictions and availability are set on the room type, and each reservation is
+     The units under a listing.
+
+    - **Hotel-model PMS (Mews, Cloudbeds):** the listing is a room type and these are its physical
+    rooms. Prices, restrictions and availability are set on the room type, and each reservation is
     assigned one of these rooms (`reservation.unit.id`). A room can belong to more than one room type.
+    - **Guesty multi-unit listing:** the listing is the parent channels sell, and these are its units.
+    Each unit is also a listing of its own (`listingId`), with its own calendar and stays; a stay on a
+    unit carries `reservation.unit`.
 
-    Any other listing is a single home, which is its own unit, and returns an empty list.
+    Which unit is free on which night: `units` per day on `GET /v1/availability/{propertyId}`. Any other
+    listing is a single home, which is its own unit, and returns an empty list.
 
     Args:
         id (int):
@@ -153,13 +165,19 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
 
 ) -> Response[Error | ListListingUnitsResponse200]:
-    """ List a listing's units (rooms)
+    """ List a listing's units
 
-     The physical rooms under a listing. For a hotel-model PMS (Mews, Cloudbeds) a listing is a room
-    type: prices, restrictions and availability are set on the room type, and each reservation is
+     The units under a listing.
+
+    - **Hotel-model PMS (Mews, Cloudbeds):** the listing is a room type and these are its physical
+    rooms. Prices, restrictions and availability are set on the room type, and each reservation is
     assigned one of these rooms (`reservation.unit.id`). A room can belong to more than one room type.
+    - **Guesty multi-unit listing:** the listing is the parent channels sell, and these are its units.
+    Each unit is also a listing of its own (`listingId`), with its own calendar and stays; a stay on a
+    unit carries `reservation.unit`.
 
-    Any other listing is a single home, which is its own unit, and returns an empty list.
+    Which unit is free on which night: `units` per day on `GET /v1/availability/{propertyId}`. Any other
+    listing is a single home, which is its own unit, and returns an empty list.
 
     Args:
         id (int):
@@ -190,13 +208,19 @@ async def asyncio(
     client: AuthenticatedClient | Client,
 
 ) -> Error | ListListingUnitsResponse200 | None:
-    """ List a listing's units (rooms)
+    """ List a listing's units
 
-     The physical rooms under a listing. For a hotel-model PMS (Mews, Cloudbeds) a listing is a room
-    type: prices, restrictions and availability are set on the room type, and each reservation is
+     The units under a listing.
+
+    - **Hotel-model PMS (Mews, Cloudbeds):** the listing is a room type and these are its physical
+    rooms. Prices, restrictions and availability are set on the room type, and each reservation is
     assigned one of these rooms (`reservation.unit.id`). A room can belong to more than one room type.
+    - **Guesty multi-unit listing:** the listing is the parent channels sell, and these are its units.
+    Each unit is also a listing of its own (`listingId`), with its own calendar and stays; a stay on a
+    unit carries `reservation.unit`.
 
-    Any other listing is a single home, which is its own unit, and returns an empty list.
+    Which unit is free on which night: `units` per day on `GET /v1/availability/{propertyId}`. Any other
+    listing is a single home, which is its own unit, and returns an empty list.
 
     Args:
         id (int):

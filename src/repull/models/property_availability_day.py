@@ -8,10 +8,13 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
 import datetime
 
+if TYPE_CHECKING:
+  from ..models.property_availability_unit import PropertyAvailabilityUnit
 
 
 
@@ -34,9 +37,14 @@ class PropertyAvailabilityDay:
                 nightly price when the calendar row itself carries no price. Example: 245.
             min_nights (int): Minimum-stay requirement for a stay starting on this date. Falls back to the listing-level
                 default min-nights when the calendar row carries none. Example: 2.
-            available_units (int): Units still sellable that night. 1 or 0 for a single home. For a hotel-model listing (a
-                Mews or Cloudbeds room type) the rooms of that type left, e.g. 3 of 5 — see `GET /v1/listings/{id}/units`.
-                `available` is false whenever this is 0. Example: 1.
+            available_units (int): Units still sellable that night. 1 or 0 for a single home. For a listing with units (a
+                Mews or Cloudbeds room type, a Guesty multi-unit listing) the units left, e.g. 3 of 5 — see `GET
+                /v1/listings/{id}/units`. `available` is false whenever this is 0. Example: 1.
+            units (list[PropertyAvailabilityUnit] | Unset): Only on a listing with units (a Mews or Cloudbeds room type, a
+                Guesty multi-unit listing): each active unit and whether it is free that night. A unit is taken when a stay is
+                on it, a room block covers it, or (for a unit that is a listing of its own) its own calendar is closed. Ids are
+                the listing's `units[].id` and a reservation's `unit.id`. Example: [{'id': 'unit_a', 'available': True}, {'id':
+                'unit_b', 'available': False}].
      """
 
     date: datetime.date
@@ -44,6 +52,7 @@ class PropertyAvailabilityDay:
     price: float
     min_nights: int
     available_units: int
+    units: list[PropertyAvailabilityUnit] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -51,6 +60,7 @@ class PropertyAvailabilityDay:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.property_availability_unit import PropertyAvailabilityUnit
         date = self.date.isoformat()
 
         available = self.available
@@ -60,6 +70,15 @@ class PropertyAvailabilityDay:
         min_nights = self.min_nights
 
         available_units = self.available_units
+
+        units: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.units, Unset):
+            units = []
+            for units_item_data in self.units:
+                units_item = units_item_data.to_dict()
+                units.append(units_item)
+
+
 
 
         field_dict: dict[str, Any] = {}
@@ -71,6 +90,8 @@ class PropertyAvailabilityDay:
             "minNights": min_nights,
             "availableUnits": available_units,
         })
+        if units is not UNSET:
+            field_dict["units"] = units
 
         return field_dict
 
@@ -78,6 +99,7 @@ class PropertyAvailabilityDay:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.property_availability_unit import PropertyAvailabilityUnit
         d = dict(src_dict)
         date = isoparse(d.pop("date")).date()
 
@@ -92,12 +114,25 @@ class PropertyAvailabilityDay:
 
         available_units = d.pop("availableUnits")
 
+        _units = d.pop("units", UNSET)
+        units: list[PropertyAvailabilityUnit] | Unset = UNSET
+        if _units is not UNSET:
+            units = []
+            for units_item_data in _units:
+                units_item = PropertyAvailabilityUnit.from_dict(units_item_data)
+
+
+
+                units.append(units_item)
+
+
         property_availability_day = cls(
             date=date,
             available=available,
             price=price,
             min_nights=min_nights,
             available_units=available_units,
+            units=units,
         )
 
 

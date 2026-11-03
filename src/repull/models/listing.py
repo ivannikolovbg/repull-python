@@ -25,6 +25,7 @@ if TYPE_CHECKING:
   from ..models.listing_details import ListingDetails
   from ..models.listing_fee import ListingFee
   from ..models.listing_hotel_type_0 import ListingHotelType0
+  from ..models.listing_parent_type_0 import ListingParentType0
   from ..models.listing_policies import ListingPolicies
   from ..models.listing_pricing_settings import ListingPricingSettings
   from ..models.listing_room import ListingRoom
@@ -55,16 +56,21 @@ class Listing:
         Attributes:
             capabilities (ListingCapabilities | Unset): `GET /v1/listings/{id}` only. What the API can do with this listing.
                 `pms` is present when a connected PMS manages it.
-            kind (ListingKind | Unset): `room_type` when the listing sells several identical units (a hotel room type:
-                `unitCount` > 1) or is a hotel PMS room type; `home` otherwise. See the Hotels & multi-unit guide.
+            kind (ListingKind | Unset): `room_type` when the listing sells several units (a hotel room type or a Guesty
+                multi-unit listing: `unitCount` > 1) or is a hotel PMS room type; `home` otherwise. See the Hotels & multi-unit
+                guide.
+            parent (ListingParentType0 | None | Unset): The multi-unit listing this listing is one unit of (a Guesty multi-
+                unit listing's unit, which has its own calendar and stays). The parent lists it in `units[]` with this listing's
+                id as `units[].listingId`. `null` otherwise.
             hotel (ListingHotelType0 | None | Unset): The hotel the listing belongs to: a hotel PMS hotel (Cloudbeds, Mews)
                 or a Booking.com property with several room types or rooms. `null` for a standalone home. `GET /v1/hotels/{id}`
                 lists its room types.
-            unit_count (int | Unset): How many identical units (rooms) this listing sells: the hotel PMS rooms of the room
-                type, the room count on Booking.com, or 1 for a home. Rooms left per night are `availableUnits` on `GET
-                /v1/availability/{propertyId}`.
-            units (list[ListingUnitsItem] | Unset): `GET /v1/listings/{id}` only. The physical rooms under a hotel-model
-                listing (a Mews or Cloudbeds room type); empty for a single home. Same items as `GET /v1/listings/{id}/units`.
+            unit_count (int | Unset): How many units (rooms) this listing sells: the hotel PMS rooms of the room type, the
+                units of a Guesty multi-unit listing, the room count on Booking.com, or 1 for a home. Units left per night are
+                `availableUnits` on `GET /v1/availability/{propertyId}`, and which unit is free is `units` there.
+            units (list[ListingUnitsItem] | Unset): `GET /v1/listings/{id}` only. The units under the listing: a Mews or
+                Cloudbeds room type's rooms, or a Guesty multi-unit listing's units; empty for a single home. Same items as `GET
+                /v1/listings/{id}/units`.
             id (str | Unset): Repull listing id
             name (str | Unset): The host's internal nickname for the listing. Example: I - Stafford Apartment.
             public_name (None | str | Unset): The title guests see on the channel (e.g. the Airbnb listing title). `name` is
@@ -106,6 +112,7 @@ class Listing:
 
     capabilities: ListingCapabilities | Unset = UNSET
     kind: ListingKind | Unset = UNSET
+    parent: ListingParentType0 | None | Unset = UNSET
     hotel: ListingHotelType0 | None | Unset = UNSET
     unit_count: int | Unset = UNSET
     units: list[ListingUnitsItem] | Unset = UNSET
@@ -144,6 +151,7 @@ class Listing:
         from ..models.listing_details import ListingDetails
         from ..models.listing_fee import ListingFee
         from ..models.listing_hotel_type_0 import ListingHotelType0
+        from ..models.listing_parent_type_0 import ListingParentType0
         from ..models.listing_policies import ListingPolicies
         from ..models.listing_pricing_settings import ListingPricingSettings
         from ..models.listing_room import ListingRoom
@@ -158,6 +166,14 @@ class Listing:
         if not isinstance(self.kind, Unset):
             kind = self.kind.value
 
+
+        parent: dict[str, Any] | None | Unset
+        if isinstance(self.parent, Unset):
+            parent = UNSET
+        elif isinstance(self.parent, ListingParentType0):
+            parent = self.parent.to_dict()
+        else:
+            parent = self.parent
 
         hotel: dict[str, Any] | None | Unset
         if isinstance(self.hotel, Unset):
@@ -314,6 +330,8 @@ class Listing:
             field_dict["capabilities"] = capabilities
         if kind is not UNSET:
             field_dict["kind"] = kind
+        if parent is not UNSET:
+            field_dict["parent"] = parent
         if hotel is not UNSET:
             field_dict["hotel"] = hotel
         if unit_count is not UNSET:
@@ -374,6 +392,7 @@ class Listing:
         from ..models.listing_details import ListingDetails
         from ..models.listing_fee import ListingFee
         from ..models.listing_hotel_type_0 import ListingHotelType0
+        from ..models.listing_parent_type_0 import ListingParentType0
         from ..models.listing_policies import ListingPolicies
         from ..models.listing_pricing_settings import ListingPricingSettings
         from ..models.listing_room import ListingRoom
@@ -399,6 +418,26 @@ class Listing:
             kind = ListingKind(_kind)
 
 
+
+
+        def _parse_parent(data: object) -> ListingParentType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                parent_type_0 = ListingParentType0.from_dict(data)
+
+
+
+                return parent_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListingParentType0 | None | Unset, data)
+
+        parent = _parse_parent(d.pop("parent", UNSET))
 
 
         def _parse_hotel(data: object) -> ListingHotelType0 | None | Unset:
@@ -674,6 +713,7 @@ class Listing:
         listing = cls(
             capabilities=capabilities,
             kind=kind,
+            parent=parent,
             hotel=hotel,
             unit_count=unit_count,
             units=units,
