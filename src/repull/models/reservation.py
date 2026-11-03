@@ -115,9 +115,10 @@ class Reservation:
                 kept as an alias. Example: airbnb.
             platform (None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 |
                 Unset): DEPRECATED alias for `source`. Same value, kept for back-compat. Example: airbnb.
-            unit (None | ReservationUnitType0 | Unset): The physical room the stay was assigned, for a hotel-model PMS
-                (Mews, Cloudbeds) where the listing is a room type. `null` when no room is assigned yet, and for every listing
-                that is a single home.
+            unit (None | ReservationUnitType0 | Unset): The unit the stay is on: the room assigned by a hotel-model PMS
+                (Mews, Cloudbeds) where the listing is a room type, or the unit of a Guesty multi-unit listing (the stay's
+                `listingId` is then that unit's own listing). Matches the listing's `units[].id` and the per-night `units` on
+                availability. `null` when no unit is assigned yet, and for every listing that is a single home.
             pms_reservation_id (None | str | Unset): The PMS's own id for this reservation (for example Guesty's reservation
                 `_id`), so you can look it up in the PMS. `null` when the reservation did not come from a PMS. Example:
                 6a0374cd5eeb88f1381f9ac1.

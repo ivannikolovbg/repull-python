@@ -106,8 +106,10 @@ def sync_detailed(
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
     per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
-    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
-    a hotel-model listing (a Mews or Cloudbeds room type).
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the units left for a listing
+    with units (a Mews or Cloudbeds room type, a Guesty multi-unit listing). On such a listing each day
+    also carries `units: [{ id, available }]` — which unit is free that night, with the ids of the
+    listing's `units[]` and a reservation's `unit`.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
@@ -170,8 +172,10 @@ def sync(
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
     per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
-    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
-    a hotel-model listing (a Mews or Cloudbeds room type).
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the units left for a listing
+    with units (a Mews or Cloudbeds room type, a Guesty multi-unit listing). On such a listing each day
+    also carries `units: [{ id, available }]` — which unit is free that night, with the ids of the
+    listing's `units[]` and a reservation's `unit`.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
@@ -229,8 +233,10 @@ async def asyncio_detailed(
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
     per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
-    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
-    a hotel-model listing (a Mews or Cloudbeds room type).
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the units left for a listing
+    with units (a Mews or Cloudbeds room type, a Guesty multi-unit listing). On such a listing each day
+    also carries `units: [{ id, available }]` — which unit is free that night, with the ids of the
+    listing's `units[]` and a reservation's `unit`.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the
@@ -293,8 +299,10 @@ async def asyncio(
 
      Channel-agnostic day-by-day availability calendar for a property over a date window. Returns a thin
     per-date shape — `{ date, available, price, minNights, availableUnits }` — projected from the
-    property calendar. `availableUnits` is 1 or 0 for a single home, and the rooms of the type left for
-    a hotel-model listing (a Mews or Cloudbeds room type).
+    property calendar. `availableUnits` is 1 or 0 for a single home, and the units left for a listing
+    with units (a Mews or Cloudbeds room type, a Guesty multi-unit listing). On such a listing each day
+    also carries `units: [{ id, available }]` — which unit is free that night, with the ids of the
+    listing's `units[]` and a reservation's `unit`.
 
     The `from` and `to` query params are **required** (ISO `YYYY-MM-DD`, inclusive) — omitting or
     malforming either returns 422. The window is capped at 366 days; longer ranges are truncated to the

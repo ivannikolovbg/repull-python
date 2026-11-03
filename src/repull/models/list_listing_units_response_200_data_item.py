@@ -24,14 +24,17 @@ T = TypeVar("T", bound="ListListingUnitsResponse200DataItem")
 class ListListingUnitsResponse200DataItem:
     """ 
         Attributes:
-            id (str | Unset): The PMS's id for the room; `reservation.unit.id` refers to it.
+            id (str | Unset): The PMS's id for the unit; `reservation.unit.id` and the per-night `units[].id` on `GET
+                /v1/availability/{propertyId}` refer to it.
             name (str | Unset):  Example: 101.
             active (bool | Unset):
             parent_id (None | str | Unset): A sub-space's parent room (a bed in a dorm), else null.
             housekeeping_status (None | str | Unset): The PMS's housekeeping state, verbatim (e.g. `Dirty`, `Clean`,
                 `Inspected`).
             floor (None | str | Unset):
-            source (str | Unset):  Example: mews.
+            source (str | Unset): The PMS the unit comes from: `cloudbeds`, `mews`, `guesty`, … Example: mews.
+            listing_id (None | str | Unset): The unit's own Repull listing id when the unit is a listing too (a Guesty
+                multi-unit listing's units, each with its own calendar and stays), else null.
      """
 
     id: str | Unset = UNSET
@@ -41,6 +44,7 @@ class ListListingUnitsResponse200DataItem:
     housekeeping_status: None | str | Unset = UNSET
     floor: None | str | Unset = UNSET
     source: str | Unset = UNSET
+    listing_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -74,6 +78,12 @@ class ListListingUnitsResponse200DataItem:
 
         source = self.source
 
+        listing_id: None | str | Unset
+        if isinstance(self.listing_id, Unset):
+            listing_id = UNSET
+        else:
+            listing_id = self.listing_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -93,6 +103,8 @@ class ListListingUnitsResponse200DataItem:
             field_dict["floor"] = floor
         if source is not UNSET:
             field_dict["source"] = source
+        if listing_id is not UNSET:
+            field_dict["listingId"] = listing_id
 
         return field_dict
 
@@ -139,6 +151,16 @@ class ListListingUnitsResponse200DataItem:
 
         source = d.pop("source", UNSET)
 
+        def _parse_listing_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        listing_id = _parse_listing_id(d.pop("listingId", UNSET))
+
+
         list_listing_units_response_200_data_item = cls(
             id=id,
             name=name,
@@ -147,6 +169,7 @@ class ListListingUnitsResponse200DataItem:
             housekeeping_status=housekeeping_status,
             floor=floor,
             source=source,
+            listing_id=listing_id,
         )
 
 
