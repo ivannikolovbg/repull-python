@@ -68,6 +68,8 @@ def sync_detailed(
      Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
     \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
     `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
+    `unknown` (`200`) means the health numbers could not be read at that moment; `message` gives the
+    reason.
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
@@ -112,6 +114,8 @@ def sync(
      Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
     \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
     `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
+    `unknown` (`200`) means the health numbers could not be read at that moment; `message` gives the
+    reason.
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
@@ -151,6 +155,8 @@ async def asyncio_detailed(
      Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
     \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
     `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
+    `unknown` (`200`) means the health numbers could not be read at that moment; `message` gives the
+    reason.
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
@@ -195,6 +201,8 @@ async def asyncio(
      Reports reachability and auth state for one channel (`airbnb`, `booking`, `vrbo`). Use it to tell
     \"the channel is down\" apart from \"this workspace's connection expired\". `200` when `status` is
     `ok`, `503` when `degraded` or `down` (the body's `status` and `message` say which and why).
+    `unknown` (`200`) means the health numbers could not be read at that moment; `message` gives the
+    reason.
 
     **`vrbo`** reports the connector's own signals in a `vrbo` block: connected accounts, accounts VRBO
     signed out (their bookings, messages and calendar stop until reconnected — `down`), accounts whose
