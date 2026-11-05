@@ -64,6 +64,12 @@ def sync_detailed(
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
 
+    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
+    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
+    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
+    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
+    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
+
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
     invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
@@ -111,6 +117,12 @@ def sync(
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
 
+    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
+    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
+    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
+    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
+    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
+
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
     invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
@@ -152,6 +164,12 @@ async def asyncio_detailed(
     r""" List PMS/OTA connections
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
+
+    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
+    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
+    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
+    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
+    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
@@ -199,6 +217,12 @@ async def asyncio(
     r""" List PMS/OTA connections
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
+
+    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
+    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
+    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
+    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
+    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the

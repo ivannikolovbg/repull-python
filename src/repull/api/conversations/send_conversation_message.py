@@ -143,6 +143,9 @@ def sync_detailed(
 
     When the text cannot be salvaged (the link is most of the message) nothing is delivered and the call
     returns `422 message_not_sent` with the channel's verbatim refusal in `statusReason`.
+    `message_not_sent` only ever means the channel refused: a fault on Repull's side (a dropped database
+    connection, a timeout) is `503 internal_error` with `sent: false` when nothing was delivered — retry
+    it unchanged with the same `Idempotency-Key`.
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
@@ -243,6 +246,9 @@ def sync(
 
     When the text cannot be salvaged (the link is most of the message) nothing is delivered and the call
     returns `422 message_not_sent` with the channel's verbatim refusal in `statusReason`.
+    `message_not_sent` only ever means the channel refused: a fault on Repull's side (a dropped database
+    connection, a timeout) is `503 internal_error` with `sent: false` when nothing was delivered — retry
+    it unchanged with the same `Idempotency-Key`.
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
@@ -338,6 +344,9 @@ async def asyncio_detailed(
 
     When the text cannot be salvaged (the link is most of the message) nothing is delivered and the call
     returns `422 message_not_sent` with the channel's verbatim refusal in `statusReason`.
+    `message_not_sent` only ever means the channel refused: a fault on Repull's side (a dropped database
+    connection, a timeout) is `503 internal_error` with `sent: false` when nothing was delivered — retry
+    it unchanged with the same `Idempotency-Key`.
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
@@ -438,6 +447,9 @@ async def asyncio(
 
     When the text cannot be salvaged (the link is most of the message) nothing is delivered and the call
     returns `422 message_not_sent` with the channel's verbatim refusal in `statusReason`.
+    `message_not_sent` only ever means the channel refused: a fault on Repull's side (a dropped database
+    connection, a timeout) is `503 internal_error` with `sent: false` when nothing was delivered — retry
+    it unchanged with the same `Idempotency-Key`.
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
