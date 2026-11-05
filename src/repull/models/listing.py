@@ -79,6 +79,10 @@ class Listing:
             address (ListingAddress | Unset): The listing's postal address, unit included. Each part is read from the
                 listing first, then from the connected channels (Airbnb, Vrbo, Booking.com). On an inactive row only `city` is
                 present.
+            latitude (None | str | Unset): `GET /v1/listings/{id}` only. Map pin latitude in decimal degrees, as a string;
+                the same value as `GET /v1/properties/{id}`. Null when the listing has no coordinates. Example: 25.7617.
+            longitude (None | str | Unset): `GET /v1/listings/{id}` only. Map pin longitude in decimal degrees, as a string;
+                the same value as `GET /v1/properties/{id}`. Null when the listing has no coordinates. Example: -80.1918.
             thumbnail_url (None | str | Unset): Cover photo URL. Always present on an active listing. On an **inactive** one
                 it is present only when the caller passes `?include=thumbnail`; `null` means the listing has no cover photo
                 stored, absent means the expansion was not requested.
@@ -120,6 +124,8 @@ class Listing:
     name: str | Unset = UNSET
     public_name: None | str | Unset = UNSET
     address: ListingAddress | Unset = UNSET
+    latitude: None | str | Unset = UNSET
+    longitude: None | str | Unset = UNSET
     thumbnail_url: None | str | Unset = UNSET
     status: ListingStatus | Unset = UNSET
     channels: list[ListingChannel] | Unset = UNSET
@@ -207,6 +213,18 @@ class Listing:
         address: dict[str, Any] | Unset = UNSET
         if not isinstance(self.address, Unset):
             address = self.address.to_dict()
+
+        latitude: None | str | Unset
+        if isinstance(self.latitude, Unset):
+            latitude = UNSET
+        else:
+            latitude = self.latitude
+
+        longitude: None | str | Unset
+        if isinstance(self.longitude, Unset):
+            longitude = UNSET
+        else:
+            longitude = self.longitude
 
         thumbnail_url: None | str | Unset
         if isinstance(self.thumbnail_url, Unset):
@@ -346,6 +364,10 @@ class Listing:
             field_dict["publicName"] = public_name
         if address is not UNSET:
             field_dict["address"] = address
+        if latitude is not UNSET:
+            field_dict["latitude"] = latitude
+        if longitude is not UNSET:
+            field_dict["longitude"] = longitude
         if thumbnail_url is not UNSET:
             field_dict["thumbnailUrl"] = thumbnail_url
         if status is not UNSET:
@@ -496,6 +518,26 @@ class Listing:
             address = ListingAddress.from_dict(_address)
 
 
+
+
+        def _parse_latitude(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        latitude = _parse_latitude(d.pop("latitude", UNSET))
+
+
+        def _parse_longitude(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        longitude = _parse_longitude(d.pop("longitude", UNSET))
 
 
         def _parse_thumbnail_url(data: object) -> None | str | Unset:
@@ -721,6 +763,8 @@ class Listing:
             name=name,
             public_name=public_name,
             address=address,
+            latitude=latitude,
+            longitude=longitude,
             thumbnail_url=thumbnail_url,
             status=status,
             channels=channels,
