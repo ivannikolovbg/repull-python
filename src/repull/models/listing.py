@@ -16,6 +16,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.airbnb_access import AirbnbAccess
   from ..models.listing_address import ListingAddress
   from ..models.listing_amenity import ListingAmenity
   from ..models.listing_capabilities import ListingCapabilities
@@ -88,6 +89,7 @@ class Listing:
                 stored, absent means the expansion was not requested.
             status (ListingStatus | Unset):
             channels (list[ListingChannel] | Unset): Channels (Airbnb, Booking, VRBO, etc.) the listing is connected to.
+            airbnb_access (AirbnbAccess | Unset):
             amenities (list[ListingAmenity] | Unset): Amenity rows for the listing. **Only present when the caller passes
                 `?include=amenities`.** Empty array (`[]`) when the listing has no amenity rows.
             content (ListingContent | None | Unset): **Only present when the caller passes `?include=content`.** Sourced
@@ -129,6 +131,7 @@ class Listing:
     thumbnail_url: None | str | Unset = UNSET
     status: ListingStatus | Unset = UNSET
     channels: list[ListingChannel] | Unset = UNSET
+    airbnb_access: AirbnbAccess | Unset = UNSET
     amenities: list[ListingAmenity] | Unset = UNSET
     content: ListingContent | None | Unset = UNSET
     details: ListingDetails | None | Unset = UNSET
@@ -148,6 +151,7 @@ class Listing:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.airbnb_access import AirbnbAccess
         from ..models.listing_address import ListingAddress
         from ..models.listing_amenity import ListingAmenity
         from ..models.listing_capabilities import ListingCapabilities
@@ -245,6 +249,10 @@ class Listing:
                 channels.append(channels_item)
 
 
+
+        airbnb_access: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.airbnb_access, Unset):
+            airbnb_access = self.airbnb_access.to_dict()
 
         amenities: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.amenities, Unset):
@@ -374,6 +382,8 @@ class Listing:
             field_dict["status"] = status
         if channels is not UNSET:
             field_dict["channels"] = channels
+        if airbnb_access is not UNSET:
+            field_dict["airbnbAccess"] = airbnb_access
         if amenities is not UNSET:
             field_dict["amenities"] = amenities
         if content is not UNSET:
@@ -405,6 +415,7 @@ class Listing:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_access import AirbnbAccess
         from ..models.listing_address import ListingAddress
         from ..models.listing_amenity import ListingAmenity
         from ..models.listing_capabilities import ListingCapabilities
@@ -570,6 +581,16 @@ class Listing:
 
 
                 channels.append(channels_item)
+
+
+        _airbnb_access = d.pop("airbnbAccess", UNSET)
+        airbnb_access: AirbnbAccess | Unset
+        if isinstance(_airbnb_access,  Unset):
+            airbnb_access = UNSET
+        else:
+            airbnb_access = AirbnbAccess.from_dict(_airbnb_access)
+
+
 
 
         _amenities = d.pop("amenities", UNSET)
@@ -768,6 +789,7 @@ class Listing:
             thumbnail_url=thumbnail_url,
             status=status,
             channels=channels,
+            airbnb_access=airbnb_access,
             amenities=amenities,
             content=content,
             details=details,

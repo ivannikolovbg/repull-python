@@ -42,6 +42,11 @@ class SendMessageRequest:
                 it: the PMS's own channel/module name (Guesty `airbnb2`, `bookingCom`, `email`, `sms`, …) or one of Repull's
                 names, which the PMS maps. A PMS that cannot choose a channel returns `422 pms_write_unsupported`; `GET
                 /v1/connect/{provider}` → `capabilities.pms.conversations.channelSelect` says so beforehand. Example: email.
+            account (str | Unset): Airbnb conversations: send as exactly this connected account — the listing's owner or one
+                of its co-hosts — e.g. your team co-host. Never swapped for another account: if it is disconnected or not on the
+                listing, nothing is sent and the error says why. Omit it and the conversation's own account sends while it is
+                connected, otherwise the listing's owner, otherwise a connected co-host. Connected accounts are on `GET
+                /v1/connect`. Example: airbnb:483175841.
             attachments (list[SendMessageAttachment] | Unset): Files to send. See the per-channel table above. On a
                 conversation a connected PMS relays, files go through the PMS — `422 pms_write_unsupported` when its API cannot
                 send them (`capabilities.pms.conversations.attachments` on `GET /v1/connect/{provider}`).
@@ -49,6 +54,7 @@ class SendMessageRequest:
 
     message: str | Unset = UNSET
     channel: str | Unset = UNSET
+    account: str | Unset = UNSET
     attachments: list[SendMessageAttachment] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -61,6 +67,8 @@ class SendMessageRequest:
         message = self.message
 
         channel = self.channel
+
+        account = self.account
 
         attachments: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.attachments, Unset):
@@ -80,6 +88,8 @@ class SendMessageRequest:
             field_dict["message"] = message
         if channel is not UNSET:
             field_dict["channel"] = channel
+        if account is not UNSET:
+            field_dict["account"] = account
         if attachments is not UNSET:
             field_dict["attachments"] = attachments
 
@@ -94,6 +104,8 @@ class SendMessageRequest:
         message = d.pop("message", UNSET)
 
         channel = d.pop("channel", UNSET)
+
+        account = d.pop("account", UNSET)
 
         _attachments = d.pop("attachments", UNSET)
         attachments: list[SendMessageAttachment] | Unset = UNSET
@@ -110,6 +122,7 @@ class SendMessageRequest:
         send_message_request = cls(
             message=message,
             channel=channel,
+            account=account,
             attachments=attachments,
         )
 

@@ -46,6 +46,10 @@ from .ai_operation_failed_payload import AiOperationFailedPayload
 from .ai_operation_failed_payload_error import AiOperationFailedPayloadError
 from .ai_operation_input import AIOperationInput
 from .ai_operation_operation import AIOperationOperation
+from .airbnb_access import AirbnbAccess
+from .airbnb_access_accounts_item import AirbnbAccessAccountsItem
+from .airbnb_access_accounts_item_role import AirbnbAccessAccountsItemRole
+from .airbnb_access_accounts_item_state import AirbnbAccessAccountsItemState
 from .airbnb_account_freshness import AirbnbAccountFreshness
 from .airbnb_alteration import AirbnbAlteration
 from .airbnb_alteration_create_request import AirbnbAlterationCreateRequest
@@ -1303,6 +1307,10 @@ __all__ = (
     "AiOperationFailedPayloadError",
     "AIOperationInput",
     "AIOperationOperation",
+    "AirbnbAccess",
+    "AirbnbAccessAccountsItem",
+    "AirbnbAccessAccountsItemRole",
+    "AirbnbAccessAccountsItemState",
     "AirbnbAccountFreshness",
     "AirbnbAlteration",
     "AirbnbAlterationCreateRequest",

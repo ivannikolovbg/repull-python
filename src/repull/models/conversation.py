@@ -16,6 +16,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.airbnb_access import AirbnbAccess
   from ..models.record_account_type_0 import RecordAccountType0
 
 
@@ -35,6 +36,10 @@ class Conversation:
             account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
                 webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
                 and events to the same user. `null` when it cannot be resolved (never guessed).
+            airbnb_access (AirbnbAccess | None | Unset): Airbnb conversations, on `GET /v1/conversations/{id}`: every
+                account on the listing (owner and co-hosts) with its state, and `defaultAccount` — the one a send uses when
+                `account` is not given. Pass any connected one as `account` on `POST /v1/conversations/{id}/messages` to send as
+                it.
             id (str | Unset):
             platform (ConversationPlatform | Unset):  Example: airbnb.
             external_thread_id (None | str | Unset): The source channel's own thread id (Airbnb thread id, Booking
@@ -56,6 +61,7 @@ class Conversation:
      """
 
     account: None | RecordAccountType0 | Unset = UNSET
+    airbnb_access: AirbnbAccess | None | Unset = UNSET
     id: str | Unset = UNSET
     platform: ConversationPlatform | Unset = UNSET
     external_thread_id: None | str | Unset = UNSET
@@ -76,6 +82,7 @@ class Conversation:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.airbnb_access import AirbnbAccess
         from ..models.record_account_type_0 import RecordAccountType0
         account: dict[str, Any] | None | Unset
         if isinstance(self.account, Unset):
@@ -84,6 +91,14 @@ class Conversation:
             account = self.account.to_dict()
         else:
             account = self.account
+
+        airbnb_access: dict[str, Any] | None | Unset
+        if isinstance(self.airbnb_access, Unset):
+            airbnb_access = UNSET
+        elif isinstance(self.airbnb_access, AirbnbAccess):
+            airbnb_access = self.airbnb_access.to_dict()
+        else:
+            airbnb_access = self.airbnb_access
 
         id = self.id
 
@@ -158,6 +173,8 @@ class Conversation:
         })
         if account is not UNSET:
             field_dict["account"] = account
+        if airbnb_access is not UNSET:
+            field_dict["airbnbAccess"] = airbnb_access
         if id is not UNSET:
             field_dict["id"] = id
         if platform is not UNSET:
@@ -191,6 +208,7 @@ class Conversation:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.airbnb_access import AirbnbAccess
         from ..models.record_account_type_0 import RecordAccountType0
         d = dict(src_dict)
         def _parse_account(data: object) -> None | RecordAccountType0 | Unset:
@@ -211,6 +229,26 @@ class Conversation:
             return cast(None | RecordAccountType0 | Unset, data)
 
         account = _parse_account(d.pop("account", UNSET))
+
+
+        def _parse_airbnb_access(data: object) -> AirbnbAccess | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                airbnb_access_type_1 = AirbnbAccess.from_dict(data)
+
+
+
+                return airbnb_access_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(AirbnbAccess | None | Unset, data)
+
+        airbnb_access = _parse_airbnb_access(d.pop("airbnbAccess", UNSET))
 
 
         id = d.pop("id", UNSET)
@@ -339,6 +377,7 @@ class Conversation:
 
         conversation = cls(
             account=account,
+            airbnb_access=airbnb_access,
             id=id,
             platform=platform,
             external_thread_id=external_thread_id,
