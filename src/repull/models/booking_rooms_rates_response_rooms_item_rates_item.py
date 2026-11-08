@@ -11,6 +11,8 @@ from ..types import UNSET, Unset
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.booking_occupancy_rule import BookingOccupancyRule
 
 
 
@@ -33,6 +35,11 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
                 `mirror`.
             pricing_type (None | str | Unset): Pricing model: `Standard`, `RLO`, `OBP`, or `LOS`.
             is_child_rate (bool | None | Unset): Whether this rate plan is a derived child rate.
+            occupancy_pricing (list[BookingOccupancyRule] | None | Unset): The occupancy rules this rate plan holds on
+                Booking.com — what `PUT /v1/channels/booking/availability` with `type: "derived-pricing"` writes, in the same
+                terms (`percentage: -10` is 10% less). Empty when the rate plan has none; `null` when `source` is `mirror`. The
+                price for a party of `persons` is the nightly price plus `additional` (or changed by `percentage`), on every
+                night.
      """
 
     rate_id: None | str | Unset = UNSET
@@ -42,6 +49,7 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
     max_persons: int | None | Unset = UNSET
     pricing_type: None | str | Unset = UNSET
     is_child_rate: bool | None | Unset = UNSET
+    occupancy_pricing: list[BookingOccupancyRule] | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -49,6 +57,7 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.booking_occupancy_rule import BookingOccupancyRule
         rate_id: None | str | Unset
         if isinstance(self.rate_id, Unset):
             rate_id = UNSET
@@ -91,6 +100,19 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
         else:
             is_child_rate = self.is_child_rate
 
+        occupancy_pricing: list[dict[str, Any]] | None | Unset
+        if isinstance(self.occupancy_pricing, Unset):
+            occupancy_pricing = UNSET
+        elif isinstance(self.occupancy_pricing, list):
+            occupancy_pricing = []
+            for occupancy_pricing_type_0_item_data in self.occupancy_pricing:
+                occupancy_pricing_type_0_item = occupancy_pricing_type_0_item_data.to_dict()
+                occupancy_pricing.append(occupancy_pricing_type_0_item)
+
+
+        else:
+            occupancy_pricing = self.occupancy_pricing
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -110,6 +132,8 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
             field_dict["pricingType"] = pricing_type
         if is_child_rate is not UNSET:
             field_dict["isChildRate"] = is_child_rate
+        if occupancy_pricing is not UNSET:
+            field_dict["occupancyPricing"] = occupancy_pricing
 
         return field_dict
 
@@ -117,6 +141,7 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.booking_occupancy_rule import BookingOccupancyRule
         d = dict(src_dict)
         def _parse_rate_id(data: object) -> None | str | Unset:
             if data is None:
@@ -188,6 +213,31 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
         is_child_rate = _parse_is_child_rate(d.pop("isChildRate", UNSET))
 
 
+        def _parse_occupancy_pricing(data: object) -> list[BookingOccupancyRule] | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                occupancy_pricing_type_0 = []
+                _occupancy_pricing_type_0 = data
+                for occupancy_pricing_type_0_item_data in (_occupancy_pricing_type_0):
+                    occupancy_pricing_type_0_item = BookingOccupancyRule.from_dict(occupancy_pricing_type_0_item_data)
+
+
+
+                    occupancy_pricing_type_0.append(occupancy_pricing_type_0_item)
+
+                return occupancy_pricing_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(list[BookingOccupancyRule] | None | Unset, data)
+
+        occupancy_pricing = _parse_occupancy_pricing(d.pop("occupancyPricing", UNSET))
+
+
         booking_rooms_rates_response_rooms_item_rates_item = cls(
             rate_id=rate_id,
             rate_name=rate_name,
@@ -196,6 +246,7 @@ class BookingRoomsRatesResponseRoomsItemRatesItem:
             max_persons=max_persons,
             pricing_type=pricing_type,
             is_child_rate=is_child_rate,
+            occupancy_pricing=occupancy_pricing,
         )
 
 

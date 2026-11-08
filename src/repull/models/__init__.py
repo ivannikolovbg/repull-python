@@ -163,6 +163,14 @@ from .booking_connect_rooms_response import BookingConnectRoomsResponse
 from .booking_connect_rooms_response_missing_capabilities_item import BookingConnectRoomsResponseMissingCapabilitiesItem
 from .booking_connect_rooms_response_status import BookingConnectRoomsResponseStatus
 from .booking_conversation import BookingConversation
+from .booking_derived_pricing_update import BookingDerivedPricingUpdate
+from .booking_derived_pricing_write_response import BookingDerivedPricingWriteResponse
+from .booking_derived_pricing_write_response_applied import BookingDerivedPricingWriteResponseApplied
+from .booking_derived_pricing_write_response_booking import BookingDerivedPricingWriteResponseBooking
+from .booking_derived_pricing_write_response_rates_item import BookingDerivedPricingWriteResponseRatesItem
+from .booking_derived_pricing_write_response_verification import BookingDerivedPricingWriteResponseVerification
+from .booking_derived_pricing_write_response_verification_rows_item import BookingDerivedPricingWriteResponseVerificationRowsItem
+from .booking_occupancy_rule import BookingOccupancyRule
 from .booking_pricing_rate_update import BookingPricingRateUpdate
 from .booking_pricing_rate_update_date_range import BookingPricingRateUpdateDateRange
 from .booking_pricing_rate_update_restrictions import BookingPricingRateUpdateRestrictions
@@ -206,6 +214,10 @@ from .booking_restriction_request_row import BookingRestrictionRequestRow
 from .booking_restriction_verification import BookingRestrictionVerification
 from .booking_restriction_verification_row import BookingRestrictionVerificationRow
 from .booking_restriction_verification_row_field import BookingRestrictionVerificationRowField
+from .booking_restriction_write_response import BookingRestrictionWriteResponse
+from .booking_restriction_write_response_applied import BookingRestrictionWriteResponseApplied
+from .booking_restriction_write_response_booking import BookingRestrictionWriteResponseBooking
+from .booking_restriction_write_response_errors_item import BookingRestrictionWriteResponseErrorsItem
 from .booking_room_mapping import BookingRoomMapping
 from .booking_rooms_rates_response import BookingRoomsRatesResponse
 from .booking_rooms_rates_response_rooms_item import BookingRoomsRatesResponseRoomsItem
@@ -1424,6 +1436,14 @@ __all__ = (
     "BookingConnectRoomsResponseMissingCapabilitiesItem",
     "BookingConnectRoomsResponseStatus",
     "BookingConversation",
+    "BookingDerivedPricingUpdate",
+    "BookingDerivedPricingWriteResponse",
+    "BookingDerivedPricingWriteResponseApplied",
+    "BookingDerivedPricingWriteResponseBooking",
+    "BookingDerivedPricingWriteResponseRatesItem",
+    "BookingDerivedPricingWriteResponseVerification",
+    "BookingDerivedPricingWriteResponseVerificationRowsItem",
+    "BookingOccupancyRule",
     "BookingPricingRateUpdate",
     "BookingPricingRateUpdateDateRange",
     "BookingPricingRateUpdateRestrictions",
@@ -1467,6 +1487,10 @@ __all__ = (
     "BookingRestrictionVerification",
     "BookingRestrictionVerificationRow",
     "BookingRestrictionVerificationRowField",
+    "BookingRestrictionWriteResponse",
+    "BookingRestrictionWriteResponseApplied",
+    "BookingRestrictionWriteResponseBooking",
+    "BookingRestrictionWriteResponseErrorsItem",
     "BookingRoomMapping",
     "BookingRoomsRatesResponse",
     "BookingRoomsRatesResponseRoomsItem",

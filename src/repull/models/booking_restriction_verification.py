@@ -30,12 +30,14 @@ class BookingRestrictionVerification:
         Attributes:
             ran (bool | Unset):
             skipped_reason (None | str | Unset): `not_requested` (no restrictions were sent, `verify: false`, or Booking.com
-                refused them), `span_too_long`, `all_dates_beyond_booking_horizon`, `read_back_failed`, `nothing_to_verify`.
+                refused them), `all_dates_beyond_booking_horizon`, `read_back_failed`, `nothing_to_verify`.
             matched (int | Unset):
             mismatched (int | Unset):
             unreported (int | Unset): Restrictions Booking.com's read-back did not mention either way. Counted apart from
                 `mismatched`: an unknown is not a failure.
-            rows (list[BookingRestrictionVerificationRow] | Unset):
+            rows (list[BookingRestrictionVerificationRow] | Unset): One row per (night, restriction). Above 62 rows only the
+                non-matching ones are listed; `rowsOmitted` counts the rest.
+            rows_omitted (int | None | Unset): Matching rows left out of `rows` on a long write.
             error (None | str | Unset):
      """
 
@@ -45,6 +47,7 @@ class BookingRestrictionVerification:
     mismatched: int | Unset = UNSET
     unreported: int | Unset = UNSET
     rows: list[BookingRestrictionVerificationRow] | Unset = UNSET
+    rows_omitted: int | None | Unset = UNSET
     error: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -77,6 +80,12 @@ class BookingRestrictionVerification:
 
 
 
+        rows_omitted: int | None | Unset
+        if isinstance(self.rows_omitted, Unset):
+            rows_omitted = UNSET
+        else:
+            rows_omitted = self.rows_omitted
+
         error: None | str | Unset
         if isinstance(self.error, Unset):
             error = UNSET
@@ -100,6 +109,8 @@ class BookingRestrictionVerification:
             field_dict["unreported"] = unreported
         if rows is not UNSET:
             field_dict["rows"] = rows
+        if rows_omitted is not UNSET:
+            field_dict["rowsOmitted"] = rows_omitted
         if error is not UNSET:
             field_dict["error"] = error
 
@@ -141,6 +152,16 @@ class BookingRestrictionVerification:
                 rows.append(rows_item)
 
 
+        def _parse_rows_omitted(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        rows_omitted = _parse_rows_omitted(d.pop("rowsOmitted", UNSET))
+
+
         def _parse_error(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -158,6 +179,7 @@ class BookingRestrictionVerification:
             mismatched=mismatched,
             unreported=unreported,
             rows=rows,
+            rows_omitted=rows_omitted,
             error=error,
         )
 

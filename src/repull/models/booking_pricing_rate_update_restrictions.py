@@ -35,16 +35,24 @@ class BookingPricingRateUpdateRestrictions:
     plan in the Booking.com Extranet.
 
         Attributes:
-            min_stay (int | None | Unset): Minimum length of stay. Booking.com stores a 1-night minimum as no minimum at
-                all, so `minStay: 1` reads back as `0` and is reported as applied.
-            max_stay (int | None | Unset): Maximum length of stay.
+            min_stay (int | None | Unset): Stay-through minimum length of stay — every stay that covers these nights must be
+                at least this long. `1`–`91`; `0` removes the minimum. Booking.com stores a 1-night minimum as no minimum at
+                all, so `minStay: 1` reads back as `0` and is reported as applied. Above `91` returns `422
+                restriction_out_of_range` (Booking.com would store 91).
+            max_stay (int | None | Unset): Stay-through maximum length of stay — no stay covering these nights may be
+                longer. `1`–`90`; `0` removes the maximum. Above `90` returns `422 restriction_out_of_range`: Booking.com
+                acknowledges a larger value and then stores no maximum, so send `0` for "no limit".
             closed_to_arrival (bool | None | Unset): Closed-to-arrival — guests may not check in on these nights. `false`
                 clears the flag; omit the field to leave it as it is.
             closed_to_departure (bool | None | Unset): Closed-to-departure — guests may not check out on these nights.
                 `false` clears the flag; omit the field to leave it as it is.
             min_stay_arrival (int | None | Unset): Arrival-based minimum length of stay — applies to stays that START on
-                these nights, rather than any stay covering them.
-            max_stay_arrival (int | None | Unset): Arrival-based maximum length of stay.
+                these nights, rather than any stay covering them. `1`–`91`; `0` removes it. Above `91` returns `422
+                restriction_out_of_range`.
+            max_stay_arrival (int | None | Unset): Arrival-based maximum length of stay — the longest stay that may START on
+                these nights. `1`–`90`; `0` removes the maximum. Above `90` (for example `365`) returns `422
+                restriction_out_of_range`: Booking.com acknowledges it and then stores no maximum (`0`), so send `0` for "no
+                limit".
             exact_stay_arrival (int | None | Unset): Refused. Booking.com's restriction notification has no element for an
                 exact arrival-based stay length, so it cannot be written through the API; sending it returns `422
                 restriction_not_supported` naming `updates[N].restrictions.exactStayArrival`. Set it on the rate plan in the

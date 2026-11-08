@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.plan_notice_code import PlanNoticeCode
+from ..types import UNSET, Unset
 from typing import cast
 
 
@@ -31,13 +32,17 @@ class PlanNotice:
     choose which are active with `POST /v1/listings/status`, or upgrade.
 
         Attributes:
-            code (PlanNoticeCode):
+            code (PlanNoticeCode): "listings_held_back": some connected listings are held inactive by the plan.
+                "listings_over_plan": more listings are active than the plan includes (after a downgrade). Neither blocks any
+                call.
             listings_held_back (int): Connected listings kept inactive because of the plan. Example: 40.
             active_listing_limit (int | None): The plan's cap on active listings. Example: 3.
             message (str):  Example: 40 more connected listings are held inactive because your plan allows 3 active
                 listings. They stay connected and keep syncing..
             fix (str):
             billing_url (str):  Example: https://repull.dev/dashboard/billing.
+            active_listing_count (int | Unset): Active listings right now. Only when the code is "listings_over_plan".
+                Example: 12.
      """
 
     code: PlanNoticeCode
@@ -46,6 +51,7 @@ class PlanNotice:
     message: str
     fix: str
     billing_url: str
+    active_listing_count: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -66,6 +72,8 @@ class PlanNotice:
 
         billing_url = self.billing_url
 
+        active_listing_count = self.active_listing_count
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -77,6 +85,8 @@ class PlanNotice:
             "fix": fix,
             "billingUrl": billing_url,
         })
+        if active_listing_count is not UNSET:
+            field_dict["activeListingCount"] = active_listing_count
 
         return field_dict
 
@@ -106,6 +116,8 @@ class PlanNotice:
 
         billing_url = d.pop("billingUrl")
 
+        active_listing_count = d.pop("activeListingCount", UNSET)
+
         plan_notice = cls(
             code=code,
             listings_held_back=listings_held_back,
@@ -113,6 +125,7 @@ class PlanNotice:
             message=message,
             fix=fix,
             billing_url=billing_url,
+            active_listing_count=active_listing_count,
         )
 
 

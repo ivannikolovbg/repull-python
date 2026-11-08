@@ -14,6 +14,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.booking_availability_update import BookingAvailabilityUpdate
+  from ..models.booking_derived_pricing_update import BookingDerivedPricingUpdate
   from ..models.booking_pricing_rate_update import BookingPricingRateUpdate
 
 
@@ -29,23 +30,29 @@ class BookingAvailabilityUpdateRequest:
     """ Body for `PUT /v1/channels/booking/availability`. `type` selects which of Booking.com's writes to perform. Date
     ranges are inclusive at both ends everywhere in this body.
 
+        Example:
+            {'type': 'derived-pricing', 'property_id': '17610853', 'updates': [{'roomId': '1761085301', 'rateId':
+                '70596570', 'leadingOccupancy': 3, 'occupancies': [{'persons': 2, 'additional': -12.01}, {'persons': 1,
+                'additional': -12.01}]}]}
+
         Attributes:
             type_ (BookingAvailabilityUpdateRequestType): `rates` → nightly prices (+ any restrictions sent with them),
                 written at an explicit `occupancy`; `availability` → inventory, stop-sell and restrictions; `derived-pricing` →
                 occupancy-derived pricing rules. A rates update may not carry `roomsToSell`: inventory is an `availability`
                 write.
             property_id (int | str): Booking.com hotel/property id (numeric; accepted as int or numeric string).
-            updates (list[BookingAvailabilityUpdate | BookingPricingRateUpdate]): For `type: "rates"` each item is a
-                `BookingPricingRateUpdate`; for `type: "availability"` a `BookingAvailabilityUpdate`; for `type: "derived-
-                pricing"` a derived-price rule set.
-            verify (bool | None | Unset): Only for `type: "rates"`. Default `true`: after the write the affected nights are
-                read back off Booking.com so `applied` can say `verified` or `mismatch`. Send `false` to skip the read (one
-                fewer Booking.com call); the response then reports `applied: "unverified"`.
+            updates (list[BookingAvailabilityUpdate | BookingDerivedPricingUpdate | BookingPricingRateUpdate]): For `type:
+                "rates"` each item is a `BookingPricingRateUpdate`; for `type: "availability"` a `BookingAvailabilityUpdate`;
+                for `type: "derived-pricing"` a `BookingDerivedPricingUpdate`.
+            verify (bool | None | Unset): Default `true`, for every `type`: after the write Repull reads the result back off
+                Booking.com so `applied` says `verified` or `mismatch` — prices and restrictions per night (`rates`,
+                `availability`), the rule set per rate plan (`derived-pricing`). Send `false` to skip the read; `applied` is
+                then `unverified` (`acknowledged` for a restriction-only `availability` write).
      """
 
     type_: BookingAvailabilityUpdateRequestType
     property_id: int | str
-    updates: list[BookingAvailabilityUpdate | BookingPricingRateUpdate]
+    updates: list[BookingAvailabilityUpdate | BookingDerivedPricingUpdate | BookingPricingRateUpdate]
     verify: bool | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -55,6 +62,7 @@ class BookingAvailabilityUpdateRequest:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.booking_availability_update import BookingAvailabilityUpdate
+        from ..models.booking_derived_pricing_update import BookingDerivedPricingUpdate
         from ..models.booking_pricing_rate_update import BookingPricingRateUpdate
         type_ = self.type_.value
 
@@ -65,6 +73,8 @@ class BookingAvailabilityUpdateRequest:
         for updates_item_data in self.updates:
             updates_item: dict[str, Any]
             if isinstance(updates_item_data, BookingPricingRateUpdate):
+                updates_item = updates_item_data.to_dict()
+            elif isinstance(updates_item_data, BookingAvailabilityUpdate):
                 updates_item = updates_item_data.to_dict()
             else:
                 updates_item = updates_item_data.to_dict()
@@ -97,6 +107,7 @@ class BookingAvailabilityUpdateRequest:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.booking_availability_update import BookingAvailabilityUpdate
+        from ..models.booking_derived_pricing_update import BookingDerivedPricingUpdate
         from ..models.booking_pricing_rate_update import BookingPricingRateUpdate
         d = dict(src_dict)
         type_ = BookingAvailabilityUpdateRequestType(d.pop("type"))
@@ -113,7 +124,7 @@ class BookingAvailabilityUpdateRequest:
         updates = []
         _updates = d.pop("updates")
         for updates_item_data in (_updates):
-            def _parse_updates_item(data: object) -> BookingAvailabilityUpdate | BookingPricingRateUpdate:
+            def _parse_updates_item(data: object) -> BookingAvailabilityUpdate | BookingDerivedPricingUpdate | BookingPricingRateUpdate:
                 try:
                     if not isinstance(data, dict):
                         raise TypeError()
@@ -124,13 +135,23 @@ class BookingAvailabilityUpdateRequest:
                     return updates_item_type_0
                 except (TypeError, ValueError, AttributeError, KeyError):
                     pass
+                try:
+                    if not isinstance(data, dict):
+                        raise TypeError()
+                    updates_item_type_1 = BookingAvailabilityUpdate.from_dict(data)
+
+
+
+                    return updates_item_type_1
+                except (TypeError, ValueError, AttributeError, KeyError):
+                    pass
                 if not isinstance(data, dict):
                     raise TypeError()
-                updates_item_type_1 = BookingAvailabilityUpdate.from_dict(data)
+                updates_item_type_2 = BookingDerivedPricingUpdate.from_dict(data)
 
 
 
-                return updates_item_type_1
+                return updates_item_type_2
 
             updates_item = _parse_updates_item(updates_item_data)
 

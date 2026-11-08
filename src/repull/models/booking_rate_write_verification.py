@@ -30,10 +30,15 @@ class BookingRateWriteVerification:
         Attributes:
             ran (bool | Unset): Whether the read-back happened.
             skipped_reason (None | str | Unset): Why it did not: `not_requested` (you sent `verify: false`),
-                `span_too_long`, `all_dates_beyond_booking_horizon`, `read_back_failed`, `nothing_to_verify`.
+                `all_dates_beyond_booking_horizon`, `read_back_failed`, `nothing_to_verify`. Every night of a write is read
+                back, however long the range (a year is read in 31-day chunks, in parallel).
             matched (int | Unset):
             mismatched (int | Unset):
-            rows (list[BookingRateWriteVerificationRow] | Unset):
+            rows (list[BookingRateWriteVerificationRow] | Unset): One row per night. When a write covers more than 62 rows,
+                only the nights that did NOT match are listed and `rowsOmitted` counts the rest — `matched` and `mismatched`
+                always cover every night.
+            rows_omitted (int | None | Unset): Matching nights left out of `rows` on a long write. Absent when every row is
+                listed.
             error (None | str | Unset): Present when the read itself failed.
      """
 
@@ -42,6 +47,7 @@ class BookingRateWriteVerification:
     matched: int | Unset = UNSET
     mismatched: int | Unset = UNSET
     rows: list[BookingRateWriteVerificationRow] | Unset = UNSET
+    rows_omitted: int | None | Unset = UNSET
     error: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -72,6 +78,12 @@ class BookingRateWriteVerification:
 
 
 
+        rows_omitted: int | None | Unset
+        if isinstance(self.rows_omitted, Unset):
+            rows_omitted = UNSET
+        else:
+            rows_omitted = self.rows_omitted
+
         error: None | str | Unset
         if isinstance(self.error, Unset):
             error = UNSET
@@ -93,6 +105,8 @@ class BookingRateWriteVerification:
             field_dict["mismatched"] = mismatched
         if rows is not UNSET:
             field_dict["rows"] = rows
+        if rows_omitted is not UNSET:
+            field_dict["rowsOmitted"] = rows_omitted
         if error is not UNSET:
             field_dict["error"] = error
 
@@ -132,6 +146,16 @@ class BookingRateWriteVerification:
                 rows.append(rows_item)
 
 
+        def _parse_rows_omitted(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        rows_omitted = _parse_rows_omitted(d.pop("rowsOmitted", UNSET))
+
+
         def _parse_error(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -148,6 +172,7 @@ class BookingRateWriteVerification:
             matched=matched,
             mismatched=mismatched,
             rows=rows,
+            rows_omitted=rows_omitted,
             error=error,
         )
 
