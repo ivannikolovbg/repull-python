@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -23,12 +24,13 @@ T = TypeVar("T", bound="ReservationMessageReceivedPayloadFrom")
 class ReservationMessageReceivedPayloadFrom:
     """ 
         Attributes:
-            type_ (str | Unset): Message author (guest, host, system). Example: guest.
-            name (str | Unset):  Example: Alex Morgan.
+            type_ (str | Unset): Who wrote it: `guest`, `booker`, `cotraveler`, or `airbnb` (Airbnb Support writing on the
+                thread). Example: guest.
+            name (None | str | Unset):  Example: Alex Morgan.
      """
 
     type_: str | Unset = UNSET
-    name: str | Unset = UNSET
+    name: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -38,7 +40,11 @@ class ReservationMessageReceivedPayloadFrom:
     def to_dict(self) -> dict[str, Any]:
         type_ = self.type_
 
-        name = self.name
+        name: None | str | Unset
+        if isinstance(self.name, Unset):
+            name = UNSET
+        else:
+            name = self.name
 
 
         field_dict: dict[str, Any] = {}
@@ -59,7 +65,15 @@ class ReservationMessageReceivedPayloadFrom:
         d = dict(src_dict)
         type_ = d.pop("type", UNSET)
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        name = _parse_name(d.pop("name", UNSET))
+
 
         reservation_message_received_payload_from = cls(
             type_=type_,

@@ -37,7 +37,7 @@ class ReservationMessageReadPayload:
             listing_id (int | None | Unset):  Example: 23893.
             channel (str | Unset):  Example: airbnb.
             message_id (str | Unset): The newest message the guest has read. Its `readAt` is now set. Example: 1854462.
-            external_message_id (None | str | Unset):  Example: 33532605539.
+            external_message_id (None | str | Unset):  Example: 32877308873.
             read_at (datetime.datetime | Unset): When the guest read it, as the channel reports it.
             reader (MessageActor | Unset): Who did something on a message.
      """

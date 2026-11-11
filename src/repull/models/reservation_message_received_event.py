@@ -36,7 +36,9 @@ class ReservationMessageReceivedEvent:
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
             data (ReservationMessageReceivedPayload): Payload for `reservation.message.received`. A new inbound message
-                arrived on a reservation thread.
+                arrived on a reservation thread: from the guest, a co-traveler, the booker, or Airbnb Support (`from.type:
+                "airbnb"`). The whole message, the same as `GET /v1/conversations/{threadId}/messages` returns it, plus where it
+                belongs. Dedupe on `externalMessageId` (or `messageId`).
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".

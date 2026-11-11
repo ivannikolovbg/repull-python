@@ -994,6 +994,7 @@ from .reservation_message_read_payload import ReservationMessageReadPayload
 from .reservation_message_received_event import ReservationMessageReceivedEvent
 from .reservation_message_received_event_event import ReservationMessageReceivedEventEvent
 from .reservation_message_received_payload import ReservationMessageReceivedPayload
+from .reservation_message_received_payload_direction import ReservationMessageReceivedPayloadDirection
 from .reservation_message_received_payload_from import ReservationMessageReceivedPayloadFrom
 from .reservation_message_sent_event import ReservationMessageSentEvent
 from .reservation_message_sent_event_event import ReservationMessageSentEventEvent
@@ -2295,6 +2296,7 @@ __all__ = (
     "ReservationMessageReceivedEvent",
     "ReservationMessageReceivedEventEvent",
     "ReservationMessageReceivedPayload",
+    "ReservationMessageReceivedPayloadDirection",
     "ReservationMessageReceivedPayloadFrom",
     "ReservationMessageSentEvent",
     "ReservationMessageSentEventEvent",

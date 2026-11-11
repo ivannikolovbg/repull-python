@@ -35,7 +35,7 @@ class ReservationMessageReactionPayload:
             listing_id (int | None | Unset):  Example: 23893.
             channel (str | Unset):  Example: airbnb.
             message_id (str | Unset): The message reacted to. Example: 1854462.
-            external_message_id (None | str | Unset):  Example: 33532605539.
+            external_message_id (None | str | Unset):  Example: 32877308873.
             action (ReservationMessageReactionPayloadAction | Unset):
             reaction (ReservationMessageReactionPayloadReaction | Unset):
      """

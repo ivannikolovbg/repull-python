@@ -475,7 +475,7 @@ wheels = [
 
 [[package]]
 name = "repull-sdk"
-version = "0.2.44"
+version = "0.2.45"
 source = { editable = "." }
 dependencies = [
     { name = "attrs" },
