@@ -11,6 +11,7 @@ class WebhookEventType(str, Enum):
     BOOKING_UNACKNOWLEDGED = "booking.unacknowledged"
     CHANNEL_DEGRADED = "channel.degraded"
     CHANNEL_SYNC_FAILED = "channel.sync.failed"
+    CONNECT_SESSION_ABANDONED = "connect.session.abandoned"
     CONNECT_SESSION_COMPLETED = "connect.session.completed"
     INQUIRY_CREATED = "inquiry.created"
     INQUIRY_UPDATED = "inquiry.updated"

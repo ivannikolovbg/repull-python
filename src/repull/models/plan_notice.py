@@ -38,11 +38,18 @@ class PlanNotice:
             listings_held_back (int): Connected listings kept inactive because of the plan. Example: 40.
             active_listing_limit (int | None): The plan's cap on active listings. Example: 3.
             message (str):  Example: 40 more connected listings are held inactive because your plan allows 3 active
-                listings. They stay connected and keep syncing..
+                listings. They stay connected and keep syncing. Starter serves all 43 for $264 a month:
+                https://repull.dev/dashboard/billing?upgrade=starter.
             fix (str):
             billing_url (str):  Example: https://repull.dev/dashboard/billing.
             active_listing_count (int | Unset): Active listings right now. Only when the code is "listings_over_plan".
                 Example: 12.
+            starter_listings (int | Unset): On a free plan: the listings Starter would serve and bill, active plus held
+                back, across the plan's workspaces. Example: 43.
+            starter_monthly_price (float | Unset): Starter's monthly price in USD for `starterListings` — exactly what
+                checkout charges. Present up to 100 listings; above that the message says how to ask for a plan. Example: 264.
+            checkout_url (str | Unset): Opens Starter checkout at `starterMonthlyPrice`. Present up to 100 listings.
+                Example: https://repull.dev/dashboard/billing?upgrade=starter.
      """
 
     code: PlanNoticeCode
@@ -52,6 +59,9 @@ class PlanNotice:
     fix: str
     billing_url: str
     active_listing_count: int | Unset = UNSET
+    starter_listings: int | Unset = UNSET
+    starter_monthly_price: float | Unset = UNSET
+    checkout_url: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -74,6 +84,12 @@ class PlanNotice:
 
         active_listing_count = self.active_listing_count
 
+        starter_listings = self.starter_listings
+
+        starter_monthly_price = self.starter_monthly_price
+
+        checkout_url = self.checkout_url
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -87,6 +103,12 @@ class PlanNotice:
         })
         if active_listing_count is not UNSET:
             field_dict["activeListingCount"] = active_listing_count
+        if starter_listings is not UNSET:
+            field_dict["starterListings"] = starter_listings
+        if starter_monthly_price is not UNSET:
+            field_dict["starterMonthlyPrice"] = starter_monthly_price
+        if checkout_url is not UNSET:
+            field_dict["checkoutUrl"] = checkout_url
 
         return field_dict
 
@@ -118,6 +140,12 @@ class PlanNotice:
 
         active_listing_count = d.pop("activeListingCount", UNSET)
 
+        starter_listings = d.pop("starterListings", UNSET)
+
+        starter_monthly_price = d.pop("starterMonthlyPrice", UNSET)
+
+        checkout_url = d.pop("checkoutUrl", UNSET)
+
         plan_notice = cls(
             code=code,
             listings_held_back=listings_held_back,
@@ -126,6 +154,9 @@ class PlanNotice:
             fix=fix,
             billing_url=billing_url,
             active_listing_count=active_listing_count,
+            starter_listings=starter_listings,
+            starter_monthly_price=starter_monthly_price,
+            checkout_url=checkout_url,
         )
 
 

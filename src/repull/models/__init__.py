@@ -274,6 +274,11 @@ from .connect_provider_list_response import ConnectProviderListResponse
 from .connect_provider_migration_capabilities_type_0 import ConnectProviderMigrationCapabilitiesType0
 from .connect_provider_status import ConnectProviderStatus
 from .connect_session import ConnectSession
+from .connect_session_abandoned_event import ConnectSessionAbandonedEvent
+from .connect_session_abandoned_event_event import ConnectSessionAbandonedEventEvent
+from .connect_session_abandoned_payload import ConnectSessionAbandonedPayload
+from .connect_session_abandoned_payload_reason import ConnectSessionAbandonedPayloadReason
+from .connect_session_abandoned_payload_status import ConnectSessionAbandonedPayloadStatus
 from .connect_session_completed_event import ConnectSessionCompletedEvent
 from .connect_session_completed_event_event import ConnectSessionCompletedEventEvent
 from .connect_session_completed_payload import ConnectSessionCompletedPayload
@@ -1580,6 +1585,11 @@ __all__ = (
     "ConnectProviderMigrationCapabilitiesType0",
     "ConnectProviderStatus",
     "ConnectSession",
+    "ConnectSessionAbandonedEvent",
+    "ConnectSessionAbandonedEventEvent",
+    "ConnectSessionAbandonedPayload",
+    "ConnectSessionAbandonedPayloadReason",
+    "ConnectSessionAbandonedPayloadStatus",
     "ConnectSessionCompletedEvent",
     "ConnectSessionCompletedEventEvent",
     "ConnectSessionCompletedPayload",
