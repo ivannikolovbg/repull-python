@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "repull-sdk"
 version = "0.2.44"
-description = "Python SDK for Repull — build vacation-rental tech in Python."
+description = "Python SDK for Repull — one API for Airbnb, Booking.com, Vrbo and 15 PMS platforms."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -21,7 +21,7 @@ keywords = [
   "sdk",
 ]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",

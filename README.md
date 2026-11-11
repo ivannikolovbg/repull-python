@@ -1,24 +1,16 @@
 # Repull Python SDK
 
-> **Status:** v0.2.0 — beta. API surface stable; minor renames possible before 1.0.
-
-Typed Python client for [api.repull.dev](https://api.repull.dev) — the unified API for vacation-rental tech (50+ PMS platforms, Airbnb / Booking.com / VRBO / Plumguide channels, AI ops, white-label OAuth Connect).
+Typed Python client for [Repull](https://repull.dev) — one API for vacation-rental tech: Airbnb, Booking.com, Vrbo and more channels, plus 15 PMS platforms, behind one key, with white-label Connect for linking your users' accounts.
 
 Async by default. Generated from OpenAPI. Fully typed (`attrs` + `httpx`).
 
 ## Install
 
-The PyPI package name `repull` is reserved but not yet published. For now, install from git:
-
 ```bash
-pip install git+https://github.com/ivannikolovbg/repull-python.git
+pip install repull-sdk
 ```
 
-Once published:
-
-```bash
-pip install repull
-```
+The package installs as `repull-sdk` and imports as `repull`.
 
 Requires Python 3.10+.
 
@@ -70,8 +62,6 @@ The client is generated tag-by-tag from the OpenAPI spec. The modules mirror the
 | `repull.api.airbnb` | listings, pricing, availability, photos, messaging, reservations, reviews, sync |
 | `repull.api.booking_com` | properties, availability, content, messaging, sync |
 | `repull.api.vrbo` | listings, reservations |
-| `repull.api.plumguide` | listings, availability, pricing |
-| `repull.api.ai` | run AI operations (autorespond, smart pricing, etc.) |
 | `repull.api.billing` | view & change plan |
 
 Everything is fully typed — your editor will autocomplete every parameter and every response field.
@@ -89,7 +79,7 @@ REPULL_API_KEY=sk_live_... python examples/quickstart.py
 
 ## Connect (OAuth)
 
-Repull Connect lets you link a property manager's Airbnb / Booking.com account in a few lines:
+Repull Connect lets you link a property manager's Airbnb, Booking.com, Vrbo or PMS account in a few lines:
 
 ```python
 from repull.api.connect import create_connect_session
