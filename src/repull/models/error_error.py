@@ -9,11 +9,15 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from dateutil.parser import isoparse
 from typing import cast
+import datetime
 
 if TYPE_CHECKING:
+  from ..models.error_error_credits import ErrorErrorCredits
   from ..models.error_error_listings_item import ErrorErrorListingsItem
   from ..models.error_error_support import ErrorErrorSupport
+  from ..models.error_error_upgrade import ErrorErrorUpgrade
 
 
 
@@ -76,6 +80,24 @@ class ErrorError:
                 on `code: "listing_not_api_connected"` (HTTP 403). Example: none.
             retry_after (int | Unset): Seconds the client should wait before retrying. Mirrors the `Retry-After` HTTP
                 header. Present on rate-limit responses and on transient upstream failures that are safe to retry. Example: 60.
+            tier (str | Unset): The plan the request was counted against. Present on quota refusals (`rate_limit_exceeded`,
+                `daily_limit_exceeded`, `credits_exhausted`). Example: free.
+            scope (str | Unset): Which limit refused the request: `monthly` (the plan's request quota), `daily` (the daily
+                loop guard), the daily AI quota, or `per_api_key` (the per-minute limiter: wait `Retry-After`, nothing else).
+                Example: monthly.
+            limit (int | Unset): The limit that was reached. Present on quota refusals. Example: 1000.
+            used (int | Unset): How much of `limit` is used. Present on quota refusals. Example: 1000.
+            resets_at (datetime.datetime | Unset): When the refused quota resets. Present on quota refusals. Example:
+                2026-12-01T00:00:00.000Z.
+            projected_monthly_requests (int | Unset): This month's requests extrapolated to the whole month — the usage
+                `upgrade` was sized for. Present with `upgrade`. Example: 2858.
+            upgrade (ErrorErrorUpgrade | Unset): The cheapest plan that covers your usage. Present on the monthly quota
+                refusal (`rate_limit_exceeded`, `scope: "monthly"`), `credits_exhausted` and `daily_limit_exceeded`.
+                `monthly_price_usd` is exactly what `checkout_url` charges for `listings`. `plan: "custom"` means no self-serve
+                plan covers the usage (already on Starter, more than Starter's quotas, or more than 100 listings): email
+                `contact_email`.
+            credits_ (ErrorErrorCredits | Unset): Pay-as-you-go credits, the alternative to a plan change: past your plan's
+                monthly quota, requests are served while the wallet has a balance. Present with `upgrade`.
             support (ErrorErrorSupport | Unset): LAST-RESORT contact handle. Only set on errors that genuinely cannot be
                 self-fixed (billing dispute, account-state corruption, OAuth partner intervention). Never fall back to support
                 before trying `fix` and `docs_url`.
@@ -99,6 +121,14 @@ class ErrorError:
     airbnb_listing_id: str | Unset = UNSET
     sync_category: str | Unset = UNSET
     retry_after: int | Unset = UNSET
+    tier: str | Unset = UNSET
+    scope: str | Unset = UNSET
+    limit: int | Unset = UNSET
+    used: int | Unset = UNSET
+    resets_at: datetime.datetime | Unset = UNSET
+    projected_monthly_requests: int | Unset = UNSET
+    upgrade: ErrorErrorUpgrade | Unset = UNSET
+    credits_: ErrorErrorCredits | Unset = UNSET
     support: ErrorErrorSupport | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -107,8 +137,10 @@ class ErrorError:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.error_error_credits import ErrorErrorCredits
         from ..models.error_error_listings_item import ErrorErrorListingsItem
         from ..models.error_error_support import ErrorErrorSupport
+        from ..models.error_error_upgrade import ErrorErrorUpgrade
         code = self.code
 
         message = self.message
@@ -164,6 +196,28 @@ class ErrorError:
 
         retry_after = self.retry_after
 
+        tier = self.tier
+
+        scope = self.scope
+
+        limit = self.limit
+
+        used = self.used
+
+        resets_at: str | Unset = UNSET
+        if not isinstance(self.resets_at, Unset):
+            resets_at = self.resets_at.isoformat()
+
+        projected_monthly_requests = self.projected_monthly_requests
+
+        upgrade: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.upgrade, Unset):
+            upgrade = self.upgrade.to_dict()
+
+        credits_: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.credits_, Unset):
+            credits_ = self.credits_.to_dict()
+
         support: dict[str, Any] | Unset = UNSET
         if not isinstance(self.support, Unset):
             support = self.support.to_dict()
@@ -204,6 +258,22 @@ class ErrorError:
             field_dict["sync_category"] = sync_category
         if retry_after is not UNSET:
             field_dict["retry_after"] = retry_after
+        if tier is not UNSET:
+            field_dict["tier"] = tier
+        if scope is not UNSET:
+            field_dict["scope"] = scope
+        if limit is not UNSET:
+            field_dict["limit"] = limit
+        if used is not UNSET:
+            field_dict["used"] = used
+        if resets_at is not UNSET:
+            field_dict["resets_at"] = resets_at
+        if projected_monthly_requests is not UNSET:
+            field_dict["projected_monthly_requests"] = projected_monthly_requests
+        if upgrade is not UNSET:
+            field_dict["upgrade"] = upgrade
+        if credits_ is not UNSET:
+            field_dict["credits"] = credits_
         if support is not UNSET:
             field_dict["support"] = support
 
@@ -213,8 +283,10 @@ class ErrorError:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.error_error_credits import ErrorErrorCredits
         from ..models.error_error_listings_item import ErrorErrorListingsItem
         from ..models.error_error_support import ErrorErrorSupport
+        from ..models.error_error_upgrade import ErrorErrorUpgrade
         d = dict(src_dict)
         code = d.pop("code")
 
@@ -265,6 +337,46 @@ class ErrorError:
 
         retry_after = d.pop("retry_after", UNSET)
 
+        tier = d.pop("tier", UNSET)
+
+        scope = d.pop("scope", UNSET)
+
+        limit = d.pop("limit", UNSET)
+
+        used = d.pop("used", UNSET)
+
+        _resets_at = d.pop("resets_at", UNSET)
+        resets_at: datetime.datetime | Unset
+        if isinstance(_resets_at,  Unset):
+            resets_at = UNSET
+        else:
+            resets_at = isoparse(_resets_at)
+
+
+
+
+        projected_monthly_requests = d.pop("projected_monthly_requests", UNSET)
+
+        _upgrade = d.pop("upgrade", UNSET)
+        upgrade: ErrorErrorUpgrade | Unset
+        if isinstance(_upgrade,  Unset):
+            upgrade = UNSET
+        else:
+            upgrade = ErrorErrorUpgrade.from_dict(_upgrade)
+
+
+
+
+        _credits_ = d.pop("credits", UNSET)
+        credits_: ErrorErrorCredits | Unset
+        if isinstance(_credits_,  Unset):
+            credits_ = UNSET
+        else:
+            credits_ = ErrorErrorCredits.from_dict(_credits_)
+
+
+
+
         _support = d.pop("support", UNSET)
         support: ErrorErrorSupport | Unset
         if isinstance(_support,  Unset):
@@ -294,6 +406,14 @@ class ErrorError:
             airbnb_listing_id=airbnb_listing_id,
             sync_category=sync_category,
             retry_after=retry_after,
+            tier=tier,
+            scope=scope,
+            limit=limit,
+            used=used,
+            resets_at=resets_at,
+            projected_monthly_requests=projected_monthly_requests,
+            upgrade=upgrade,
+            credits_=credits_,
             support=support,
         )
 

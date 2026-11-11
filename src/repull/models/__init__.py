@@ -370,8 +370,11 @@ from .delete_migration_response_200 import DeleteMigrationResponse200
 from .delete_migration_response_200_data import DeleteMigrationResponse200Data
 from .error import Error
 from .error_error import ErrorError
+from .error_error_credits import ErrorErrorCredits
 from .error_error_listings_item import ErrorErrorListingsItem
 from .error_error_support import ErrorErrorSupport
+from .error_error_upgrade import ErrorErrorUpgrade
+from .error_error_upgrade_plan import ErrorErrorUpgradePlan
 from .get_airbnb_alteration_response_200 import GetAirbnbAlterationResponse200
 from .get_airbnb_booking_settings_response_200 import GetAirbnbBookingSettingsResponse200
 from .get_airbnb_booking_settings_response_200_data import GetAirbnbBookingSettingsResponse200Data
@@ -1677,8 +1680,11 @@ __all__ = (
     "DeleteMigrationResponse200Data",
     "Error",
     "ErrorError",
+    "ErrorErrorCredits",
     "ErrorErrorListingsItem",
     "ErrorErrorSupport",
+    "ErrorErrorUpgrade",
+    "ErrorErrorUpgradePlan",
     "GetAirbnbAlterationResponse200",
     "GetAirbnbBookingSettingsResponse200",
     "GetAirbnbBookingSettingsResponse200Data",
