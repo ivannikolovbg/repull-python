@@ -1,6 +1,6 @@
 # Repull Python SDK
 
-Typed Python client for [Repull](https://repull.dev) — one API for vacation-rental tech: Airbnb, Booking.com, Vrbo and more channels, plus 15 PMS platforms, behind one key, with white-label Connect for linking your users' accounts.
+Typed Python client for [Repull](https://repull.dev) — one API for vacation-rental tech: Airbnb, Booking.com, Vrbo and more channels, plus 14 PMS platforms, behind one key, with white-label Connect for linking your users' accounts.
 
 Async by default. Generated from OpenAPI. Fully typed (`attrs` + `httpx`).
 
