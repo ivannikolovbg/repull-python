@@ -36,7 +36,13 @@ class AccountDisconnectedEvent:
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
             data (AccountDisconnectedPayload): Payload for `account.disconnected`. A PMS or channel connection was revoked,
-                expired, or rejected by the upstream provider.
+                expired, or rejected by the upstream provider. Sent for Airbnb, Booking.com Extranet logins, Vrbo logins and PMS
+                connections (Hostaway, Guesty, Smoobu, Lodgify, Beds24, Hospitable, OwnerRez, iGMS, BookingSync, Track, Mews,
+                Cloudbeds, Zeevou, RentalReady, CiiRUS, …). A PMS connection is reported when the PMS refuses its credentials
+                (API key revoked or invalid, 401/403, token refresh refused); timeouts, rate limits and 5xx errors are retried
+                and never reported. Sent once per disconnect, not on every failed sync. When the connection works again —
+                credentials fixed in the PMS, or reconnected — Repull re-imports the changes made while it was down and sends
+                their `reservation.*` events, so nothing missed has to be fetched by hand.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".

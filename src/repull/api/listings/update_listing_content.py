@@ -136,8 +136,10 @@ def sync_detailed(
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
     Distribution stays a separate explicit step.
 
-    **Photos are deferred:** a provided `photos` array is echoed back in the `deferred` field and NOT
-    persisted (media ingestion is a follow-up).
+    **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
+    order: a full replacement by default, or added after the existing ones with `photosMode:
+    \"append\"`. A publish sends them to the channels. An array with no valid http(s) URL is reported in
+    `deferred` and the existing photos are left alone.
 
     Cross-tenant access (a listing that belongs to a different workspace) returns 404 — never 403. This
     endpoint is served even when the account is over the plan-listings cap, since editing content on a
@@ -214,8 +216,10 @@ def sync(
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
     Distribution stays a separate explicit step.
 
-    **Photos are deferred:** a provided `photos` array is echoed back in the `deferred` field and NOT
-    persisted (media ingestion is a follow-up).
+    **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
+    order: a full replacement by default, or added after the existing ones with `photosMode:
+    \"append\"`. A publish sends them to the channels. An array with no valid http(s) URL is reported in
+    `deferred` and the existing photos are left alone.
 
     Cross-tenant access (a listing that belongs to a different workspace) returns 404 — never 403. This
     endpoint is served even when the account is over the plan-listings cap, since editing content on a
@@ -287,8 +291,10 @@ async def asyncio_detailed(
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
     Distribution stays a separate explicit step.
 
-    **Photos are deferred:** a provided `photos` array is echoed back in the `deferred` field and NOT
-    persisted (media ingestion is a follow-up).
+    **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
+    order: a full replacement by default, or added after the existing ones with `photosMode:
+    \"append\"`. A publish sends them to the channels. An array with no valid http(s) URL is reported in
+    `deferred` and the existing photos are left alone.
 
     Cross-tenant access (a listing that belongs to a different workspace) returns 404 — never 403. This
     endpoint is served even when the account is over the plan-listings cap, since editing content on a
@@ -365,8 +371,10 @@ async def asyncio(
     NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
     Distribution stays a separate explicit step.
 
-    **Photos are deferred:** a provided `photos` array is echoed back in the `deferred` field and NOT
-    persisted (media ingestion is a follow-up).
+    **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
+    order: a full replacement by default, or added after the existing ones with `photosMode:
+    \"append\"`. A publish sends them to the channels. An array with no valid http(s) URL is reported in
+    `deferred` and the existing photos are left alone.
 
     Cross-tenant access (a listing that belongs to a different workspace) returns 404 — never 403. This
     endpoint is served even when the account is over the plan-listings cap, since editing content on a

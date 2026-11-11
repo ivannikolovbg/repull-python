@@ -430,12 +430,19 @@ from .get_listing_calendar_sync_response_200_channels_item_status import GetList
 from .get_listing_markups_response_200 import GetListingMarkupsResponse200
 from .get_listing_markups_response_200_airbnb_item import GetListingMarkupsResponse200AirbnbItem
 from .get_listing_markups_response_200_booking_item import GetListingMarkupsResponse200BookingItem
+from .get_listing_markups_response_200_vrbo_item import GetListingMarkupsResponse200VrboItem
 from .get_listing_segments_level import GetListingSegmentsLevel
 from .get_mcp_health_response_200 import GetMcpHealthResponse200
 from .get_migration_channel_map_response_200 import GetMigrationChannelMapResponse200
 from .get_migration_report_response_200 import GetMigrationReportResponse200
 from .get_migration_response_200 import GetMigrationResponse200
 from .get_property_include import GetPropertyInclude
+from .get_reservation_summary_basis import GetReservationSummaryBasis
+from .get_reservation_summary_response_200 import GetReservationSummaryResponse200
+from .get_reservation_summary_response_200_basis import GetReservationSummaryResponse200Basis
+from .get_reservation_summary_response_200_group_by_item import GetReservationSummaryResponse200GroupByItem
+from .get_reservation_summary_response_200_groups_item import GetReservationSummaryResponse200GroupsItem
+from .get_reservation_summary_response_200_totals_item import GetReservationSummaryResponse200TotalsItem
 from .get_transaction_statement_format import GetTransactionStatementFormat
 from .get_usage_logs_range import GetUsageLogsRange
 from .get_usage_logs_response_200 import GetUsageLogsResponse200
@@ -456,6 +463,11 @@ from .get_usage_tier_response_200 import GetUsageTierResponse200
 from .get_usage_tier_response_200_limits import GetUsageTierResponse200Limits
 from .get_usage_tier_response_200_remaining import GetUsageTierResponse200Remaining
 from .get_usage_tier_response_200_used import GetUsageTierResponse200Used
+from .get_vrbo_publish_job_response_200 import GetVrboPublishJobResponse200
+from .get_vrbo_publish_job_response_200_channel import GetVrboPublishJobResponse200Channel
+from .get_vrbo_publish_job_response_200_job import GetVrboPublishJobResponse200Job
+from .get_vrbo_publish_job_response_200_job_rejected_photos_item import GetVrboPublishJobResponse200JobRejectedPhotosItem
+from .get_vrbo_publish_job_response_200_job_status import GetVrboPublishJobResponse200JobStatus
 from .get_webhooks_health_response_200 import GetWebhooksHealthResponse200
 from .guest import Guest
 from .guest_contact import GuestContact
@@ -786,8 +798,10 @@ from .markets_overview_response_browse import MarketsOverviewResponseBrowse
 from .markets_overview_response_subscriptions import MarketsOverviewResponseSubscriptions
 from .markets_overview_response_totals import MarketsOverviewResponseTotals
 from .message import Message
+from .message_actor import MessageActor
 from .message_direction import MessageDirection
 from .message_list_response import MessageListResponse
+from .message_reaction import MessageReaction
 from .message_status import MessageStatus
 from .migration import Migration
 from .migration_channel_map import MigrationChannelMap
@@ -907,6 +921,12 @@ from .property_availability_day import PropertyAvailabilityDay
 from .property_availability_unit import PropertyAvailabilityUnit
 from .property_list_response import PropertyListResponse
 from .property_status import PropertyStatus
+from .publish_listing_to_vrbo_body import PublishListingToVrboBody
+from .publish_listing_to_vrbo_response_202 import PublishListingToVrboResponse202
+from .publish_listing_to_vrbo_response_202_channel import PublishListingToVrboResponse202Channel
+from .publish_listing_to_vrbo_response_202_job import PublishListingToVrboResponse202Job
+from .publish_listing_to_vrbo_response_202_job_rejected_photos_item import PublishListingToVrboResponse202JobRejectedPhotosItem
+from .publish_listing_to_vrbo_response_202_job_status import PublishListingToVrboResponse202JobStatus
 from .publish_section_error import PublishSectionError
 from .publish_section_error_code import PublishSectionErrorCode
 from .publish_section_error_section import PublishSectionErrorSection
@@ -963,6 +983,14 @@ from .reservation_guest_financials import ReservationGuestFinancials
 from .reservation_guest_input import ReservationGuestInput
 from .reservation_host_financials import ReservationHostFinancials
 from .reservation_list_response import ReservationListResponse
+from .reservation_message_reaction_event import ReservationMessageReactionEvent
+from .reservation_message_reaction_event_event import ReservationMessageReactionEventEvent
+from .reservation_message_reaction_payload import ReservationMessageReactionPayload
+from .reservation_message_reaction_payload_action import ReservationMessageReactionPayloadAction
+from .reservation_message_reaction_payload_reaction import ReservationMessageReactionPayloadReaction
+from .reservation_message_read_event import ReservationMessageReadEvent
+from .reservation_message_read_event_event import ReservationMessageReadEventEvent
+from .reservation_message_read_payload import ReservationMessageReadPayload
 from .reservation_message_received_event import ReservationMessageReceivedEvent
 from .reservation_message_received_event_event import ReservationMessageReceivedEventEvent
 from .reservation_message_received_payload import ReservationMessageReceivedPayload
@@ -1703,12 +1731,19 @@ __all__ = (
     "GetListingMarkupsResponse200",
     "GetListingMarkupsResponse200AirbnbItem",
     "GetListingMarkupsResponse200BookingItem",
+    "GetListingMarkupsResponse200VrboItem",
     "GetListingSegmentsLevel",
     "GetMcpHealthResponse200",
     "GetMigrationChannelMapResponse200",
     "GetMigrationReportResponse200",
     "GetMigrationResponse200",
     "GetPropertyInclude",
+    "GetReservationSummaryBasis",
+    "GetReservationSummaryResponse200",
+    "GetReservationSummaryResponse200Basis",
+    "GetReservationSummaryResponse200GroupByItem",
+    "GetReservationSummaryResponse200GroupsItem",
+    "GetReservationSummaryResponse200TotalsItem",
     "GetTransactionStatementFormat",
     "GetUsageLogsRange",
     "GetUsageLogsResponse200",
@@ -1729,6 +1764,11 @@ __all__ = (
     "GetUsageTierResponse200Limits",
     "GetUsageTierResponse200Remaining",
     "GetUsageTierResponse200Used",
+    "GetVrboPublishJobResponse200",
+    "GetVrboPublishJobResponse200Channel",
+    "GetVrboPublishJobResponse200Job",
+    "GetVrboPublishJobResponse200JobRejectedPhotosItem",
+    "GetVrboPublishJobResponse200JobStatus",
     "GetWebhooksHealthResponse200",
     "Guest",
     "GuestContact",
@@ -2059,8 +2099,10 @@ __all__ = (
     "MarketSummary",
     "MarketTopComp",
     "Message",
+    "MessageActor",
     "MessageDirection",
     "MessageListResponse",
+    "MessageReaction",
     "MessageStatus",
     "Migration",
     "MigrationChannelMap",
@@ -2180,6 +2222,12 @@ __all__ = (
     "PropertyAvailabilityUnit",
     "PropertyListResponse",
     "PropertyStatus",
+    "PublishListingToVrboBody",
+    "PublishListingToVrboResponse202",
+    "PublishListingToVrboResponse202Channel",
+    "PublishListingToVrboResponse202Job",
+    "PublishListingToVrboResponse202JobRejectedPhotosItem",
+    "PublishListingToVrboResponse202JobStatus",
     "PublishSectionError",
     "PublishSectionErrorCode",
     "PublishSectionErrorSection",
@@ -2236,6 +2284,14 @@ __all__ = (
     "ReservationGuestInput",
     "ReservationHostFinancials",
     "ReservationListResponse",
+    "ReservationMessageReactionEvent",
+    "ReservationMessageReactionEventEvent",
+    "ReservationMessageReactionPayload",
+    "ReservationMessageReactionPayloadAction",
+    "ReservationMessageReactionPayloadReaction",
+    "ReservationMessageReadEvent",
+    "ReservationMessageReadEventEvent",
+    "ReservationMessageReadPayload",
     "ReservationMessageReceivedEvent",
     "ReservationMessageReceivedEventEvent",
     "ReservationMessageReceivedPayload",

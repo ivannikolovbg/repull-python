@@ -36,7 +36,8 @@ class ReservationMessageUpdatedEvent:
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
             data (ReservationMessageUpdatedPayload): Payload for `reservation.message.updated`: a message was edited on the
-                channel. `body` is the new text; `previousBody` what it replaced. Read receipts and reactions do not fire it.
+                channel. `body` is the new text; `previousBody` what it replaced. Read receipts and reactions do not fire it:
+                they have their own events, `reservation.message.read` and `reservation.message.reaction`.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".

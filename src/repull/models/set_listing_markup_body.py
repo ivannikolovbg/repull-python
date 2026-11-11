@@ -28,11 +28,13 @@ class SetListingMarkupBody:
             channel (SetListingMarkupBodyChannel):
             markup_percent (float | None): 15 = +15%. `null` removes the markup.
             hotel_id (str | Unset): Booking.com property — required when the listing is on more than one.
+            account_id (str | Unset): Vrbo account (`vrbo:13`) — required when the listing is linked on more than one.
      """
 
     channel: SetListingMarkupBodyChannel
     markup_percent: float | None
     hotel_id: str | Unset = UNSET
+    account_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -47,6 +49,8 @@ class SetListingMarkupBody:
 
         hotel_id = self.hotel_id
 
+        account_id = self.account_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -56,6 +60,8 @@ class SetListingMarkupBody:
         })
         if hotel_id is not UNSET:
             field_dict["hotelId"] = hotel_id
+        if account_id is not UNSET:
+            field_dict["accountId"] = account_id
 
         return field_dict
 
@@ -79,10 +85,13 @@ class SetListingMarkupBody:
 
         hotel_id = d.pop("hotelId", UNSET)
 
+        account_id = d.pop("accountId", UNSET)
+
         set_listing_markup_body = cls(
             channel=channel,
             markup_percent=markup_percent,
             hotel_id=hotel_id,
+            account_id=account_id,
         )
 
 

@@ -29,6 +29,8 @@ class WebhookEventType(str, Enum):
     RESERVATION_ALTERATION_RESPONDED = "reservation.alteration.responded"
     RESERVATION_CANCELLED = "reservation.cancelled"
     RESERVATION_CREATED = "reservation.created"
+    RESERVATION_MESSAGE_REACTION = "reservation.message.reaction"
+    RESERVATION_MESSAGE_READ = "reservation.message.read"
     RESERVATION_MESSAGE_RECEIVED = "reservation.message.received"
     RESERVATION_MESSAGE_SENT = "reservation.message.sent"
     RESERVATION_MESSAGE_UPDATED = "reservation.message.updated"

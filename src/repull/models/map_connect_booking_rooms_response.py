@@ -28,6 +28,11 @@ class MapConnectBookingRoomsResponse:
             mapped (int): Rooms now linked to a listing.
             session_id (str):
             connection_id (str):
+            needs_calendar (list[str]): Ids of the listings this call created from Booking.com rooms (`create: true`). They
+                start without a calendar: Booking.com shows those rooms closed and nothing is sent to Booking.com for them until
+                they have one. Give a listing a calendar by setting its prices and availability with `PUT
+                /v1/availability/{propertyId}`, or by mapping the same home from Airbnb so its calendar is used. Rooms mapped to
+                an existing listing are not listed: that listing's calendar is pushed as before.
             unmapped (int | Unset): Rooms submitted with `listingId: null` ("don't map"), which are left without a listing.
             reservations_imported (int | None | Unset): Reservations pulled from Booking.com once the rooms were mapped.
                 Mapping triggers the same full property sync the dashboard's Sync button runs, because a reservation can only be
@@ -36,15 +41,18 @@ class MapConnectBookingRoomsResponse:
             reservations_found (int | None | Unset): How many reservations Booking.com returned for the property. Equal to
                 `reservationsImported` unless some could not be attached to a listing — so `0` here means Booking.com had none.
                 `null` when the sync could not run.
+            calendar_note (str | Unset): Plain-language explanation of `needsCalendar`, present only when it is non-empty.
      """
 
     success: bool
     mapped: int
     session_id: str
     connection_id: str
+    needs_calendar: list[str]
     unmapped: int | Unset = UNSET
     reservations_imported: int | None | Unset = UNSET
     reservations_found: int | None | Unset = UNSET
+    calendar_note: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -60,6 +68,10 @@ class MapConnectBookingRoomsResponse:
 
         connection_id = self.connection_id
 
+        needs_calendar = self.needs_calendar
+
+
+
         unmapped = self.unmapped
 
         reservations_imported: int | None | Unset
@@ -74,6 +86,8 @@ class MapConnectBookingRoomsResponse:
         else:
             reservations_found = self.reservations_found
 
+        calendar_note = self.calendar_note
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -82,6 +96,7 @@ class MapConnectBookingRoomsResponse:
             "mapped": mapped,
             "sessionId": session_id,
             "connectionId": connection_id,
+            "needsCalendar": needs_calendar,
         })
         if unmapped is not UNSET:
             field_dict["unmapped"] = unmapped
@@ -89,6 +104,8 @@ class MapConnectBookingRoomsResponse:
             field_dict["reservationsImported"] = reservations_imported
         if reservations_found is not UNSET:
             field_dict["reservationsFound"] = reservations_found
+        if calendar_note is not UNSET:
+            field_dict["calendarNote"] = calendar_note
 
         return field_dict
 
@@ -104,6 +121,9 @@ class MapConnectBookingRoomsResponse:
         session_id = d.pop("sessionId")
 
         connection_id = d.pop("connectionId")
+
+        needs_calendar = cast(list[str], d.pop("needsCalendar"))
+
 
         unmapped = d.pop("unmapped", UNSET)
 
@@ -127,14 +147,18 @@ class MapConnectBookingRoomsResponse:
         reservations_found = _parse_reservations_found(d.pop("reservationsFound", UNSET))
 
 
+        calendar_note = d.pop("calendarNote", UNSET)
+
         map_connect_booking_rooms_response = cls(
             success=success,
             mapped=mapped,
             session_id=session_id,
             connection_id=connection_id,
+            needs_calendar=needs_calendar,
             unmapped=unmapped,
             reservations_imported=reservations_imported,
             reservations_found=reservations_found,
+            calendar_note=calendar_note,
         )
 
 

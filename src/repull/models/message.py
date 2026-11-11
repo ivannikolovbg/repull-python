@@ -17,6 +17,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.conversation_message_attachment import ConversationMessageAttachment
+  from ..models.message_reaction import MessageReaction
 
 
 
@@ -56,7 +57,16 @@ class Message:
             sent_at (datetime.datetime | Unset):
             delivered_at (datetime.datetime | None | Unset): When the message reached the channel. `null` while it is
                 `sending` or when it `failed`.
-            read_at (datetime.datetime | None | Unset):
+            read_at (datetime.datetime | None | Unset): Who read it depends on `direction`. **Outbound** (your message):
+                when the guest first read it, from the channel's read receipts — Airbnb reports them; on other channels it stays
+                `null`. Changes are sent as `reservation.message.read`. **Inbound** (the guest's message): when your team
+                answered it or marked it handled.
+            host_read_at (datetime.datetime | None | Unset): Inbound messages only: when the host or a co-host first read it
+                on the channel, from the channel's read receipts (Airbnb reports them). `null` for your own messages, on other
+                channels, and until your side has opened the conversation since it arrived.
+            reactions (list[MessageReaction] | Unset): Reactions on this message, oldest first. Airbnb reports them; empty
+                on other channels. Added and removed reactions are sent as `reservation.message.reaction`. To react, `PATCH
+                /v1/channels/airbnb/messaging/{threadId}/messages/{messageId}` with `action: "react"`.
      """
 
     id: str | Unset = UNSET
@@ -76,6 +86,8 @@ class Message:
     sent_at: datetime.datetime | Unset = UNSET
     delivered_at: datetime.datetime | None | Unset = UNSET
     read_at: datetime.datetime | None | Unset = UNSET
+    host_read_at: datetime.datetime | None | Unset = UNSET
+    reactions: list[MessageReaction] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -84,6 +96,7 @@ class Message:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.conversation_message_attachment import ConversationMessageAttachment
+        from ..models.message_reaction import MessageReaction
         id = self.id
 
         external_message_id: None | str | Unset
@@ -169,6 +182,23 @@ class Message:
         else:
             read_at = self.read_at
 
+        host_read_at: None | str | Unset
+        if isinstance(self.host_read_at, Unset):
+            host_read_at = UNSET
+        elif isinstance(self.host_read_at, datetime.datetime):
+            host_read_at = self.host_read_at.isoformat()
+        else:
+            host_read_at = self.host_read_at
+
+        reactions: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.reactions, Unset):
+            reactions = []
+            for reactions_item_data in self.reactions:
+                reactions_item = reactions_item_data.to_dict()
+                reactions.append(reactions_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -208,6 +238,10 @@ class Message:
             field_dict["deliveredAt"] = delivered_at
         if read_at is not UNSET:
             field_dict["readAt"] = read_at
+        if host_read_at is not UNSET:
+            field_dict["hostReadAt"] = host_read_at
+        if reactions is not UNSET:
+            field_dict["reactions"] = reactions
 
         return field_dict
 
@@ -216,6 +250,7 @@ class Message:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.conversation_message_attachment import ConversationMessageAttachment
+        from ..models.message_reaction import MessageReaction
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -369,6 +404,38 @@ class Message:
         read_at = _parse_read_at(d.pop("readAt", UNSET))
 
 
+        def _parse_host_read_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                host_read_at_type_0 = isoparse(data)
+
+
+
+                return host_read_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        host_read_at = _parse_host_read_at(d.pop("hostReadAt", UNSET))
+
+
+        _reactions = d.pop("reactions", UNSET)
+        reactions: list[MessageReaction] | Unset = UNSET
+        if _reactions is not UNSET:
+            reactions = []
+            for reactions_item_data in _reactions:
+                reactions_item = MessageReaction.from_dict(reactions_item_data)
+
+
+
+                reactions.append(reactions_item)
+
+
         message = cls(
             id=id,
             external_message_id=external_message_id,
@@ -387,6 +454,8 @@ class Message:
             sent_at=sent_at,
             delivered_at=delivered_at,
             read_at=read_at,
+            host_read_at=host_read_at,
+            reactions=reactions,
         )
 
 

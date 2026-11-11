@@ -29,18 +29,26 @@ T = TypeVar("T", bound="AccountDisconnectedPayload")
 @_attrs_define
 class AccountDisconnectedPayload:
     """ Payload for `account.disconnected`. A PMS or channel connection was revoked, expired, or rejected by the upstream
-    provider.
+    provider. Sent for Airbnb, Booking.com Extranet logins, Vrbo logins and PMS connections (Hostaway, Guesty, Smoobu,
+    Lodgify, Beds24, Hospitable, OwnerRez, iGMS, BookingSync, Track, Mews, Cloudbeds, Zeevou, RentalReady, CiiRUS, …). A
+    PMS connection is reported when the PMS refuses its credentials (API key revoked or invalid, 401/403, token refresh
+    refused); timeouts, rate limits and 5xx errors are retried and never reported. Sent once per disconnect, not on
+    every failed sync. When the connection works again — credentials fixed in the PMS, or reconnected — Repull re-
+    imports the changes made while it was down and sends their `reservation.*` events, so nothing missed has to be
+    fetched by hand.
 
         Attributes:
             workspace_id (UUID | Unset):  Example: 47f8883d-28c2-4d2c-b020-c7cef1aff62c.
             account_id (str | Unset):  Example: acc_01HX5XPQ2K.
             connection_id (None | str | Unset): Stable connection identifier — alias of accountId for this event variant.
-            provider (str | Unset):  Example: airbnb.
+            provider (str | Unset): Channel or PMS id: `airbnb`, `booking_extranet`, `vrbo`, or the PMS (`hostaway`,
+                `guesty`, `smoobu`, …). Example: airbnb.
             disconnected_at (datetime.datetime | Unset):  Example: 2026-05-01T17:00:00.000Z.
             reason (AccountDisconnectedPayloadReason | Unset): Why the connection was lost. `refresh_token_rejected` —
                 upstream OAuth refresh endpoint returned a hard rejection. `manual_disconnect` — host/admin disconnected via the
-                dashboard. `auth_expired` — credentials aged out without ever being used. `revoked_upstream` — provider notified
-                us the user revoked access. Example: refresh_token_rejected.
+                dashboard. `auth_expired` — the saved credentials stopped working: an Extranet or Vrbo login was signed out, or
+                a PMS rejected its API key or token (401/403). `revoked_upstream` — provider notified us the user revoked
+                access. Example: refresh_token_rejected.
             listings (list[AccountDisconnectedPayloadListingsItem] | Unset): The listings this account holds in your
                 workspace — the ones that stop syncing until it is reconnected. Identity only; inactive listings included.
                 Matches `channels[].account` on `GET /v1/listings`. Empty when the account has no listings here.

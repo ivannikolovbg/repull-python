@@ -120,15 +120,23 @@ def sync_detailed(
     body: UpdateAirbnbMessageBody,
 
 ) -> Response[Any | Error]:
-    """ Edit / react to / mark an Airbnb message
+    r""" Edit / react to / mark an Airbnb message
 
      Act on a single message in an Airbnb thread. **Write-side** — calls Airbnb upstream. The `action`
     discriminator selects the operation:
 
     - `edit` — replace message text (requires `message`).
     - `unsend` — retract the message.
-    - `read` — mark the message as read.
-    - `react` — add a reaction (requires `reaction`).
+    - `read` — mark the message as read on Airbnb, as the host. Airbnb accepts it (it has been used in
+    production); whether and when the guest sees it as read is up to Airbnb and is not confirmed yet.
+    Your side's read state on each guest message is `hostReadAt` on `GET
+    /v1/conversations/{id}/messages`.
+    - `react` — add a reaction (requires `reaction`, e.g. `\"👍\"`). Airbnb decides which reactions it
+    accepts: a refusal is `422 reaction_not_supported` naming the field, with Airbnb's reason. Removing
+    a reaction is not available yet.
+
+    Reactions and read receipts from the guest's side arrive on each message (`reactions`, `readAt`) and
+    as the `reservation.message.reaction` and `reservation.message.read` webhooks.
 
     Requires a connected Airbnb host, else `404 no_connection`.
 
@@ -170,15 +178,23 @@ def sync(
     body: UpdateAirbnbMessageBody,
 
 ) -> Any | Error | None:
-    """ Edit / react to / mark an Airbnb message
+    r""" Edit / react to / mark an Airbnb message
 
      Act on a single message in an Airbnb thread. **Write-side** — calls Airbnb upstream. The `action`
     discriminator selects the operation:
 
     - `edit` — replace message text (requires `message`).
     - `unsend` — retract the message.
-    - `read` — mark the message as read.
-    - `react` — add a reaction (requires `reaction`).
+    - `read` — mark the message as read on Airbnb, as the host. Airbnb accepts it (it has been used in
+    production); whether and when the guest sees it as read is up to Airbnb and is not confirmed yet.
+    Your side's read state on each guest message is `hostReadAt` on `GET
+    /v1/conversations/{id}/messages`.
+    - `react` — add a reaction (requires `reaction`, e.g. `\"👍\"`). Airbnb decides which reactions it
+    accepts: a refusal is `422 reaction_not_supported` naming the field, with Airbnb's reason. Removing
+    a reaction is not available yet.
+
+    Reactions and read receipts from the guest's side arrive on each message (`reactions`, `readAt`) and
+    as the `reservation.message.reaction` and `reservation.message.read` webhooks.
 
     Requires a connected Airbnb host, else `404 no_connection`.
 
@@ -215,15 +231,23 @@ async def asyncio_detailed(
     body: UpdateAirbnbMessageBody,
 
 ) -> Response[Any | Error]:
-    """ Edit / react to / mark an Airbnb message
+    r""" Edit / react to / mark an Airbnb message
 
      Act on a single message in an Airbnb thread. **Write-side** — calls Airbnb upstream. The `action`
     discriminator selects the operation:
 
     - `edit` — replace message text (requires `message`).
     - `unsend` — retract the message.
-    - `read` — mark the message as read.
-    - `react` — add a reaction (requires `reaction`).
+    - `read` — mark the message as read on Airbnb, as the host. Airbnb accepts it (it has been used in
+    production); whether and when the guest sees it as read is up to Airbnb and is not confirmed yet.
+    Your side's read state on each guest message is `hostReadAt` on `GET
+    /v1/conversations/{id}/messages`.
+    - `react` — add a reaction (requires `reaction`, e.g. `\"👍\"`). Airbnb decides which reactions it
+    accepts: a refusal is `422 reaction_not_supported` naming the field, with Airbnb's reason. Removing
+    a reaction is not available yet.
+
+    Reactions and read receipts from the guest's side arrive on each message (`reactions`, `readAt`) and
+    as the `reservation.message.reaction` and `reservation.message.read` webhooks.
 
     Requires a connected Airbnb host, else `404 no_connection`.
 
@@ -265,15 +289,23 @@ async def asyncio(
     body: UpdateAirbnbMessageBody,
 
 ) -> Any | Error | None:
-    """ Edit / react to / mark an Airbnb message
+    r""" Edit / react to / mark an Airbnb message
 
      Act on a single message in an Airbnb thread. **Write-side** — calls Airbnb upstream. The `action`
     discriminator selects the operation:
 
     - `edit` — replace message text (requires `message`).
     - `unsend` — retract the message.
-    - `read` — mark the message as read.
-    - `react` — add a reaction (requires `reaction`).
+    - `read` — mark the message as read on Airbnb, as the host. Airbnb accepts it (it has been used in
+    production); whether and when the guest sees it as read is up to Airbnb and is not confirmed yet.
+    Your side's read state on each guest message is `hostReadAt` on `GET
+    /v1/conversations/{id}/messages`.
+    - `react` — add a reaction (requires `reaction`, e.g. `\"👍\"`). Airbnb decides which reactions it
+    accepts: a refusal is `422 reaction_not_supported` naming the field, with Airbnb's reason. Removing
+    a reaction is not available yet.
+
+    Reactions and read receipts from the guest's side arrive on each message (`reactions`, `readAt`) and
+    as the `reservation.message.reaction` and `reservation.message.read` webhooks.
 
     Requires a connected Airbnb host, else `404 no_connection`.
 

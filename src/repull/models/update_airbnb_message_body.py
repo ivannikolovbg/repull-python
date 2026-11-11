@@ -26,7 +26,8 @@ class UpdateAirbnbMessageBody:
         Attributes:
             action (UpdateAirbnbMessageBodyAction): Operation to perform on the message.
             message (str | Unset): New message text. Required when `action` is `edit`.
-            reaction (str | Unset): Reaction to add. Required when `action` is `react`.
+            reaction (str | Unset): Reaction to add, e.g. `👍`. Required when `action` is `react`. At most 32 characters;
+                Airbnb decides which reactions it accepts.
      """
 
     action: UpdateAirbnbMessageBodyAction

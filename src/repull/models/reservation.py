@@ -69,6 +69,8 @@ class Reservation:
             account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
                 webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
                 and events to the same user. `null` when it cannot be resolved (never guessed).
+            listing_name (None | str | Unset): Name of the listing this reservation is on, so a report or message can name
+                it without a second lookup. Example: Lakeside Cabin.
             guest_id (str | Unset): DEPRECATED — use `primaryGuest.id`. Internal Repull guest ID. Kept populated for back-
                 compat.
             check_in_time (None | str | Unset): Local check-in time for this stay, `HH:MM` on a 24-hour clock in the
@@ -165,6 +167,7 @@ class Reservation:
     created_at: datetime.datetime
     updated_at: datetime.datetime
     account: None | RecordAccountType0 | Unset = UNSET
+    listing_name: None | str | Unset = UNSET
     guest_id: str | Unset = UNSET
     check_in_time: None | str | Unset = UNSET
     check_out_time: None | str | Unset = UNSET
@@ -225,6 +228,12 @@ class Reservation:
             account = self.account.to_dict()
         else:
             account = self.account
+
+        listing_name: None | str | Unset
+        if isinstance(self.listing_name, Unset):
+            listing_name = UNSET
+        else:
+            listing_name = self.listing_name
 
         guest_id = self.guest_id
 
@@ -378,6 +387,8 @@ class Reservation:
         })
         if account is not UNSET:
             field_dict["account"] = account
+        if listing_name is not UNSET:
+            field_dict["listingName"] = listing_name
         if guest_id is not UNSET:
             field_dict["guestId"] = guest_id
         if check_in_time is not UNSET:
@@ -488,6 +499,16 @@ class Reservation:
             return cast(None | RecordAccountType0 | Unset, data)
 
         account = _parse_account(d.pop("account", UNSET))
+
+
+        def _parse_listing_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        listing_name = _parse_listing_name(d.pop("listingName", UNSET))
 
 
         guest_id = d.pop("guestId", UNSET)
@@ -801,6 +822,7 @@ class Reservation:
             created_at=created_at,
             updated_at=updated_at,
             account=account,
+            listing_name=listing_name,
             guest_id=guest_id,
             check_in_time=check_in_time,
             check_out_time=check_out_time,

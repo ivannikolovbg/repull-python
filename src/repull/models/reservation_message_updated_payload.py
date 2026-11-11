@@ -28,7 +28,8 @@ T = TypeVar("T", bound="ReservationMessageUpdatedPayload")
 @_attrs_define
 class ReservationMessageUpdatedPayload:
     """ Payload for `reservation.message.updated`: a message was edited on the channel. `body` is the new text;
-    `previousBody` what it replaced. Read receipts and reactions do not fire it.
+    `previousBody` what it replaced. Read receipts and reactions do not fire it: they have their own events,
+    `reservation.message.read` and `reservation.message.reaction`.
 
         Attributes:
             hotel_id (None | str | Unset): Booking.com only: the hotel (property) id of the conversation's listing. Absent

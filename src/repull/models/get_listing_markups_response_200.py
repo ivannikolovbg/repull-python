@@ -14,6 +14,7 @@ from typing import cast
 if TYPE_CHECKING:
   from ..models.get_listing_markups_response_200_airbnb_item import GetListingMarkupsResponse200AirbnbItem
   from ..models.get_listing_markups_response_200_booking_item import GetListingMarkupsResponse200BookingItem
+  from ..models.get_listing_markups_response_200_vrbo_item import GetListingMarkupsResponse200VrboItem
 
 
 
@@ -30,11 +31,13 @@ class GetListingMarkupsResponse200:
             id (str | Unset): Repull listing id.
             airbnb (list[GetListingMarkupsResponse200AirbnbItem] | Unset):
             booking (list[GetListingMarkupsResponse200BookingItem] | Unset):
+            vrbo (list[GetListingMarkupsResponse200VrboItem] | Unset):
      """
 
     id: str | Unset = UNSET
     airbnb: list[GetListingMarkupsResponse200AirbnbItem] | Unset = UNSET
     booking: list[GetListingMarkupsResponse200BookingItem] | Unset = UNSET
+    vrbo: list[GetListingMarkupsResponse200VrboItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -44,6 +47,7 @@ class GetListingMarkupsResponse200:
     def to_dict(self) -> dict[str, Any]:
         from ..models.get_listing_markups_response_200_airbnb_item import GetListingMarkupsResponse200AirbnbItem
         from ..models.get_listing_markups_response_200_booking_item import GetListingMarkupsResponse200BookingItem
+        from ..models.get_listing_markups_response_200_vrbo_item import GetListingMarkupsResponse200VrboItem
         id = self.id
 
         airbnb: list[dict[str, Any]] | Unset = UNSET
@@ -64,6 +68,15 @@ class GetListingMarkupsResponse200:
 
 
 
+        vrbo: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.vrbo, Unset):
+            vrbo = []
+            for vrbo_item_data in self.vrbo:
+                vrbo_item = vrbo_item_data.to_dict()
+                vrbo.append(vrbo_item)
+
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -75,6 +88,8 @@ class GetListingMarkupsResponse200:
             field_dict["airbnb"] = airbnb
         if booking is not UNSET:
             field_dict["booking"] = booking
+        if vrbo is not UNSET:
+            field_dict["vrbo"] = vrbo
 
         return field_dict
 
@@ -84,6 +99,7 @@ class GetListingMarkupsResponse200:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.get_listing_markups_response_200_airbnb_item import GetListingMarkupsResponse200AirbnbItem
         from ..models.get_listing_markups_response_200_booking_item import GetListingMarkupsResponse200BookingItem
+        from ..models.get_listing_markups_response_200_vrbo_item import GetListingMarkupsResponse200VrboItem
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -111,10 +127,23 @@ class GetListingMarkupsResponse200:
                 booking.append(booking_item)
 
 
+        _vrbo = d.pop("vrbo", UNSET)
+        vrbo: list[GetListingMarkupsResponse200VrboItem] | Unset = UNSET
+        if _vrbo is not UNSET:
+            vrbo = []
+            for vrbo_item_data in _vrbo:
+                vrbo_item = GetListingMarkupsResponse200VrboItem.from_dict(vrbo_item_data)
+
+
+
+                vrbo.append(vrbo_item)
+
+
         get_listing_markups_response_200 = cls(
             id=id,
             airbnb=airbnb,
             booking=booking,
+            vrbo=vrbo,
         )
 
 
