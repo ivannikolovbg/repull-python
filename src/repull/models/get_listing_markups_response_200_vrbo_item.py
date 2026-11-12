@@ -24,14 +24,15 @@ T = TypeVar("T", bound="GetListingMarkupsResponse200VrboItem")
 class GetListingMarkupsResponse200VrboItem:
     """ 
         Attributes:
-            account_id (str | Unset): The Vrbo account, as its connection id (`vrbo:13`).
+            account_id (None | str | Unset): The Vrbo account, as its handle `vrbo:{Vrbo account id}`. `null` until Vrbo's
+                account id is captured for the sign-in.
             vrbo_listing_number (str | Unset): The Vrbo listing number this listing is linked to.
             markup_percent (float | None | Unset): Percent added on Vrbo, for every listing linked on this account. Example:
                 20.
             listing_ids (list[str] | Unset): Listings in this workspace linked on this Vrbo account — all share this markup.
      """
 
-    account_id: str | Unset = UNSET
+    account_id: None | str | Unset = UNSET
     vrbo_listing_number: str | Unset = UNSET
     markup_percent: float | None | Unset = UNSET
     listing_ids: list[str] | Unset = UNSET
@@ -42,7 +43,11 @@ class GetListingMarkupsResponse200VrboItem:
 
 
     def to_dict(self) -> dict[str, Any]:
-        account_id = self.account_id
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
 
         vrbo_listing_number = self.vrbo_listing_number
 
@@ -79,7 +84,15 @@ class GetListingMarkupsResponse200VrboItem:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        account_id = d.pop("accountId", UNSET)
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("accountId", UNSET))
+
 
         vrbo_listing_number = d.pop("vrboListingNumber", UNSET)
 

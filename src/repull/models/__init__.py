@@ -34,6 +34,14 @@ from .account_import_started_payload import AccountImportStartedPayload
 from .account_import_started_payload_trigger import AccountImportStartedPayloadTrigger
 from .account_import_status import AccountImportStatus
 from .account_import_trigger import AccountImportTrigger
+from .account_units_added_event import AccountUnitsAddedEvent
+from .account_units_added_event_event import AccountUnitsAddedEventEvent
+from .account_units_added_payload import AccountUnitsAddedPayload
+from .account_units_added_payload_hotels_item import AccountUnitsAddedPayloadHotelsItem
+from .account_units_added_payload_next_steps_item import AccountUnitsAddedPayloadNextStepsItem
+from .account_units_added_payload_next_steps_item_method import AccountUnitsAddedPayloadNextStepsItemMethod
+from .account_units_added_payload_provider import AccountUnitsAddedPayloadProvider
+from .account_units_added_payload_units_item import AccountUnitsAddedPayloadUnitsItem
 from .acknowledge_booking_reservations_body import AcknowledgeBookingReservationsBody
 from .ai_operation import AIOperation
 from .ai_operation_completed_event import AiOperationCompletedEvent
@@ -352,6 +360,9 @@ from .custom_schema_mappings import CustomSchemaMappings
 from .custom_schema_summary import CustomSchemaSummary
 from .custom_schema_update import CustomSchemaUpdate
 from .cutover_migration_response_200 import CutoverMigrationResponse200
+from .deactivate_workspace_response_200 import DeactivateWorkspaceResponse200
+from .deactivate_workspace_response_200_data import DeactivateWorkspaceResponse200Data
+from .deactivate_workspace_response_200_data_disconnected_item import DeactivateWorkspaceResponse200DataDisconnectedItem
 from .decline_airbnb_alteration_body import DeclineAirbnbAlterationBody
 from .decline_reservation_request_body import DeclineReservationRequestBody
 from .decline_reservation_request_body_reason import DeclineReservationRequestBodyReason
@@ -777,6 +788,8 @@ from .map_booking_room_request import MapBookingRoomRequest
 from .map_booking_room_response import MapBookingRoomResponse
 from .map_connect_booking_rooms_request import MapConnectBookingRoomsRequest
 from .map_connect_booking_rooms_response import MapConnectBookingRoomsResponse
+from .map_connect_booking_rooms_response_property_status_type_0 import MapConnectBookingRoomsResponsePropertyStatusType0
+from .map_connect_booking_rooms_response_property_status_type_0_outcome import MapConnectBookingRoomsResponsePropertyStatusType0Outcome
 from .market_browse_category import MarketBrowseCategory
 from .market_browse_entry import MarketBrowseEntry
 from .market_browse_featured import MarketBrowseFeatured
@@ -940,6 +953,8 @@ from .publish_section_error_code import PublishSectionErrorCode
 from .publish_section_error_section import PublishSectionErrorSection
 from .quote import Quote
 from .quote_pricing import QuotePricing
+from .reactivate_workspace_response_200 import ReactivateWorkspaceResponse200
+from .reactivate_workspace_response_200_data import ReactivateWorkspaceResponse200Data
 from .recheck_booking_extranet_login_body import RecheckBookingExtranetLoginBody
 from .recheck_booking_extranet_login_response_200 import RecheckBookingExtranetLoginResponse200
 from .record_account_type_0 import RecordAccountType0
@@ -1344,6 +1359,14 @@ __all__ = (
     "AccountImportStartedPayloadTrigger",
     "AccountImportStatus",
     "AccountImportTrigger",
+    "AccountUnitsAddedEvent",
+    "AccountUnitsAddedEventEvent",
+    "AccountUnitsAddedPayload",
+    "AccountUnitsAddedPayloadHotelsItem",
+    "AccountUnitsAddedPayloadNextStepsItem",
+    "AccountUnitsAddedPayloadNextStepsItemMethod",
+    "AccountUnitsAddedPayloadProvider",
+    "AccountUnitsAddedPayloadUnitsItem",
     "AcknowledgeBookingReservationsBody",
     "AIOperation",
     "AiOperationCompletedEvent",
@@ -1662,6 +1685,9 @@ __all__ = (
     "CustomSchemaSummary",
     "CustomSchemaUpdate",
     "CutoverMigrationResponse200",
+    "DeactivateWorkspaceResponse200",
+    "DeactivateWorkspaceResponse200Data",
+    "DeactivateWorkspaceResponse200DataDisconnectedItem",
     "DeclineAirbnbAlterationBody",
     "DeclineReservationRequestBody",
     "DeclineReservationRequestBodyReason",
@@ -2087,6 +2113,8 @@ __all__ = (
     "MapBookingRoomResponse",
     "MapConnectBookingRoomsRequest",
     "MapConnectBookingRoomsResponse",
+    "MapConnectBookingRoomsResponsePropertyStatusType0",
+    "MapConnectBookingRoomsResponsePropertyStatusType0Outcome",
     "MarketBrowseCategory",
     "MarketBrowseEntry",
     "MarketBrowseFeatured",
@@ -2250,6 +2278,8 @@ __all__ = (
     "PublishSectionErrorSection",
     "Quote",
     "QuotePricing",
+    "ReactivateWorkspaceResponse200",
+    "ReactivateWorkspaceResponse200Data",
     "RecheckBookingExtranetLoginBody",
     "RecheckBookingExtranetLoginResponse200",
     "RecordAccountType0",

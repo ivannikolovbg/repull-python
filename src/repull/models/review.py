@@ -36,7 +36,9 @@ class Review:
         Attributes:
             account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
                 webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
-                and events to the same user. `null` when it cannot be resolved (never guessed).
+                and events to the same user. `null` when it cannot be resolved (never guessed). Until 2027-02-12 the `?account=`
+                filter and connection handles also accept the old Extranet / Vrbo login ids (e.g. `booking_extranet:88`); they
+                are never sent.
             id (str | Unset): Internal Repull review id — pass back to `/v1/reviews/{id}`.
             external_id (str | Unset): ID in the source channel (Airbnb review id, Booking review id, etc.). Pass as
                 `review_id` to the provider reply endpoint.

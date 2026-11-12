@@ -38,7 +38,11 @@ class Connection:
                 `active` connection can also carry an `action` (e.g. a Smoobu legacy API key that must be replaced with a key +
                 secret before October 31, 2026). `error` — the last operation failed. `disconnected` — revoked or superseded.
                 Example: active.
-            external_account_id (None | str | Unset):
+            external_account_id (None | str | Unset): The platform's own account id: Airbnb host id; Booking.com hotel id
+                (`booking`); the Booking.com account id behind the Extranet login (`booking_extranet`); Vrbo's account id
+                (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
+                before its account id is captured, a PMS that does not expose one); never a Repull id. Use `id` for our record.
+                Example: 20123456.
             created_at (datetime.datetime | Unset):
             host (ConnectHost | None | Unset): Host metadata for the linked account. Currently populated for Airbnb only;
                 null for other providers.

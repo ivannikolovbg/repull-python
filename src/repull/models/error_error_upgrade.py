@@ -32,8 +32,8 @@ class ErrorErrorUpgrade:
             name (str):  Example: Starter.
             monthly_price_usd (float | None): Monthly price in USD for `listings`: Starter's base plus its per-listing
                 price. Null for `custom`. Example: 99.
-            listings (int | None): Listings the price covers: active plus held back by your plan, across your workspaces.
-                Example: 2.
+            listings (int | None): Listings the price covers: your active ones, across your workspaces (what checkout
+                bills). Held-back listings are not included; upgrading does not switch them on. Example: 2.
             monthly_requests (int | None): Requests a month the plan includes. Null for `custom`. Example: 100000.
             daily_requests (int | None): The plan's daily request cap. Null for `custom`. Example: 25000.
             checkout_url (None | str): Opens checkout for exactly `monthly_price_usd`. Null for `custom`. Example:

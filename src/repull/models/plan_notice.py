@@ -38,16 +38,20 @@ class PlanNotice:
             listings_held_back (int): Connected listings kept inactive because of the plan. Example: 40.
             active_listing_limit (int | None): The plan's cap on active listings. Example: 3.
             message (str):  Example: 40 more connected listings are held inactive because your plan allows 3 active
-                listings. They stay connected and keep syncing. Starter serves all 43 for $264 a month:
+                listings. They stay connected and keep syncing. Upgrade to Starter ($99 a month, 10 listings included), then
+                choose which listings to switch on: $5 a month per listing from the 11th to the 100th:
                 https://repull.dev/dashboard/billing?upgrade=starter.
             fix (str):
             billing_url (str):  Example: https://repull.dev/dashboard/billing.
             active_listing_count (int | Unset): Active listings right now. Only when the code is "listings_over_plan".
                 Example: 12.
-            starter_listings (int | Unset): On a free plan: the listings Starter would serve and bill, active plus held
-                back, across the plan's workspaces. Example: 43.
+            starter_listings (int | Unset): On a free plan: the listings Starter checkout bills today, the active ones
+                across the plan's workspaces. Held-back listings are not included: upgrading does not switch them on. Example:
+                3.
             starter_monthly_price (float | Unset): Starter's monthly price in USD for `starterListings` — exactly what
-                checkout charges. Present up to 100 listings; above that the message says how to ask for a plan. Example: 264.
+                checkout charges. Each listing switched on afterwards adds Starter's per-listing price ($5 a month from the 11th
+                to the 100th). Present up to 100 connected listings; above that the message says how to ask for a plan. Example:
+                99.
             checkout_url (str | Unset): Opens Starter checkout at `starterMonthlyPrice`. Present up to 100 listings.
                 Example: https://repull.dev/dashboard/billing?upgrade=starter.
      """

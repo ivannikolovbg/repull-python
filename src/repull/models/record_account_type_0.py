@@ -24,21 +24,25 @@ T = TypeVar("T", bound="RecordAccountType0")
 class RecordAccountType0:
     """ The connected account a record belongs to — keyed exactly like the webhook `account` block and
     `connect.session.completed`, so one `provider:externalAccountId` key routes reads and events to the same user.
-    `null` when it cannot be resolved (never guessed).
+    `null` when it cannot be resolved (never guessed). Until 2027-02-12 the `?account=` filter and connection handles
+    also accept the old Extranet / Vrbo login ids (e.g. `booking_extranet:88`); they are never sent.
 
         Attributes:
             provider (str | Unset): airbnb, booking, booking_extranet, vrbo, or the PMS id (hostaway, cloudbeds, …).
                 Example: airbnb.
-            external_account_id (str | Unset): The provider's own account id — Airbnb host id, Booking.com hotel id,
-                Extranet login, Vrbo account, or the PMS account. Example: 79730216.
-            connection_id (None | str | Unset): Repull connection id (`X-Account-Id`), when the account has one. A string,
-                like every id in API responses. Example: 126.
-            hotel_id (str | Unset): Booking.com only: the hotel (property) id the record belongs to. On a `booking_extranet`
-                account, `externalAccountId` is the login, which can cover several hotels. Example: 10433861.
+            external_account_id (None | str | Unset): The platform's own account id: Airbnb host id; Booking.com hotel id
+                (`booking`); the Booking.com account id behind the Extranet login (`booking_extranet`); Vrbo's account id
+                (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
+                before its account id is captured, a PMS that does not expose one); never a Repull id. Example: 79730216.
+            connection_id (None | str | Unset): Our connection record id: the `X-Account-Id` value, the same as
+                `account.id`. `null` only when the account has no connection record (e.g. a Vrbo sign-in in a workspace with no
+                Vrbo connection). A string, like every id in API responses. Example: 126.
+            hotel_id (str | Unset): Booking.com only: the hotel (property) id the record belongs to. A `booking_extranet`
+                account (a Booking.com account) can cover several hotels; this says which one. Example: 10433861.
      """
 
     provider: str | Unset = UNSET
-    external_account_id: str | Unset = UNSET
+    external_account_id: None | str | Unset = UNSET
     connection_id: None | str | Unset = UNSET
     hotel_id: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -50,7 +54,11 @@ class RecordAccountType0:
     def to_dict(self) -> dict[str, Any]:
         provider = self.provider
 
-        external_account_id = self.external_account_id
+        external_account_id: None | str | Unset
+        if isinstance(self.external_account_id, Unset):
+            external_account_id = UNSET
+        else:
+            external_account_id = self.external_account_id
 
         connection_id: None | str | Unset
         if isinstance(self.connection_id, Unset):
@@ -83,7 +91,15 @@ class RecordAccountType0:
         d = dict(src_dict)
         provider = d.pop("provider", UNSET)
 
-        external_account_id = d.pop("externalAccountId", UNSET)
+        def _parse_external_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        external_account_id = _parse_external_account_id(d.pop("externalAccountId", UNSET))
+
 
         def _parse_connection_id(data: object) -> None | str | Unset:
             if data is None:

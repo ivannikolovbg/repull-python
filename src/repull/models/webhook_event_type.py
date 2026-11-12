@@ -6,6 +6,7 @@ class WebhookEventType(str, Enum):
     ACCOUNT_IMPORT_COMPLETED = "account.import.completed"
     ACCOUNT_IMPORT_FAILED = "account.import.failed"
     ACCOUNT_IMPORT_STARTED = "account.import.started"
+    ACCOUNT_UNITS_ADDED = "account.units.added"
     AI_OPERATION_COMPLETED = "ai.operation.completed"
     AI_OPERATION_FAILED = "ai.operation.failed"
     BOOKING_UNACKNOWLEDGED = "booking.unacknowledged"

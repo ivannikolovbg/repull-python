@@ -26,9 +26,14 @@ class WebhookEventAccountType0:
     so a receiver can tell "unresolvable" from "an old event".
 
         Attributes:
-            id (int | None | Unset): Repull connection id.
+            id (int | None | Unset): Our connection record id: the `X-Account-Id` value, the same as `account.id`. `null`
+                only when the account has no connection record (e.g. a Vrbo sign-in in a workspace with no Vrbo connection).
+                Example: 135.
             provider (None | str | Unset):  Example: airbnb.
-            external_account_id (None | str | Unset): The provider's own account id. Example: 79730216.
+            external_account_id (None | str | Unset): The platform's own account id: Airbnb host id; Booking.com hotel id
+                (`booking`); the Booking.com account id behind the Extranet login (`booking_extranet`); Vrbo's account id
+                (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
+                before its account id is captured, a PMS that does not expose one); never a Repull id. Example: 79730216.
      """
 
     id: int | None | Unset = UNSET

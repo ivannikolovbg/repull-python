@@ -28,7 +28,10 @@ class ChannelDegradedPayloadObject:
             customer_id (int):
             provider (str):  Example: booking.
             status (ChannelDegradedPayloadObjectStatus):
-            external_account_id (None | str | Unset): The provider's own account, host or hotel id.
+            external_account_id (None | str | Unset): The platform's own account id: Airbnb host id; Booking.com hotel id
+                (`booking`); the Booking.com account id behind the Extranet login (`booking_extranet`); Vrbo's account id
+                (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
+                before its account id is captured, a PMS that does not expose one); never a Repull id.
             detail (None | str | Unset): What we observed, in the provider's words where possible. A bare "degraded" tells
                 nobody what to fix.
      """

@@ -64,11 +64,16 @@ def sync_detailed(
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
 
-    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
-    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
-    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
-    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
-    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
+    **Account ids.** `externalAccountId` is the platform's own account id (Airbnb host id, Booking.com
+    hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
+    platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
+
+    **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
+    connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
+    `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
+    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
+    reservations, conversations and reviews stay under its own account (filter them with
+    `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
@@ -117,11 +122,16 @@ def sync(
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
 
-    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
-    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
-    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
-    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
-    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
+    **Account ids.** `externalAccountId` is the platform's own account id (Airbnb host id, Booking.com
+    hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
+    platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
+
+    **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
+    connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
+    `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
+    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
+    reservations, conversations and reviews stay under its own account (filter them with
+    `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
@@ -165,11 +175,16 @@ async def asyncio_detailed(
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
 
-    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
-    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
-    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
-    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
-    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
+    **Account ids.** `externalAccountId` is the platform's own account id (Airbnb host id, Booking.com
+    hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
+    platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
+
+    **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
+    connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
+    `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
+    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
+    reservations, conversations and reviews stay under its own account (filter them with
+    `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
@@ -218,11 +233,16 @@ async def asyncio(
 
      Returns every PMS and OTA connection in the workspace, each with its `status`.
 
-    **One entry per Booking.com Extranet hotel login.** Each hotel that invites the Repull user connects
-    as its own login, with its own `externalAccountId` (handle `booking_extranet:{externalAccountId}`).
-    A new hotel adds an entry next to the existing ones and never replaces them; the entries share the
-    workspace's Extranet `id`, and each hotel's listings, reservations, conversations and reviews stay
-    under its own login (filter them with `?account=booking_extranet:{externalAccountId}`).
+    **Account ids.** `externalAccountId` is the platform's own account id (Airbnb host id, Booking.com
+    hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
+    platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
+
+    **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
+    connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
+    `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
+    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
+    reservations, conversations and reviews stay under its own account (filter them with
+    `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the

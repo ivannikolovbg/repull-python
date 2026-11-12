@@ -30,7 +30,8 @@ class PublishListingToVrboResponse202Job:
             job_id (str | Unset): Pass to `GET /v1/listings/{id}/publish/vrbo?jobId=`.
             status (PublishListingToVrboResponse202JobStatus | Unset):
             listing_id (int | Unset):
-            account_id (int | Unset): The Vrbo account (connection `vrbo:<accountId>`) the listing is created in.
+            account_id (None | str | Unset): The Vrbo account the listing is created in, as its handle `vrbo:{Vrbo account
+                id}`. `null` until Vrbo's account id is captured for the sign-in.
             steps (list[str] | Unset): Steps Vrbo has finished, in order: create, amenities, property type, rooms, photos,
                 headline + description, house rules, rate, booking options, publish, fees, cancellation policy, …
             error (None | str | Unset): Vrbo's reason when `status` is `failed`.
@@ -50,7 +51,7 @@ class PublishListingToVrboResponse202Job:
     job_id: str | Unset = UNSET
     status: PublishListingToVrboResponse202JobStatus | Unset = UNSET
     listing_id: int | Unset = UNSET
-    account_id: int | Unset = UNSET
+    account_id: None | str | Unset = UNSET
     steps: list[str] | Unset = UNSET
     error: None | str | Unset = UNSET
     vrbo_listing_number: None | str | Unset = UNSET
@@ -76,7 +77,11 @@ class PublishListingToVrboResponse202Job:
 
         listing_id = self.listing_id
 
-        account_id = self.account_id
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
 
         steps: list[str] | Unset = UNSET
         if not isinstance(self.steps, Unset):
@@ -177,7 +182,15 @@ class PublishListingToVrboResponse202Job:
 
         listing_id = d.pop("listingId", UNSET)
 
-        account_id = d.pop("accountId", UNSET)
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("accountId", UNSET))
+
 
         steps = cast(list[str], d.pop("steps", UNSET))
 

@@ -33,10 +33,14 @@ class ConnectSessionCompletedPayload:
             session_id (str | Unset):  Example: cs_abc123.
             state (None | str | Unset): The `state` you passed when creating the session. Example: user_8421.
             provider (None | str | Unset): Channel or PMS: airbnb, booking, booking_extranet, vrbo, hostaway, … Example:
-                vrbo.
-            external_account_id (None | str | Unset): The provider's own account id — Airbnb host id, Booking.com hotel id,
-                Vrbo account id, or the PMS account. Example: 36.
-            connection_id (int | None | Unset): Repull connection id, when the account has one (the `X-Account-Id` value).
+                booking_extranet.
+            external_account_id (None | str | Unset): The platform's own account id: Airbnb host id; Booking.com hotel id
+                (`booking`); the Booking.com account id behind the Extranet login (`booking_extranet`); Vrbo's account id
+                (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
+                before its account id is captured, a PMS that does not expose one); never a Repull id. Example: 20123456.
+            connection_id (int | None | Unset): Our connection record id: the `X-Account-Id` value, the same as
+                `account.id`. `null` only when the account has no connection record (e.g. a Vrbo sign-in in a workspace with no
+                Vrbo connection). Example: 482.
             purpose (ConnectSessionCompletedPayloadPurpose | Unset):
             completed_at (datetime.datetime | Unset):
      """

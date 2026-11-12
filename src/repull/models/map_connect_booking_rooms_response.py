@@ -11,6 +11,8 @@ from ..types import UNSET, Unset
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.map_connect_booking_rooms_response_property_status_type_0 import MapConnectBookingRoomsResponsePropertyStatusType0
 
 
 
@@ -42,6 +44,11 @@ class MapConnectBookingRoomsResponse:
                 `reservationsImported` unless some could not be attached to a listing — so `0` here means Booking.com had none.
                 `null` when the sync could not run.
             calendar_note (str | Unset): Plain-language explanation of `needsCalendar`, present only when it is non-empty.
+            property_status (MapConnectBookingRoomsResponsePropertyStatusType0 | None | Unset): Whether Booking.com has the
+                property open for bookings. A property still being built on Booking.com is checked and opened as the last
+                Connect step; one that is already open, or that its host closed, is left as it is. `null` when no room was
+                mapped.
+            property_note (str | Unset): `propertyStatus.message`, present only when the property is not open.
      """
 
     success: bool
@@ -53,6 +60,8 @@ class MapConnectBookingRoomsResponse:
     reservations_imported: int | None | Unset = UNSET
     reservations_found: int | None | Unset = UNSET
     calendar_note: str | Unset = UNSET
+    property_status: MapConnectBookingRoomsResponsePropertyStatusType0 | None | Unset = UNSET
+    property_note: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -60,6 +69,7 @@ class MapConnectBookingRoomsResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.map_connect_booking_rooms_response_property_status_type_0 import MapConnectBookingRoomsResponsePropertyStatusType0
         success = self.success
 
         mapped = self.mapped
@@ -88,6 +98,16 @@ class MapConnectBookingRoomsResponse:
 
         calendar_note = self.calendar_note
 
+        property_status: dict[str, Any] | None | Unset
+        if isinstance(self.property_status, Unset):
+            property_status = UNSET
+        elif isinstance(self.property_status, MapConnectBookingRoomsResponsePropertyStatusType0):
+            property_status = self.property_status.to_dict()
+        else:
+            property_status = self.property_status
+
+        property_note = self.property_note
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -106,6 +126,10 @@ class MapConnectBookingRoomsResponse:
             field_dict["reservationsFound"] = reservations_found
         if calendar_note is not UNSET:
             field_dict["calendarNote"] = calendar_note
+        if property_status is not UNSET:
+            field_dict["propertyStatus"] = property_status
+        if property_note is not UNSET:
+            field_dict["propertyNote"] = property_note
 
         return field_dict
 
@@ -113,6 +137,7 @@ class MapConnectBookingRoomsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.map_connect_booking_rooms_response_property_status_type_0 import MapConnectBookingRoomsResponsePropertyStatusType0
         d = dict(src_dict)
         success = d.pop("success")
 
@@ -149,6 +174,28 @@ class MapConnectBookingRoomsResponse:
 
         calendar_note = d.pop("calendarNote", UNSET)
 
+        def _parse_property_status(data: object) -> MapConnectBookingRoomsResponsePropertyStatusType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                property_status_type_0 = MapConnectBookingRoomsResponsePropertyStatusType0.from_dict(data)
+
+
+
+                return property_status_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(MapConnectBookingRoomsResponsePropertyStatusType0 | None | Unset, data)
+
+        property_status = _parse_property_status(d.pop("propertyStatus", UNSET))
+
+
+        property_note = d.pop("propertyNote", UNSET)
+
         map_connect_booking_rooms_response = cls(
             success=success,
             mapped=mapped,
@@ -159,6 +206,8 @@ class MapConnectBookingRoomsResponse:
             reservations_imported=reservations_imported,
             reservations_found=reservations_found,
             calendar_note=calendar_note,
+            property_status=property_status,
+            property_note=property_note,
         )
 
 

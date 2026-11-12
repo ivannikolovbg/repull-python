@@ -68,7 +68,9 @@ class Reservation:
                 of fingerprinting individual fields.
             account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
                 webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
-                and events to the same user. `null` when it cannot be resolved (never guessed).
+                and events to the same user. `null` when it cannot be resolved (never guessed). Until 2027-02-12 the `?account=`
+                filter and connection handles also accept the old Extranet / Vrbo login ids (e.g. `booking_extranet:88`); they
+                are never sent.
             listing_name (None | str | Unset): Name of the listing this reservation is on, so a report or message can name
                 it without a second lookup. Example: Lakeside Cabin.
             guest_id (str | Unset): DEPRECATED — use `primaryGuest.id`. Internal Repull guest ID. Kept populated for back-

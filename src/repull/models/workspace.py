@@ -31,11 +31,13 @@ class Workspace:
         Attributes:
             workspace_id (str):  Example: 1204.
             name (str):  Example: Seaside Rentals.
-            active (bool):
+            active (bool): `false` once the workspace was deactivated (`POST /v1/workspaces/{workspaceId}/deactivate`, or a
+                deleted migration). Its data is kept.
             created_at (datetime.datetime):
             external_ref (None | str | Unset): Your own id for this customer, as you sent it. Example: acct_8812.
             created_via (WorkspaceCreatedVia | Unset): `connect` — opened by a Connect session; `migrate` — opened by Repull
                 Migrate.
+            deactivated_at (datetime.datetime | None | Unset): When the workspace was deactivated; null while active.
      """
 
     workspace_id: str
@@ -44,6 +46,7 @@ class Workspace:
     created_at: datetime.datetime
     external_ref: None | str | Unset = UNSET
     created_via: WorkspaceCreatedVia | Unset = UNSET
+    deactivated_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -70,6 +73,14 @@ class Workspace:
             created_via = self.created_via.value
 
 
+        deactivated_at: None | str | Unset
+        if isinstance(self.deactivated_at, Unset):
+            deactivated_at = UNSET
+        elif isinstance(self.deactivated_at, datetime.datetime):
+            deactivated_at = self.deactivated_at.isoformat()
+        else:
+            deactivated_at = self.deactivated_at
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -83,6 +94,8 @@ class Workspace:
             field_dict["externalRef"] = external_ref
         if created_via is not UNSET:
             field_dict["createdVia"] = created_via
+        if deactivated_at is not UNSET:
+            field_dict["deactivatedAt"] = deactivated_at
 
         return field_dict
 
@@ -122,6 +135,26 @@ class Workspace:
 
 
 
+        def _parse_deactivated_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                deactivated_at_type_0 = isoparse(data)
+
+
+
+                return deactivated_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        deactivated_at = _parse_deactivated_at(d.pop("deactivatedAt", UNSET))
+
+
         workspace = cls(
             workspace_id=workspace_id,
             name=name,
@@ -129,6 +162,7 @@ class Workspace:
             created_at=created_at,
             external_ref=external_ref,
             created_via=created_via,
+            deactivated_at=deactivated_at,
         )
 
 

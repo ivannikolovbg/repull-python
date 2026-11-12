@@ -38,16 +38,22 @@ class ConnectStatus:
         Attributes:
             connected (bool | Unset):  Example: True.
             provider (str | Unset):  Example: airbnb.
-            id (str | Unset): Repull-side connection ID. Stable across token refreshes. Example: 3.
+            id (str | Unset): Repull-side connection ID (the `X-Account-Id`). Stable across token refreshes. Example: 3.
+            connection_id (str | Unset): Same as `id`: our connection record. Example: 3.
             status (ConnectStatusStatus | Unset):  Example: active.
-            external_account_id (None | str | Unset): Provider-side account ID (e.g. the Airbnb host ID). Example: 10000001.
+            external_account_id (None | str | Unset): The platform's own account id: Airbnb host id; Booking.com hotel id
+                (`booking`); the Booking.com account id behind the Extranet login (`booking_extranet`); Vrbo's account id
+                (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
+                before its account id is captured, a PMS that does not expose one); never a Repull id. Example: 10000001.
             created_at (datetime.datetime | Unset):
             host (ConnectHost | None | Unset): Host metadata, populated for Airbnb when the host row exists. Null for other
                 providers (per-provider enrichment is incremental).
             accounts (list[ConnectStatusAccountsItem] | Unset): Airbnb: every Airbnb account this workspace has connected,
                 including ones since disconnected. Pass `externalAccountId` as `accountId` to `DELETE /v1/connect/airbnb` to
                 disconnect one account. Vrbo (`GET /v1/connect/vrbo-login`): every signed-in Vrbo account, each with
-                `accessType` and `import` (a `VrboImportStatus`), plus a top-level `dataFreshness`.
+                `accessType` and `import` (a `VrboImportStatus`), plus a top-level `dataFreshness`. `externalAccountId` is the
+                platform's own id (Airbnb host id, Vrbo account id; `null` for a Vrbo sign-in whose account id is not captured
+                yet) and `connectionId` our connection record.
             write_policy (PmsWritePolicy | Unset): What the app may change in a connected PMS. Hotel PMSs (Cloudbeds, Mews)
                 start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
                 everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
@@ -70,6 +76,7 @@ class ConnectStatus:
     connected: bool | Unset = UNSET
     provider: str | Unset = UNSET
     id: str | Unset = UNSET
+    connection_id: str | Unset = UNSET
     status: ConnectStatusStatus | Unset = UNSET
     external_account_id: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
@@ -98,6 +105,8 @@ class ConnectStatus:
         provider = self.provider
 
         id = self.id
+
+        connection_id = self.connection_id
 
         status: str | Unset = UNSET
         if not isinstance(self.status, Unset):
@@ -168,6 +177,8 @@ class ConnectStatus:
             field_dict["provider"] = provider
         if id is not UNSET:
             field_dict["id"] = id
+        if connection_id is not UNSET:
+            field_dict["connectionId"] = connection_id
         if status is not UNSET:
             field_dict["status"] = status
         if external_account_id is not UNSET:
@@ -207,6 +218,8 @@ class ConnectStatus:
         provider = d.pop("provider", UNSET)
 
         id = d.pop("id", UNSET)
+
+        connection_id = d.pop("connectionId", UNSET)
 
         _status = d.pop("status", UNSET)
         status: ConnectStatusStatus | Unset
@@ -334,6 +347,7 @@ class ConnectStatus:
             connected=connected,
             provider=provider,
             id=id,
+            connection_id=connection_id,
             status=status,
             external_account_id=external_account_id,
             created_at=created_at,

@@ -39,8 +39,14 @@ class AccountDisconnectedPayload:
 
         Attributes:
             workspace_id (UUID | Unset):  Example: 47f8883d-28c2-4d2c-b020-c7cef1aff62c.
-            account_id (str | Unset):  Example: acc_01HX5XPQ2K.
-            connection_id (None | str | Unset): Stable connection identifier — alias of accountId for this event variant.
+            account_id (None | str | Unset): The disconnected account's `externalAccountId` — the platform's own account id:
+                Airbnb host id; Booking.com hotel id (`booking`); the Booking.com account id behind the Extranet login
+                (`booking_extranet`); Vrbo's account id (`vrbo`); the PMS's own account or company id. `null` when the platform
+                id is not known yet (a Vrbo sign-in before its account id is captured, a PMS that does not expose one); never a
+                Repull id. Example: 79730216.
+            connection_id (None | str | Unset): Our connection record id: the `X-Account-Id` value, the same as
+                `account.id`. `null` only when the account has no connection record (e.g. a Vrbo sign-in in a workspace with no
+                Vrbo connection). A string in this event. Example: 135.
             provider (str | Unset): Channel or PMS id: `airbnb`, `booking_extranet`, `vrbo`, or the PMS (`hostaway`,
                 `guesty`, `smoobu`, …). Example: airbnb.
             disconnected_at (datetime.datetime | Unset):  Example: 2026-05-01T17:00:00.000Z.
@@ -55,7 +61,7 @@ class AccountDisconnectedPayload:
      """
 
     workspace_id: UUID | Unset = UNSET
-    account_id: str | Unset = UNSET
+    account_id: None | str | Unset = UNSET
     connection_id: None | str | Unset = UNSET
     provider: str | Unset = UNSET
     disconnected_at: datetime.datetime | Unset = UNSET
@@ -73,7 +79,11 @@ class AccountDisconnectedPayload:
         if not isinstance(self.workspace_id, Unset):
             workspace_id = str(self.workspace_id)
 
-        account_id = self.account_id
+        account_id: None | str | Unset
+        if isinstance(self.account_id, Unset):
+            account_id = UNSET
+        else:
+            account_id = self.account_id
 
         connection_id: None | str | Unset
         if isinstance(self.connection_id, Unset):
@@ -139,7 +149,15 @@ class AccountDisconnectedPayload:
 
 
 
-        account_id = d.pop("accountId", UNSET)
+        def _parse_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        account_id = _parse_account_id(d.pop("accountId", UNSET))
+
 
         def _parse_connection_id(data: object) -> None | str | Unset:
             if data is None:

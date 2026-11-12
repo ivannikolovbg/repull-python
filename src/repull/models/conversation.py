@@ -35,7 +35,9 @@ class Conversation:
         Attributes:
             account (None | RecordAccountType0 | Unset): The connected account a record belongs to — keyed exactly like the
                 webhook `account` block and `connect.session.completed`, so one `provider:externalAccountId` key routes reads
-                and events to the same user. `null` when it cannot be resolved (never guessed).
+                and events to the same user. `null` when it cannot be resolved (never guessed). Until 2027-02-12 the `?account=`
+                filter and connection handles also accept the old Extranet / Vrbo login ids (e.g. `booking_extranet:88`); they
+                are never sent.
             airbnb_access (AirbnbAccess | None | Unset): Airbnb conversations, on `GET /v1/conversations/{id}`: every
                 account on the listing (owner and co-hosts) with its state, and `defaultAccount` — the one a send uses when
                 `account` is not given. Pass any connected one as `account` on `POST /v1/conversations/{id}/messages` to send as

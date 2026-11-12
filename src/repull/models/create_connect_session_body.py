@@ -41,11 +41,12 @@ class CreateConnectSessionBody:
             mapping (CreateConnectSessionBodyMapping | Unset): Where the channel's units get linked to listings. `hosted`
                 (default): after a Vrbo or Booking.com Extranet sign-in, Connect shows a mapping step and returns to
                 `redirectUrl` when it's confirmed. `api`: Connect skips that step and finishes right after sign-in. The
-                connection reaches you in the `connect.session.completed` webhook as `account.externalAccountId` (its
-                `connectionId` is null for these two), and as `connectionId` in the popup message and `accountId` on the
-                redirect, all the same id; its handle is `vrbo:{id}` or `booking_extranet:{id}`; you list the units with `GET
-                /v1/connections/{id}/units` and link them with `POST /v1/connections/{id}/mappings`. Nothing is imported until
-                you post the mappings. Other providers ignore it. Default: CreateConnectSessionBodyMapping.HOSTED.
+                connection reaches you in the `connect.session.completed` webhook, the popup message and the redirect
+                (`externalAccountId` + `connectionId`): `externalAccountId` is the Vrbo account id or the Booking.com account
+                id, `connectionId` our connection record; its handle is `vrbo:{externalAccountId}` or
+                `booking_extranet:{externalAccountId}`; you list the units with `GET /v1/connections/{id}/units` and link them
+                with `POST /v1/connections/{id}/mappings`. Nothing is imported until you post the mappings. Other providers
+                ignore it. Default: CreateConnectSessionBodyMapping.HOSTED.
             access_type (CreateConnectSessionBodyAccessType | Unset): What the connection may do. Airbnb: the OAuth scope
                 tier. Vrbo: `messaging` (or `read_only`) imports bookings and messages and never pushes the calendar;
                 `full_access` also pushes prices and availability. Setting it locks the choice; omit it to let the host choose

@@ -23,8 +23,9 @@ T = TypeVar("T", bound="PublishListingToVrboBody")
 class PublishListingToVrboBody:
     """ 
         Attributes:
-            account_id (str | Unset): The Vrbo account, as its connection id (`"vrbo:13"`) or the bare number. Needed only
-                when the workspace has several.
+            account_id (str | Unset): The Vrbo account, as its handle (`"vrbo:7001234"`, Vrbo's own account id) or the bare
+                id. Needed only when the workspace has several. The old sign-in ids (`"vrbo:13"`) still resolve until
+                2027-02-12.
             property_id (str | Unset): Finish this unpublished Vrbo property (from a failed run's `job.propertyId`) instead
                 of starting a new one.
      """

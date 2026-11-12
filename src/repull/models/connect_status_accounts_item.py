@@ -27,7 +27,10 @@ T = TypeVar("T", bound="ConnectStatusAccountsItem")
 class ConnectStatusAccountsItem:
     """ 
         Attributes:
-            external_account_id (str | Unset): Airbnb host ID, as a string (it can exceed 2^53). Example: 79730216.
+            external_account_id (None | str | Unset): Airbnb: the host id, as a string (it can exceed 2^53). Vrbo: Vrbo's
+                own account id; `null` until it is captured at sign-in. Example: 79730216.
+            connection_id (None | str | Unset): Our connection record (`X-Account-Id`). Airbnb: the workspace's Airbnb
+                connection. Vrbo: the workspace's Vrbo connection, `null` when it has none. Example: 135.
             name (None | str | Unset):  Example: Casey.
             picture_url (None | str | Unset):
             status (None | str | Unset):  Example: active.
@@ -42,7 +45,8 @@ class ConnectStatusAccountsItem:
             import_ (None | Unset | VrboImportStatus): Vrbo only: where the account import stands.
      """
 
-    external_account_id: str | Unset = UNSET
+    external_account_id: None | str | Unset = UNSET
+    connection_id: None | str | Unset = UNSET
     name: None | str | Unset = UNSET
     picture_url: None | str | Unset = UNSET
     status: None | str | Unset = UNSET
@@ -59,7 +63,17 @@ class ConnectStatusAccountsItem:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.vrbo_import_status import VrboImportStatus
-        external_account_id = self.external_account_id
+        external_account_id: None | str | Unset
+        if isinstance(self.external_account_id, Unset):
+            external_account_id = UNSET
+        else:
+            external_account_id = self.external_account_id
+
+        connection_id: None | str | Unset
+        if isinstance(self.connection_id, Unset):
+            connection_id = UNSET
+        else:
+            connection_id = self.connection_id
 
         name: None | str | Unset
         if isinstance(self.name, Unset):
@@ -113,6 +127,8 @@ class ConnectStatusAccountsItem:
         })
         if external_account_id is not UNSET:
             field_dict["externalAccountId"] = external_account_id
+        if connection_id is not UNSET:
+            field_dict["connectionId"] = connection_id
         if name is not UNSET:
             field_dict["name"] = name
         if picture_url is not UNSET:
@@ -138,7 +154,25 @@ class ConnectStatusAccountsItem:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.vrbo_import_status import VrboImportStatus
         d = dict(src_dict)
-        external_account_id = d.pop("externalAccountId", UNSET)
+        def _parse_external_account_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        external_account_id = _parse_external_account_id(d.pop("externalAccountId", UNSET))
+
+
+        def _parse_connection_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        connection_id = _parse_connection_id(d.pop("connectionId", UNSET))
+
 
         def _parse_name(data: object) -> None | str | Unset:
             if data is None:
@@ -224,6 +258,7 @@ class ConnectStatusAccountsItem:
 
         connect_status_accounts_item = cls(
             external_account_id=external_account_id,
+            connection_id=connection_id,
             name=name,
             picture_url=picture_url,
             status=status,
