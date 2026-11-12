@@ -9,7 +9,10 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
+from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.availability_write_result_synced_channels_item import AvailabilityWriteResultSyncedChannelsItem
 
 
 
@@ -29,12 +32,15 @@ class AvailabilityWriteResultSynced:
             succeeded (int | Unset):
             failed (int | Unset):
             auth_errors (int | Unset): Channels whose token has expired — these need reconnecting, not retrying.
+            channels (list[AvailabilityWriteResultSyncedChannelsItem] | Unset): One entry per listing per connected channel:
+                which channel took the write and which refused it.
      """
 
     attempted: int | Unset = UNSET
     succeeded: int | Unset = UNSET
     failed: int | Unset = UNSET
     auth_errors: int | Unset = UNSET
+    channels: list[AvailabilityWriteResultSyncedChannelsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -42,6 +48,7 @@ class AvailabilityWriteResultSynced:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.availability_write_result_synced_channels_item import AvailabilityWriteResultSyncedChannelsItem
         attempted = self.attempted
 
         succeeded = self.succeeded
@@ -49,6 +56,15 @@ class AvailabilityWriteResultSynced:
         failed = self.failed
 
         auth_errors = self.auth_errors
+
+        channels: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.channels, Unset):
+            channels = []
+            for channels_item_data in self.channels:
+                channels_item = channels_item_data.to_dict()
+                channels.append(channels_item)
+
+
 
 
         field_dict: dict[str, Any] = {}
@@ -63,6 +79,8 @@ class AvailabilityWriteResultSynced:
             field_dict["failed"] = failed
         if auth_errors is not UNSET:
             field_dict["authErrors"] = auth_errors
+        if channels is not UNSET:
+            field_dict["channels"] = channels
 
         return field_dict
 
@@ -70,6 +88,7 @@ class AvailabilityWriteResultSynced:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.availability_write_result_synced_channels_item import AvailabilityWriteResultSyncedChannelsItem
         d = dict(src_dict)
         attempted = d.pop("attempted", UNSET)
 
@@ -79,11 +98,24 @@ class AvailabilityWriteResultSynced:
 
         auth_errors = d.pop("authErrors", UNSET)
 
+        _channels = d.pop("channels", UNSET)
+        channels: list[AvailabilityWriteResultSyncedChannelsItem] | Unset = UNSET
+        if _channels is not UNSET:
+            channels = []
+            for channels_item_data in _channels:
+                channels_item = AvailabilityWriteResultSyncedChannelsItem.from_dict(channels_item_data)
+
+
+
+                channels.append(channels_item)
+
+
         availability_write_result_synced = cls(
             attempted=attempted,
             succeeded=succeeded,
             failed=failed,
             auth_errors=auth_errors,
+            channels=channels,
         )
 
 

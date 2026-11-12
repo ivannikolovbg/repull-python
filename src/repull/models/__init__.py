@@ -157,6 +157,8 @@ from .availability_batch_write_request import AvailabilityBatchWriteRequest
 from .availability_write_request import AvailabilityWriteRequest
 from .availability_write_result import AvailabilityWriteResult
 from .availability_write_result_synced import AvailabilityWriteResultSynced
+from .availability_write_result_synced_channels_item import AvailabilityWriteResultSyncedChannelsItem
+from .availability_write_result_synced_channels_item_status import AvailabilityWriteResultSyncedChannelsItemStatus
 from .availability_write_settings import AvailabilityWriteSettings
 from .billing_notice import BillingNotice
 from .billing_notice_code import BillingNoticeCode
@@ -1485,6 +1487,8 @@ __all__ = (
     "AvailabilityWriteRequest",
     "AvailabilityWriteResult",
     "AvailabilityWriteResultSynced",
+    "AvailabilityWriteResultSyncedChannelsItem",
+    "AvailabilityWriteResultSyncedChannelsItemStatus",
     "AvailabilityWriteSettings",
     "BillingNotice",
     "BillingNoticeCode",
