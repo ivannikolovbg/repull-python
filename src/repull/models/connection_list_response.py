@@ -12,6 +12,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.billing_notice import BillingNotice
   from ..models.connection import Connection
   from ..models.pagination import Pagination
   from ..models.plan_notice import PlanNotice
@@ -36,6 +37,10 @@ class ConnectionListResponse:
                 listing answers `403 listing_inactive` with `reason: "plan_limit"`. Tell the user: they can see the held-back
                 listings with `GET /v1/listings?status=all`, choose which are active with `POST /v1/listings/status`, or
                 upgrade.
+            billing_notice (BillingNotice | Unset): Added to the body of every successful (2xx) JSON object response while
+                the plan's last renewal payment failed (the subscription is past_due or unpaid). It never blocks a request: API
+                access keeps working while Stripe retries the card. Tell the user: pay the invoice at `payUrl`, or update the
+                card at `billingUrl`. It disappears once the invoice is paid.
             data (list[Connection] | Unset):
             pagination (Pagination | Unset): Canonical cursor-based pagination envelope. Pass `nextCursor` back as
                 `?cursor=` to fetch the next page; stop when `hasMore` is `false`. The cursor is opaque base64 — do not parse or
@@ -43,6 +48,7 @@ class ConnectionListResponse:
      """
 
     plan_notice: PlanNotice | Unset = UNSET
+    billing_notice: BillingNotice | Unset = UNSET
     data: list[Connection] | Unset = UNSET
     pagination: Pagination | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -52,12 +58,17 @@ class ConnectionListResponse:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.billing_notice import BillingNotice
         from ..models.connection import Connection
         from ..models.pagination import Pagination
         from ..models.plan_notice import PlanNotice
         plan_notice: dict[str, Any] | Unset = UNSET
         if not isinstance(self.plan_notice, Unset):
             plan_notice = self.plan_notice.to_dict()
+
+        billing_notice: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.billing_notice, Unset):
+            billing_notice = self.billing_notice.to_dict()
 
         data: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.data, Unset):
@@ -79,6 +90,8 @@ class ConnectionListResponse:
         })
         if plan_notice is not UNSET:
             field_dict["planNotice"] = plan_notice
+        if billing_notice is not UNSET:
+            field_dict["billingNotice"] = billing_notice
         if data is not UNSET:
             field_dict["data"] = data
         if pagination is not UNSET:
@@ -90,6 +103,7 @@ class ConnectionListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.billing_notice import BillingNotice
         from ..models.connection import Connection
         from ..models.pagination import Pagination
         from ..models.plan_notice import PlanNotice
@@ -100,6 +114,16 @@ class ConnectionListResponse:
             plan_notice = UNSET
         else:
             plan_notice = PlanNotice.from_dict(_plan_notice)
+
+
+
+
+        _billing_notice = d.pop("billingNotice", UNSET)
+        billing_notice: BillingNotice | Unset
+        if isinstance(_billing_notice,  Unset):
+            billing_notice = UNSET
+        else:
+            billing_notice = BillingNotice.from_dict(_billing_notice)
 
 
 
@@ -128,6 +152,7 @@ class ConnectionListResponse:
 
         connection_list_response = cls(
             plan_notice=plan_notice,
+            billing_notice=billing_notice,
             data=data,
             pagination=pagination,
         )

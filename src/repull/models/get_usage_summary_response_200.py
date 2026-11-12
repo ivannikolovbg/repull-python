@@ -14,6 +14,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.billing_notice import BillingNotice
   from ..models.get_usage_summary_response_200_breakdown_item import GetUsageSummaryResponse200BreakdownItem
   from ..models.get_usage_summary_response_200_credits import GetUsageSummaryResponse200Credits
   from ..models.get_usage_summary_response_200_limits import GetUsageSummaryResponse200Limits
@@ -58,6 +59,10 @@ class GetUsageSummaryResponse200:
                 listing answers `403 listing_inactive` with `reason: "plan_limit"`. Tell the user: they can see the held-back
                 listings with `GET /v1/listings?status=all`, choose which are active with `POST /v1/listings/status`, or
                 upgrade.
+            billing_notice (BillingNotice | Unset): Added to the body of every successful (2xx) JSON object response while
+                the plan's last renewal payment failed (the subscription is past_due or unpaid). It never blocks a request: API
+                access keeps working while Stripe retries the card. Tell the user: pay the invoice at `payUrl`, or update the
+                card at `billingUrl`. It disappears once the invoice is paid.
      """
 
     tier: str | Unset = UNSET
@@ -73,6 +78,7 @@ class GetUsageSummaryResponse200:
     totals: GetUsageSummaryResponse200Totals | Unset = UNSET
     range_: str | Unset = UNSET
     plan_notice: PlanNotice | Unset = UNSET
+    billing_notice: BillingNotice | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -80,6 +86,7 @@ class GetUsageSummaryResponse200:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.billing_notice import BillingNotice
         from ..models.get_usage_summary_response_200_breakdown_item import GetUsageSummaryResponse200BreakdownItem
         from ..models.get_usage_summary_response_200_credits import GetUsageSummaryResponse200Credits
         from ..models.get_usage_summary_response_200_limits import GetUsageSummaryResponse200Limits
@@ -147,6 +154,10 @@ class GetUsageSummaryResponse200:
         if not isinstance(self.plan_notice, Unset):
             plan_notice = self.plan_notice.to_dict()
 
+        billing_notice: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.billing_notice, Unset):
+            billing_notice = self.billing_notice.to_dict()
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -178,6 +189,8 @@ class GetUsageSummaryResponse200:
             field_dict["range"] = range_
         if plan_notice is not UNSET:
             field_dict["planNotice"] = plan_notice
+        if billing_notice is not UNSET:
+            field_dict["billingNotice"] = billing_notice
 
         return field_dict
 
@@ -185,6 +198,7 @@ class GetUsageSummaryResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.billing_notice import BillingNotice
         from ..models.get_usage_summary_response_200_breakdown_item import GetUsageSummaryResponse200BreakdownItem
         from ..models.get_usage_summary_response_200_credits import GetUsageSummaryResponse200Credits
         from ..models.get_usage_summary_response_200_limits import GetUsageSummaryResponse200Limits
@@ -313,6 +327,16 @@ class GetUsageSummaryResponse200:
 
 
 
+        _billing_notice = d.pop("billingNotice", UNSET)
+        billing_notice: BillingNotice | Unset
+        if isinstance(_billing_notice,  Unset):
+            billing_notice = UNSET
+        else:
+            billing_notice = BillingNotice.from_dict(_billing_notice)
+
+
+
+
         get_usage_summary_response_200 = cls(
             tier=tier,
             limits=limits,
@@ -327,6 +351,7 @@ class GetUsageSummaryResponse200:
             totals=totals,
             range_=range_,
             plan_notice=plan_notice,
+            billing_notice=billing_notice,
         )
 
 

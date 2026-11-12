@@ -158,6 +158,8 @@ from .availability_write_request import AvailabilityWriteRequest
 from .availability_write_result import AvailabilityWriteResult
 from .availability_write_result_synced import AvailabilityWriteResultSynced
 from .availability_write_settings import AvailabilityWriteSettings
+from .billing_notice import BillingNotice
+from .billing_notice_code import BillingNoticeCode
 from .booking_availability_state_response import BookingAvailabilityStateResponse
 from .booking_availability_update import BookingAvailabilityUpdate
 from .booking_availability_update_date_range import BookingAvailabilityUpdateDateRange
@@ -1484,6 +1486,8 @@ __all__ = (
     "AvailabilityWriteResult",
     "AvailabilityWriteResultSynced",
     "AvailabilityWriteSettings",
+    "BillingNotice",
+    "BillingNoticeCode",
     "BookingAvailabilityStateResponse",
     "BookingAvailabilityUpdate",
     "BookingAvailabilityUpdateDateRange",
