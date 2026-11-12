@@ -28,7 +28,12 @@ class AvailabilityWriteSettings:
             available (bool | Unset): Block or unblock the dates.
             price (float | Unset): Nightly base price.
             min_nights (int | Unset):
-            max_nights (int | Unset):
+            max_nights (int | Unset): Maximum stay for an arrival on these dates. Sent to Airbnb and Booking.com. Vrbo has
+                no per-date maximum stay, so it is not sent there.
+            closed_to_arrival (bool | Unset): No check-in on these dates (`true`), or check-in allowed again (`false`). Sent
+                to Airbnb, Booking.com and Vrbo. Leaving it out keeps the current value.
+            closed_to_departure (bool | Unset): No check-out on these dates (`true`), or check-out allowed again (`false`).
+                Sent to Airbnb, Booking.com and Vrbo. Leaving it out keeps the current value.
             available_units (int | Unset): Rooms to sell on these dates, for a listing that sells several identical rooms
                 (`unitCount` > 1, e.g. a Booking.com room type). Up to the listing's `unitCount`. Refused with `409
                 managed_by_pms` on a hotel PMS room type (Cloudbeds, Mews) — its PMS owns the room count.
@@ -38,6 +43,8 @@ class AvailabilityWriteSettings:
     price: float | Unset = UNSET
     min_nights: int | Unset = UNSET
     max_nights: int | Unset = UNSET
+    closed_to_arrival: bool | Unset = UNSET
+    closed_to_departure: bool | Unset = UNSET
     available_units: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -54,6 +61,10 @@ class AvailabilityWriteSettings:
 
         max_nights = self.max_nights
 
+        closed_to_arrival = self.closed_to_arrival
+
+        closed_to_departure = self.closed_to_departure
+
         available_units = self.available_units
 
 
@@ -69,6 +80,10 @@ class AvailabilityWriteSettings:
             field_dict["minNights"] = min_nights
         if max_nights is not UNSET:
             field_dict["maxNights"] = max_nights
+        if closed_to_arrival is not UNSET:
+            field_dict["closedToArrival"] = closed_to_arrival
+        if closed_to_departure is not UNSET:
+            field_dict["closedToDeparture"] = closed_to_departure
         if available_units is not UNSET:
             field_dict["availableUnits"] = available_units
 
@@ -87,6 +102,10 @@ class AvailabilityWriteSettings:
 
         max_nights = d.pop("maxNights", UNSET)
 
+        closed_to_arrival = d.pop("closedToArrival", UNSET)
+
+        closed_to_departure = d.pop("closedToDeparture", UNSET)
+
         available_units = d.pop("availableUnits", UNSET)
 
         availability_write_settings = cls(
@@ -94,6 +113,8 @@ class AvailabilityWriteSettings:
             price=price,
             min_nights=min_nights,
             max_nights=max_nights,
+            closed_to_arrival=closed_to_arrival,
+            closed_to_departure=closed_to_departure,
             available_units=available_units,
         )
 

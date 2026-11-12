@@ -113,6 +113,10 @@ def sync_detailed(
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
 
+    The fields apply to every date in `dates`; to give nights different values, send one request per
+    group of nights. `closedToArrival` and `closedToDeparture` reach Airbnb, Booking.com and Vrbo.
+    `maxNights` reaches Airbnb and Booking.com; Vrbo has no per-date maximum stay.
+
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
@@ -153,6 +157,10 @@ def sync(
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
 
+    The fields apply to every date in `dates`; to give nights different values, send one request per
+    group of nights. `closedToArrival` and `closedToDeparture` reach Airbnb, Booking.com and Vrbo.
+    `maxNights` reaches Airbnb and Booking.com; Vrbo has no per-date maximum stay.
+
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
 
@@ -187,6 +195,10 @@ async def asyncio_detailed(
 
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+
+    The fields apply to every date in `dates`; to give nights different values, send one request per
+    group of nights. `closedToArrival` and `closedToDeparture` reach Airbnb, Booking.com and Vrbo.
+    `maxNights` reaches Airbnb and Booking.com; Vrbo has no per-date maximum stay.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
@@ -227,6 +239,10 @@ async def asyncio(
 
      Writes the calendar for one property AND pushes to every connected channel in the same step. A write
     that only changed our copy would leave the OTA calendars stale and eventually double-book a guest.
+
+    The fields apply to every date in `dates`; to give nights different values, send one request per
+    group of nights. `closedToArrival` and `closedToDeparture` reach Airbnb, Booking.com and Vrbo.
+    `maxNights` reaches Airbnb and Booking.com; Vrbo has no per-date maximum stay.
 
     Returns `403 listing_inactive` when the listing is inactive. An inactive listing keeps syncing, but
     cannot be read or changed through the API until it is activated.
