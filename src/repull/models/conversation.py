@@ -53,13 +53,16 @@ class Conversation:
             listing_id (None | str | Unset):
             reservation_id (None | str | Unset):
             subject (None | str | Unset): Thread subject (email/website channels) or null when not applicable.
-            last_message_at (datetime.datetime | None | Unset):
+            last_message_at (datetime.datetime | None | Unset): The conversation's newest activity: the time of its newest
+                message (after an import, the newest imported message's own time, not the import time), or of a later change to
+                the conversation. `GET /v1/conversations` sorts on it by default.
             last_message_preview (None | str | Unset): Short preview of the most recent message body for list-UI rendering.
             unread_count (int | Unset):
             status (ConversationStatus | Unset): `archived` is reserved for a future bit on `message_threads` — currently
                 always `open`.
             created_at (datetime.datetime | Unset):
-            updated_at (datetime.datetime | Unset):
+            updated_at (datetime.datetime | Unset): When the conversation record last changed; the watermark for
+                `updated_since`.
      """
 
     account: None | RecordAccountType0 | Unset = UNSET

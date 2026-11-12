@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.connect_status_status import ConnectStatusStatus
+from ..models.connection_access_type import ConnectionAccessType
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -46,14 +47,18 @@ class ConnectStatus:
                 (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
                 before its account id is captured, a PMS that does not expose one); never a Repull id. Example: 10000001.
             created_at (datetime.datetime | Unset):
+            access_type (ConnectionAccessType | None | Unset): What the connection may do: `read_only`, `messaging` or
+                `full_access` (see `ConnectionAccessType` for the meaning per provider). Airbnb: the tier of the host in
+                `externalAccountId`; each host's own is on `accounts[].accessType`. Absent when `connected` is false and on `GET
+                /v1/connect/vrbo-login` (per account there); `null` when unknown.
             host (ConnectHost | None | Unset): Host metadata, populated for Airbnb when the host row exists. Null for other
                 providers (per-provider enrichment is incremental).
             accounts (list[ConnectStatusAccountsItem] | Unset): Airbnb: every Airbnb account this workspace has connected,
-                including ones since disconnected. Pass `externalAccountId` as `accountId` to `DELETE /v1/connect/airbnb` to
-                disconnect one account. Vrbo (`GET /v1/connect/vrbo-login`): every signed-in Vrbo account, each with
-                `accessType` and `import` (a `VrboImportStatus`), plus a top-level `dataFreshness`. `externalAccountId` is the
-                platform's own id (Airbnb host id, Vrbo account id; `null` for a Vrbo sign-in whose account id is not captured
-                yet) and `connectionId` our connection record.
+                including ones since disconnected, each with its own `accessType`. Pass `externalAccountId` as `accountId` to
+                `DELETE /v1/connect/airbnb` to disconnect one account. Vrbo (`GET /v1/connect/vrbo-login`): every signed-in Vrbo
+                account, each with `accessType` and `import` (a `VrboImportStatus`), plus a top-level `dataFreshness`.
+                `externalAccountId` is the platform's own id (Airbnb host id, Vrbo account id; `null` for a Vrbo sign-in whose
+                account id is not captured yet) and `connectionId` our connection record.
             write_policy (PmsWritePolicy | Unset): What the app may change in a connected PMS. Hotel PMSs (Cloudbeds, Mews)
                 start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
                 everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
@@ -80,6 +85,7 @@ class ConnectStatus:
     status: ConnectStatusStatus | Unset = UNSET
     external_account_id: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
+    access_type: ConnectionAccessType | None | Unset = UNSET
     host: ConnectHost | None | Unset = UNSET
     accounts: list[ConnectStatusAccountsItem] | Unset = UNSET
     write_policy: PmsWritePolicy | Unset = UNSET
@@ -122,6 +128,14 @@ class ConnectStatus:
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
             created_at = self.created_at.isoformat()
+
+        access_type: None | str | Unset
+        if isinstance(self.access_type, Unset):
+            access_type = UNSET
+        elif isinstance(self.access_type, ConnectionAccessType):
+            access_type = self.access_type.value
+        else:
+            access_type = self.access_type
 
         host: dict[str, Any] | None | Unset
         if isinstance(self.host, Unset):
@@ -185,6 +199,8 @@ class ConnectStatus:
             field_dict["externalAccountId"] = external_account_id
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
+        if access_type is not UNSET:
+            field_dict["accessType"] = access_type
         if host is not UNSET:
             field_dict["host"] = host
         if accounts is not UNSET:
@@ -249,6 +265,26 @@ class ConnectStatus:
             created_at = isoparse(_created_at)
 
 
+
+
+        def _parse_access_type(data: object) -> ConnectionAccessType | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                access_type_type_1 = ConnectionAccessType(data)
+
+
+
+                return access_type_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ConnectionAccessType | None | Unset, data)
+
+        access_type = _parse_access_type(d.pop("accessType", UNSET))
 
 
         def _parse_host(data: object) -> ConnectHost | None | Unset:
@@ -351,6 +387,7 @@ class ConnectStatus:
             status=status,
             external_account_id=external_account_id,
             created_at=created_at,
+            access_type=access_type,
             host=host,
             accounts=accounts,
             write_policy=write_policy,

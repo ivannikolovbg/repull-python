@@ -68,6 +68,13 @@ def sync_detailed(
     hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
     platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
 
+    **Access level.** Every connection carries `accessType`: `read_only`, `messaging` or `full_access`,
+    or `null` when unknown. Airbnb: the tier the host's token was granted with. Vrbo: bookings and
+    messages only (`messaging`) or with the calendar push (`full_access`). Booking.com: always
+    `full_access`. Booking.com Extranet: always `messaging` (reads reservations, messages and reviews
+    and replies; never writes rates or availability). PMS: `read_only` when every write-policy switch is
+    off, else `full_access`. See the `ConnectionAccessType` schema.
+
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
     `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
@@ -126,6 +133,13 @@ def sync(
     hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
     platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
 
+    **Access level.** Every connection carries `accessType`: `read_only`, `messaging` or `full_access`,
+    or `null` when unknown. Airbnb: the tier the host's token was granted with. Vrbo: bookings and
+    messages only (`messaging`) or with the calendar push (`full_access`). Booking.com: always
+    `full_access`. Booking.com Extranet: always `messaging` (reads reservations, messages and reviews
+    and replies; never writes rates or availability). PMS: `read_only` when every write-policy switch is
+    off, else `full_access`. See the `ConnectionAccessType` schema.
+
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
     `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
@@ -178,6 +192,13 @@ async def asyncio_detailed(
     **Account ids.** `externalAccountId` is the platform's own account id (Airbnb host id, Booking.com
     hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
     platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
+
+    **Access level.** Every connection carries `accessType`: `read_only`, `messaging` or `full_access`,
+    or `null` when unknown. Airbnb: the tier the host's token was granted with. Vrbo: bookings and
+    messages only (`messaging`) or with the calendar push (`full_access`). Booking.com: always
+    `full_access`. Booking.com Extranet: always `messaging` (reads reservations, messages and reviews
+    and replies; never writes rates or availability). PMS: `read_only` when every write-policy switch is
+    off, else `full_access`. See the `ConnectionAccessType` schema.
 
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
@@ -236,6 +257,13 @@ async def asyncio(
     **Account ids.** `externalAccountId` is the platform's own account id (Airbnb host id, Booking.com
     hotel id, the Booking.com account id behind an Extranet login, the PMS account id; `null` when the
     platform does not give us one) and `id` is our connection record, the `X-Account-Id`.
+
+    **Access level.** Every connection carries `accessType`: `read_only`, `messaging` or `full_access`,
+    or `null` when unknown. Airbnb: the tier the host's token was granted with. Vrbo: bookings and
+    messages only (`messaging`) or with the calendar push (`full_access`). Booking.com: always
+    `full_access`. Booking.com Extranet: always `messaging` (reads reservations, messages and reviews
+    and replies; never writes rates or availability). PMS: `read_only` when every write-policy switch is
+    off, else `full_access`. See the `ConnectionAccessType` schema.
 
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle

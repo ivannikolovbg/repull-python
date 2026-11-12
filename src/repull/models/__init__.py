@@ -294,11 +294,11 @@ from .connect_session_completed_payload_purpose import ConnectSessionCompletedPa
 from .connect_session_purpose import ConnectSessionPurpose
 from .connect_status import ConnectStatus
 from .connect_status_accounts_item import ConnectStatusAccountsItem
-from .connect_status_accounts_item_access_type import ConnectStatusAccountsItemAccessType
 from .connect_status_capabilities import ConnectStatusCapabilities
 from .connect_status_data_freshness import ConnectStatusDataFreshness
 from .connect_status_status import ConnectStatusStatus
 from .connection import Connection
+from .connection_access_type import ConnectionAccessType
 from .connection_action import ConnectionAction
 from .connection_list_response import ConnectionListResponse
 from .connection_status import ConnectionStatus
@@ -601,6 +601,7 @@ from .list_connection_units_response_200_status import ListConnectionUnitsRespon
 from .list_connection_units_response_200_units_item import ListConnectionUnitsResponse200UnitsItem
 from .list_connection_units_response_200_units_item_meta import ListConnectionUnitsResponse200UnitsItemMeta
 from .list_conversation_messages_order import ListConversationMessagesOrder
+from .list_conversations_order import ListConversationsOrder
 from .list_conversations_platform import ListConversationsPlatform
 from .list_conversations_status import ListConversationsStatus
 from .list_hotels_response_200 import ListHotelsResponse200
@@ -1601,6 +1602,7 @@ __all__ = (
     "ClearKvResponse200",
     "ConnectHost",
     "Connection",
+    "ConnectionAccessType",
     "ConnectionAction",
     "ConnectionListResponse",
     "ConnectionStatus",
@@ -1623,7 +1625,6 @@ __all__ = (
     "ConnectSessionPurpose",
     "ConnectStatus",
     "ConnectStatusAccountsItem",
-    "ConnectStatusAccountsItemAccessType",
     "ConnectStatusCapabilities",
     "ConnectStatusDataFreshness",
     "ConnectStatusStatus",
@@ -1926,6 +1927,7 @@ __all__ = (
     "ListConnectionUnitsResponse200UnitsItem",
     "ListConnectionUnitsResponse200UnitsItemMeta",
     "ListConversationMessagesOrder",
+    "ListConversationsOrder",
     "ListConversationsPlatform",
     "ListConversationsStatus",
     "ListHotelsResponse200",

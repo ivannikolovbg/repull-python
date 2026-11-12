@@ -8,7 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..models.connect_status_accounts_item_access_type import ConnectStatusAccountsItemAccessType
+from ..models.connection_access_type import ConnectionAccessType
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -36,7 +36,9 @@ class ConnectStatusAccountsItem:
             status (None | str | Unset):  Example: active.
             connected (bool | Unset): True while the account is active and its authorization is usable. Example: True.
             email (None | str | Unset): Vrbo only: the account email.
-            access_type (ConnectStatusAccountsItemAccessType | Unset): Vrbo only.
+            access_type (ConnectionAccessType | None | Unset): What this account may do. Airbnb: the tier the host's token
+                was granted with (`read_only`, `messaging`, `full_access`). Vrbo: `messaging` (bookings and messages, no
+                calendar push) or `full_access` (also pushes prices and availability). `null` when unknown.
             notification_email (None | str | Unset): Vrbo only. The address the host can add on Vrbo as a secondary email
                 (with message and reservation notifications on) so new bookings, inquiries and messages arrive within a minute
                 instead of at the scheduled check. Ask every host to add it: notifications are how Vrbo updates reach Repull,
@@ -52,7 +54,7 @@ class ConnectStatusAccountsItem:
     status: None | str | Unset = UNSET
     connected: bool | Unset = UNSET
     email: None | str | Unset = UNSET
-    access_type: ConnectStatusAccountsItemAccessType | Unset = UNSET
+    access_type: ConnectionAccessType | None | Unset = UNSET
     notification_email: None | str | Unset = UNSET
     import_: None | Unset | VrboImportStatus = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -101,10 +103,13 @@ class ConnectStatusAccountsItem:
         else:
             email = self.email
 
-        access_type: str | Unset = UNSET
-        if not isinstance(self.access_type, Unset):
+        access_type: None | str | Unset
+        if isinstance(self.access_type, Unset):
+            access_type = UNSET
+        elif isinstance(self.access_type, ConnectionAccessType):
             access_type = self.access_type.value
-
+        else:
+            access_type = self.access_type
 
         notification_email: None | str | Unset
         if isinstance(self.notification_email, Unset):
@@ -216,14 +221,24 @@ class ConnectStatusAccountsItem:
         email = _parse_email(d.pop("email", UNSET))
 
 
-        _access_type = d.pop("accessType", UNSET)
-        access_type: ConnectStatusAccountsItemAccessType | Unset
-        if isinstance(_access_type,  Unset):
-            access_type = UNSET
-        else:
-            access_type = ConnectStatusAccountsItemAccessType(_access_type)
+        def _parse_access_type(data: object) -> ConnectionAccessType | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                access_type_type_1 = ConnectionAccessType(data)
 
 
+
+                return access_type_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ConnectionAccessType | None | Unset, data)
+
+        access_type = _parse_access_type(d.pop("accessType", UNSET))
 
 
         def _parse_notification_email(data: object) -> None | str | Unset:

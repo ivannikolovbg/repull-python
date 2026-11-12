@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.conversation_list_response import ConversationListResponse
 from ...models.error import Error
+from ...models.list_conversations_order import ListConversationsOrder
 from ...models.list_conversations_platform import ListConversationsPlatform
 from ...models.list_conversations_status import ListConversationsStatus
 from ...types import UNSET, Unset
@@ -27,6 +28,7 @@ def _get_kwargs(
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     updated_since: datetime.datetime | Unset = UNSET,
+    order: ListConversationsOrder | Unset = ListConversationsOrder.RECENT,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -59,6 +61,12 @@ def _get_kwargs(
     if not isinstance(updated_since, Unset):
         json_updated_since = updated_since.isoformat()
     params["updated_since"] = json_updated_since
+
+    json_order: str | Unset = UNSET
+    if not isinstance(order, Unset):
+        json_order = order.value
+
+    params["order"] = json_order
 
     json_status: str | Unset = UNSET
     if not isinstance(status, Unset):
@@ -142,6 +150,7 @@ def sync_detailed(
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     updated_since: datetime.datetime | Unset = UNSET,
+    order: ListConversationsOrder | Unset = ListConversationsOrder.RECENT,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -161,13 +170,23 @@ def sync_detailed(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
-    **Order:** newest conversation first (by when the conversation started), unless you pass
-    `updated_since`.
+    **Order:** most recent activity first (`lastMessageAt` descending) by default (`order=recent`).
+    `lastMessageAt` is the conversation's newest activity: the time of its newest message (after an
+    import, the newest imported message's own time, not the import time), or of a later change to the
+    conversation.
 
-    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
-    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
-    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
-    your next watermark. A cursor from one kind of walk is refused on the other.
+    **Full sync — use `order=created`:** a recent-order walk is a live view: a conversation that gets a
+    new message while you page moves to the front, behind your walk, and that walk does not return it
+    (the next walk or an `updated_since` poll will). To walk every conversation exactly once, pass
+    `order=created` — newest conversation first (by when it started), stable for the whole walk. A
+    cursor keeps the order its walk started in: cursors issued before recency ordering continue in
+    creation order, and a recent-order cursor is refused with `order=created`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations whose record changed (a new
+    message or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`);
+    `order` does not apply. Walk every page with `cursor`, keeping `updated_since` on each request; the
+    last row's `updatedAt` is your next watermark. A cursor from one kind of walk is refused on the
+    other.
 
     Args:
         account (str | Unset):  Example: airbnb:79730216.
@@ -176,6 +195,7 @@ def sync_detailed(
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         updated_since (datetime.datetime | Unset):
+        order (ListConversationsOrder | Unset):  Default: ListConversationsOrder.RECENT.
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -195,6 +215,7 @@ offset=offset,
 limit=limit,
 platform=platform,
 updated_since=updated_since,
+order=order,
 status=status,
 x_schema=x_schema,
 
@@ -215,6 +236,7 @@ def sync(
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     updated_since: datetime.datetime | Unset = UNSET,
+    order: ListConversationsOrder | Unset = ListConversationsOrder.RECENT,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -234,13 +256,23 @@ def sync(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
-    **Order:** newest conversation first (by when the conversation started), unless you pass
-    `updated_since`.
+    **Order:** most recent activity first (`lastMessageAt` descending) by default (`order=recent`).
+    `lastMessageAt` is the conversation's newest activity: the time of its newest message (after an
+    import, the newest imported message's own time, not the import time), or of a later change to the
+    conversation.
 
-    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
-    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
-    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
-    your next watermark. A cursor from one kind of walk is refused on the other.
+    **Full sync — use `order=created`:** a recent-order walk is a live view: a conversation that gets a
+    new message while you page moves to the front, behind your walk, and that walk does not return it
+    (the next walk or an `updated_since` poll will). To walk every conversation exactly once, pass
+    `order=created` — newest conversation first (by when it started), stable for the whole walk. A
+    cursor keeps the order its walk started in: cursors issued before recency ordering continue in
+    creation order, and a recent-order cursor is refused with `order=created`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations whose record changed (a new
+    message or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`);
+    `order` does not apply. Walk every page with `cursor`, keeping `updated_since` on each request; the
+    last row's `updatedAt` is your next watermark. A cursor from one kind of walk is refused on the
+    other.
 
     Args:
         account (str | Unset):  Example: airbnb:79730216.
@@ -249,6 +281,7 @@ def sync(
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         updated_since (datetime.datetime | Unset):
+        order (ListConversationsOrder | Unset):  Default: ListConversationsOrder.RECENT.
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -269,6 +302,7 @@ offset=offset,
 limit=limit,
 platform=platform,
 updated_since=updated_since,
+order=order,
 status=status,
 x_schema=x_schema,
 
@@ -283,6 +317,7 @@ async def asyncio_detailed(
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     updated_since: datetime.datetime | Unset = UNSET,
+    order: ListConversationsOrder | Unset = ListConversationsOrder.RECENT,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -302,13 +337,23 @@ async def asyncio_detailed(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
-    **Order:** newest conversation first (by when the conversation started), unless you pass
-    `updated_since`.
+    **Order:** most recent activity first (`lastMessageAt` descending) by default (`order=recent`).
+    `lastMessageAt` is the conversation's newest activity: the time of its newest message (after an
+    import, the newest imported message's own time, not the import time), or of a later change to the
+    conversation.
 
-    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
-    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
-    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
-    your next watermark. A cursor from one kind of walk is refused on the other.
+    **Full sync — use `order=created`:** a recent-order walk is a live view: a conversation that gets a
+    new message while you page moves to the front, behind your walk, and that walk does not return it
+    (the next walk or an `updated_since` poll will). To walk every conversation exactly once, pass
+    `order=created` — newest conversation first (by when it started), stable for the whole walk. A
+    cursor keeps the order its walk started in: cursors issued before recency ordering continue in
+    creation order, and a recent-order cursor is refused with `order=created`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations whose record changed (a new
+    message or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`);
+    `order` does not apply. Walk every page with `cursor`, keeping `updated_since` on each request; the
+    last row's `updatedAt` is your next watermark. A cursor from one kind of walk is refused on the
+    other.
 
     Args:
         account (str | Unset):  Example: airbnb:79730216.
@@ -317,6 +362,7 @@ async def asyncio_detailed(
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         updated_since (datetime.datetime | Unset):
+        order (ListConversationsOrder | Unset):  Default: ListConversationsOrder.RECENT.
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -336,6 +382,7 @@ offset=offset,
 limit=limit,
 platform=platform,
 updated_since=updated_since,
+order=order,
 status=status,
 x_schema=x_schema,
 
@@ -356,6 +403,7 @@ async def asyncio(
     limit: int | Unset = 20,
     platform: ListConversationsPlatform | Unset = UNSET,
     updated_since: datetime.datetime | Unset = UNSET,
+    order: ListConversationsOrder | Unset = ListConversationsOrder.RECENT,
     status: ListConversationsStatus | Unset = UNSET,
     x_schema: str | Unset = UNSET,
 
@@ -375,13 +423,23 @@ async def asyncio(
     its reservation's listing) are left out of the page and of `pagination.total`. Inactive listings
     keep syncing; activate the listing to use it here.
 
-    **Order:** newest conversation first (by when the conversation started), unless you pass
-    `updated_since`.
+    **Order:** most recent activity first (`lastMessageAt` descending) by default (`order=recent`).
+    `lastMessageAt` is the conversation's newest activity: the time of its newest message (after an
+    import, the newest imported message's own time, not the import time), or of a later change to the
+    conversation.
 
-    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations with activity (a new message
-    or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`). Walk
-    every page with `cursor`, keeping `updated_since` on each request; the last row's `updatedAt` is
-    your next watermark. A cursor from one kind of walk is refused on the other.
+    **Full sync — use `order=created`:** a recent-order walk is a live view: a conversation that gets a
+    new message while you page moves to the front, behind your walk, and that walk does not return it
+    (the next walk or an `updated_since` poll will). To walk every conversation exactly once, pass
+    `order=created` — newest conversation first (by when it started), stable for the whole walk. A
+    cursor keeps the order its walk started in: cursors issued before recency ordering continue in
+    creation order, and a recent-order cursor is refused with `order=created`.
+
+    **Incremental sync (`?updated_since=<ISO8601>`):** only conversations whose record changed (a new
+    message or another change) at or after that instant, ordered oldest change first (`updatedAt ASC`);
+    `order` does not apply. Walk every page with `cursor`, keeping `updated_since` on each request; the
+    last row's `updatedAt` is your next watermark. A cursor from one kind of walk is refused on the
+    other.
 
     Args:
         account (str | Unset):  Example: airbnb:79730216.
@@ -390,6 +448,7 @@ async def asyncio(
         limit (int | Unset):  Default: 20.
         platform (ListConversationsPlatform | Unset):
         updated_since (datetime.datetime | Unset):
+        order (ListConversationsOrder | Unset):  Default: ListConversationsOrder.RECENT.
         status (ListConversationsStatus | Unset):
         x_schema (str | Unset):  Example: my-app-schema.
 
@@ -410,6 +469,7 @@ offset=offset,
 limit=limit,
 platform=platform,
 updated_since=updated_since,
+order=order,
 status=status,
 x_schema=x_schema,
 

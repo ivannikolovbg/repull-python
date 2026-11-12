@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.connection_access_type import ConnectionAccessType
 from ..models.connection_status import ConnectionStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
@@ -43,6 +44,9 @@ class Connection:
                 (`vrbo`); the PMS's own account or company id. `null` when the platform id is not known yet (a Vrbo sign-in
                 before its account id is captured, a PMS that does not expose one); never a Repull id. Use `id` for our record.
                 Example: 20123456.
+            access_type (ConnectionAccessType | None | Unset): What this connection may do: `read_only`, `messaging` or
+                `full_access` (see `ConnectionAccessType` for the meaning per provider). Airbnb: the tier of the host in
+                `externalAccountId`. `null` when unknown.
             created_at (datetime.datetime | Unset):
             host (ConnectHost | None | Unset): Host metadata for the linked account. Currently populated for Airbnb only;
                 null for other providers.
@@ -59,6 +63,7 @@ class Connection:
     provider: str | Unset = UNSET
     status: ConnectionStatus | Unset = UNSET
     external_account_id: None | str | Unset = UNSET
+    access_type: ConnectionAccessType | None | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     host: ConnectHost | None | Unset = UNSET
     action: ConnectionAction | None | Unset = UNSET
@@ -88,6 +93,14 @@ class Connection:
             external_account_id = UNSET
         else:
             external_account_id = self.external_account_id
+
+        access_type: None | str | Unset
+        if isinstance(self.access_type, Unset):
+            access_type = UNSET
+        elif isinstance(self.access_type, ConnectionAccessType):
+            access_type = self.access_type.value
+        else:
+            access_type = self.access_type
 
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
@@ -136,6 +149,8 @@ class Connection:
             field_dict["status"] = status
         if external_account_id is not UNSET:
             field_dict["externalAccountId"] = external_account_id
+        if access_type is not UNSET:
+            field_dict["accessType"] = access_type
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
         if host is not UNSET:
@@ -179,6 +194,26 @@ class Connection:
             return cast(None | str | Unset, data)
 
         external_account_id = _parse_external_account_id(d.pop("externalAccountId", UNSET))
+
+
+        def _parse_access_type(data: object) -> ConnectionAccessType | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                access_type_type_1 = ConnectionAccessType(data)
+
+
+
+                return access_type_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ConnectionAccessType | None | Unset, data)
+
+        access_type = _parse_access_type(d.pop("accessType", UNSET))
 
 
         _created_at = d.pop("createdAt", UNSET)
@@ -266,6 +301,7 @@ class Connection:
             provider=provider,
             status=status,
             external_account_id=external_account_id,
+            access_type=access_type,
             created_at=created_at,
             host=host,
             action=action,

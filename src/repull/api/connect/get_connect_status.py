@@ -67,6 +67,13 @@ def sync_detailed(
      Returns the current connection status for a provider, including host metadata (display name +
     avatar) for Airbnb so clients can render an account-level confirmation UI.
 
+    **Access level.** `accessType` says what the connection may do: `read_only`, `messaging` or
+    `full_access` (`null` when unknown). Airbnb reports it per host on `accounts[]` (the tier each
+    host's token was granted with) and at the top level for the host in `externalAccountId`; Vrbo
+    (`vrbo-login`) per account; Booking.com is always `full_access`, the Booking.com Extranet always
+    `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
+    the `ConnectionAccessType` schema for the meaning per provider.
+
     Args:
         provider (str):
 
@@ -101,6 +108,13 @@ def sync(
      Returns the current connection status for a provider, including host metadata (display name +
     avatar) for Airbnb so clients can render an account-level confirmation UI.
 
+    **Access level.** `accessType` says what the connection may do: `read_only`, `messaging` or
+    `full_access` (`null` when unknown). Airbnb reports it per host on `accounts[]` (the tier each
+    host's token was granted with) and at the top level for the host in `externalAccountId`; Vrbo
+    (`vrbo-login`) per account; Booking.com is always `full_access`, the Booking.com Extranet always
+    `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
+    the `ConnectionAccessType` schema for the meaning per provider.
+
     Args:
         provider (str):
 
@@ -129,6 +143,13 @@ async def asyncio_detailed(
 
      Returns the current connection status for a provider, including host metadata (display name +
     avatar) for Airbnb so clients can render an account-level confirmation UI.
+
+    **Access level.** `accessType` says what the connection may do: `read_only`, `messaging` or
+    `full_access` (`null` when unknown). Airbnb reports it per host on `accounts[]` (the tier each
+    host's token was granted with) and at the top level for the host in `externalAccountId`; Vrbo
+    (`vrbo-login`) per account; Booking.com is always `full_access`, the Booking.com Extranet always
+    `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
+    the `ConnectionAccessType` schema for the meaning per provider.
 
     Args:
         provider (str):
@@ -163,6 +184,13 @@ async def asyncio(
 
      Returns the current connection status for a provider, including host metadata (display name +
     avatar) for Airbnb so clients can render an account-level confirmation UI.
+
+    **Access level.** `accessType` says what the connection may do: `read_only`, `messaging` or
+    `full_access` (`null` when unknown). Airbnb reports it per host on `accounts[]` (the tier each
+    host's token was granted with) and at the top level for the host in `externalAccountId`; Vrbo
+    (`vrbo-login`) per account; Booking.com is always `full_access`, the Booking.com Extranet always
+    `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
+    the `ConnectionAccessType` schema for the meaning per provider.
 
     Args:
         provider (str):
