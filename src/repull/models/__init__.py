@@ -1133,6 +1133,12 @@ from .set_listing_markup_body import SetListingMarkupBody
 from .set_listing_markup_body_channel import SetListingMarkupBodyChannel
 from .start_booking_extranet_login_body import StartBookingExtranetLoginBody
 from .start_booking_extranet_login_response_200 import StartBookingExtranetLoginResponse200
+from .start_connection_import_body import StartConnectionImportBody
+from .start_connection_import_body_scope import StartConnectionImportBodyScope
+from .start_connection_import_response_202 import StartConnectionImportResponse202
+from .start_connection_import_response_202_data import StartConnectionImportResponse202Data
+from .start_connection_import_response_202_data_scope import StartConnectionImportResponse202DataScope
+from .start_connection_import_response_202_data_status import StartConnectionImportResponse202DataStatus
 from .submit_beds_24_credentials_body import SubmitBeds24CredentialsBody
 from .submit_beds_24_credentials_body_credentials import SubmitBeds24CredentialsBodyCredentials
 from .submit_beds_24_credentials_response_200 import SubmitBeds24CredentialsResponse200
@@ -2467,6 +2473,12 @@ __all__ = (
     "SetListingMarkupBodyChannel",
     "StartBookingExtranetLoginBody",
     "StartBookingExtranetLoginResponse200",
+    "StartConnectionImportBody",
+    "StartConnectionImportBodyScope",
+    "StartConnectionImportResponse202",
+    "StartConnectionImportResponse202Data",
+    "StartConnectionImportResponse202DataScope",
+    "StartConnectionImportResponse202DataStatus",
     "SubmitBeds24CredentialsBody",
     "SubmitBeds24CredentialsBodyCredentials",
     "SubmitBeds24CredentialsResponse200",
