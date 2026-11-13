@@ -195,14 +195,18 @@ from .booking_pricing_update_response_errors_item import BookingPricingUpdateRes
 from .booking_property import BookingProperty
 from .booking_property_action_request import BookingPropertyActionRequest
 from .booking_property_action_request_action import BookingPropertyActionRequestAction
+from .booking_property_action_request_reason import BookingPropertyActionRequestReason
 from .booking_property_action_response import BookingPropertyActionResponse
 from .booking_property_action_response_action import BookingPropertyActionResponseAction
 from .booking_property_action_response_channel import BookingPropertyActionResponseChannel
+from .booking_property_action_response_property_status import BookingPropertyActionResponsePropertyStatus
 from .booking_property_listings_item import BookingPropertyListingsItem
 from .booking_property_listings_item_inactive_reason import BookingPropertyListingsItemInactiveReason
 from .booking_property_listings_item_mapped_via import BookingPropertyListingsItemMappedVia
 from .booking_property_listings_item_status import BookingPropertyListingsItemStatus
 from .booking_property_mapping_status import BookingPropertyMappingStatus
+from .booking_property_open_result import BookingPropertyOpenResult
+from .booking_property_open_result_outcome import BookingPropertyOpenResultOutcome
 from .booking_publish_result import BookingPublishResult
 from .booking_publish_section_error import BookingPublishSectionError
 from .booking_publish_section_error_code import BookingPublishSectionErrorCode
@@ -1525,14 +1529,18 @@ __all__ = (
     "BookingProperty",
     "BookingPropertyActionRequest",
     "BookingPropertyActionRequestAction",
+    "BookingPropertyActionRequestReason",
     "BookingPropertyActionResponse",
     "BookingPropertyActionResponseAction",
     "BookingPropertyActionResponseChannel",
+    "BookingPropertyActionResponsePropertyStatus",
     "BookingPropertyListingsItem",
     "BookingPropertyListingsItemInactiveReason",
     "BookingPropertyListingsItemMappedVia",
     "BookingPropertyListingsItemStatus",
     "BookingPropertyMappingStatus",
+    "BookingPropertyOpenResult",
+    "BookingPropertyOpenResultOutcome",
     "BookingPublishResult",
     "BookingPublishSectionError",
     "BookingPublishSectionErrorCode",

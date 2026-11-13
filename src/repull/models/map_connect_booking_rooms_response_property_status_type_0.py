@@ -32,7 +32,8 @@ class MapConnectBookingRoomsResponsePropertyStatusType0:
             outcome (MapConnectBookingRoomsResponsePropertyStatusType0Outcome | Unset): `opened`: it was being built and is
                 now open. `not_needed`: it was already past that stage. `blocked`: Booking.com will not open it yet — see
                 `blockers`. `status_unknown`: its status could not be read. `failed`: Booking.com did not answer the open
-                request.
+                request. `listing_inactive`: a listing mapped to the property is inactive, so it was not opened — activate it
+                when it is ready and Repull opens the property. `no_listing`: no listing is mapped to it.
             status_before (None | str | Unset): Booking.com's status for the property before this step, e.g. `XML: Being
                 built`.
             blockers (list[str] | Unset): Booking.com's own reasons it will not open the property yet.

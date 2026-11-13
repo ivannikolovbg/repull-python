@@ -108,7 +108,9 @@ def sync_detailed(
 
     \"Deactivate\" keeps the listing row — it is NOT a hard delete, and it NEVER touches the upstream
     channel (Airbnb / Hospitable / Booking.com). Repull only mutates its own copy of the inventory.
-    Deactivating is the self-serve way to get back under the plan-listings cap without paying.
+    Activating opens the listing's Booking.com property if Booking.com still has it in a build stage and
+    its check passes; `bookingProperties` in the response says what happened. Deactivating is the self-
+    serve way to get back under the plan-listings cap without paying.
 
     Reactivation respects the plan-listings cap: if activating this listing would push you over the cap
     for your tier, the call returns `402 listings_limit_exceeded` and the listing stays inactive.
@@ -157,7 +159,9 @@ def sync(
 
     \"Deactivate\" keeps the listing row — it is NOT a hard delete, and it NEVER touches the upstream
     channel (Airbnb / Hospitable / Booking.com). Repull only mutates its own copy of the inventory.
-    Deactivating is the self-serve way to get back under the plan-listings cap without paying.
+    Activating opens the listing's Booking.com property if Booking.com still has it in a build stage and
+    its check passes; `bookingProperties` in the response says what happened. Deactivating is the self-
+    serve way to get back under the plan-listings cap without paying.
 
     Reactivation respects the plan-listings cap: if activating this listing would push you over the cap
     for your tier, the call returns `402 listings_limit_exceeded` and the listing stays inactive.
@@ -201,7 +205,9 @@ async def asyncio_detailed(
 
     \"Deactivate\" keeps the listing row — it is NOT a hard delete, and it NEVER touches the upstream
     channel (Airbnb / Hospitable / Booking.com). Repull only mutates its own copy of the inventory.
-    Deactivating is the self-serve way to get back under the plan-listings cap without paying.
+    Activating opens the listing's Booking.com property if Booking.com still has it in a build stage and
+    its check passes; `bookingProperties` in the response says what happened. Deactivating is the self-
+    serve way to get back under the plan-listings cap without paying.
 
     Reactivation respects the plan-listings cap: if activating this listing would push you over the cap
     for your tier, the call returns `402 listings_limit_exceeded` and the listing stays inactive.
@@ -250,7 +256,9 @@ async def asyncio(
 
     \"Deactivate\" keeps the listing row — it is NOT a hard delete, and it NEVER touches the upstream
     channel (Airbnb / Hospitable / Booking.com). Repull only mutates its own copy of the inventory.
-    Deactivating is the self-serve way to get back under the plan-listings cap without paying.
+    Activating opens the listing's Booking.com property if Booking.com still has it in a build stage and
+    its check passes; `bookingProperties` in the response says what happened. Deactivating is the self-
+    serve way to get back under the plan-listings cap without paying.
 
     Reactivation respects the plan-listings cap: if activating this listing would push you over the cap
     for your tier, the call returns `402 listings_limit_exceeded` and the listing stays inactive.

@@ -10,6 +10,7 @@ from ..types import UNSET, Unset
 
 from ..models.booking_property_action_response_action import BookingPropertyActionResponseAction
 from ..models.booking_property_action_response_channel import BookingPropertyActionResponseChannel
+from ..models.booking_property_action_response_property_status import BookingPropertyActionResponsePropertyStatus
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -31,18 +32,27 @@ class BookingPropertyActionResponse:
             action (BookingPropertyActionResponseAction):
             hotel_id (str): The Booking.com property that was acted on. Always read it back — a listing can be mapped to
                 several, and this states which one changed.
-            selling (bool): Whether the property is now on sale. **This is the state of the property on Booking.com, not of
-                the listing in Repull** — `active` (what Repull bills and serves) is untouched by both actions and is
-                deliberately not echoed here so the two can never be read as one field.
+            property_status (BookingPropertyActionResponsePropertyStatus | Unset): `open` / `close` only: the property's
+                state on Booking.com after the call.
+            changed (bool | Unset): `open` / `close` only: false when the property was already in that state, so nothing was
+                sent.
+            booking_status (None | str | Unset): `open` / `close` only: Booking.com's status for the property before the
+                call, e.g. `XML: Ready to open`.
             room_booking_id (None | str | Unset): Booking.com's own room id the availability write addressed.
+            selling (bool | Unset): `unlist` / `relist` only. Whether the property is now on sale. **This is the state of
+                the property on Booking.com, not of the listing in Repull** — `active` (what Repull bills and serves) is
+                untouched by both actions and is deliberately not echoed here so the two can never be read as one field.
      """
 
     listing_id: str
     channel: BookingPropertyActionResponseChannel
     action: BookingPropertyActionResponseAction
     hotel_id: str
-    selling: bool
+    property_status: BookingPropertyActionResponsePropertyStatus | Unset = UNSET
+    changed: bool | Unset = UNSET
+    booking_status: None | str | Unset = UNSET
     room_booking_id: None | str | Unset = UNSET
+    selling: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -58,13 +68,26 @@ class BookingPropertyActionResponse:
 
         hotel_id = self.hotel_id
 
-        selling = self.selling
+        property_status: str | Unset = UNSET
+        if not isinstance(self.property_status, Unset):
+            property_status = self.property_status.value
+
+
+        changed = self.changed
+
+        booking_status: None | str | Unset
+        if isinstance(self.booking_status, Unset):
+            booking_status = UNSET
+        else:
+            booking_status = self.booking_status
 
         room_booking_id: None | str | Unset
         if isinstance(self.room_booking_id, Unset):
             room_booking_id = UNSET
         else:
             room_booking_id = self.room_booking_id
+
+        selling = self.selling
 
 
         field_dict: dict[str, Any] = {}
@@ -74,10 +97,17 @@ class BookingPropertyActionResponse:
             "channel": channel,
             "action": action,
             "hotelId": hotel_id,
-            "selling": selling,
         })
+        if property_status is not UNSET:
+            field_dict["propertyStatus"] = property_status
+        if changed is not UNSET:
+            field_dict["changed"] = changed
+        if booking_status is not UNSET:
+            field_dict["bookingStatus"] = booking_status
         if room_booking_id is not UNSET:
             field_dict["roomBookingId"] = room_booking_id
+        if selling is not UNSET:
+            field_dict["selling"] = selling
 
         return field_dict
 
@@ -100,7 +130,27 @@ class BookingPropertyActionResponse:
 
         hotel_id = d.pop("hotelId")
 
-        selling = d.pop("selling")
+        _property_status = d.pop("propertyStatus", UNSET)
+        property_status: BookingPropertyActionResponsePropertyStatus | Unset
+        if isinstance(_property_status,  Unset):
+            property_status = UNSET
+        else:
+            property_status = BookingPropertyActionResponsePropertyStatus(_property_status)
+
+
+
+
+        changed = d.pop("changed", UNSET)
+
+        def _parse_booking_status(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        booking_status = _parse_booking_status(d.pop("bookingStatus", UNSET))
+
 
         def _parse_room_booking_id(data: object) -> None | str | Unset:
             if data is None:
@@ -112,13 +162,18 @@ class BookingPropertyActionResponse:
         room_booking_id = _parse_room_booking_id(d.pop("roomBookingId", UNSET))
 
 
+        selling = d.pop("selling", UNSET)
+
         booking_property_action_response = cls(
             listing_id=listing_id,
             channel=channel,
             action=action,
             hotel_id=hotel_id,
-            selling=selling,
+            property_status=property_status,
+            changed=changed,
+            booking_status=booking_status,
             room_booking_id=room_booking_id,
+            selling=selling,
         )
 
 

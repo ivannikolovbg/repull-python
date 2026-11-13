@@ -112,9 +112,17 @@ def sync_detailed(
     \"4119\"], \"active\": false }` to deactivate them, or `\"active\": true` to activate them.
 
     An inactive listing is not counted toward your plan's listing limit or billed. It is NOT deleted and
-    the upstream channel (Airbnb / Booking.com / your PMS) is never touched — its data keeps syncing, so
-    it is complete the moment you activate it again. Until then it cannot be read, changed, or receive
-    webhooks.
+    nothing is pushed to the upstream channel (Airbnb / Booking.com / your PMS) — its data keeps
+    syncing, so it is complete the moment you activate it again. Until then it cannot be read, changed,
+    or receive webhooks.
+
+    **Activating opens the listing's Booking.com property.** Repull opens a Booking.com property
+    automatically only while every listing mapped to it is active. Keep a listing that is not ready
+    inactive and its property is never opened; activate it and Repull opens the property, provided
+    Booking.com's own readiness check passes. `bookingProperties` in the response says, per property,
+    whether it was opened or what Booking.com said is missing. Sending `active: true` again for a
+    listing that is already active retries the open. Deactivating never closes a property that is
+    already open — use the `close` action on `POST /v1/channels/booking/properties/{id}`.
 
     **All or nothing.** Nothing changes unless the whole request can be applied:
     - If any id is not one of your listings, the call returns `404` naming those ids.
@@ -165,9 +173,17 @@ def sync(
     \"4119\"], \"active\": false }` to deactivate them, or `\"active\": true` to activate them.
 
     An inactive listing is not counted toward your plan's listing limit or billed. It is NOT deleted and
-    the upstream channel (Airbnb / Booking.com / your PMS) is never touched — its data keeps syncing, so
-    it is complete the moment you activate it again. Until then it cannot be read, changed, or receive
-    webhooks.
+    nothing is pushed to the upstream channel (Airbnb / Booking.com / your PMS) — its data keeps
+    syncing, so it is complete the moment you activate it again. Until then it cannot be read, changed,
+    or receive webhooks.
+
+    **Activating opens the listing's Booking.com property.** Repull opens a Booking.com property
+    automatically only while every listing mapped to it is active. Keep a listing that is not ready
+    inactive and its property is never opened; activate it and Repull opens the property, provided
+    Booking.com's own readiness check passes. `bookingProperties` in the response says, per property,
+    whether it was opened or what Booking.com said is missing. Sending `active: true` again for a
+    listing that is already active retries the open. Deactivating never closes a property that is
+    already open — use the `close` action on `POST /v1/channels/booking/properties/{id}`.
 
     **All or nothing.** Nothing changes unless the whole request can be applied:
     - If any id is not one of your listings, the call returns `404` naming those ids.
@@ -213,9 +229,17 @@ async def asyncio_detailed(
     \"4119\"], \"active\": false }` to deactivate them, or `\"active\": true` to activate them.
 
     An inactive listing is not counted toward your plan's listing limit or billed. It is NOT deleted and
-    the upstream channel (Airbnb / Booking.com / your PMS) is never touched — its data keeps syncing, so
-    it is complete the moment you activate it again. Until then it cannot be read, changed, or receive
-    webhooks.
+    nothing is pushed to the upstream channel (Airbnb / Booking.com / your PMS) — its data keeps
+    syncing, so it is complete the moment you activate it again. Until then it cannot be read, changed,
+    or receive webhooks.
+
+    **Activating opens the listing's Booking.com property.** Repull opens a Booking.com property
+    automatically only while every listing mapped to it is active. Keep a listing that is not ready
+    inactive and its property is never opened; activate it and Repull opens the property, provided
+    Booking.com's own readiness check passes. `bookingProperties` in the response says, per property,
+    whether it was opened or what Booking.com said is missing. Sending `active: true` again for a
+    listing that is already active retries the open. Deactivating never closes a property that is
+    already open — use the `close` action on `POST /v1/channels/booking/properties/{id}`.
 
     **All or nothing.** Nothing changes unless the whole request can be applied:
     - If any id is not one of your listings, the call returns `404` naming those ids.
@@ -266,9 +290,17 @@ async def asyncio(
     \"4119\"], \"active\": false }` to deactivate them, or `\"active\": true` to activate them.
 
     An inactive listing is not counted toward your plan's listing limit or billed. It is NOT deleted and
-    the upstream channel (Airbnb / Booking.com / your PMS) is never touched — its data keeps syncing, so
-    it is complete the moment you activate it again. Until then it cannot be read, changed, or receive
-    webhooks.
+    nothing is pushed to the upstream channel (Airbnb / Booking.com / your PMS) — its data keeps
+    syncing, so it is complete the moment you activate it again. Until then it cannot be read, changed,
+    or receive webhooks.
+
+    **Activating opens the listing's Booking.com property.** Repull opens a Booking.com property
+    automatically only while every listing mapped to it is active. Keep a listing that is not ready
+    inactive and its property is never opened; activate it and Repull opens the property, provided
+    Booking.com's own readiness check passes. `bookingProperties` in the response says, per property,
+    whether it was opened or what Booking.com said is missing. Sending `active: true` again for a
+    listing that is already active retries the open. Deactivating never closes a property that is
+    already open — use the `close` action on `POST /v1/channels/booking/properties/{id}`.
 
     **All or nothing.** Nothing changes unless the whole request can be applied:
     - If any id is not one of your listings, the call returns `404` naming those ids.

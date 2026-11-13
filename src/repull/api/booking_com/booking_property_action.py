@@ -158,7 +158,7 @@ def sync_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[BookingPropertyActionResponse | Error]:
-    """ Take a property off sale / put it back (unlist/relist)
+    r""" Take a property off sale / put it back, or open / close it (unlist/relist/open/close)
 
      Stop this listing's Booking.com property being sold, or start it again. `id` is a **Repull listing
     id**, not a Booking.com hotel id, as on the GET.
@@ -183,6 +183,22 @@ def sync_detailed(
     be read as one field. To take a listing off the market on every channel at once, use `POST
     /v1/listings/{id}/offline`.
 
+    **Opening and closing the property on Booking.com.** `open` runs Booking.com's readiness check and,
+    only if it passes, opens the property. On a property that is not ready it changes nothing and
+    answers **`422 booking_rejected`** with Booking.com's own reasons in `blockers` (for example \"Room
+    1554900501 does not have kitchen or kitchenette\"), so it is safe to ask. It opens a property
+    Booking.com has in a build stage (`XML: Being built`, `XML: Ready to open`) or closed; an open
+    property answers `changed: false`. `close` closes the property on Booking.com, with an optional
+    `reason` (default `PROPERTY_NOT_AVAILABLE`). An inactive listing cannot be opened (`403
+    listing_inactive`), and neither can a property another inactive listing shares.
+
+    **When Repull opens a property by itself.** Repull opens a Booking.com property automatically only
+    while every listing mapped to it is active. Keep a listing that is not ready inactive and its
+    property is never opened; activate it and Repull opens the property, provided Booking.com's own
+    readiness check passes. Activate with `POST /v1/listings/status` (or `PATCH /v1/listings/{id}`); its
+    response has a `bookingProperties` entry per property saying whether it opened. Deactivating never
+    closes a property that is already open — use `close` for that.
+
     Any other action returns a structured `422` naming the ones that are supported. To push content use
     `POST /v1/listings/{id}/publish/booking`; to map rooms use `POST /v1/connect/booking/map-rooms`.
 
@@ -193,8 +209,9 @@ def sync_detailed(
         id (int):
         hotel_id (str | Unset):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale, or
-            put it back.
+        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale or
+            put it back (`unlist` / `relist`), or open or close the property itself on Booking.com
+            (`open` / `close`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -228,7 +245,7 @@ def sync(
     idempotency_key: str | Unset = UNSET,
 
 ) -> BookingPropertyActionResponse | Error | None:
-    """ Take a property off sale / put it back (unlist/relist)
+    r""" Take a property off sale / put it back, or open / close it (unlist/relist/open/close)
 
      Stop this listing's Booking.com property being sold, or start it again. `id` is a **Repull listing
     id**, not a Booking.com hotel id, as on the GET.
@@ -253,6 +270,22 @@ def sync(
     be read as one field. To take a listing off the market on every channel at once, use `POST
     /v1/listings/{id}/offline`.
 
+    **Opening and closing the property on Booking.com.** `open` runs Booking.com's readiness check and,
+    only if it passes, opens the property. On a property that is not ready it changes nothing and
+    answers **`422 booking_rejected`** with Booking.com's own reasons in `blockers` (for example \"Room
+    1554900501 does not have kitchen or kitchenette\"), so it is safe to ask. It opens a property
+    Booking.com has in a build stage (`XML: Being built`, `XML: Ready to open`) or closed; an open
+    property answers `changed: false`. `close` closes the property on Booking.com, with an optional
+    `reason` (default `PROPERTY_NOT_AVAILABLE`). An inactive listing cannot be opened (`403
+    listing_inactive`), and neither can a property another inactive listing shares.
+
+    **When Repull opens a property by itself.** Repull opens a Booking.com property automatically only
+    while every listing mapped to it is active. Keep a listing that is not ready inactive and its
+    property is never opened; activate it and Repull opens the property, provided Booking.com's own
+    readiness check passes. Activate with `POST /v1/listings/status` (or `PATCH /v1/listings/{id}`); its
+    response has a `bookingProperties` entry per property saying whether it opened. Deactivating never
+    closes a property that is already open — use `close` for that.
+
     Any other action returns a structured `422` naming the ones that are supported. To push content use
     `POST /v1/listings/{id}/publish/booking`; to map rooms use `POST /v1/connect/booking/map-rooms`.
 
@@ -263,8 +296,9 @@ def sync(
         id (int):
         hotel_id (str | Unset):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale, or
-            put it back.
+        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale or
+            put it back (`unlist` / `relist`), or open or close the property itself on Booking.com
+            (`open` / `close`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -293,7 +327,7 @@ async def asyncio_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[BookingPropertyActionResponse | Error]:
-    """ Take a property off sale / put it back (unlist/relist)
+    r""" Take a property off sale / put it back, or open / close it (unlist/relist/open/close)
 
      Stop this listing's Booking.com property being sold, or start it again. `id` is a **Repull listing
     id**, not a Booking.com hotel id, as on the GET.
@@ -318,6 +352,22 @@ async def asyncio_detailed(
     be read as one field. To take a listing off the market on every channel at once, use `POST
     /v1/listings/{id}/offline`.
 
+    **Opening and closing the property on Booking.com.** `open` runs Booking.com's readiness check and,
+    only if it passes, opens the property. On a property that is not ready it changes nothing and
+    answers **`422 booking_rejected`** with Booking.com's own reasons in `blockers` (for example \"Room
+    1554900501 does not have kitchen or kitchenette\"), so it is safe to ask. It opens a property
+    Booking.com has in a build stage (`XML: Being built`, `XML: Ready to open`) or closed; an open
+    property answers `changed: false`. `close` closes the property on Booking.com, with an optional
+    `reason` (default `PROPERTY_NOT_AVAILABLE`). An inactive listing cannot be opened (`403
+    listing_inactive`), and neither can a property another inactive listing shares.
+
+    **When Repull opens a property by itself.** Repull opens a Booking.com property automatically only
+    while every listing mapped to it is active. Keep a listing that is not ready inactive and its
+    property is never opened; activate it and Repull opens the property, provided Booking.com's own
+    readiness check passes. Activate with `POST /v1/listings/status` (or `PATCH /v1/listings/{id}`); its
+    response has a `bookingProperties` entry per property saying whether it opened. Deactivating never
+    closes a property that is already open — use `close` for that.
+
     Any other action returns a structured `422` naming the ones that are supported. To push content use
     `POST /v1/listings/{id}/publish/booking`; to map rooms use `POST /v1/connect/booking/map-rooms`.
 
@@ -328,8 +378,9 @@ async def asyncio_detailed(
         id (int):
         hotel_id (str | Unset):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale, or
-            put it back.
+        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale or
+            put it back (`unlist` / `relist`), or open or close the property itself on Booking.com
+            (`open` / `close`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -363,7 +414,7 @@ async def asyncio(
     idempotency_key: str | Unset = UNSET,
 
 ) -> BookingPropertyActionResponse | Error | None:
-    """ Take a property off sale / put it back (unlist/relist)
+    r""" Take a property off sale / put it back, or open / close it (unlist/relist/open/close)
 
      Stop this listing's Booking.com property being sold, or start it again. `id` is a **Repull listing
     id**, not a Booking.com hotel id, as on the GET.
@@ -388,6 +439,22 @@ async def asyncio(
     be read as one field. To take a listing off the market on every channel at once, use `POST
     /v1/listings/{id}/offline`.
 
+    **Opening and closing the property on Booking.com.** `open` runs Booking.com's readiness check and,
+    only if it passes, opens the property. On a property that is not ready it changes nothing and
+    answers **`422 booking_rejected`** with Booking.com's own reasons in `blockers` (for example \"Room
+    1554900501 does not have kitchen or kitchenette\"), so it is safe to ask. It opens a property
+    Booking.com has in a build stage (`XML: Being built`, `XML: Ready to open`) or closed; an open
+    property answers `changed: false`. `close` closes the property on Booking.com, with an optional
+    `reason` (default `PROPERTY_NOT_AVAILABLE`). An inactive listing cannot be opened (`403
+    listing_inactive`), and neither can a property another inactive listing shares.
+
+    **When Repull opens a property by itself.** Repull opens a Booking.com property automatically only
+    while every listing mapped to it is active. Keep a listing that is not ready inactive and its
+    property is never opened; activate it and Repull opens the property, provided Booking.com's own
+    readiness check passes. Activate with `POST /v1/listings/status` (or `PATCH /v1/listings/{id}`); its
+    response has a `bookingProperties` entry per property saying whether it opened. Deactivating never
+    closes a property that is already open — use `close` for that.
+
     Any other action returns a structured `422` naming the ones that are supported. To push content use
     `POST /v1/listings/{id}/publish/booking`; to map rooms use `POST /v1/connect/booking/map-rooms`.
 
@@ -398,8 +465,9 @@ async def asyncio(
         id (int):
         hotel_id (str | Unset):
         idempotency_key (str | Unset):  Example: 9f1c2f7e-4a3b-4f2e-9c8d-1b6a0e5d7c31.
-        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale, or
-            put it back.
+        body (BookingPropertyActionRequest): Take this listing's Booking.com property off sale or
+            put it back (`unlist` / `relist`), or open or close the property itself on Booking.com
+            (`open` / `close`).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
