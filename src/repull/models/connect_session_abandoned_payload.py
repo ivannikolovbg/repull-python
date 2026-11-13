@@ -45,7 +45,13 @@ class ConnectSessionAbandonedPayload:
             last_error_code (None | str | Unset): The last error the user hit on the Connect page, e.g.
                 `invalid_credentials`, `awaiting_designation`. Example: awaiting_designation.
             external_account_id (None | str | Unset): Booking.com: the Hotel ID the user entered while waiting for the
-                Extranet approval. Example: 17168363.
+                Extranet approval. Booking.com Extranet in `awaiting_room_mapping`: the Booking.com account id of the connected
+                login. Example: 17168363.
+            connection_id (None | str | Unset): Booking.com Extranet in `awaiting_room_mapping`: the connection record of
+                the connected login (the `X-Account-Id`). Absent otherwise. Example: 1701.
+            fix_url (None | str | Unset): Booking.com Extranet in `awaiting_room_mapping`: a durable link that reopens
+                Connect on the room-mapping step for this login. Send the host there to finish. `null` when there is nothing to
+                resume.
             next_step (str | Unset): What to tell the user, in plain English.
             created_at (datetime.datetime | Unset):
             last_activity_at (datetime.datetime | Unset):
@@ -58,6 +64,8 @@ class ConnectSessionAbandonedPayload:
     reason: ConnectSessionAbandonedPayloadReason | Unset = UNSET
     last_error_code: None | str | Unset = UNSET
     external_account_id: None | str | Unset = UNSET
+    connection_id: None | str | Unset = UNSET
+    fix_url: None | str | Unset = UNSET
     next_step: str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     last_activity_at: datetime.datetime | Unset = UNSET
@@ -104,6 +112,18 @@ class ConnectSessionAbandonedPayload:
         else:
             external_account_id = self.external_account_id
 
+        connection_id: None | str | Unset
+        if isinstance(self.connection_id, Unset):
+            connection_id = UNSET
+        else:
+            connection_id = self.connection_id
+
+        fix_url: None | str | Unset
+        if isinstance(self.fix_url, Unset):
+            fix_url = UNSET
+        else:
+            fix_url = self.fix_url
+
         next_step = self.next_step
 
         created_at: str | Unset = UNSET
@@ -133,6 +153,10 @@ class ConnectSessionAbandonedPayload:
             field_dict["lastErrorCode"] = last_error_code
         if external_account_id is not UNSET:
             field_dict["externalAccountId"] = external_account_id
+        if connection_id is not UNSET:
+            field_dict["connectionId"] = connection_id
+        if fix_url is not UNSET:
+            field_dict["fixUrl"] = fix_url
         if next_step is not UNSET:
             field_dict["nextStep"] = next_step
         if created_at is not UNSET:
@@ -209,6 +233,26 @@ class ConnectSessionAbandonedPayload:
         external_account_id = _parse_external_account_id(d.pop("externalAccountId", UNSET))
 
 
+        def _parse_connection_id(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        connection_id = _parse_connection_id(d.pop("connectionId", UNSET))
+
+
+        def _parse_fix_url(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
+
+
         next_step = d.pop("nextStep", UNSET)
 
         _created_at = d.pop("createdAt", UNSET)
@@ -239,6 +283,8 @@ class ConnectSessionAbandonedPayload:
             reason=reason,
             last_error_code=last_error_code,
             external_account_id=external_account_id,
+            connection_id=connection_id,
+            fix_url=fix_url,
             next_step=next_step,
             created_at=created_at,
             last_activity_at=last_activity_at,

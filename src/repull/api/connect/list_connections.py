@@ -78,19 +78,23 @@ def sync_detailed(
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
     `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
-    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
-    reservations, conversations and reviews stay under its own account (filter them with
-    `?account=booking_extranet:{externalAccountId}`).
+    never replaces them. Each login is its own connection with its own `id` (the `X-Account-Id`, and
+    `account.id` in webhooks), and each login's listings, reservations, conversations and reviews stay
+    under its own account (filter them with `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
     invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
     still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
     `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
-    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+    new API key + secret (the connection id stays the same). A Booking.com Extranet login whose rooms
+    are imported but none matched to a listing carries `action.reason: \"needs_mapping\"` while its
+    `status` is `active`: nothing syncs until the host maps the rooms, and `fixUrl` opens the room-
+    mapping step. These connections carry two extra fields:
 
-    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
-    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code
+    (`needs_permissions`, `needs_mapping`, `reauth_required`); `message` is a host-facing one-liner
+    describing what to do.
     - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
     screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
     dashboard.
@@ -143,19 +147,23 @@ def sync(
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
     `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
-    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
-    reservations, conversations and reviews stay under its own account (filter them with
-    `?account=booking_extranet:{externalAccountId}`).
+    never replaces them. Each login is its own connection with its own `id` (the `X-Account-Id`, and
+    `account.id` in webhooks), and each login's listings, reservations, conversations and reviews stay
+    under its own account (filter them with `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
     invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
     still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
     `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
-    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+    new API key + secret (the connection id stays the same). A Booking.com Extranet login whose rooms
+    are imported but none matched to a listing carries `action.reason: \"needs_mapping\"` while its
+    `status` is `active`: nothing syncs until the host maps the rooms, and `fixUrl` opens the room-
+    mapping step. These connections carry two extra fields:
 
-    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
-    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code
+    (`needs_permissions`, `needs_mapping`, `reauth_required`); `message` is a host-facing one-liner
+    describing what to do.
     - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
     screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
     dashboard.
@@ -203,19 +211,23 @@ async def asyncio_detailed(
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
     `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
-    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
-    reservations, conversations and reviews stay under its own account (filter them with
-    `?account=booking_extranet:{externalAccountId}`).
+    never replaces them. Each login is its own connection with its own `id` (the `X-Account-Id`, and
+    `account.id` in webhooks), and each login's listings, reservations, conversations and reviews stay
+    under its own account (filter them with `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
     invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
     still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
     `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
-    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+    new API key + secret (the connection id stays the same). A Booking.com Extranet login whose rooms
+    are imported but none matched to a listing carries `action.reason: \"needs_mapping\"` while its
+    `status` is `active`: nothing syncs until the host maps the rooms, and `fixUrl` opens the room-
+    mapping step. These connections carry two extra fields:
 
-    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
-    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code
+    (`needs_permissions`, `needs_mapping`, `reauth_required`); `message` is a host-facing one-liner
+    describing what to do.
     - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
     screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
     dashboard.
@@ -268,19 +280,23 @@ async def asyncio(
     **One entry per Booking.com Extranet login.** Each Booking.com account that invites the Repull user
     connects as its own login, with its own `externalAccountId` — the Booking.com account id (handle
     `booking_extranet:{externalAccountId}`). A new login adds an entry next to the existing ones and
-    never replaces them; the entries share the workspace's Extranet `id`, and each login's listings,
-    reservations, conversations and reviews stay under its own account (filter them with
-    `?account=booking_extranet:{externalAccountId}`).
+    never replaces them. Each login is its own connection with its own `id` (the `X-Account-Id`, and
+    `account.id` in webhooks), and each login's listings, reservations, conversations and reviews stay
+    under its own account (filter them with `?account=booking_extranet:{externalAccountId}`).
 
     **Spot connections that need attention.** A connection whose `status` is not `active` may need the
     host to do something before it works — most commonly a Booking.com Extranet connection where the
     invited user was granted only partial access (`status: \"needs_permissions\"`). A Smoobu connection
     still on a legacy single API key carries `action.reason: \"reauth_required\"` while its `status` is
     `active`: Smoobu stops accepting those keys on October 31, 2026, and `fixUrl` opens the form for a
-    new API key + secret (the connection id stays the same). These connections carry two extra fields:
+    new API key + secret (the connection id stays the same). A Booking.com Extranet login whose rooms
+    are imported but none matched to a listing carries `action.reason: \"needs_mapping\"` while its
+    `status` is `active`: nothing syncs until the host maps the rooms, and `fixUrl` opens the room-
+    mapping step. These connections carry two extra fields:
 
-    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code (e.g.
-    `needs_permissions`); `message` is a host-facing one-liner describing what to do.
+    - `action` — `{ required: true, reason, message }`. `reason` is a stable machine code
+    (`needs_permissions`, `needs_mapping`, `reauth_required`); `message` is a host-facing one-liner
+    describing what to do.
     - `fixUrl` — a durable link that reopens the hosted Connect flow **bound to that account, on the fix
     screen** (e.g. \"grant full access\" + a Re-check button). It is safe to store and show in your own
     dashboard.
