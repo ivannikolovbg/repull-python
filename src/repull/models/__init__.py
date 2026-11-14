@@ -302,6 +302,7 @@ from .connect_session_completed_payload_purpose import ConnectSessionCompletedPa
 from .connect_session_purpose import ConnectSessionPurpose
 from .connect_status import ConnectStatus
 from .connect_status_accounts_item import ConnectStatusAccountsItem
+from .connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
 from .connect_status_capabilities import ConnectStatusCapabilities
 from .connect_status_data_freshness import ConnectStatusDataFreshness
 from .connect_status_status import ConnectStatusStatus
@@ -1646,6 +1647,7 @@ __all__ = (
     "ConnectSessionPurpose",
     "ConnectStatus",
     "ConnectStatusAccountsItem",
+    "ConnectStatusAccountsItemActionType0",
     "ConnectStatusCapabilities",
     "ConnectStatusDataFreshness",
     "ConnectStatusStatus",

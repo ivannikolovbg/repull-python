@@ -13,6 +13,7 @@ from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
+  from ..models.connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
   from ..models.vrbo_import_status import VrboImportStatus
 
 
@@ -40,6 +41,11 @@ class ConnectStatusAccountsItem:
             access_type (ConnectionAccessType | None | Unset): What this account may do. Airbnb: the tier the host's token
                 was granted with (`read_only`, `messaging`, `full_access`). Vrbo: `messaging` (bookings and messages, no
                 calendar push) or `full_access` (also pushes prices and availability). `null` when unknown.
+            action (ConnectStatusAccountsItemActionType0 | None | Unset): Booking.com: `{ required, reason: "needs_mapping",
+                message }` while a room of this hotel is matched to no listing (nothing syncs for that room). Null when nothing
+                is needed.
+            fix_url (None | str | Unset): Booking.com: a link that opens room mapping for this hotel (no new Connect session
+                needed). Send the host to it when `action` is set.
             notification_email (None | str | Unset): Vrbo only. The address the host can add on Vrbo as a secondary email
                 (with message and reservation notifications on) so new bookings, inquiries and messages arrive within a minute
                 instead of at the scheduled check. Ask every host to add it: notifications are how Vrbo updates reach Repull,
@@ -56,6 +62,8 @@ class ConnectStatusAccountsItem:
     connected: bool | Unset = UNSET
     email: None | str | Unset = UNSET
     access_type: ConnectionAccessType | None | Unset = UNSET
+    action: ConnectStatusAccountsItemActionType0 | None | Unset = UNSET
+    fix_url: None | str | Unset = UNSET
     notification_email: None | str | Unset = UNSET
     import_: None | Unset | VrboImportStatus = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -65,6 +73,7 @@ class ConnectStatusAccountsItem:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
         from ..models.vrbo_import_status import VrboImportStatus
         external_account_id: None | str | Unset
         if isinstance(self.external_account_id, Unset):
@@ -112,6 +121,20 @@ class ConnectStatusAccountsItem:
         else:
             access_type = self.access_type
 
+        action: dict[str, Any] | None | Unset
+        if isinstance(self.action, Unset):
+            action = UNSET
+        elif isinstance(self.action, ConnectStatusAccountsItemActionType0):
+            action = self.action.to_dict()
+        else:
+            action = self.action
+
+        fix_url: None | str | Unset
+        if isinstance(self.fix_url, Unset):
+            fix_url = UNSET
+        else:
+            fix_url = self.fix_url
+
         notification_email: None | str | Unset
         if isinstance(self.notification_email, Unset):
             notification_email = UNSET
@@ -147,6 +170,10 @@ class ConnectStatusAccountsItem:
             field_dict["email"] = email
         if access_type is not UNSET:
             field_dict["accessType"] = access_type
+        if action is not UNSET:
+            field_dict["action"] = action
+        if fix_url is not UNSET:
+            field_dict["fixUrl"] = fix_url
         if notification_email is not UNSET:
             field_dict["notificationEmail"] = notification_email
         if import_ is not UNSET:
@@ -158,6 +185,7 @@ class ConnectStatusAccountsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
         from ..models.vrbo_import_status import VrboImportStatus
         d = dict(src_dict)
         def _parse_external_account_id(data: object) -> None | str | Unset:
@@ -242,6 +270,36 @@ class ConnectStatusAccountsItem:
         access_type = _parse_access_type(d.pop("accessType", UNSET))
 
 
+        def _parse_action(data: object) -> ConnectStatusAccountsItemActionType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                action_type_0 = ConnectStatusAccountsItemActionType0.from_dict(data)
+
+
+
+                return action_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ConnectStatusAccountsItemActionType0 | None | Unset, data)
+
+        action = _parse_action(d.pop("action", UNSET))
+
+
+        def _parse_fix_url(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
+
+
         def _parse_notification_email(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -281,6 +339,8 @@ class ConnectStatusAccountsItem:
             connected=connected,
             email=email,
             access_type=access_type,
+            action=action,
+            fix_url=fix_url,
             notification_email=notification_email,
             import_=import_,
         )
