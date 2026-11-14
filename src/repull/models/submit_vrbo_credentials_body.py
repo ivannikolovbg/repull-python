@@ -9,10 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..types import UNSET, Unset
-from typing import cast
 
-if TYPE_CHECKING:
-  from ..models.submit_vrbo_credentials_body_credentials import SubmitVrboCredentialsBodyCredentials
 
 
 
@@ -26,13 +23,18 @@ T = TypeVar("T", bound="SubmitVrboCredentialsBody")
 class SubmitVrboCredentialsBody:
     """ 
         Attributes:
-            credentials (SubmitVrboCredentialsBodyCredentials): Activation handshake — Repull mints the Basic-Auth pair the
+            advertiser_external_id (str): The host's Vrbo advertiser id. Repull mints the Basic-Auth pair for it, which the
                 host pastes into Vrbo Partner Central.
             session_id (str | Unset): Connect session id from `POST /v1/connect/vrbo`.
+            endpoint_url (str | Unset): Optional. Vrbo Partner Central sets this itself.
+            rotate (bool | Unset): Replace the advertiser's existing password and return the new one. The old password stops
+                working.
      """
 
-    credentials: SubmitVrboCredentialsBodyCredentials
+    advertiser_external_id: str
     session_id: str | Unset = UNSET
+    endpoint_url: str | Unset = UNSET
+    rotate: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -40,19 +42,26 @@ class SubmitVrboCredentialsBody:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.submit_vrbo_credentials_body_credentials import SubmitVrboCredentialsBodyCredentials
-        credentials = self.credentials.to_dict()
+        advertiser_external_id = self.advertiser_external_id
 
         session_id = self.session_id
+
+        endpoint_url = self.endpoint_url
+
+        rotate = self.rotate
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "credentials": credentials,
+            "advertiserExternalId": advertiser_external_id,
         })
         if session_id is not UNSET:
             field_dict["sessionId"] = session_id
+        if endpoint_url is not UNSET:
+            field_dict["endpointUrl"] = endpoint_url
+        if rotate is not UNSET:
+            field_dict["rotate"] = rotate
 
         return field_dict
 
@@ -60,18 +69,20 @@ class SubmitVrboCredentialsBody:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.submit_vrbo_credentials_body_credentials import SubmitVrboCredentialsBodyCredentials
         d = dict(src_dict)
-        credentials = SubmitVrboCredentialsBodyCredentials.from_dict(d.pop("credentials"))
-
-
-
+        advertiser_external_id = d.pop("advertiserExternalId")
 
         session_id = d.pop("sessionId", UNSET)
 
+        endpoint_url = d.pop("endpointUrl", UNSET)
+
+        rotate = d.pop("rotate", UNSET)
+
         submit_vrbo_credentials_body = cls(
-            credentials=credentials,
+            advertiser_external_id=advertiser_external_id,
             session_id=session_id,
+            endpoint_url=endpoint_url,
+            rotate=rotate,
         )
 
 

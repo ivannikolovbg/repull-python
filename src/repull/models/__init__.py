@@ -1206,7 +1206,6 @@ from .submit_track_credentials_response_200_account_info_auth_mode import Submit
 from .submit_track_credentials_response_200_account_info_key_type import SubmitTrackCredentialsResponse200AccountInfoKeyType
 from .submit_track_credentials_response_200_first_sync import SubmitTrackCredentialsResponse200FirstSync
 from .submit_vrbo_credentials_body import SubmitVrboCredentialsBody
-from .submit_vrbo_credentials_body_credentials import SubmitVrboCredentialsBodyCredentials
 from .submit_vrbo_credentials_response_200 import SubmitVrboCredentialsResponse200
 from .submit_vrbo_credentials_response_200_account_info import SubmitVrboCredentialsResponse200AccountInfo
 from .sync_airbnb_transactions_body import SyncAirbnbTransactionsBody
@@ -2546,7 +2545,6 @@ __all__ = (
     "SubmitTrackCredentialsResponse200AccountInfoKeyType",
     "SubmitTrackCredentialsResponse200FirstSync",
     "SubmitVrboCredentialsBody",
-    "SubmitVrboCredentialsBodyCredentials",
     "SubmitVrboCredentialsResponse200",
     "SubmitVrboCredentialsResponse200AccountInfo",
     "SyncAirbnbTransactionsBody",

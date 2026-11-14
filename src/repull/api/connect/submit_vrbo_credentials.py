@@ -99,7 +99,7 @@ def sync_detailed(
     body: SubmitVrboCredentialsBody,
 
 ) -> Response[Error | SubmitVrboCredentialsResponse200]:
-    """ Submit Vrbo credentials for a Connect session
+    r""" Submit Vrbo credentials for a Connect session
 
      Completes a credentials-pattern connection for Vrbo. Activation handshake — Repull mints the Basic-
     Auth pair the host pastes into Vrbo Partner Central.
@@ -109,6 +109,10 @@ def sync_detailed(
     is written and the Connect session moves to its terminal state.
 
     No API key required when called with a `sessionId` — the session is the capability token.
+
+    **Lost the password?** It is returned once. Send the same request with `\"rotate\": true` to replace
+    it and get the new one back; the old password stops working, so paste the new one into Vrbo. Without
+    `rotate`, a second request for the same advertiser returns `409 credentials_already_provisioned`.
 
     Args:
         body (SubmitVrboCredentialsBody):
@@ -139,7 +143,7 @@ def sync(
     body: SubmitVrboCredentialsBody,
 
 ) -> Error | SubmitVrboCredentialsResponse200 | None:
-    """ Submit Vrbo credentials for a Connect session
+    r""" Submit Vrbo credentials for a Connect session
 
      Completes a credentials-pattern connection for Vrbo. Activation handshake — Repull mints the Basic-
     Auth pair the host pastes into Vrbo Partner Central.
@@ -149,6 +153,10 @@ def sync(
     is written and the Connect session moves to its terminal state.
 
     No API key required when called with a `sessionId` — the session is the capability token.
+
+    **Lost the password?** It is returned once. Send the same request with `\"rotate\": true` to replace
+    it and get the new one back; the old password stops working, so paste the new one into Vrbo. Without
+    `rotate`, a second request for the same advertiser returns `409 credentials_already_provisioned`.
 
     Args:
         body (SubmitVrboCredentialsBody):
@@ -174,7 +182,7 @@ async def asyncio_detailed(
     body: SubmitVrboCredentialsBody,
 
 ) -> Response[Error | SubmitVrboCredentialsResponse200]:
-    """ Submit Vrbo credentials for a Connect session
+    r""" Submit Vrbo credentials for a Connect session
 
      Completes a credentials-pattern connection for Vrbo. Activation handshake — Repull mints the Basic-
     Auth pair the host pastes into Vrbo Partner Central.
@@ -184,6 +192,10 @@ async def asyncio_detailed(
     is written and the Connect session moves to its terminal state.
 
     No API key required when called with a `sessionId` — the session is the capability token.
+
+    **Lost the password?** It is returned once. Send the same request with `\"rotate\": true` to replace
+    it and get the new one back; the old password stops working, so paste the new one into Vrbo. Without
+    `rotate`, a second request for the same advertiser returns `409 credentials_already_provisioned`.
 
     Args:
         body (SubmitVrboCredentialsBody):
@@ -214,7 +226,7 @@ async def asyncio(
     body: SubmitVrboCredentialsBody,
 
 ) -> Error | SubmitVrboCredentialsResponse200 | None:
-    """ Submit Vrbo credentials for a Connect session
+    r""" Submit Vrbo credentials for a Connect session
 
      Completes a credentials-pattern connection for Vrbo. Activation handshake — Repull mints the Basic-
     Auth pair the host pastes into Vrbo Partner Central.
@@ -224,6 +236,10 @@ async def asyncio(
     is written and the Connect session moves to its terminal state.
 
     No API key required when called with a `sessionId` — the session is the capability token.
+
+    **Lost the password?** It is returned once. Send the same request with `\"rotate\": true` to replace
+    it and get the new one back; the old password stops working, so paste the new one into Vrbo. Without
+    `rotate`, a second request for the same advertiser returns `409 credentials_already_provisioned`.
 
     Args:
         body (SubmitVrboCredentialsBody):
