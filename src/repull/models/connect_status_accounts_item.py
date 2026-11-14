@@ -27,8 +27,9 @@ T = TypeVar("T", bound="ConnectStatusAccountsItem")
 class ConnectStatusAccountsItem:
     """ 
         Attributes:
-            external_account_id (None | str | Unset): Airbnb: the host id, as a string (it can exceed 2^53). Vrbo: Vrbo's
-                own account id; `null` until it is captured at sign-in. Example: 79730216.
+            external_account_id (None | str | Unset): Airbnb: the host id, as a string (it can exceed 2^53). Booking.com:
+                the hotel id. Vrbo: Vrbo's own account id; `null` until it is captured at sign-in. Extranet: the Booking.com
+                account id. PMS: the PMS account id. Example: 79730216.
             connection_id (None | str | Unset): Our connection record (`X-Account-Id`). Airbnb: the workspace's Airbnb
                 connection. Vrbo: the workspace's Vrbo connection, `null` when it has none. Example: 135.
             name (None | str | Unset):  Example: Casey.

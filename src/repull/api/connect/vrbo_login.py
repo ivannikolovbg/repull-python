@@ -75,6 +75,8 @@ def sync_detailed(
      `action: login` checks the email and password and answers in seconds: `connected`, `otp_required`
     (Vrbo sent a code to `destination`) or `failed` with a `reason` (`bad_credentials`, `blocked`, …).
     `action: otp` submits the code; a refused code comes back as `otp_required` with `reason: bad_code`.
+    `action: resend` (with `accountId`) signs in again with the details already given, so Vrbo sends a
+    new code.
 
     Signing in imports nothing. `accessType` (`full_access` or `messaging`, when the session did not
     lock it) is the host's choice of whether mapped listings push the calendar. The import starts when
@@ -116,6 +118,8 @@ def sync(
      `action: login` checks the email and password and answers in seconds: `connected`, `otp_required`
     (Vrbo sent a code to `destination`) or `failed` with a `reason` (`bad_credentials`, `blocked`, …).
     `action: otp` submits the code; a refused code comes back as `otp_required` with `reason: bad_code`.
+    `action: resend` (with `accountId`) signs in again with the details already given, so Vrbo sends a
+    new code.
 
     Signing in imports nothing. `accessType` (`full_access` or `messaging`, when the session did not
     lock it) is the host's choice of whether mapped listings push the calendar. The import starts when
@@ -152,6 +156,8 @@ async def asyncio_detailed(
      `action: login` checks the email and password and answers in seconds: `connected`, `otp_required`
     (Vrbo sent a code to `destination`) or `failed` with a `reason` (`bad_credentials`, `blocked`, …).
     `action: otp` submits the code; a refused code comes back as `otp_required` with `reason: bad_code`.
+    `action: resend` (with `accountId`) signs in again with the details already given, so Vrbo sends a
+    new code.
 
     Signing in imports nothing. `accessType` (`full_access` or `messaging`, when the session did not
     lock it) is the host's choice of whether mapped listings push the calendar. The import starts when
@@ -193,6 +199,8 @@ async def asyncio(
      `action: login` checks the email and password and answers in seconds: `connected`, `otp_required`
     (Vrbo sent a code to `destination`) or `failed` with a `reason` (`bad_credentials`, `blocked`, …).
     `action: otp` submits the code; a refused code comes back as `otp_required` with `reason: bad_code`.
+    `action: resend` (with `accountId`) signs in again with the details already given, so Vrbo sends a
+    new code.
 
     Signing in imports nothing. `accessType` (`full_access` or `messaging`, when the session did not
     lock it) is the host's choice of whether mapped listings push the calendar. The import starts when

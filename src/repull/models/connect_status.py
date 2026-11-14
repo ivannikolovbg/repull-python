@@ -53,12 +53,13 @@ class ConnectStatus:
                 /v1/connect/vrbo-login` (per account there); `null` when unknown.
             host (ConnectHost | None | Unset): Host metadata, populated for Airbnb when the host row exists. Null for other
                 providers (per-provider enrichment is incremental).
-            accounts (list[ConnectStatusAccountsItem] | Unset): Airbnb: every Airbnb account this workspace has connected,
-                including ones since disconnected, each with its own `accessType`. Pass `externalAccountId` as `accountId` to
-                `DELETE /v1/connect/airbnb` to disconnect one account. Vrbo (`GET /v1/connect/vrbo-login`): every signed-in Vrbo
-                account, each with `accessType` and `import` (a `VrboImportStatus`), plus a top-level `dataFreshness`.
-                `externalAccountId` is the platform's own id (Airbnb host id, Vrbo account id; `null` for a Vrbo sign-in whose
-                account id is not captured yet) and `connectionId` our connection record.
+            accounts (list[ConnectStatusAccountsItem] | Unset): One entry per connected account, for every provider: Airbnb,
+                every host account connected (including ones since disconnected), each with its own `accessType`; Booking.com,
+                every hotel (`externalAccountId` is the hotel id); Vrbo, every sign-in; Booking.com Extranet, every hotel login;
+                a PMS, its one account. Pass `externalAccountId` as `accountId` to `DELETE /v1/connect/{provider}` to disconnect
+                one. The top-level fields describe one record and stay for existing integrations; show `accounts[]` to list what
+                is connected. Vrbo sign-ins also carry `accessType` and `import` (a `VrboImportStatus`), with a top-level
+                `dataFreshness` on `GET /v1/connect/vrbo-login`.
             write_policy (PmsWritePolicy | Unset): What the app may change in a connected PMS. Hotel PMSs (Cloudbeds, Mews)
                 start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
                 everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
