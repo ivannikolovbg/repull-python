@@ -10,7 +10,9 @@ from ..types import UNSET, Unset
 
 from ..models.connection_access_type import ConnectionAccessType
 from ..types import UNSET, Unset
+from dateutil.parser import isoparse
 from typing import cast
+import datetime
 
 if TYPE_CHECKING:
   from ..models.connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
@@ -46,6 +48,8 @@ class ConnectStatusAccountsItem:
                 is needed.
             fix_url (None | str | Unset): Booking.com: a link that opens room mapping for this hotel (no new Connect session
                 needed). Send the host to it when `action` is set.
+            notification_received_at (datetime.datetime | None | Unset): Vrbo only. When Vrbo's first notification reached
+                `notificationEmail`, i.e. the host added it with notifications on. `null` until then.
             notification_email (None | str | Unset): Vrbo only. The address the host can add on Vrbo as a secondary email
                 (with message and reservation notifications on) so new bookings, inquiries and messages arrive within a minute
                 instead of at the scheduled check. Ask every host to add it: notifications are how Vrbo updates reach Repull,
@@ -64,6 +68,7 @@ class ConnectStatusAccountsItem:
     access_type: ConnectionAccessType | None | Unset = UNSET
     action: ConnectStatusAccountsItemActionType0 | None | Unset = UNSET
     fix_url: None | str | Unset = UNSET
+    notification_received_at: datetime.datetime | None | Unset = UNSET
     notification_email: None | str | Unset = UNSET
     import_: None | Unset | VrboImportStatus = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -135,6 +140,14 @@ class ConnectStatusAccountsItem:
         else:
             fix_url = self.fix_url
 
+        notification_received_at: None | str | Unset
+        if isinstance(self.notification_received_at, Unset):
+            notification_received_at = UNSET
+        elif isinstance(self.notification_received_at, datetime.datetime):
+            notification_received_at = self.notification_received_at.isoformat()
+        else:
+            notification_received_at = self.notification_received_at
+
         notification_email: None | str | Unset
         if isinstance(self.notification_email, Unset):
             notification_email = UNSET
@@ -174,6 +187,8 @@ class ConnectStatusAccountsItem:
             field_dict["action"] = action
         if fix_url is not UNSET:
             field_dict["fixUrl"] = fix_url
+        if notification_received_at is not UNSET:
+            field_dict["notificationReceivedAt"] = notification_received_at
         if notification_email is not UNSET:
             field_dict["notificationEmail"] = notification_email
         if import_ is not UNSET:
@@ -300,6 +315,26 @@ class ConnectStatusAccountsItem:
         fix_url = _parse_fix_url(d.pop("fixUrl", UNSET))
 
 
+        def _parse_notification_received_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                notification_received_at_type_0 = isoparse(data)
+
+
+
+                return notification_received_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        notification_received_at = _parse_notification_received_at(d.pop("notificationReceivedAt", UNSET))
+
+
         def _parse_notification_email(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -341,6 +376,7 @@ class ConnectStatusAccountsItem:
             access_type=access_type,
             action=action,
             fix_url=fix_url,
+            notification_received_at=notification_received_at,
             notification_email=notification_email,
             import_=import_,
         )
