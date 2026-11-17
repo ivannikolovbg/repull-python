@@ -130,6 +130,10 @@ class Reservation:
                 (today: Guesty Locks Manager), refreshed about every 30 minutes for stays checking in within 14 days that have
                 not checked out. `null` when the reservation's codes are not read from a PMS. `[]` when they are and there is
                 none yet, and for a cancelled stay.
+            suggested_door_code (str | Unset): Airbnb reservations only, when Airbnb sends it: the door code Airbnb suggests
+                — the last 4 digits of the booker's verified phone number, or random digits when there is none. Use it instead
+                of deriving a code from the guest's phone, which Airbnb no longer shares. Omitted on every other reservation.
+                Example: 5446.
             primary_guest (ReservationPrimaryGuest | Unset): Inline guest summary resolved by JOIN-ing the `guests` table.
                 Populated for every reservation that has a linked guest row; OMITTED entirely (not null) for owner-blocks / pre-
                 arrival rows / partial-sync gaps. Always optional-chain in SDK consumers.
@@ -185,6 +189,7 @@ class Reservation:
     unit: None | ReservationUnitType0 | Unset = UNSET
     pms_reservation_id: None | str | Unset = UNSET
     access_codes: list[ReservationAccessCode] | None | Unset = UNSET
+    suggested_door_code: str | Unset = UNSET
     primary_guest: ReservationPrimaryGuest | Unset = UNSET
     occupancy: ReservationOccupancy | Unset = UNSET
     financials: ReservationFinancials | Unset = UNSET
@@ -340,6 +345,8 @@ class Reservation:
         else:
             access_codes = self.access_codes
 
+        suggested_door_code = self.suggested_door_code
+
         primary_guest: dict[str, Any] | Unset = UNSET
         if not isinstance(self.primary_guest, Unset):
             primary_guest = self.primary_guest.to_dict()
@@ -421,6 +428,8 @@ class Reservation:
             field_dict["pmsReservationId"] = pms_reservation_id
         if access_codes is not UNSET:
             field_dict["accessCodes"] = access_codes
+        if suggested_door_code is not UNSET:
+            field_dict["suggestedDoorCode"] = suggested_door_code
         if primary_guest is not UNSET:
             field_dict["primaryGuest"] = primary_guest
         if occupancy is not UNSET:
@@ -740,6 +749,8 @@ class Reservation:
         access_codes = _parse_access_codes(d.pop("accessCodes", UNSET))
 
 
+        suggested_door_code = d.pop("suggestedDoorCode", UNSET)
+
         _primary_guest = d.pop("primaryGuest", UNSET)
         primary_guest: ReservationPrimaryGuest | Unset
         if isinstance(_primary_guest,  Unset):
@@ -840,6 +851,7 @@ class Reservation:
             unit=unit,
             pms_reservation_id=pms_reservation_id,
             access_codes=access_codes,
+            suggested_door_code=suggested_door_code,
             primary_guest=primary_guest,
             occupancy=occupancy,
             financials=financials,

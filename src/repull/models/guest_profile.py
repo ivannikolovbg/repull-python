@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.guest_phone_type import GuestPhoneType
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -39,7 +40,9 @@ class GuestProfile:
             avatar_url (None | str | Unset):
             language (None | str | Unset):
             country (None | str | Unset):
-            phone (None | str | Unset):
+            phone (None | str | Unset): Primary phone contact. May be an Airbnb relay number — check `phoneType`.
+            phone_type (GuestPhoneType | None | Unset): `airbnb_relay` when `phone` is a temporary Airbnb relay number;
+                `guest` otherwise; `null` when there is no phone.
             email (None | str | Unset):
             total_reservations (int | Unset):
             total_revenue (str | Unset): Decimal as string.
@@ -63,6 +66,7 @@ class GuestProfile:
     language: None | str | Unset = UNSET
     country: None | str | Unset = UNSET
     phone: None | str | Unset = UNSET
+    phone_type: GuestPhoneType | None | Unset = UNSET
     email: None | str | Unset = UNSET
     total_reservations: int | Unset = UNSET
     total_revenue: str | Unset = UNSET
@@ -116,6 +120,14 @@ class GuestProfile:
             phone = UNSET
         else:
             phone = self.phone
+
+        phone_type: None | str | Unset
+        if isinstance(self.phone_type, Unset):
+            phone_type = UNSET
+        elif isinstance(self.phone_type, GuestPhoneType):
+            phone_type = self.phone_type.value
+        else:
+            phone_type = self.phone_type
 
         email: None | str | Unset
         if isinstance(self.email, Unset):
@@ -211,6 +223,8 @@ class GuestProfile:
             field_dict["country"] = country
         if phone is not UNSET:
             field_dict["phone"] = phone
+        if phone_type is not UNSET:
+            field_dict["phoneType"] = phone_type
         if email is not UNSET:
             field_dict["email"] = email
         if total_reservations is not UNSET:
@@ -293,6 +307,26 @@ class GuestProfile:
             return cast(None | str | Unset, data)
 
         phone = _parse_phone(d.pop("phone", UNSET))
+
+
+        def _parse_phone_type(data: object) -> GuestPhoneType | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                phone_type_type_1 = GuestPhoneType(data)
+
+
+
+                return phone_type_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GuestPhoneType | None | Unset, data)
+
+        phone_type = _parse_phone_type(d.pop("phoneType", UNSET))
 
 
         def _parse_email(data: object) -> None | str | Unset:
@@ -425,6 +459,7 @@ class GuestProfile:
             language=language,
             country=country,
             phone=phone,
+            phone_type=phone_type,
             email=email,
             total_reservations=total_reservations,
             total_revenue=total_revenue,

@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.guest_phone_type import GuestPhoneType
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
 from typing import cast
@@ -32,6 +33,17 @@ class GuestContact:
             verified (bool | Unset):
             is_primary (bool | Unset):
             last_used (datetime.datetime | None | Unset):
+            phone_type (GuestPhoneType | Unset): Whether `phone` is the guest's own number or an Airbnb relay number. Since
+                late October 2026 Airbnb never shares a guest's real phone number. For an Airbnb stay where the listing, host
+                and guest are all in the same country and that country is the US or Canada, Airbnb gives a temporary relay
+                number instead (`airbnb_relay`); every other Airbnb stay has no phone at all. A relay number forwards SMS only
+                (no MMS, RCS or images; about 1,000 characters including Airbnb's prefix, not split). It stops working 48 hours
+                after checkout or when the reservation is cancelled, and it can change during the stay without a reservation
+                webhook (re-read the reservation for the current one). The same relay number is used for other guests of other
+                hosts, so never use it to identify or match a guest. Texting from a number Airbnb does not know: the first
+                message must be the reservation's confirmation code (for example `HM12345678`); text from the host's Airbnb
+                contact number for automatic delivery. `guest` means the number as the channel or the host recorded it. Example:
+                airbnb_relay.
      """
 
     type_: str | Unset = UNSET
@@ -39,6 +51,7 @@ class GuestContact:
     verified: bool | Unset = UNSET
     is_primary: bool | Unset = UNSET
     last_used: datetime.datetime | None | Unset = UNSET
+    phone_type: GuestPhoneType | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -62,6 +75,11 @@ class GuestContact:
         else:
             last_used = self.last_used
 
+        phone_type: str | Unset = UNSET
+        if not isinstance(self.phone_type, Unset):
+            phone_type = self.phone_type.value
+
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -77,6 +95,8 @@ class GuestContact:
             field_dict["isPrimary"] = is_primary
         if last_used is not UNSET:
             field_dict["lastUsed"] = last_used
+        if phone_type is not UNSET:
+            field_dict["phoneType"] = phone_type
 
         return field_dict
 
@@ -113,12 +133,23 @@ class GuestContact:
         last_used = _parse_last_used(d.pop("lastUsed", UNSET))
 
 
+        _phone_type = d.pop("phoneType", UNSET)
+        phone_type: GuestPhoneType | Unset
+        if isinstance(_phone_type,  Unset):
+            phone_type = UNSET
+        else:
+            phone_type = GuestPhoneType(_phone_type)
+
+
+
+
         guest_contact = cls(
             type_=type_,
             value=value,
             verified=verified,
             is_primary=is_primary,
             last_used=last_used,
+            phone_type=phone_type,
         )
 
 

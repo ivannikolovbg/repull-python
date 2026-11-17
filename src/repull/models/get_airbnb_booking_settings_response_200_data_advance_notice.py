@@ -25,13 +25,18 @@ class GetAirbnbBookingSettingsResponse200DataAdvanceNotice:
     """ How much notice a booking needs.
 
         Attributes:
-            hours (int | None | Unset): Whole hours of notice. `0` allows same-day bookings.
-            same_day_bookings_allowed (bool | None | Unset): Derived: `hours === 0`.
+            hours (int | None | Unset): Airbnb's advance notice: 0-24, 48, 72 or 168. Airbnb counts it back from 11:59 PM on
+                the check-in day, in the listing's time zone, so 0-23 is a same-day cutoff: `0` = same-day bookings until
+                midnight, `1` = until 11 PM, `3` = until 9 PM. `24` and above = no same-day bookings.
+            same_day_bookings_allowed (bool | None | Unset): Derived: `hours < 24`.
+            same_day_cutoff (None | str | Unset): Derived: the last time a same-day booking is accepted, `HH:mm` in the
+                listing's time (`00:00` = midnight). `null` when same-day bookings are off. Example: 23:00.
             allow_request_to_book (bool | None | Unset): Whether a guest may still REQUEST to book inside the notice window.
      """
 
     hours: int | None | Unset = UNSET
     same_day_bookings_allowed: bool | None | Unset = UNSET
+    same_day_cutoff: None | str | Unset = UNSET
     allow_request_to_book: bool | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -52,6 +57,12 @@ class GetAirbnbBookingSettingsResponse200DataAdvanceNotice:
         else:
             same_day_bookings_allowed = self.same_day_bookings_allowed
 
+        same_day_cutoff: None | str | Unset
+        if isinstance(self.same_day_cutoff, Unset):
+            same_day_cutoff = UNSET
+        else:
+            same_day_cutoff = self.same_day_cutoff
+
         allow_request_to_book: bool | None | Unset
         if isinstance(self.allow_request_to_book, Unset):
             allow_request_to_book = UNSET
@@ -67,6 +78,8 @@ class GetAirbnbBookingSettingsResponse200DataAdvanceNotice:
             field_dict["hours"] = hours
         if same_day_bookings_allowed is not UNSET:
             field_dict["sameDayBookingsAllowed"] = same_day_bookings_allowed
+        if same_day_cutoff is not UNSET:
+            field_dict["sameDayCutoff"] = same_day_cutoff
         if allow_request_to_book is not UNSET:
             field_dict["allowRequestToBook"] = allow_request_to_book
 
@@ -97,6 +110,16 @@ class GetAirbnbBookingSettingsResponse200DataAdvanceNotice:
         same_day_bookings_allowed = _parse_same_day_bookings_allowed(d.pop("sameDayBookingsAllowed", UNSET))
 
 
+        def _parse_same_day_cutoff(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        same_day_cutoff = _parse_same_day_cutoff(d.pop("sameDayCutoff", UNSET))
+
+
         def _parse_allow_request_to_book(data: object) -> bool | None | Unset:
             if data is None:
                 return data
@@ -110,6 +133,7 @@ class GetAirbnbBookingSettingsResponse200DataAdvanceNotice:
         get_airbnb_booking_settings_response_200_data_advance_notice = cls(
             hours=hours,
             same_day_bookings_allowed=same_day_bookings_allowed,
+            same_day_cutoff=same_day_cutoff,
             allow_request_to_book=allow_request_to_book,
         )
 

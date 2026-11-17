@@ -8,6 +8,7 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.update_airbnb_booking_settings_body_advance_notice_hours import UpdateAirbnbBookingSettingsBodyAdvanceNoticeHours
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -22,14 +23,19 @@ T = TypeVar("T", bound="UpdateAirbnbBookingSettingsBodyAdvanceNotice")
 
 @_attrs_define
 class UpdateAirbnbBookingSettingsBodyAdvanceNotice:
-    """ Send `hours`, `allowRequestToBook`, or both. The half you omit keeps the value Airbnb currently holds.
+    """ Send `hours` (or `sameDayCutoff`), `allowRequestToBook`, or both. The half you omit keeps the value Airbnb currently
+    holds. `hours` and `sameDayCutoff` are the same setting: send one.
 
         Attributes:
-            hours (int | None | Unset):
+            hours (UpdateAirbnbBookingSettingsBodyAdvanceNoticeHours | Unset): Counted back from 11:59 PM on the check-in
+                day (listing time): `0` = same-day bookings until midnight, `1` = until 11 PM, `24` = no same-day bookings.
+            same_day_cutoff (None | str | Unset): The last time a same-day booking is accepted, whole hours in the listing's
+                time (`23:00` = 11 PM, `00:00` = midnight). Converted to `hours` (`23:00` = 1). Example: 23:00.
             allow_request_to_book (bool | None | Unset):
      """
 
-    hours: int | None | Unset = UNSET
+    hours: UpdateAirbnbBookingSettingsBodyAdvanceNoticeHours | Unset = UNSET
+    same_day_cutoff: None | str | Unset = UNSET
     allow_request_to_book: bool | None | Unset = UNSET
 
 
@@ -37,11 +43,16 @@ class UpdateAirbnbBookingSettingsBodyAdvanceNotice:
 
 
     def to_dict(self) -> dict[str, Any]:
-        hours: int | None | Unset
-        if isinstance(self.hours, Unset):
-            hours = UNSET
+        hours: int | Unset = UNSET
+        if not isinstance(self.hours, Unset):
+            hours = self.hours.value
+
+
+        same_day_cutoff: None | str | Unset
+        if isinstance(self.same_day_cutoff, Unset):
+            same_day_cutoff = UNSET
         else:
-            hours = self.hours
+            same_day_cutoff = self.same_day_cutoff
 
         allow_request_to_book: bool | None | Unset
         if isinstance(self.allow_request_to_book, Unset):
@@ -56,6 +67,8 @@ class UpdateAirbnbBookingSettingsBodyAdvanceNotice:
         })
         if hours is not UNSET:
             field_dict["hours"] = hours
+        if same_day_cutoff is not UNSET:
+            field_dict["sameDayCutoff"] = same_day_cutoff
         if allow_request_to_book is not UNSET:
             field_dict["allowRequestToBook"] = allow_request_to_book
 
@@ -66,14 +79,24 @@ class UpdateAirbnbBookingSettingsBodyAdvanceNotice:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        def _parse_hours(data: object) -> int | None | Unset:
+        _hours = d.pop("hours", UNSET)
+        hours: UpdateAirbnbBookingSettingsBodyAdvanceNoticeHours | Unset
+        if isinstance(_hours,  Unset):
+            hours = UNSET
+        else:
+            hours = UpdateAirbnbBookingSettingsBodyAdvanceNoticeHours(_hours)
+
+
+
+
+        def _parse_same_day_cutoff(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(int | None | Unset, data)
+            return cast(None | str | Unset, data)
 
-        hours = _parse_hours(d.pop("hours", UNSET))
+        same_day_cutoff = _parse_same_day_cutoff(d.pop("sameDayCutoff", UNSET))
 
 
         def _parse_allow_request_to_book(data: object) -> bool | None | Unset:
@@ -88,6 +111,7 @@ class UpdateAirbnbBookingSettingsBodyAdvanceNotice:
 
         update_airbnb_booking_settings_body_advance_notice = cls(
             hours=hours,
+            same_day_cutoff=same_day_cutoff,
             allow_request_to_book=allow_request_to_book,
         )
 

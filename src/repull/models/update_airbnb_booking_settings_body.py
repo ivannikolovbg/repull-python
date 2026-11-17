@@ -41,8 +41,9 @@ class UpdateAirbnbBookingSettingsBody:
                 `FLEXIBLE`.
             check_out (UpdateAirbnbBookingSettingsBodyCheckOut | Unset):
             cancellation (UpdateAirbnbBookingSettingsBodyCancellation | Unset):
-            advance_notice (UpdateAirbnbBookingSettingsBodyAdvanceNotice | Unset): Send `hours`, `allowRequestToBook`, or
-                both. The half you omit keeps the value Airbnb currently holds.
+            advance_notice (UpdateAirbnbBookingSettingsBodyAdvanceNotice | Unset): Send `hours` (or `sameDayCutoff`),
+                `allowRequestToBook`, or both. The half you omit keeps the value Airbnb currently holds. `hours` and
+                `sameDayCutoff` are the same setting: send one.
             preparation_time (UpdateAirbnbBookingSettingsBodyPreparationTime | Unset):
             booking_window (UpdateAirbnbBookingSettingsBodyBookingWindow | Unset): Send `days`, or `unlimited: true`.
                 Sending both is refused.

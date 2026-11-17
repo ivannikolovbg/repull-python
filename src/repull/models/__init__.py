@@ -512,6 +512,7 @@ from .guest_create_response_pms_type_0 import GuestCreateResponsePmsType0
 from .guest_flag import GuestFlag
 from .guest_list_response import GuestListResponse
 from .guest_note import GuestNote
+from .guest_phone_type import GuestPhoneType
 from .guest_profile import GuestProfile
 from .guest_reservations_summary import GuestReservationsSummary
 from .guest_update_request import GuestUpdateRequest
@@ -1225,6 +1226,7 @@ from .transaction_fees import TransactionFees
 from .transaction_payout import TransactionPayout
 from .update_airbnb_booking_settings_body import UpdateAirbnbBookingSettingsBody
 from .update_airbnb_booking_settings_body_advance_notice import UpdateAirbnbBookingSettingsBodyAdvanceNotice
+from .update_airbnb_booking_settings_body_advance_notice_hours import UpdateAirbnbBookingSettingsBodyAdvanceNoticeHours
 from .update_airbnb_booking_settings_body_booking_window import UpdateAirbnbBookingSettingsBodyBookingWindow
 from .update_airbnb_booking_settings_body_cancellation import UpdateAirbnbBookingSettingsBodyCancellation
 from .update_airbnb_booking_settings_body_cancellation_non_refundable import UpdateAirbnbBookingSettingsBodyCancellationNonRefundable
@@ -1859,6 +1861,7 @@ __all__ = (
     "GuestFlag",
     "GuestListResponse",
     "GuestNote",
+    "GuestPhoneType",
     "GuestProfile",
     "GuestReservationsSummary",
     "GuestUpdateRequest",
@@ -2572,6 +2575,7 @@ __all__ = (
     "TransactionPayout",
     "UpdateAirbnbBookingSettingsBody",
     "UpdateAirbnbBookingSettingsBodyAdvanceNotice",
+    "UpdateAirbnbBookingSettingsBodyAdvanceNoticeHours",
     "UpdateAirbnbBookingSettingsBodyBookingWindow",
     "UpdateAirbnbBookingSettingsBodyCancellation",
     "UpdateAirbnbBookingSettingsBodyCancellationNonRefundable",

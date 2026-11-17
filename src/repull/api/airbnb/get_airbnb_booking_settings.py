@@ -113,8 +113,9 @@ def sync_detailed(
     **Not exposed by Airbnb.** The pre-reservation message and automatic stay extension have no field on
     Airbnb's `booking_settings` resource, so neither can be read or written here; set the pre-
     reservation message in the Airbnb host dashboard, and handle extensions through
-    `/v1/channels/airbnb/alterations`. Airbnb also expresses the same-day cutoff only as whole hours of
-    advance notice, so `advanceNotice.hours` is as precise as the cutoff gets.
+    `/v1/channels/airbnb/alterations`. The same-day cutoff is Airbnb's advance-notice hours counted back
+    from 11:59 PM on the check-in day: read it as `advanceNotice.sameDayCutoff` (e.g. `23:00`) or
+    `advanceNotice.hours` (e.g. `1`), and write either one.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403
     listing_inactive` when the listing is inactive — an inactive listing keeps syncing but cannot be
@@ -164,8 +165,9 @@ def sync(
     **Not exposed by Airbnb.** The pre-reservation message and automatic stay extension have no field on
     Airbnb's `booking_settings` resource, so neither can be read or written here; set the pre-
     reservation message in the Airbnb host dashboard, and handle extensions through
-    `/v1/channels/airbnb/alterations`. Airbnb also expresses the same-day cutoff only as whole hours of
-    advance notice, so `advanceNotice.hours` is as precise as the cutoff gets.
+    `/v1/channels/airbnb/alterations`. The same-day cutoff is Airbnb's advance-notice hours counted back
+    from 11:59 PM on the check-in day: read it as `advanceNotice.sameDayCutoff` (e.g. `23:00`) or
+    `advanceNotice.hours` (e.g. `1`), and write either one.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403
     listing_inactive` when the listing is inactive — an inactive listing keeps syncing but cannot be
@@ -210,8 +212,9 @@ async def asyncio_detailed(
     **Not exposed by Airbnb.** The pre-reservation message and automatic stay extension have no field on
     Airbnb's `booking_settings` resource, so neither can be read or written here; set the pre-
     reservation message in the Airbnb host dashboard, and handle extensions through
-    `/v1/channels/airbnb/alterations`. Airbnb also expresses the same-day cutoff only as whole hours of
-    advance notice, so `advanceNotice.hours` is as precise as the cutoff gets.
+    `/v1/channels/airbnb/alterations`. The same-day cutoff is Airbnb's advance-notice hours counted back
+    from 11:59 PM on the check-in day: read it as `advanceNotice.sameDayCutoff` (e.g. `23:00`) or
+    `advanceNotice.hours` (e.g. `1`), and write either one.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403
     listing_inactive` when the listing is inactive — an inactive listing keeps syncing but cannot be
@@ -261,8 +264,9 @@ async def asyncio(
     **Not exposed by Airbnb.** The pre-reservation message and automatic stay extension have no field on
     Airbnb's `booking_settings` resource, so neither can be read or written here; set the pre-
     reservation message in the Airbnb host dashboard, and handle extensions through
-    `/v1/channels/airbnb/alterations`. Airbnb also expresses the same-day cutoff only as whole hours of
-    advance notice, so `advanceNotice.hours` is as precise as the cutoff gets.
+    `/v1/channels/airbnb/alterations`. The same-day cutoff is Airbnb's advance-notice hours counted back
+    from 11:59 PM on the check-in day: read it as `advanceNotice.sameDayCutoff` (e.g. `23:00`) or
+    `advanceNotice.hours` (e.g. `1`), and write either one.
 
     Returns `404` when the listing has no Airbnb connection in this workspace, and `403
     listing_inactive` when the listing is inactive — an inactive listing keeps syncing but cannot be
