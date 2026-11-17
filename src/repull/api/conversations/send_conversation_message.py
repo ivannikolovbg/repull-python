@@ -56,6 +56,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 202:
+        response_202 = SendMessageResponse.from_dict(response.json())
+
+
+
+        return response_202
+
     if response.status_code == 401:
         response_401 = Error.from_dict(response.json())
 
@@ -121,7 +128,7 @@ def sync_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | SendMessageResponse]:
-    """ Send a message to the guest
+    r""" Send a message to the guest
 
      Sends a message to the guest on this conversation and records it in the thread.
 
@@ -149,6 +156,15 @@ def sync_detailed(
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
+
+    ### Vrbo: `202` while Vrbo is busy
+
+    A Vrbo reply is delivered in the call when Vrbo takes it (about 20 seconds at most) and returns
+    `200` with `status: \"sent\"`. When Vrbo is busy, the reply is recorded and delivered in the
+    background: the call returns **`202` with `status: \"queued\"`** and the message `id`. Do not send
+    it again — a retry with the same `Idempotency-Key` returns the same `202`. The outcome arrives as
+    the message's `status` on `GET /v1/conversations/{id}/messages` (`sent`, or `failed` with
+    `statusReason`) and as the `conversation.message.status_changed` webhook.
 
     ### Attachments
 
@@ -224,7 +240,7 @@ def sync(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Error | SendMessageResponse | None:
-    """ Send a message to the guest
+    r""" Send a message to the guest
 
      Sends a message to the guest on this conversation and records it in the thread.
 
@@ -252,6 +268,15 @@ def sync(
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
+
+    ### Vrbo: `202` while Vrbo is busy
+
+    A Vrbo reply is delivered in the call when Vrbo takes it (about 20 seconds at most) and returns
+    `200` with `status: \"sent\"`. When Vrbo is busy, the reply is recorded and delivered in the
+    background: the call returns **`202` with `status: \"queued\"`** and the message `id`. Do not send
+    it again — a retry with the same `Idempotency-Key` returns the same `202`. The outcome arrives as
+    the message's `status` on `GET /v1/conversations/{id}/messages` (`sent`, or `failed` with
+    `statusReason`) and as the `conversation.message.status_changed` webhook.
 
     ### Attachments
 
@@ -322,7 +347,7 @@ async def asyncio_detailed(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Response[Error | SendMessageResponse]:
-    """ Send a message to the guest
+    r""" Send a message to the guest
 
      Sends a message to the guest on this conversation and records it in the thread.
 
@@ -350,6 +375,15 @@ async def asyncio_detailed(
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
+
+    ### Vrbo: `202` while Vrbo is busy
+
+    A Vrbo reply is delivered in the call when Vrbo takes it (about 20 seconds at most) and returns
+    `200` with `status: \"sent\"`. When Vrbo is busy, the reply is recorded and delivered in the
+    background: the call returns **`202` with `status: \"queued\"`** and the message `id`. Do not send
+    it again — a retry with the same `Idempotency-Key` returns the same `202`. The outcome arrives as
+    the message's `status` on `GET /v1/conversations/{id}/messages` (`sent`, or `failed` with
+    `statusReason`) and as the `conversation.message.status_changed` webhook.
 
     ### Attachments
 
@@ -425,7 +459,7 @@ async def asyncio(
     idempotency_key: str | Unset = UNSET,
 
 ) -> Error | SendMessageResponse | None:
-    """ Send a message to the guest
+    r""" Send a message to the guest
 
      Sends a message to the guest on this conversation and records it in the thread.
 
@@ -453,6 +487,15 @@ async def asyncio(
 
     Send `Idempotency-Key` — without it, retrying after a network timeout sends the guest the same
     message twice.
+
+    ### Vrbo: `202` while Vrbo is busy
+
+    A Vrbo reply is delivered in the call when Vrbo takes it (about 20 seconds at most) and returns
+    `200` with `status: \"sent\"`. When Vrbo is busy, the reply is recorded and delivered in the
+    background: the call returns **`202` with `status: \"queued\"`** and the message `id`. Do not send
+    it again — a retry with the same `Idempotency-Key` returns the same `202`. The outcome arrives as
+    the message's `status` on `GET /v1/conversations/{id}/messages` (`sent`, or `failed` with
+    `statusReason`) and as the `conversation.message.status_changed` webhook.
 
     ### Attachments
 

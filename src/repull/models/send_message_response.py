@@ -32,7 +32,9 @@ class SendMessageResponse:
             conversation_id (int | Unset):
             external_message_id (None | str | Unset): The channel's own message id, when it returns one.
             channel (None | str | Unset): The channel the message actually went out on.
-            status (str | Unset):  Example: sent.
+            status (str | Unset): `sent`: delivered. `queued` (with HTTP `202`): recorded, and still being delivered in the
+                background because the channel was busy (Vrbo) — do not resend; the outcome arrives as the message's `status` on
+                `GET /v1/conversations/{id}/messages` and as `conversation.message.status_changed`. Example: sent.
             direction (SendMessageResponseDirection | Unset):
             content_rewritten (bool | Unset): TRUE when the channel altered the text before delivery — today that means
                 Airbnb stripped a link, an email address or a phone number and the remainder was re-sent. When true, the guest

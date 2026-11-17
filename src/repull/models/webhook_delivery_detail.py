@@ -21,6 +21,7 @@ if TYPE_CHECKING:
   from ..models.account_import_completed_event import AccountImportCompletedEvent
   from ..models.account_import_failed_event import AccountImportFailedEvent
   from ..models.account_import_started_event import AccountImportStartedEvent
+  from ..models.account_notifications_missing_event import AccountNotificationsMissingEvent
   from ..models.account_units_added_event import AccountUnitsAddedEvent
   from ..models.ai_operation_completed_event import AiOperationCompletedEvent
   from ..models.ai_operation_failed_event import AiOperationFailedEvent
@@ -29,6 +30,7 @@ if TYPE_CHECKING:
   from ..models.channel_sync_failed_event import ChannelSyncFailedEvent
   from ..models.connect_session_abandoned_event import ConnectSessionAbandonedEvent
   from ..models.connect_session_completed_event import ConnectSessionCompletedEvent
+  from ..models.conversation_message_status_changed_event import ConversationMessageStatusChangedEvent
   from ..models.inquiry_created_event import InquiryCreatedEvent
   from ..models.inquiry_updated_event import InquiryUpdatedEvent
   from ..models.listing_created_event import ListingCreatedEvent
@@ -80,23 +82,23 @@ class WebhookDeliveryDetail:
             event_type (WebhookEventType | Unset): Canonical event type identifier. Every webhook delivery declares one of
                 these in its `type` field; SDKs key the discriminated `WebhookEvent` union on this value.
             payload (AccountCalendarAccessChangedEvent | AccountCreatedEvent | AccountDisconnectedEvent |
-                AccountImportCompletedEvent | AccountImportFailedEvent | AccountImportStartedEvent | AccountUnitsAddedEvent |
-                AiOperationCompletedEvent | AiOperationFailedEvent | BookingUnacknowledgedEvent | ChannelDegradedEvent |
-                ChannelSyncFailedEvent | ConnectSessionAbandonedEvent | ConnectSessionCompletedEvent | InquiryCreatedEvent |
-                InquiryUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingReactivatedEvent |
-                ListingSuspendedEvent | ListingUpdatedEvent | MigrationCompletedEvent | MigrationFailedEvent |
-                PaymentCompletedEvent | PaymentRefundedEvent | PayoutCompletedEvent | RepullPingEvent |
-                ReservationAlterationCreatedEvent | ReservationAlterationRespondedEvent | ReservationCancelledEvent |
-                ReservationCreatedEvent | ReservationMessageReactionEvent | ReservationMessageReadEvent |
-                ReservationMessageReceivedEvent | ReservationMessageSentEvent | ReservationMessageUpdatedEvent |
-                ReservationRequestCreatedEvent | ReservationRequestUpdatedEvent | ReservationThreadAssignedEvent |
-                ReservationUpdatedEvent | ReviewCreatedEvent | ReviewRespondedEvent | Unset | UsageQuotaWarningEvent): The full
-                event envelope POSTed to your webhook URL. Discriminated on `type` — narrow `event.data` by switching on
-                `event.type`. Use the matching `*Event` variant directly if your SDK lacks discriminator support. Events about
-                an inactive listing (reservations, messages, alterations, reviews, payments, calendar and listing events) are
-                not delivered. The data keeps syncing while the listing is inactive, but its events are never sent — including
-                after you reactivate it; webhooks resume for events that happen from reactivation on. Account-level events are
-                always delivered.
+                AccountImportCompletedEvent | AccountImportFailedEvent | AccountImportStartedEvent |
+                AccountNotificationsMissingEvent | AccountUnitsAddedEvent | AiOperationCompletedEvent | AiOperationFailedEvent |
+                BookingUnacknowledgedEvent | ChannelDegradedEvent | ChannelSyncFailedEvent | ConnectSessionAbandonedEvent |
+                ConnectSessionCompletedEvent | ConversationMessageStatusChangedEvent | InquiryCreatedEvent | InquiryUpdatedEvent
+                | ListingCreatedEvent | ListingDeletedEvent | ListingReactivatedEvent | ListingSuspendedEvent |
+                ListingUpdatedEvent | MigrationCompletedEvent | MigrationFailedEvent | PaymentCompletedEvent |
+                PaymentRefundedEvent | PayoutCompletedEvent | RepullPingEvent | ReservationAlterationCreatedEvent |
+                ReservationAlterationRespondedEvent | ReservationCancelledEvent | ReservationCreatedEvent |
+                ReservationMessageReactionEvent | ReservationMessageReadEvent | ReservationMessageReceivedEvent |
+                ReservationMessageSentEvent | ReservationMessageUpdatedEvent | ReservationRequestCreatedEvent |
+                ReservationRequestUpdatedEvent | ReservationThreadAssignedEvent | ReservationUpdatedEvent | ReviewCreatedEvent |
+                ReviewRespondedEvent | Unset | UsageQuotaWarningEvent): The full event envelope POSTed to your webhook URL.
+                Discriminated on `type` — narrow `event.data` by switching on `event.type`. Use the matching `*Event` variant
+                directly if your SDK lacks discriminator support. Events about an inactive listing (reservations, messages,
+                alterations, reviews, payments, calendar and listing events) are not delivered. The data keeps syncing while the
+                listing is inactive, but its events are never sent — including after you reactivate it; webhooks resume for
+                events that happen from reactivation on. Account-level events are always delivered.
             request_headers (None | Unset | WebhookDeliveryDetailRequestHeadersType0):
             status_code (int | None | Unset):
             response_headers (None | Unset | WebhookDeliveryDetailResponseHeadersType0):
@@ -111,7 +113,7 @@ class WebhookDeliveryDetail:
     id: str | Unset = UNSET
     event_id: str | Unset = UNSET
     event_type: WebhookEventType | Unset = UNSET
-    payload: AccountCalendarAccessChangedEvent | AccountCreatedEvent | AccountDisconnectedEvent | AccountImportCompletedEvent | AccountImportFailedEvent | AccountImportStartedEvent | AccountUnitsAddedEvent | AiOperationCompletedEvent | AiOperationFailedEvent | BookingUnacknowledgedEvent | ChannelDegradedEvent | ChannelSyncFailedEvent | ConnectSessionAbandonedEvent | ConnectSessionCompletedEvent | InquiryCreatedEvent | InquiryUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingReactivatedEvent | ListingSuspendedEvent | ListingUpdatedEvent | MigrationCompletedEvent | MigrationFailedEvent | PaymentCompletedEvent | PaymentRefundedEvent | PayoutCompletedEvent | RepullPingEvent | ReservationAlterationCreatedEvent | ReservationAlterationRespondedEvent | ReservationCancelledEvent | ReservationCreatedEvent | ReservationMessageReactionEvent | ReservationMessageReadEvent | ReservationMessageReceivedEvent | ReservationMessageSentEvent | ReservationMessageUpdatedEvent | ReservationRequestCreatedEvent | ReservationRequestUpdatedEvent | ReservationThreadAssignedEvent | ReservationUpdatedEvent | ReviewCreatedEvent | ReviewRespondedEvent | Unset | UsageQuotaWarningEvent = UNSET
+    payload: AccountCalendarAccessChangedEvent | AccountCreatedEvent | AccountDisconnectedEvent | AccountImportCompletedEvent | AccountImportFailedEvent | AccountImportStartedEvent | AccountNotificationsMissingEvent | AccountUnitsAddedEvent | AiOperationCompletedEvent | AiOperationFailedEvent | BookingUnacknowledgedEvent | ChannelDegradedEvent | ChannelSyncFailedEvent | ConnectSessionAbandonedEvent | ConnectSessionCompletedEvent | ConversationMessageStatusChangedEvent | InquiryCreatedEvent | InquiryUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingReactivatedEvent | ListingSuspendedEvent | ListingUpdatedEvent | MigrationCompletedEvent | MigrationFailedEvent | PaymentCompletedEvent | PaymentRefundedEvent | PayoutCompletedEvent | RepullPingEvent | ReservationAlterationCreatedEvent | ReservationAlterationRespondedEvent | ReservationCancelledEvent | ReservationCreatedEvent | ReservationMessageReactionEvent | ReservationMessageReadEvent | ReservationMessageReceivedEvent | ReservationMessageSentEvent | ReservationMessageUpdatedEvent | ReservationRequestCreatedEvent | ReservationRequestUpdatedEvent | ReservationThreadAssignedEvent | ReservationUpdatedEvent | ReviewCreatedEvent | ReviewRespondedEvent | Unset | UsageQuotaWarningEvent = UNSET
     request_headers: None | Unset | WebhookDeliveryDetailRequestHeadersType0 = UNSET
     status_code: int | None | Unset = UNSET
     response_headers: None | Unset | WebhookDeliveryDetailResponseHeadersType0 = UNSET
@@ -134,6 +136,7 @@ class WebhookDeliveryDetail:
         from ..models.account_import_completed_event import AccountImportCompletedEvent
         from ..models.account_import_failed_event import AccountImportFailedEvent
         from ..models.account_import_started_event import AccountImportStartedEvent
+        from ..models.account_notifications_missing_event import AccountNotificationsMissingEvent
         from ..models.account_units_added_event import AccountUnitsAddedEvent
         from ..models.ai_operation_completed_event import AiOperationCompletedEvent
         from ..models.ai_operation_failed_event import AiOperationFailedEvent
@@ -142,6 +145,7 @@ class WebhookDeliveryDetail:
         from ..models.channel_sync_failed_event import ChannelSyncFailedEvent
         from ..models.connect_session_abandoned_event import ConnectSessionAbandonedEvent
         from ..models.connect_session_completed_event import ConnectSessionCompletedEvent
+        from ..models.conversation_message_status_changed_event import ConversationMessageStatusChangedEvent
         from ..models.inquiry_created_event import InquiryCreatedEvent
         from ..models.inquiry_updated_event import InquiryUpdatedEvent
         from ..models.listing_created_event import ListingCreatedEvent
@@ -192,6 +196,8 @@ class WebhookDeliveryDetail:
         elif isinstance(self.payload, ReservationCancelledEvent):
             payload = self.payload.to_dict()
         elif isinstance(self.payload, ReservationMessageReceivedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, ConversationMessageStatusChangedEvent):
             payload = self.payload.to_dict()
         elif isinstance(self.payload, ReservationMessageSentEvent):
             payload = self.payload.to_dict()
@@ -248,6 +254,8 @@ class WebhookDeliveryDetail:
         elif isinstance(self.payload, AccountUnitsAddedEvent):
             payload = self.payload.to_dict()
         elif isinstance(self.payload, AccountCalendarAccessChangedEvent):
+            payload = self.payload.to_dict()
+        elif isinstance(self.payload, AccountNotificationsMissingEvent):
             payload = self.payload.to_dict()
         elif isinstance(self.payload, ReviewCreatedEvent):
             payload = self.payload.to_dict()
@@ -365,6 +373,7 @@ class WebhookDeliveryDetail:
         from ..models.account_import_completed_event import AccountImportCompletedEvent
         from ..models.account_import_failed_event import AccountImportFailedEvent
         from ..models.account_import_started_event import AccountImportStartedEvent
+        from ..models.account_notifications_missing_event import AccountNotificationsMissingEvent
         from ..models.account_units_added_event import AccountUnitsAddedEvent
         from ..models.ai_operation_completed_event import AiOperationCompletedEvent
         from ..models.ai_operation_failed_event import AiOperationFailedEvent
@@ -373,6 +382,7 @@ class WebhookDeliveryDetail:
         from ..models.channel_sync_failed_event import ChannelSyncFailedEvent
         from ..models.connect_session_abandoned_event import ConnectSessionAbandonedEvent
         from ..models.connect_session_completed_event import ConnectSessionCompletedEvent
+        from ..models.conversation_message_status_changed_event import ConversationMessageStatusChangedEvent
         from ..models.inquiry_created_event import InquiryCreatedEvent
         from ..models.inquiry_updated_event import InquiryUpdatedEvent
         from ..models.listing_created_event import ListingCreatedEvent
@@ -419,7 +429,7 @@ class WebhookDeliveryDetail:
 
 
 
-        def _parse_payload(data: object) -> AccountCalendarAccessChangedEvent | AccountCreatedEvent | AccountDisconnectedEvent | AccountImportCompletedEvent | AccountImportFailedEvent | AccountImportStartedEvent | AccountUnitsAddedEvent | AiOperationCompletedEvent | AiOperationFailedEvent | BookingUnacknowledgedEvent | ChannelDegradedEvent | ChannelSyncFailedEvent | ConnectSessionAbandonedEvent | ConnectSessionCompletedEvent | InquiryCreatedEvent | InquiryUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingReactivatedEvent | ListingSuspendedEvent | ListingUpdatedEvent | MigrationCompletedEvent | MigrationFailedEvent | PaymentCompletedEvent | PaymentRefundedEvent | PayoutCompletedEvent | RepullPingEvent | ReservationAlterationCreatedEvent | ReservationAlterationRespondedEvent | ReservationCancelledEvent | ReservationCreatedEvent | ReservationMessageReactionEvent | ReservationMessageReadEvent | ReservationMessageReceivedEvent | ReservationMessageSentEvent | ReservationMessageUpdatedEvent | ReservationRequestCreatedEvent | ReservationRequestUpdatedEvent | ReservationThreadAssignedEvent | ReservationUpdatedEvent | ReviewCreatedEvent | ReviewRespondedEvent | Unset | UsageQuotaWarningEvent:
+        def _parse_payload(data: object) -> AccountCalendarAccessChangedEvent | AccountCreatedEvent | AccountDisconnectedEvent | AccountImportCompletedEvent | AccountImportFailedEvent | AccountImportStartedEvent | AccountNotificationsMissingEvent | AccountUnitsAddedEvent | AiOperationCompletedEvent | AiOperationFailedEvent | BookingUnacknowledgedEvent | ChannelDegradedEvent | ChannelSyncFailedEvent | ConnectSessionAbandonedEvent | ConnectSessionCompletedEvent | ConversationMessageStatusChangedEvent | InquiryCreatedEvent | InquiryUpdatedEvent | ListingCreatedEvent | ListingDeletedEvent | ListingReactivatedEvent | ListingSuspendedEvent | ListingUpdatedEvent | MigrationCompletedEvent | MigrationFailedEvent | PaymentCompletedEvent | PaymentRefundedEvent | PayoutCompletedEvent | RepullPingEvent | ReservationAlterationCreatedEvent | ReservationAlterationRespondedEvent | ReservationCancelledEvent | ReservationCreatedEvent | ReservationMessageReactionEvent | ReservationMessageReadEvent | ReservationMessageReceivedEvent | ReservationMessageSentEvent | ReservationMessageUpdatedEvent | ReservationRequestCreatedEvent | ReservationRequestUpdatedEvent | ReservationThreadAssignedEvent | ReservationUpdatedEvent | ReviewCreatedEvent | ReviewRespondedEvent | Unset | UsageQuotaWarningEvent:
             if isinstance(data, Unset):
                 return data
             try:
@@ -465,7 +475,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_4 = ReservationMessageSentEvent.from_dict(data)
+                componentsschemas_webhook_event_type_4 = ConversationMessageStatusChangedEvent.from_dict(data)
 
 
 
@@ -475,7 +485,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_5 = ReservationMessageUpdatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_5 = ReservationMessageSentEvent.from_dict(data)
 
 
 
@@ -485,7 +495,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_6 = ReservationMessageReadEvent.from_dict(data)
+                componentsschemas_webhook_event_type_6 = ReservationMessageUpdatedEvent.from_dict(data)
 
 
 
@@ -495,7 +505,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_7 = ReservationMessageReactionEvent.from_dict(data)
+                componentsschemas_webhook_event_type_7 = ReservationMessageReadEvent.from_dict(data)
 
 
 
@@ -505,7 +515,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_8 = ReservationAlterationCreatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_8 = ReservationMessageReactionEvent.from_dict(data)
 
 
 
@@ -515,7 +525,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_9 = ReservationAlterationRespondedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_9 = ReservationAlterationCreatedEvent.from_dict(data)
 
 
 
@@ -525,7 +535,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_10 = ReservationRequestCreatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_10 = ReservationAlterationRespondedEvent.from_dict(data)
 
 
 
@@ -535,7 +545,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_11 = ReservationRequestUpdatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_11 = ReservationRequestCreatedEvent.from_dict(data)
 
 
 
@@ -545,7 +555,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_12 = BookingUnacknowledgedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_12 = ReservationRequestUpdatedEvent.from_dict(data)
 
 
 
@@ -555,7 +565,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_13 = ChannelSyncFailedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_13 = BookingUnacknowledgedEvent.from_dict(data)
 
 
 
@@ -565,7 +575,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_14 = ChannelDegradedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_14 = ChannelSyncFailedEvent.from_dict(data)
 
 
 
@@ -575,7 +585,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_15 = ReservationThreadAssignedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_15 = ChannelDegradedEvent.from_dict(data)
 
 
 
@@ -585,7 +595,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_16 = InquiryCreatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_16 = ReservationThreadAssignedEvent.from_dict(data)
 
 
 
@@ -595,7 +605,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_17 = InquiryUpdatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_17 = InquiryCreatedEvent.from_dict(data)
 
 
 
@@ -605,7 +615,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_18 = ListingCreatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_18 = InquiryUpdatedEvent.from_dict(data)
 
 
 
@@ -615,7 +625,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_19 = ListingUpdatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_19 = ListingCreatedEvent.from_dict(data)
 
 
 
@@ -625,7 +635,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_20 = ListingDeletedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_20 = ListingUpdatedEvent.from_dict(data)
 
 
 
@@ -635,7 +645,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_21 = ListingSuspendedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_21 = ListingDeletedEvent.from_dict(data)
 
 
 
@@ -645,7 +655,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_22 = ListingReactivatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_22 = ListingSuspendedEvent.from_dict(data)
 
 
 
@@ -655,7 +665,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_23 = AccountCreatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_23 = ListingReactivatedEvent.from_dict(data)
 
 
 
@@ -665,7 +675,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_24 = ConnectSessionCompletedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_24 = AccountCreatedEvent.from_dict(data)
 
 
 
@@ -675,7 +685,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_25 = ConnectSessionAbandonedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_25 = ConnectSessionCompletedEvent.from_dict(data)
 
 
 
@@ -685,7 +695,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_26 = AccountDisconnectedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_26 = ConnectSessionAbandonedEvent.from_dict(data)
 
 
 
@@ -695,7 +705,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_27 = AccountImportStartedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_27 = AccountDisconnectedEvent.from_dict(data)
 
 
 
@@ -705,7 +715,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_28 = AccountImportCompletedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_28 = AccountImportStartedEvent.from_dict(data)
 
 
 
@@ -715,7 +725,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_29 = AccountImportFailedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_29 = AccountImportCompletedEvent.from_dict(data)
 
 
 
@@ -725,7 +735,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_30 = AccountUnitsAddedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_30 = AccountImportFailedEvent.from_dict(data)
 
 
 
@@ -735,7 +745,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_31 = AccountCalendarAccessChangedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_31 = AccountUnitsAddedEvent.from_dict(data)
 
 
 
@@ -745,7 +755,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_32 = ReviewCreatedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_32 = AccountCalendarAccessChangedEvent.from_dict(data)
 
 
 
@@ -755,7 +765,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_33 = ReviewRespondedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_33 = AccountNotificationsMissingEvent.from_dict(data)
 
 
 
@@ -765,7 +775,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_34 = AiOperationCompletedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_34 = ReviewCreatedEvent.from_dict(data)
 
 
 
@@ -775,7 +785,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_35 = AiOperationFailedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_35 = ReviewRespondedEvent.from_dict(data)
 
 
 
@@ -785,7 +795,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_36 = PaymentCompletedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_36 = AiOperationCompletedEvent.from_dict(data)
 
 
 
@@ -795,7 +805,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_37 = PaymentRefundedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_37 = AiOperationFailedEvent.from_dict(data)
 
 
 
@@ -805,7 +815,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_38 = PayoutCompletedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_38 = PaymentCompletedEvent.from_dict(data)
 
 
 
@@ -815,7 +825,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_39 = RepullPingEvent.from_dict(data)
+                componentsschemas_webhook_event_type_39 = PaymentRefundedEvent.from_dict(data)
 
 
 
@@ -825,7 +835,7 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_40 = UsageQuotaWarningEvent.from_dict(data)
+                componentsschemas_webhook_event_type_40 = PayoutCompletedEvent.from_dict(data)
 
 
 
@@ -835,20 +845,40 @@ class WebhookDeliveryDetail:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
-                componentsschemas_webhook_event_type_41 = MigrationCompletedEvent.from_dict(data)
+                componentsschemas_webhook_event_type_41 = RepullPingEvent.from_dict(data)
 
 
 
                 return componentsschemas_webhook_event_type_41
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_42 = UsageQuotaWarningEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_42
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                componentsschemas_webhook_event_type_43 = MigrationCompletedEvent.from_dict(data)
+
+
+
+                return componentsschemas_webhook_event_type_43
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
             if not isinstance(data, dict):
                 raise TypeError()
-            componentsschemas_webhook_event_type_42 = MigrationFailedEvent.from_dict(data)
+            componentsschemas_webhook_event_type_44 = MigrationFailedEvent.from_dict(data)
 
 
 
-            return componentsschemas_webhook_event_type_42
+            return componentsschemas_webhook_event_type_44
 
         payload = _parse_payload(d.pop("payload", UNSET))
 

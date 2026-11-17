@@ -2,6 +2,7 @@ from enum import Enum
 
 class MessageStatus(str, Enum):
     FAILED = "failed"
+    QUEUED = "queued"
     RECEIVED = "received"
     SENDING = "sending"
     SENT = "sent"
