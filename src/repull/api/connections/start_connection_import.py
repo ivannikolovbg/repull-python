@@ -107,9 +107,11 @@ def sync_detailed(
     """ Refresh a connection's listings
 
      Refresh listings: picks up listings you've added on Airbnb since you connected. Re-reads the
-    connected account's listings and their calendars (pricing and availability) now; a new property
-    comes in as a new listing and existing listings are refreshed. Nothing else is re-imported: no
-    reservations, conversations, reviews or payouts.
+    connected account's listings now: a new property comes in as a new listing, together with its
+    calendar (pricing and availability), and existing listings are refreshed. On a full-access
+    connection Repull is the source of your calendars, so the calendars of listings already in Repull
+    are not re-read from Airbnb; on read-only and messaging connections they are. Nothing else is re-
+    imported: no reservations, conversations, reviews or payouts.
 
     The same import runs on its own once a day for every connected Airbnb account, and when the host
     reconnects. Call this when you know a property was just added and do not want to wait.
@@ -159,9 +161,11 @@ def sync(
     """ Refresh a connection's listings
 
      Refresh listings: picks up listings you've added on Airbnb since you connected. Re-reads the
-    connected account's listings and their calendars (pricing and availability) now; a new property
-    comes in as a new listing and existing listings are refreshed. Nothing else is re-imported: no
-    reservations, conversations, reviews or payouts.
+    connected account's listings now: a new property comes in as a new listing, together with its
+    calendar (pricing and availability), and existing listings are refreshed. On a full-access
+    connection Repull is the source of your calendars, so the calendars of listings already in Repull
+    are not re-read from Airbnb; on read-only and messaging connections they are. Nothing else is re-
+    imported: no reservations, conversations, reviews or payouts.
 
     The same import runs on its own once a day for every connected Airbnb account, and when the host
     reconnects. Call this when you know a property was just added and do not want to wait.
@@ -206,9 +210,11 @@ async def asyncio_detailed(
     """ Refresh a connection's listings
 
      Refresh listings: picks up listings you've added on Airbnb since you connected. Re-reads the
-    connected account's listings and their calendars (pricing and availability) now; a new property
-    comes in as a new listing and existing listings are refreshed. Nothing else is re-imported: no
-    reservations, conversations, reviews or payouts.
+    connected account's listings now: a new property comes in as a new listing, together with its
+    calendar (pricing and availability), and existing listings are refreshed. On a full-access
+    connection Repull is the source of your calendars, so the calendars of listings already in Repull
+    are not re-read from Airbnb; on read-only and messaging connections they are. Nothing else is re-
+    imported: no reservations, conversations, reviews or payouts.
 
     The same import runs on its own once a day for every connected Airbnb account, and when the host
     reconnects. Call this when you know a property was just added and do not want to wait.
@@ -258,9 +264,11 @@ async def asyncio(
     """ Refresh a connection's listings
 
      Refresh listings: picks up listings you've added on Airbnb since you connected. Re-reads the
-    connected account's listings and their calendars (pricing and availability) now; a new property
-    comes in as a new listing and existing listings are refreshed. Nothing else is re-imported: no
-    reservations, conversations, reviews or payouts.
+    connected account's listings now: a new property comes in as a new listing, together with its
+    calendar (pricing and availability), and existing listings are refreshed. On a full-access
+    connection Repull is the source of your calendars, so the calendars of listings already in Repull
+    are not re-read from Airbnb; on read-only and messaging connections they are. Nothing else is re-
+    imported: no reservations, conversations, reviews or payouts.
 
     The same import runs on its own once a day for every connected Airbnb account, and when the host
     reconnects. Call this when you know a property was just added and do not want to wait.

@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.apply_connection_mappings_body import ApplyConnectionMappingsBody
 from ...models.apply_connection_mappings_response_200 import ApplyConnectionMappingsResponse200
+from ...models.error import Error
 from typing import cast
 
 
@@ -42,7 +43,7 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ApplyConnectionMappingsResponse200 | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ApplyConnectionMappingsResponse200 | Error | None:
     if response.status_code == 200:
         response_200 = ApplyConnectionMappingsResponse200.from_dict(response.json())
 
@@ -50,13 +51,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 409:
+        response_409 = Error.from_dict(response.json())
+
+
+
+        return response_409
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ApplyConnectionMappingsResponse200]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ApplyConnectionMappingsResponse200 | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,7 +79,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: ApplyConnectionMappingsBody,
 
-) -> Response[ApplyConnectionMappingsResponse200]:
+) -> Response[ApplyConnectionMappingsResponse200 | Error]:
     """ Map, unmap or create listings for units
 
      One instruction per unit: `{unitId, listingId}` maps, `{unitId, listingId: null}` unmaps, `{unitId,
@@ -92,7 +100,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ApplyConnectionMappingsResponse200]
+        Response[ApplyConnectionMappingsResponse200 | Error]
      """
 
 
@@ -114,7 +122,7 @@ def sync(
     client: AuthenticatedClient | Client,
     body: ApplyConnectionMappingsBody,
 
-) -> ApplyConnectionMappingsResponse200 | None:
+) -> ApplyConnectionMappingsResponse200 | Error | None:
     """ Map, unmap or create listings for units
 
      One instruction per unit: `{unitId, listingId}` maps, `{unitId, listingId: null}` unmaps, `{unitId,
@@ -135,7 +143,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ApplyConnectionMappingsResponse200
+        ApplyConnectionMappingsResponse200 | Error
      """
 
 
@@ -152,7 +160,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: ApplyConnectionMappingsBody,
 
-) -> Response[ApplyConnectionMappingsResponse200]:
+) -> Response[ApplyConnectionMappingsResponse200 | Error]:
     """ Map, unmap or create listings for units
 
      One instruction per unit: `{unitId, listingId}` maps, `{unitId, listingId: null}` unmaps, `{unitId,
@@ -173,7 +181,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ApplyConnectionMappingsResponse200]
+        Response[ApplyConnectionMappingsResponse200 | Error]
      """
 
 
@@ -195,7 +203,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: ApplyConnectionMappingsBody,
 
-) -> ApplyConnectionMappingsResponse200 | None:
+) -> ApplyConnectionMappingsResponse200 | Error | None:
     """ Map, unmap or create listings for units
 
      One instruction per unit: `{unitId, listingId}` maps, `{unitId, listingId: null}` unmaps, `{unitId,
@@ -216,7 +224,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ApplyConnectionMappingsResponse200
+        ApplyConnectionMappingsResponse200 | Error
      """
 
 

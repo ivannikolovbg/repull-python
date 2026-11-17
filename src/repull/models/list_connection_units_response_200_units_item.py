@@ -33,7 +33,9 @@ class ListConnectionUnitsResponse200UnitsItem:
             suggested_listing_id (int | None | Unset):
             meta (ListConnectionUnitsResponse200UnitsItemMeta | Unset): Channel details that identify the unit. Booking.com
                 Extranet: `hotel` (property name), `hotelId` (Booking.com property ID), `roomId` (Booking.com room ID), `city`.
-                Vrbo: `headline`, `address`, `vrboStatus`; the Vrbo listing ID is `unit_id`.
+                Vrbo: `headline`, `address`, `vrboStatus`, `calendarSync` (whether the unit's prices and availability are pushed
+                to Vrbo) and, while Vrbo says another tool manages the account's calendar, `calendarSyncBlocked:
+                "calendar_managed_elsewhere"`; the Vrbo listing ID is `unit_id`.
      """
 
     unit_id: str | Unset = UNSET

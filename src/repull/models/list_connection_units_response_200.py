@@ -15,6 +15,7 @@ from typing import cast
 if TYPE_CHECKING:
   from ..models.list_connection_units_response_200_listing_options_item import ListConnectionUnitsResponse200ListingOptionsItem
   from ..models.list_connection_units_response_200_units_item import ListConnectionUnitsResponse200UnitsItem
+  from ..models.vrbo_calendar_access import VrboCalendarAccess
 
 
 
@@ -35,6 +36,10 @@ class ListConnectionUnitsResponse200:
                 email, with message and reservation notifications on. It is how new bookings, inquiries and guest messages reach
                 Repull within a minute; without it they arrive at the next scheduled check. Hosted Connect asks for it on its
                 mapping screen, so show it in your own flow when you map with `mapping: "api"`.
+            calendar (VrboCalendarAccess | Unset): Whether another tool manages a Vrbo account's calendar. Vrbo reports it
+                per account; Repull asks when the account connects and once a day. While `managedBy` is set, Vrbo refuses price
+                and availability changes from anyone else, so calendar sync is off for every unit of the account and turning it
+                on returns `409 calendar_managed_elsewhere`. Bookings and messages keep working.
             units (list[ListConnectionUnitsResponse200UnitsItem] | Unset):
             listing_options (list[ListConnectionUnitsResponse200ListingOptionsItem] | Unset):
             missing_capabilities (list[str] | Unset):
@@ -45,6 +50,7 @@ class ListConnectionUnitsResponse200:
     channel: str | Unset = UNSET
     status: ListConnectionUnitsResponse200Status | Unset = UNSET
     notification_email: None | str | Unset = UNSET
+    calendar: VrboCalendarAccess | Unset = UNSET
     units: list[ListConnectionUnitsResponse200UnitsItem] | Unset = UNSET
     listing_options: list[ListConnectionUnitsResponse200ListingOptionsItem] | Unset = UNSET
     missing_capabilities: list[str] | Unset = UNSET
@@ -58,6 +64,7 @@ class ListConnectionUnitsResponse200:
     def to_dict(self) -> dict[str, Any]:
         from ..models.list_connection_units_response_200_listing_options_item import ListConnectionUnitsResponse200ListingOptionsItem
         from ..models.list_connection_units_response_200_units_item import ListConnectionUnitsResponse200UnitsItem
+        from ..models.vrbo_calendar_access import VrboCalendarAccess
         connection_id = self.connection_id
 
         channel = self.channel
@@ -72,6 +79,10 @@ class ListConnectionUnitsResponse200:
             notification_email = UNSET
         else:
             notification_email = self.notification_email
+
+        calendar: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.calendar, Unset):
+            calendar = self.calendar.to_dict()
 
         units: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.units, Unset):
@@ -112,6 +123,8 @@ class ListConnectionUnitsResponse200:
             field_dict["status"] = status
         if notification_email is not UNSET:
             field_dict["notification_email"] = notification_email
+        if calendar is not UNSET:
+            field_dict["calendar"] = calendar
         if units is not UNSET:
             field_dict["units"] = units
         if listing_options is not UNSET:
@@ -129,6 +142,7 @@ class ListConnectionUnitsResponse200:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.list_connection_units_response_200_listing_options_item import ListConnectionUnitsResponse200ListingOptionsItem
         from ..models.list_connection_units_response_200_units_item import ListConnectionUnitsResponse200UnitsItem
+        from ..models.vrbo_calendar_access import VrboCalendarAccess
         d = dict(src_dict)
         connection_id = d.pop("connection_id", UNSET)
 
@@ -152,6 +166,16 @@ class ListConnectionUnitsResponse200:
             return cast(None | str | Unset, data)
 
         notification_email = _parse_notification_email(d.pop("notification_email", UNSET))
+
+
+        _calendar = d.pop("calendar", UNSET)
+        calendar: VrboCalendarAccess | Unset
+        if isinstance(_calendar,  Unset):
+            calendar = UNSET
+        else:
+            calendar = VrboCalendarAccess.from_dict(_calendar)
+
+
 
 
         _units = d.pop("units", UNSET)
@@ -188,6 +212,7 @@ class ListConnectionUnitsResponse200:
             channel=channel,
             status=status,
             notification_email=notification_email,
+            calendar=calendar,
             units=units,
             listing_options=listing_options,
             missing_capabilities=missing_capabilities,

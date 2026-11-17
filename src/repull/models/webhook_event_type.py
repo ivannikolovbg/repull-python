@@ -1,6 +1,7 @@
 from enum import Enum
 
 class WebhookEventType(str, Enum):
+    ACCOUNT_CALENDAR_ACCESS_CHANGED = "account.calendar_access_changed"
     ACCOUNT_CREATED = "account.created"
     ACCOUNT_DISCONNECTED = "account.disconnected"
     ACCOUNT_IMPORT_COMPLETED = "account.import.completed"

@@ -16,6 +16,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
+  from ..models.vrbo_calendar_access import VrboCalendarAccess
   from ..models.vrbo_import_status import VrboImportStatus
 
 
@@ -50,6 +51,8 @@ class ConnectStatusAccountsItem:
                 needed). Send the host to it when `action` is set.
             notification_received_at (datetime.datetime | None | Unset): Vrbo only. When Vrbo's first notification reached
                 `notificationEmail`, i.e. the host added it with notifications on. `null` until then.
+            calendar (None | Unset | VrboCalendarAccess): Vrbo only. Whether another tool (such as a PMS) manages this
+                account's calendar; while `calendar.managedBy` is set, calendar sync is off for all its units.
             notification_email (None | str | Unset): Vrbo only. The address the host can add on Vrbo as a secondary email
                 (with message and reservation notifications on) so new bookings, inquiries and messages arrive within a minute
                 instead of at the scheduled check. Ask every host to add it: notifications are how Vrbo updates reach Repull,
@@ -69,6 +72,7 @@ class ConnectStatusAccountsItem:
     action: ConnectStatusAccountsItemActionType0 | None | Unset = UNSET
     fix_url: None | str | Unset = UNSET
     notification_received_at: datetime.datetime | None | Unset = UNSET
+    calendar: None | Unset | VrboCalendarAccess = UNSET
     notification_email: None | str | Unset = UNSET
     import_: None | Unset | VrboImportStatus = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -79,6 +83,7 @@ class ConnectStatusAccountsItem:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
+        from ..models.vrbo_calendar_access import VrboCalendarAccess
         from ..models.vrbo_import_status import VrboImportStatus
         external_account_id: None | str | Unset
         if isinstance(self.external_account_id, Unset):
@@ -148,6 +153,14 @@ class ConnectStatusAccountsItem:
         else:
             notification_received_at = self.notification_received_at
 
+        calendar: dict[str, Any] | None | Unset
+        if isinstance(self.calendar, Unset):
+            calendar = UNSET
+        elif isinstance(self.calendar, VrboCalendarAccess):
+            calendar = self.calendar.to_dict()
+        else:
+            calendar = self.calendar
+
         notification_email: None | str | Unset
         if isinstance(self.notification_email, Unset):
             notification_email = UNSET
@@ -189,6 +202,8 @@ class ConnectStatusAccountsItem:
             field_dict["fixUrl"] = fix_url
         if notification_received_at is not UNSET:
             field_dict["notificationReceivedAt"] = notification_received_at
+        if calendar is not UNSET:
+            field_dict["calendar"] = calendar
         if notification_email is not UNSET:
             field_dict["notificationEmail"] = notification_email
         if import_ is not UNSET:
@@ -201,6 +216,7 @@ class ConnectStatusAccountsItem:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.connect_status_accounts_item_action_type_0 import ConnectStatusAccountsItemActionType0
+        from ..models.vrbo_calendar_access import VrboCalendarAccess
         from ..models.vrbo_import_status import VrboImportStatus
         d = dict(src_dict)
         def _parse_external_account_id(data: object) -> None | str | Unset:
@@ -335,6 +351,26 @@ class ConnectStatusAccountsItem:
         notification_received_at = _parse_notification_received_at(d.pop("notificationReceivedAt", UNSET))
 
 
+        def _parse_calendar(data: object) -> None | Unset | VrboCalendarAccess:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                calendar_type_1 = VrboCalendarAccess.from_dict(data)
+
+
+
+                return calendar_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | Unset | VrboCalendarAccess, data)
+
+        calendar = _parse_calendar(d.pop("calendar", UNSET))
+
+
         def _parse_notification_email(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -377,6 +413,7 @@ class ConnectStatusAccountsItem:
             action=action,
             fix_url=fix_url,
             notification_received_at=notification_received_at,
+            calendar=calendar,
             notification_email=notification_email,
             import_=import_,
         )

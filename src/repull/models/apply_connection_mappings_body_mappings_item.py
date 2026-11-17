@@ -29,7 +29,9 @@ class ApplyConnectionMappingsBodyMappingsItem:
             create (bool | Unset):
             calendar_sync (bool | Unset): Vrbo: push this listing's prices and availability to Vrbo. Omit to follow the
                 connection's access type (`messaging` = off, `full_access` = on). A new listing (`create`) always follows the
-                access type. Other channels ignore it.
+                access type. Other channels ignore it. `true` returns `409 calendar_managed_elsewhere` while Vrbo says another
+                tool (such as a PMS) manages the account's calendar (`calendar.managedBy` on `GET /v1/connect/vrbo-login`); see
+                https://repull.dev/docs/channels/vrbo/calendar-managed-elsewhere.
      """
 
     unit_id: str
