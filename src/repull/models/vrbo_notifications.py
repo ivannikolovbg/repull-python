@@ -34,7 +34,7 @@ class VrboNotifications:
             last_received_at (datetime.datetime | None): When the last Vrbo notification reached `address`. `null` when none
                 ever has.
             address (None | str): The address the host adds on Vrbo as a secondary email, with message and reservation
-                notifications on. Example: in+vrbo-1474-33@repull.dev.
+                notifications on. Example: in+vrbo-1234-321@repull.dev.
      """
 
     state: VrboNotificationsState

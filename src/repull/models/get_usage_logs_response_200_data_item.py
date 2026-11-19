@@ -38,6 +38,9 @@ class GetUsageLogsResponse200DataItem:
             ip_address (None | str | Unset):
             user_agent (None | str | Unset):
             error_code (None | str | Unset):
+            dashboard_surface (None | str | Unset): The repull.dev dashboard page this call was run from (`keys`,
+                `playground`, `quickstart`, `connect`, `settings/connect`), or null for a call your own code made. Dashboard
+                calls don't count toward your plan's request quota.
             created_at (datetime.datetime | Unset):
      """
 
@@ -53,6 +56,7 @@ class GetUsageLogsResponse200DataItem:
     ip_address: None | str | Unset = UNSET
     user_agent: None | str | Unset = UNSET
     error_code: None | str | Unset = UNSET
+    dashboard_surface: None | str | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -121,6 +125,12 @@ class GetUsageLogsResponse200DataItem:
         else:
             error_code = self.error_code
 
+        dashboard_surface: None | str | Unset
+        if isinstance(self.dashboard_surface, Unset):
+            dashboard_surface = UNSET
+        else:
+            dashboard_surface = self.dashboard_surface
+
         created_at: str | Unset = UNSET
         if not isinstance(self.created_at, Unset):
             created_at = self.created_at.isoformat()
@@ -154,6 +164,8 @@ class GetUsageLogsResponse200DataItem:
             field_dict["userAgent"] = user_agent
         if error_code is not UNSET:
             field_dict["errorCode"] = error_code
+        if dashboard_surface is not UNSET:
+            field_dict["dashboardSurface"] = dashboard_surface
         if created_at is not UNSET:
             field_dict["createdAt"] = created_at
 
@@ -260,6 +272,16 @@ class GetUsageLogsResponse200DataItem:
         error_code = _parse_error_code(d.pop("errorCode", UNSET))
 
 
+        def _parse_dashboard_surface(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        dashboard_surface = _parse_dashboard_surface(d.pop("dashboardSurface", UNSET))
+
+
         _created_at = d.pop("createdAt", UNSET)
         created_at: datetime.datetime | Unset
         if isinstance(_created_at,  Unset):
@@ -283,6 +305,7 @@ class GetUsageLogsResponse200DataItem:
             ip_address=ip_address,
             user_agent=user_agent,
             error_code=error_code,
+            dashboard_surface=dashboard_surface,
             created_at=created_at,
         )
 
