@@ -29,6 +29,11 @@ class ApplyConnectionMappingsResponse200ResultsItem:
             created (bool | Unset):
             ok (bool | Unset):
             error (str | Unset):
+            ical_feed_url (str | Unset): Vrbo, for a mapped unit: the listing's Repull iCal backup feed (`GET
+                /v1/listings/{id}/ical`). With calendar sync on, Repull imports it into the Vrbo unit by itself (Vrbo → Calendar
+                → Import calendar, named "Repull") and removes other tools' imported feeds; `listing.ical_feed_changed` reports
+                it. Only if that fails does the host add it by hand. Example:
+                https://api.repull.dev/ical/4f9c2d7e1a8b3c6d5e0f9a2b7c4d1e8f3a6b9c2d5e8f1a4b7c0d3e6f9a2b5c8d.ics.
      """
 
     unit_id: str | Unset = UNSET
@@ -36,6 +41,7 @@ class ApplyConnectionMappingsResponse200ResultsItem:
     created: bool | Unset = UNSET
     ok: bool | Unset = UNSET
     error: str | Unset = UNSET
+    ical_feed_url: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -57,6 +63,8 @@ class ApplyConnectionMappingsResponse200ResultsItem:
 
         error = self.error
 
+        ical_feed_url = self.ical_feed_url
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -72,6 +80,8 @@ class ApplyConnectionMappingsResponse200ResultsItem:
             field_dict["ok"] = ok
         if error is not UNSET:
             field_dict["error"] = error
+        if ical_feed_url is not UNSET:
+            field_dict["ical_feed_url"] = ical_feed_url
 
         return field_dict
 
@@ -98,12 +108,15 @@ class ApplyConnectionMappingsResponse200ResultsItem:
 
         error = d.pop("error", UNSET)
 
+        ical_feed_url = d.pop("ical_feed_url", UNSET)
+
         apply_connection_mappings_response_200_results_item = cls(
             unit_id=unit_id,
             listing_id=listing_id,
             created=created,
             ok=ok,
             error=error,
+            ical_feed_url=ical_feed_url,
         )
 
 

@@ -21,6 +21,7 @@ class WebhookEventType(str, Enum):
     INQUIRY_UPDATED = "inquiry.updated"
     LISTING_CREATED = "listing.created"
     LISTING_DELETED = "listing.deleted"
+    LISTING_ICAL_FEED_CHANGED = "listing.ical_feed_changed"
     LISTING_REACTIVATED = "listing.reactivated"
     LISTING_SUSPENDED = "listing.suspended"
     LISTING_UPDATED = "listing.updated"
