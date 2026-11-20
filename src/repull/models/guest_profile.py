@@ -37,7 +37,6 @@ class GuestProfile:
             id (str | Unset):
             display_name (str | Unset):
             display_name_long (str | Unset):
-            avatar_url (None | str | Unset):
             language (None | str | Unset):
             country (None | str | Unset):
             phone (None | str | Unset): Primary phone contact. May be an Airbnb relay number — check `phoneType`.
@@ -62,7 +61,6 @@ class GuestProfile:
     id: str | Unset = UNSET
     display_name: str | Unset = UNSET
     display_name_long: str | Unset = UNSET
-    avatar_url: None | str | Unset = UNSET
     language: None | str | Unset = UNSET
     country: None | str | Unset = UNSET
     phone: None | str | Unset = UNSET
@@ -96,12 +94,6 @@ class GuestProfile:
         display_name = self.display_name
 
         display_name_long = self.display_name_long
-
-        avatar_url: None | str | Unset
-        if isinstance(self.avatar_url, Unset):
-            avatar_url = UNSET
-        else:
-            avatar_url = self.avatar_url
 
         language: None | str | Unset
         if isinstance(self.language, Unset):
@@ -215,8 +207,6 @@ class GuestProfile:
             field_dict["displayName"] = display_name
         if display_name_long is not UNSET:
             field_dict["displayNameLong"] = display_name_long
-        if avatar_url is not UNSET:
-            field_dict["avatarUrl"] = avatar_url
         if language is not UNSET:
             field_dict["language"] = language
         if country is not UNSET:
@@ -268,16 +258,6 @@ class GuestProfile:
         display_name = d.pop("displayName", UNSET)
 
         display_name_long = d.pop("displayNameLong", UNSET)
-
-        def _parse_avatar_url(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        avatar_url = _parse_avatar_url(d.pop("avatarUrl", UNSET))
-
 
         def _parse_language(data: object) -> None | str | Unset:
             if data is None:
@@ -455,7 +435,6 @@ class GuestProfile:
             id=id,
             display_name=display_name,
             display_name_long=display_name_long,
-            avatar_url=avatar_url,
             language=language,
             country=country,
             phone=phone,

@@ -33,7 +33,6 @@ class Guest:
             display_name (str | Unset): Short display name (first name). Example: Jane.
             display_name_long (str | Unset): Long display name (first + last). Falls back to displayName when last name is
                 missing. Example: Jane Doe.
-            avatar_url (None | str | Unset):
             language (None | str | Unset): Guest's preferred language (ISO 639-1).
             country (None | str | Unset): Guest country (from profile metadata or address).
             phone (None | str | Unset): Primary phone contact (or first non-primary if no primary set). May be an Airbnb
@@ -53,7 +52,6 @@ class Guest:
     id: str | Unset = UNSET
     display_name: str | Unset = UNSET
     display_name_long: str | Unset = UNSET
-    avatar_url: None | str | Unset = UNSET
     language: None | str | Unset = UNSET
     country: None | str | Unset = UNSET
     phone: None | str | Unset = UNSET
@@ -76,12 +74,6 @@ class Guest:
         display_name = self.display_name
 
         display_name_long = self.display_name_long
-
-        avatar_url: None | str | Unset
-        if isinstance(self.avatar_url, Unset):
-            avatar_url = UNSET
-        else:
-            avatar_url = self.avatar_url
 
         language: None | str | Unset
         if isinstance(self.language, Unset):
@@ -150,8 +142,6 @@ class Guest:
             field_dict["displayName"] = display_name
         if display_name_long is not UNSET:
             field_dict["displayNameLong"] = display_name_long
-        if avatar_url is not UNSET:
-            field_dict["avatarUrl"] = avatar_url
         if language is not UNSET:
             field_dict["language"] = language
         if country is not UNSET:
@@ -185,16 +175,6 @@ class Guest:
         display_name = d.pop("displayName", UNSET)
 
         display_name_long = d.pop("displayNameLong", UNSET)
-
-        def _parse_avatar_url(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        avatar_url = _parse_avatar_url(d.pop("avatarUrl", UNSET))
-
 
         def _parse_language(data: object) -> None | str | Unset:
             if data is None:
@@ -314,7 +294,6 @@ class Guest:
             id=id,
             display_name=display_name,
             display_name_long=display_name_long,
-            avatar_url=avatar_url,
             language=language,
             country=country,
             phone=phone,

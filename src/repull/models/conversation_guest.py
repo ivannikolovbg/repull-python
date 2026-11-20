@@ -30,13 +30,11 @@ class ConversationGuest:
         Attributes:
             id (str | Unset):
             display_name (str | Unset):
-            avatar_url (None | str | Unset):
             contacts (list[ConversationGuestContact] | Unset):
      """
 
     id: str | Unset = UNSET
     display_name: str | Unset = UNSET
-    avatar_url: None | str | Unset = UNSET
     contacts: list[ConversationGuestContact] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -49,12 +47,6 @@ class ConversationGuest:
         id = self.id
 
         display_name = self.display_name
-
-        avatar_url: None | str | Unset
-        if isinstance(self.avatar_url, Unset):
-            avatar_url = UNSET
-        else:
-            avatar_url = self.avatar_url
 
         contacts: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.contacts, Unset):
@@ -74,8 +66,6 @@ class ConversationGuest:
             field_dict["id"] = id
         if display_name is not UNSET:
             field_dict["displayName"] = display_name
-        if avatar_url is not UNSET:
-            field_dict["avatarUrl"] = avatar_url
         if contacts is not UNSET:
             field_dict["contacts"] = contacts
 
@@ -90,16 +80,6 @@ class ConversationGuest:
         id = d.pop("id", UNSET)
 
         display_name = d.pop("displayName", UNSET)
-
-        def _parse_avatar_url(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        avatar_url = _parse_avatar_url(d.pop("avatarUrl", UNSET))
-
 
         _contacts = d.pop("contacts", UNSET)
         contacts: list[ConversationGuestContact] | Unset = UNSET
@@ -116,7 +96,6 @@ class ConversationGuest:
         conversation_guest = cls(
             id=id,
             display_name=display_name,
-            avatar_url=avatar_url,
             contacts=contacts,
         )
 
