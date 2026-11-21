@@ -146,7 +146,7 @@ def sync_detailed(
     listing_inactive` when the listing is inactive.
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         body (VrboReservationActionBody):
 
     Raises:
@@ -208,7 +208,7 @@ def sync(
     listing_inactive` when the listing is inactive.
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         body (VrboReservationActionBody):
 
     Raises:
@@ -265,7 +265,7 @@ async def asyncio_detailed(
     listing_inactive` when the listing is inactive.
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         body (VrboReservationActionBody):
 
     Raises:
@@ -327,7 +327,7 @@ async def asyncio(
     listing_inactive` when the listing is inactive.
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         body (VrboReservationActionBody):
 
     Raises:
