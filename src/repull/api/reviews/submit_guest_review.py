@@ -122,22 +122,19 @@ def sync_detailed(
     body: AirbnbHostReviewSubmit,
 
 ) -> Response[Error | SubmitGuestReviewResponse200]:
-    r""" Review a guest (publishes, final)
+    r""" Review a guest
 
      Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
-    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
-    returns `422 unsupported_channel`.
+    /v1/reviews?reviewerRole=host`. Airbnb and Vrbo let hosts review guests; a review from another
+    channel returns `422 unsupported_channel`.
 
-    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
-    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
-    (`expiresAt`); after that, `409 review_window_closed`.
-
-    Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
-    1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
-    to use one score for all three, `categoryRatings` to score them individually, or both (`rating`
-    fills any category you did not rate). Optional: `privateFeedback`, a note to the guest that is not
-    published. A request missing a required piece is refused with `422 invalid_params` naming it, before
-    anything is sent to Airbnb.
+    **Airbnb — publishes it, final:** Airbnb has no draft and does not allow edits; a second submission
+    is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`);
+    after that, `409 review_window_closed`. Required: `publicReview`, `isRevieweeRecommended` (whether
+    you would host the guest again), and a 1–5 rating for **each** of `cleanliness`, `communication` and
+    `respect_house_rules` — send `rating` to use one score for all three, `categoryRatings` to score
+    them individually, or both (`rating` fills any category you did not rate). Optional:
+    `privateFeedback`, a note to the guest that is not published.
 
     ```json
     {
@@ -148,9 +145,22 @@ def sync_detailed(
     }
     ```
 
-    A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
-    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
+    **Vrbo — Vrbo's \"Rate guest\":** stars and \"would you rent to this guest again\", with no text,
+    and never shown to the guest. `rating` (the overall experience, 1–5) is required; `categoryRatings`
+    (cleanliness, communication, respect_house_rules) and `isRevieweeRecommended` are optional.
+    `publicReview` and `privateFeedback` must be left out or empty (typed SDKs send them empty) — text
+    is refused by name. A stay already rated is `409 review_already_submitted`; one Vrbo no longer takes
+    a rating for, `409 review_window_closed`.
+
+    ```json
+    { \"rating\": 5, \"categoryRatings\": [{ \"category\": \"cleanliness\", \"rating\": 4 }],
+    \"isRevieweeRecommended\": true }
+    ```
+
+    A request missing a required piece is refused with `422 invalid_params` naming it, before anything
+    is sent to the channel. A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here —
+    `409 not_host_review` (Vrbo: `422`); answer it with `POST /v1/reviews/{id}/reply`. Guide:
+    https://repull.dev/docs/reviews#review-a-guest
 
     Args:
         id (int):
@@ -190,22 +200,19 @@ def sync(
     body: AirbnbHostReviewSubmit,
 
 ) -> Error | SubmitGuestReviewResponse200 | None:
-    r""" Review a guest (publishes, final)
+    r""" Review a guest
 
      Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
-    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
-    returns `422 unsupported_channel`.
+    /v1/reviews?reviewerRole=host`. Airbnb and Vrbo let hosts review guests; a review from another
+    channel returns `422 unsupported_channel`.
 
-    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
-    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
-    (`expiresAt`); after that, `409 review_window_closed`.
-
-    Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
-    1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
-    to use one score for all three, `categoryRatings` to score them individually, or both (`rating`
-    fills any category you did not rate). Optional: `privateFeedback`, a note to the guest that is not
-    published. A request missing a required piece is refused with `422 invalid_params` naming it, before
-    anything is sent to Airbnb.
+    **Airbnb — publishes it, final:** Airbnb has no draft and does not allow edits; a second submission
+    is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`);
+    after that, `409 review_window_closed`. Required: `publicReview`, `isRevieweeRecommended` (whether
+    you would host the guest again), and a 1–5 rating for **each** of `cleanliness`, `communication` and
+    `respect_house_rules` — send `rating` to use one score for all three, `categoryRatings` to score
+    them individually, or both (`rating` fills any category you did not rate). Optional:
+    `privateFeedback`, a note to the guest that is not published.
 
     ```json
     {
@@ -216,9 +223,22 @@ def sync(
     }
     ```
 
-    A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
-    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
+    **Vrbo — Vrbo's \"Rate guest\":** stars and \"would you rent to this guest again\", with no text,
+    and never shown to the guest. `rating` (the overall experience, 1–5) is required; `categoryRatings`
+    (cleanliness, communication, respect_house_rules) and `isRevieweeRecommended` are optional.
+    `publicReview` and `privateFeedback` must be left out or empty (typed SDKs send them empty) — text
+    is refused by name. A stay already rated is `409 review_already_submitted`; one Vrbo no longer takes
+    a rating for, `409 review_window_closed`.
+
+    ```json
+    { \"rating\": 5, \"categoryRatings\": [{ \"category\": \"cleanliness\", \"rating\": 4 }],
+    \"isRevieweeRecommended\": true }
+    ```
+
+    A request missing a required piece is refused with `422 invalid_params` naming it, before anything
+    is sent to the channel. A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here —
+    `409 not_host_review` (Vrbo: `422`); answer it with `POST /v1/reviews/{id}/reply`. Guide:
+    https://repull.dev/docs/reviews#review-a-guest
 
     Args:
         id (int):
@@ -253,22 +273,19 @@ async def asyncio_detailed(
     body: AirbnbHostReviewSubmit,
 
 ) -> Response[Error | SubmitGuestReviewResponse200]:
-    r""" Review a guest (publishes, final)
+    r""" Review a guest
 
      Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
-    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
-    returns `422 unsupported_channel`.
+    /v1/reviews?reviewerRole=host`. Airbnb and Vrbo let hosts review guests; a review from another
+    channel returns `422 unsupported_channel`.
 
-    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
-    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
-    (`expiresAt`); after that, `409 review_window_closed`.
-
-    Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
-    1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
-    to use one score for all three, `categoryRatings` to score them individually, or both (`rating`
-    fills any category you did not rate). Optional: `privateFeedback`, a note to the guest that is not
-    published. A request missing a required piece is refused with `422 invalid_params` naming it, before
-    anything is sent to Airbnb.
+    **Airbnb — publishes it, final:** Airbnb has no draft and does not allow edits; a second submission
+    is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`);
+    after that, `409 review_window_closed`. Required: `publicReview`, `isRevieweeRecommended` (whether
+    you would host the guest again), and a 1–5 rating for **each** of `cleanliness`, `communication` and
+    `respect_house_rules` — send `rating` to use one score for all three, `categoryRatings` to score
+    them individually, or both (`rating` fills any category you did not rate). Optional:
+    `privateFeedback`, a note to the guest that is not published.
 
     ```json
     {
@@ -279,9 +296,22 @@ async def asyncio_detailed(
     }
     ```
 
-    A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
-    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
+    **Vrbo — Vrbo's \"Rate guest\":** stars and \"would you rent to this guest again\", with no text,
+    and never shown to the guest. `rating` (the overall experience, 1–5) is required; `categoryRatings`
+    (cleanliness, communication, respect_house_rules) and `isRevieweeRecommended` are optional.
+    `publicReview` and `privateFeedback` must be left out or empty (typed SDKs send them empty) — text
+    is refused by name. A stay already rated is `409 review_already_submitted`; one Vrbo no longer takes
+    a rating for, `409 review_window_closed`.
+
+    ```json
+    { \"rating\": 5, \"categoryRatings\": [{ \"category\": \"cleanliness\", \"rating\": 4 }],
+    \"isRevieweeRecommended\": true }
+    ```
+
+    A request missing a required piece is refused with `422 invalid_params` naming it, before anything
+    is sent to the channel. A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here —
+    `409 not_host_review` (Vrbo: `422`); answer it with `POST /v1/reviews/{id}/reply`. Guide:
+    https://repull.dev/docs/reviews#review-a-guest
 
     Args:
         id (int):
@@ -321,22 +351,19 @@ async def asyncio(
     body: AirbnbHostReviewSubmit,
 
 ) -> Error | SubmitGuestReviewResponse200 | None:
-    r""" Review a guest (publishes, final)
+    r""" Review a guest
 
      Submit your review of a guest — a review with `reviewerRole: \"host\"` from `GET
-    /v1/reviews?reviewerRole=host`. Only Airbnb lets hosts review guests; a review from another channel
-    returns `422 unsupported_channel`.
+    /v1/reviews?reviewerRole=host`. Airbnb and Vrbo let hosts review guests; a review from another
+    channel returns `422 unsupported_channel`.
 
-    **Submitting publishes it and is final:** Airbnb has no draft and does not allow edits; a second
-    submission is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout
-    (`expiresAt`); after that, `409 review_window_closed`.
-
-    Required: `publicReview`, `isRevieweeRecommended` (whether you would host the guest again), and a
-    1–5 rating for **each** of `cleanliness`, `communication` and `respect_house_rules` — send `rating`
-    to use one score for all three, `categoryRatings` to score them individually, or both (`rating`
-    fills any category you did not rate). Optional: `privateFeedback`, a note to the guest that is not
-    published. A request missing a required piece is refused with `422 invalid_params` naming it, before
-    anything is sent to Airbnb.
+    **Airbnb — publishes it, final:** Airbnb has no draft and does not allow edits; a second submission
+    is `409 review_already_submitted`. Airbnb accepts it up to 14 days after checkout (`expiresAt`);
+    after that, `409 review_window_closed`. Required: `publicReview`, `isRevieweeRecommended` (whether
+    you would host the guest again), and a 1–5 rating for **each** of `cleanliness`, `communication` and
+    `respect_house_rules` — send `rating` to use one score for all three, `categoryRatings` to score
+    them individually, or both (`rating` fills any category you did not rate). Optional:
+    `privateFeedback`, a note to the guest that is not published.
 
     ```json
     {
@@ -347,9 +374,22 @@ async def asyncio(
     }
     ```
 
-    A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here — `409 not_host_review`;
-    answer it with `POST /v1/reviews/{id}/reply`. Same behaviour as `PUT
-    /v1/channels/airbnb/reviews/{id}`. Guide: https://repull.dev/docs/reviews#review-a-guest
+    **Vrbo — Vrbo's \"Rate guest\":** stars and \"would you rent to this guest again\", with no text,
+    and never shown to the guest. `rating` (the overall experience, 1–5) is required; `categoryRatings`
+    (cleanliness, communication, respect_house_rules) and `isRevieweeRecommended` are optional.
+    `publicReview` and `privateFeedback` must be left out or empty (typed SDKs send them empty) — text
+    is refused by name. A stay already rated is `409 review_already_submitted`; one Vrbo no longer takes
+    a rating for, `409 review_window_closed`.
+
+    ```json
+    { \"rating\": 5, \"categoryRatings\": [{ \"category\": \"cleanliness\", \"rating\": 4 }],
+    \"isRevieweeRecommended\": true }
+    ```
+
+    A request missing a required piece is refused with `422 invalid_params` naming it, before anything
+    is sent to the channel. A guest's review of you (`reviewerRole: \"guest\"`) cannot be written here —
+    `409 not_host_review` (Vrbo: `422`); answer it with `POST /v1/reviews/{id}/reply`. Guide:
+    https://repull.dev/docs/reviews#review-a-guest
 
     Args:
         id (int):

@@ -131,7 +131,7 @@ def sync_detailed(
     today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
     revoked PMS connection is `403 connection_reauth_required`.
 
-    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
+    To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.
@@ -184,7 +184,7 @@ def sync(
     today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
     revoked PMS connection is `403 connection_reauth_required`.
 
-    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
+    To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.
@@ -232,7 +232,7 @@ async def asyncio_detailed(
     today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
     revoked PMS connection is `403 connection_reauth_required`.
 
-    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
+    To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.
@@ -285,7 +285,7 @@ async def asyncio(
     today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
     revoked PMS connection is `403 connection_reauth_required`.
 
-    To review a guest (Airbnb only), use `POST /v1/reviews/{id}/guest-review`.
+    To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 
     **Inactive listings:** a review of an inactive listing returns `403 listing_inactive` and no reply
     reaches the channel. Activate the listing first.

@@ -130,18 +130,19 @@ def sync_detailed(
 ) -> Response[AcceptReservationRequestResponse200 | Error]:
     """ Accept a booking request
 
-     Accept a pending Airbnb booking request — a reservation with status `pending`, made on a listing
-    without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
-    the host has not answered within 24 hours.
+     Accept a pending Airbnb or Vrbo booking request — a reservation with status `pending`, made on a
+    listing without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb and Vrbo
+    expire a request the host has not answered within 24 hours.
 
     Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
-    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
-    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
-    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    **Airbnb**, for listings connected to Airbnb directly, and **Vrbo**, where the request is answered
+    on Vrbo itself (the same as `POST /v1/channels/vrbo/reservations/{code}`); other channels have no
+    request step (`422 channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is
+    answered in that PMS, whatever channel it came from; a PMS whose API cannot answer requests returns
+    `422 pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
     `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
     reservation that is not pending is refused before Airbnb is contacted (`409
     reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.
@@ -188,18 +189,19 @@ def sync(
 ) -> AcceptReservationRequestResponse200 | Error | None:
     """ Accept a booking request
 
-     Accept a pending Airbnb booking request — a reservation with status `pending`, made on a listing
-    without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
-    the host has not answered within 24 hours.
+     Accept a pending Airbnb or Vrbo booking request — a reservation with status `pending`, made on a
+    listing without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb and Vrbo
+    expire a request the host has not answered within 24 hours.
 
     Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
-    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
-    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
-    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    **Airbnb**, for listings connected to Airbnb directly, and **Vrbo**, where the request is answered
+    on Vrbo itself (the same as `POST /v1/channels/vrbo/reservations/{code}`); other channels have no
+    request step (`422 channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is
+    answered in that PMS, whatever channel it came from; a PMS whose API cannot answer requests returns
+    `422 pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
     `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
     reservation that is not pending is refused before Airbnb is contacted (`409
     reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.
@@ -241,18 +243,19 @@ async def asyncio_detailed(
 ) -> Response[AcceptReservationRequestResponse200 | Error]:
     """ Accept a booking request
 
-     Accept a pending Airbnb booking request — a reservation with status `pending`, made on a listing
-    without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
-    the host has not answered within 24 hours.
+     Accept a pending Airbnb or Vrbo booking request — a reservation with status `pending`, made on a
+    listing without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb and Vrbo
+    expire a request the host has not answered within 24 hours.
 
     Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
-    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
-    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
-    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    **Airbnb**, for listings connected to Airbnb directly, and **Vrbo**, where the request is answered
+    on Vrbo itself (the same as `POST /v1/channels/vrbo/reservations/{code}`); other channels have no
+    request step (`422 channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is
+    answered in that PMS, whatever channel it came from; a PMS whose API cannot answer requests returns
+    `422 pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
     `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
     reservation that is not pending is refused before Airbnb is contacted (`409
     reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.
@@ -299,18 +302,19 @@ async def asyncio(
 ) -> AcceptReservationRequestResponse200 | Error | None:
     """ Accept a booking request
 
-     Accept a pending Airbnb booking request — a reservation with status `pending`, made on a listing
-    without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb expires a request
-    the host has not answered within 24 hours.
+     Accept a pending Airbnb or Vrbo booking request — a reservation with status `pending`, made on a
+    listing without Instant Book. Find them with `GET /v1/reservations?status=pending`. Airbnb and Vrbo
+    expire a request the host has not answered within 24 hours.
 
     Airbnb confirms asynchronously: the reservation’s status moves to confirmed, and a
     `reservation.updated` webhook fires, when Airbnb’s notification lands (usually within seconds). The
     response reports what Airbnb was asked to do.
 
-    **Airbnb**, for listings connected to Airbnb directly; other channels have no request step (`422
-    channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is answered in that
-    PMS, whatever channel it came from; a PMS whose API cannot answer requests returns `422
-    pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
+    **Airbnb**, for listings connected to Airbnb directly, and **Vrbo**, where the request is answered
+    on Vrbo itself (the same as `POST /v1/channels/vrbo/reservations/{code}`); other channels have no
+    request step (`422 channel_not_supported`). **A request relayed by a PMS** (Guesty, Hostaway, …) is
+    answered in that PMS, whatever channel it came from; a PMS whose API cannot answer requests returns
+    `422 pms_write_unsupported` naming it (Hostaway today), and `GET /v1/connect/{provider}` →
     `capabilities.pms.reservations.respond` says so beforehand. The response then carries `pms`. A
     reservation that is not pending is refused before Airbnb is contacted (`409
     reservation_not_pending`); one Airbnb says already moved on is `409 request_no_longer_pending`.

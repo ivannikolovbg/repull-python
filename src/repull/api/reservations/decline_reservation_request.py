@@ -137,12 +137,16 @@ def sync_detailed(
 ) -> Response[DeclineReservationRequestResponse200 | Error]:
     """ Decline a booking request
 
-     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
-    /v1/reservations?status=pending`).
+     Decline a pending Airbnb or Vrbo booking request (a reservation with status `pending`; find them
+    with `GET /v1/reservations?status=pending`).
 
-    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
-    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
-    words in your mouth.
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: the channel sends it to
+    the guest with the decline (Airbnb: at most 500 characters; Vrbo: 250). It is not defaulted — a
+    canned message would put words in your mouth.
+
+    **Vrbo** has its own decline reasons: `dates_not_available` is sent as Vrbo’s “dates unavailable”
+    (and blocks the dates, as Vrbo does); any other reason is refused with `422 invalid_params` pointing
+    at `POST /v1/channels/vrbo/reservations/{code}`, which takes Vrbo’s reasons directly.
 
     Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
     when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.
@@ -189,12 +193,16 @@ def sync(
 ) -> DeclineReservationRequestResponse200 | Error | None:
     """ Decline a booking request
 
-     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
-    /v1/reservations?status=pending`).
+     Decline a pending Airbnb or Vrbo booking request (a reservation with status `pending`; find them
+    with `GET /v1/reservations?status=pending`).
 
-    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
-    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
-    words in your mouth.
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: the channel sends it to
+    the guest with the decline (Airbnb: at most 500 characters; Vrbo: 250). It is not defaulted — a
+    canned message would put words in your mouth.
+
+    **Vrbo** has its own decline reasons: `dates_not_available` is sent as Vrbo’s “dates unavailable”
+    (and blocks the dates, as Vrbo does); any other reason is refused with `422 invalid_params` pointing
+    at `POST /v1/channels/vrbo/reservations/{code}`, which takes Vrbo’s reasons directly.
 
     Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
     when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.
@@ -236,12 +244,16 @@ async def asyncio_detailed(
 ) -> Response[DeclineReservationRequestResponse200 | Error]:
     """ Decline a booking request
 
-     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
-    /v1/reservations?status=pending`).
+     Decline a pending Airbnb or Vrbo booking request (a reservation with status `pending`; find them
+    with `GET /v1/reservations?status=pending`).
 
-    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
-    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
-    words in your mouth.
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: the channel sends it to
+    the guest with the decline (Airbnb: at most 500 characters; Vrbo: 250). It is not defaulted — a
+    canned message would put words in your mouth.
+
+    **Vrbo** has its own decline reasons: `dates_not_available` is sent as Vrbo’s “dates unavailable”
+    (and blocks the dates, as Vrbo does); any other reason is refused with `422 invalid_params` pointing
+    at `POST /v1/channels/vrbo/reservations/{code}`, which takes Vrbo’s reasons directly.
 
     Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
     when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.
@@ -288,12 +300,16 @@ async def asyncio(
 ) -> DeclineReservationRequestResponse200 | Error | None:
     """ Decline a booking request
 
-     Decline a pending Airbnb booking request (a reservation with status `pending`; find them with `GET
-    /v1/reservations?status=pending`).
+     Decline a pending Airbnb or Vrbo booking request (a reservation with status `pending`; find them
+    with `GET /v1/reservations?status=pending`).
 
-    `reason` must be one of Airbnb’s own decline reasons. `message` is required: Airbnb sends it to the
-    guest with the decline (at most 500 characters). It is not defaulted — a canned message would put
-    words in your mouth.
+    `reason` must be one of Airbnb’s own decline reasons. `message` is required: the channel sends it to
+    the guest with the decline (Airbnb: at most 500 characters; Vrbo: 250). It is not defaulted — a
+    canned message would put words in your mouth.
+
+    **Vrbo** has its own decline reasons: `dates_not_available` is sent as Vrbo’s “dates unavailable”
+    (and blocks the dates, as Vrbo does); any other reason is refused with `422 invalid_params` pointing
+    at `POST /v1/channels/vrbo/reservations/{code}`, which takes Vrbo’s reasons directly.
 
     Airbnb confirms asynchronously; the reservation’s status moves, and `reservation.updated` fires,
     when its notification lands. Same channel and status rules as `POST /v1/reservations/{id}/accept`.

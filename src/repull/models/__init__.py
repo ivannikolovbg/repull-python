@@ -404,6 +404,22 @@ from .create_conversation_special_offer_response_201_channel import CreateConver
 from .create_conversation_special_offer_response_201_fees_item import CreateConversationSpecialOfferResponse201FeesItem
 from .create_conversation_special_offer_response_201_guests_type_0 import CreateConversationSpecialOfferResponse201GuestsType0
 from .create_conversation_special_offer_response_201_lines_item import CreateConversationSpecialOfferResponse201LinesItem
+from .create_vrbo_alteration_body import CreateVrboAlterationBody
+from .create_vrbo_alteration_response_200 import CreateVrboAlterationResponse200
+from .create_vrbo_alteration_response_200_data import CreateVrboAlterationResponse200Data
+from .create_vrbo_alteration_response_200_data_after import CreateVrboAlterationResponse200DataAfter
+from .create_vrbo_alteration_response_200_data_before import CreateVrboAlterationResponse200DataBefore
+from .create_vrbo_alteration_response_200_data_due_date import CreateVrboAlterationResponse200DataDueDate
+from .create_vrbo_alteration_response_200_data_payment_type_0 import CreateVrboAlterationResponse200DataPaymentType0
+from .create_vrbo_alteration_response_200_data_payment_type_0_lines_item import CreateVrboAlterationResponse200DataPaymentType0LinesItem
+from .create_vrbo_alteration_response_200_data_payment_type_0_total import CreateVrboAlterationResponse200DataPaymentType0Total
+from .create_vrbo_alteration_response_201 import CreateVrboAlterationResponse201
+from .create_vrbo_alteration_response_201_data import CreateVrboAlterationResponse201Data
+from .create_vrbo_alteration_response_201_data_after import CreateVrboAlterationResponse201DataAfter
+from .create_vrbo_alteration_response_201_data_before import CreateVrboAlterationResponse201DataBefore
+from .create_vrbo_alteration_response_201_data_payment_type_0 import CreateVrboAlterationResponse201DataPaymentType0
+from .create_vrbo_alteration_response_201_data_payment_type_0_lines_item import CreateVrboAlterationResponse201DataPaymentType0LinesItem
+from .create_vrbo_alteration_response_201_data_payment_type_0_total import CreateVrboAlterationResponse201DataPaymentType0Total
 from .create_webhook_body import CreateWebhookBody
 from .cursor_pagination import CursorPagination
 from .custom_schema import CustomSchema
@@ -919,6 +935,15 @@ from .get_vrbo_publish_job_response_200_job_sections_item_status import GetVrboP
 from .get_vrbo_publish_job_response_200_job_skipped_item import GetVrboPublishJobResponse200JobSkippedItem
 from .get_vrbo_publish_job_response_200_job_status import GetVrboPublishJobResponse200JobStatus
 from .get_vrbo_publish_job_response_200_mode import GetVrboPublishJobResponse200Mode
+from .get_vrbo_reservation_options import GetVrboReservationOptions
+from .get_vrbo_reservation_response_200 import GetVrboReservationResponse200
+from .get_vrbo_reservation_response_200_data import GetVrboReservationResponse200Data
+from .get_vrbo_reservation_response_200_data_available_actions_item import GetVrboReservationResponse200DataAvailableActionsItem
+from .get_vrbo_reservation_response_200_data_freshness import GetVrboReservationResponse200DataFreshness
+from .get_vrbo_reservation_response_200_data_freshness_accounts_item import GetVrboReservationResponse200DataFreshnessAccountsItem
+from .get_vrbo_reservation_response_200_data_freshness_source import GetVrboReservationResponse200DataFreshnessSource
+from .get_vrbo_reservation_response_200_data_guest_lines_item import GetVrboReservationResponse200DataGuestLinesItem
+from .get_vrbo_reservation_response_200_data_host_lines_item import GetVrboReservationResponse200DataHostLinesItem
 from .get_webhooks_health_response_200 import GetWebhooksHealthResponse200
 from .guest import Guest
 from .guest_contact import GuestContact
@@ -1623,6 +1648,7 @@ from .submit_cloudbeds_credentials_response_200 import SubmitCloudbedsCredential
 from .submit_cloudbeds_credentials_response_200_account_info import SubmitCloudbedsCredentialsResponse200AccountInfo
 from .submit_cloudbeds_credentials_response_200_webhooks import SubmitCloudbedsCredentialsResponse200Webhooks
 from .submit_guest_review_response_200 import SubmitGuestReviewResponse200
+from .submit_guest_review_response_200_rating import SubmitGuestReviewResponse200Rating
 from .submit_guesty_credentials_body import SubmitGuestyCredentialsBody
 from .submit_guesty_credentials_body_credentials import SubmitGuestyCredentialsBodyCredentials
 from .submit_guesty_credentials_response_200 import SubmitGuestyCredentialsResponse200
@@ -2068,6 +2094,15 @@ from .vrbo_login_response_200_status import VrboLoginResponse200Status
 from .vrbo_notifications import VrboNotifications
 from .vrbo_notifications_state import VrboNotificationsState
 from .vrbo_reservation import VrboReservation
+from .vrbo_reservation_action_body import VrboReservationActionBody
+from .vrbo_reservation_action_body_action import VrboReservationActionBodyAction
+from .vrbo_reservation_action_response_200 import VrboReservationActionResponse200
+from .vrbo_reservation_action_response_200_data import VrboReservationActionResponse200Data
+from .vrbo_reservation_action_response_200_data_payment_type_0 import VrboReservationActionResponse200DataPaymentType0
+from .vrbo_reservation_action_response_200_data_payment_type_0_lines_item import VrboReservationActionResponse200DataPaymentType0LinesItem
+from .vrbo_reservation_action_response_200_data_payment_type_0_total import VrboReservationActionResponse200DataPaymentType0Total
+from .vrbo_reservation_action_response_200_data_penalties import VrboReservationActionResponse200DataPenalties
+from .vrbo_reservation_action_response_200_data_terms_item import VrboReservationActionResponse200DataTermsItem
 from .vrbo_reservation_list_response import VrboReservationListResponse
 from .webhook_delivery import WebhookDelivery
 from .webhook_delivery_detail import WebhookDeliveryDetail
@@ -2501,6 +2536,22 @@ __all__ = (
     "CreateConversationSpecialOfferResponse201FeesItem",
     "CreateConversationSpecialOfferResponse201GuestsType0",
     "CreateConversationSpecialOfferResponse201LinesItem",
+    "CreateVrboAlterationBody",
+    "CreateVrboAlterationResponse200",
+    "CreateVrboAlterationResponse200Data",
+    "CreateVrboAlterationResponse200DataAfter",
+    "CreateVrboAlterationResponse200DataBefore",
+    "CreateVrboAlterationResponse200DataDueDate",
+    "CreateVrboAlterationResponse200DataPaymentType0",
+    "CreateVrboAlterationResponse200DataPaymentType0LinesItem",
+    "CreateVrboAlterationResponse200DataPaymentType0Total",
+    "CreateVrboAlterationResponse201",
+    "CreateVrboAlterationResponse201Data",
+    "CreateVrboAlterationResponse201DataAfter",
+    "CreateVrboAlterationResponse201DataBefore",
+    "CreateVrboAlterationResponse201DataPaymentType0",
+    "CreateVrboAlterationResponse201DataPaymentType0LinesItem",
+    "CreateVrboAlterationResponse201DataPaymentType0Total",
     "CreateWebhookBody",
     "CursorPagination",
     "CustomSchema",
@@ -3016,6 +3067,15 @@ __all__ = (
     "GetVrboPublishJobResponse200JobSkippedItem",
     "GetVrboPublishJobResponse200JobStatus",
     "GetVrboPublishJobResponse200Mode",
+    "GetVrboReservationOptions",
+    "GetVrboReservationResponse200",
+    "GetVrboReservationResponse200Data",
+    "GetVrboReservationResponse200DataAvailableActionsItem",
+    "GetVrboReservationResponse200DataFreshness",
+    "GetVrboReservationResponse200DataFreshnessAccountsItem",
+    "GetVrboReservationResponse200DataFreshnessSource",
+    "GetVrboReservationResponse200DataGuestLinesItem",
+    "GetVrboReservationResponse200DataHostLinesItem",
     "GetWebhooksHealthResponse200",
     "Guest",
     "GuestContact",
@@ -3720,6 +3780,7 @@ __all__ = (
     "SubmitCloudbedsCredentialsResponse200AccountInfo",
     "SubmitCloudbedsCredentialsResponse200Webhooks",
     "SubmitGuestReviewResponse200",
+    "SubmitGuestReviewResponse200Rating",
     "SubmitGuestyCredentialsBody",
     "SubmitGuestyCredentialsBodyCredentials",
     "SubmitGuestyCredentialsResponse200",
@@ -4165,6 +4226,15 @@ __all__ = (
     "VrboNotifications",
     "VrboNotificationsState",
     "VrboReservation",
+    "VrboReservationActionBody",
+    "VrboReservationActionBodyAction",
+    "VrboReservationActionResponse200",
+    "VrboReservationActionResponse200Data",
+    "VrboReservationActionResponse200DataPaymentType0",
+    "VrboReservationActionResponse200DataPaymentType0LinesItem",
+    "VrboReservationActionResponse200DataPaymentType0Total",
+    "VrboReservationActionResponse200DataPenalties",
+    "VrboReservationActionResponse200DataTermsItem",
     "VrboReservationListResponse",
     "WebhookDelivery",
     "WebhookDeliveryDetail",
