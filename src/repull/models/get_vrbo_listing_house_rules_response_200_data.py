@@ -27,7 +27,7 @@ T = TypeVar("T", bound="GetVrboListingHouseRulesResponse200Data")
 
 @_attrs_define
 class GetVrboListingHouseRulesResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             check_in_time (None | str | Unset):

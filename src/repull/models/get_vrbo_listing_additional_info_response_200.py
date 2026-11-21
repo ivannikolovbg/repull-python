@@ -12,6 +12,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.get_vrbo_listing_additional_info_response_200_data import GetVrboListingAdditionalInfoResponse200Data
+  from ..models.get_vrbo_listing_additional_info_response_200_data_freshness import GetVrboListingAdditionalInfoResponse200DataFreshness
 
 
 
@@ -25,18 +26,14 @@ T = TypeVar("T", bound="GetVrboListingAdditionalInfoResponse200")
 class GetVrboListingAdditionalInfoResponse200:
     """ 
         Attributes:
-            listing_id (str):
-            vrbo_listing_number (str):
-            property_id (str): Vrbo's property id for the unit.
-            section (str):  Example: additional-info.
-            data (GetVrboListingAdditionalInfoResponse200Data): The section as Vrbo has it now.
+            data (GetVrboListingAdditionalInfoResponse200Data): The section as Vrbo has it.
+            data_freshness (GetVrboListingAdditionalInfoResponse200DataFreshness):
+            vrbo_listing_number (str): The Vrbo listing number this is about.
      """
 
-    listing_id: str
-    vrbo_listing_number: str
-    property_id: str
-    section: str
     data: GetVrboListingAdditionalInfoResponse200Data
+    data_freshness: GetVrboListingAdditionalInfoResponse200DataFreshness
+    vrbo_listing_number: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -45,25 +42,20 @@ class GetVrboListingAdditionalInfoResponse200:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.get_vrbo_listing_additional_info_response_200_data import GetVrboListingAdditionalInfoResponse200Data
-        listing_id = self.listing_id
+        from ..models.get_vrbo_listing_additional_info_response_200_data_freshness import GetVrboListingAdditionalInfoResponse200DataFreshness
+        data = self.data.to_dict()
+
+        data_freshness = self.data_freshness.to_dict()
 
         vrbo_listing_number = self.vrbo_listing_number
-
-        property_id = self.property_id
-
-        section = self.section
-
-        data = self.data.to_dict()
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "listingId": listing_id,
-            "vrboListingNumber": vrbo_listing_number,
-            "propertyId": property_id,
-            "section": section,
             "data": data,
+            "dataFreshness": data_freshness,
+            "vrboListingNumber": vrbo_listing_number,
         })
 
         return field_dict
@@ -73,26 +65,24 @@ class GetVrboListingAdditionalInfoResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.get_vrbo_listing_additional_info_response_200_data import GetVrboListingAdditionalInfoResponse200Data
+        from ..models.get_vrbo_listing_additional_info_response_200_data_freshness import GetVrboListingAdditionalInfoResponse200DataFreshness
         d = dict(src_dict)
-        listing_id = d.pop("listingId")
-
-        vrbo_listing_number = d.pop("vrboListingNumber")
-
-        property_id = d.pop("propertyId")
-
-        section = d.pop("section")
-
         data = GetVrboListingAdditionalInfoResponse200Data.from_dict(d.pop("data"))
 
 
 
 
+        data_freshness = GetVrboListingAdditionalInfoResponse200DataFreshness.from_dict(d.pop("dataFreshness"))
+
+
+
+
+        vrbo_listing_number = d.pop("vrboListingNumber")
+
         get_vrbo_listing_additional_info_response_200 = cls(
-            listing_id=listing_id,
-            vrbo_listing_number=vrbo_listing_number,
-            property_id=property_id,
-            section=section,
             data=data,
+            data_freshness=data_freshness,
+            vrbo_listing_number=vrbo_listing_number,
         )
 
 

@@ -22,7 +22,7 @@ T = TypeVar("T", bound="GetVrboListingLocationResponse200Data")
 
 @_attrs_define
 class GetVrboListingLocationResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             address (Any | Unset): The address (read-only: Vrbo changes it only through its support).

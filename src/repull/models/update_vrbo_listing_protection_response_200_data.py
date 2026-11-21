@@ -24,7 +24,7 @@ T = TypeVar("T", bound="UpdateVrboListingProtectionResponse200Data")
 
 @_attrs_define
 class UpdateVrboListingProtectionResponse200Data:
-    """ What Vrbo has stored for the section, read back after the write.
+    """ What Vrbo has after the write, read back from Vrbo.
 
         Attributes:
             currency (None | str | Unset):

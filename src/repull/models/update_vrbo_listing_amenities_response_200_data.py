@@ -24,7 +24,7 @@ T = TypeVar("T", bound="UpdateVrboListingAmenitiesResponse200Data")
 
 @_attrs_define
 class UpdateVrboListingAmenitiesResponse200Data:
-    """ What Vrbo has stored for the section, read back after the write.
+    """ What Vrbo has after the write, read back from Vrbo.
 
         Attributes:
             groups (UpdateVrboListingAmenitiesResponse200DataGroups | Unset): Keyed by group: essentials, internet,

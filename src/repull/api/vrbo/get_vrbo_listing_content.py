@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.get_vrbo_listing_content_response_200 import GetVrboListingContentResponse200
+from ...models.get_vrbo_listing_content_source import GetVrboListingContentSource
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -19,6 +20,7 @@ def _get_kwargs(
     id: str,
     *,
     sections: str,
+    source: GetVrboListingContentSource | Unset = GetVrboListingContentSource.STORED,
     vrbo_listing_number: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
@@ -29,6 +31,12 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["sections"] = sections
+
+    json_source: str | Unset = UNSET
+    if not isinstance(source, Unset):
+        json_source = source.value
+
+    params["source"] = json_source
 
     params["vrboListingNumber"] = vrbo_listing_number
 
@@ -138,25 +146,29 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     sections: str,
+    source: GetVrboListingContentSource | Unset = GetVrboListingContentSource.STORED,
     vrbo_listing_number: str | Unset = UNSET,
 
 ) -> Response[Error | GetVrboListingContentResponse200]:
     """ Get several Vrbo listing sections
 
      Read several sections of the listing's Vrbo listing in one call. `sections` is required: name them
-    (`?sections=description,house-rules,fees`) or ask for `all`.
+    (`?sections=descriptions,house-rules,fees`) or ask for `all`. Each section is the `data` of its own
+    endpoint.
 
-    **Cost:** each section is read live on Vrbo, with calls spaced ~3 s apart per account — `all` is
-    about 45 Vrbo calls, **around 2.5 minutes**. Prefer the one-section endpoints (`GET
-    /v1/channels/vrbo/listings/{id}/{section}`) and never poll this one. A section that fails carries `{
-    error: { code, message } }`; the others still answer.
+    Sections Repull holds answer from its copy; only the others are read on Vrbo, in one pass
+    (`?source=live` reads them all on Vrbo: about 45 calls, **around 2.5 minutes** for `all`). A section
+    Vrbo fails to return carries `{ error: { code, message } }`; the others still answer.
+    `dataFreshness.lastSyncedAt` is the oldest section's.
 
     Returns `404` when the listing is not linked to Vrbo, and `403 listing_inactive` when the listing is
     inactive.
 
     Args:
         id (str):
-        sections (str):  Example: description,house-rules,fees.
+        sections (str):  Example: descriptions,house-rules,fees.
+        source (GetVrboListingContentSource | Unset):  Default:
+            GetVrboListingContentSource.STORED.
         vrbo_listing_number (str | Unset):
 
     Raises:
@@ -171,6 +183,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
 sections=sections,
+source=source,
 vrbo_listing_number=vrbo_listing_number,
 
     )
@@ -186,25 +199,29 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     sections: str,
+    source: GetVrboListingContentSource | Unset = GetVrboListingContentSource.STORED,
     vrbo_listing_number: str | Unset = UNSET,
 
 ) -> Error | GetVrboListingContentResponse200 | None:
     """ Get several Vrbo listing sections
 
      Read several sections of the listing's Vrbo listing in one call. `sections` is required: name them
-    (`?sections=description,house-rules,fees`) or ask for `all`.
+    (`?sections=descriptions,house-rules,fees`) or ask for `all`. Each section is the `data` of its own
+    endpoint.
 
-    **Cost:** each section is read live on Vrbo, with calls spaced ~3 s apart per account — `all` is
-    about 45 Vrbo calls, **around 2.5 minutes**. Prefer the one-section endpoints (`GET
-    /v1/channels/vrbo/listings/{id}/{section}`) and never poll this one. A section that fails carries `{
-    error: { code, message } }`; the others still answer.
+    Sections Repull holds answer from its copy; only the others are read on Vrbo, in one pass
+    (`?source=live` reads them all on Vrbo: about 45 calls, **around 2.5 minutes** for `all`). A section
+    Vrbo fails to return carries `{ error: { code, message } }`; the others still answer.
+    `dataFreshness.lastSyncedAt` is the oldest section's.
 
     Returns `404` when the listing is not linked to Vrbo, and `403 listing_inactive` when the listing is
     inactive.
 
     Args:
         id (str):
-        sections (str):  Example: description,house-rules,fees.
+        sections (str):  Example: descriptions,house-rules,fees.
+        source (GetVrboListingContentSource | Unset):  Default:
+            GetVrboListingContentSource.STORED.
         vrbo_listing_number (str | Unset):
 
     Raises:
@@ -220,6 +237,7 @@ def sync(
         id=id,
 client=client,
 sections=sections,
+source=source,
 vrbo_listing_number=vrbo_listing_number,
 
     ).parsed
@@ -229,25 +247,29 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     sections: str,
+    source: GetVrboListingContentSource | Unset = GetVrboListingContentSource.STORED,
     vrbo_listing_number: str | Unset = UNSET,
 
 ) -> Response[Error | GetVrboListingContentResponse200]:
     """ Get several Vrbo listing sections
 
      Read several sections of the listing's Vrbo listing in one call. `sections` is required: name them
-    (`?sections=description,house-rules,fees`) or ask for `all`.
+    (`?sections=descriptions,house-rules,fees`) or ask for `all`. Each section is the `data` of its own
+    endpoint.
 
-    **Cost:** each section is read live on Vrbo, with calls spaced ~3 s apart per account — `all` is
-    about 45 Vrbo calls, **around 2.5 minutes**. Prefer the one-section endpoints (`GET
-    /v1/channels/vrbo/listings/{id}/{section}`) and never poll this one. A section that fails carries `{
-    error: { code, message } }`; the others still answer.
+    Sections Repull holds answer from its copy; only the others are read on Vrbo, in one pass
+    (`?source=live` reads them all on Vrbo: about 45 calls, **around 2.5 minutes** for `all`). A section
+    Vrbo fails to return carries `{ error: { code, message } }`; the others still answer.
+    `dataFreshness.lastSyncedAt` is the oldest section's.
 
     Returns `404` when the listing is not linked to Vrbo, and `403 listing_inactive` when the listing is
     inactive.
 
     Args:
         id (str):
-        sections (str):  Example: description,house-rules,fees.
+        sections (str):  Example: descriptions,house-rules,fees.
+        source (GetVrboListingContentSource | Unset):  Default:
+            GetVrboListingContentSource.STORED.
         vrbo_listing_number (str | Unset):
 
     Raises:
@@ -262,6 +284,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
 sections=sections,
+source=source,
 vrbo_listing_number=vrbo_listing_number,
 
     )
@@ -277,25 +300,29 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     sections: str,
+    source: GetVrboListingContentSource | Unset = GetVrboListingContentSource.STORED,
     vrbo_listing_number: str | Unset = UNSET,
 
 ) -> Error | GetVrboListingContentResponse200 | None:
     """ Get several Vrbo listing sections
 
      Read several sections of the listing's Vrbo listing in one call. `sections` is required: name them
-    (`?sections=description,house-rules,fees`) or ask for `all`.
+    (`?sections=descriptions,house-rules,fees`) or ask for `all`. Each section is the `data` of its own
+    endpoint.
 
-    **Cost:** each section is read live on Vrbo, with calls spaced ~3 s apart per account — `all` is
-    about 45 Vrbo calls, **around 2.5 minutes**. Prefer the one-section endpoints (`GET
-    /v1/channels/vrbo/listings/{id}/{section}`) and never poll this one. A section that fails carries `{
-    error: { code, message } }`; the others still answer.
+    Sections Repull holds answer from its copy; only the others are read on Vrbo, in one pass
+    (`?source=live` reads them all on Vrbo: about 45 calls, **around 2.5 minutes** for `all`). A section
+    Vrbo fails to return carries `{ error: { code, message } }`; the others still answer.
+    `dataFreshness.lastSyncedAt` is the oldest section's.
 
     Returns `404` when the listing is not linked to Vrbo, and `403 listing_inactive` when the listing is
     inactive.
 
     Args:
         id (str):
-        sections (str):  Example: description,house-rules,fees.
+        sections (str):  Example: descriptions,house-rules,fees.
+        source (GetVrboListingContentSource | Unset):  Default:
+            GetVrboListingContentSource.STORED.
         vrbo_listing_number (str | Unset):
 
     Raises:
@@ -311,6 +338,7 @@ async def asyncio(
         id=id,
 client=client,
 sections=sections,
+source=source,
 vrbo_listing_number=vrbo_listing_number,
 
     )).parsed

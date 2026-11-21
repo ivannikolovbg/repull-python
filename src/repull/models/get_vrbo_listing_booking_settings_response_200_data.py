@@ -26,7 +26,7 @@ T = TypeVar("T", bound="GetVrboListingBookingSettingsResponse200Data")
 
 @_attrs_define
 class GetVrboListingBookingSettingsResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             booking_type (GetVrboListingBookingSettingsResponse200DataBookingType | Unset):
