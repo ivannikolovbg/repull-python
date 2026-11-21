@@ -4,11 +4,11 @@ class PublishListingToVrboBodySectionsItem(str, Enum):
     AMENITIES = "amenities"
     BOOKING_SETTINGS = "booking-settings"
     CANCELLATION = "cancellation"
-    DESCRIPTION = "description"
+    DESCRIPTIONS = "descriptions"
+    DETAILS = "details"
     FEES = "fees"
     HOUSE_RULES = "house-rules"
     PRICING = "pricing"
-    PROPERTY = "property"
     RATES = "rates"
 
     def __str__(self) -> str:

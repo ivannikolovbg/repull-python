@@ -16,23 +16,21 @@ if TYPE_CHECKING:
   from ..models.get_vrbo_listing_content_response_200_sections_amenities import GetVrboListingContentResponse200SectionsAmenities
   from ..models.get_vrbo_listing_content_response_200_sections_booking_settings import GetVrboListingContentResponse200SectionsBookingSettings
   from ..models.get_vrbo_listing_content_response_200_sections_cancellation import GetVrboListingContentResponse200SectionsCancellation
-  from ..models.get_vrbo_listing_content_response_200_sections_description import GetVrboListingContentResponse200SectionsDescription
+  from ..models.get_vrbo_listing_content_response_200_sections_checkin_guide import GetVrboListingContentResponse200SectionsCheckinGuide
+  from ..models.get_vrbo_listing_content_response_200_sections_descriptions_item import GetVrboListingContentResponse200SectionsDescriptionsItem
+  from ..models.get_vrbo_listing_content_response_200_sections_details import GetVrboListingContentResponse200SectionsDetails
   from ..models.get_vrbo_listing_content_response_200_sections_fees import GetVrboListingContentResponse200SectionsFees
   from ..models.get_vrbo_listing_content_response_200_sections_house_rules import GetVrboListingContentResponse200SectionsHouseRules
   from ..models.get_vrbo_listing_content_response_200_sections_location import GetVrboListingContentResponse200SectionsLocation
   from ..models.get_vrbo_listing_content_response_200_sections_payment_terms import GetVrboListingContentResponse200SectionsPaymentTerms
+  from ..models.get_vrbo_listing_content_response_200_sections_permits import GetVrboListingContentResponse200SectionsPermits
   from ..models.get_vrbo_listing_content_response_200_sections_photos import GetVrboListingContentResponse200SectionsPhotos
   from ..models.get_vrbo_listing_content_response_200_sections_pricing import GetVrboListingContentResponse200SectionsPricing
-  from ..models.get_vrbo_listing_content_response_200_sections_property import GetVrboListingContentResponse200SectionsProperty
   from ..models.get_vrbo_listing_content_response_200_sections_protection import GetVrboListingContentResponse200SectionsProtection
-  from ..models.get_vrbo_listing_content_response_200_sections_rates import GetVrboListingContentResponse200SectionsRates
-  from ..models.get_vrbo_listing_content_response_200_sections_registration import GetVrboListingContentResponse200SectionsRegistration
   from ..models.get_vrbo_listing_content_response_200_sections_rooms import GetVrboListingContentResponse200SectionsRooms
   from ..models.get_vrbo_listing_content_response_200_sections_story import GetVrboListingContentResponse200SectionsStory
   from ..models.get_vrbo_listing_content_response_200_sections_taxes import GetVrboListingContentResponse200SectionsTaxes
-  from ..models.get_vrbo_listing_content_response_200_sections_translations import GetVrboListingContentResponse200SectionsTranslations
   from ..models.get_vrbo_listing_content_response_200_sections_videos import GetVrboListingContentResponse200SectionsVideos
-  from ..models.get_vrbo_listing_content_response_200_sections_welcome_guide import GetVrboListingContentResponse200SectionsWelcomeGuide
 
 
 
@@ -44,15 +42,14 @@ T = TypeVar("T", bound="GetVrboListingContentResponse200Sections")
 
 @_attrs_define
 class GetVrboListingContentResponse200Sections:
-    """ Keyed by section; each is the data of `GET /v1/channels/vrbo/listings/{id}/{section}`, or `{ error: { code, message
-    } }` when that section failed.
+    """ Keyed by section; each is the `data` of `GET /v1/channels/vrbo/listings/{id}/{section}`, or `{ error: { code,
+    message } }` when that section failed.
 
         Attributes:
-            description (GetVrboListingContentResponse200SectionsDescription | Unset):
-            property_ (GetVrboListingContentResponse200SectionsProperty | Unset):
+            descriptions (list[GetVrboListingContentResponse200SectionsDescriptionsItem] | Unset):
+            details (GetVrboListingContentResponse200SectionsDetails | Unset):
             story (GetVrboListingContentResponse200SectionsStory | Unset):
             additional_info (GetVrboListingContentResponse200SectionsAdditionalInfo | Unset):
-            translations (GetVrboListingContentResponse200SectionsTranslations | Unset):
             photos (GetVrboListingContentResponse200SectionsPhotos | Unset):
             amenities (GetVrboListingContentResponse200SectionsAmenities | Unset):
             rooms (GetVrboListingContentResponse200SectionsRooms | Unset):
@@ -62,20 +59,18 @@ class GetVrboListingContentResponse200Sections:
             cancellation (GetVrboListingContentResponse200SectionsCancellation | Unset):
             fees (GetVrboListingContentResponse200SectionsFees | Unset):
             pricing (GetVrboListingContentResponse200SectionsPricing | Unset):
-            rates (GetVrboListingContentResponse200SectionsRates | Unset):
             payment_terms (GetVrboListingContentResponse200SectionsPaymentTerms | Unset):
             protection (GetVrboListingContentResponse200SectionsProtection | Unset):
             taxes (GetVrboListingContentResponse200SectionsTaxes | Unset):
-            registration (GetVrboListingContentResponse200SectionsRegistration | Unset):
-            welcome_guide (GetVrboListingContentResponse200SectionsWelcomeGuide | Unset):
+            permits (GetVrboListingContentResponse200SectionsPermits | Unset):
+            checkin_guide (GetVrboListingContentResponse200SectionsCheckinGuide | Unset):
             videos (GetVrboListingContentResponse200SectionsVideos | Unset):
      """
 
-    description: GetVrboListingContentResponse200SectionsDescription | Unset = UNSET
-    property_: GetVrboListingContentResponse200SectionsProperty | Unset = UNSET
+    descriptions: list[GetVrboListingContentResponse200SectionsDescriptionsItem] | Unset = UNSET
+    details: GetVrboListingContentResponse200SectionsDetails | Unset = UNSET
     story: GetVrboListingContentResponse200SectionsStory | Unset = UNSET
     additional_info: GetVrboListingContentResponse200SectionsAdditionalInfo | Unset = UNSET
-    translations: GetVrboListingContentResponse200SectionsTranslations | Unset = UNSET
     photos: GetVrboListingContentResponse200SectionsPhotos | Unset = UNSET
     amenities: GetVrboListingContentResponse200SectionsAmenities | Unset = UNSET
     rooms: GetVrboListingContentResponse200SectionsRooms | Unset = UNSET
@@ -85,12 +80,11 @@ class GetVrboListingContentResponse200Sections:
     cancellation: GetVrboListingContentResponse200SectionsCancellation | Unset = UNSET
     fees: GetVrboListingContentResponse200SectionsFees | Unset = UNSET
     pricing: GetVrboListingContentResponse200SectionsPricing | Unset = UNSET
-    rates: GetVrboListingContentResponse200SectionsRates | Unset = UNSET
     payment_terms: GetVrboListingContentResponse200SectionsPaymentTerms | Unset = UNSET
     protection: GetVrboListingContentResponse200SectionsProtection | Unset = UNSET
     taxes: GetVrboListingContentResponse200SectionsTaxes | Unset = UNSET
-    registration: GetVrboListingContentResponse200SectionsRegistration | Unset = UNSET
-    welcome_guide: GetVrboListingContentResponse200SectionsWelcomeGuide | Unset = UNSET
+    permits: GetVrboListingContentResponse200SectionsPermits | Unset = UNSET
+    checkin_guide: GetVrboListingContentResponse200SectionsCheckinGuide | Unset = UNSET
     videos: GetVrboListingContentResponse200SectionsVideos | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -103,30 +97,33 @@ class GetVrboListingContentResponse200Sections:
         from ..models.get_vrbo_listing_content_response_200_sections_amenities import GetVrboListingContentResponse200SectionsAmenities
         from ..models.get_vrbo_listing_content_response_200_sections_booking_settings import GetVrboListingContentResponse200SectionsBookingSettings
         from ..models.get_vrbo_listing_content_response_200_sections_cancellation import GetVrboListingContentResponse200SectionsCancellation
-        from ..models.get_vrbo_listing_content_response_200_sections_description import GetVrboListingContentResponse200SectionsDescription
+        from ..models.get_vrbo_listing_content_response_200_sections_checkin_guide import GetVrboListingContentResponse200SectionsCheckinGuide
+        from ..models.get_vrbo_listing_content_response_200_sections_descriptions_item import GetVrboListingContentResponse200SectionsDescriptionsItem
+        from ..models.get_vrbo_listing_content_response_200_sections_details import GetVrboListingContentResponse200SectionsDetails
         from ..models.get_vrbo_listing_content_response_200_sections_fees import GetVrboListingContentResponse200SectionsFees
         from ..models.get_vrbo_listing_content_response_200_sections_house_rules import GetVrboListingContentResponse200SectionsHouseRules
         from ..models.get_vrbo_listing_content_response_200_sections_location import GetVrboListingContentResponse200SectionsLocation
         from ..models.get_vrbo_listing_content_response_200_sections_payment_terms import GetVrboListingContentResponse200SectionsPaymentTerms
+        from ..models.get_vrbo_listing_content_response_200_sections_permits import GetVrboListingContentResponse200SectionsPermits
         from ..models.get_vrbo_listing_content_response_200_sections_photos import GetVrboListingContentResponse200SectionsPhotos
         from ..models.get_vrbo_listing_content_response_200_sections_pricing import GetVrboListingContentResponse200SectionsPricing
-        from ..models.get_vrbo_listing_content_response_200_sections_property import GetVrboListingContentResponse200SectionsProperty
         from ..models.get_vrbo_listing_content_response_200_sections_protection import GetVrboListingContentResponse200SectionsProtection
-        from ..models.get_vrbo_listing_content_response_200_sections_rates import GetVrboListingContentResponse200SectionsRates
-        from ..models.get_vrbo_listing_content_response_200_sections_registration import GetVrboListingContentResponse200SectionsRegistration
         from ..models.get_vrbo_listing_content_response_200_sections_rooms import GetVrboListingContentResponse200SectionsRooms
         from ..models.get_vrbo_listing_content_response_200_sections_story import GetVrboListingContentResponse200SectionsStory
         from ..models.get_vrbo_listing_content_response_200_sections_taxes import GetVrboListingContentResponse200SectionsTaxes
-        from ..models.get_vrbo_listing_content_response_200_sections_translations import GetVrboListingContentResponse200SectionsTranslations
         from ..models.get_vrbo_listing_content_response_200_sections_videos import GetVrboListingContentResponse200SectionsVideos
-        from ..models.get_vrbo_listing_content_response_200_sections_welcome_guide import GetVrboListingContentResponse200SectionsWelcomeGuide
-        description: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.description, Unset):
-            description = self.description.to_dict()
+        descriptions: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.descriptions, Unset):
+            descriptions = []
+            for descriptions_item_data in self.descriptions:
+                descriptions_item = descriptions_item_data.to_dict()
+                descriptions.append(descriptions_item)
 
-        property_: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.property_, Unset):
-            property_ = self.property_.to_dict()
+
+
+        details: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.details, Unset):
+            details = self.details.to_dict()
 
         story: dict[str, Any] | Unset = UNSET
         if not isinstance(self.story, Unset):
@@ -135,10 +132,6 @@ class GetVrboListingContentResponse200Sections:
         additional_info: dict[str, Any] | Unset = UNSET
         if not isinstance(self.additional_info, Unset):
             additional_info = self.additional_info.to_dict()
-
-        translations: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.translations, Unset):
-            translations = self.translations.to_dict()
 
         photos: dict[str, Any] | Unset = UNSET
         if not isinstance(self.photos, Unset):
@@ -176,10 +169,6 @@ class GetVrboListingContentResponse200Sections:
         if not isinstance(self.pricing, Unset):
             pricing = self.pricing.to_dict()
 
-        rates: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.rates, Unset):
-            rates = self.rates.to_dict()
-
         payment_terms: dict[str, Any] | Unset = UNSET
         if not isinstance(self.payment_terms, Unset):
             payment_terms = self.payment_terms.to_dict()
@@ -192,13 +181,13 @@ class GetVrboListingContentResponse200Sections:
         if not isinstance(self.taxes, Unset):
             taxes = self.taxes.to_dict()
 
-        registration: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.registration, Unset):
-            registration = self.registration.to_dict()
+        permits: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.permits, Unset):
+            permits = self.permits.to_dict()
 
-        welcome_guide: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.welcome_guide, Unset):
-            welcome_guide = self.welcome_guide.to_dict()
+        checkin_guide: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.checkin_guide, Unset):
+            checkin_guide = self.checkin_guide.to_dict()
 
         videos: dict[str, Any] | Unset = UNSET
         if not isinstance(self.videos, Unset):
@@ -209,16 +198,14 @@ class GetVrboListingContentResponse200Sections:
         field_dict.update(self.additional_properties)
         field_dict.update({
         })
-        if description is not UNSET:
-            field_dict["description"] = description
-        if property_ is not UNSET:
-            field_dict["property"] = property_
+        if descriptions is not UNSET:
+            field_dict["descriptions"] = descriptions
+        if details is not UNSET:
+            field_dict["details"] = details
         if story is not UNSET:
             field_dict["story"] = story
         if additional_info is not UNSET:
             field_dict["additional-info"] = additional_info
-        if translations is not UNSET:
-            field_dict["translations"] = translations
         if photos is not UNSET:
             field_dict["photos"] = photos
         if amenities is not UNSET:
@@ -237,18 +224,16 @@ class GetVrboListingContentResponse200Sections:
             field_dict["fees"] = fees
         if pricing is not UNSET:
             field_dict["pricing"] = pricing
-        if rates is not UNSET:
-            field_dict["rates"] = rates
         if payment_terms is not UNSET:
             field_dict["payment-terms"] = payment_terms
         if protection is not UNSET:
             field_dict["protection"] = protection
         if taxes is not UNSET:
             field_dict["taxes"] = taxes
-        if registration is not UNSET:
-            field_dict["registration"] = registration
-        if welcome_guide is not UNSET:
-            field_dict["welcome-guide"] = welcome_guide
+        if permits is not UNSET:
+            field_dict["permits"] = permits
+        if checkin_guide is not UNSET:
+            field_dict["checkin-guide"] = checkin_guide
         if videos is not UNSET:
             field_dict["videos"] = videos
 
@@ -262,40 +247,40 @@ class GetVrboListingContentResponse200Sections:
         from ..models.get_vrbo_listing_content_response_200_sections_amenities import GetVrboListingContentResponse200SectionsAmenities
         from ..models.get_vrbo_listing_content_response_200_sections_booking_settings import GetVrboListingContentResponse200SectionsBookingSettings
         from ..models.get_vrbo_listing_content_response_200_sections_cancellation import GetVrboListingContentResponse200SectionsCancellation
-        from ..models.get_vrbo_listing_content_response_200_sections_description import GetVrboListingContentResponse200SectionsDescription
+        from ..models.get_vrbo_listing_content_response_200_sections_checkin_guide import GetVrboListingContentResponse200SectionsCheckinGuide
+        from ..models.get_vrbo_listing_content_response_200_sections_descriptions_item import GetVrboListingContentResponse200SectionsDescriptionsItem
+        from ..models.get_vrbo_listing_content_response_200_sections_details import GetVrboListingContentResponse200SectionsDetails
         from ..models.get_vrbo_listing_content_response_200_sections_fees import GetVrboListingContentResponse200SectionsFees
         from ..models.get_vrbo_listing_content_response_200_sections_house_rules import GetVrboListingContentResponse200SectionsHouseRules
         from ..models.get_vrbo_listing_content_response_200_sections_location import GetVrboListingContentResponse200SectionsLocation
         from ..models.get_vrbo_listing_content_response_200_sections_payment_terms import GetVrboListingContentResponse200SectionsPaymentTerms
+        from ..models.get_vrbo_listing_content_response_200_sections_permits import GetVrboListingContentResponse200SectionsPermits
         from ..models.get_vrbo_listing_content_response_200_sections_photos import GetVrboListingContentResponse200SectionsPhotos
         from ..models.get_vrbo_listing_content_response_200_sections_pricing import GetVrboListingContentResponse200SectionsPricing
-        from ..models.get_vrbo_listing_content_response_200_sections_property import GetVrboListingContentResponse200SectionsProperty
         from ..models.get_vrbo_listing_content_response_200_sections_protection import GetVrboListingContentResponse200SectionsProtection
-        from ..models.get_vrbo_listing_content_response_200_sections_rates import GetVrboListingContentResponse200SectionsRates
-        from ..models.get_vrbo_listing_content_response_200_sections_registration import GetVrboListingContentResponse200SectionsRegistration
         from ..models.get_vrbo_listing_content_response_200_sections_rooms import GetVrboListingContentResponse200SectionsRooms
         from ..models.get_vrbo_listing_content_response_200_sections_story import GetVrboListingContentResponse200SectionsStory
         from ..models.get_vrbo_listing_content_response_200_sections_taxes import GetVrboListingContentResponse200SectionsTaxes
-        from ..models.get_vrbo_listing_content_response_200_sections_translations import GetVrboListingContentResponse200SectionsTranslations
         from ..models.get_vrbo_listing_content_response_200_sections_videos import GetVrboListingContentResponse200SectionsVideos
-        from ..models.get_vrbo_listing_content_response_200_sections_welcome_guide import GetVrboListingContentResponse200SectionsWelcomeGuide
         d = dict(src_dict)
-        _description = d.pop("description", UNSET)
-        description: GetVrboListingContentResponse200SectionsDescription | Unset
-        if isinstance(_description,  Unset):
-            description = UNSET
+        _descriptions = d.pop("descriptions", UNSET)
+        descriptions: list[GetVrboListingContentResponse200SectionsDescriptionsItem] | Unset = UNSET
+        if _descriptions is not UNSET:
+            descriptions = []
+            for descriptions_item_data in _descriptions:
+                descriptions_item = GetVrboListingContentResponse200SectionsDescriptionsItem.from_dict(descriptions_item_data)
+
+
+
+                descriptions.append(descriptions_item)
+
+
+        _details = d.pop("details", UNSET)
+        details: GetVrboListingContentResponse200SectionsDetails | Unset
+        if isinstance(_details,  Unset):
+            details = UNSET
         else:
-            description = GetVrboListingContentResponse200SectionsDescription.from_dict(_description)
-
-
-
-
-        _property_ = d.pop("property", UNSET)
-        property_: GetVrboListingContentResponse200SectionsProperty | Unset
-        if isinstance(_property_,  Unset):
-            property_ = UNSET
-        else:
-            property_ = GetVrboListingContentResponse200SectionsProperty.from_dict(_property_)
+            details = GetVrboListingContentResponse200SectionsDetails.from_dict(_details)
 
 
 
@@ -316,16 +301,6 @@ class GetVrboListingContentResponse200Sections:
             additional_info = UNSET
         else:
             additional_info = GetVrboListingContentResponse200SectionsAdditionalInfo.from_dict(_additional_info)
-
-
-
-
-        _translations = d.pop("translations", UNSET)
-        translations: GetVrboListingContentResponse200SectionsTranslations | Unset
-        if isinstance(_translations,  Unset):
-            translations = UNSET
-        else:
-            translations = GetVrboListingContentResponse200SectionsTranslations.from_dict(_translations)
 
 
 
@@ -420,16 +395,6 @@ class GetVrboListingContentResponse200Sections:
 
 
 
-        _rates = d.pop("rates", UNSET)
-        rates: GetVrboListingContentResponse200SectionsRates | Unset
-        if isinstance(_rates,  Unset):
-            rates = UNSET
-        else:
-            rates = GetVrboListingContentResponse200SectionsRates.from_dict(_rates)
-
-
-
-
         _payment_terms = d.pop("payment-terms", UNSET)
         payment_terms: GetVrboListingContentResponse200SectionsPaymentTerms | Unset
         if isinstance(_payment_terms,  Unset):
@@ -460,22 +425,22 @@ class GetVrboListingContentResponse200Sections:
 
 
 
-        _registration = d.pop("registration", UNSET)
-        registration: GetVrboListingContentResponse200SectionsRegistration | Unset
-        if isinstance(_registration,  Unset):
-            registration = UNSET
+        _permits = d.pop("permits", UNSET)
+        permits: GetVrboListingContentResponse200SectionsPermits | Unset
+        if isinstance(_permits,  Unset):
+            permits = UNSET
         else:
-            registration = GetVrboListingContentResponse200SectionsRegistration.from_dict(_registration)
+            permits = GetVrboListingContentResponse200SectionsPermits.from_dict(_permits)
 
 
 
 
-        _welcome_guide = d.pop("welcome-guide", UNSET)
-        welcome_guide: GetVrboListingContentResponse200SectionsWelcomeGuide | Unset
-        if isinstance(_welcome_guide,  Unset):
-            welcome_guide = UNSET
+        _checkin_guide = d.pop("checkin-guide", UNSET)
+        checkin_guide: GetVrboListingContentResponse200SectionsCheckinGuide | Unset
+        if isinstance(_checkin_guide,  Unset):
+            checkin_guide = UNSET
         else:
-            welcome_guide = GetVrboListingContentResponse200SectionsWelcomeGuide.from_dict(_welcome_guide)
+            checkin_guide = GetVrboListingContentResponse200SectionsCheckinGuide.from_dict(_checkin_guide)
 
 
 
@@ -491,11 +456,10 @@ class GetVrboListingContentResponse200Sections:
 
 
         get_vrbo_listing_content_response_200_sections = cls(
-            description=description,
-            property_=property_,
+            descriptions=descriptions,
+            details=details,
             story=story,
             additional_info=additional_info,
-            translations=translations,
             photos=photos,
             amenities=amenities,
             rooms=rooms,
@@ -505,12 +469,11 @@ class GetVrboListingContentResponse200Sections:
             cancellation=cancellation,
             fees=fees,
             pricing=pricing,
-            rates=rates,
             payment_terms=payment_terms,
             protection=protection,
             taxes=taxes,
-            registration=registration,
-            welcome_guide=welcome_guide,
+            permits=permits,
+            checkin_guide=checkin_guide,
             videos=videos,
         )
 

@@ -24,7 +24,7 @@ T = TypeVar("T", bound="GetVrboListingTaxesResponse200Data")
 
 @_attrs_define
 class GetVrboListingTaxesResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             tax_source (None | str | Unset):

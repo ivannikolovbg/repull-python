@@ -160,8 +160,8 @@ def sync_detailed(
     Vrbo has saved and the section has been read back.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
-    fields in `errors` and what Vrbo has now in `data` (fields Vrbo accepted in the same request are
-    saved). A malformed body is `422 invalid_params` naming the field, and nothing is sent to Vrbo.
+    fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
+    the field, and nothing is sent to Vrbo.
 
     Needs a Vrbo account connected with full access: one connected with messaging access answers `403
     vrbo_messaging_access`. Returns `403 listing_inactive` when the listing is inactive.
@@ -215,8 +215,8 @@ def sync(
     Vrbo has saved and the section has been read back.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
-    fields in `errors` and what Vrbo has now in `data` (fields Vrbo accepted in the same request are
-    saved). A malformed body is `422 invalid_params` naming the field, and nothing is sent to Vrbo.
+    fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
+    the field, and nothing is sent to Vrbo.
 
     Needs a Vrbo account connected with full access: one connected with messaging access answers `403
     vrbo_messaging_access`. Returns `403 listing_inactive` when the listing is inactive.
@@ -265,8 +265,8 @@ async def asyncio_detailed(
     Vrbo has saved and the section has been read back.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
-    fields in `errors` and what Vrbo has now in `data` (fields Vrbo accepted in the same request are
-    saved). A malformed body is `422 invalid_params` naming the field, and nothing is sent to Vrbo.
+    fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
+    the field, and nothing is sent to Vrbo.
 
     Needs a Vrbo account connected with full access: one connected with messaging access answers `403
     vrbo_messaging_access`. Returns `403 listing_inactive` when the listing is inactive.
@@ -320,8 +320,8 @@ async def asyncio(
     Vrbo has saved and the section has been read back.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
-    fields in `errors` and what Vrbo has now in `data` (fields Vrbo accepted in the same request are
-    saved). A malformed body is `422 invalid_params` naming the field, and nothing is sent to Vrbo.
+    fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
+    the field, and nothing is sent to Vrbo.
 
     Needs a Vrbo account connected with full access: one connected with messaging access answers `403
     vrbo_messaging_access`. Returns `403 listing_inactive` when the listing is inactive.

@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.get_vrbo_listing_amenities_response_200 import GetVrboListingAmenitiesResponse200
+from ...models.get_vrbo_listing_amenities_source import GetVrboListingAmenitiesSource
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -19,6 +20,7 @@ def _get_kwargs(
     id: str,
     *,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingAmenitiesSource | Unset = GetVrboListingAmenitiesSource.STORED,
     groups: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
@@ -29,6 +31,12 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["vrboListingNumber"] = vrbo_listing_number
+
+    json_source: str | Unset = UNSET
+    if not isinstance(source, Unset):
+        json_source = source.value
+
+    params["source"] = json_source
 
     params["groups"] = groups
 
@@ -138,6 +146,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingAmenitiesSource | Unset = GetVrboListingAmenitiesSource.STORED,
     groups: str | Unset = UNSET,
 
 ) -> Response[Error | GetVrboListingAmenitiesResponse200]:
@@ -147,10 +156,12 @@ def sync_detailed(
     number, measurement, checkboxGroup), current value, options and the parent it is shown under
     (`shownWhen`). Includes location & view, nearby attractions and check-out instructions.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call per group (19 in all; narrow with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few
-    seconds. Vrbo is read live on every request (nothing is cached), so read the section you need rather
-    than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call per group (19 in all; narrow
+    with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -158,6 +169,8 @@ def sync_detailed(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingAmenitiesSource | Unset):  Default:
+            GetVrboListingAmenitiesSource.STORED.
         groups (str | Unset):  Example: essentials,internet.
 
     Raises:
@@ -172,6 +185,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 groups=groups,
 
     )
@@ -187,6 +201,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingAmenitiesSource | Unset = GetVrboListingAmenitiesSource.STORED,
     groups: str | Unset = UNSET,
 
 ) -> Error | GetVrboListingAmenitiesResponse200 | None:
@@ -196,10 +211,12 @@ def sync(
     number, measurement, checkboxGroup), current value, options and the parent it is shown under
     (`shownWhen`). Includes location & view, nearby attractions and check-out instructions.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call per group (19 in all; narrow with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few
-    seconds. Vrbo is read live on every request (nothing is cached), so read the section you need rather
-    than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call per group (19 in all; narrow
+    with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -207,6 +224,8 @@ def sync(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingAmenitiesSource | Unset):  Default:
+            GetVrboListingAmenitiesSource.STORED.
         groups (str | Unset):  Example: essentials,internet.
 
     Raises:
@@ -222,6 +241,7 @@ def sync(
         id=id,
 client=client,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 groups=groups,
 
     ).parsed
@@ -231,6 +251,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingAmenitiesSource | Unset = GetVrboListingAmenitiesSource.STORED,
     groups: str | Unset = UNSET,
 
 ) -> Response[Error | GetVrboListingAmenitiesResponse200]:
@@ -240,10 +261,12 @@ async def asyncio_detailed(
     number, measurement, checkboxGroup), current value, options and the parent it is shown under
     (`shownWhen`). Includes location & view, nearby attractions and check-out instructions.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call per group (19 in all; narrow with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few
-    seconds. Vrbo is read live on every request (nothing is cached), so read the section you need rather
-    than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call per group (19 in all; narrow
+    with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -251,6 +274,8 @@ async def asyncio_detailed(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingAmenitiesSource | Unset):  Default:
+            GetVrboListingAmenitiesSource.STORED.
         groups (str | Unset):  Example: essentials,internet.
 
     Raises:
@@ -265,6 +290,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 groups=groups,
 
     )
@@ -280,6 +306,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingAmenitiesSource | Unset = GetVrboListingAmenitiesSource.STORED,
     groups: str | Unset = UNSET,
 
 ) -> Error | GetVrboListingAmenitiesResponse200 | None:
@@ -289,10 +316,12 @@ async def asyncio(
     number, measurement, checkboxGroup), current value, options and the parent it is shown under
     (`shownWhen`). Includes location & view, nearby attractions and check-out instructions.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call per group (19 in all; narrow with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few
-    seconds. Vrbo is read live on every request (nothing is cached), so read the section you need rather
-    than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call per group (19 in all; narrow
+    with `?groups=`) on Vrbo, spaced ~3 s apart per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -300,6 +329,8 @@ async def asyncio(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingAmenitiesSource | Unset):  Default:
+            GetVrboListingAmenitiesSource.STORED.
         groups (str | Unset):  Example: essentials,internet.
 
     Raises:
@@ -315,6 +346,7 @@ async def asyncio(
         id=id,
 client=client,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 groups=groups,
 
     )).parsed

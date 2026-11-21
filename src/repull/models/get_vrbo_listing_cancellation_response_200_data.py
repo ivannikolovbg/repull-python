@@ -26,7 +26,7 @@ T = TypeVar("T", bound="GetVrboListingCancellationResponse200Data")
 
 @_attrs_define
 class GetVrboListingCancellationResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             policy_type (None | str | Unset):

@@ -24,7 +24,7 @@ T = TypeVar("T", bound="GetVrboListingAmenitiesResponse200Data")
 
 @_attrs_define
 class GetVrboListingAmenitiesResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             groups (GetVrboListingAmenitiesResponse200DataGroups | Unset): Keyed by group: essentials, internet,

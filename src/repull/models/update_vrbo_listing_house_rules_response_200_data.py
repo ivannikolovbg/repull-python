@@ -27,7 +27,7 @@ T = TypeVar("T", bound="UpdateVrboListingHouseRulesResponse200Data")
 
 @_attrs_define
 class UpdateVrboListingHouseRulesResponse200Data:
-    """ What Vrbo has stored for the section, read back after the write.
+    """ What Vrbo has after the write, read back from Vrbo.
 
         Attributes:
             check_in_time (None | str | Unset):

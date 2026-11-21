@@ -133,8 +133,11 @@ def sync_detailed(
     one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
-    NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
-    Distribution stays a separate explicit step.
+    NOT push to Airbnb, Booking.com or Vrbo; it marks the channels dirty so a later publish knows what
+    changed. Distribution stays a separate explicit step: `POST /v1/listings/{id}/publish/airbnb`,
+    `/publish/booking` or `/publish/vrbo` (each creates the listing on the channel, or updates the one
+    already there). To change one channel only, use its own endpoints
+    (`/v1/channels/airbnb/listings/{id}/…`, `/v1/channels/vrbo/listings/{id}/…`).
 
     **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
     order: a full replacement by default, or added after the existing ones with `photosMode:
@@ -213,8 +216,11 @@ def sync(
     one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
-    NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
-    Distribution stays a separate explicit step.
+    NOT push to Airbnb, Booking.com or Vrbo; it marks the channels dirty so a later publish knows what
+    changed. Distribution stays a separate explicit step: `POST /v1/listings/{id}/publish/airbnb`,
+    `/publish/booking` or `/publish/vrbo` (each creates the listing on the channel, or updates the one
+    already there). To change one channel only, use its own endpoints
+    (`/v1/channels/airbnb/listings/{id}/…`, `/v1/channels/vrbo/listings/{id}/…`).
 
     **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
     order: a full replacement by default, or added after the existing ones with `photosMode:
@@ -288,8 +294,11 @@ async def asyncio_detailed(
     one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
-    NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
-    Distribution stays a separate explicit step.
+    NOT push to Airbnb, Booking.com or Vrbo; it marks the channels dirty so a later publish knows what
+    changed. Distribution stays a separate explicit step: `POST /v1/listings/{id}/publish/airbnb`,
+    `/publish/booking` or `/publish/vrbo` (each creates the listing on the channel, or updates the one
+    already there). To change one channel only, use its own endpoints
+    (`/v1/channels/airbnb/listings/{id}/…`, `/v1/channels/vrbo/listings/{id}/…`).
 
     **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
     order: a full replacement by default, or added after the existing ones with `photosMode:
@@ -368,8 +377,11 @@ async def asyncio(
     one. Omit it for English.
 
     **Local write only — NOT a channel publish.** This mutates Repull's own copy of the content. It does
-    NOT push to Airbnb / Booking.com; it marks the channels dirty so a later publish knows what changed.
-    Distribution stays a separate explicit step.
+    NOT push to Airbnb, Booking.com or Vrbo; it marks the channels dirty so a later publish knows what
+    changed. Distribution stays a separate explicit step: `POST /v1/listings/{id}/publish/airbnb`,
+    `/publish/booking` or `/publish/vrbo` (each creates the listing on the channel, or updates the one
+    already there). To change one channel only, use its own endpoints
+    (`/v1/channels/airbnb/listings/{id}/…`, `/v1/channels/vrbo/listings/{id}/…`).
 
     **Photos:** `photos` is a list of hosted image URLs (or structured refs) saved to the listing in
     order: a full replacement by default, or added after the existing ones with `photosMode:

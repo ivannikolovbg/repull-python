@@ -24,7 +24,7 @@ T = TypeVar("T", bound="GetVrboListingVideosResponse200Data")
 
 @_attrs_define
 class GetVrboListingVideosResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             items (list[GetVrboListingVideosResponse200DataItemsItem] | Unset):

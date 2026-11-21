@@ -8,11 +8,10 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-from ..types import UNSET, Unset
 from typing import cast
 
 if TYPE_CHECKING:
-  from ..models.get_vrbo_listing_content_response_200_listing_type_0 import GetVrboListingContentResponse200ListingType0
+  from ..models.get_vrbo_listing_content_response_200_data_freshness import GetVrboListingContentResponse200DataFreshness
   from ..models.get_vrbo_listing_content_response_200_sections import GetVrboListingContentResponse200Sections
 
 
@@ -27,19 +26,15 @@ T = TypeVar("T", bound="GetVrboListingContentResponse200")
 class GetVrboListingContentResponse200:
     """ 
         Attributes:
-            listing_id (str):
-            vrbo_listing_number (str):
-            property_id (str):
-            sections (GetVrboListingContentResponse200Sections): Keyed by section; each is the data of `GET
+            sections (GetVrboListingContentResponse200Sections): Keyed by section; each is the `data` of `GET
                 /v1/channels/vrbo/listings/{id}/{section}`, or `{ error: { code, message } }` when that section failed.
-            listing (GetVrboListingContentResponse200ListingType0 | None | Unset):
+            data_freshness (GetVrboListingContentResponse200DataFreshness):
+            vrbo_listing_number (str):
      """
 
-    listing_id: str
-    vrbo_listing_number: str
-    property_id: str
     sections: GetVrboListingContentResponse200Sections
-    listing: GetVrboListingContentResponse200ListingType0 | None | Unset = UNSET
+    data_freshness: GetVrboListingContentResponse200DataFreshness
+    vrbo_listing_number: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -47,35 +42,22 @@ class GetVrboListingContentResponse200:
 
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.get_vrbo_listing_content_response_200_listing_type_0 import GetVrboListingContentResponse200ListingType0
+        from ..models.get_vrbo_listing_content_response_200_data_freshness import GetVrboListingContentResponse200DataFreshness
         from ..models.get_vrbo_listing_content_response_200_sections import GetVrboListingContentResponse200Sections
-        listing_id = self.listing_id
-
-        vrbo_listing_number = self.vrbo_listing_number
-
-        property_id = self.property_id
-
         sections = self.sections.to_dict()
 
-        listing: dict[str, Any] | None | Unset
-        if isinstance(self.listing, Unset):
-            listing = UNSET
-        elif isinstance(self.listing, GetVrboListingContentResponse200ListingType0):
-            listing = self.listing.to_dict()
-        else:
-            listing = self.listing
+        data_freshness = self.data_freshness.to_dict()
+
+        vrbo_listing_number = self.vrbo_listing_number
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "listingId": listing_id,
-            "vrboListingNumber": vrbo_listing_number,
-            "propertyId": property_id,
             "sections": sections,
+            "dataFreshness": data_freshness,
+            "vrboListingNumber": vrbo_listing_number,
         })
-        if listing is not UNSET:
-            field_dict["listing"] = listing
 
         return field_dict
 
@@ -83,46 +65,25 @@ class GetVrboListingContentResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_vrbo_listing_content_response_200_listing_type_0 import GetVrboListingContentResponse200ListingType0
+        from ..models.get_vrbo_listing_content_response_200_data_freshness import GetVrboListingContentResponse200DataFreshness
         from ..models.get_vrbo_listing_content_response_200_sections import GetVrboListingContentResponse200Sections
         d = dict(src_dict)
-        listing_id = d.pop("listingId")
-
-        vrbo_listing_number = d.pop("vrboListingNumber")
-
-        property_id = d.pop("propertyId")
-
         sections = GetVrboListingContentResponse200Sections.from_dict(d.pop("sections"))
 
 
 
 
-        def _parse_listing(data: object) -> GetVrboListingContentResponse200ListingType0 | None | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                listing_type_0 = GetVrboListingContentResponse200ListingType0.from_dict(data)
+        data_freshness = GetVrboListingContentResponse200DataFreshness.from_dict(d.pop("dataFreshness"))
 
 
 
-                return listing_type_0
-            except (TypeError, ValueError, AttributeError, KeyError):
-                pass
-            return cast(GetVrboListingContentResponse200ListingType0 | None | Unset, data)
 
-        listing = _parse_listing(d.pop("listing", UNSET))
-
+        vrbo_listing_number = d.pop("vrboListingNumber")
 
         get_vrbo_listing_content_response_200 = cls(
-            listing_id=listing_id,
-            vrbo_listing_number=vrbo_listing_number,
-            property_id=property_id,
             sections=sections,
-            listing=listing,
+            data_freshness=data_freshness,
+            vrbo_listing_number=vrbo_listing_number,
         )
 
 

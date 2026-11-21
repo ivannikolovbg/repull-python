@@ -24,7 +24,7 @@ T = TypeVar("T", bound="AddVrboListingVideoResponse200Data")
 
 @_attrs_define
 class AddVrboListingVideoResponse200Data:
-    """ What Vrbo has stored for the section, read back after the write.
+    """ What Vrbo has after the write, read back from Vrbo.
 
         Attributes:
             items (list[AddVrboListingVideoResponse200DataItemsItem] | Unset):

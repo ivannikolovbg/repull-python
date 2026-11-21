@@ -10,6 +10,7 @@ from ... import errors
 
 from ...models.error import Error
 from ...models.get_vrbo_listing_cancellation_response_200 import GetVrboListingCancellationResponse200
+from ...models.get_vrbo_listing_cancellation_source import GetVrboListingCancellationSource
 from ...types import UNSET, Unset
 from typing import cast
 
@@ -19,6 +20,7 @@ def _get_kwargs(
     id: str,
     *,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingCancellationSource | Unset = GetVrboListingCancellationSource.STORED,
 
 ) -> dict[str, Any]:
     
@@ -28,6 +30,12 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["vrboListingNumber"] = vrbo_listing_number
+
+    json_source: str | Unset = UNSET
+    if not isinstance(source, Unset):
+        json_source = source.value
+
+    params["source"] = json_source
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -135,6 +143,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingCancellationSource | Unset = GetVrboListingCancellationSource.STORED,
 
 ) -> Response[Error | GetVrboListingCancellationResponse200]:
     """ Get the Vrbo cancellation policy
@@ -142,9 +151,12 @@ def sync_detailed(
      The policy (Vrbo's named ones or custom refund windows), seasonal overrides, and the named policies
     Vrbo offers.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call on Vrbo, spaced ~3 s apart per account — a few seconds. Vrbo is read live on every request
-    (nothing is cached), so read the section you need rather than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call on Vrbo, spaced ~3 s apart
+    per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -152,6 +164,8 @@ def sync_detailed(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingCancellationSource | Unset):  Default:
+            GetVrboListingCancellationSource.STORED.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -165,6 +179,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         id=id,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 
     )
 
@@ -179,6 +194,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingCancellationSource | Unset = GetVrboListingCancellationSource.STORED,
 
 ) -> Error | GetVrboListingCancellationResponse200 | None:
     """ Get the Vrbo cancellation policy
@@ -186,9 +202,12 @@ def sync(
      The policy (Vrbo's named ones or custom refund windows), seasonal overrides, and the named policies
     Vrbo offers.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call on Vrbo, spaced ~3 s apart per account — a few seconds. Vrbo is read live on every request
-    (nothing is cached), so read the section you need rather than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call on Vrbo, spaced ~3 s apart
+    per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -196,6 +215,8 @@ def sync(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingCancellationSource | Unset):  Default:
+            GetVrboListingCancellationSource.STORED.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -210,6 +231,7 @@ def sync(
         id=id,
 client=client,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 
     ).parsed
 
@@ -218,6 +240,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingCancellationSource | Unset = GetVrboListingCancellationSource.STORED,
 
 ) -> Response[Error | GetVrboListingCancellationResponse200]:
     """ Get the Vrbo cancellation policy
@@ -225,9 +248,12 @@ async def asyncio_detailed(
      The policy (Vrbo's named ones or custom refund windows), seasonal overrides, and the named policies
     Vrbo offers.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call on Vrbo, spaced ~3 s apart per account — a few seconds. Vrbo is read live on every request
-    (nothing is cached), so read the section you need rather than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call on Vrbo, spaced ~3 s apart
+    per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -235,6 +261,8 @@ async def asyncio_detailed(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingCancellationSource | Unset):  Default:
+            GetVrboListingCancellationSource.STORED.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -248,6 +276,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         id=id,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 
     )
 
@@ -262,6 +291,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     vrbo_listing_number: str | Unset = UNSET,
+    source: GetVrboListingCancellationSource | Unset = GetVrboListingCancellationSource.STORED,
 
 ) -> Error | GetVrboListingCancellationResponse200 | None:
     """ Get the Vrbo cancellation policy
@@ -269,9 +299,12 @@ async def asyncio(
      The policy (Vrbo's named ones or custom refund windows), seasonal overrides, and the named policies
     Vrbo offers.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    call on Vrbo, spaced ~3 s apart per account — a few seconds. Vrbo is read live on every request
-    (nothing is cached), so read the section you need rather than polling.
+    Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
+    (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
+    Vrbo and stores it; a copy over 24 h old answers and is refreshed in the background (`reason:
+    refreshing`); every write through Repull stores what Vrbo has after it. `?source=live` reads Vrbo
+    now. **Cost:** from the copy, milliseconds. A live read is 1 Vrbo call on Vrbo, spaced ~3 s apart
+    per account — a few seconds.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -279,6 +312,8 @@ async def asyncio(
     Args:
         id (str):
         vrbo_listing_number (str | Unset):
+        source (GetVrboListingCancellationSource | Unset):  Default:
+            GetVrboListingCancellationSource.STORED.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -293,5 +328,6 @@ async def asyncio(
         id=id,
 client=client,
 vrbo_listing_number=vrbo_listing_number,
+source=source,
 
     )).parsed

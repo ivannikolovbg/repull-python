@@ -24,7 +24,7 @@ T = TypeVar("T", bound="UpdateVrboListingTaxesResponse200Data")
 
 @_attrs_define
 class UpdateVrboListingTaxesResponse200Data:
-    """ What Vrbo has stored for the section, read back after the write.
+    """ What Vrbo has after the write, read back from Vrbo.
 
         Attributes:
             tax_source (None | str | Unset):

@@ -24,7 +24,7 @@ T = TypeVar("T", bound="GetVrboListingPaymentTermsResponse200Data")
 
 @_attrs_define
 class GetVrboListingPaymentTermsResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             percent_due_now (float | None | Unset):

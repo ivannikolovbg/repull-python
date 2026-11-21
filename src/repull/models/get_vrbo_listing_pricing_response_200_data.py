@@ -24,7 +24,7 @@ T = TypeVar("T", bound="GetVrboListingPricingResponse200Data")
 
 @_attrs_define
 class GetVrboListingPricingResponse200Data:
-    """ The section as Vrbo has it now.
+    """ The section as Vrbo has it.
 
         Attributes:
             currency (None | str | Unset):

@@ -159,10 +159,8 @@ def sync_detailed(
     (28+ nights) discounts and the minimum stay. Vrbo offers only these two stay discounts, saved per
     night with the weekday prices.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    calendar call (`?start=&end=`, default today + 13 days) on Vrbo, spaced ~3 s apart per account — a
-    few seconds. Vrbo is read live on every request (nothing is cached), so read the section you need
-    rather than polling.
+    Read live from Vrbo on every request (a date range). **Cost:** 1 Vrbo calendar call (`?start=&end=`,
+    default today + 13 days) on Vrbo, spaced ~3 s apart per account.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -211,10 +209,8 @@ def sync(
     (28+ nights) discounts and the minimum stay. Vrbo offers only these two stay discounts, saved per
     night with the weekday prices.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    calendar call (`?start=&end=`, default today + 13 days) on Vrbo, spaced ~3 s apart per account — a
-    few seconds. Vrbo is read live on every request (nothing is cached), so read the section you need
-    rather than polling.
+    Read live from Vrbo on every request (a date range). **Cost:** 1 Vrbo calendar call (`?start=&end=`,
+    default today + 13 days) on Vrbo, spaced ~3 s apart per account.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -258,10 +254,8 @@ async def asyncio_detailed(
     (28+ nights) discounts and the minimum stay. Vrbo offers only these two stay discounts, saved per
     night with the weekday prices.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    calendar call (`?start=&end=`, default today + 13 days) on Vrbo, spaced ~3 s apart per account — a
-    few seconds. Vrbo is read live on every request (nothing is cached), so read the section you need
-    rather than polling.
+    Read live from Vrbo on every request (a date range). **Cost:** 1 Vrbo calendar call (`?start=&end=`,
+    default today + 13 days) on Vrbo, spaced ~3 s apart per account.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.
@@ -310,10 +304,8 @@ async def asyncio(
     (28+ nights) discounts and the minimum stay. Vrbo offers only these two stay discounts, saved per
     night with the weekday prices.
 
-    Read live from the listing's Vrbo listing in the host's connected Vrbo account. **Cost:** 1 Vrbo
-    calendar call (`?start=&end=`, default today + 13 days) on Vrbo, spaced ~3 s apart per account — a
-    few seconds. Vrbo is read live on every request (nothing is cached), so read the section you need
-    rather than polling.
+    Read live from Vrbo on every request (a date range). **Cost:** 1 Vrbo calendar call (`?start=&end=`,
+    default today + 13 days) on Vrbo, spaced ~3 s apart per account.
 
     Works with messaging or full access. Returns `404` when the listing is not linked to Vrbo, and `403
     listing_inactive` when the listing is inactive.

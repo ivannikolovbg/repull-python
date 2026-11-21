@@ -24,7 +24,7 @@ T = TypeVar("T", bound="UpdateVrboListingPaymentTermsResponse200Data")
 
 @_attrs_define
 class UpdateVrboListingPaymentTermsResponse200Data:
-    """ What Vrbo has stored for the section, read back after the write.
+    """ What Vrbo has after the write, read back from Vrbo.
 
         Attributes:
             percent_due_now (float | None | Unset):

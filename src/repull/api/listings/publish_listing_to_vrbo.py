@@ -167,14 +167,13 @@ def sync_detailed(
     has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
     is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
     `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
-    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
-    existing listing (`skipped` says so): edit them with `PUT
-    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
-    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
-    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
-    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
-    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
-    otherwise).
+    for is left alone) and is read back from Vrbo. Rooms, photos and permits are not replaced on an
+    existing listing (`skipped` says so): edit them with `/v1/channels/vrbo/listings/{id}/rooms`,
+    `…/photos` and `…/permits`. It is a job too (a few minutes: Vrbo calls are spaced ~3 s apart per
+    account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's refusals and
+    what Vrbo stored. Limit it with `sections` (e.g. `[\"descriptions\", \"fees\"]`); name the Vrbo
+    listing with `vrboListingNumber` when the listing is linked to several. One push per listing at a
+    time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access` otherwise).
 
     Prices, availability and minimum stay per night always go through the calendar: `PUT
     /v1/availability/{propertyId}`.
@@ -246,14 +245,13 @@ def sync(
     has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
     is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
     `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
-    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
-    existing listing (`skipped` says so): edit them with `PUT
-    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
-    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
-    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
-    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
-    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
-    otherwise).
+    for is left alone) and is read back from Vrbo. Rooms, photos and permits are not replaced on an
+    existing listing (`skipped` says so): edit them with `/v1/channels/vrbo/listings/{id}/rooms`,
+    `…/photos` and `…/permits`. It is a job too (a few minutes: Vrbo calls are spaced ~3 s apart per
+    account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's refusals and
+    what Vrbo stored. Limit it with `sections` (e.g. `[\"descriptions\", \"fees\"]`); name the Vrbo
+    listing with `vrboListingNumber` when the listing is linked to several. One push per listing at a
+    time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access` otherwise).
 
     Prices, availability and minimum stay per night always go through the calendar: `PUT
     /v1/availability/{propertyId}`.
@@ -320,14 +318,13 @@ async def asyncio_detailed(
     has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
     is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
     `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
-    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
-    existing listing (`skipped` says so): edit them with `PUT
-    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
-    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
-    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
-    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
-    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
-    otherwise).
+    for is left alone) and is read back from Vrbo. Rooms, photos and permits are not replaced on an
+    existing listing (`skipped` says so): edit them with `/v1/channels/vrbo/listings/{id}/rooms`,
+    `…/photos` and `…/permits`. It is a job too (a few minutes: Vrbo calls are spaced ~3 s apart per
+    account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's refusals and
+    what Vrbo stored. Limit it with `sections` (e.g. `[\"descriptions\", \"fees\"]`); name the Vrbo
+    listing with `vrboListingNumber` when the listing is linked to several. One push per listing at a
+    time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access` otherwise).
 
     Prices, availability and minimum stay per night always go through the calendar: `PUT
     /v1/availability/{propertyId}`.
@@ -399,14 +396,13 @@ async def asyncio(
     has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
     is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
     `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
-    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
-    existing listing (`skipped` says so): edit them with `PUT
-    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
-    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
-    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
-    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
-    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
-    otherwise).
+    for is left alone) and is read back from Vrbo. Rooms, photos and permits are not replaced on an
+    existing listing (`skipped` says so): edit them with `/v1/channels/vrbo/listings/{id}/rooms`,
+    `…/photos` and `…/permits`. It is a job too (a few minutes: Vrbo calls are spaced ~3 s apart per
+    account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's refusals and
+    what Vrbo stored. Limit it with `sections` (e.g. `[\"descriptions\", \"fees\"]`); name the Vrbo
+    listing with `vrboListingNumber` when the listing is linked to several. One push per listing at a
+    time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access` otherwise).
 
     Prices, availability and minimum stay per night always go through the calendar: `PUT
     /v1/availability/{propertyId}`.

@@ -12,6 +12,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.update_vrbo_listing_house_rules_response_200_data import UpdateVrboListingHouseRulesResponse200Data
+  from ..models.update_vrbo_listing_house_rules_response_200_data_freshness import UpdateVrboListingHouseRulesResponse200DataFreshness
 
 
 
@@ -25,21 +26,16 @@ T = TypeVar("T", bound="UpdateVrboListingHouseRulesResponse200")
 class UpdateVrboListingHouseRulesResponse200:
     """ 
         Attributes:
-            listing_id (str):
-            vrbo_listing_number (str):
-            property_id (str): Vrbo's property id for the unit.
-            section (str):  Example: house-rules.
+            data (UpdateVrboListingHouseRulesResponse200Data): What Vrbo has after the write, read back from Vrbo.
             written (list[str]): The fields this request sent.
-            data (UpdateVrboListingHouseRulesResponse200Data): What Vrbo has stored for the section, read back after the
-                write.
+            data_freshness (UpdateVrboListingHouseRulesResponse200DataFreshness):
+            vrbo_listing_number (str):
      """
 
-    listing_id: str
-    vrbo_listing_number: str
-    property_id: str
-    section: str
-    written: list[str]
     data: UpdateVrboListingHouseRulesResponse200Data
+    written: list[str]
+    data_freshness: UpdateVrboListingHouseRulesResponse200DataFreshness
+    vrbo_listing_number: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -48,30 +44,25 @@ class UpdateVrboListingHouseRulesResponse200:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.update_vrbo_listing_house_rules_response_200_data import UpdateVrboListingHouseRulesResponse200Data
-        listing_id = self.listing_id
-
-        vrbo_listing_number = self.vrbo_listing_number
-
-        property_id = self.property_id
-
-        section = self.section
+        from ..models.update_vrbo_listing_house_rules_response_200_data_freshness import UpdateVrboListingHouseRulesResponse200DataFreshness
+        data = self.data.to_dict()
 
         written = self.written
 
 
 
-        data = self.data.to_dict()
+        data_freshness = self.data_freshness.to_dict()
+
+        vrbo_listing_number = self.vrbo_listing_number
 
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({
-            "listingId": listing_id,
-            "vrboListingNumber": vrbo_listing_number,
-            "propertyId": property_id,
-            "section": section,
-            "written": written,
             "data": data,
+            "written": written,
+            "dataFreshness": data_freshness,
+            "vrboListingNumber": vrbo_listing_number,
         })
 
         return field_dict
@@ -81,30 +72,28 @@ class UpdateVrboListingHouseRulesResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.update_vrbo_listing_house_rules_response_200_data import UpdateVrboListingHouseRulesResponse200Data
+        from ..models.update_vrbo_listing_house_rules_response_200_data_freshness import UpdateVrboListingHouseRulesResponse200DataFreshness
         d = dict(src_dict)
-        listing_id = d.pop("listingId")
-
-        vrbo_listing_number = d.pop("vrboListingNumber")
-
-        property_id = d.pop("propertyId")
-
-        section = d.pop("section")
-
-        written = cast(list[str], d.pop("written"))
-
-
         data = UpdateVrboListingHouseRulesResponse200Data.from_dict(d.pop("data"))
 
 
 
 
+        written = cast(list[str], d.pop("written"))
+
+
+        data_freshness = UpdateVrboListingHouseRulesResponse200DataFreshness.from_dict(d.pop("dataFreshness"))
+
+
+
+
+        vrbo_listing_number = d.pop("vrboListingNumber")
+
         update_vrbo_listing_house_rules_response_200 = cls(
-            listing_id=listing_id,
-            vrbo_listing_number=vrbo_listing_number,
-            property_id=property_id,
-            section=section,
-            written=written,
             data=data,
+            written=written,
+            data_freshness=data_freshness,
+            vrbo_listing_number=vrbo_listing_number,
         )
 
 

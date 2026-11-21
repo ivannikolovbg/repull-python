@@ -57,7 +57,7 @@ class PublishListingToVrboResponse202Job:
             sections (list[PublishListingToVrboResponse202JobSectionsItem] | Unset): Update only: each section pushed, in
                 order, with what was sent, Vrbo's refusals and what Vrbo has stored after the write.
             skipped (list[PublishListingToVrboResponse202JobSkippedItem] | Unset): Update only: sections the push leaves as
-                they are on Vrbo, and why (rooms, photos, registration, or no value in the listing content).
+                they are on Vrbo, and why (rooms, photos, permits, or no value in the listing content).
             started_at (datetime.datetime | Unset): Update only.
             finished_at (datetime.datetime | None | Unset): Update only.
      """
