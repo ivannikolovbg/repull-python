@@ -148,9 +148,12 @@ def sync_detailed(
 ) -> Response[Error | GetVrboListingSafetyDisclosuresResponse200]:
     """ Get the Vrbo safety disclosures
 
-     What the listing tells guests about safety: Vrbo's home-safety (`homeSafety`: e.g. pool or hot tub
-    without a gate, nearby water, heights) and safety-device (`safetyDevices`: smoke and carbon-monoxide
-    detectors, fire extinguisher, first aid) amenities, field by field like GET …/amenities.
+     What the listing tells guests about safety — the same path as Airbnb's safety disclosures. On Vrbo
+    these are two amenity groups, field by field like GET …/amenities: `homeSafety` (smoke and carbon-
+    monoxide detectors, fire extinguisher, deadbolt lock, exterior lighting, first-aid kit and where it
+    is, emergency exit instructions, hospital and police contacts) and `safetyDevices` (smoke and
+    carbon-monoxide detectors, gas-powered appliances). The detector questions are choices (`yes` /
+    `no`, see each field's `options`).
 
     Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
     (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
@@ -196,9 +199,12 @@ def sync(
 ) -> Error | GetVrboListingSafetyDisclosuresResponse200 | None:
     """ Get the Vrbo safety disclosures
 
-     What the listing tells guests about safety: Vrbo's home-safety (`homeSafety`: e.g. pool or hot tub
-    without a gate, nearby water, heights) and safety-device (`safetyDevices`: smoke and carbon-monoxide
-    detectors, fire extinguisher, first aid) amenities, field by field like GET …/amenities.
+     What the listing tells guests about safety — the same path as Airbnb's safety disclosures. On Vrbo
+    these are two amenity groups, field by field like GET …/amenities: `homeSafety` (smoke and carbon-
+    monoxide detectors, fire extinguisher, deadbolt lock, exterior lighting, first-aid kit and where it
+    is, emergency exit instructions, hospital and police contacts) and `safetyDevices` (smoke and
+    carbon-monoxide detectors, gas-powered appliances). The detector questions are choices (`yes` /
+    `no`, see each field's `options`).
 
     Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
     (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
@@ -239,9 +245,12 @@ async def asyncio_detailed(
 ) -> Response[Error | GetVrboListingSafetyDisclosuresResponse200]:
     """ Get the Vrbo safety disclosures
 
-     What the listing tells guests about safety: Vrbo's home-safety (`homeSafety`: e.g. pool or hot tub
-    without a gate, nearby water, heights) and safety-device (`safetyDevices`: smoke and carbon-monoxide
-    detectors, fire extinguisher, first aid) amenities, field by field like GET …/amenities.
+     What the listing tells guests about safety — the same path as Airbnb's safety disclosures. On Vrbo
+    these are two amenity groups, field by field like GET …/amenities: `homeSafety` (smoke and carbon-
+    monoxide detectors, fire extinguisher, deadbolt lock, exterior lighting, first-aid kit and where it
+    is, emergency exit instructions, hospital and police contacts) and `safetyDevices` (smoke and
+    carbon-monoxide detectors, gas-powered appliances). The detector questions are choices (`yes` /
+    `no`, see each field's `options`).
 
     Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
     (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads
@@ -287,9 +296,12 @@ async def asyncio(
 ) -> Error | GetVrboListingSafetyDisclosuresResponse200 | None:
     """ Get the Vrbo safety disclosures
 
-     What the listing tells guests about safety: Vrbo's home-safety (`homeSafety`: e.g. pool or hot tub
-    without a gate, nearby water, heights) and safety-device (`safetyDevices`: smoke and carbon-monoxide
-    detectors, fire extinguisher, first aid) amenities, field by field like GET …/amenities.
+     What the listing tells guests about safety — the same path as Airbnb's safety disclosures. On Vrbo
+    these are two amenity groups, field by field like GET …/amenities: `homeSafety` (smoke and carbon-
+    monoxide detectors, fire extinguisher, deadbolt lock, exterior lighting, first-aid kit and where it
+    is, emergency exit instructions, hospital and police contacts) and `safetyDevices` (smoke and
+    carbon-monoxide detectors, gas-powered appliances). The detector questions are choices (`yes` /
+    `no`, see each field's `options`).
 
     Answers from Repull's stored copy of the listing's Vrbo content, like the Airbnb endpoints
     (`dataFreshness.lastSyncedAt` says when it was read from Vrbo). The first read of a section reads

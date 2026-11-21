@@ -149,7 +149,8 @@ def sync_detailed(
     r""" Update the Vrbo safety disclosures
 
      Set safety values field by field, as PUT …/amenities does for these two groups: `{\"groups\":
-    {\"safetyDevices\": {\"values\": {\"<fieldId>\": true}}}}`. Field ids are in the read.
+    {\"homeSafety\": {\"values\": {\"smockDetector\": \"yes\", \"firstAidKit\": true}}}}` (Vrbo's own
+    field ids, as the read lists them). Field ids are in the read.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
     fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
@@ -196,7 +197,8 @@ def sync(
     r""" Update the Vrbo safety disclosures
 
      Set safety values field by field, as PUT …/amenities does for these two groups: `{\"groups\":
-    {\"safetyDevices\": {\"values\": {\"<fieldId>\": true}}}}`. Field ids are in the read.
+    {\"homeSafety\": {\"values\": {\"smockDetector\": \"yes\", \"firstAidKit\": true}}}}` (Vrbo's own
+    field ids, as the read lists them). Field ids are in the read.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
     fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
@@ -238,7 +240,8 @@ async def asyncio_detailed(
     r""" Update the Vrbo safety disclosures
 
      Set safety values field by field, as PUT …/amenities does for these two groups: `{\"groups\":
-    {\"safetyDevices\": {\"values\": {\"<fieldId>\": true}}}}`. Field ids are in the read.
+    {\"homeSafety\": {\"values\": {\"smockDetector\": \"yes\", \"firstAidKit\": true}}}}` (Vrbo's own
+    field ids, as the read lists them). Field ids are in the read.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
     fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
@@ -285,7 +288,8 @@ async def asyncio(
     r""" Update the Vrbo safety disclosures
 
      Set safety values field by field, as PUT …/amenities does for these two groups: `{\"groups\":
-    {\"safetyDevices\": {\"values\": {\"<fieldId>\": true}}}}`. Field ids are in the read.
+    {\"homeSafety\": {\"values\": {\"smockDetector\": \"yes\", \"firstAidKit\": true}}}}` (Vrbo's own
+    field ids, as the read lists them). Field ids are in the read.
 
     **When Vrbo refuses** a value the answer is `422 vrbo_rejected` with Vrbo's own message, the refused
     fields in `errors` and what Vrbo has now in `data`. A malformed body is `422 invalid_params` naming
