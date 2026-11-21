@@ -135,7 +135,7 @@ def sync_detailed(
     Vrbo (a few seconds).
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         options (GetVrboReservationOptions | Unset):
 
     Raises:
@@ -180,7 +180,7 @@ def sync(
     Vrbo (a few seconds).
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         options (GetVrboReservationOptions | Unset):
 
     Raises:
@@ -220,7 +220,7 @@ async def asyncio_detailed(
     Vrbo (a few seconds).
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         options (GetVrboReservationOptions | Unset):
 
     Raises:
@@ -265,7 +265,7 @@ async def asyncio(
     Vrbo (a few seconds).
 
     Args:
-        code (str):  Example: HA-C3WBX1.
+        code (str):  Example: HA-8K2P3Q.
         options (GetVrboReservationOptions | Unset):
 
     Raises:

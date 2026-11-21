@@ -1091,6 +1091,14 @@ from .list_reviews_status import ListReviewsStatus
 from .list_transactions_platform import ListTransactionsPlatform
 from .list_transactions_response_200 import ListTransactionsResponse200
 from .list_vrbo_listings_status import ListVrboListingsStatus
+from .list_vrbo_transactions_response_200 import ListVrboTransactionsResponse200
+from .list_vrbo_transactions_response_200_data_freshness import ListVrboTransactionsResponse200DataFreshness
+from .list_vrbo_transactions_response_200_data_freshness_accounts_item import ListVrboTransactionsResponse200DataFreshnessAccountsItem
+from .list_vrbo_transactions_response_200_data_freshness_reason import ListVrboTransactionsResponse200DataFreshnessReason
+from .list_vrbo_transactions_response_200_data_item import ListVrboTransactionsResponse200DataItem
+from .list_vrbo_transactions_response_200_data_item_payout import ListVrboTransactionsResponse200DataItemPayout
+from .list_vrbo_transactions_response_200_data_item_status import ListVrboTransactionsResponse200DataItemStatus
+from .list_vrbo_transactions_status import ListVrboTransactionsStatus
 from .list_webhook_deliveries_status import ListWebhookDeliveriesStatus
 from .list_workspaces_response_200 import ListWorkspacesResponse200
 from .list_workspaces_response_200_pagination import ListWorkspacesResponse200Pagination
@@ -1702,6 +1710,10 @@ from .sync_airbnb_transactions_body_transaction_type import SyncAirbnbTransactio
 from .sync_airbnb_transactions_response_200 import SyncAirbnbTransactionsResponse200
 from .sync_airbnb_transactions_response_200_accounts_item import SyncAirbnbTransactionsResponse200AccountsItem
 from .sync_airbnb_transactions_response_200_accounts_item_error import SyncAirbnbTransactionsResponse200AccountsItemError
+from .sync_vrbo_transactions_body import SyncVrboTransactionsBody
+from .sync_vrbo_transactions_response_200 import SyncVrboTransactionsResponse200
+from .sync_vrbo_transactions_response_200_accounts_item import SyncVrboTransactionsResponse200AccountsItem
+from .sync_vrbo_transactions_response_200_accounts_item_error import SyncVrboTransactionsResponse200AccountsItemError
 from .test_webhook_body import TestWebhookBody
 from .transaction import Transaction
 from .transaction_fees import TransactionFees
@@ -3380,6 +3392,14 @@ __all__ = (
     "ListTransactionsPlatform",
     "ListTransactionsResponse200",
     "ListVrboListingsStatus",
+    "ListVrboTransactionsResponse200",
+    "ListVrboTransactionsResponse200DataFreshness",
+    "ListVrboTransactionsResponse200DataFreshnessAccountsItem",
+    "ListVrboTransactionsResponse200DataFreshnessReason",
+    "ListVrboTransactionsResponse200DataItem",
+    "ListVrboTransactionsResponse200DataItemPayout",
+    "ListVrboTransactionsResponse200DataItemStatus",
+    "ListVrboTransactionsStatus",
     "ListWebhookDeliveriesStatus",
     "ListWorkspacesResponse200",
     "ListWorkspacesResponse200Pagination",
@@ -3834,6 +3854,10 @@ __all__ = (
     "SyncAirbnbTransactionsResponse200",
     "SyncAirbnbTransactionsResponse200AccountsItem",
     "SyncAirbnbTransactionsResponse200AccountsItemError",
+    "SyncVrboTransactionsBody",
+    "SyncVrboTransactionsResponse200",
+    "SyncVrboTransactionsResponse200AccountsItem",
+    "SyncVrboTransactionsResponse200AccountsItemError",
     "TestWebhookBody",
     "Transaction",
     "TransactionFees",

@@ -26,7 +26,7 @@ T = TypeVar("T", bound="CreateVrboAlterationBody")
 class CreateVrboAlterationBody:
     """ 
         Attributes:
-            confirmation_code (str):  Example: HA-C3WBX1.
+            confirmation_code (str):  Example: HA-8K2P3Q.
             check_in (datetime.date | Unset):
             check_out (datetime.date | Unset):
             check_in_time (str | Unset):  Example: 16:00.
