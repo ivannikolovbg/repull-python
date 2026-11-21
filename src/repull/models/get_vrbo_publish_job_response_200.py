@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.get_vrbo_publish_job_response_200_channel import GetVrboPublishJobResponse200Channel
+from ..models.get_vrbo_publish_job_response_200_mode import GetVrboPublishJobResponse200Mode
 from ..types import UNSET, Unset
 from typing import cast
 
@@ -29,11 +30,13 @@ class GetVrboPublishJobResponse200:
         Attributes:
             listing_id (int | Unset):
             channel (GetVrboPublishJobResponse200Channel | Unset):
+            mode (GetVrboPublishJobResponse200Mode | Unset):
             job (GetVrboPublishJobResponse200Job | Unset):
      """
 
     listing_id: int | Unset = UNSET
     channel: GetVrboPublishJobResponse200Channel | Unset = UNSET
+    mode: GetVrboPublishJobResponse200Mode | Unset = UNSET
     job: GetVrboPublishJobResponse200Job | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -50,6 +53,11 @@ class GetVrboPublishJobResponse200:
             channel = self.channel.value
 
 
+        mode: str | Unset = UNSET
+        if not isinstance(self.mode, Unset):
+            mode = self.mode.value
+
+
         job: dict[str, Any] | Unset = UNSET
         if not isinstance(self.job, Unset):
             job = self.job.to_dict()
@@ -63,6 +71,8 @@ class GetVrboPublishJobResponse200:
             field_dict["listingId"] = listing_id
         if channel is not UNSET:
             field_dict["channel"] = channel
+        if mode is not UNSET:
+            field_dict["mode"] = mode
         if job is not UNSET:
             field_dict["job"] = job
 
@@ -86,6 +96,16 @@ class GetVrboPublishJobResponse200:
 
 
 
+        _mode = d.pop("mode", UNSET)
+        mode: GetVrboPublishJobResponse200Mode | Unset
+        if isinstance(_mode,  Unset):
+            mode = UNSET
+        else:
+            mode = GetVrboPublishJobResponse200Mode(_mode)
+
+
+
+
         _job = d.pop("job", UNSET)
         job: GetVrboPublishJobResponse200Job | Unset
         if isinstance(_job,  Unset):
@@ -99,6 +119,7 @@ class GetVrboPublishJobResponse200:
         get_vrbo_publish_job_response_200 = cls(
             listing_id=listing_id,
             channel=channel,
+            mode=mode,
             job=job,
         )
 

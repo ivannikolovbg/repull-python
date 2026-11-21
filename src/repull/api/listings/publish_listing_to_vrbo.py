@@ -96,6 +96,20 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_502
 
+    if response.status_code == 503:
+        response_503 = Error.from_dict(response.json())
+
+
+
+        return response_503
+
+    if response.status_code == 504:
+        response_504 = Error.from_dict(response.json())
+
+
+
+        return response_504
+
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -118,9 +132,12 @@ def sync_detailed(
     body: PublishListingToVrboBody | Unset = UNSET,
 
 ) -> Response[Error | PublishListingToVrboResponse202]:
-    r""" Create a listing on Vrbo
+    r""" Create or update a listing on Vrbo
 
-     Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
+     **A listing not yet on Vrbo** is created there; **a listing already linked to a Vrbo listing** gets
+    its content pushed onto that listing (`mode: update`, below).
+
+    Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
     and description, property type, rooms and beds, amenities, photos, house rules (guests, minimum age,
     children, pets, smoking, events), check-in and check-out times, minimum stay, advance notice and
     booking window, the nightly price, cleaning, pet and extra-guest fees, the cancellation policy and
@@ -138,12 +155,29 @@ def sync_detailed(
     refused with `403 vrbo_messaging_access`.
 
     **Missing content** (street address, city, photos, nightly price, description) is refused with `422
-    listing_incomplete` naming what is missing. A listing already linked to a Vrbo unit is `409
-    listing_already_on_vrbo`. A run that failed part-way leaves an unpublished Vrbo property: publishing
-    again completes it instead of creating a second one.
+    listing_incomplete` naming what is missing. A run that failed part-way leaves an unpublished Vrbo
+    property: publishing again completes it instead of creating a second one.
 
-    This creates a Vrbo listing. Prices, availability and minimum stay on an existing one change through
-    `PUT /v1/availability/{propertyId}`; other content of an existing Vrbo listing is edited on Vrbo.
+    **Update (listing already on Vrbo).** Write the content with `PUT /v1/listings/{id}/content`, then
+    publish: the listing's content is pushed onto its existing Vrbo listing, section by section —
+    headline and description, property type, amenities, house rules (check-in/out, guests, children,
+    pets, smoking, events), booking settings (instant book, minimum stay, notice, booking window),
+    cancellation policy, cleaning/pet/extra-guest fees, the base rate (with the unit's markup) and the
+    weekly and monthly stay discounts over the booking window (`rates`; the nights keep the prices Vrbo
+    has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
+    is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
+    `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
+    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
+    existing listing (`skipped` says so): edit them with `PUT
+    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
+    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
+    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
+    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
+    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
+    otherwise).
+
+    Prices, availability and minimum stay per night always go through the calendar: `PUT
+    /v1/availability/{propertyId}`.
 
     Args:
         id (int):
@@ -177,9 +211,12 @@ def sync(
     body: PublishListingToVrboBody | Unset = UNSET,
 
 ) -> Error | PublishListingToVrboResponse202 | None:
-    r""" Create a listing on Vrbo
+    r""" Create or update a listing on Vrbo
 
-     Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
+     **A listing not yet on Vrbo** is created there; **a listing already linked to a Vrbo listing** gets
+    its content pushed onto that listing (`mode: update`, below).
+
+    Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
     and description, property type, rooms and beds, amenities, photos, house rules (guests, minimum age,
     children, pets, smoking, events), check-in and check-out times, minimum stay, advance notice and
     booking window, the nightly price, cleaning, pet and extra-guest fees, the cancellation policy and
@@ -197,12 +234,29 @@ def sync(
     refused with `403 vrbo_messaging_access`.
 
     **Missing content** (street address, city, photos, nightly price, description) is refused with `422
-    listing_incomplete` naming what is missing. A listing already linked to a Vrbo unit is `409
-    listing_already_on_vrbo`. A run that failed part-way leaves an unpublished Vrbo property: publishing
-    again completes it instead of creating a second one.
+    listing_incomplete` naming what is missing. A run that failed part-way leaves an unpublished Vrbo
+    property: publishing again completes it instead of creating a second one.
 
-    This creates a Vrbo listing. Prices, availability and minimum stay on an existing one change through
-    `PUT /v1/availability/{propertyId}`; other content of an existing Vrbo listing is edited on Vrbo.
+    **Update (listing already on Vrbo).** Write the content with `PUT /v1/listings/{id}/content`, then
+    publish: the listing's content is pushed onto its existing Vrbo listing, section by section —
+    headline and description, property type, amenities, house rules (check-in/out, guests, children,
+    pets, smoking, events), booking settings (instant book, minimum stay, notice, booking window),
+    cancellation policy, cleaning/pet/extra-guest fees, the base rate (with the unit's markup) and the
+    weekly and monthly stay discounts over the booking window (`rates`; the nights keep the prices Vrbo
+    has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
+    is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
+    `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
+    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
+    existing listing (`skipped` says so): edit them with `PUT
+    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
+    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
+    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
+    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
+    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
+    otherwise).
+
+    Prices, availability and minimum stay per night always go through the calendar: `PUT
+    /v1/availability/{propertyId}`.
 
     Args:
         id (int):
@@ -231,9 +285,12 @@ async def asyncio_detailed(
     body: PublishListingToVrboBody | Unset = UNSET,
 
 ) -> Response[Error | PublishListingToVrboResponse202]:
-    r""" Create a listing on Vrbo
+    r""" Create or update a listing on Vrbo
 
-     Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
+     **A listing not yet on Vrbo** is created there; **a listing already linked to a Vrbo listing** gets
+    its content pushed onto that listing (`mode: update`, below).
+
+    Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
     and description, property type, rooms and beds, amenities, photos, house rules (guests, minimum age,
     children, pets, smoking, events), check-in and check-out times, minimum stay, advance notice and
     booking window, the nightly price, cleaning, pet and extra-guest fees, the cancellation policy and
@@ -251,12 +308,29 @@ async def asyncio_detailed(
     refused with `403 vrbo_messaging_access`.
 
     **Missing content** (street address, city, photos, nightly price, description) is refused with `422
-    listing_incomplete` naming what is missing. A listing already linked to a Vrbo unit is `409
-    listing_already_on_vrbo`. A run that failed part-way leaves an unpublished Vrbo property: publishing
-    again completes it instead of creating a second one.
+    listing_incomplete` naming what is missing. A run that failed part-way leaves an unpublished Vrbo
+    property: publishing again completes it instead of creating a second one.
 
-    This creates a Vrbo listing. Prices, availability and minimum stay on an existing one change through
-    `PUT /v1/availability/{propertyId}`; other content of an existing Vrbo listing is edited on Vrbo.
+    **Update (listing already on Vrbo).** Write the content with `PUT /v1/listings/{id}/content`, then
+    publish: the listing's content is pushed onto its existing Vrbo listing, section by section —
+    headline and description, property type, amenities, house rules (check-in/out, guests, children,
+    pets, smoking, events), booking settings (instant book, minimum stay, notice, booking window),
+    cancellation policy, cleaning/pet/extra-guest fees, the base rate (with the unit's markup) and the
+    weekly and monthly stay discounts over the booking window (`rates`; the nights keep the prices Vrbo
+    has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
+    is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
+    `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
+    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
+    existing listing (`skipped` says so): edit them with `PUT
+    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
+    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
+    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
+    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
+    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
+    otherwise).
+
+    Prices, availability and minimum stay per night always go through the calendar: `PUT
+    /v1/availability/{propertyId}`.
 
     Args:
         id (int):
@@ -290,9 +364,12 @@ async def asyncio(
     body: PublishListingToVrboBody | Unset = UNSET,
 
 ) -> Error | PublishListingToVrboResponse202 | None:
-    r""" Create a listing on Vrbo
+    r""" Create or update a listing on Vrbo
 
-     Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
+     **A listing not yet on Vrbo** is created there; **a listing already linked to a Vrbo listing** gets
+    its content pushed onto that listing (`mode: update`, below).
+
+    Creates the listing on Vrbo in the host's connected Vrbo account, from the listing's content: title
     and description, property type, rooms and beds, amenities, photos, house rules (guests, minimum age,
     children, pets, smoking, events), check-in and check-out times, minimum stay, advance notice and
     booking window, the nightly price, cleaning, pet and extra-guest fees, the cancellation policy and
@@ -310,12 +387,29 @@ async def asyncio(
     refused with `403 vrbo_messaging_access`.
 
     **Missing content** (street address, city, photos, nightly price, description) is refused with `422
-    listing_incomplete` naming what is missing. A listing already linked to a Vrbo unit is `409
-    listing_already_on_vrbo`. A run that failed part-way leaves an unpublished Vrbo property: publishing
-    again completes it instead of creating a second one.
+    listing_incomplete` naming what is missing. A run that failed part-way leaves an unpublished Vrbo
+    property: publishing again completes it instead of creating a second one.
 
-    This creates a Vrbo listing. Prices, availability and minimum stay on an existing one change through
-    `PUT /v1/availability/{propertyId}`; other content of an existing Vrbo listing is edited on Vrbo.
+    **Update (listing already on Vrbo).** Write the content with `PUT /v1/listings/{id}/content`, then
+    publish: the listing's content is pushed onto its existing Vrbo listing, section by section —
+    headline and description, property type, amenities, house rules (check-in/out, guests, children,
+    pets, smoking, events), booking settings (instant book, minimum stay, notice, booking window),
+    cancellation policy, cleaning/pet/extra-guest fees, the base rate (with the unit's markup) and the
+    weekly and monthly stay discounts over the booking window (`rates`; the nights keep the prices Vrbo
+    has). Rates and the base rate share Vrbo's calendar quota with the listing's calendar push: when it
+    is writing, those steps wait for it (up to 3 minutes) and try once more, else they end `failed` with
+    `vrbo_calendar_busy` — publish again later. Each write is partial (a field the content has no value
+    for is left alone) and is read back from Vrbo. Rooms, photos and registration are not replaced on an
+    existing listing (`skipped` says so): edit them with `PUT
+    /v1/channels/vrbo/listings/{id}/{section}`. It is a job too (a few minutes: Vrbo calls are spaced ~3
+    s apart per account): poll `GET ?jobId=` — each entry of `job.sections` has its `status`, Vrbo's
+    refusals and what Vrbo stored. Limit it with `sections` (e.g. `[\"description\", \"fees\"]`); name
+    the Vrbo listing with `vrboListingNumber` when the listing is linked to several. One push per
+    listing at a time (`409 vrbo_push_running`). Needs full access (`403 vrbo_messaging_access`
+    otherwise).
+
+    Prices, availability and minimum stay per night always go through the calendar: `PUT
+    /v1/availability/{propertyId}`.
 
     Args:
         id (int):

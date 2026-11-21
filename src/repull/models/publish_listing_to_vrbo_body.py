@@ -8,7 +8,9 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.publish_listing_to_vrbo_body_sections_item import PublishListingToVrboBodySectionsItem
 from ..types import UNSET, Unset
+from typing import cast
 
 
 
@@ -28,10 +30,16 @@ class PublishListingToVrboBody:
                 2027-02-12.
             property_id (str | Unset): Finish this unpublished Vrbo property (from a failed run's `job.propertyId`) instead
                 of starting a new one.
+            sections (list[PublishListingToVrboBodySectionsItem] | Unset): Update only: push just these sections (default:
+                all of them).
+            vrbo_listing_number (str | Unset): Update only: the Vrbo listing to push to, when the listing is linked to
+                several.
      """
 
     account_id: str | Unset = UNSET
     property_id: str | Unset = UNSET
+    sections: list[PublishListingToVrboBodySectionsItem] | Unset = UNSET
+    vrbo_listing_number: str | Unset = UNSET
 
 
 
@@ -42,6 +50,17 @@ class PublishListingToVrboBody:
 
         property_id = self.property_id
 
+        sections: list[str] | Unset = UNSET
+        if not isinstance(self.sections, Unset):
+            sections = []
+            for sections_item_data in self.sections:
+                sections_item = sections_item_data.value
+                sections.append(sections_item)
+
+
+
+        vrbo_listing_number = self.vrbo_listing_number
+
 
         field_dict: dict[str, Any] = {}
 
@@ -51,6 +70,10 @@ class PublishListingToVrboBody:
             field_dict["accountId"] = account_id
         if property_id is not UNSET:
             field_dict["propertyId"] = property_id
+        if sections is not UNSET:
+            field_dict["sections"] = sections
+        if vrbo_listing_number is not UNSET:
+            field_dict["vrboListingNumber"] = vrbo_listing_number
 
         return field_dict
 
@@ -63,9 +86,25 @@ class PublishListingToVrboBody:
 
         property_id = d.pop("propertyId", UNSET)
 
+        _sections = d.pop("sections", UNSET)
+        sections: list[PublishListingToVrboBodySectionsItem] | Unset = UNSET
+        if _sections is not UNSET:
+            sections = []
+            for sections_item_data in _sections:
+                sections_item = PublishListingToVrboBodySectionsItem(sections_item_data)
+
+
+
+                sections.append(sections_item)
+
+
+        vrbo_listing_number = d.pop("vrboListingNumber", UNSET)
+
         publish_listing_to_vrbo_body = cls(
             account_id=account_id,
             property_id=property_id,
+            sections=sections,
+            vrbo_listing_number=vrbo_listing_number,
         )
 
         return publish_listing_to_vrbo_body

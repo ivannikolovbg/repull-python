@@ -94,13 +94,14 @@ def sync_detailed(
     job_id: str,
 
 ) -> Response[Error | GetVrboPublishJobResponse200]:
-    """ Progress of a Vrbo listing creation
+    """ Progress of a Vrbo listing creation or update
 
-     Each step Vrbo has finished, Vrbo's reason when it failed, the new Vrbo listing number once
-    published, and photos Vrbo's review refused. When Vrbo has published the listing, this read links
-    the new unit to the listing with calendar sync on and queues the whole calendar — poll until
-    `linked` is true. A job is remembered while it runs and for a while after; an unknown job is `404`
-    (publish again to resume).
+     For a push onto an existing Vrbo listing (`vrbo_push_…` job): each section with its status, Vrbo's
+    refusals and what Vrbo stored; pushes are kept for a day. For a creation: each step Vrbo has
+    finished, Vrbo's reason when it failed, the new Vrbo listing number once published, and photos
+    Vrbo's review refused. When Vrbo has published the listing, this read links the new unit to the
+    listing with calendar sync on and queues the whole calendar — poll until `linked` is true. A job is
+    remembered while it runs and for a while after; an unknown job is `404` (publish again to resume).
 
     Args:
         id (int):
@@ -134,13 +135,14 @@ def sync(
     job_id: str,
 
 ) -> Error | GetVrboPublishJobResponse200 | None:
-    """ Progress of a Vrbo listing creation
+    """ Progress of a Vrbo listing creation or update
 
-     Each step Vrbo has finished, Vrbo's reason when it failed, the new Vrbo listing number once
-    published, and photos Vrbo's review refused. When Vrbo has published the listing, this read links
-    the new unit to the listing with calendar sync on and queues the whole calendar — poll until
-    `linked` is true. A job is remembered while it runs and for a while after; an unknown job is `404`
-    (publish again to resume).
+     For a push onto an existing Vrbo listing (`vrbo_push_…` job): each section with its status, Vrbo's
+    refusals and what Vrbo stored; pushes are kept for a day. For a creation: each step Vrbo has
+    finished, Vrbo's reason when it failed, the new Vrbo listing number once published, and photos
+    Vrbo's review refused. When Vrbo has published the listing, this read links the new unit to the
+    listing with calendar sync on and queues the whole calendar — poll until `linked` is true. A job is
+    remembered while it runs and for a while after; an unknown job is `404` (publish again to resume).
 
     Args:
         id (int):
@@ -169,13 +171,14 @@ async def asyncio_detailed(
     job_id: str,
 
 ) -> Response[Error | GetVrboPublishJobResponse200]:
-    """ Progress of a Vrbo listing creation
+    """ Progress of a Vrbo listing creation or update
 
-     Each step Vrbo has finished, Vrbo's reason when it failed, the new Vrbo listing number once
-    published, and photos Vrbo's review refused. When Vrbo has published the listing, this read links
-    the new unit to the listing with calendar sync on and queues the whole calendar — poll until
-    `linked` is true. A job is remembered while it runs and for a while after; an unknown job is `404`
-    (publish again to resume).
+     For a push onto an existing Vrbo listing (`vrbo_push_…` job): each section with its status, Vrbo's
+    refusals and what Vrbo stored; pushes are kept for a day. For a creation: each step Vrbo has
+    finished, Vrbo's reason when it failed, the new Vrbo listing number once published, and photos
+    Vrbo's review refused. When Vrbo has published the listing, this read links the new unit to the
+    listing with calendar sync on and queues the whole calendar — poll until `linked` is true. A job is
+    remembered while it runs and for a while after; an unknown job is `404` (publish again to resume).
 
     Args:
         id (int):
@@ -209,13 +212,14 @@ async def asyncio(
     job_id: str,
 
 ) -> Error | GetVrboPublishJobResponse200 | None:
-    """ Progress of a Vrbo listing creation
+    """ Progress of a Vrbo listing creation or update
 
-     Each step Vrbo has finished, Vrbo's reason when it failed, the new Vrbo listing number once
-    published, and photos Vrbo's review refused. When Vrbo has published the listing, this read links
-    the new unit to the listing with calendar sync on and queues the whole calendar — poll until
-    `linked` is true. A job is remembered while it runs and for a while after; an unknown job is `404`
-    (publish again to resume).
+     For a push onto an existing Vrbo listing (`vrbo_push_…` job): each section with its status, Vrbo's
+    refusals and what Vrbo stored; pushes are kept for a day. For a creation: each step Vrbo has
+    finished, Vrbo's reason when it failed, the new Vrbo listing number once published, and photos
+    Vrbo's review refused. When Vrbo has published the listing, this read links the new unit to the
+    listing with calendar sync on and queues the whole calendar — poll until `linked` is true. A job is
+    remembered while it runs and for a while after; an unknown job is `404` (publish again to resume).
 
     Args:
         id (int):

@@ -8,12 +8,17 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
+from ..models.publish_listing_to_vrbo_response_202_job_mode import PublishListingToVrboResponse202JobMode
 from ..models.publish_listing_to_vrbo_response_202_job_status import PublishListingToVrboResponse202JobStatus
 from ..types import UNSET, Unset
+from dateutil.parser import isoparse
 from typing import cast
+import datetime
 
 if TYPE_CHECKING:
   from ..models.publish_listing_to_vrbo_response_202_job_rejected_photos_item import PublishListingToVrboResponse202JobRejectedPhotosItem
+  from ..models.publish_listing_to_vrbo_response_202_job_sections_item import PublishListingToVrboResponse202JobSectionsItem
+  from ..models.publish_listing_to_vrbo_response_202_job_skipped_item import PublishListingToVrboResponse202JobSkippedItem
 
 
 
@@ -27,7 +32,10 @@ T = TypeVar("T", bound="PublishListingToVrboResponse202Job")
 class PublishListingToVrboResponse202Job:
     """ 
         Attributes:
-            job_id (str | Unset): Pass to `GET /v1/listings/{id}/publish/vrbo?jobId=`.
+            job_id (str | Unset): Pass to `GET /v1/listings/{id}/publish/vrbo?jobId=`. A creation is `vrbo_<n>_<n>`, a push
+                onto an existing Vrbo listing `vrbo_push_<n>_<n>`.
+            mode (PublishListingToVrboResponse202JobMode | Unset): `create`: the listing is being created on Vrbo. `update`:
+                it was already on Vrbo and its content is being pushed onto that listing.
             status (PublishListingToVrboResponse202JobStatus | Unset):
             listing_id (int | Unset):
             account_id (None | str | Unset): The Vrbo account the listing is created in, as its handle `vrbo:{Vrbo account
@@ -46,9 +54,16 @@ class PublishListingToVrboResponse202Job:
                 a Vrbo rule.
             resumed_property_id (None | str | Unset): POST only: set when an unfinished Vrbo property of this listing is
                 completed instead of starting a new one.
+            sections (list[PublishListingToVrboResponse202JobSectionsItem] | Unset): Update only: each section pushed, in
+                order, with what was sent, Vrbo's refusals and what Vrbo has stored after the write.
+            skipped (list[PublishListingToVrboResponse202JobSkippedItem] | Unset): Update only: sections the push leaves as
+                they are on Vrbo, and why (rooms, photos, registration, or no value in the listing content).
+            started_at (datetime.datetime | Unset): Update only.
+            finished_at (datetime.datetime | None | Unset): Update only.
      """
 
     job_id: str | Unset = UNSET
+    mode: PublishListingToVrboResponse202JobMode | Unset = UNSET
     status: PublishListingToVrboResponse202JobStatus | Unset = UNSET
     listing_id: int | Unset = UNSET
     account_id: None | str | Unset = UNSET
@@ -60,6 +75,10 @@ class PublishListingToVrboResponse202Job:
     rejected_photos: list[PublishListingToVrboResponse202JobRejectedPhotosItem] | Unset = UNSET
     adjustments: list[str] | Unset = UNSET
     resumed_property_id: None | str | Unset = UNSET
+    sections: list[PublishListingToVrboResponse202JobSectionsItem] | Unset = UNSET
+    skipped: list[PublishListingToVrboResponse202JobSkippedItem] | Unset = UNSET
+    started_at: datetime.datetime | Unset = UNSET
+    finished_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -68,7 +87,14 @@ class PublishListingToVrboResponse202Job:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.publish_listing_to_vrbo_response_202_job_rejected_photos_item import PublishListingToVrboResponse202JobRejectedPhotosItem
+        from ..models.publish_listing_to_vrbo_response_202_job_sections_item import PublishListingToVrboResponse202JobSectionsItem
+        from ..models.publish_listing_to_vrbo_response_202_job_skipped_item import PublishListingToVrboResponse202JobSkippedItem
         job_id = self.job_id
+
+        mode: str | Unset = UNSET
+        if not isinstance(self.mode, Unset):
+            mode = self.mode.value
+
 
         status: str | Unset = UNSET
         if not isinstance(self.status, Unset):
@@ -130,6 +156,36 @@ class PublishListingToVrboResponse202Job:
         else:
             resumed_property_id = self.resumed_property_id
 
+        sections: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.sections, Unset):
+            sections = []
+            for sections_item_data in self.sections:
+                sections_item = sections_item_data.to_dict()
+                sections.append(sections_item)
+
+
+
+        skipped: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.skipped, Unset):
+            skipped = []
+            for skipped_item_data in self.skipped:
+                skipped_item = skipped_item_data.to_dict()
+                skipped.append(skipped_item)
+
+
+
+        started_at: str | Unset = UNSET
+        if not isinstance(self.started_at, Unset):
+            started_at = self.started_at.isoformat()
+
+        finished_at: None | str | Unset
+        if isinstance(self.finished_at, Unset):
+            finished_at = UNSET
+        elif isinstance(self.finished_at, datetime.datetime):
+            finished_at = self.finished_at.isoformat()
+        else:
+            finished_at = self.finished_at
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -137,6 +193,8 @@ class PublishListingToVrboResponse202Job:
         })
         if job_id is not UNSET:
             field_dict["jobId"] = job_id
+        if mode is not UNSET:
+            field_dict["mode"] = mode
         if status is not UNSET:
             field_dict["status"] = status
         if listing_id is not UNSET:
@@ -159,6 +217,14 @@ class PublishListingToVrboResponse202Job:
             field_dict["adjustments"] = adjustments
         if resumed_property_id is not UNSET:
             field_dict["resumedPropertyId"] = resumed_property_id
+        if sections is not UNSET:
+            field_dict["sections"] = sections
+        if skipped is not UNSET:
+            field_dict["skipped"] = skipped
+        if started_at is not UNSET:
+            field_dict["startedAt"] = started_at
+        if finished_at is not UNSET:
+            field_dict["finishedAt"] = finished_at
 
         return field_dict
 
@@ -167,8 +233,20 @@ class PublishListingToVrboResponse202Job:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.publish_listing_to_vrbo_response_202_job_rejected_photos_item import PublishListingToVrboResponse202JobRejectedPhotosItem
+        from ..models.publish_listing_to_vrbo_response_202_job_sections_item import PublishListingToVrboResponse202JobSectionsItem
+        from ..models.publish_listing_to_vrbo_response_202_job_skipped_item import PublishListingToVrboResponse202JobSkippedItem
         d = dict(src_dict)
         job_id = d.pop("jobId", UNSET)
+
+        _mode = d.pop("mode", UNSET)
+        mode: PublishListingToVrboResponse202JobMode | Unset
+        if isinstance(_mode,  Unset):
+            mode = UNSET
+        else:
+            mode = PublishListingToVrboResponse202JobMode(_mode)
+
+
+
 
         _status = d.pop("status", UNSET)
         status: PublishListingToVrboResponse202JobStatus | Unset
@@ -252,8 +330,63 @@ class PublishListingToVrboResponse202Job:
         resumed_property_id = _parse_resumed_property_id(d.pop("resumedPropertyId", UNSET))
 
 
+        _sections = d.pop("sections", UNSET)
+        sections: list[PublishListingToVrboResponse202JobSectionsItem] | Unset = UNSET
+        if _sections is not UNSET:
+            sections = []
+            for sections_item_data in _sections:
+                sections_item = PublishListingToVrboResponse202JobSectionsItem.from_dict(sections_item_data)
+
+
+
+                sections.append(sections_item)
+
+
+        _skipped = d.pop("skipped", UNSET)
+        skipped: list[PublishListingToVrboResponse202JobSkippedItem] | Unset = UNSET
+        if _skipped is not UNSET:
+            skipped = []
+            for skipped_item_data in _skipped:
+                skipped_item = PublishListingToVrboResponse202JobSkippedItem.from_dict(skipped_item_data)
+
+
+
+                skipped.append(skipped_item)
+
+
+        _started_at = d.pop("startedAt", UNSET)
+        started_at: datetime.datetime | Unset
+        if isinstance(_started_at,  Unset):
+            started_at = UNSET
+        else:
+            started_at = isoparse(_started_at)
+
+
+
+
+        def _parse_finished_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                finished_at_type_0 = isoparse(data)
+
+
+
+                return finished_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        finished_at = _parse_finished_at(d.pop("finishedAt", UNSET))
+
+
         publish_listing_to_vrbo_response_202_job = cls(
             job_id=job_id,
+            mode=mode,
             status=status,
             listing_id=listing_id,
             account_id=account_id,
@@ -265,6 +398,10 @@ class PublishListingToVrboResponse202Job:
             rejected_photos=rejected_photos,
             adjustments=adjustments,
             resumed_property_id=resumed_property_id,
+            sections=sections,
+            skipped=skipped,
+            started_at=started_at,
+            finished_at=finished_at,
         )
 
 
