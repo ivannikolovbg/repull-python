@@ -5,6 +5,7 @@ class VrboLoginResponse200Status(str, Enum):
     FAILED = "failed"
     OTP_REQUIRED = "otp_required"
     PENDING = "pending"
+    PHONE_REQUIRED = "phone_required"
 
     def __str__(self) -> str:
         return str(self.value)

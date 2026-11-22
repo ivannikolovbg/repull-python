@@ -31,6 +31,7 @@ class VrboLoginBody:
             password (str | Unset):
             account_id (int | Unset):
             code (str | Unset):
+            phone (str | Unset): `action: phone` — the contact phone with its country code, e.g. `+373 69 123 456`.
             access_type (VrboLoginBodyAccessType | Unset):
      """
 
@@ -40,6 +41,7 @@ class VrboLoginBody:
     password: str | Unset = UNSET
     account_id: int | Unset = UNSET
     code: str | Unset = UNSET
+    phone: str | Unset = UNSET
     access_type: VrboLoginBodyAccessType | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -59,6 +61,8 @@ class VrboLoginBody:
         account_id = self.account_id
 
         code = self.code
+
+        phone = self.phone
 
         access_type: str | Unset = UNSET
         if not isinstance(self.access_type, Unset):
@@ -80,6 +84,8 @@ class VrboLoginBody:
             field_dict["accountId"] = account_id
         if code is not UNSET:
             field_dict["code"] = code
+        if phone is not UNSET:
+            field_dict["phone"] = phone
         if access_type is not UNSET:
             field_dict["accessType"] = access_type
 
@@ -105,6 +111,8 @@ class VrboLoginBody:
 
         code = d.pop("code", UNSET)
 
+        phone = d.pop("phone", UNSET)
+
         _access_type = d.pop("accessType", UNSET)
         access_type: VrboLoginBodyAccessType | Unset
         if isinstance(_access_type,  Unset):
@@ -122,6 +130,7 @@ class VrboLoginBody:
             password=password,
             account_id=account_id,
             code=code,
+            phone=phone,
             access_type=access_type,
         )
 
