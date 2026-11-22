@@ -420,6 +420,15 @@ from .create_vrbo_alteration_response_201_data_before import CreateVrboAlteratio
 from .create_vrbo_alteration_response_201_data_payment_type_0 import CreateVrboAlterationResponse201DataPaymentType0
 from .create_vrbo_alteration_response_201_data_payment_type_0_lines_item import CreateVrboAlterationResponse201DataPaymentType0LinesItem
 from .create_vrbo_alteration_response_201_data_payment_type_0_total import CreateVrboAlterationResponse201DataPaymentType0Total
+from .create_vrbo_offer_body import CreateVrboOfferBody
+from .create_vrbo_offer_body_fees_item import CreateVrboOfferBodyFeesItem
+from .create_vrbo_offer_body_guest_details import CreateVrboOfferBodyGuestDetails
+from .create_vrbo_offer_body_type import CreateVrboOfferBodyType
+from .create_vrbo_offer_response_201_type_0 import CreateVrboOfferResponse201Type0
+from .create_vrbo_offer_response_201_type_1 import CreateVrboOfferResponse201Type1
+from .create_vrbo_offer_response_201_type_1_fees_item import CreateVrboOfferResponse201Type1FeesItem
+from .create_vrbo_offer_response_201_type_1_guests_type_0 import CreateVrboOfferResponse201Type1GuestsType0
+from .create_vrbo_offer_response_201_type_1_lines_item import CreateVrboOfferResponse201Type1LinesItem
 from .create_webhook_body import CreateWebhookBody
 from .cursor_pagination import CursorPagination
 from .custom_schema import CustomSchema
@@ -513,11 +522,35 @@ from .get_airbnb_checkin_guide_response_200 import GetAirbnbCheckinGuideResponse
 from .get_airbnb_checkin_guide_response_200_data_item import GetAirbnbCheckinGuideResponse200DataItem
 from .get_airbnb_checkout_guide_response_200 import GetAirbnbCheckoutGuideResponse200
 from .get_airbnb_checkout_guide_response_200_data_item import GetAirbnbCheckoutGuideResponse200DataItem
+from .get_airbnb_house_rules_response_200 import GetAirbnbHouseRulesResponse200
+from .get_airbnb_house_rules_response_200_data import GetAirbnbHouseRulesResponse200Data
+from .get_airbnb_house_rules_response_200_data_children import GetAirbnbHouseRulesResponse200DataChildren
+from .get_airbnb_house_rules_response_200_data_events import GetAirbnbHouseRulesResponse200DataEvents
+from .get_airbnb_house_rules_response_200_data_expectations_item import GetAirbnbHouseRulesResponse200DataExpectationsItem
+from .get_airbnb_house_rules_response_200_data_house_rules_item import GetAirbnbHouseRulesResponse200DataHouseRulesItem
+from .get_airbnb_house_rules_response_200_data_infants import GetAirbnbHouseRulesResponse200DataInfants
+from .get_airbnb_house_rules_response_200_data_pets import GetAirbnbHouseRulesResponse200DataPets
+from .get_airbnb_house_rules_response_200_data_smoking import GetAirbnbHouseRulesResponse200DataSmoking
+from .get_airbnb_listing_cancellation_response_200 import GetAirbnbListingCancellationResponse200
+from .get_airbnb_listing_cancellation_response_200_data import GetAirbnbListingCancellationResponse200Data
+from .get_airbnb_listing_cancellation_response_200_data_non_refundable import GetAirbnbListingCancellationResponse200DataNonRefundable
+from .get_airbnb_listing_cancellation_response_200_data_short_stay_policy import GetAirbnbListingCancellationResponse200DataShortStayPolicy
 from .get_airbnb_listing_details_response_200 import GetAirbnbListingDetailsResponse200
+from .get_airbnb_listing_fees_response_200 import GetAirbnbListingFeesResponse200
+from .get_airbnb_listing_fees_response_200_data_item import GetAirbnbListingFeesResponse200DataItem
+from .get_airbnb_listing_fees_response_200_data_item_amount_type import GetAirbnbListingFeesResponse200DataItemAmountType
+from .get_airbnb_listing_fees_response_200_data_item_charge_period import GetAirbnbListingFeesResponse200DataItemChargePeriod
+from .get_airbnb_listing_fees_response_200_data_item_charge_type import GetAirbnbListingFeesResponse200DataItemChargeType
 from .get_airbnb_listing_quality_response_200 import GetAirbnbListingQualityResponse200
 from .get_airbnb_listing_quality_type import GetAirbnbListingQualityType
 from .get_airbnb_listing_settings_response_200 import GetAirbnbListingSettingsResponse200
 from .get_airbnb_listing_settings_type import GetAirbnbListingSettingsType
+from .get_airbnb_listing_taxes_response_200 import GetAirbnbListingTaxesResponse200
+from .get_airbnb_listing_taxes_response_200_data_item import GetAirbnbListingTaxesResponse200DataItem
+from .get_airbnb_listing_taxes_response_200_data_item_source import GetAirbnbListingTaxesResponse200DataItemSource
+from .get_airbnb_location_response_200 import GetAirbnbLocationResponse200
+from .get_airbnb_location_response_200_data import GetAirbnbLocationResponse200Data
+from .get_airbnb_location_response_200_data_address_type_0 import GetAirbnbLocationResponse200DataAddressType0
 from .get_airbnb_offer_response_200 import GetAirbnbOfferResponse200
 from .get_airbnb_offer_response_200_guest_details import GetAirbnbOfferResponse200GuestDetails
 from .get_airbnb_offer_response_200_offer_type import GetAirbnbOfferResponse200OfferType
@@ -899,6 +932,17 @@ from .get_vrbo_listing_safety_disclosures_response_200_data_groups_additional_pr
 from .get_vrbo_listing_safety_disclosures_response_200_data_groups_additional_property_fields_item_shown_when_type_0 import GetVrboListingSafetyDisclosuresResponse200DataGroupsAdditionalPropertyFieldsItemShownWhenType0
 from .get_vrbo_listing_safety_disclosures_response_200_data_groups_additional_property_fields_item_type import GetVrboListingSafetyDisclosuresResponse200DataGroupsAdditionalPropertyFieldsItemType
 from .get_vrbo_listing_safety_disclosures_source import GetVrboListingSafetyDisclosuresSource
+from .get_vrbo_listing_settings_response_200 import GetVrboListingSettingsResponse200
+from .get_vrbo_listing_settings_response_200_data_freshness import GetVrboListingSettingsResponse200DataFreshness
+from .get_vrbo_listing_settings_response_200_data_freshness_accounts_item import GetVrboListingSettingsResponse200DataFreshnessAccountsItem
+from .get_vrbo_listing_settings_response_200_data_freshness_reason import GetVrboListingSettingsResponse200DataFreshnessReason
+from .get_vrbo_listing_settings_response_200_data_freshness_source import GetVrboListingSettingsResponse200DataFreshnessSource
+from .get_vrbo_listing_settings_response_200_data_type_0 import GetVrboListingSettingsResponse200DataType0
+from .get_vrbo_listing_settings_response_200_data_type_2 import GetVrboListingSettingsResponse200DataType2
+from .get_vrbo_listing_settings_response_200_data_type_2_fields_item import GetVrboListingSettingsResponse200DataType2FieldsItem
+from .get_vrbo_listing_settings_response_200_data_type_2_fields_item_options_item import GetVrboListingSettingsResponse200DataType2FieldsItemOptionsItem
+from .get_vrbo_listing_settings_source import GetVrboListingSettingsSource
+from .get_vrbo_listing_settings_type import GetVrboListingSettingsType
 from .get_vrbo_listing_story_response_200 import GetVrboListingStoryResponse200
 from .get_vrbo_listing_story_response_200_data import GetVrboListingStoryResponse200Data
 from .get_vrbo_listing_story_response_200_data_freshness import GetVrboListingStoryResponse200DataFreshness
@@ -923,6 +967,10 @@ from .get_vrbo_listing_videos_response_200_data_freshness_reason import GetVrboL
 from .get_vrbo_listing_videos_response_200_data_freshness_source import GetVrboListingVideosResponse200DataFreshnessSource
 from .get_vrbo_listing_videos_response_200_data_items_item import GetVrboListingVideosResponse200DataItemsItem
 from .get_vrbo_listing_videos_source import GetVrboListingVideosSource
+from .get_vrbo_offer_response_200 import GetVrboOfferResponse200
+from .get_vrbo_offer_response_200_fees_item import GetVrboOfferResponse200FeesItem
+from .get_vrbo_offer_response_200_guests_type_0 import GetVrboOfferResponse200GuestsType0
+from .get_vrbo_offer_response_200_lines_item import GetVrboOfferResponse200LinesItem
 from .get_vrbo_publish_job_response_200 import GetVrboPublishJobResponse200
 from .get_vrbo_publish_job_response_200_channel import GetVrboPublishJobResponse200Channel
 from .get_vrbo_publish_job_response_200_job import GetVrboPublishJobResponse200Job
@@ -944,6 +992,9 @@ from .get_vrbo_reservation_response_200_data_freshness_accounts_item import GetV
 from .get_vrbo_reservation_response_200_data_freshness_source import GetVrboReservationResponse200DataFreshnessSource
 from .get_vrbo_reservation_response_200_data_guest_lines_item import GetVrboReservationResponse200DataGuestLinesItem
 from .get_vrbo_reservation_response_200_data_host_lines_item import GetVrboReservationResponse200DataHostLinesItem
+from .get_vrbo_thread_response_200 import GetVrboThreadResponse200
+from .get_vrbo_thread_response_200_data import GetVrboThreadResponse200Data
+from .get_vrbo_thread_response_200_data_freshness import GetVrboThreadResponse200DataFreshness
 from .get_webhooks_health_response_200 import GetWebhooksHealthResponse200
 from .guest import Guest
 from .guest_contact import GuestContact
@@ -1091,6 +1142,16 @@ from .list_reviews_status import ListReviewsStatus
 from .list_transactions_platform import ListTransactionsPlatform
 from .list_transactions_response_200 import ListTransactionsResponse200
 from .list_vrbo_listings_status import ListVrboListingsStatus
+from .list_vrbo_reviews_reviewer_role import ListVrboReviewsReviewerRole
+from .list_vrbo_reviews_status import ListVrboReviewsStatus
+from .list_vrbo_thread_messages_response_200 import ListVrboThreadMessagesResponse200
+from .list_vrbo_thread_messages_response_200_data_freshness import ListVrboThreadMessagesResponse200DataFreshness
+from .list_vrbo_thread_messages_response_200_data_item import ListVrboThreadMessagesResponse200DataItem
+from .list_vrbo_thread_messages_response_200_pagination import ListVrboThreadMessagesResponse200Pagination
+from .list_vrbo_threads_response_200 import ListVrboThreadsResponse200
+from .list_vrbo_threads_response_200_data_freshness import ListVrboThreadsResponse200DataFreshness
+from .list_vrbo_threads_response_200_data_item import ListVrboThreadsResponse200DataItem
+from .list_vrbo_threads_response_200_pagination import ListVrboThreadsResponse200Pagination
 from .list_vrbo_transactions_response_200 import ListVrboTransactionsResponse200
 from .list_vrbo_transactions_response_200_data_freshness import ListVrboTransactionsResponse200DataFreshness
 from .list_vrbo_transactions_response_200_data_freshness_accounts_item import ListVrboTransactionsResponse200DataFreshnessAccountsItem
@@ -1438,6 +1499,9 @@ from .publish_listing_to_vrbo_response_202_mode import PublishListingToVrboRespo
 from .publish_section_error import PublishSectionError
 from .publish_section_error_code import PublishSectionErrorCode
 from .publish_section_error_section import PublishSectionErrorSection
+from .pull_listing_from_vrbo_body import PullListingFromVrboBody
+from .pull_listing_from_vrbo_response_200 import PullListingFromVrboResponse200
+from .pull_listing_from_vrbo_response_200_channel import PullListingFromVrboResponse200Channel
 from .quote import Quote
 from .quote_pricing import QuotePricing
 from .reactivate_workspace_response_200 import ReactivateWorkspaceResponse200
@@ -1609,6 +1673,7 @@ from .send_message_part import SendMessagePart
 from .send_message_request import SendMessageRequest
 from .send_message_response import SendMessageResponse
 from .send_message_response_direction import SendMessageResponseDirection
+from .send_vrbo_message_body import SendVrboMessageBody
 from .sent_attachment import SentAttachment
 from .sent_attachment_type import SentAttachmentType
 from .set_airbnb_listing_cover_photo_body import SetAirbnbListingCoverPhotoBody
@@ -1705,6 +1770,11 @@ from .submit_track_credentials_response_200_first_sync import SubmitTrackCredent
 from .submit_vrbo_credentials_body import SubmitVrboCredentialsBody
 from .submit_vrbo_credentials_response_200 import SubmitVrboCredentialsResponse200
 from .submit_vrbo_credentials_response_200_account_info import SubmitVrboCredentialsResponse200AccountInfo
+from .submit_vrbo_guest_review_body import SubmitVrboGuestReviewBody
+from .submit_vrbo_guest_review_body_category_ratings_item import SubmitVrboGuestReviewBodyCategoryRatingsItem
+from .submit_vrbo_guest_review_body_category_ratings_item_category import SubmitVrboGuestReviewBodyCategoryRatingsItemCategory
+from .submit_vrbo_guest_review_response_200 import SubmitVrboGuestReviewResponse200
+from .submit_vrbo_guest_review_response_200_rating import SubmitVrboGuestReviewResponse200Rating
 from .sync_airbnb_transactions_body import SyncAirbnbTransactionsBody
 from .sync_airbnb_transactions_body_transaction_type import SyncAirbnbTransactionsBodyTransactionType
 from .sync_airbnb_transactions_response_200 import SyncAirbnbTransactionsResponse200
@@ -1754,11 +1824,28 @@ from .update_airbnb_checkin_guide_body_steps_item import UpdateAirbnbCheckinGuid
 from .update_airbnb_checkin_guide_response_200 import UpdateAirbnbCheckinGuideResponse200
 from .update_airbnb_checkin_guide_response_200_data import UpdateAirbnbCheckinGuideResponse200Data
 from .update_airbnb_checkin_guide_response_200_data_steps_item import UpdateAirbnbCheckinGuideResponse200DataStepsItem
+from .update_airbnb_house_rules_body import UpdateAirbnbHouseRulesBody
+from .update_airbnb_house_rules_response_200 import UpdateAirbnbHouseRulesResponse200
 from .update_airbnb_listing_amenities_body import UpdateAirbnbListingAmenitiesBody
 from .update_airbnb_listing_amenities_body_accessibility_amenities_item import UpdateAirbnbListingAmenitiesBodyAccessibilityAmenitiesItem
 from .update_airbnb_listing_amenities_body_amenities_item import UpdateAirbnbListingAmenitiesBodyAmenitiesItem
 from .update_airbnb_listing_amenities_response_200 import UpdateAirbnbListingAmenitiesResponse200
 from .update_airbnb_listing_amenities_response_200_data import UpdateAirbnbListingAmenitiesResponse200Data
+from .update_airbnb_listing_cancellation_body import UpdateAirbnbListingCancellationBody
+from .update_airbnb_listing_cancellation_body_non_refundable import UpdateAirbnbListingCancellationBodyNonRefundable
+from .update_airbnb_listing_cancellation_body_short_stay_policy import UpdateAirbnbListingCancellationBodyShortStayPolicy
+from .update_airbnb_listing_cancellation_response_200 import UpdateAirbnbListingCancellationResponse200
+from .update_airbnb_listing_cancellation_response_200_data import UpdateAirbnbListingCancellationResponse200Data
+from .update_airbnb_listing_cancellation_response_200_data_cancellation import UpdateAirbnbListingCancellationResponse200DataCancellation
+from .update_airbnb_listing_cancellation_response_200_data_cancellation_non_refundable import UpdateAirbnbListingCancellationResponse200DataCancellationNonRefundable
+from .update_airbnb_listing_cancellation_response_200_data_cancellation_short_stay_policy import UpdateAirbnbListingCancellationResponse200DataCancellationShortStayPolicy
+from .update_airbnb_listing_fees_body import UpdateAirbnbListingFeesBody
+from .update_airbnb_listing_fees_body_fees_item import UpdateAirbnbListingFeesBodyFeesItem
+from .update_airbnb_listing_fees_body_fees_item_amount_type import UpdateAirbnbListingFeesBodyFeesItemAmountType
+from .update_airbnb_listing_fees_body_fees_item_charge_period import UpdateAirbnbListingFeesBodyFeesItemChargePeriod
+from .update_airbnb_listing_fees_body_fees_item_charge_type import UpdateAirbnbListingFeesBodyFeesItemChargeType
+from .update_airbnb_listing_fees_response_200 import UpdateAirbnbListingFeesResponse200
+from .update_airbnb_listing_fees_response_200_data import UpdateAirbnbListingFeesResponse200Data
 from .update_airbnb_listing_permits_response_200 import UpdateAirbnbListingPermitsResponse200
 from .update_airbnb_listing_permits_response_200_permits_item import UpdateAirbnbListingPermitsResponse200PermitsItem
 from .update_airbnb_listing_photo_body import UpdateAirbnbListingPhotoBody
@@ -2140,6 +2227,7 @@ from .withdraw_conversation_preapproval_response_200_status import WithdrawConve
 from .withdraw_conversation_special_offer_response_200 import WithdrawConversationSpecialOfferResponse200
 from .withdraw_conversation_special_offer_response_200_channel import WithdrawConversationSpecialOfferResponse200Channel
 from .withdraw_conversation_special_offer_response_200_status import WithdrawConversationSpecialOfferResponse200Status
+from .withdraw_vrbo_offer_response_200 import WithdrawVrboOfferResponse200
 from .workspace import Workspace
 from .workspace_created_via import WorkspaceCreatedVia
 
@@ -2564,6 +2652,15 @@ __all__ = (
     "CreateVrboAlterationResponse201DataPaymentType0",
     "CreateVrboAlterationResponse201DataPaymentType0LinesItem",
     "CreateVrboAlterationResponse201DataPaymentType0Total",
+    "CreateVrboOfferBody",
+    "CreateVrboOfferBodyFeesItem",
+    "CreateVrboOfferBodyGuestDetails",
+    "CreateVrboOfferBodyType",
+    "CreateVrboOfferResponse201Type0",
+    "CreateVrboOfferResponse201Type1",
+    "CreateVrboOfferResponse201Type1FeesItem",
+    "CreateVrboOfferResponse201Type1GuestsType0",
+    "CreateVrboOfferResponse201Type1LinesItem",
     "CreateWebhookBody",
     "CursorPagination",
     "CustomSchema",
@@ -2657,11 +2754,35 @@ __all__ = (
     "GetAirbnbCheckinGuideResponse200DataItem",
     "GetAirbnbCheckoutGuideResponse200",
     "GetAirbnbCheckoutGuideResponse200DataItem",
+    "GetAirbnbHouseRulesResponse200",
+    "GetAirbnbHouseRulesResponse200Data",
+    "GetAirbnbHouseRulesResponse200DataChildren",
+    "GetAirbnbHouseRulesResponse200DataEvents",
+    "GetAirbnbHouseRulesResponse200DataExpectationsItem",
+    "GetAirbnbHouseRulesResponse200DataHouseRulesItem",
+    "GetAirbnbHouseRulesResponse200DataInfants",
+    "GetAirbnbHouseRulesResponse200DataPets",
+    "GetAirbnbHouseRulesResponse200DataSmoking",
+    "GetAirbnbListingCancellationResponse200",
+    "GetAirbnbListingCancellationResponse200Data",
+    "GetAirbnbListingCancellationResponse200DataNonRefundable",
+    "GetAirbnbListingCancellationResponse200DataShortStayPolicy",
     "GetAirbnbListingDetailsResponse200",
+    "GetAirbnbListingFeesResponse200",
+    "GetAirbnbListingFeesResponse200DataItem",
+    "GetAirbnbListingFeesResponse200DataItemAmountType",
+    "GetAirbnbListingFeesResponse200DataItemChargePeriod",
+    "GetAirbnbListingFeesResponse200DataItemChargeType",
     "GetAirbnbListingQualityResponse200",
     "GetAirbnbListingQualityType",
     "GetAirbnbListingSettingsResponse200",
     "GetAirbnbListingSettingsType",
+    "GetAirbnbListingTaxesResponse200",
+    "GetAirbnbListingTaxesResponse200DataItem",
+    "GetAirbnbListingTaxesResponse200DataItemSource",
+    "GetAirbnbLocationResponse200",
+    "GetAirbnbLocationResponse200Data",
+    "GetAirbnbLocationResponse200DataAddressType0",
     "GetAirbnbOfferResponse200",
     "GetAirbnbOfferResponse200GuestDetails",
     "GetAirbnbOfferResponse200OfferType",
@@ -3043,6 +3164,17 @@ __all__ = (
     "GetVrboListingSafetyDisclosuresResponse200DataGroupsAdditionalPropertyFieldsItemShownWhenType0",
     "GetVrboListingSafetyDisclosuresResponse200DataGroupsAdditionalPropertyFieldsItemType",
     "GetVrboListingSafetyDisclosuresSource",
+    "GetVrboListingSettingsResponse200",
+    "GetVrboListingSettingsResponse200DataFreshness",
+    "GetVrboListingSettingsResponse200DataFreshnessAccountsItem",
+    "GetVrboListingSettingsResponse200DataFreshnessReason",
+    "GetVrboListingSettingsResponse200DataFreshnessSource",
+    "GetVrboListingSettingsResponse200DataType0",
+    "GetVrboListingSettingsResponse200DataType2",
+    "GetVrboListingSettingsResponse200DataType2FieldsItem",
+    "GetVrboListingSettingsResponse200DataType2FieldsItemOptionsItem",
+    "GetVrboListingSettingsSource",
+    "GetVrboListingSettingsType",
     "GetVrboListingStoryResponse200",
     "GetVrboListingStoryResponse200Data",
     "GetVrboListingStoryResponse200DataFreshness",
@@ -3067,6 +3199,10 @@ __all__ = (
     "GetVrboListingVideosResponse200DataFreshnessSource",
     "GetVrboListingVideosResponse200DataItemsItem",
     "GetVrboListingVideosSource",
+    "GetVrboOfferResponse200",
+    "GetVrboOfferResponse200FeesItem",
+    "GetVrboOfferResponse200GuestsType0",
+    "GetVrboOfferResponse200LinesItem",
     "GetVrboPublishJobResponse200",
     "GetVrboPublishJobResponse200Channel",
     "GetVrboPublishJobResponse200Job",
@@ -3088,6 +3224,9 @@ __all__ = (
     "GetVrboReservationResponse200DataFreshnessSource",
     "GetVrboReservationResponse200DataGuestLinesItem",
     "GetVrboReservationResponse200DataHostLinesItem",
+    "GetVrboThreadResponse200",
+    "GetVrboThreadResponse200Data",
+    "GetVrboThreadResponse200DataFreshness",
     "GetWebhooksHealthResponse200",
     "Guest",
     "GuestContact",
@@ -3392,6 +3531,16 @@ __all__ = (
     "ListTransactionsPlatform",
     "ListTransactionsResponse200",
     "ListVrboListingsStatus",
+    "ListVrboReviewsReviewerRole",
+    "ListVrboReviewsStatus",
+    "ListVrboThreadMessagesResponse200",
+    "ListVrboThreadMessagesResponse200DataFreshness",
+    "ListVrboThreadMessagesResponse200DataItem",
+    "ListVrboThreadMessagesResponse200Pagination",
+    "ListVrboThreadsResponse200",
+    "ListVrboThreadsResponse200DataFreshness",
+    "ListVrboThreadsResponse200DataItem",
+    "ListVrboThreadsResponse200Pagination",
     "ListVrboTransactionsResponse200",
     "ListVrboTransactionsResponse200DataFreshness",
     "ListVrboTransactionsResponse200DataFreshnessAccountsItem",
@@ -3582,6 +3731,9 @@ __all__ = (
     "PublishSectionError",
     "PublishSectionErrorCode",
     "PublishSectionErrorSection",
+    "PullListingFromVrboBody",
+    "PullListingFromVrboResponse200",
+    "PullListingFromVrboResponse200Channel",
     "Quote",
     "QuotePricing",
     "ReactivateWorkspaceResponse200",
@@ -3753,6 +3905,7 @@ __all__ = (
     "SendMessageRequest",
     "SendMessageResponse",
     "SendMessageResponseDirection",
+    "SendVrboMessageBody",
     "SentAttachment",
     "SentAttachmentType",
     "SetAirbnbListingCoverPhotoBody",
@@ -3849,6 +4002,11 @@ __all__ = (
     "SubmitVrboCredentialsBody",
     "SubmitVrboCredentialsResponse200",
     "SubmitVrboCredentialsResponse200AccountInfo",
+    "SubmitVrboGuestReviewBody",
+    "SubmitVrboGuestReviewBodyCategoryRatingsItem",
+    "SubmitVrboGuestReviewBodyCategoryRatingsItemCategory",
+    "SubmitVrboGuestReviewResponse200",
+    "SubmitVrboGuestReviewResponse200Rating",
     "SyncAirbnbTransactionsBody",
     "SyncAirbnbTransactionsBodyTransactionType",
     "SyncAirbnbTransactionsResponse200",
@@ -3898,11 +4056,28 @@ __all__ = (
     "UpdateAirbnbCheckinGuideResponse200",
     "UpdateAirbnbCheckinGuideResponse200Data",
     "UpdateAirbnbCheckinGuideResponse200DataStepsItem",
+    "UpdateAirbnbHouseRulesBody",
+    "UpdateAirbnbHouseRulesResponse200",
     "UpdateAirbnbListingAmenitiesBody",
     "UpdateAirbnbListingAmenitiesBodyAccessibilityAmenitiesItem",
     "UpdateAirbnbListingAmenitiesBodyAmenitiesItem",
     "UpdateAirbnbListingAmenitiesResponse200",
     "UpdateAirbnbListingAmenitiesResponse200Data",
+    "UpdateAirbnbListingCancellationBody",
+    "UpdateAirbnbListingCancellationBodyNonRefundable",
+    "UpdateAirbnbListingCancellationBodyShortStayPolicy",
+    "UpdateAirbnbListingCancellationResponse200",
+    "UpdateAirbnbListingCancellationResponse200Data",
+    "UpdateAirbnbListingCancellationResponse200DataCancellation",
+    "UpdateAirbnbListingCancellationResponse200DataCancellationNonRefundable",
+    "UpdateAirbnbListingCancellationResponse200DataCancellationShortStayPolicy",
+    "UpdateAirbnbListingFeesBody",
+    "UpdateAirbnbListingFeesBodyFeesItem",
+    "UpdateAirbnbListingFeesBodyFeesItemAmountType",
+    "UpdateAirbnbListingFeesBodyFeesItemChargePeriod",
+    "UpdateAirbnbListingFeesBodyFeesItemChargeType",
+    "UpdateAirbnbListingFeesResponse200",
+    "UpdateAirbnbListingFeesResponse200Data",
     "UpdateAirbnbListingPermitsResponse200",
     "UpdateAirbnbListingPermitsResponse200PermitsItem",
     "UpdateAirbnbListingPhotoBody",
@@ -4284,6 +4459,7 @@ __all__ = (
     "WithdrawConversationSpecialOfferResponse200",
     "WithdrawConversationSpecialOfferResponse200Channel",
     "WithdrawConversationSpecialOfferResponse200Status",
+    "WithdrawVrboOfferResponse200",
     "Workspace",
     "WorkspaceCreatedVia",
 )

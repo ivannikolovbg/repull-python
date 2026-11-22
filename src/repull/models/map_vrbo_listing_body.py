@@ -23,8 +23,8 @@ T = TypeVar("T", bound="MapVrboListingBody")
 class MapVrboListingBody:
     """ 
         Attributes:
-            vrbo_listing_number (str): The number in the Vrbo URL (vrbo.com/5506023). Example: 5506023.
-            listing_id (int | Unset): The Repull listing to link it to. Or `create: true`. Example: 6199.
+            vrbo_listing_number (str): The number in the Vrbo URL (vrbo.com/4512345). Example: 4512345.
+            listing_id (int | Unset): The Repull listing to link it to. Or `create: true`. Example: 98765.
             create (bool | Unset): Create a Repull listing from what Vrbo shows, instead of `listingId`.
             account_id (str | Unset): The Vrbo account the unit is on, when the workspace has several. Example:
                 vrbo:7001234.

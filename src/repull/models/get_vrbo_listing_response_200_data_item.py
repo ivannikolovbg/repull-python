@@ -34,7 +34,7 @@ class GetVrboListingResponse200DataItem:
         Attributes:
             id (str | Unset): Repull's id for this link.
             listing_id (str | Unset):
-            vrbo_listing_number (str | Unset): The number in the Vrbo URL (vrbo.com/5506023). Example: 5506023.
+            vrbo_listing_number (str | Unset): The number in the Vrbo URL (vrbo.com/4512345). Example: 4512345.
             unit_id (None | str | Unset):
             property_id (None | str | Unset): Vrbo's property id.
             advertiser_id (None | str | Unset):

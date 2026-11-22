@@ -88,8 +88,9 @@ def sync_detailed(
 ) -> Response[AirbnbThreadListResponse | Error]:
     """ List Airbnb message threads
 
-     List Airbnb message threads (one per guest conversation). Cursor-paginated. Each thread includes a
-    preview of the latest message.
+     List Airbnb message threads (one per guest conversation), newest activity first (up to 200). Only
+    Airbnb threads: conversations from other channels are on their own channel routes (`GET
+    /v1/channels/vrbo/messaging`) or `GET /v1/conversations`.
 
     Threads on inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
@@ -130,8 +131,9 @@ def sync(
 ) -> AirbnbThreadListResponse | Error | None:
     """ List Airbnb message threads
 
-     List Airbnb message threads (one per guest conversation). Cursor-paginated. Each thread includes a
-    preview of the latest message.
+     List Airbnb message threads (one per guest conversation), newest activity first (up to 200). Only
+    Airbnb threads: conversations from other channels are on their own channel routes (`GET
+    /v1/channels/vrbo/messaging`) or `GET /v1/conversations`.
 
     Threads on inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
@@ -167,8 +169,9 @@ async def asyncio_detailed(
 ) -> Response[AirbnbThreadListResponse | Error]:
     """ List Airbnb message threads
 
-     List Airbnb message threads (one per guest conversation). Cursor-paginated. Each thread includes a
-    preview of the latest message.
+     List Airbnb message threads (one per guest conversation), newest activity first (up to 200). Only
+    Airbnb threads: conversations from other channels are on their own channel routes (`GET
+    /v1/channels/vrbo/messaging`) or `GET /v1/conversations`.
 
     Threads on inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
@@ -209,8 +212,9 @@ async def asyncio(
 ) -> AirbnbThreadListResponse | Error | None:
     """ List Airbnb message threads
 
-     List Airbnb message threads (one per guest conversation). Cursor-paginated. Each thread includes a
-    preview of the latest message.
+     List Airbnb message threads (one per guest conversation), newest activity first (up to 200). Only
+    Airbnb threads: conversations from other channels are on their own channel routes (`GET
+    /v1/channels/vrbo/messaging`) or `GET /v1/conversations`.
 
     Threads on inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
