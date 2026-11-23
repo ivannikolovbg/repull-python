@@ -188,6 +188,10 @@ from .alteration_webhook_object_initiator_type_1 import AlterationWebhookObjectI
 from .alteration_webhook_object_initiator_type_2_type_1 import AlterationWebhookObjectInitiatorType2Type1
 from .alteration_webhook_object_initiator_type_3_type_1 import AlterationWebhookObjectInitiatorType3Type1
 from .alteration_webhook_object_status import AlterationWebhookObjectStatus
+from .app_connection_health import AppConnectionHealth
+from .app_connection_health_recent_errors_item import AppConnectionHealthRecentErrorsItem
+from .app_connection_health_status import AppConnectionHealthStatus
+from .app_connection_health_writes_per_day_item import AppConnectionHealthWritesPerDayItem
 from .apply_connection_mappings_body import ApplyConnectionMappingsBody
 from .apply_connection_mappings_body_mappings_item import ApplyConnectionMappingsBodyMappingsItem
 from .apply_connection_mappings_response_200 import ApplyConnectionMappingsResponse200
@@ -352,6 +356,7 @@ from .connection import Connection
 from .connection_access_type import ConnectionAccessType
 from .connection_action import ConnectionAction
 from .connection_list_response import ConnectionListResponse
+from .connection_scope import ConnectionScope
 from .connection_status import ConnectionStatus
 from .conversation import Conversation
 from .conversation_capabilities import ConversationCapabilities
@@ -396,6 +401,7 @@ from .create_connect_session_body_scope_item import CreateConnectSessionBodyScop
 from .create_connect_session_body_workspace import CreateConnectSessionBodyWorkspace
 from .create_connection_body import CreateConnectionBody
 from .create_connection_body_access_type import CreateConnectionBodyAccessType
+from .create_connection_body_workspace import CreateConnectionBodyWorkspace
 from .create_conversation_special_offer_body import CreateConversationSpecialOfferBody
 from .create_conversation_special_offer_body_fees_item import CreateConversationSpecialOfferBodyFeesItem
 from .create_conversation_special_offer_body_guests import CreateConversationSpecialOfferBodyGuests
@@ -404,6 +410,9 @@ from .create_conversation_special_offer_response_201_channel import CreateConver
 from .create_conversation_special_offer_response_201_fees_item import CreateConversationSpecialOfferResponse201FeesItem
 from .create_conversation_special_offer_response_201_guests_type_0 import CreateConversationSpecialOfferResponse201GuestsType0
 from .create_conversation_special_offer_response_201_lines_item import CreateConversationSpecialOfferResponse201LinesItem
+from .create_price_labs_key_body import CreatePriceLabsKeyBody
+from .create_price_labs_key_response_201 import CreatePriceLabsKeyResponse201
+from .create_price_labs_key_response_201_instructions import CreatePriceLabsKeyResponse201Instructions
 from .create_vrbo_alteration_body import CreateVrboAlterationBody
 from .create_vrbo_alteration_response_200 import CreateVrboAlterationResponse200
 from .create_vrbo_alteration_response_200_data import CreateVrboAlterationResponse200Data
@@ -600,6 +609,8 @@ from .get_mcp_health_response_200 import GetMcpHealthResponse200
 from .get_migration_channel_map_response_200 import GetMigrationChannelMapResponse200
 from .get_migration_report_response_200 import GetMigrationReportResponse200
 from .get_migration_response_200 import GetMigrationResponse200
+from .get_price_labs_session_status_response_200 import GetPriceLabsSessionStatusResponse200
+from .get_price_labs_session_status_response_200_status import GetPriceLabsSessionStatusResponse200Status
 from .get_property_include import GetPropertyInclude
 from .get_reservation_summary_basis import GetReservationSummaryBasis
 from .get_reservation_summary_response_200 import GetReservationSummaryResponse200
@@ -2420,6 +2431,10 @@ __all__ = (
     "AlterationWebhookObjectInitiatorType2Type1",
     "AlterationWebhookObjectInitiatorType3Type1",
     "AlterationWebhookObjectStatus",
+    "AppConnectionHealth",
+    "AppConnectionHealthRecentErrorsItem",
+    "AppConnectionHealthStatus",
+    "AppConnectionHealthWritesPerDayItem",
     "ApplyConnectionMappingsBody",
     "ApplyConnectionMappingsBodyMappingsItem",
     "ApplyConnectionMappingsResponse200",
@@ -2561,6 +2576,7 @@ __all__ = (
     "ConnectionAccessType",
     "ConnectionAction",
     "ConnectionListResponse",
+    "ConnectionScope",
     "ConnectionStatus",
     "ConnectProvider",
     "ConnectProviderCategory",
@@ -2621,6 +2637,7 @@ __all__ = (
     "CreateBookingWebhookBody",
     "CreateConnectionBody",
     "CreateConnectionBodyAccessType",
+    "CreateConnectionBodyWorkspace",
     "CreateConnectSessionBody",
     "CreateConnectSessionBodyAccessType",
     "CreateConnectSessionBodyCopy",
@@ -2636,6 +2653,9 @@ __all__ = (
     "CreateConversationSpecialOfferResponse201FeesItem",
     "CreateConversationSpecialOfferResponse201GuestsType0",
     "CreateConversationSpecialOfferResponse201LinesItem",
+    "CreatePriceLabsKeyBody",
+    "CreatePriceLabsKeyResponse201",
+    "CreatePriceLabsKeyResponse201Instructions",
     "CreateVrboAlterationBody",
     "CreateVrboAlterationResponse200",
     "CreateVrboAlterationResponse200Data",
@@ -2832,6 +2852,8 @@ __all__ = (
     "GetMigrationChannelMapResponse200",
     "GetMigrationReportResponse200",
     "GetMigrationResponse200",
+    "GetPriceLabsSessionStatusResponse200",
+    "GetPriceLabsSessionStatusResponse200Status",
     "GetPropertyInclude",
     "GetReservationSummaryBasis",
     "GetReservationSummaryResponse200",

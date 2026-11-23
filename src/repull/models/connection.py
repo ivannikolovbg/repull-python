@@ -9,6 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 from ..models.connection_access_type import ConnectionAccessType
+from ..models.connection_scope import ConnectionScope
 from ..models.connection_status import ConnectionStatus
 from ..types import UNSET, Unset
 from dateutil.parser import isoparse
@@ -17,6 +18,7 @@ import datetime
 
 if TYPE_CHECKING:
   from ..models.account_import import AccountImport
+  from ..models.app_connection_health import AppConnectionHealth
   from ..models.connect_host import ConnectHost
   from ..models.connection_action import ConnectionAction
 
@@ -60,6 +62,17 @@ class Connection:
             import_ (AccountImport | None | Unset): The account's latest import — `status: running` while the first sync (or
                 a later one) is going, then `completed` or `failed`. `null` when no import has been recorded. The same run is
                 announced by the `account.import.*` webhooks; the history is on `GET /v1/connections/{id}/imports`.
+            scope (ConnectionScope | Unset): Apps (`pricelabs`) only. `workspace`: every listing of the workspace, including
+                listings added later. `listings`: only `listingIds`.
+            listing_ids (list[str] | None | Unset): Apps only: the listings a `listings`-scoped connection covers; `null`
+                for `workspace`.
+            listing_count (int | Unset): Apps only: listings the connection covers now. Example: 12.
+            key_masked (str | Unset): Apps only: the key the app uses, masked. The key itself is shown once, when created.
+                Example: sk_live_4eB3...XYZw.
+            label (None | str | Unset): Apps only: the name given to the key.
+            disconnected_at (datetime.datetime | None | Unset): Apps only: when the connection was revoked.
+            health (AppConnectionHealth | None | Unset): Apps only: how the app is doing on this connection. `null` once
+                disconnected.
      """
 
     id: str | Unset = UNSET
@@ -72,6 +85,13 @@ class Connection:
     action: ConnectionAction | None | Unset = UNSET
     fix_url: None | str | Unset = UNSET
     import_: AccountImport | None | Unset = UNSET
+    scope: ConnectionScope | Unset = UNSET
+    listing_ids: list[str] | None | Unset = UNSET
+    listing_count: int | Unset = UNSET
+    key_masked: str | Unset = UNSET
+    label: None | str | Unset = UNSET
+    disconnected_at: datetime.datetime | None | Unset = UNSET
+    health: AppConnectionHealth | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -80,6 +100,7 @@ class Connection:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.account_import import AccountImport
+        from ..models.app_connection_health import AppConnectionHealth
         from ..models.connect_host import ConnectHost
         from ..models.connection_action import ConnectionAction
         id = self.id
@@ -139,6 +160,47 @@ class Connection:
         else:
             import_ = self.import_
 
+        scope: str | Unset = UNSET
+        if not isinstance(self.scope, Unset):
+            scope = self.scope.value
+
+
+        listing_ids: list[str] | None | Unset
+        if isinstance(self.listing_ids, Unset):
+            listing_ids = UNSET
+        elif isinstance(self.listing_ids, list):
+            listing_ids = self.listing_ids
+
+
+        else:
+            listing_ids = self.listing_ids
+
+        listing_count = self.listing_count
+
+        key_masked = self.key_masked
+
+        label: None | str | Unset
+        if isinstance(self.label, Unset):
+            label = UNSET
+        else:
+            label = self.label
+
+        disconnected_at: None | str | Unset
+        if isinstance(self.disconnected_at, Unset):
+            disconnected_at = UNSET
+        elif isinstance(self.disconnected_at, datetime.datetime):
+            disconnected_at = self.disconnected_at.isoformat()
+        else:
+            disconnected_at = self.disconnected_at
+
+        health: dict[str, Any] | None | Unset
+        if isinstance(self.health, Unset):
+            health = UNSET
+        elif isinstance(self.health, AppConnectionHealth):
+            health = self.health.to_dict()
+        else:
+            health = self.health
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -164,6 +226,20 @@ class Connection:
             field_dict["fixUrl"] = fix_url
         if import_ is not UNSET:
             field_dict["import"] = import_
+        if scope is not UNSET:
+            field_dict["scope"] = scope
+        if listing_ids is not UNSET:
+            field_dict["listingIds"] = listing_ids
+        if listing_count is not UNSET:
+            field_dict["listingCount"] = listing_count
+        if key_masked is not UNSET:
+            field_dict["keyMasked"] = key_masked
+        if label is not UNSET:
+            field_dict["label"] = label
+        if disconnected_at is not UNSET:
+            field_dict["disconnectedAt"] = disconnected_at
+        if health is not UNSET:
+            field_dict["health"] = health
 
         return field_dict
 
@@ -172,6 +248,7 @@ class Connection:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.account_import import AccountImport
+        from ..models.app_connection_health import AppConnectionHealth
         from ..models.connect_host import ConnectHost
         from ..models.connection_action import ConnectionAction
         d = dict(src_dict)
@@ -299,6 +376,88 @@ class Connection:
         import_ = _parse_import_(d.pop("import", UNSET))
 
 
+        _scope = d.pop("scope", UNSET)
+        scope: ConnectionScope | Unset
+        if isinstance(_scope,  Unset):
+            scope = UNSET
+        else:
+            scope = ConnectionScope(_scope)
+
+
+
+
+        def _parse_listing_ids(data: object) -> list[str] | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                listing_ids_type_0 = cast(list[str], data)
+
+                return listing_ids_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(list[str] | None | Unset, data)
+
+        listing_ids = _parse_listing_ids(d.pop("listingIds", UNSET))
+
+
+        listing_count = d.pop("listingCount", UNSET)
+
+        key_masked = d.pop("keyMasked", UNSET)
+
+        def _parse_label(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        label = _parse_label(d.pop("label", UNSET))
+
+
+        def _parse_disconnected_at(data: object) -> datetime.datetime | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                disconnected_at_type_0 = isoparse(data)
+
+
+
+                return disconnected_at_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(datetime.datetime | None | Unset, data)
+
+        disconnected_at = _parse_disconnected_at(d.pop("disconnectedAt", UNSET))
+
+
+        def _parse_health(data: object) -> AppConnectionHealth | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                health_type_1 = AppConnectionHealth.from_dict(data)
+
+
+
+                return health_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(AppConnectionHealth | None | Unset, data)
+
+        health = _parse_health(d.pop("health", UNSET))
+
+
         connection = cls(
             id=id,
             provider=provider,
@@ -310,6 +469,13 @@ class Connection:
             action=action,
             fix_url=fix_url,
             import_=import_,
+            scope=scope,
+            listing_ids=listing_ids,
+            listing_count=listing_count,
+            key_masked=key_masked,
+            label=label,
+            disconnected_at=disconnected_at,
+            health=health,
         )
 
 

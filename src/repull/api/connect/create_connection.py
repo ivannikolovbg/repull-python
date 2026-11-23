@@ -96,6 +96,17 @@ def sync_detailed(
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
 
+    **PriceLabs (an app).** Pass `redirectUrl` (and optionally `state`, `locale`, `workspace`). The
+    response returns a hosted `url` for the session's workspace: yours, the one `X-Workspace-Id` names,
+    or a new sub-workspace when you send `workspace.name` (its id comes back as `workspaceId`). The page
+    shows the host a key for **every listing of that workspace, including listings added later**, with
+    the steps to paste it into PriceLabs, then waits for PriceLabs' first call and completes like every
+    provider: redirect to `redirectUrl` (`status=connected&connectionId=…`) or the
+    `repull:connect:completed` popup message, and `connect.session.completed`. When PriceLabs first uses
+    the key, `account.created` is sent. To keep PriceLabs away from the rest of an account, put the
+    listings it should price in a sub-workspace and connect PriceLabs there. To issue the key yourself
+    (no hosted page, or only some listings) use `POST /v1/connect/pricelabs/key`.
+
     Args:
         provider (str):
         body (CreateConnectionBody | Unset): Provider-specific credentials (apiKey,
@@ -150,6 +161,17 @@ def sync(
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
 
+    **PriceLabs (an app).** Pass `redirectUrl` (and optionally `state`, `locale`, `workspace`). The
+    response returns a hosted `url` for the session's workspace: yours, the one `X-Workspace-Id` names,
+    or a new sub-workspace when you send `workspace.name` (its id comes back as `workspaceId`). The page
+    shows the host a key for **every listing of that workspace, including listings added later**, with
+    the steps to paste it into PriceLabs, then waits for PriceLabs' first call and completes like every
+    provider: redirect to `redirectUrl` (`status=connected&connectionId=…`) or the
+    `repull:connect:completed` popup message, and `connect.session.completed`. When PriceLabs first uses
+    the key, `account.created` is sent. To keep PriceLabs away from the rest of an account, put the
+    listings it should price in a sub-workspace and connect PriceLabs there. To issue the key yourself
+    (no hosted page, or only some listings) use `POST /v1/connect/pricelabs/key`.
+
     Args:
         provider (str):
         body (CreateConnectionBody | Unset): Provider-specific credentials (apiKey,
@@ -198,6 +220,17 @@ async def asyncio_detailed(
 
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
+
+    **PriceLabs (an app).** Pass `redirectUrl` (and optionally `state`, `locale`, `workspace`). The
+    response returns a hosted `url` for the session's workspace: yours, the one `X-Workspace-Id` names,
+    or a new sub-workspace when you send `workspace.name` (its id comes back as `workspaceId`). The page
+    shows the host a key for **every listing of that workspace, including listings added later**, with
+    the steps to paste it into PriceLabs, then waits for PriceLabs' first call and completes like every
+    provider: redirect to `redirectUrl` (`status=connected&connectionId=…`) or the
+    `repull:connect:completed` popup message, and `connect.session.completed`. When PriceLabs first uses
+    the key, `account.created` is sent. To keep PriceLabs away from the rest of an account, put the
+    listings it should price in a sub-workspace and connect PriceLabs there. To issue the key yourself
+    (no hosted page, or only some listings) use `POST /v1/connect/pricelabs/key`.
 
     Args:
         provider (str):
@@ -252,6 +285,17 @@ async def asyncio(
 
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
+
+    **PriceLabs (an app).** Pass `redirectUrl` (and optionally `state`, `locale`, `workspace`). The
+    response returns a hosted `url` for the session's workspace: yours, the one `X-Workspace-Id` names,
+    or a new sub-workspace when you send `workspace.name` (its id comes back as `workspaceId`). The page
+    shows the host a key for **every listing of that workspace, including listings added later**, with
+    the steps to paste it into PriceLabs, then waits for PriceLabs' first call and completes like every
+    provider: redirect to `redirectUrl` (`status=connected&connectionId=…`) or the
+    `repull:connect:completed` popup message, and `connect.session.completed`. When PriceLabs first uses
+    the key, `account.created` is sent. To keep PriceLabs away from the rest of an account, put the
+    listings it should price in a sub-workspace and connect PriceLabs there. To issue the key yourself
+    (no hosted page, or only some listings) use `POST /v1/connect/pricelabs/key`.
 
     Args:
         provider (str):

@@ -1,6 +1,7 @@
 from enum import Enum
 
 class ConnectProviderCategory(str, Enum):
+    APP = "app"
     OTA = "ota"
     PMS = "pms"
 

@@ -12,6 +12,8 @@ from ..models.create_connection_body_access_type import CreateConnectionBodyAcce
 from ..types import UNSET, Unset
 from typing import cast
 
+if TYPE_CHECKING:
+  from ..models.create_connection_body_workspace import CreateConnectionBodyWorkspace
 
 
 
@@ -42,6 +44,8 @@ class CreateConnectionBody:
                 import, because every extra month is more stays to fetch. Example: 24.
             state (str | Unset): Airbnb + Booking.com — your own correlation token, e.g. your user id (at most 500
                 characters). Echoed on the redirect back (`&state=`) and in the `connect.session.completed` webhook.
+            workspace (CreateConnectionBodyWorkspace | Unset): PriceLabs only: open a new sub-workspace for this host and
+                connect PriceLabs there (its id is returned as `workspaceId`). Don't send it together with `X-Workspace-Id`.
             locale (None | str | Unset): Airbnb and Booking.com — optional UI language for the hosted Connect pages. Accepts
                 any supported locale code (currently `en`, `fr`, `de`, `es`, `it`, `nl`); unknown codes are ignored and
                 resolution falls back to the workspace `default_language`, then `Accept-Language`, then `en`. Example: fr.
@@ -51,6 +55,7 @@ class CreateConnectionBody:
     access_type: CreateConnectionBodyAccessType | Unset = CreateConnectionBodyAccessType.FULL_ACCESS
     reservation_history_months: int | Unset = UNSET
     state: str | Unset = UNSET
+    workspace: CreateConnectionBodyWorkspace | Unset = UNSET
     locale: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -59,6 +64,7 @@ class CreateConnectionBody:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.create_connection_body_workspace import CreateConnectionBodyWorkspace
         redirect_url = self.redirect_url
 
         access_type: str | Unset = UNSET
@@ -69,6 +75,10 @@ class CreateConnectionBody:
         reservation_history_months = self.reservation_history_months
 
         state = self.state
+
+        workspace: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.workspace, Unset):
+            workspace = self.workspace.to_dict()
 
         locale: None | str | Unset
         if isinstance(self.locale, Unset):
@@ -89,6 +99,8 @@ class CreateConnectionBody:
             field_dict["reservationHistoryMonths"] = reservation_history_months
         if state is not UNSET:
             field_dict["state"] = state
+        if workspace is not UNSET:
+            field_dict["workspace"] = workspace
         if locale is not UNSET:
             field_dict["locale"] = locale
 
@@ -98,6 +110,7 @@ class CreateConnectionBody:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.create_connection_body_workspace import CreateConnectionBodyWorkspace
         d = dict(src_dict)
         redirect_url = d.pop("redirectUrl", UNSET)
 
@@ -115,6 +128,16 @@ class CreateConnectionBody:
 
         state = d.pop("state", UNSET)
 
+        _workspace = d.pop("workspace", UNSET)
+        workspace: CreateConnectionBodyWorkspace | Unset
+        if isinstance(_workspace,  Unset):
+            workspace = UNSET
+        else:
+            workspace = CreateConnectionBodyWorkspace.from_dict(_workspace)
+
+
+
+
         def _parse_locale(data: object) -> None | str | Unset:
             if data is None:
                 return data
@@ -130,6 +153,7 @@ class CreateConnectionBody:
             access_type=access_type,
             reservation_history_months=reservation_history_months,
             state=state,
+            workspace=workspace,
             locale=locale,
         )
 

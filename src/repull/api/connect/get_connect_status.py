@@ -74,6 +74,12 @@ def sync_detailed(
     `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
     the `ConnectionAccessType` schema for the meaning per provider.
 
+    **PriceLabs (an app).** `accounts[]` lists every PriceLabs connection of the workspace (each one
+    key), with `scope`, `listingCount`, `keyMasked` and `health`: `status` (`active`, `idle`, `failing`,
+    `never_connected`), last request, last successful price push, pushes per day for 7 days, error rates
+    and the latest errors. Revoked ones stay listed as `disconnected` with `health: null`.
+    `externalAccountId` is `null` (PriceLabs has no account id to give us); `id` is the connection.
+
     Args:
         provider (str):
 
@@ -115,6 +121,12 @@ def sync(
     `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
     the `ConnectionAccessType` schema for the meaning per provider.
 
+    **PriceLabs (an app).** `accounts[]` lists every PriceLabs connection of the workspace (each one
+    key), with `scope`, `listingCount`, `keyMasked` and `health`: `status` (`active`, `idle`, `failing`,
+    `never_connected`), last request, last successful price push, pushes per day for 7 days, error rates
+    and the latest errors. Revoked ones stay listed as `disconnected` with `health: null`.
+    `externalAccountId` is `null` (PriceLabs has no account id to give us); `id` is the connection.
+
     Args:
         provider (str):
 
@@ -150,6 +162,12 @@ async def asyncio_detailed(
     (`vrbo-login`) per account; Booking.com is always `full_access`, the Booking.com Extranet always
     `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
     the `ConnectionAccessType` schema for the meaning per provider.
+
+    **PriceLabs (an app).** `accounts[]` lists every PriceLabs connection of the workspace (each one
+    key), with `scope`, `listingCount`, `keyMasked` and `health`: `status` (`active`, `idle`, `failing`,
+    `never_connected`), last request, last successful price push, pushes per day for 7 days, error rates
+    and the latest errors. Revoked ones stay listed as `disconnected` with `health: null`.
+    `externalAccountId` is `null` (PriceLabs has no account id to give us); `id` is the connection.
 
     Args:
         provider (str):
@@ -191,6 +209,12 @@ async def asyncio(
     (`vrbo-login`) per account; Booking.com is always `full_access`, the Booking.com Extranet always
     `messaging`; a PMS is `read_only` when every `writePolicy` switch is off, else `full_access`. See
     the `ConnectionAccessType` schema for the meaning per provider.
+
+    **PriceLabs (an app).** `accounts[]` lists every PriceLabs connection of the workspace (each one
+    key), with `scope`, `listingCount`, `keyMasked` and `health`: `status` (`active`, `idle`, `failing`,
+    `never_connected`), last request, last successful price push, pushes per day for 7 days, error rates
+    and the latest errors. Revoked ones stay listed as `disconnected` with `health: null`.
+    `externalAccountId` is `null` (PriceLabs has no account id to give us); `id` is the connection.
 
     Args:
         provider (str):

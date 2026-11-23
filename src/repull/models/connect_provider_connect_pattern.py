@@ -5,6 +5,7 @@ class ConnectProviderConnectPattern(str, Enum):
     CLAIM = "claim"
     CREDENTIALS = "credentials"
     EXTRANET = "extranet"
+    KEY = "key"
     OAUTH = "oauth"
 
     def __str__(self) -> str:

@@ -34,12 +34,13 @@ class ConnectProvider:
             id (str): Stable identifier passed back to /select-provider and used in /v1/connect/{provider} routes. Example:
                 airbnb.
             display_name (str):  Example: Airbnb.
-            category (ConnectProviderCategory): Channel category — OTAs are listing marketplaces; PMSes are property
-                management systems.
+            category (ConnectProviderCategory): Category — OTAs are listing marketplaces; PMSes are property management
+                systems; apps are tools that work on the workspace's data (PriceLabs).
             connect_pattern (ConnectProviderConnectPattern): How the host is connected. `oauth`: provider-side consent
                 screen. `credentials`: hosted form collects API keys. `activation`: push-only handshake. `claim`: connectivity-
                 provider designation in the channel's Extranet (Booking.com). `extranet`: the host signs in with their
-                Booking.com Extranet user.
+                Booking.com Extranet user. `key`: an app — the hosted page shows a key the host pastes into the app, and the
+                session completes on the app's first call.
             status (ConnectProviderStatus): Pickers should hide / disable `coming-soon` cards. `beta` cards are clickable
                 but show a Beta pill. `request-only` is a PMS Repull doesn't connect yet, listed only with `includeRequestOnly`:
                 picking it collects the host's access details for the Repull team, and the session ends as `requested` instead

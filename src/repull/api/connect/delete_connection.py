@@ -19,6 +19,7 @@ def _get_kwargs(
     provider: str,
     *,
     account_id: str | Unset = UNSET,
+    id: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
@@ -28,6 +29,8 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["accountId"] = account_id
+
+    params["id"] = id
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -100,6 +103,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    id: str | Unset = UNSET,
 
 ) -> Response[DeleteConnectionResponse200 | Error]:
     """ Disconnect provider
@@ -137,9 +141,15 @@ def sync_detailed(
     means this workspace has no connection to it (or, with `accountId`, that the account is not
     connected here).
 
+    **PriceLabs (an app).** Revokes one PriceLabs connection (its key): PriceLabs loses access at once;
+    nothing it already pushed changes and no listing is deactivated. Pass `id` (an `accounts[].id` from
+    `GET /v1/connect/pricelabs`); it is optional only when the workspace has one connected. Sends
+    `account.disconnected` with reason `manual_disconnect`.
+
     Args:
         provider (str):
         account_id (str | Unset):  Example: 143778955.
+        id (str | Unset):  Example: 812.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -153,6 +163,7 @@ def sync_detailed(
     kwargs = _get_kwargs(
         provider=provider,
 account_id=account_id,
+id=id,
 
     )
 
@@ -167,6 +178,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    id: str | Unset = UNSET,
 
 ) -> DeleteConnectionResponse200 | Error | None:
     """ Disconnect provider
@@ -204,9 +216,15 @@ def sync(
     means this workspace has no connection to it (or, with `accountId`, that the account is not
     connected here).
 
+    **PriceLabs (an app).** Revokes one PriceLabs connection (its key): PriceLabs loses access at once;
+    nothing it already pushed changes and no listing is deactivated. Pass `id` (an `accounts[].id` from
+    `GET /v1/connect/pricelabs`); it is optional only when the workspace has one connected. Sends
+    `account.disconnected` with reason `manual_disconnect`.
+
     Args:
         provider (str):
         account_id (str | Unset):  Example: 143778955.
+        id (str | Unset):  Example: 812.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -221,6 +239,7 @@ def sync(
         provider=provider,
 client=client,
 account_id=account_id,
+id=id,
 
     ).parsed
 
@@ -229,6 +248,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    id: str | Unset = UNSET,
 
 ) -> Response[DeleteConnectionResponse200 | Error]:
     """ Disconnect provider
@@ -266,9 +286,15 @@ async def asyncio_detailed(
     means this workspace has no connection to it (or, with `accountId`, that the account is not
     connected here).
 
+    **PriceLabs (an app).** Revokes one PriceLabs connection (its key): PriceLabs loses access at once;
+    nothing it already pushed changes and no listing is deactivated. Pass `id` (an `accounts[].id` from
+    `GET /v1/connect/pricelabs`); it is optional only when the workspace has one connected. Sends
+    `account.disconnected` with reason `manual_disconnect`.
+
     Args:
         provider (str):
         account_id (str | Unset):  Example: 143778955.
+        id (str | Unset):  Example: 812.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -282,6 +308,7 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         provider=provider,
 account_id=account_id,
+id=id,
 
     )
 
@@ -296,6 +323,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    id: str | Unset = UNSET,
 
 ) -> DeleteConnectionResponse200 | Error | None:
     """ Disconnect provider
@@ -333,9 +361,15 @@ async def asyncio(
     means this workspace has no connection to it (or, with `accountId`, that the account is not
     connected here).
 
+    **PriceLabs (an app).** Revokes one PriceLabs connection (its key): PriceLabs loses access at once;
+    nothing it already pushed changes and no listing is deactivated. Pass `id` (an `accounts[].id` from
+    `GET /v1/connect/pricelabs`); it is optional only when the workspace has one connected. Sends
+    `account.disconnected` with reason `manual_disconnect`.
+
     Args:
         provider (str):
         account_id (str | Unset):  Example: 143778955.
+        id (str | Unset):  Example: 812.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -350,5 +384,6 @@ async def asyncio(
         provider=provider,
 client=client,
 account_id=account_id,
+id=id,
 
     )).parsed

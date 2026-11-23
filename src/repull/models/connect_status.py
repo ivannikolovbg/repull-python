@@ -56,10 +56,11 @@ class ConnectStatus:
             accounts (list[ConnectStatusAccountsItem] | Unset): One entry per connected account, for every provider: Airbnb,
                 every host account connected (including ones since disconnected), each with its own `accessType`; Booking.com,
                 every hotel (`externalAccountId` is the hotel id); Vrbo, every sign-in; Booking.com Extranet, every hotel login;
-                a PMS, its one account. Pass `externalAccountId` as `accountId` to `DELETE /v1/connect/{provider}` to disconnect
-                one. The top-level fields describe one record and stay for existing integrations; show `accounts[]` to list what
-                is connected. Vrbo sign-ins also carry `accessType` and `import` (a `VrboImportStatus`), with a top-level
-                `dataFreshness` on `GET /v1/connect/vrbo-login`.
+                a PMS, its one account; PriceLabs (an app), every key, each a connection with its `health` (see `Connection`).
+                Pass `externalAccountId` as `accountId` to `DELETE /v1/connect/{provider}` to disconnect one. The top-level
+                fields describe one record and stay for existing integrations; show `accounts[]` to list what is connected. Vrbo
+                sign-ins also carry `accessType` and `import` (a `VrboImportStatus`), with a top-level `dataFreshness` on `GET
+                /v1/connect/vrbo-login`.
             write_policy (PmsWritePolicy | Unset): What the app may change in a connected PMS. Hotel PMSs (Cloudbeds, Mews)
                 start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
                 everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
