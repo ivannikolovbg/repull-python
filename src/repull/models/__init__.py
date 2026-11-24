@@ -168,6 +168,11 @@ from .airbnb_reservation_action_body import AirbnbReservationActionBody
 from .airbnb_reservation_action_body_action import AirbnbReservationActionBodyAction
 from .airbnb_reservation_action_body_reason import AirbnbReservationActionBodyReason
 from .airbnb_reservation_action_response_200 import AirbnbReservationActionResponse200
+from .airbnb_reservation_detail import AirbnbReservationDetail
+from .airbnb_reservation_detail_custom_fields_type_0 import AirbnbReservationDetailCustomFieldsType0
+from .airbnb_reservation_detail_guest_details_type_0 import AirbnbReservationDetailGuestDetailsType0
+from .airbnb_reservation_detail_price_breakdown_type_0 import AirbnbReservationDetailPriceBreakdownType0
+from .airbnb_reservation_detail_response import AirbnbReservationDetailResponse
 from .airbnb_reservation_list_response import AirbnbReservationListResponse
 from .airbnb_reservation_status import AirbnbReservationStatus
 from .airbnb_review import AirbnbReview
@@ -334,6 +339,7 @@ from .connect_provider_category import ConnectProviderCategory
 from .connect_provider_connect_pattern import ConnectProviderConnectPattern
 from .connect_provider_list_response import ConnectProviderListResponse
 from .connect_provider_migration_capabilities_type_0 import ConnectProviderMigrationCapabilitiesType0
+from .connect_provider_session import ConnectProviderSession
 from .connect_provider_status import ConnectProviderStatus
 from .connect_session import ConnectSession
 from .connect_session_abandoned_event import ConnectSessionAbandonedEvent
@@ -2413,6 +2419,11 @@ __all__ = (
     "AirbnbReservationActionBodyAction",
     "AirbnbReservationActionBodyReason",
     "AirbnbReservationActionResponse200",
+    "AirbnbReservationDetail",
+    "AirbnbReservationDetailCustomFieldsType0",
+    "AirbnbReservationDetailGuestDetailsType0",
+    "AirbnbReservationDetailPriceBreakdownType0",
+    "AirbnbReservationDetailResponse",
     "AirbnbReservationListResponse",
     "AirbnbReservationStatus",
     "AirbnbReview",
@@ -2585,6 +2596,7 @@ __all__ = (
     "ConnectProviderConnectPattern",
     "ConnectProviderListResponse",
     "ConnectProviderMigrationCapabilitiesType0",
+    "ConnectProviderSession",
     "ConnectProviderStatus",
     "ConnectSession",
     "ConnectSessionAbandonedEvent",

@@ -5,6 +5,8 @@ class ListAirbnbReservationsStatus(str, Enum):
     CANCELLED = "cancelled"
     COMPLETED = "completed"
     DENIED = "denied"
+    ERROR = "error"
+    EXPIRED = "expired"
     FAILED_VERIFICATION = "failed_verification"
     PENDING = "pending"
     REQUEST_VOIDED = "request_voided"

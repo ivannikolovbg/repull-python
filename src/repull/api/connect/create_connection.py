@@ -8,7 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.connection import Connection
+from ...models.connect_provider_session import ConnectProviderSession
 from ...models.create_connection_body import CreateConnectionBody
 from ...types import UNSET, Unset
 from typing import cast
@@ -45,9 +45,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Connection | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ConnectProviderSession | None:
     if response.status_code == 200:
-        response_200 = Connection.from_dict(response.json())
+        response_200 = ConnectProviderSession.from_dict(response.json())
 
 
 
@@ -59,7 +59,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[Connection]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ConnectProviderSession]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -74,7 +74,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: CreateConnectionBody | Unset = UNSET,
 
-) -> Response[Connection]:
+) -> Response[ConnectProviderSession]:
     r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
@@ -91,7 +91,11 @@ def sync_detailed(
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
     user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
-    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`, `state`).
+
+    **Returning to your app.** Every return to `redirectUrl` carries `status`, `sessionId` and your
+    `state`, whether the host connected, cancelled, hit an error or let the session expire, so you can
+    always tie it back to the call that started it.
 
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
@@ -117,7 +121,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Connection]
+        Response[ConnectProviderSession]
      """
 
 
@@ -139,7 +143,7 @@ def sync(
     client: AuthenticatedClient | Client,
     body: CreateConnectionBody | Unset = UNSET,
 
-) -> Connection | None:
+) -> ConnectProviderSession | None:
     r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
@@ -156,7 +160,11 @@ def sync(
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
     user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
-    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`, `state`).
+
+    **Returning to your app.** Every return to `redirectUrl` carries `status`, `sessionId` and your
+    `state`, whether the host connected, cancelled, hit an error or let the session expire, so you can
+    always tie it back to the call that started it.
 
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
@@ -182,7 +190,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Connection
+        ConnectProviderSession
      """
 
 
@@ -199,7 +207,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: CreateConnectionBody | Unset = UNSET,
 
-) -> Response[Connection]:
+) -> Response[ConnectProviderSession]:
     r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
@@ -216,7 +224,11 @@ async def asyncio_detailed(
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
     user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
-    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`, `state`).
+
+    **Returning to your app.** Every return to `redirectUrl` carries `status`, `sessionId` and your
+    `state`, whether the host connected, cancelled, hit an error or let the session expire, so you can
+    always tie it back to the call that started it.
 
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
@@ -242,7 +254,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Connection]
+        Response[ConnectProviderSession]
      """
 
 
@@ -264,7 +276,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: CreateConnectionBody | Unset = UNSET,
 
-) -> Connection | None:
+) -> ConnectProviderSession | None:
     r""" Connect to PMS/OTA provider
 
      Establish a connection to a PMS or OTA platform. Credentials vary by provider — see docs for each
@@ -281,7 +293,11 @@ async def asyncio(
 
     Booking.com: pass `redirectUrl` (no `accessType`). The response returns a hosted `url` — send the
     user there to select our connectivity provider in their Booking.com Extranet and paste their Hotel
-    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`).
+    ID. Same response shape as Airbnb (`url`, `sessionId`, `expiresAt`, `state`).
+
+    **Returning to your app.** Every return to `redirectUrl` carries `status`, `sessionId` and your
+    `state`, whether the host connected, cancelled, hit an error or let the session expire, so you can
+    always tie it back to the call that started it.
 
     PMS providers are not connected by this call: send their credentials to `POST
     /v1/connect/{provider}/credentials`, or start a hosted session with `POST /v1/connect`.
@@ -307,7 +323,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Connection
+        ConnectProviderSession
      """
 
 

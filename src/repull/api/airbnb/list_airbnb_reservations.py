@@ -88,6 +88,13 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
         return response_200
 
+    if response.status_code == 400:
+        response_400 = Error.from_dict(response.json())
+
+
+
+        return response_400
+
     if response.status_code == 403:
         response_403 = Error.from_dict(response.json())
 
@@ -136,6 +143,12 @@ def sync_detailed(
      Cursor-paginated list of reservations sourced directly from Airbnb. Use this when you need Airbnb-
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
+
+    Each row has the Airbnb `confirmationCode`, the `reservationId` of the same stay on `GET
+    /v1/reservations/{id}`, the Repull `listingId` and Airbnb `airbnbListingId`, a normalised `status`,
+    `checkIn`/`checkOut` dates, `totalPrice` + `currency` (what the guest paid) and `payout` +
+    `payoutCurrency` (what the host receives). Airbnb's own record follows (`airbnbStatus`,
+    `totalPaidAmount`, `expectedPayoutAmount`, …) for integrations already reading it.
 
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires
@@ -222,6 +235,12 @@ def sync(
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
 
+    Each row has the Airbnb `confirmationCode`, the `reservationId` of the same stay on `GET
+    /v1/reservations/{id}`, the Repull `listingId` and Airbnb `airbnbListingId`, a normalised `status`,
+    `checkIn`/`checkOut` dates, `totalPrice` + `currency` (what the guest paid) and `payout` +
+    `payoutCurrency` (what the host receives). Airbnb's own record follows (`airbnbStatus`,
+    `totalPaidAmount`, `expectedPayoutAmount`, …) for integrations already reading it.
+
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires
     `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute.
@@ -301,6 +320,12 @@ async def asyncio_detailed(
      Cursor-paginated list of reservations sourced directly from Airbnb. Use this when you need Airbnb-
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
+
+    Each row has the Airbnb `confirmationCode`, the `reservationId` of the same stay on `GET
+    /v1/reservations/{id}`, the Repull `listingId` and Airbnb `airbnbListingId`, a normalised `status`,
+    `checkIn`/`checkOut` dates, `totalPrice` + `currency` (what the guest paid) and `payout` +
+    `payoutCurrency` (what the host receives). Airbnb's own record follows (`airbnbStatus`,
+    `totalPaidAmount`, `expectedPayoutAmount`, …) for integrations already reading it.
 
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires
@@ -386,6 +411,12 @@ async def asyncio(
      Cursor-paginated list of reservations sourced directly from Airbnb. Use this when you need Airbnb-
     specific fields (guest payout split, cancellation policy snapshot) that the unified
     `/v1/reservations` endpoint flattens away.
+
+    Each row has the Airbnb `confirmationCode`, the `reservationId` of the same stay on `GET
+    /v1/reservations/{id}`, the Repull `listingId` and Airbnb `airbnbListingId`, a normalised `status`,
+    `checkIn`/`checkOut` dates, `totalPrice` + `currency` (what the guest paid) and `payout` +
+    `payoutCurrency` (what the host receives). Airbnb's own record follows (`airbnbStatus`,
+    `totalPaidAmount`, `expectedPayoutAmount`, …) for integrations already reading it.
 
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires

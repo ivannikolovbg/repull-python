@@ -8,7 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...types import Response, UNSET
 from ... import errors
 
-from ...models.airbnb_reservation import AirbnbReservation
+from ...models.airbnb_reservation_detail_response import AirbnbReservationDetailResponse
 from ...models.error import Error
 from typing import cast
 
@@ -34,9 +34,9 @@ def _get_kwargs(
 
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReservation | Error | None:
+def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> AirbnbReservationDetailResponse | Error | None:
     if response.status_code == 200:
-        response_200 = AirbnbReservation.from_dict(response.json())
+        response_200 = AirbnbReservationDetailResponse.from_dict(response.json())
 
 
 
@@ -55,7 +55,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReservation | Error]:
+def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[AirbnbReservationDetailResponse | Error]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -69,7 +69,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[AirbnbReservation | Error]:
+) -> Response[AirbnbReservationDetailResponse | Error]:
     """ Get Airbnb reservation
 
      Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
@@ -85,7 +85,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReservation | Error]
+        Response[AirbnbReservationDetailResponse | Error]
      """
 
 
@@ -105,7 +105,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
 
-) -> AirbnbReservation | Error | None:
+) -> AirbnbReservationDetailResponse | Error | None:
     """ Get Airbnb reservation
 
      Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
@@ -121,7 +121,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReservation | Error
+        AirbnbReservationDetailResponse | Error
      """
 
 
@@ -136,7 +136,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 
-) -> Response[AirbnbReservation | Error]:
+) -> Response[AirbnbReservationDetailResponse | Error]:
     """ Get Airbnb reservation
 
      Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
@@ -152,7 +152,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AirbnbReservation | Error]
+        Response[AirbnbReservationDetailResponse | Error]
      """
 
 
@@ -172,7 +172,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
 
-) -> AirbnbReservation | Error | None:
+) -> AirbnbReservationDetailResponse | Error | None:
     """ Get Airbnb reservation
 
      Fetch a single Airbnb reservation by Airbnb confirmation code (e.g. `HMABCDEF12`).
@@ -188,7 +188,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AirbnbReservation | Error
+        AirbnbReservationDetailResponse | Error
      """
 
 

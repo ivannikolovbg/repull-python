@@ -24,14 +24,14 @@ T = TypeVar("T", bound="StartConnectionImportBody")
 class StartConnectionImportBody:
     """ 
         Attributes:
-            scope (StartConnectionImportBodyScope | Unset): What to import. `listings` = the account's listings; new
-                listings come in with their calendar (pricing and availability); on a full-access connection, calendars of
-                listings already in Repull are not re-read. `reservations` = the account's reservations, stays from the last
-                month and every future one. The full import runs when an account is connected. Default:
-                StartConnectionImportBodyScope.LISTINGS.
+            scope (StartConnectionImportBodyScope | Unset): What to import. `full` = the first-connect import again
+                (listings, calendars, reservations, payouts, reviews, conversations), for an account that has never fully
+                imported. `listings` = the account's listings with their calendars. `reservations` = the account's reservations,
+                stays from the last month and every future one. Omit to let Repull choose: `full` for an account that has never
+                fully imported, else `listings`.
      """
 
-    scope: StartConnectionImportBodyScope | Unset = StartConnectionImportBodyScope.LISTINGS
+    scope: StartConnectionImportBodyScope | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 

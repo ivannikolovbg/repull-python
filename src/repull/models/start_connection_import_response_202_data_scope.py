@@ -1,6 +1,7 @@
 from enum import Enum
 
 class StartConnectionImportResponse202DataScope(str, Enum):
+    FULL = "full"
     LISTINGS = "listings"
     RESERVATIONS = "reservations"
 

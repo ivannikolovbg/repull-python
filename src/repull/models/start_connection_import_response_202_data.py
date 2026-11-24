@@ -31,12 +31,18 @@ class StartConnectionImportResponse202Data:
             scope (StartConnectionImportResponse202DataScope):
             status (StartConnectionImportResponse202DataStatus):
             queued_at (datetime.datetime):
+            import_id (None | str): The import's id on `GET /v1/connections/{id}/imports` and in the `account.import.*`
+                webhooks.
+            replaced_import_id (None | str): `full` only: an earlier import of this account that no worker had picked up,
+                closed as `failed` (`did_not_start`) and replaced by this one.
      """
 
     connection: str
     scope: StartConnectionImportResponse202DataScope
     status: StartConnectionImportResponse202DataStatus
     queued_at: datetime.datetime
+    import_id: None | str
+    replaced_import_id: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -52,6 +58,12 @@ class StartConnectionImportResponse202Data:
 
         queued_at = self.queued_at.isoformat()
 
+        import_id: None | str
+        import_id = self.import_id
+
+        replaced_import_id: None | str
+        replaced_import_id = self.replaced_import_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -60,6 +72,8 @@ class StartConnectionImportResponse202Data:
             "scope": scope,
             "status": status,
             "queuedAt": queued_at,
+            "importId": import_id,
+            "replacedImportId": replaced_import_id,
         })
 
         return field_dict
@@ -86,11 +100,29 @@ class StartConnectionImportResponse202Data:
 
 
 
+        def _parse_import_id(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        import_id = _parse_import_id(d.pop("importId"))
+
+
+        def _parse_replaced_import_id(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        replaced_import_id = _parse_replaced_import_id(d.pop("replacedImportId"))
+
+
         start_connection_import_response_202_data = cls(
             connection=connection,
             scope=scope,
             status=status,
             queued_at=queued_at,
+            import_id=import_id,
+            replaced_import_id=replaced_import_id,
         )
 
 

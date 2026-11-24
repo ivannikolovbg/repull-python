@@ -44,8 +44,10 @@ class Guest:
             total_reservations (int | Unset): Lifetime reservation count.
             total_revenue (str | Unset): Decimal-as-string to preserve precision across mixed-currency totals. Example:
                 14250.00.
-            last_stayed_at (datetime.datetime | None | Unset):
-            first_stayed_at (datetime.datetime | None | Unset):
+            last_stayed_at (datetime.date | None | Unset): Check-out date of the guest's most recent stay (YYYY-MM-DD).
+                Example: 2026-12-06.
+            first_stayed_at (datetime.date | None | Unset): Check-in date of the guest's first stay (YYYY-MM-DD). Example:
+                2024-01-22.
             created_at (datetime.datetime | Unset):
      """
 
@@ -59,8 +61,8 @@ class Guest:
     email: None | str | Unset = UNSET
     total_reservations: int | Unset = UNSET
     total_revenue: str | Unset = UNSET
-    last_stayed_at: datetime.datetime | None | Unset = UNSET
-    first_stayed_at: datetime.datetime | None | Unset = UNSET
+    last_stayed_at: datetime.date | None | Unset = UNSET
+    first_stayed_at: datetime.date | None | Unset = UNSET
     created_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -114,7 +116,7 @@ class Guest:
         last_stayed_at: None | str | Unset
         if isinstance(self.last_stayed_at, Unset):
             last_stayed_at = UNSET
-        elif isinstance(self.last_stayed_at, datetime.datetime):
+        elif isinstance(self.last_stayed_at, datetime.date):
             last_stayed_at = self.last_stayed_at.isoformat()
         else:
             last_stayed_at = self.last_stayed_at
@@ -122,7 +124,7 @@ class Guest:
         first_stayed_at: None | str | Unset
         if isinstance(self.first_stayed_at, Unset):
             first_stayed_at = UNSET
-        elif isinstance(self.first_stayed_at, datetime.datetime):
+        elif isinstance(self.first_stayed_at, datetime.date):
             first_stayed_at = self.first_stayed_at.isoformat()
         else:
             first_stayed_at = self.first_stayed_at
@@ -240,7 +242,7 @@ class Guest:
 
         total_revenue = d.pop("totalRevenue", UNSET)
 
-        def _parse_last_stayed_at(data: object) -> datetime.datetime | None | Unset:
+        def _parse_last_stayed_at(data: object) -> datetime.date | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -248,19 +250,19 @@ class Guest:
             try:
                 if not isinstance(data, str):
                     raise TypeError()
-                last_stayed_at_type_0 = isoparse(data)
+                last_stayed_at_type_0 = isoparse(data).date()
 
 
 
                 return last_stayed_at_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(datetime.datetime | None | Unset, data)
+            return cast(datetime.date | None | Unset, data)
 
         last_stayed_at = _parse_last_stayed_at(d.pop("lastStayedAt", UNSET))
 
 
-        def _parse_first_stayed_at(data: object) -> datetime.datetime | None | Unset:
+        def _parse_first_stayed_at(data: object) -> datetime.date | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -268,14 +270,14 @@ class Guest:
             try:
                 if not isinstance(data, str):
                     raise TypeError()
-                first_stayed_at_type_0 = isoparse(data)
+                first_stayed_at_type_0 = isoparse(data).date()
 
 
 
                 return first_stayed_at_type_0
             except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(datetime.datetime | None | Unset, data)
+            return cast(datetime.date | None | Unset, data)
 
         first_stayed_at = _parse_first_stayed_at(d.pop("firstStayedAt", UNSET))
 

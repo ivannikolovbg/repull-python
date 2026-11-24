@@ -28,8 +28,11 @@ class CreateConnectionBody:
     """ Provider-specific credentials (apiKey, clientId/clientSecret, etc.) or OAuth init params for Airbnb.
 
         Attributes:
-            redirect_url (str | Unset): Airbnb + Booking.com — where to redirect the user after they finish the hosted
-                connect flow.
+            redirect_url (str | Unset): Airbnb, Booking.com and PriceLabs — where to send the user after they finish (or
+                cancel) the hosted connect flow. Every return to it carries `status` (`connected`, `cancelled`, `error` with a
+                `code`, `expired`, `pending` when the host chose to finish later, or `requested` for a request-only PMS),
+                `sessionId` (the id this call returns) and `state` when you sent one; a connected return adds `connectionId` and
+                `externalAccountId` (and `hostId` for Airbnb). Your existing query string is kept.
             access_type (CreateConnectionBodyAccessType | Unset): Airbnb only — selects the OAuth scope set. 'read_only'
                 grants read-only scopes; 'messaging' (shown to hosts as "Messaging & reviews") grants read scopes plus message
                 read/send and review writes (reply to guest reviews, submit host reviews — Airbnb's reviews_write) but NOT
@@ -42,8 +45,10 @@ class CreateConnectionBody:
             reservation_history_months (int | Unset): Airbnb — how many months of past reservations the first import pulls
                 (1–60). Omit it for the default window. Upcoming stays are always imported. A wider window takes longer to
                 import, because every extra month is more stays to fetch. Example: 24.
-            state (str | Unset): Airbnb + Booking.com — your own correlation token, e.g. your user id (at most 500
-                characters). Echoed on the redirect back (`&state=`) and in the `connect.session.completed` webhook.
+            state (None | str | Unset): Your own correlation token, e.g. your user id (at most 500 characters), for every
+                hosted flow (Airbnb, Booking.com, PriceLabs). Echoed in this response, on every redirect back (`&state=`,
+                whatever the outcome), in the popup message, and in the `connect.session.completed` webhook. Without it, match
+                the return by `sessionId`.
             workspace (CreateConnectionBodyWorkspace | Unset): PriceLabs only: open a new sub-workspace for this host and
                 connect PriceLabs there (its id is returned as `workspaceId`). Don't send it together with `X-Workspace-Id`.
             locale (None | str | Unset): Airbnb and Booking.com — optional UI language for the hosted Connect pages. Accepts
@@ -54,7 +59,7 @@ class CreateConnectionBody:
     redirect_url: str | Unset = UNSET
     access_type: CreateConnectionBodyAccessType | Unset = CreateConnectionBodyAccessType.FULL_ACCESS
     reservation_history_months: int | Unset = UNSET
-    state: str | Unset = UNSET
+    state: None | str | Unset = UNSET
     workspace: CreateConnectionBodyWorkspace | Unset = UNSET
     locale: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -74,7 +79,11 @@ class CreateConnectionBody:
 
         reservation_history_months = self.reservation_history_months
 
-        state = self.state
+        state: None | str | Unset
+        if isinstance(self.state, Unset):
+            state = UNSET
+        else:
+            state = self.state
 
         workspace: dict[str, Any] | Unset = UNSET
         if not isinstance(self.workspace, Unset):
@@ -126,7 +135,15 @@ class CreateConnectionBody:
 
         reservation_history_months = d.pop("reservationHistoryMonths", UNSET)
 
-        state = d.pop("state", UNSET)
+        def _parse_state(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        state = _parse_state(d.pop("state", UNSET))
+
 
         _workspace = d.pop("workspace", UNSET)
         workspace: CreateConnectionBodyWorkspace | Unset
