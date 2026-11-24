@@ -102,11 +102,13 @@ def sync_detailed(
     """ Submit Hospitable credentials for a Connect session
 
      Completes a credentials-pattern connection for Hospitable. Personal access token from Hospitable →
-    Settings → API.
+    Apps → API access → Access tokens.
 
     The credentials are validated against Hospitable before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the
-    `pms_connections` row is written and the Connect session moves to its terminal state.
+    `pms_connections` row is written and the Connect session moves to its terminal state. The response
+    carries the connection's `webhook` URL: Hospitable has no API to subscribe webhooks, so show it to
+    the host, who adds it in Hospitable (Apps → Webhooks → + Add new) for instant updates.
 
     No API key required when called with a `sessionId` — the session is the capability token.
 
@@ -142,11 +144,13 @@ def sync(
     """ Submit Hospitable credentials for a Connect session
 
      Completes a credentials-pattern connection for Hospitable. Personal access token from Hospitable →
-    Settings → API.
+    Apps → API access → Access tokens.
 
     The credentials are validated against Hospitable before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the
-    `pms_connections` row is written and the Connect session moves to its terminal state.
+    `pms_connections` row is written and the Connect session moves to its terminal state. The response
+    carries the connection's `webhook` URL: Hospitable has no API to subscribe webhooks, so show it to
+    the host, who adds it in Hospitable (Apps → Webhooks → + Add new) for instant updates.
 
     No API key required when called with a `sessionId` — the session is the capability token.
 
@@ -177,11 +181,13 @@ async def asyncio_detailed(
     """ Submit Hospitable credentials for a Connect session
 
      Completes a credentials-pattern connection for Hospitable. Personal access token from Hospitable →
-    Settings → API.
+    Apps → API access → Access tokens.
 
     The credentials are validated against Hospitable before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the
-    `pms_connections` row is written and the Connect session moves to its terminal state.
+    `pms_connections` row is written and the Connect session moves to its terminal state. The response
+    carries the connection's `webhook` URL: Hospitable has no API to subscribe webhooks, so show it to
+    the host, who adds it in Hospitable (Apps → Webhooks → + Add new) for instant updates.
 
     No API key required when called with a `sessionId` — the session is the capability token.
 
@@ -217,11 +223,13 @@ async def asyncio(
     """ Submit Hospitable credentials for a Connect session
 
      Completes a credentials-pattern connection for Hospitable. Personal access token from Hospitable →
-    Settings → API.
+    Apps → API access → Access tokens.
 
     The credentials are validated against Hospitable before anything is persisted, so an invalid pair
     returns `invalid_credentials` rather than creating a dead connection. On success the
-    `pms_connections` row is written and the Connect session moves to its terminal state.
+    `pms_connections` row is written and the Connect session moves to its terminal state. The response
+    carries the connection's `webhook` URL: Hospitable has no API to subscribe webhooks, so show it to
+    the host, who adds it in Hospitable (Apps → Webhooks → + Add new) for instant updates.
 
     No API key required when called with a `sessionId` — the session is the capability token.
 

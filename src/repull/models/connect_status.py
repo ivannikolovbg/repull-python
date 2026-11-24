@@ -21,6 +21,7 @@ if TYPE_CHECKING:
   from ..models.connect_status_capabilities import ConnectStatusCapabilities
   from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
   from ..models.connection_action import ConnectionAction
+  from ..models.hospitable_webhook import HospitableWebhook
   from ..models.pms_write_policy import PmsWritePolicy
 
 
@@ -65,6 +66,8 @@ class ConnectStatus:
                 start with every `calendar` switch off, because the PMS owns its room inventory; every other PMS starts with
                 everything on. Reading from the PMS is never affected. Example: {'calendar': {'availability': False, 'rates':
                 True, 'restrictions': False}, 'reservations': {'website': True, 'dashboard': True, 'api': True}}.
+            webhook (HospitableWebhook | None | Unset): Hospitable only (`GET /v1/connect/hospitable`): the webhook URL the
+                host pastes into Hospitable (Apps → Webhooks → + Add new) and whether deliveries are arriving.
             capabilities (ConnectStatusCapabilities | Unset): PMS providers only. `reservations`: which reservation writes
                 the API performs on this connection's listings — the connector's support combined with `writePolicy`. `pms`:
                 everything else the API does through this PMS (review replies, request answers, listing content, guests, message
@@ -91,6 +94,7 @@ class ConnectStatus:
     host: ConnectHost | None | Unset = UNSET
     accounts: list[ConnectStatusAccountsItem] | Unset = UNSET
     write_policy: PmsWritePolicy | Unset = UNSET
+    webhook: HospitableWebhook | None | Unset = UNSET
     capabilities: ConnectStatusCapabilities | Unset = UNSET
     data_freshness: ConnectStatusDataFreshness | Unset = UNSET
     action: ConnectionAction | None | Unset = UNSET
@@ -107,6 +111,7 @@ class ConnectStatus:
         from ..models.connect_status_capabilities import ConnectStatusCapabilities
         from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
         from ..models.connection_action import ConnectionAction
+        from ..models.hospitable_webhook import HospitableWebhook
         from ..models.pms_write_policy import PmsWritePolicy
         connected = self.connected
 
@@ -160,6 +165,14 @@ class ConnectStatus:
         if not isinstance(self.write_policy, Unset):
             write_policy = self.write_policy.to_dict()
 
+        webhook: dict[str, Any] | None | Unset
+        if isinstance(self.webhook, Unset):
+            webhook = UNSET
+        elif isinstance(self.webhook, HospitableWebhook):
+            webhook = self.webhook.to_dict()
+        else:
+            webhook = self.webhook
+
         capabilities: dict[str, Any] | Unset = UNSET
         if not isinstance(self.capabilities, Unset):
             capabilities = self.capabilities.to_dict()
@@ -209,6 +222,8 @@ class ConnectStatus:
             field_dict["accounts"] = accounts
         if write_policy is not UNSET:
             field_dict["writePolicy"] = write_policy
+        if webhook is not UNSET:
+            field_dict["webhook"] = webhook
         if capabilities is not UNSET:
             field_dict["capabilities"] = capabilities
         if data_freshness is not UNSET:
@@ -229,6 +244,7 @@ class ConnectStatus:
         from ..models.connect_status_capabilities import ConnectStatusCapabilities
         from ..models.connect_status_data_freshness import ConnectStatusDataFreshness
         from ..models.connection_action import ConnectionAction
+        from ..models.hospitable_webhook import HospitableWebhook
         from ..models.pms_write_policy import PmsWritePolicy
         d = dict(src_dict)
         connected = d.pop("connected", UNSET)
@@ -331,6 +347,26 @@ class ConnectStatus:
 
 
 
+        def _parse_webhook(data: object) -> HospitableWebhook | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                webhook_type_1 = HospitableWebhook.from_dict(data)
+
+
+
+                return webhook_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(HospitableWebhook | None | Unset, data)
+
+        webhook = _parse_webhook(d.pop("webhook", UNSET))
+
+
         _capabilities = d.pop("capabilities", UNSET)
         capabilities: ConnectStatusCapabilities | Unset
         if isinstance(_capabilities,  Unset):
@@ -393,6 +429,7 @@ class ConnectStatus:
             host=host,
             accounts=accounts,
             write_policy=write_policy,
+            webhook=webhook,
             capabilities=capabilities,
             data_freshness=data_freshness,
             action=action,

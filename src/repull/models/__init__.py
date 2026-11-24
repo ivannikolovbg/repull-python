@@ -1025,6 +1025,8 @@ from .guest_update_response import GuestUpdateResponse
 from .guest_update_response_contacts_item import GuestUpdateResponseContactsItem
 from .guest_update_response_contacts_item_type import GuestUpdateResponseContactsItemType
 from .guest_update_response_pms_item import GuestUpdateResponsePmsItem
+from .hospitable_webhook import HospitableWebhook
+from .hospitable_webhook_status import HospitableWebhookStatus
 from .import_from_channex_body import ImportFromChannexBody
 from .import_from_channex_body_environment import ImportFromChannexBodyEnvironment
 from .import_from_channex_response_200 import ImportFromChannexResponse200
@@ -3268,6 +3270,8 @@ __all__ = (
     "GuestUpdateResponseContactsItem",
     "GuestUpdateResponseContactsItemType",
     "GuestUpdateResponsePmsItem",
+    "HospitableWebhook",
+    "HospitableWebhookStatus",
     "ImportFromChannexBody",
     "ImportFromChannexBodyEnvironment",
     "ImportFromChannexResponse200",

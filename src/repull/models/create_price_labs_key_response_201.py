@@ -22,6 +22,7 @@ if TYPE_CHECKING:
   from ..models.connect_host import ConnectHost
   from ..models.connection_action import ConnectionAction
   from ..models.create_price_labs_key_response_201_instructions import CreatePriceLabsKeyResponse201Instructions
+  from ..models.hospitable_webhook import HospitableWebhook
 
 
 
@@ -76,6 +77,9 @@ class CreatePriceLabsKeyResponse201:
             disconnected_at (datetime.datetime | None | Unset): Apps only: when the connection was revoked.
             health (AppConnectionHealth | None | Unset): Apps only: how the app is doing on this connection. `null` once
                 disconnected.
+            webhook (HospitableWebhook | None | Unset): Hospitable only: the webhook URL the host pastes into Hospitable
+                (Apps → Webhooks → + Add new) and whether deliveries are arriving. Show it in your own UI so the host can set it
+                up. Absent for other providers.
      """
 
     key: str
@@ -97,6 +101,7 @@ class CreatePriceLabsKeyResponse201:
     label: None | str | Unset = UNSET
     disconnected_at: datetime.datetime | None | Unset = UNSET
     health: AppConnectionHealth | None | Unset = UNSET
+    webhook: HospitableWebhook | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -109,6 +114,7 @@ class CreatePriceLabsKeyResponse201:
         from ..models.connect_host import ConnectHost
         from ..models.connection_action import ConnectionAction
         from ..models.create_price_labs_key_response_201_instructions import CreatePriceLabsKeyResponse201Instructions
+        from ..models.hospitable_webhook import HospitableWebhook
         key = self.key
 
         instructions = self.instructions.to_dict()
@@ -211,6 +217,14 @@ class CreatePriceLabsKeyResponse201:
         else:
             health = self.health
 
+        webhook: dict[str, Any] | None | Unset
+        if isinstance(self.webhook, Unset):
+            webhook = UNSET
+        elif isinstance(self.webhook, HospitableWebhook):
+            webhook = self.webhook.to_dict()
+        else:
+            webhook = self.webhook
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -252,6 +266,8 @@ class CreatePriceLabsKeyResponse201:
             field_dict["disconnectedAt"] = disconnected_at
         if health is not UNSET:
             field_dict["health"] = health
+        if webhook is not UNSET:
+            field_dict["webhook"] = webhook
 
         return field_dict
 
@@ -264,6 +280,7 @@ class CreatePriceLabsKeyResponse201:
         from ..models.connect_host import ConnectHost
         from ..models.connection_action import ConnectionAction
         from ..models.create_price_labs_key_response_201_instructions import CreatePriceLabsKeyResponse201Instructions
+        from ..models.hospitable_webhook import HospitableWebhook
         d = dict(src_dict)
         key = d.pop("key")
 
@@ -478,6 +495,26 @@ class CreatePriceLabsKeyResponse201:
         health = _parse_health(d.pop("health", UNSET))
 
 
+        def _parse_webhook(data: object) -> HospitableWebhook | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                webhook_type_1 = HospitableWebhook.from_dict(data)
+
+
+
+                return webhook_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(HospitableWebhook | None | Unset, data)
+
+        webhook = _parse_webhook(d.pop("webhook", UNSET))
+
+
         create_price_labs_key_response_201 = cls(
             key=key,
             instructions=instructions,
@@ -498,6 +535,7 @@ class CreatePriceLabsKeyResponse201:
             label=label,
             disconnected_at=disconnected_at,
             health=health,
+            webhook=webhook,
         )
 
 
