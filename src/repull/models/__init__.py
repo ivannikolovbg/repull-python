@@ -624,6 +624,7 @@ from .get_reservation_summary_response_200_basis import GetReservationSummaryRes
 from .get_reservation_summary_response_200_group_by_item import GetReservationSummaryResponse200GroupByItem
 from .get_reservation_summary_response_200_groups_item import GetReservationSummaryResponse200GroupsItem
 from .get_reservation_summary_response_200_totals_item import GetReservationSummaryResponse200TotalsItem
+from .get_tiket_property_status import GetTiketPropertyStatus
 from .get_transaction_statement_format import GetTransactionStatementFormat
 from .get_usage_logs_range import GetUsageLogsRange
 from .get_usage_logs_response_200 import GetUsageLogsResponse200
@@ -1158,6 +1159,8 @@ from .list_reservations_status import ListReservationsStatus
 from .list_reviews_platform import ListReviewsPlatform
 from .list_reviews_reviewer_role import ListReviewsReviewerRole
 from .list_reviews_status import ListReviewsStatus
+from .list_tiket_properties_status import ListTiketPropertiesStatus
+from .list_tiket_reservations_status import ListTiketReservationsStatus
 from .list_transactions_platform import ListTransactionsPlatform
 from .list_transactions_response_200 import ListTransactionsResponse200
 from .list_vrbo_listings_status import ListVrboListingsStatus
@@ -1299,6 +1302,10 @@ from .listing_publish_status_connection_channel_status_type_2_type_1 import List
 from .listing_publish_status_connection_channel_status_type_3_type_1 import ListingPublishStatusConnectionChannelStatusType3Type1
 from .listing_publish_status_response import ListingPublishStatusResponse
 from .listing_publish_status_response_address_readiness import ListingPublishStatusResponseAddressReadiness
+from .listing_publish_tiket_response import ListingPublishTiketResponse
+from .listing_publish_tiket_response_channel import ListingPublishTiketResponseChannel
+from .listing_publish_tiket_response_result import ListingPublishTiketResponseResult
+from .listing_publish_tiket_response_result_errors import ListingPublishTiketResponseResultErrors
 from .listing_pull_airbnb_request import ListingPullAirbnbRequest
 from .listing_pull_response import ListingPullResponse
 from .listing_pull_response_channel import ListingPullResponseChannel
@@ -1347,6 +1354,8 @@ from .map_connect_booking_rooms_request import MapConnectBookingRoomsRequest
 from .map_connect_booking_rooms_response import MapConnectBookingRoomsResponse
 from .map_connect_booking_rooms_response_property_status_type_0 import MapConnectBookingRoomsResponsePropertyStatusType0
 from .map_connect_booking_rooms_response_property_status_type_0_outcome import MapConnectBookingRoomsResponsePropertyStatusType0Outcome
+from .map_tiket_connect_rooms_body import MapTiketConnectRoomsBody
+from .map_tiket_connect_rooms_body_mappings_item import MapTiketConnectRoomsBodyMappingsItem
 from .map_vrbo_listing_body import MapVrboListingBody
 from .map_vrbo_listing_response_200 import MapVrboListingResponse200
 from .market_browse_category import MarketBrowseCategory
@@ -1501,6 +1510,7 @@ from .property_availability_day import PropertyAvailabilityDay
 from .property_availability_unit import PropertyAvailabilityUnit
 from .property_list_response import PropertyListResponse
 from .property_status import PropertyStatus
+from .publish_listing_tiket_body import PublishListingTiketBody
 from .publish_listing_to_vrbo_body import PublishListingToVrboBody
 from .publish_listing_to_vrbo_body_sections_item import PublishListingToVrboBodySectionsItem
 from .publish_listing_to_vrbo_response_202 import PublishListingToVrboResponse202
@@ -1799,11 +1809,61 @@ from .sync_airbnb_transactions_body_transaction_type import SyncAirbnbTransactio
 from .sync_airbnb_transactions_response_200 import SyncAirbnbTransactionsResponse200
 from .sync_airbnb_transactions_response_200_accounts_item import SyncAirbnbTransactionsResponse200AccountsItem
 from .sync_airbnb_transactions_response_200_accounts_item_error import SyncAirbnbTransactionsResponse200AccountsItemError
+from .sync_tiket_body import SyncTiketBody
 from .sync_vrbo_transactions_body import SyncVrboTransactionsBody
 from .sync_vrbo_transactions_response_200 import SyncVrboTransactionsResponse200
 from .sync_vrbo_transactions_response_200_accounts_item import SyncVrboTransactionsResponse200AccountsItem
 from .sync_vrbo_transactions_response_200_accounts_item_error import SyncVrboTransactionsResponse200AccountsItemError
 from .test_webhook_body import TestWebhookBody
+from .tiket_ari_day import TiketAriDay
+from .tiket_ari_mismatch import TiketAriMismatch
+from .tiket_ari_update import TiketAriUpdate
+from .tiket_ari_write_response import TiketAriWriteResponse
+from .tiket_ari_write_response_applied import TiketAriWriteResponseApplied
+from .tiket_ari_write_response_type import TiketAriWriteResponseType
+from .tiket_ari_write_response_warnings_item import TiketAriWriteResponseWarningsItem
+from .tiket_availability_response import TiketAvailabilityResponse
+from .tiket_availability_update_request import TiketAvailabilityUpdateRequest
+from .tiket_availability_update_request_type import TiketAvailabilityUpdateRequestType
+from .tiket_child_price import TiketChildPrice
+from .tiket_connect_claim_response import TiketConnectClaimResponse
+from .tiket_connect_map_rooms_response import TiketConnectMapRoomsResponse
+from .tiket_connect_rooms_response import TiketConnectRoomsResponse
+from .tiket_connect_rooms_response_rooms_item import TiketConnectRoomsResponseRoomsItem
+from .tiket_connect_rooms_response_status import TiketConnectRoomsResponseStatus
+from .tiket_content_response import TiketContentResponse
+from .tiket_content_response_objects_item import TiketContentResponseObjectsItem
+from .tiket_content_response_objects_item_content_type_0 import TiketContentResponseObjectsItemContentType0
+from .tiket_content_response_objects_item_kind import TiketContentResponseObjectsItemKind
+from .tiket_listing_pricing_response import TiketListingPricingResponse
+from .tiket_listing_pricing_update_request import TiketListingPricingUpdateRequest
+from .tiket_listing_pricing_update_request_type import TiketListingPricingUpdateRequestType
+from .tiket_map_listings_request import TiketMapListingsRequest
+from .tiket_map_listings_request_mappings_item import TiketMapListingsRequestMappingsItem
+from .tiket_map_listings_response import TiketMapListingsResponse
+from .tiket_map_listings_response_results_item import TiketMapListingsResponseResultsItem
+from .tiket_occupancy_price import TiketOccupancyPrice
+from .tiket_property import TiketProperty
+from .tiket_property_list_response import TiketPropertyListResponse
+from .tiket_property_listings_item import TiketPropertyListingsItem
+from .tiket_property_mapping_status import TiketPropertyMappingStatus
+from .tiket_property_rooms_response import TiketPropertyRoomsResponse
+from .tiket_rate_plan import TiketRatePlan
+from .tiket_reservation import TiketReservation
+from .tiket_reservation_list_response import TiketReservationListResponse
+from .tiket_reservation_list_response_pagination import TiketReservationListResponsePagination
+from .tiket_reservation_status import TiketReservationStatus
+from .tiket_room import TiketRoom
+from .tiket_setup_request import TiketSetupRequest
+from .tiket_setup_request_action import TiketSetupRequestAction
+from .tiket_setup_request_contacts_item import TiketSetupRequestContactsItem
+from .tiket_setup_request_properties_item import TiketSetupRequestPropertiesItem
+from .tiket_setup_response import TiketSetupResponse
+from .tiket_setup_response_result import TiketSetupResponseResult
+from .tiket_sync_response import TiketSyncResponse
+from .tiket_sync_response_results_item import TiketSyncResponseResultsItem
+from .tiket_sync_response_results_item_result_type_0 import TiketSyncResponseResultsItemResultType0
+from .tiket_sync_response_results_item_step import TiketSyncResponseResultsItemStep
 from .transaction import Transaction
 from .transaction_fees import TransactionFees
 from .transaction_payout import TransactionPayout
@@ -2194,6 +2254,7 @@ from .usage_quota_warning_event_event import UsageQuotaWarningEventEvent
 from .usage_quota_warning_payload import UsageQuotaWarningPayload
 from .usage_quota_warning_payload_scope import UsageQuotaWarningPayloadScope
 from .usage_quota_warning_payload_top_operation_type_0 import UsageQuotaWarningPayloadTopOperationType0
+from .verify_tiket_claim_body import VerifyTiketClaimBody
 from .vrbo_calendar_access import VrboCalendarAccess
 from .vrbo_calendar_access_managed_by import VrboCalendarAccessManagedBy
 from .vrbo_import_status import VrboImportStatus
@@ -2875,6 +2936,7 @@ __all__ = (
     "GetReservationSummaryResponse200GroupByItem",
     "GetReservationSummaryResponse200GroupsItem",
     "GetReservationSummaryResponse200TotalsItem",
+    "GetTiketPropertyStatus",
     "GetTransactionStatementFormat",
     "GetUsageLogsRange",
     "GetUsageLogsResponse200",
@@ -3504,6 +3566,10 @@ __all__ = (
     "ListingPublishStatusConnectionChannelStatusType3Type1",
     "ListingPublishStatusResponse",
     "ListingPublishStatusResponseAddressReadiness",
+    "ListingPublishTiketResponse",
+    "ListingPublishTiketResponseChannel",
+    "ListingPublishTiketResponseResult",
+    "ListingPublishTiketResponseResultErrors",
     "ListingPullAirbnbRequest",
     "ListingPullResponse",
     "ListingPullResponseChannel",
@@ -3566,6 +3632,8 @@ __all__ = (
     "ListReviewsPlatform",
     "ListReviewsReviewerRole",
     "ListReviewsStatus",
+    "ListTiketPropertiesStatus",
+    "ListTiketReservationsStatus",
     "ListTransactionsPlatform",
     "ListTransactionsResponse200",
     "ListVrboListingsStatus",
@@ -3598,6 +3666,8 @@ __all__ = (
     "MapConnectBookingRoomsResponse",
     "MapConnectBookingRoomsResponsePropertyStatusType0",
     "MapConnectBookingRoomsResponsePropertyStatusType0Outcome",
+    "MapTiketConnectRoomsBody",
+    "MapTiketConnectRoomsBodyMappingsItem",
     "MapVrboListingBody",
     "MapVrboListingResponse200",
     "MarketBrowseCategory",
@@ -3752,6 +3822,7 @@ __all__ = (
     "PropertyAvailabilityUnit",
     "PropertyListResponse",
     "PropertyStatus",
+    "PublishListingTiketBody",
     "PublishListingToVrboBody",
     "PublishListingToVrboBodySectionsItem",
     "PublishListingToVrboResponse202",
@@ -4050,11 +4121,61 @@ __all__ = (
     "SyncAirbnbTransactionsResponse200",
     "SyncAirbnbTransactionsResponse200AccountsItem",
     "SyncAirbnbTransactionsResponse200AccountsItemError",
+    "SyncTiketBody",
     "SyncVrboTransactionsBody",
     "SyncVrboTransactionsResponse200",
     "SyncVrboTransactionsResponse200AccountsItem",
     "SyncVrboTransactionsResponse200AccountsItemError",
     "TestWebhookBody",
+    "TiketAriDay",
+    "TiketAriMismatch",
+    "TiketAriUpdate",
+    "TiketAriWriteResponse",
+    "TiketAriWriteResponseApplied",
+    "TiketAriWriteResponseType",
+    "TiketAriWriteResponseWarningsItem",
+    "TiketAvailabilityResponse",
+    "TiketAvailabilityUpdateRequest",
+    "TiketAvailabilityUpdateRequestType",
+    "TiketChildPrice",
+    "TiketConnectClaimResponse",
+    "TiketConnectMapRoomsResponse",
+    "TiketConnectRoomsResponse",
+    "TiketConnectRoomsResponseRoomsItem",
+    "TiketConnectRoomsResponseStatus",
+    "TiketContentResponse",
+    "TiketContentResponseObjectsItem",
+    "TiketContentResponseObjectsItemContentType0",
+    "TiketContentResponseObjectsItemKind",
+    "TiketListingPricingResponse",
+    "TiketListingPricingUpdateRequest",
+    "TiketListingPricingUpdateRequestType",
+    "TiketMapListingsRequest",
+    "TiketMapListingsRequestMappingsItem",
+    "TiketMapListingsResponse",
+    "TiketMapListingsResponseResultsItem",
+    "TiketOccupancyPrice",
+    "TiketProperty",
+    "TiketPropertyListingsItem",
+    "TiketPropertyListResponse",
+    "TiketPropertyMappingStatus",
+    "TiketPropertyRoomsResponse",
+    "TiketRatePlan",
+    "TiketReservation",
+    "TiketReservationListResponse",
+    "TiketReservationListResponsePagination",
+    "TiketReservationStatus",
+    "TiketRoom",
+    "TiketSetupRequest",
+    "TiketSetupRequestAction",
+    "TiketSetupRequestContactsItem",
+    "TiketSetupRequestPropertiesItem",
+    "TiketSetupResponse",
+    "TiketSetupResponseResult",
+    "TiketSyncResponse",
+    "TiketSyncResponseResultsItem",
+    "TiketSyncResponseResultsItemResultType0",
+    "TiketSyncResponseResultsItemStep",
     "Transaction",
     "TransactionFees",
     "TransactionPayout",
@@ -4445,6 +4566,7 @@ __all__ = (
     "UsageQuotaWarningPayload",
     "UsageQuotaWarningPayloadScope",
     "UsageQuotaWarningPayloadTopOperationType0",
+    "VerifyTiketClaimBody",
     "VrboCalendarAccess",
     "VrboCalendarAccessManagedBy",
     "VrboImportStatus",

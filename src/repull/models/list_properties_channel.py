@@ -3,6 +3,7 @@ from enum import Enum
 class ListPropertiesChannel(str, Enum):
     AIRBNB = "airbnb"
     BOOKING = "booking"
+    TIKET = "tiket"
     VRBO = "vrbo"
 
     def __str__(self) -> str:

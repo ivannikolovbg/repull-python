@@ -6,6 +6,7 @@ class ReservationPlatformType2Type1(str, Enum):
     DIRECT = "direct"
     OTHER = "other"
     OWNER = "owner"
+    TIKET = "tiket"
     VRBO = "vrbo"
     WEBSITE = "website"
 
