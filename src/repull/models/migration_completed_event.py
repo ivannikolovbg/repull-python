@@ -37,7 +37,8 @@ class MigrationCompletedEvent:
             api_version (str):  Example: 2026-04.
             timestamp (datetime.datetime): When this delivery was built.
             workspace_id (int): The migration's workspace — pass it as `X-Workspace-Id`, or to `GET
-                /v1/migrations/{workspaceId}`.
+                /v1/migrations/{workspaceId}`. Always present on migration events. A JSON number here; `POST /v1/connect` and
+                `GET /v1/workspaces` return the same id as a string, so compare as strings.
             data (MigrationImportPayload): One import run into a migration workspace.
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old

@@ -43,6 +43,12 @@ class ListingIcalFeedChangedEvent:
             account (None | Unset | WebhookEventAccountType0): Which connected account produced this event. Null when it
                 cannot be resolved — present-but-null rather than omitted, so a receiver can tell "unresolvable" from "an old
                 event".
+            workspace_id (int | Unset): The sub-workspace this event happened in. Present only on events from a sub-
+                workspace your workspace opened (`POST /v1/connect` with `workspace`, or Repull Migrate); omitted on your own
+                workspace's events. It is the same workspace as `workspaceId` on `POST /v1/connect` and `GET /v1/workspaces` and
+                the `X-Workspace-Id` header, but those return it as a string (`"2042"`) while the event carries a JSON number
+                (`2042`): compare as strings, e.g. `String(event.workspaceId) === workspace.workspaceId`. The UUID
+                `data.workspaceId` on `account.created` / `account.disconnected` is a different identifier. Example: 2042.
      """
 
     event: ListingIcalFeedChangedEventEvent
@@ -51,6 +57,7 @@ class ListingIcalFeedChangedEvent:
     timestamp: datetime.datetime
     data: ListingIcalFeedChangedPayload
     account: None | Unset | WebhookEventAccountType0 = UNSET
+    workspace_id: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -78,6 +85,8 @@ class ListingIcalFeedChangedEvent:
         else:
             account = self.account
 
+        workspace_id = self.workspace_id
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -90,6 +99,8 @@ class ListingIcalFeedChangedEvent:
         })
         if account is not UNSET:
             field_dict["account"] = account
+        if workspace_id is not UNSET:
+            field_dict["workspaceId"] = workspace_id
 
         return field_dict
 
@@ -142,6 +153,8 @@ class ListingIcalFeedChangedEvent:
         account = _parse_account(d.pop("account", UNSET))
 
 
+        workspace_id = d.pop("workspaceId", UNSET)
+
         listing_ical_feed_changed_event = cls(
             event=event,
             event_id=event_id,
@@ -149,6 +162,7 @@ class ListingIcalFeedChangedEvent:
             timestamp=timestamp,
             data=data,
             account=account,
+            workspace_id=workspace_id,
         )
 
 
