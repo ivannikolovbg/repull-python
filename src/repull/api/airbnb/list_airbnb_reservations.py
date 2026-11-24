@@ -153,8 +153,7 @@ def sync_detailed(
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires
     `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute.
-    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows. To
-    re-read an account now, `POST /v1/connections/{id}/imports` with `{\"scope\": \"reservations\"}`.
+    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows.
 
     Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
     is opaque — never construct or parse it client-side.
@@ -244,8 +243,7 @@ def sync(
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires
     `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute.
-    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows. To
-    re-read an account now, `POST /v1/connections/{id}/imports` with `{\"scope\": \"reservations\"}`.
+    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows.
 
     Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
     is opaque — never construct or parse it client-side.
@@ -330,8 +328,7 @@ async def asyncio_detailed(
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires
     `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute.
-    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows. To
-    re-read an account now, `POST /v1/connections/{id}/imports` with `{\"scope\": \"reservations\"}`.
+    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows.
 
     Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
     is opaque — never construct or parse it client-side.
@@ -421,8 +418,7 @@ async def asyncio(
     **Real time.** Airbnb notifies Repull of every new booking, change and cancellation as it happens,
     on every access level (read-only included): it is here within seconds and fires
     `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute.
-    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows. To
-    re-read an account now, `POST /v1/connections/{id}/imports` with `{\"scope\": \"reservations\"}`.
+    `dataFreshness.lastSyncedAt` is the last full re-read of the account, not the age of these rows.
 
     Walk pages with `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`. The cursor
     is opaque — never construct or parse it client-side.

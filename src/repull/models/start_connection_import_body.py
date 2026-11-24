@@ -26,9 +26,8 @@ class StartConnectionImportBody:
         Attributes:
             scope (StartConnectionImportBodyScope | Unset): What to import. `full` = the first-connect import again
                 (listings, calendars, reservations, payouts, reviews, conversations), for an account that has never fully
-                imported. `listings` = the account's listings with their calendars. `reservations` = the account's reservations,
-                stays from the last month and every future one. Omit to let Repull choose: `full` for an account that has never
-                fully imported, else `listings`.
+                imported. `listings` = the account's listings with their calendars. Omit to let Repull choose: `full` for an
+                account that has never fully imported, else `listings`.
      """
 
     scope: StartConnectionImportBodyScope | Unset = UNSET

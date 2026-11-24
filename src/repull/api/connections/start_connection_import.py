@@ -106,7 +106,7 @@ def sync_detailed(
 ) -> Response[Error | StartConnectionImportResponse202]:
     """ Start an import of a connection
 
-     Start an import of a connected Airbnb account now. Three scopes:
+     Start an import of a connected Airbnb account now. Two scopes:
 
     **`full`** — the import that runs when an account is first connected, again: listings with their
     calendars (pricing and availability), reservations, then payouts, reviews and conversations. For an
@@ -122,14 +122,6 @@ def sync_detailed(
     imported. The same import runs on its own once a day for every connected Airbnb account, and when
     the host reconnects.
 
-    **`reservations`** — re-reads the account's reservations from Airbnb (stays from the last month and
-    every future one) and applies anything that differs, firing the usual `reservation.*` webhooks for
-    it. You do not need it to stay current: Airbnb notifies Repull of every new booking, change and
-    cancellation as it happens, on every access level (read-only included), and Repull fires
-    `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute. Use
-    it as a catch-up — for example after your own webhook endpoint was down — or to confirm a stay right
-    now.
-
     With no body, Repull chooses: `full` for an account that has never fully imported, `listings`
     otherwise.
 
@@ -143,8 +135,7 @@ def sync_detailed(
     an import itself (`replacedImportId`).
 
     Airbnb connections only for now. Returns `409 conflict` while an import of the account is already
-    running, and `409 connection_reauth_required` when the account is disconnected. Two reservations
-    refreshes of one account in the same minute are one refresh.
+    running, and `409 connection_reauth_required` when the account is disconnected.
 
     Args:
         id (str):
@@ -180,7 +171,7 @@ def sync(
 ) -> Error | StartConnectionImportResponse202 | None:
     """ Start an import of a connection
 
-     Start an import of a connected Airbnb account now. Three scopes:
+     Start an import of a connected Airbnb account now. Two scopes:
 
     **`full`** — the import that runs when an account is first connected, again: listings with their
     calendars (pricing and availability), reservations, then payouts, reviews and conversations. For an
@@ -196,14 +187,6 @@ def sync(
     imported. The same import runs on its own once a day for every connected Airbnb account, and when
     the host reconnects.
 
-    **`reservations`** — re-reads the account's reservations from Airbnb (stays from the last month and
-    every future one) and applies anything that differs, firing the usual `reservation.*` webhooks for
-    it. You do not need it to stay current: Airbnb notifies Repull of every new booking, change and
-    cancellation as it happens, on every access level (read-only included), and Repull fires
-    `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute. Use
-    it as a catch-up — for example after your own webhook endpoint was down — or to confirm a stay right
-    now.
-
     With no body, Repull chooses: `full` for an account that has never fully imported, `listings`
     otherwise.
 
@@ -217,8 +200,7 @@ def sync(
     an import itself (`replacedImportId`).
 
     Airbnb connections only for now. Returns `409 conflict` while an import of the account is already
-    running, and `409 connection_reauth_required` when the account is disconnected. Two reservations
-    refreshes of one account in the same minute are one refresh.
+    running, and `409 connection_reauth_required` when the account is disconnected.
 
     Args:
         id (str):
@@ -249,7 +231,7 @@ async def asyncio_detailed(
 ) -> Response[Error | StartConnectionImportResponse202]:
     """ Start an import of a connection
 
-     Start an import of a connected Airbnb account now. Three scopes:
+     Start an import of a connected Airbnb account now. Two scopes:
 
     **`full`** — the import that runs when an account is first connected, again: listings with their
     calendars (pricing and availability), reservations, then payouts, reviews and conversations. For an
@@ -265,14 +247,6 @@ async def asyncio_detailed(
     imported. The same import runs on its own once a day for every connected Airbnb account, and when
     the host reconnects.
 
-    **`reservations`** — re-reads the account's reservations from Airbnb (stays from the last month and
-    every future one) and applies anything that differs, firing the usual `reservation.*` webhooks for
-    it. You do not need it to stay current: Airbnb notifies Repull of every new booking, change and
-    cancellation as it happens, on every access level (read-only included), and Repull fires
-    `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute. Use
-    it as a catch-up — for example after your own webhook endpoint was down — or to confirm a stay right
-    now.
-
     With no body, Repull chooses: `full` for an account that has never fully imported, `listings`
     otherwise.
 
@@ -286,8 +260,7 @@ async def asyncio_detailed(
     an import itself (`replacedImportId`).
 
     Airbnb connections only for now. Returns `409 conflict` while an import of the account is already
-    running, and `409 connection_reauth_required` when the account is disconnected. Two reservations
-    refreshes of one account in the same minute are one refresh.
+    running, and `409 connection_reauth_required` when the account is disconnected.
 
     Args:
         id (str):
@@ -323,7 +296,7 @@ async def asyncio(
 ) -> Error | StartConnectionImportResponse202 | None:
     """ Start an import of a connection
 
-     Start an import of a connected Airbnb account now. Three scopes:
+     Start an import of a connected Airbnb account now. Two scopes:
 
     **`full`** — the import that runs when an account is first connected, again: listings with their
     calendars (pricing and availability), reservations, then payouts, reviews and conversations. For an
@@ -339,14 +312,6 @@ async def asyncio(
     imported. The same import runs on its own once a day for every connected Airbnb account, and when
     the host reconnects.
 
-    **`reservations`** — re-reads the account's reservations from Airbnb (stays from the last month and
-    every future one) and applies anything that differs, firing the usual `reservation.*` webhooks for
-    it. You do not need it to stay current: Airbnb notifies Repull of every new booking, change and
-    cancellation as it happens, on every access level (read-only included), and Repull fires
-    `reservation.created` / `reservation.updated` / `reservation.cancelled` within about a minute. Use
-    it as a catch-up — for example after your own webhook endpoint was down — or to confirm a stay right
-    now.
-
     With no body, Repull chooses: `full` for an account that has never fully imported, `listings`
     otherwise.
 
@@ -360,8 +325,7 @@ async def asyncio(
     an import itself (`replacedImportId`).
 
     Airbnb connections only for now. Returns `409 conflict` while an import of the account is already
-    running, and `409 connection_reauth_required` when the account is disconnected. Two reservations
-    refreshes of one account in the same minute are one refresh.
+    running, and `409 connection_reauth_required` when the account is disconnected.
 
     Args:
         id (str):
