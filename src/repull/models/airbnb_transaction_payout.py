@@ -25,12 +25,12 @@ T = TypeVar("T", bound="AirbnbTransactionPayout")
 class AirbnbTransactionPayout:
     """ 
         Attributes:
-            payout_id (None | str): The payout this line was settled in (its own id on a Payout row). `null` on an UPCOMING
-                line. Example: M-HQLLNSWKUWK7R.
+            payout_id (None | str): The payout this line was settled in (its own id on a Payout row). `null` on an unpaid
+                (`RELEASED` / `UPCOMING`) line. Example: M-HQLLNSWKUWK7R.
             payout_id_synthetic (bool): `true` when Airbnb sent no payout id (a payout netting to $0.00) and Repull derived
                 a stable one.
             payout_date (datetime.date | None):
-            line_index (int | None): Position within the payout, from 1. `null` on the Payout row and on UPCOMING lines.
+            line_index (int | None): Position within the payout, from 1. `null` on the Payout row and on unpaid lines.
             paid_out_amount (float | None): On the Payout row only: the amount paid out. Its lines sum to it.
      """
 

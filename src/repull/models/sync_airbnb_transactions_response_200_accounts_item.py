@@ -29,7 +29,8 @@ class SyncAirbnbTransactionsResponse200AccountsItem:
             account_id (str): Airbnb host id.
             count (int):
             payouts (int): Payouts in the refreshed window.
-            upcoming_removed (int): UPCOMING lines Airbnb no longer lists (paid out or cancelled) and were removed.
+            upcoming_removed (int): Unpaid (RELEASED / UPCOMING) lines Airbnb no longer lists (paid out or cancelled) and
+                were removed.
             error (SyncAirbnbTransactionsResponse200AccountsItemError | Unset): Present only when this account was not
                 refreshed. `code` is `connection_reauth_required`, `airbnb_rejected`, `airbnb_rate_limited`, `airbnb_error`, or
                 `time_budget` (the request ran out of time before reaching it: refresh it alone with `?account_id=`).

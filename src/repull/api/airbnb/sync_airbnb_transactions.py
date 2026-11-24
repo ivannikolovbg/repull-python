@@ -142,13 +142,14 @@ def sync_detailed(
     """ Refresh Airbnb transactions
 
      Pull the transaction history from Airbnb into the ledger `GET` serves. Every connected Airbnb
-    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months
-    and the forecast for the next 12. Safe to repeat: settled lines are upserted on their stable ids,
-    never duplicated or removed; the UPCOMING forecast inside the fetched window is replaced, so a line
-    that has since been paid out moves to its payout. Each account reports its own outcome in
-    `accounts[]`: one account Airbnb refuses (a revoked host, a listing Airbnb no longer serves) is
-    reported there with Airbnb's reason and does not stop the others. When every account fails, the
-    response is Airbnb's answer with its usual code.
+    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months,
+    and every line not paid out yet from 12 months back to 12 months ahead — released lines that are
+    held or accumulating keep their past release date, so the window reaches back for them. Safe to
+    repeat: settled lines are upserted on their stable ids, never duplicated or removed; the unpaid
+    lines inside the fetched window are replaced, so a line that has since been paid out moves to its
+    payout. Each account reports its own outcome in `accounts[]`: one account Airbnb refuses (a revoked
+    host, a listing Airbnb no longer serves) is reported there with Airbnb's reason and does not stop
+    the others. When every account fails, the response is Airbnb's answer with its usual code.
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.
@@ -185,13 +186,14 @@ def sync(
     """ Refresh Airbnb transactions
 
      Pull the transaction history from Airbnb into the ledger `GET` serves. Every connected Airbnb
-    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months
-    and the forecast for the next 12. Safe to repeat: settled lines are upserted on their stable ids,
-    never duplicated or removed; the UPCOMING forecast inside the fetched window is replaced, so a line
-    that has since been paid out moves to its payout. Each account reports its own outcome in
-    `accounts[]`: one account Airbnb refuses (a revoked host, a listing Airbnb no longer serves) is
-    reported there with Airbnb's reason and does not stop the others. When every account fails, the
-    response is Airbnb's answer with its usual code.
+    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months,
+    and every line not paid out yet from 12 months back to 12 months ahead — released lines that are
+    held or accumulating keep their past release date, so the window reaches back for them. Safe to
+    repeat: settled lines are upserted on their stable ids, never duplicated or removed; the unpaid
+    lines inside the fetched window are replaced, so a line that has since been paid out moves to its
+    payout. Each account reports its own outcome in `accounts[]`: one account Airbnb refuses (a revoked
+    host, a listing Airbnb no longer serves) is reported there with Airbnb's reason and does not stop
+    the others. When every account fails, the response is Airbnb's answer with its usual code.
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.
@@ -223,13 +225,14 @@ async def asyncio_detailed(
     """ Refresh Airbnb transactions
 
      Pull the transaction history from Airbnb into the ledger `GET` serves. Every connected Airbnb
-    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months
-    and the forecast for the next 12. Safe to repeat: settled lines are upserted on their stable ids,
-    never duplicated or removed; the UPCOMING forecast inside the fetched window is replaced, so a line
-    that has since been paid out moves to its payout. Each account reports its own outcome in
-    `accounts[]`: one account Airbnb refuses (a revoked host, a listing Airbnb no longer serves) is
-    reported there with Airbnb's reason and does not stop the others. When every account fails, the
-    response is Airbnb's answer with its usual code.
+    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months,
+    and every line not paid out yet from 12 months back to 12 months ahead — released lines that are
+    held or accumulating keep their past release date, so the window reaches back for them. Safe to
+    repeat: settled lines are upserted on their stable ids, never duplicated or removed; the unpaid
+    lines inside the fetched window are replaced, so a line that has since been paid out moves to its
+    payout. Each account reports its own outcome in `accounts[]`: one account Airbnb refuses (a revoked
+    host, a listing Airbnb no longer serves) is reported there with Airbnb's reason and does not stop
+    the others. When every account fails, the response is Airbnb's answer with its usual code.
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.
@@ -266,13 +269,14 @@ async def asyncio(
     """ Refresh Airbnb transactions
 
      Pull the transaction history from Airbnb into the ledger `GET` serves. Every connected Airbnb
-    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months
-    and the forecast for the next 12. Safe to repeat: settled lines are upserted on their stable ids,
-    never duplicated or removed; the UPCOMING forecast inside the fetched window is replaced, so a line
-    that has since been paid out moves to its payout. Each account reports its own outcome in
-    `accounts[]`: one account Airbnb refuses (a revoked host, a listing Airbnb no longer serves) is
-    reported there with Airbnb's reason and does not stop the others. When every account fails, the
-    response is Airbnb's answer with its usual code.
+    account is refreshed, or only `?account_id=`. Without dates: settled lines from the last 12 months,
+    and every line not paid out yet from 12 months back to 12 months ahead — released lines that are
+    held or accumulating keep their past release date, so the window reaches back for them. Safe to
+    repeat: settled lines are upserted on their stable ids, never duplicated or removed; the unpaid
+    lines inside the fetched window are replaced, so a line that has since been paid out moves to its
+    payout. Each account reports its own outcome in `accounts[]`: one account Airbnb refuses (a revoked
+    host, a listing Airbnb no longer serves) is reported there with Airbnb's reason and does not stop
+    the others. When every account fails, the response is Airbnb's answer with its usual code.
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.

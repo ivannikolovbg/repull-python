@@ -43,8 +43,10 @@ class Review:
             external_id (str | Unset): ID in the source channel (Airbnb review id, Booking review id, etc.). Pass as
                 `review_id` to the provider reply endpoint.
             platform (ReviewPlatform | Unset):
-            pms (None | str | Unset): The PMS this review was read from (`guesty`, `hostaway`, …) when it came through one —
-                `platform` is still the channel the guest wrote it on. A reply (`POST /v1/reviews/{id}/reply`) goes through this
+            pms (None | str | Unset): The PMS this review was read from (`guesty`, `hostaway`, `hospitable`, …) when it came
+                through one — `platform` is still the channel the guest wrote it on, and `reservationId` /
+                `reservationConfirmationCode` point at the stay. A review that also arrives from a directly connected channel is
+                returned once, as the channel's copy (`pms: null`). A reply (`POST /v1/reviews/{id}/reply`) goes through this
                 PMS; `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says whether it can. `null` for a review
                 from a directly connected channel. Example: guesty.
             listing_id (None | str | Unset): Internal Repull listing id the review is attached to.

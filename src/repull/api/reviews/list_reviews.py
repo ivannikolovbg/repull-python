@@ -173,6 +173,12 @@ def sync_detailed(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
 
+    **Reviews from a connected PMS** (Guesty, Hostaway, Hospitable) are in the same stream, with `pms`
+    naming the PMS and `platform` the channel the guest wrote on (so `platform=airbnb` includes Airbnb
+    reviews relayed by a PMS). They arrive with the PMS's first import and then within 30 minutes of the
+    PMS receiving them. When the same stay's review comes both from a channel you connected directly and
+    from a PMS, it is returned once: the channel's copy wins.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
@@ -248,6 +254,12 @@ def sync(
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
 
+    **Reviews from a connected PMS** (Guesty, Hostaway, Hospitable) are in the same stream, with `pms`
+    naming the PMS and `platform` the channel the guest wrote on (so `platform=airbnb` includes Airbnb
+    reviews relayed by a PMS). They arrive with the PMS's first import and then within 30 minutes of the
+    PMS receiving them. When the same stay's review comes both from a channel you connected directly and
+    from a PMS, it is returned once: the channel's copy wins.
+
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
     `reviewer_role` (`guest` (default) | `host` | `all`).
@@ -317,6 +329,12 @@ async def asyncio_detailed(
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
+
+    **Reviews from a connected PMS** (Guesty, Hostaway, Hospitable) are in the same stream, with `pms`
+    naming the PMS and `platform` the channel the guest wrote on (so `platform=airbnb` includes Airbnb
+    reviews relayed by a PMS). They arrive with the PMS's first import and then within 30 minutes of the
+    PMS receiving them. When the same stay's review comes both from a channel you connected directly and
+    from a PMS, it is returned once: the channel's copy wins.
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),
@@ -392,6 +410,12 @@ async def asyncio(
 
     `?offset=` is also accepted as a first-class alias for shallow paging (0..10000) — see the `offset`
     parameter below. Mutually exclusive with `cursor`.
+
+    **Reviews from a connected PMS** (Guesty, Hostaway, Hospitable) are in the same stream, with `pms`
+    naming the PMS and `platform` the channel the guest wrote on (so `platform=airbnb` includes Airbnb
+    reviews relayed by a PMS). They arrive with the PMS's first import and then within 30 minutes of the
+    PMS receiving them. When the same stay's review comes both from a channel you connected directly and
+    from a PMS, it is returned once: the channel's copy wins.
 
     Filters: `platform` (`airbnb`|`booking`|`vrbo`), `listing_id` (internal Repull listing id),
     `rating_min` / `rating_max` (inclusive bounds, 0..5), `status` (`responded`|`unanswered`|`all`),

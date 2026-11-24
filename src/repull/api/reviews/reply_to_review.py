@@ -126,10 +126,12 @@ def sync_detailed(
     or `name` if you send it. A review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
 
-    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, …) are answered through
-    that PMS. A PMS whose API has no reply returns `422 pms_write_unsupported` naming it (Hostaway
-    today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
-    revoked PMS connection is `403 connection_reauth_required`.
+    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, Hospitable, …) are answered
+    through that PMS. Guesty and Hospitable reply on Airbnb and Booking.com reviews; Hospitable takes
+    one response per review while the channel's window is open, and refuses otherwise with `422
+    pms_rejected` carrying its reason. A PMS whose API has no reply returns `422 pms_write_unsupported`
+    naming it (Hostaway today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so
+    beforehand. A revoked PMS connection is `403 connection_reauth_required`.
 
     To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 
@@ -179,10 +181,12 @@ def sync(
     or `name` if you send it. A review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
 
-    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, …) are answered through
-    that PMS. A PMS whose API has no reply returns `422 pms_write_unsupported` naming it (Hostaway
-    today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
-    revoked PMS connection is `403 connection_reauth_required`.
+    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, Hospitable, …) are answered
+    through that PMS. Guesty and Hospitable reply on Airbnb and Booking.com reviews; Hospitable takes
+    one response per review while the channel's window is open, and refuses otherwise with `422
+    pms_rejected` carrying its reason. A PMS whose API has no reply returns `422 pms_write_unsupported`
+    naming it (Hostaway today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so
+    beforehand. A revoked PMS connection is `403 connection_reauth_required`.
 
     To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 
@@ -227,10 +231,12 @@ async def asyncio_detailed(
     or `name` if you send it. A review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
 
-    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, …) are answered through
-    that PMS. A PMS whose API has no reply returns `422 pms_write_unsupported` naming it (Hostaway
-    today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
-    revoked PMS connection is `403 connection_reauth_required`.
+    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, Hospitable, …) are answered
+    through that PMS. Guesty and Hospitable reply on Airbnb and Booking.com reviews; Hospitable takes
+    one response per review while the channel's window is open, and refuses otherwise with `422
+    pms_rejected` carrying its reason. A PMS whose API has no reply returns `422 pms_write_unsupported`
+    naming it (Hostaway today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so
+    beforehand. A revoked PMS connection is `403 connection_reauth_required`.
 
     To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 
@@ -280,10 +286,12 @@ async def asyncio(
     or `name` if you send it. A review from a channel without a reply API returns `422
     unsupported_channel` naming the channels that do work.
 
-    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, …) are answered through
-    that PMS. A PMS whose API has no reply returns `422 pms_write_unsupported` naming it (Hostaway
-    today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so beforehand. A
-    revoked PMS connection is `403 connection_reauth_required`.
+    **Reviews read from a PMS** (`pms` set on the review — Guesty, Hostaway, Hospitable, …) are answered
+    through that PMS. Guesty and Hospitable reply on Airbnb and Booking.com reviews; Hospitable takes
+    one response per review while the channel's window is open, and refuses otherwise with `422
+    pms_rejected` carrying its reason. A PMS whose API has no reply returns `422 pms_write_unsupported`
+    naming it (Hostaway today); `GET /v1/connect/{provider}` → `capabilities.pms.reviews.reply` says so
+    beforehand. A revoked PMS connection is `403 connection_reauth_required`.
 
     To review a guest (Airbnb and Vrbo), use `POST /v1/reviews/{id}/guest-review`.
 

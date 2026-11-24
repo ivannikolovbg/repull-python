@@ -35,8 +35,12 @@ class AirbnbDataFreshness:
     account, with the top-level fields mirroring it.
 
         Attributes:
-            last_synced_at (datetime.datetime | None): The most recent Airbnb import COMPLETED by any account in scope.
-                `null` when none of them ever has. A run that failed or was rate-limited does not move it.
+            last_synced_at (datetime.datetime | None): The most recent Airbnb import COMPLETED by any account in scope — a
+                full re-read of the account, which runs on connect, about once a day, and on `POST
+                /v1/connections/{id}/imports`. `null` when none of them ever has. A run that failed or was rate-limited does not
+                move it. It is not how current reservations and messages are: Airbnb notifies Repull of every new booking,
+                change, cancellation and message as it happens, and those land within seconds between imports, on every access
+                level.
             stale (bool): `true` only when EVERY connected Airbnb account is stale — nothing in this response can be trusted
                 to be current. With one account (the common case) that is the same as it has always been. With several, one
                 disconnected host no longer condemns the other's rows: `stale` stays `false` and `reason` becomes

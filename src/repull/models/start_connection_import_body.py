@@ -24,10 +24,11 @@ T = TypeVar("T", bound="StartConnectionImportBody")
 class StartConnectionImportBody:
     """ 
         Attributes:
-            scope (StartConnectionImportBodyScope | Unset): What to import. `listings` = the account's listings. New
+            scope (StartConnectionImportBodyScope | Unset): What to import. `listings` = the account's listings; new
                 listings come in with their calendar (pricing and availability); on a full-access connection, calendars of
-                listings already in Repull are not re-read. The only scope; the full import runs when an account is connected.
-                Default: StartConnectionImportBodyScope.LISTINGS.
+                listings already in Repull are not re-read. `reservations` = the account's reservations, stays from the last
+                month and every future one. The full import runs when an account is connected. Default:
+                StartConnectionImportBodyScope.LISTINGS.
      """
 
     scope: StartConnectionImportBodyScope | Unset = StartConnectionImportBodyScope.LISTINGS

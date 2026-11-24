@@ -29,8 +29,8 @@ class SyncAirbnbTransactionsBody:
         Attributes:
             start_date (datetime.date | Unset): Inclusive lower bound (YYYY-MM-DD).
             end_date (datetime.date | Unset): Inclusive upper bound (YYYY-MM-DD).
-            transaction_type (SyncAirbnbTransactionsBodyTransactionType | Unset): Refresh only settled or only upcoming
-                lines. Both when omitted.
+            transaction_type (SyncAirbnbTransactionsBodyTransactionType | Unset): Airbnb's two buckets: `COMPLETED`
+                refreshes paid-out lines only, `UPCOMING` every unpaid line (`RELEASED` and `UPCOMING`). Both when omitted.
      """
 
     start_date: datetime.date | Unset = UNSET

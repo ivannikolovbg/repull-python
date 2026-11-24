@@ -151,7 +151,10 @@ def sync_detailed(
     by the lines it paid — reservations and their installments, adjustments, resolution payouts and
     adjustments, cancellation fees. A payout's lines' signed `amount`s sum to its `payout.paidOutAmount`
     exactly, negative lines included (an adjustment offset against a later payout appears under that
-    payout). `status: UPCOMING` lines are expected earnings not paid out yet; they belong to no payout.
+    payout). Lines not paid out yet belong to no payout: `status: RELEASED` lines were released by
+    Airbnb (their date has passed) and are waiting for a payout — a held payout, or one accumulating
+    toward the host's payout threshold or schedule; `status: UPCOMING` lines are not released yet. When
+    a line is paid it appears as `COMPLETED` under its payout and its unpaid line goes away.
 
     **Ids are stable.** Airbnb sends no line id and no payout id on lines, so Repull derives them
     deterministically: a Payout row's id is Airbnb's payout id; a line's is
@@ -237,7 +240,10 @@ def sync(
     by the lines it paid — reservations and their installments, adjustments, resolution payouts and
     adjustments, cancellation fees. A payout's lines' signed `amount`s sum to its `payout.paidOutAmount`
     exactly, negative lines included (an adjustment offset against a later payout appears under that
-    payout). `status: UPCOMING` lines are expected earnings not paid out yet; they belong to no payout.
+    payout). Lines not paid out yet belong to no payout: `status: RELEASED` lines were released by
+    Airbnb (their date has passed) and are waiting for a payout — a held payout, or one accumulating
+    toward the host's payout threshold or schedule; `status: UPCOMING` lines are not released yet. When
+    a line is paid it appears as `COMPLETED` under its payout and its unpaid line goes away.
 
     **Ids are stable.** Airbnb sends no line id and no payout id on lines, so Repull derives them
     deterministically: a Payout row's id is Airbnb's payout id; a line's is
@@ -318,7 +324,10 @@ async def asyncio_detailed(
     by the lines it paid — reservations and their installments, adjustments, resolution payouts and
     adjustments, cancellation fees. A payout's lines' signed `amount`s sum to its `payout.paidOutAmount`
     exactly, negative lines included (an adjustment offset against a later payout appears under that
-    payout). `status: UPCOMING` lines are expected earnings not paid out yet; they belong to no payout.
+    payout). Lines not paid out yet belong to no payout: `status: RELEASED` lines were released by
+    Airbnb (their date has passed) and are waiting for a payout — a held payout, or one accumulating
+    toward the host's payout threshold or schedule; `status: UPCOMING` lines are not released yet. When
+    a line is paid it appears as `COMPLETED` under its payout and its unpaid line goes away.
 
     **Ids are stable.** Airbnb sends no line id and no payout id on lines, so Repull derives them
     deterministically: a Payout row's id is Airbnb's payout id; a line's is
@@ -404,7 +413,10 @@ async def asyncio(
     by the lines it paid — reservations and their installments, adjustments, resolution payouts and
     adjustments, cancellation fees. A payout's lines' signed `amount`s sum to its `payout.paidOutAmount`
     exactly, negative lines included (an adjustment offset against a later payout appears under that
-    payout). `status: UPCOMING` lines are expected earnings not paid out yet; they belong to no payout.
+    payout). Lines not paid out yet belong to no payout: `status: RELEASED` lines were released by
+    Airbnb (their date has passed) and are waiting for a payout — a held payout, or one accumulating
+    toward the host's payout threshold or schedule; `status: UPCOMING` lines are not released yet. When
+    a line is paid it appears as `COMPLETED` under its payout and its unpaid line goes away.
 
     **Ids are stable.** Airbnb sends no line id and no payout id on lines, so Repull derives them
     deterministically: a Payout row's id is Airbnb's payout id; a line's is
