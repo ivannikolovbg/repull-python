@@ -26,7 +26,8 @@ class SetListingMarkupBody:
     """ 
         Attributes:
             channel (SetListingMarkupBodyChannel):
-            markup_percent (float | None): 15 = +15%. `null` removes the markup.
+            markup_percent (float | None): 15 = +15%; -2 = 2% below the listing's price. Above -100 and below 100. `null`
+                removes the markup.
             hotel_id (str | Unset): Booking.com property — required when the listing is on more than one.
             account_id (str | Unset): Vrbo account (`vrbo:7001234`, Vrbo's own account id) — required when the listing is
                 linked on more than one. The old sign-in ids (`vrbo:13`) still resolve until 2027-02-12.

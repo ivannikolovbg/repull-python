@@ -130,8 +130,11 @@ def sync_detailed(
     with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
     listing_not_on_vrbo`.
 
-    `markupPercent` is a percentage — `15` for 15%. A value between 0 and 1 is refused as a probable
-    fraction, with the number to send instead.
+    `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
+    listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,
+    so one that rounds to -100 or less (it would send a price of zero or less) or to 100 or more is
+    refused. A value between -1 and 1 other than 0 is refused as a probable fraction, with the number to
+    send instead.
 
     Args:
         id (str):
@@ -194,8 +197,11 @@ def sync(
     with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
     listing_not_on_vrbo`.
 
-    `markupPercent` is a percentage — `15` for 15%. A value between 0 and 1 is refused as a probable
-    fraction, with the number to send instead.
+    `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
+    listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,
+    so one that rounds to -100 or less (it would send a price of zero or less) or to 100 or more is
+    refused. A value between -1 and 1 other than 0 is refused as a probable fraction, with the number to
+    send instead.
 
     Args:
         id (str):
@@ -253,8 +259,11 @@ async def asyncio_detailed(
     with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
     listing_not_on_vrbo`.
 
-    `markupPercent` is a percentage — `15` for 15%. A value between 0 and 1 is refused as a probable
-    fraction, with the number to send instead.
+    `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
+    listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,
+    so one that rounds to -100 or less (it would send a price of zero or less) or to 100 or more is
+    refused. A value between -1 and 1 other than 0 is refused as a probable fraction, with the number to
+    send instead.
 
     Args:
         id (str):
@@ -317,8 +326,11 @@ async def asyncio(
     with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
     listing_not_on_vrbo`.
 
-    `markupPercent` is a percentage — `15` for 15%. A value between 0 and 1 is refused as a probable
-    fraction, with the number to send instead.
+    `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
+    listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,
+    so one that rounds to -100 or less (it would send a price of zero or less) or to 100 or more is
+    refused. A value between -1 and 1 other than 0 is refused as a probable fraction, with the number to
+    send instead.
 
     Args:
         id (str):

@@ -25,8 +25,8 @@ class GetListingMarkupsResponse200AirbnbItem:
     """ 
         Attributes:
             airbnb_id (str | Unset): Airbnb listing id.
-            markup_percent (float | None | Unset): Percent added to the listing's price on Airbnb. 35 = +35%. `null` = none.
-                Example: 35.
+            markup_percent (float | None | Unset): Percent added to the listing's price on Airbnb. 35 = +35%; negative =
+                below the listing's price. `null` = none. Example: 35.
      """
 
     airbnb_id: str | Unset = UNSET
