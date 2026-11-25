@@ -115,8 +115,8 @@ class Reservation:
                 is holding for the guest's payment or verification — those have no deadline we can report. Example:
                 2026-09-23T09:00:00.000Z.
             source (None | ReservationSourceType1 | ReservationSourceType2Type1 | ReservationSourceType3Type1 | Unset):
-                Booking source / channel. Lowercase. May be null on legacy rows. Canonical name as of 2026-05; `platform` is
-                kept as an alias. Example: airbnb.
+                Booking source / channel. Lowercase. May be null on legacy rows. Booking.com reservations are `booking`.
+                Canonical name as of 2026-05; `platform` is kept as an alias. Example: airbnb.
             platform (None | ReservationPlatformType1 | ReservationPlatformType2Type1 | ReservationPlatformType3Type1 |
                 Unset): DEPRECATED alias for `source`. Same value, kept for back-compat. Example: airbnb.
             unit (None | ReservationUnitType0 | Unset): The unit the stay is on: the room assigned by a hotel-model PMS
