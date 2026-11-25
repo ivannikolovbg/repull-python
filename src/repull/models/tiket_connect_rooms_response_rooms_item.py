@@ -29,7 +29,9 @@ class TiketConnectRoomsResponseRoomsItem:
             max_guests (int | None | Unset):
             number_of_rooms (int | None | Unset):
             current_listing_id (None | str | Unset):
-            room_booking_id (None | str | Unset): tiket.com room type id.
+            room_booking_id (None | str | Unset): tiket.com room type code (`roomTypeCode` on `GET
+                /v1/channels/tiket/properties/{id}/rooms`), exactly as tiket.com sends it. Free-form text such as `DLX-KING`, so
+                always a string — never parse it as a number.
      """
 
     room_id: str | Unset = UNSET

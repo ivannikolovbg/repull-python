@@ -2,7 +2,7 @@ from enum import Enum
 
 class ReservationSourceType1(str, Enum):
     AIRBNB = "airbnb"
-    BOOKING_COM = "booking.com"
+    BOOKING = "booking"
     DIRECT = "direct"
     OTHER = "other"
     OWNER = "owner"

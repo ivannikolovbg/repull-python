@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New: `publish_listing_tiket` (`POST /v1/listings/{id}/publish/tiket`) and the tiket.com Connect steps `verify_tiket_claim`, `list_tiket_connect_rooms`, `map_tiket_connect_rooms`.
 - `Reservation.source` / `platform` and `GET /v1/properties?channel=` accept `tiket`.
 - tiket.com children rates are paused at tiket.com's request: a rates write with `child_prices` returns 422.
+- Fix: `Reservation.source` / `platform` enum value for Booking.com is `booking` (was `booking.com`, which the API never returns); the enum member is now `BOOKING` (was `BOOKING_COM`).
+- Docs: tiket.com room type codes (`roomBookingId` on `list_tiket_connect_rooms`) are free-form strings, kept exactly as tiket.com sends them.
 
 ## 0.2.62 — 2026-11-24
 
