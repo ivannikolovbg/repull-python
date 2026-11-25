@@ -13,6 +13,7 @@ from typing import cast
 
 if TYPE_CHECKING:
   from ..models.submit_guest_review_response_200_rating import SubmitGuestReviewResponse200Rating
+  from ..models.submit_guest_review_response_200_review_type_0 import SubmitGuestReviewResponse200ReviewType0
 
 
 
@@ -29,6 +30,9 @@ class SubmitGuestReviewResponse200:
             id (str | Unset):
             external_review_id (str | Unset):
             submitted (bool | Unset):
+            review (None | SubmitGuestReviewResponse200ReviewType0 | Unset): Airbnb: the review as stored after the
+                submission — the same object `GET /v1/reviews/{id}` returns, with `publicReview`, `rating`, `categories` and
+                `submittedAt` set. It can stay `hidden` until the guest reviews too.
             platform (str | Unset): `vrbo` for a Vrbo rating.
             rating (SubmitGuestReviewResponse200Rating | Unset): Vrbo: the rating as sent to Vrbo.
      """
@@ -36,6 +40,7 @@ class SubmitGuestReviewResponse200:
     id: str | Unset = UNSET
     external_review_id: str | Unset = UNSET
     submitted: bool | Unset = UNSET
+    review: None | SubmitGuestReviewResponse200ReviewType0 | Unset = UNSET
     platform: str | Unset = UNSET
     rating: SubmitGuestReviewResponse200Rating | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -46,11 +51,20 @@ class SubmitGuestReviewResponse200:
 
     def to_dict(self) -> dict[str, Any]:
         from ..models.submit_guest_review_response_200_rating import SubmitGuestReviewResponse200Rating
+        from ..models.submit_guest_review_response_200_review_type_0 import SubmitGuestReviewResponse200ReviewType0
         id = self.id
 
         external_review_id = self.external_review_id
 
         submitted = self.submitted
+
+        review: dict[str, Any] | None | Unset
+        if isinstance(self.review, Unset):
+            review = UNSET
+        elif isinstance(self.review, SubmitGuestReviewResponse200ReviewType0):
+            review = self.review.to_dict()
+        else:
+            review = self.review
 
         platform = self.platform
 
@@ -69,6 +83,8 @@ class SubmitGuestReviewResponse200:
             field_dict["externalReviewId"] = external_review_id
         if submitted is not UNSET:
             field_dict["submitted"] = submitted
+        if review is not UNSET:
+            field_dict["review"] = review
         if platform is not UNSET:
             field_dict["platform"] = platform
         if rating is not UNSET:
@@ -81,12 +97,33 @@ class SubmitGuestReviewResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.submit_guest_review_response_200_rating import SubmitGuestReviewResponse200Rating
+        from ..models.submit_guest_review_response_200_review_type_0 import SubmitGuestReviewResponse200ReviewType0
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
         external_review_id = d.pop("externalReviewId", UNSET)
 
         submitted = d.pop("submitted", UNSET)
+
+        def _parse_review(data: object) -> None | SubmitGuestReviewResponse200ReviewType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                review_type_0 = SubmitGuestReviewResponse200ReviewType0.from_dict(data)
+
+
+
+                return review_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | SubmitGuestReviewResponse200ReviewType0 | Unset, data)
+
+        review = _parse_review(d.pop("review", UNSET))
+
 
         platform = d.pop("platform", UNSET)
 
@@ -104,6 +141,7 @@ class SubmitGuestReviewResponse200:
             id=id,
             external_review_id=external_review_id,
             submitted=submitted,
+            review=review,
             platform=platform,
             rating=rating,
         )

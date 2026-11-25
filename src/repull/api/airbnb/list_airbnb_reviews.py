@@ -18,6 +18,10 @@ from typing import cast
 def _get_kwargs(
     *,
     account_id: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 200,
+    listing_id: str | Unset = UNSET,
 
 ) -> dict[str, Any]:
     
@@ -27,6 +31,14 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["account_id"] = account_id
+
+    params["cursor"] = cursor
+
+    params["offset"] = offset
+
+    params["limit"] = limit
+
+    params["listing_id"] = listing_id
 
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
@@ -84,12 +96,21 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 200,
+    listing_id: str | Unset = UNSET,
 
 ) -> Response[AirbnbReviewListResponse | Error]:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Newest first, with reviews not yet submitted ahead of them. Walk pages with
+    `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`; `pagination.total` is the
+    number of reviews matching the filters. The cursor is opaque — never construct or parse it client-
+    side.
 
     Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
@@ -101,6 +122,10 @@ def sync_detailed(
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 200.
+        listing_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -113,6 +138,10 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         account_id=account_id,
+cursor=cursor,
+offset=offset,
+limit=limit,
+listing_id=listing_id,
 
     )
 
@@ -126,12 +155,21 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 200,
+    listing_id: str | Unset = UNSET,
 
 ) -> AirbnbReviewListResponse | Error | None:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Newest first, with reviews not yet submitted ahead of them. Walk pages with
+    `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`; `pagination.total` is the
+    number of reviews matching the filters. The cursor is opaque — never construct or parse it client-
+    side.
 
     Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
@@ -143,6 +181,10 @@ def sync(
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 200.
+        listing_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -156,6 +198,10 @@ def sync(
     return sync_detailed(
         client=client,
 account_id=account_id,
+cursor=cursor,
+offset=offset,
+limit=limit,
+listing_id=listing_id,
 
     ).parsed
 
@@ -163,12 +209,21 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 200,
+    listing_id: str | Unset = UNSET,
 
 ) -> Response[AirbnbReviewListResponse | Error]:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Newest first, with reviews not yet submitted ahead of them. Walk pages with
+    `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`; `pagination.total` is the
+    number of reviews matching the filters. The cursor is opaque — never construct or parse it client-
+    side.
 
     Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
@@ -180,6 +235,10 @@ async def asyncio_detailed(
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 200.
+        listing_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -192,6 +251,10 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         account_id=account_id,
+cursor=cursor,
+offset=offset,
+limit=limit,
+listing_id=listing_id,
 
     )
 
@@ -205,12 +268,21 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     account_id: str | Unset = UNSET,
+    cursor: str | Unset = UNSET,
+    offset: int | Unset = 0,
+    limit: int | Unset = 200,
+    listing_id: str | Unset = UNSET,
 
 ) -> AirbnbReviewListResponse | Error | None:
     """ List Airbnb reviews
 
      List reviews left by guests on Airbnb listings in this workspace. Includes both reviews of the host
     and reviews of the guest (where the host has not yet submitted theirs).
+
+    Newest first, with reviews not yet submitted ahead of them. Walk pages with
+    `?cursor=<pagination.nextCursor>` until `pagination.hasMore` is `false`; `pagination.total` is the
+    number of reviews matching the filters. The cursor is opaque — never construct or parse it client-
+    side.
 
     Reviews of inactive listings are left out; they keep syncing and reappear once the listing is
     activated. Filtering by an inactive listing (`listing_id`) returns `403 listing_inactive`.
@@ -222,6 +294,10 @@ async def asyncio(
 
     Args:
         account_id (str | Unset):  Example: 1772489413932732258.
+        cursor (str | Unset):
+        offset (int | Unset):  Default: 0.
+        limit (int | Unset):  Default: 200.
+        listing_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -235,5 +311,9 @@ async def asyncio(
     return (await asyncio_detailed(
         client=client,
 account_id=account_id,
+cursor=cursor,
+offset=offset,
+limit=limit,
+listing_id=listing_id,
 
     )).parsed
