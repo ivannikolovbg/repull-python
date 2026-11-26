@@ -112,10 +112,10 @@ def sync_detailed(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
@@ -125,10 +125,9 @@ def sync_detailed(
     without it the request is refused with `409 ambiguous_booking_mapping` listing the candidates,
     rather than repricing a property it guessed.
 
-    On Vrbo the markup belongs to the connected Vrbo account, so setting it reprices every listing
-    linked on that account (`affectedListingIds`). A listing linked on more than one account names one
-    with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
-    listing_not_on_vrbo`.
+    On Airbnb and Vrbo the markup belongs to the listing: setting it reprices this listing only
+    (`affectedListingIds`), and other listings on the same Airbnb or Vrbo account keep their own. A
+    listing not linked to Vrbo is `409 listing_not_on_vrbo`.
 
     `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
     listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,
@@ -179,10 +178,10 @@ def sync(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
@@ -192,10 +191,9 @@ def sync(
     without it the request is refused with `409 ambiguous_booking_mapping` listing the candidates,
     rather than repricing a property it guessed.
 
-    On Vrbo the markup belongs to the connected Vrbo account, so setting it reprices every listing
-    linked on that account (`affectedListingIds`). A listing linked on more than one account names one
-    with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
-    listing_not_on_vrbo`.
+    On Airbnb and Vrbo the markup belongs to the listing: setting it reprices this listing only
+    (`affectedListingIds`), and other listings on the same Airbnb or Vrbo account keep their own. A
+    listing not linked to Vrbo is `409 listing_not_on_vrbo`.
 
     `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
     listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,
@@ -241,10 +239,10 @@ async def asyncio_detailed(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
@@ -254,10 +252,9 @@ async def asyncio_detailed(
     without it the request is refused with `409 ambiguous_booking_mapping` listing the candidates,
     rather than repricing a property it guessed.
 
-    On Vrbo the markup belongs to the connected Vrbo account, so setting it reprices every listing
-    linked on that account (`affectedListingIds`). A listing linked on more than one account names one
-    with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
-    listing_not_on_vrbo`.
+    On Airbnb and Vrbo the markup belongs to the listing: setting it reprices this listing only
+    (`affectedListingIds`), and other listings on the same Airbnb or Vrbo account keep their own. A
+    listing not linked to Vrbo is `409 listing_not_on_vrbo`.
 
     `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
     listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,
@@ -308,10 +305,10 @@ async def asyncio(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
@@ -321,10 +318,9 @@ async def asyncio(
     without it the request is refused with `409 ambiguous_booking_mapping` listing the candidates,
     rather than repricing a property it guessed.
 
-    On Vrbo the markup belongs to the connected Vrbo account, so setting it reprices every listing
-    linked on that account (`affectedListingIds`). A listing linked on more than one account names one
-    with `accountId`, else `409 ambiguous_vrbo_account`; a listing not linked to Vrbo is `409
-    listing_not_on_vrbo`.
+    On Airbnb and Vrbo the markup belongs to the listing: setting it reprices this listing only
+    (`affectedListingIds`), and other listings on the same Airbnb or Vrbo account keep their own. A
+    listing not linked to Vrbo is `409 listing_not_on_vrbo`.
 
     `markupPercent` is a percentage above -100 and below 100 — `15` for +15%, `-2` for 2% below the
     listing's price (a $200 night is sent to the channel as $196). A value is kept to a whole percent,

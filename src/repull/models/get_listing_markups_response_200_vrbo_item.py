@@ -24,12 +24,13 @@ T = TypeVar("T", bound="GetListingMarkupsResponse200VrboItem")
 class GetListingMarkupsResponse200VrboItem:
     """ 
         Attributes:
-            account_id (None | str | Unset): The Vrbo account, as its handle `vrbo:{Vrbo account id}`. `null` until Vrbo's
-                account id is captured for the sign-in.
+            account_id (None | str | Unset): The Vrbo account this listing's Vrbo unit is on, as its handle `vrbo:{Vrbo
+                account id}`. `null` until Vrbo's account id is captured for the sign-in.
             vrbo_listing_number (str | Unset): The Vrbo listing number this listing is linked to.
-            markup_percent (float | None | Unset): Percent added on Vrbo, for every listing linked on this account. Example:
-                20.
-            listing_ids (list[str] | Unset): Listings in this workspace linked on this Vrbo account — all share this markup.
+            markup_percent (float | None | Unset): Percent added to this listing's price on Vrbo. 5 = +5%; negative = below
+                the listing's price. `null` = none. Other listings on the same Vrbo account have their own. Example: 5.
+            listing_ids (list[str] | Unset): The listing this markup applies to — always just this listing, since a Vrbo
+                markup is per listing.
      """
 
     account_id: None | str | Unset = UNSET

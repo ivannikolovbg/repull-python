@@ -94,10 +94,10 @@ def sync_detailed(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
@@ -141,10 +141,10 @@ def sync(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
@@ -183,10 +183,10 @@ async def asyncio_detailed(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
@@ -230,10 +230,10 @@ async def asyncio(
     channel.
 
     - **Airbnb** — one markup per listing.
+    - **Vrbo** — one markup per listing, like Airbnb. Listings on the same Vrbo account each keep their
+    own (one can be -2% and another +5%). Prices reach Vrbo through its calendar queue.
     - **Booking.com** — one markup per **property**, shared by every listing priced through it
     (`listingIds` names them).
-    - **Vrbo** — one markup per connected **Vrbo account**, shared by every listing linked on it
-    (`listingIds` names them). Prices reach Vrbo through its calendar queue.
 
     Returns `404 not_found` for a listing that does not exist or is not in this workspace, and `403
     listing_inactive` for an inactive one.
