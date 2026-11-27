@@ -14,6 +14,7 @@ from typing import cast
 import datetime
 
 if TYPE_CHECKING:
+  from ..models.transaction_booking_payments_api_type_0 import TransactionBookingPaymentsApiType0
   from ..models.transaction_fees import TransactionFees
   from ..models.transaction_payout import TransactionPayout
 
@@ -51,6 +52,9 @@ class Transaction:
             reservation_id (int | None | Unset):
             listing_id (int | None | Unset):
             synced_at (datetime.datetime | None | Unset):
+            booking_payments_api (None | TransactionBookingPaymentsApiType0 | Unset): Booking.com only: the booking's payout
+                and price breakdown as Booking.com's Payments API reports it (read when Booking.com notifies a payout change).
+                Null on other channels and for bookings not read yet. Money is in `currency`.
      """
 
     transaction_id: None | str
@@ -68,6 +72,7 @@ class Transaction:
     reservation_id: int | None | Unset = UNSET
     listing_id: int | None | Unset = UNSET
     synced_at: datetime.datetime | None | Unset = UNSET
+    booking_payments_api: None | TransactionBookingPaymentsApiType0 | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
 
@@ -75,6 +80,7 @@ class Transaction:
 
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.transaction_booking_payments_api_type_0 import TransactionBookingPaymentsApiType0
         from ..models.transaction_fees import TransactionFees
         from ..models.transaction_payout import TransactionPayout
         transaction_id: None | str
@@ -151,6 +157,14 @@ class Transaction:
         else:
             synced_at = self.synced_at
 
+        booking_payments_api: dict[str, Any] | None | Unset
+        if isinstance(self.booking_payments_api, Unset):
+            booking_payments_api = UNSET
+        elif isinstance(self.booking_payments_api, TransactionBookingPaymentsApiType0):
+            booking_payments_api = self.booking_payments_api.to_dict()
+        else:
+            booking_payments_api = self.booking_payments_api
+
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -181,6 +195,8 @@ class Transaction:
             field_dict["listingId"] = listing_id
         if synced_at is not UNSET:
             field_dict["syncedAt"] = synced_at
+        if booking_payments_api is not UNSET:
+            field_dict["bookingPaymentsApi"] = booking_payments_api
 
         return field_dict
 
@@ -188,6 +204,7 @@ class Transaction:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.transaction_booking_payments_api_type_0 import TransactionBookingPaymentsApiType0
         from ..models.transaction_fees import TransactionFees
         from ..models.transaction_payout import TransactionPayout
         d = dict(src_dict)
@@ -329,6 +346,26 @@ class Transaction:
         synced_at = _parse_synced_at(d.pop("syncedAt", UNSET))
 
 
+        def _parse_booking_payments_api(data: object) -> None | TransactionBookingPaymentsApiType0 | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                booking_payments_api_type_0 = TransactionBookingPaymentsApiType0.from_dict(data)
+
+
+
+                return booking_payments_api_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | TransactionBookingPaymentsApiType0 | Unset, data)
+
+        booking_payments_api = _parse_booking_payments_api(d.pop("bookingPaymentsApi", UNSET))
+
+
         transaction = cls(
             transaction_id=transaction_id,
             platform=platform,
@@ -345,6 +382,7 @@ class Transaction:
             reservation_id=reservation_id,
             listing_id=listing_id,
             synced_at=synced_at,
+            booking_payments_api=booking_payments_api,
         )
 
 

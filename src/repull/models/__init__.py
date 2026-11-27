@@ -1866,6 +1866,12 @@ from .tiket_sync_response_results_item import TiketSyncResponseResultsItem
 from .tiket_sync_response_results_item_result_type_0 import TiketSyncResponseResultsItemResultType0
 from .tiket_sync_response_results_item_step import TiketSyncResponseResultsItemStep
 from .transaction import Transaction
+from .transaction_booking_payments_api_type_0 import TransactionBookingPaymentsApiType0
+from .transaction_booking_payments_api_type_0_bank_transfer_type_0 import TransactionBookingPaymentsApiType0BankTransferType0
+from .transaction_booking_payments_api_type_0_charges_item import TransactionBookingPaymentsApiType0ChargesItem
+from .transaction_booking_payments_api_type_0_charges_item_category import TransactionBookingPaymentsApiType0ChargesItemCategory
+from .transaction_booking_payments_api_type_0_charges_item_rate_type_0 import TransactionBookingPaymentsApiType0ChargesItemRateType0
+from .transaction_booking_payments_api_type_0_source import TransactionBookingPaymentsApiType0Source
 from .transaction_fees import TransactionFees
 from .transaction_payout import TransactionPayout
 from .update_airbnb_booking_settings_body import UpdateAirbnbBookingSettingsBody
@@ -4179,6 +4185,12 @@ __all__ = (
     "TiketSyncResponseResultsItemResultType0",
     "TiketSyncResponseResultsItemStep",
     "Transaction",
+    "TransactionBookingPaymentsApiType0",
+    "TransactionBookingPaymentsApiType0BankTransferType0",
+    "TransactionBookingPaymentsApiType0ChargesItem",
+    "TransactionBookingPaymentsApiType0ChargesItemCategory",
+    "TransactionBookingPaymentsApiType0ChargesItemRateType0",
+    "TransactionBookingPaymentsApiType0Source",
     "TransactionFees",
     "TransactionPayout",
     "UpdateAirbnbBookingSettingsBody",
